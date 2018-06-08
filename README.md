@@ -11,7 +11,7 @@ Using **csasdown** has some prerequisites, such as Pandoc, LaTeX and some fonts.
 
 Next is LaTeX. By far the easiest way to install LaTeX on any platform is with the [`tinytex`](https://yihui.name/tinytex/) package:
 
-```
+```r
 install.packages(c('tinytex', 'rmarkdown'))
 tinytex::install_tinytex()
 # after restarting RStudio, confirm that you have LaTeX with 
@@ -26,7 +26,7 @@ To use **csasdown** from [RStudio](http://www.rstudio.com/products/rstudio/downl
 
 2) Install the **bookdown** and **csasdown** packages: 
 
-```
+```r
 # install.packages("devtools")
 devtools::install_github("rstudio/bookdown")
 devtools::install_github("pbs-assess/csasdown")
