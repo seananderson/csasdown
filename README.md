@@ -22,7 +22,7 @@ tinytex:::is_tinytex()
 
 To use **csasdown** from [RStudio](http://www.rstudio.com/products/rstudio/download/):
 
-1) Ensure that you have already installed LaTeX and the fonts described above, and are using the latest version of [RStudio](http://www.rstudio.com/products/rstudio/download/). You can use csasdown without RStudio. For example, you can write the Rmd files in your favourite text editor (e.g. [Atom](https://atom.io/), [Notepad++](https://notepad-plus-plus.org/)). But RStudio is probably the easiest tool for writing both R code and text in your thesis. 
+1) Ensure that you have already installed LaTeX and the fonts described above, and are using the latest version of [RStudio](http://www.rstudio.com/products/rstudio/download/). You can use csasdown without RStudio. For example, you can write the Rmd files in your favourite text editor (e.g. [Atom](https://atom.io/), [Notepad++](https://notepad-plus-plus.org/)). But RStudio is probably the easiest tool for writing both R code and text in your Res Doc. 
 
 2) Install the **bookdown** and **csasdown** packages: 
 
@@ -32,27 +32,27 @@ devtools::install_github("rstudio/bookdown")
 devtools::install_github("pbs-assess/csasdown")
 ```
 
-3) Use the **New R Markdown** dialog to select **Thesis**, here are the steps, and a screenshot below:
+3) Use the **New R Markdown** dialog to select **CSAS-ResDoc**, here are the steps, and a screenshot below:
 
 File -> New File -> R Markdown... then choose 'From template', then choose 'CSAS-ResDoc, and enter `index` as the **Name**. Note that this will currently only **Knit** if you name the directory `index` at this step. 
 
-Or if you're not using RStudio, run this line in your R console to create a new PhD thesis from the template:
+Or if you're not using RStudio, run this line in your R console to create a new Res Doc from the template:
 
 ```r
-rmarkdown::draft('index.Rmd', template = 'thesis', package = 'csasdown', create_dir = TRUE)
+rmarkdown::draft('index.Rmd', template = 'resdoc', package = 'csasdown', create_dir = TRUE)
 ```
 
 ### Day-to-day writing of your Res Doc
 
-You need to edit the individual chapter R Markdown files to write your thesis. 
+You need to edit the individual chapter R Markdown files to write your Res Doc. 
 
 You can write in the Rmd files without RStudio (in fact RStudio lacks some conveniences for writing, such as live spell-checking and live word count). So you may prefer to do some writing and editing your Rmd files in your favourite text editor. I frequently use [Atom](https://atom.io/), [Notepad++](https://notepad-plus-plus.org/), and [Emacs](https://www.gnu.org/software/emacs/). But I come back to RStudio to create the PDF and work on the R code in my documents. 
 
-While writing, you should `git commit` your work frequently, after every major activity on your thesis. For example, every few paragraphs or section of text, and after major step of analysis development. You should `git push` at the end of each work session before you leave your computer or change task. For gentle novice-friendly guide to getting starting with using Git with R and RStudio, see <http://happygitwithr.com/>.
+While writing, you should `git commit` your work frequently, after every major activity on your Res Doc. For example, every few paragraphs or section of text, and after major step of analysis development. You should `git push` at the end of each work session before you leave your computer or change task. For gentle novice-friendly guide to getting starting with using Git with R and RStudio, see <http://happygitwithr.com/>.
 
 ## Rendering
 
-To render your thesis into a PDF, open `index.Rmd` in RStudio and then click the "knit" button. To change the output formats between PDF, gitbook and Word , look at the `output:` field in `index.Rmd`and comment-out the formats you don't want.
+To render your Res Doc into a PDF, open `index.Rmd` in RStudio and then click the "knit" button. To change the output formats between PDF, gitbook and Word , look at the `output:` field in `index.Rmd`and comment-out the formats you don't want.
 
 Alternatively, if you're not using RStudio, you can use this from the R console, assuming your have set the `'index/` directory as your working directory:
 
@@ -60,24 +60,24 @@ Alternatively, if you're not using RStudio, you can use this from the R console,
 bookdown::render_book('index.Rmd', csasdown::resdoc_pdf(latex_engine = 'xelatex'))
 ```
 
-The PDF file of your thesis will be deposited in the `_book/` directory.
+The PDF file of your Res Doc will be deposited in the `_book/` directory.
 
 ## Components
 
-The following components are ones you should edit to customize your thesis:
+The following components are ones you should edit to customize your Res Doc:
 
 ### `_bookdown.yml`
 
-This is the main configuration file for your thesis. It determines what Rmd files are included in the output, and in what order. Arrange the order of your chapters in this file and ensure that the names match the names in your folders. 
+This is the main configuration file for your Res Doc. It determines what Rmd files are included in the output, and in what order. Arrange the order of your chapters in this file and ensure that the names match the names in your folders. 
 
 ### `index.Rmd`
 
 This file contains all the meta information that goes at the beginning of your
-document. You'll need to edit this to put your name on the first page, the title of your thesis, etc.
+document. You'll need to edit this to put your name on the first page, the title of your Res Doc, etc.
 
 ### `01-chap1.Rmd`, `02-chap2.Rmd`, etc.
 
-These are the Rmd files for each chapter in your dissertation. Write your thesis in these. If you're writing in RStudio, you may find the [wordcount addin](https://github.com/pbs-assess/wordcountaddin) useful for getting word counts and readability statistics in R markdown documents. You might also enjoy writing in these Rmd files with [Atom](https://atom.io/), [Notepad++](https://notepad-plus-plus.org/), [Sublime Text](https://www.sublimetext.com/), and [Emacs](https://www.gnu.org/software/emacs/). 
+These are the Rmd files for each chapter in your dissertation. Write your Res Doc in these. If you're writing in RStudio, you may find the [wordcount addin](https://github.com/pbs-assess/wordcountaddin) useful for getting word counts and readability statistics in R markdown documents. You might also enjoy writing in these Rmd files with [Atom](https://atom.io/), [Notepad++](https://notepad-plus-plus.org/), [Sublime Text](https://www.sublimetext.com/), and [Emacs](https://www.gnu.org/software/emacs/). 
 
 ### `bib/`
 
