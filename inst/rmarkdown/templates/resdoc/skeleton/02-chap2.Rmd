@@ -1,0 +1,15 @@
+# Mathematics and Science {#math-sci}
+
+<!-- Required to number equations in HTML files -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+
+## Math
+
+\begin{equation}
+  1 + 1 = 2
+  (\#eq:reaction)
+\end{equation}

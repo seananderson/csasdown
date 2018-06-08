@@ -1,0 +1,117 @@
+% Documents setup
+\documentclass[11pt]{book}
+
+% fix for pandoc 1.14
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\usepackage{tabu} % https://tex.stackexchange.com/questions/50332/vertical-spacing-of-a-table-cell
+
+% Location of the csas-style repository: adjust path as needed
+\newcommand{\locRepo}{csas-style}
+
+% Use the style file in the csas-style repository (res-doc.sty)
+\usepackage{\locRepo/res-doc}
+
+% Headers and footers
+\lhead{Draft working paper --- Do not cite or circulate}
+% \lhead{}
+\rhead{}
+% \rfoot{DRAFT - DO NOT CITE}
+
+%%%% Commands for title page etc %%%%%
+
+% Publication year
+\newcommand{\rdYear}{$year$}
+
+% Publication month
+\newcommand{\rdMonth}{$month$}
+
+% Report number
+\newcommand{\rdNumber}{$report_number$}
+
+% Title
+\newcommand{\rdTitle}{$title$}
+
+% Author names separated by commas and ', and' for the last author in the format 'M.H. Grinnell' (use \textsuperscript{n} for addresses)
+\newcommand{\rdAuth}{$author$}
+
+% Author names reversed separated by commas in the format 'Grinnell, M.H.'
+\newcommand{\rdAuthRev}{$author_list$}
+
+% Author addresses (use \textsuperscript{n})
+\newcommand{\rdAuthAddy}{$address$}
+
+% Name of file with abstract and resume (see \abstract and \frenchabstract for requirements)
+\newcommand{\rdAbstract}{$abstract$}
+
+%%%% End of title page commands %%%%%
+
+% \pdfcompresslevel=5 % faster PNGs
+
+\bibliographystyle{csas-style/res-doc}
+
+\usepackage{amsmath}
+\usepackage{bm}
+
+% commands and environments needed by pandoc snippets
+% extracted from the output of `pandoc -s`
+%% Make R markdown code chunks work
+\usepackage{array}
+\usepackage{amssymb,amsmath}
+% \usepackage{ifxetex,ifluatex}
+% \ifxetex
+%   \usepackage{fontspec,xltxtra,xunicode}
+%   \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+% \else
+%   \ifluatex
+%     \usepackage{fontspec}
+%     \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+%   \else
+%     \usepackage[utf8]{inputenc}
+%   \fi
+% \fi
+\usepackage{color}
+\usepackage{fancyvrb}
+\DefineShortVerb[commandchars=\\\{\}]{\|}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\newenvironment{Shaded}{}{}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+
+\begin{document}
+
+\frontmatter
+
+% \abstract{$abstract$}
+
+% \tableofcontents
+% \listoffigures
+% \listoftables
+
+% \acknowledgments{$acknowledgments$}
+
+% \dedication{\begin{center}$dedication$\end{center}}
+
+% \textpages
+
+
+$body$
+
+\end{document}
