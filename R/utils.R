@@ -1,7 +1,7 @@
-#' Creates an R Markdown PDF Thesis document
+#' Creates an R Markdown PDF Res Doc
 #'
 #' This is a function called in output in the YAML of the driver Rmd file
-#' to specify using the University of Washington Thesis LaTeX template and cls files.
+#' to specify using the CSAS LaTeX template and cls files.
 #'
 #' @export
 #' @param toc A Boolean (TRUE or FALSE) specifying whether table of contents should be created
@@ -37,10 +37,10 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default", ...){
 
 }
 
-#' Creates an R Markdown gitbook Thesis document
+#' Creates an R Markdown gitbook Res Doc
 #'
 #' This is a function called in output in the YAML of the driver Rmd file
-#' to specify the creation of a webpage version of the thesis.
+#' to specify the creation of a webpage version of the resdoc.
 #'
 #' @param ... other arguments to bookdown::gitbook
 #' @export
@@ -69,10 +69,10 @@ resdoc_gitbook <- function(...){
 
 }
 
-#' Creates an R Markdown Word Thesis document
+#' Creates an R Markdown Word Res Doc
 #'
 #' This is a function called in output in the YAML of the driver Rmd file
-#' to specify the creation of a Microsoft Word version of the thesis.
+#' to specify the creation of a Microsoft Word version of the resdoc.
 #' @param ... other arguments to  bookdown::word_document2
 #' @import bookdown
 #' @export
@@ -94,15 +94,15 @@ resdoc_word <- function(...){
 
 }
 
-#' Creates an R Markdown epub Thesis document
+#' Creates an R Markdown epub Res Doc
 #'
 #' This is a function called in output in the YAML of the driver Rmd file
-#' to specify the creation of a epub version of the thesis.
+#' to specify the creation of a epub version of the resdoc.
 #'
 #' @param ... other arguments to bookdown::epub_book
 #' @import bookdown
 #' @export
-#' @return A ebook version of the thesis
+#' @return A ebook version of the resdoc.
 #' @examples
 #' \dontrun{
 #'  output: csasdown::resdoc_epub

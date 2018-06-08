@@ -24,14 +24,14 @@ test_that("Template files are present", {
   expect_true(length(template_files) > 10)
 })
 
-context("create the thesis directories and files")
+context("create the resdoc directories and files")
 
 if (getwd() != testing_path) setwd(testing_path)
 if (dir.exists("index")) unlink("index", recursive = TRUE)
 suppressMessages(rmarkdown::draft("index.Rmd",
   system.file("rmarkdown",
     "templates",
-    "thesis",
+    "resdoc",
     package = "csasdown"
   ),
   create_dir = TRUE,
@@ -59,7 +59,7 @@ the_files <- c(
 
 #### check results ####
 
-test_that("rmarkdown::draft generates the thesis directories and files", {
+test_that("rmarkdown::draft generates the resdoc directories and files", {
   expect_equal(
     list.files(file.path(testing_path, "index")),
     the_files
@@ -75,6 +75,6 @@ bookdown::render_book("index.Rmd",
   envir = globalenv()
 )
 
-test_that("bookdown::render_book generates the PDF of the thesis", {
+test_that("bookdown::render_book generates the PDF of the resdoc", {
   expect_true(file.exists(file.path(testing_path, "index/_book/resdoc.pdf")))
 })
