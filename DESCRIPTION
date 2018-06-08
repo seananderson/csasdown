@@ -1,0 +1,31 @@
+Package: csasdown
+Title: An R Markdown template for creating CSAS Research Documents
+Version: 0.0.0.9000
+Authors@R: c(person(c("Sean", "C."), "Anderson",
+    email = "sean.anderson@dfo-mpo.gc.ca", role = c("aut", "cre")),
+    person("Chester", "Ismay", role = "aut"),
+    person("Nick", "Solomon", role = "aut"),
+    person("Ben", "Marwick", role = "aut"))
+Description: Uses the bookdown R package to generate CSAS Research Documents in
+    PDF, Word, or HTML. Based on Chester Ismay's thesisdown package and
+    Ben Marwick's huskydown package.
+Depends:
+    R (>= 3.3.0)
+Imports:
+    bookdown,
+    rmarkdown,
+    knitr,
+    git2r,
+    tinytex,
+    devtools,
+    dplyr,
+    ggplot2
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1.9000
+ByteCompile: true
+Roxygen: list(markdown = TRUE)
+SystemRequirements: pandoc (>= 1.18) - http://pandoc.org
+Suggests: 
+    testthat
