@@ -21,9 +21,12 @@ lof: true
 # - \usepackage{tikz}
 ---
 
-<!-- The {.unnumbered} option here means that the introduction will be "Chapter 0." You can also use {-} for no numbers on chapters. -->
-
+<!-- 
 # Introduction {.unnumbered}
+
+The {.unnumbered} option here means that the introduction will be "Chapter 0." You can also use {-} for no numbers on chapters. -->
+
+# Introduction
 
 Welcome to the R Markdown CSAS template. This template is based on (and in many places copied directly from) the CSAS LaTeX template, but hopefully it will provide a nicer interface for those that have never used TeX or LaTeX before. Using R Markdown will also allow you to easily keep track of your analyses in R chunks of code, with the resulting plots and output included as well. The hope is this R Markdown template gets you in the habit of doing reproducible research, which benefits you long-term as a researcher, but also will greatly help anyone that is trying to reproduce or build onto your results down the road.
 

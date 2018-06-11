@@ -113,6 +113,13 @@ fix_envs <- function(x) {
     if (length(i2 <- grep(end_reg, x))) (i2 + 1)[grepl("^\\s*$", x[i2 + 1])]
   )
   if (length(i3)) x <- x[-i3]
+
+  x <- vapply(x, FUN = function(x) gsub("^\\\\subsection\\{", "\\\\subsubsection\\{", x),
+    FUN.VALUE = character(1))
+  x <- vapply(x, FUN = function(x) gsub("^\\\\section\\{", "\\\\subsection\\{", x),
+    FUN.VALUE = character(1))
+  x <- vapply(x, FUN = function(x) gsub("^\\\\chapter\\{", "\\\\section\\{", x),
+    FUN.VALUE = character(1))
   x
 }
 
