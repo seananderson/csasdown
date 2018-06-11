@@ -28,38 +28,41 @@ To use csasdown from [RStudio](http://www.rstudio.com/products/rstudio/download/
 remotes::install_github("pbs-assess/csasdown")
 ```
 
-3) Use the **New R Markdown** dialog to select **CSAS-ResDoc**, here are the steps, and a screenshot below:
-
-![](screenshots/rstudio-new-rmd.png)
-
-File -> New File -> R Markdown... then choose 'From template', then choose 'CSAS-ResDoc', and enter `index` as the **Name**. Note that the folder must be named `index` at this step!
-
-Or if you're not using RStudio, run this line in your R console to create a new Res Doc from the template:
+3) Run this line in your R console to create a new Res Doc from the template:
 
 ```r
 rmarkdown::draft("index.Rmd", template = "resdoc", 
-  package = "csasdown", create_dir = TRUE)
+  package = "csasdown", create_dir = FALSE, edit = FALSE)
 ```
+
+Or, if you want to create the template files inside a subfolder, run:
+
+```r
+rmarkdown::draft("index.Rmd", template = "resdoc", 
+  package = "csasdown", create_dir = TRUE, edit = FALSE)
+```
+
+Then look in the `index` folder. Rename it if you'd like.
 
 ### Day-to-day writing of your Res Doc
 
-You need to edit the individual 'chapter' R Markdown files to write your Res Doc. While writing, you should `git commit` your work frequently, after every major activity on your Res Doc. For example, every few paragraphs or section of text, and after major step of analysis development. You should `git push` at the end of each work session before you leave your computer or change task. For gentle novice-friendly guide to getting starting with using Git with R and RStudio, see <http://happygitwithr.com/>.
+You need to edit the individual chapter R Markdown files to write your Res Doc. While writing, you should `git commit` your work frequently, after every major activity on your Res Doc. For example, every few paragraphs or section of text, and after major step of analysis development. You should `git push` at the end of each work session before you leave your computer or change task. For gentle novice-friendly guide to getting starting with using Git with R and RStudio, see <http://happygitwithr.com/>.
 
 ## Rendering
 
-To render your Res Doc into a PDF, open `index.Rmd` in RStudio and then click the "knit" button:
+To render your Res Doc into a PDF or Word document, open `index.Rmd` in RStudio and then click the "knit" button:
 
-![](screenshots/knit.png)
+<img src="screenshots/knit.png" width="664">
 
 To change the output formats between PDF, Word, and gitbook look at the `output:` field in `index.Rmd`and comment-out the formats you don't want. You can include multiple.
 
-Alternatively, if you're not using RStudio, you can use this from the R console, assuming your have set the main directory as your working directory:
+Alternatively, if you're not using RStudio, you can use this from the R console, assuming your have set the main directory (the one with the `index.Rmd` file) as your working directory:
 
 ```r
 bookdown::render_book("index.Rmd", csasdown::resdoc_pdf())
 ```
 
-The PDF file of your Res Doc will be deposited in the `_book/` directory.
+The PDF or Word file of your Res Doc will be deposited in the `_book/` directory.
 
 ## Components
 
