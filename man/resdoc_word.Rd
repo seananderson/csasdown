@@ -7,18 +7,12 @@
 resdoc_word(...)
 }
 \arguments{
-\item{...}{other arguments to  bookdown::word_document2}
+\item{...}{other arguments to \code{\link[bookdown:word_document2]{bookdown::word_document2()}}}
 }
 \value{
-A Word Document based on (hopefully soon, but not currently)
-the Reed Senior Thesis Word template
+A Word Document based on the CSAS Res Doc template.
 }
 \description{
 This is a function called in output in the YAML of the driver Rmd file
 to specify the creation of a Microsoft Word version of the resdoc.
-}
-\examples{
-\dontrun{
- output: csasdown::resdoc_word
-}
 }

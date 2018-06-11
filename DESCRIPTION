@@ -12,7 +12,8 @@ Description: Uses the bookdown R package to generate CSAS Research Documents in
 Depends:
     R (>= 3.3.0)
 Imports:
-    bookdown
+    bookdown,
+    officer
 Suggests:
     dplyr,
     ggplot2,

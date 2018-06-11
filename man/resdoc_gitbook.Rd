@@ -7,7 +7,7 @@
 resdoc_gitbook(...)
 }
 \arguments{
-\item{...}{other arguments to bookdown::gitbook}
+\item{...}{other arguments to \code{\link[bookdown:gitbook]{bookdown::gitbook()}}}
 }
 \value{
 A gitbook webpage
@@ -15,9 +15,4 @@ A gitbook webpage
 \description{
 This is a function called in output in the YAML of the driver Rmd file
 to specify the creation of a webpage version of the resdoc.
-}
-\examples{
-\dontrun{
- output: csasdown::resdoc_gitbook
-}
 }

@@ -7,17 +7,19 @@
 resdoc_pdf(toc = TRUE, toc_depth = 3, highlight = "default", ...)
 }
 \arguments{
-\item{toc}{A Boolean (TRUE or FALSE) specifying whether table of contents should be created}
+\item{toc}{A Boolean (\code{TRUE} or \code{FALSE}) specifying whether table of contents
+should be created.}
 
-\item{toc_depth}{A positive integer}
+\item{toc_depth}{A positive integer.}
 
-\item{highlight}{Syntax highlighting style. Supported styles include "default", "tango", "pygments", "kate", "monochrome", "espresso", "zenburn", and "haddock". Pass NULL to prevent syntax highlighting.}
+\item{highlight}{Syntax highlighting style. Supported styles include
+"default", "tango", "pygments", "kate", "monochrome", "espresso",
+"zenburn", and "haddock". Pass \code{NULL} to prevent syntax highlighting.}
 
-\item{...}{other arguments to bookdown::pdf_book}
+\item{...}{other arguments to \code{\link[bookdown:pdf_book]{bookdown::pdf_book()}}.}
 }
 \value{
-A modified \code{pdf_document} based on the Reed Senior Thesis LaTeX
-template
+A modified \code{pdf_document} based on the CSAS LaTeX template.
 }
 \description{
 This is a function called in output in the YAML of the driver Rmd file
