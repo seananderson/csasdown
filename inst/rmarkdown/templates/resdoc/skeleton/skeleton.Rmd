@@ -1,22 +1,22 @@
 ---
-title: Title Here
-author: First. M. Last
-author_list: Last, F.M.
-year: 2018
-report_number: "2018/nnn"
+title: "Title Here (*Latin Species Name*)"
+author: "First. M. Last and Alex B. Smith"
+author_list: "Last, F.M. and Smith, A.B. "
+year: "2018"
+report_number: "nnn"
 abstract: |
   Here is my abstract
 knit: bookdown::render_book
 site: bookdown::bookdown_site
 output:
- csasdown::resdoc_pdf:
-   latex_engine: xelatex
-  # csasdown::resdoc_gitbook: default
-  # csasdown::resdoc_word: default
+ csasdown::resdoc_pdf
+  # csasdown::resdoc_word
+  # csasdown::resdoc_gitbook
 bibliography: bib/refs.bib
 csl: csl/csas.csl
 lot: true
 lof: true
+# any extra LaTeX code for the header:
 # header-includes:
 # - \usepackage{tikz}
 ---
