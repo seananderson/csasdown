@@ -3,15 +3,16 @@ title: Title Here
 author: First. M. Last
 author_list: Last, F.M. 
 year: 2018
+report_number: "2018/nnn"
 abstract: |
   Here is my abstract
 knit: bookdown::render_book
 site: bookdown::bookdown_site
 output:
- huskydown::thesis_pdf:
+ csasdown::resdoc_pdf:
    latex_engine: xelatex
-  # huskydown::thesis_gitbook: default
-  # huskydown::thesis_word: default
+  # csasdown::resdoc_gitbook: default
+  # csasdown::resdoc_word: default
 bibliography: bib/refs.bib
 csl: csl/csas.csl
 lot: true

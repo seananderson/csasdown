@@ -120,8 +120,7 @@ fix_envs <- function(x) {
 #'
 #' @return A merged .docx
 #' @export
-add_resdoc_titlepage <- function(
-                                 titlepage = "templates/RES2016-eng-titlepage.docx",
+add_resdoc_titlepage <- function(titlepage = "templates/RES2016-eng-titlepage.docx",
                                  resdoc = "_book/resdoc.docx") {
   title_doc <- officer::read_docx(titlepage)
   x <- officer::body_add_docx(title_doc, resdoc, pos = "before")
