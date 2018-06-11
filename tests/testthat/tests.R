@@ -66,3 +66,4 @@ test_that("bookdown::render_book generates the .docx of the resdoc", {
 })
 
 add_resdoc_titlepage()
+expect_true(file.exists(file.path(testing_path, "index/_book/resdoc.docx")))
