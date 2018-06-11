@@ -1,6 +1,6 @@
 # csasdown
 
-csaddown uses the bookdown R package to generate CSAS Research Documents (Res Docs) in PDF, Word, or HTML using R Markdown. Based on Chester Ismay's thesisdown package and Ben Marwick's huskydown package.
+csasdown uses the bookdown R package to generate CSAS Research Documents (Res Docs) in PDF, Word, or HTML using R Markdown. Based on Chester Ismay's thesisdown package and Ben Marwick's huskydown package.
 
 ## Initial setup
 
