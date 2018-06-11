@@ -2,7 +2,7 @@
 
 csaddown uses the bookdown R package to generate CSAS Research Documents (Res Docs) in PDF, Word, or HTML using R Markdown. Based on Chester Ismay's thesisdown package and Ben Marwick's huskydown package.
 
-### Initial setup
+## Initial setup
 
 Using csasdown has some prerequisites, such as Pandoc, LaTeX and some fonts. To compile PDF documents using R, you need to have Pandoc, LaTeX and several related packages installed. If you have a recent version of  [RStudio](http://www.rstudio.com/products/rstudio/download/), then you already have Pandoc and don't need to do anything more about that.
 
@@ -15,7 +15,7 @@ tinytex::install_tinytex()
 tinytex:::is_tinytex()
 ```
 
-### Starting to write as Res Doc
+## Starting to write a Research Document
 
 To use csasdown from [RStudio](http://www.rstudio.com/products/rstudio/download/):
 
@@ -44,7 +44,7 @@ rmarkdown::draft("index.Rmd", template = "resdoc",
 
 Then look in the `index` folder. Rename it if you'd like.
 
-### Day-to-day writing of your Res Doc
+## Day-to-day writing of a Res Doc
 
 You need to edit the individual chapter R Markdown files to write your Res Doc. While writing, you should `git commit` your work frequently, after every major activity on your Res Doc. For example, every few paragraphs or section of text, and after major step of analysis development. You should `git push` at the end of each work session before you leave your computer or change task. For gentle novice-friendly guide to getting starting with using Git with R and RStudio, see <http://happygitwithr.com/>.
 
