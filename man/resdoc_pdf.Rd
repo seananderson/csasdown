@@ -4,7 +4,8 @@
 \alias{resdoc_pdf}
 \title{Creates an R Markdown PDF Res Doc}
 \usage{
-resdoc_pdf(toc = TRUE, toc_depth = 3, highlight = "default", ...)
+resdoc_pdf(toc = TRUE, toc_depth = 3, highlight = "default",
+  latex_engine = "xelatex", ...)
 }
 \arguments{
 \item{toc}{A Boolean (\code{TRUE} or \code{FALSE}) specifying whether table of contents
@@ -15,6 +16,8 @@ should be created.}
 \item{highlight}{Syntax highlighting style. Supported styles include
 "default", "tango", "pygments", "kate", "monochrome", "espresso",
 "zenburn", and "haddock". Pass \code{NULL} to prevent syntax highlighting.}
+
+\item{latex_engine}{LaTeX engine.}
 
 \item{...}{other arguments to \code{\link[bookdown:pdf_book]{bookdown::pdf_book()}}.}
 }

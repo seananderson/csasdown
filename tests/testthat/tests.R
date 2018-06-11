@@ -8,12 +8,14 @@ dir.create(testing_path, showWarnings = FALSE)
 
 context("check for prerequisites")
 
-if (!require(tinytex)) install.packages("tinytex")
-if (!tinytex:::is_tinytex()  ) tinytex::install_tinytex(force = TRUE)
-
-test_that("LaTeX is installed", {
-  expect_true(tinytex:::is_tinytex())
-})
+x <- system("which xelatex", intern = TRUE)
+if (!grepl("latex", x)) {
+  if (!require(tinytex)) install.packages("tinytex")
+  if (!tinytex:::is_tinytex()  ) tinytex::install_tinytex(force = TRUE)
+  test_that("LaTeX is installed", {
+    expect_true(tinytex:::is_tinytex())
+  })
+}
 
 context("check that the pkg template files are present")
 
@@ -44,7 +46,7 @@ if (getwd() != file.path(testing_path, "index"))
 context("render into a PDF")
 
 bookdown::render_book("index.Rmd",
-  csasdown::resdoc_pdf(latex_engine = "xelatex"),
+  csasdown::resdoc_pdf(),
   envir = globalenv()
 )
 

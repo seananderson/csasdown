@@ -6,18 +6,21 @@
 If you feel it necessary to include an appendix, it goes here.
 -->
 
+\clearpage
+
 # The First Appendix
 
-This first appendix includes all of the R chunks of code that were hidden throughout the document (using the `include = FALSE` chunk tag) to help with readibility and/or setup.
+Content here.
 
-<!-- **In the main Rmd file** -->
+An example of including the R code from the chapters:
 
-<!-- ```{r ref.label='include_packages', results='hide', echo = TRUE} -->
-<!-- ``` -->
+**In Chapter \@ref(ref-labels):**
 
-<!-- **In Chapter \@ref(ref-labels):** -->
+```{r ref.label='include_packages_2', results='hide', echo = TRUE}
+```
 
-<!-- ```{r ref.label='include_packages_2', results='hide', echo = TRUE} -->
-<!-- ``` -->
+\clearpage
 
 # The Second Appendix, for Fun
+
+More content.

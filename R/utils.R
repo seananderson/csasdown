@@ -10,6 +10,7 @@
 #' @param highlight Syntax highlighting style. Supported styles include
 #'   "default", "tango", "pygments", "kate", "monochrome", "espresso",
 #'   "zenburn", and "haddock". Pass `NULL` to prevent syntax highlighting.
+#' @param latex_engine LaTeX engine.
 #' @param ... other arguments to [bookdown::pdf_book()].
 #' @return A modified `pdf_document` based on the CSAS LaTeX template.
 #' @import bookdown
@@ -17,7 +18,8 @@
 #' \dontrun{
 #'  output: csasdown::resdoc_pdf
 #' }
-resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default", ...) {
+resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
+  latex_engine = 'xelatex', ...) {
   base <- bookdown::pdf_book(
     template = "templates/csas.tex",
     toc = toc,
@@ -25,6 +27,7 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default", ...) {
     highlight = highlight,
     keep_tex = TRUE,
     pandoc_args = "--top-level-division=chapter",
+    latex_engine = latex_engine,
     ...
   )
 

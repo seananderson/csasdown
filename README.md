@@ -39,7 +39,7 @@ File -> New File -> R Markdown... then choose 'From template', then choose 'CSAS
 Or if you're not using RStudio, run this line in your R console to create a new Res Doc from the template:
 
 ```r
-rmarkdown::draft('index.Rmd', template = 'resdoc', package = 'csasdown', create_dir = TRUE)
+rmarkdown::draft("index.Rmd", template = "resdoc", package = "csasdown", create_dir = TRUE)
 ```
 
 ### Day-to-day writing of your Res Doc
@@ -57,7 +57,7 @@ To render your Res Doc into a PDF, open `index.Rmd` in RStudio and then click th
 Alternatively, if you're not using RStudio, you can use this from the R console, assuming your have set the `'index/` directory as your working directory:
 
 ```r
-bookdown::render_book('index.Rmd', csasdown::resdoc_pdf(latex_engine = 'xelatex'))
+bookdown::render_book("index.Rmd", csasdown::resdoc_pdf())
 ```
 
 The PDF file of your Res Doc will be deposited in the `_book/` directory.

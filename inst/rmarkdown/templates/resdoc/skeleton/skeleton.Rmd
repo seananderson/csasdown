@@ -29,7 +29,7 @@ Welcome to the R Markdown CSAS template. This template is based on (and in many 
 
 Hopefully, you won't have much of a learning period to go through and you will reap the benefits of a nicely formatted CSAS Res Doc. The use of LaTeX in combination with Markdown is more consistent than the output of a word processor, much less prone to corruption or crashing, and the resulting file is smaller than a Word file. After working with Markdown and R together for a few weeks, we are confident this will be your reporting style of choice going forward.
 
-<!--  If you're still on the fence about using R Markdown, check out the resource for newbies available at <https://ismayc.github.io/rbasics-book/> .  -->
+<!--  If you're still on the fence about using R Markdown, check out the resource for newbies available at <https://ismayc.github.io/rbasics-book/>.-->
 
 ## Why use it?
 
