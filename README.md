@@ -62,7 +62,19 @@ Alternatively, if you're not using RStudio, you can use this from the R console,
 bookdown::render_book("index.Rmd", csasdown::resdoc_pdf())
 ```
 
-The PDF or Word file of your Res Doc will be deposited in the `_book/` directory.
+The PDF or Word file of your Research Document will be deposited in the `_book/` directory.
+
+![](screenshots/example-titlepage.png)
+
+![](screenshots/example-page.png)
+
+Run
+
+```r
+csasdown::add_resdoc_titlepage()
+```
+
+if you want to add a CSAS .docx title page to the .docx file. Edit it first if you'd like.
 
 ## Components
 

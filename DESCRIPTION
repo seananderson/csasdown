@@ -3,9 +3,12 @@ Title: An R Markdown template for creating CSAS Research Documents
 Version: 0.0.0.9000
 Authors@R: c(person(c("Sean", "C."), "Anderson",
     email = "sean.anderson@dfo-mpo.gc.ca", role = c("aut", "cre")),
-    person("Chester", "Ismay", role = "aut"),
-    person("Nick", "Solomon", role = "aut"),
-    person("Ben", "Marwick", role = "aut"))
+    person("Chris", "Grandin", role = "aut"),
+    person(c("Andrew", "M."), "Edwards", role = "aut"),
+    person(c("Matthew", "H."), "Grinnell"), role = "aut"),
+    person("Chester", "Ismay", role = "aut", comment = "Development of thesisdown"),
+    person("Nick", "Solomon", role = "aut", comment = "Development of thesisdown"),
+    person("Ben", "Marwick", role = "aut", comment = "Development of huskydown"))
 Description: Uses the bookdown R package to generate CSAS Research Documents in
     PDF, Word, or HTML. Based on Chester Ismay's thesisdown package and
     Ben Marwick's huskydown package.
