@@ -52,7 +52,7 @@ You need to edit the individual chapter R Markdown files to write your Res Doc. 
 
 To render your Res Doc into a PDF or Word document, open `index.Rmd` in RStudio and then click the "knit" button:
 
-<img src="screenshots/knit.png" width="664">
+<img src="screenshots/knit.png" width="400">
 
 To change the output formats between PDF, Word, and gitbook look at the `output:` field in `index.Rmd`and comment-out the formats you don't want. You can include multiple.
 
