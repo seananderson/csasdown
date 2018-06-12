@@ -64,9 +64,9 @@ bookdown::render_book("index.Rmd", csasdown::resdoc_pdf())
 
 The PDF or Word file of your Research Document will be deposited in the `_book/` directory.
 
-<img src="screenshots/example-titlepage.png width="450">
+<img src="screenshots/example-titlepage.png" width="450">
 
-<img src="screenshots/example-page.png width="450">
+<img src="screenshots/example-page.png" width="450">
 
 Run
 
