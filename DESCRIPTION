@@ -5,7 +5,7 @@ Authors@R: c(person(c("Sean", "C."), "Anderson",
     email = "sean.anderson@dfo-mpo.gc.ca", role = c("aut", "cre")),
     person("Chris", "Grandin", role = "aut"),
     person(c("Andrew", "M."), "Edwards", role = "aut"),
-    person(c("Matthew", "H."), "Grinnell"), role = "aut"),
+    person(c("Matthew", "H."), "Grinnell", role = "aut"),
     person("Chester", "Ismay", role = "aut", comment = "Development of thesisdown"),
     person("Nick", "Solomon", role = "aut", comment = "Development of thesisdown"),
     person("Ben", "Marwick", role = "aut", comment = "Development of huskydown"))
