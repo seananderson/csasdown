@@ -19,7 +19,7 @@
 #'  output: csasdown::resdoc_pdf
 #' }
 resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
-  latex_engine = 'xelatex', ...) {
+                       latex_engine = "xelatex", ...) {
   base <- bookdown::pdf_book(
     template = "templates/csas.tex",
     toc = toc,
@@ -77,7 +77,8 @@ resdoc_gitbook <- function(...) {
 #' @return A Word Document based on the CSAS Res Doc template.
 resdoc_word <- function(...) {
   base <- word_document2(...,
-    reference_docx = "templates/RES2016-eng-content-only.docx")
+    reference_docx = "templates/RES2016-eng-content-only.docx"
+  )
 
   # Mostly copied from knitr::render_sweave
   base$knitr$opts_chunk$comment <- NA
@@ -141,50 +142,68 @@ is_windows <- function() {
   identical(.Platform$OS.type, "windows")
 }
 
-add_arial <- function(){
-  if(!is_windows()){
-    message("This function is only for use on Windows machines.")
+#' Add Arial LaTeX fonts for Windows users
+#'
+#' @export
+#' @examples
+#' \dontrun{
+#' add_arial()
+#' }
+add_arial <- function() {
+  if (!is_windows()) {
+    warning("This function is only for use on Windows machines.")
     return(invisible())
   }
 
-  arial.folder <- system.file("texlocal", package = "csasdown")
-  arial.folder.to <- file.path("C:/texlocal")
+  arial_folder <- system.file("texlocal", package = "csasdown")
+  arial_folder_to <- file.path("C:/texlocal")
 
   ok <- menu(c("Yes", "No"),
-             title = "About to copy latex font files to your computer.") == 1
+    title = "OK to copy LaTeX font files to your computer?"
+  ) == 1
 
-  if(!ok)
+  if (!ok) {
     return(invisible())
+  }
 
-
-  if(!file.exists(arial.folder.to)){
-    file.copy(arial.folder, "C:/", recursive = TRUE, overwrite = FALSE)
+  if (!file.exists(arial_folder_to)) {
+    file.copy(arial_folder, "C:/", recursive = TRUE, overwrite = FALSE)
   }
 
   ok <- menu(c("Continue", "Quit"),
-             title = paste0("Please do this:\n\n",
-                            "1. Go to Start->Programs->Miktex->",
-                            "Maintenance(Admin)->MikTex Settings(Admin)\n",
-                            "2. Go to the Roots tab\n",
-                            "3. Click 'Add' and add C:\\texlocal\n",
-                            "4. Go to 'General' tab\n",
-                            "5. Click 'Refresh FNDB' button\n",
-                            "6. Click 'Update Formats' button\n",
-                            "7. Click 'OK'")) == 1
+    title = paste0(
+      "Please do the following:\n\n",
+      "1. Go to Start->Programs->Miktex->",
+      "Maintenance(Admin)->MikTex Settings(Admin)\n",
+      "2. Go to the 'Roots' tab\n",
+      "3. Click 'Add' and add C:\\texlocal\n",
+      "4. Go to 'General' tab\n",
+      "5. Click 'Refresh FNDB' button\n",
+      "6. Click 'Update Formats' button\n",
+      "7. Click 'OK'\n",
+      "When done, press 1 to continue."
+    )
+  ) == 1
 
-  if(!ok)
+  if (!ok) {
     return(invisible())
+  }
 
   system("initexmf --admin --update-fndb")
 
   ok <- menu(c("Continue", "Quit"),
-             title = paste0("Please paste the following into the editor ",
-                            "that opened and save and close it:\n",
-                            "Map ua1.map\nWhen done, press 1 to continue.")) == 1
+    title = paste0(
+      "Please paste the following into the editor ",
+      "that opened:\n",
+      "Map ua1.map\n\n",
+      "Then save and close the file.\n",
+      "When done, press 1 to continue."
+    )
+  ) == 1
 
-  if(!ok)
+  if (!ok) {
     return(invisible())
+  }
 
   system("initexmf --mkmaps")
-
 }
