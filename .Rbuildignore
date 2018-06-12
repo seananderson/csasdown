@@ -4,7 +4,6 @@
 ^Dockerfile$
 ^appveyor\.yml$
 ^NEWS\.md$
-^uw_thesis_rmd\.png$
 ^README\.md$
 ^LICENSE\.md$
 ^CONDUCT\.md$
@@ -14,3 +13,4 @@
 ^\.gitignore$
 ^index$
 ^fonts\.zip$
+^screenshots
