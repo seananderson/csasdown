@@ -168,6 +168,10 @@ add_arial <- function() {
 
   if (!file.exists(arial_folder_to)) {
     file.copy(arial_folder, "C:/", recursive = TRUE, overwrite = FALSE)
+  } else {
+    warning("We detected an existing folder at C:\\texlocal.\n",
+      "Either manually copy the Arial font files into C:\\texlocal",
+      "or rename/delete your C:\\texlocal and run this function again.")
   }
 
   ok <- menu(c("Continue", "Quit"),
