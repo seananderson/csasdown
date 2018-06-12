@@ -136,3 +136,55 @@ add_resdoc_titlepage <- function(titlepage = "templates/RES2016-eng-titlepage.do
   x <- officer::body_add_docx(title_doc, resdoc, pos = "before")
   print(x, target = resdoc)
 }
+
+is_windows <- function() {
+  identical(.Platform$OS.type, "windows")
+}
+
+add_arial <- function(){
+  if(!is_windows()){
+    message("This function is only for use on Windows machines.")
+    return(invisible())
+  }
+
+  arial.folder <- system.file("texlocal", package = "csasdown")
+  arial.folder.to <- file.path("C:/texlocal")
+
+  ok <- menu(c("Yes", "No"),
+             title = "About to copy latex font files to your computer.") == 1
+
+  if(!ok)
+    return(invisible())
+
+
+  if(!file.exists(arial.folder.to)){
+    file.copy(arial.folder, "C:/", recursive = TRUE, overwrite = FALSE)
+  }
+
+  ok <- menu(c("Continue", "Quit"),
+             title = paste0("Please do this:\n\n",
+                            "1. Go to Start->Programs->Miktex->",
+                            "Maintenance(Admin)->MikTex Settings(Admin)\n",
+                            "2. Go to the Roots tab\n",
+                            "3. Click 'Add' and add C:\\texlocal\n",
+                            "4. Go to 'General' tab\n",
+                            "5. Click 'Refresh FNDB' button\n",
+                            "6. Click 'Update Formats' button\n",
+                            "7. Click 'OK'")) == 1
+
+  if(!ok)
+    return(invisible())
+
+  system("initexmf --admin --update-fndb")
+
+  ok <- menu(c("Continue", "Quit"),
+             title = paste0("Please paste the following into the editor ",
+                            "that opened and save and close it:\n",
+                            "Map ua1.map\nWhen done, press 1 to continue.")) == 1
+
+  if(!ok)
+    return(invisible())
+
+  system("initexmf --mkmaps")
+
+}

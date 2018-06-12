@@ -1,0 +1,35 @@
+\ProvidesPackage{uarial}%
+[2006/03/21 1.0 (WaS)]
+\RequirePackage{keyval}
+\define@key{UaI}{scaled}[.95]{%
+  \expandafter\def\csname ua1@Scale\endcsname{#1}}
+\def\ProcessOptionsWithKV#1{%
+  \let\@tempc\relax
+  \let\UaI@tempa\@empty
+  \ifx\@classoptionslist\relax\else
+    \@for\CurrentOption:=\@classoptionslist\do{%
+      \@ifundefined{KV@#1@\CurrentOption}%
+      {}%
+      {%
+        \edef\UaI@tempa{\UaI@tempa,\CurrentOption,}%
+        \@expandtwoargs\@removeelement\CurrentOption
+          \@unusedoptionlist\@unusedoptionlist
+      }%
+    }%
+  \fi
+  \edef\UaI@tempa{%
+    \noexpand\setkeys{#1}{%
+      \UaI@tempa\@ptionlist{\@currname.\@currext}%
+    }%
+  }%
+  \UaI@tempa
+  \let\CurrentOption\@empty
+}
+\ProcessOptionsWithKV{UaI}
+\AtEndOfPackage{%
+  \let\@unprocessedoptions\relax
+}
+\renewcommand{\sfdefault}{ua1}
+\endinput
+%%
+%% End of file `ua1.sty'.

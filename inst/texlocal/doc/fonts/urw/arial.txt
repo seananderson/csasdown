@@ -1,0 +1,49 @@
+============================================================
+     Using the URW A030 (Arial) font family with LaTeX
+============================================================
+                                                  2006-03-21
+                                              Walter Schmidt
+                                         w-a-schmidt@gmx.net
+                                             
+Loading of the macro package uarial.sty, i.e.
+
+  \usepackage{uarial}
+  
+makes LaTeX use URW A030 (Arial) as the default sans serif
+font family.  Note that this does _not_ change the math
+fonts, and that there exist _no_ matching math fonts for
+Arial, anyway.
+
+
+
+Optional Scaling:
+
+The Arial fonts appear larger than many others, when used
+with the same nominal size.  The macro package provides an
+option to scale the Zurich fonts, in order to make blending
+with other fonts easier.  For instance,
+
+  \usepackage[scaled=0.90]{uarial}
+
+will scale the Arial fonts down to 90% of their nominal
+size.  When the value is omitted, i.e., 
+
+  \usepackage[scaled]{uarial}
+  
+a default scale of 0.95 is assumed.
+
+
+
+NFSS classification:
+
+family  series  shape(s)  PostScript FontName
+------------------------------------------------------------
+ua1     m       n, it     A030-Reg, A030-Ita
+ua1     b       n, it     A030-Bol, A030-BolIta
+
+Available encodings are T1 (Cork) and TS1 (textcompanion).
+The TS1 encoding comprises only those gylphs that belong to
+the ISO-Adobe character set, plus the Euro symbol.
+
+%% finis
+

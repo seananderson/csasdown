@@ -1,0 +1,11 @@
+%1 = $PFM$
+%2 = $TEXMF$fonts/type1/urw/arial/
+
+@A030-Reg = ua1r8a %2,1
+@A030-Reg-8r = ua1r8r %2,1,r="8r",b="ua1r8a"
+@A030-Bol = ua1b8a %2,1
+@A030-Bol-8r = ua1b8r %2,1,r="8r",b="ua1b8a"
+@A030-Ita = ua1ri8a %2,1
+@A030-Ita-8r = ua1ri8r %2,1,r="8r",b="ua1ri8a"
+@A030-BolIta = ua1bi8a %2,1
+@A030-BolIta-8r = ua1bi8r %2,1,r="8r",b="ua1bi8a"

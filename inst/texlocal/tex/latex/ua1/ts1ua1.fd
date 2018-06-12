@@ -1,0 +1,26 @@
+\ProvidesFile{ts1ua1.fd}
+   [2006/03/21 Fontinst v1.928 font definitions for TS1/ua1.]
+
+\expandafter\ifx\csname ua1@Scale\endcsname\relax
+ \let\uaI@@Scale\@empty
+\else
+ \edef\uaI@@Scale{s*[\csname ua1@Scale\endcsname]}%
+\fi
+
+\DeclareFontFamily{TS1}{ua1}{}
+
+\DeclareFontShape{TS1}{ua1}{m}{n}{<-> \uaI@@Scale ua1r8c}{}
+
+\DeclareFontShape{TS1}{ua1}{m}{it}{<-> \uaI@@Scale ua1ri8c}{}
+
+\DeclareFontShape{TS1}{ua1}{b}{n}{<-> \uaI@@Scale ua1b8c}{}
+
+\DeclareFontShape{TS1}{ua1}{b}{it}{<-> \uaI@@Scale ua1bi8c}{}
+
+\DeclareFontShape{TS1}{ua1}{m}{sl}{<->ssub * ua1/m/it}{}
+\DeclareFontShape{TS1}{ua1}{bx}{n}{<->ssub * ua1/b/n}{}
+\DeclareFontShape{TS1}{ua1}{bx}{it}{<->ssub * ua1/b/it}{}
+\DeclareFontShape{TS1}{ua1}{b}{sl}{<->ssub * ua1/b/it}{}
+\DeclareFontShape{TS1}{ua1}{bx}{sl}{<->ssub * ua1/b/sl}{}
+
+\endinput
