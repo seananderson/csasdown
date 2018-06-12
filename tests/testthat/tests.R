@@ -1,6 +1,6 @@
-# This code runs before the tests. It creates a testpackage in
-# the temporary directory where all the functions of rrtools
-# can be applied safely and subsequently tested.
+is_windows <- function() {
+  identical(.Platform$OS.type, "windows")
+}
 
 # create temporary directory in file system
 testing_path <- paste0(tempdir(), "/testing_directory")
@@ -8,10 +8,14 @@ dir.create(testing_path, showWarnings = FALSE)
 
 context("check for prerequisites")
 
-x <- system("which xelatex", intern = TRUE)
+if (is_windows()) {
+  x <- system("where xelatex", intern = TRUE)
+} else {
+  x <- system("which xelatex", intern = TRUE)
+}
 if (!grepl("latex", x)) {
   if (!require(tinytex)) install.packages("tinytex")
-  if (!tinytex:::is_tinytex()  ) tinytex::install_tinytex(force = TRUE)
+  if (!tinytex:::is_tinytex()) tinytex::install_tinytex(force = TRUE)
   test_that("LaTeX is installed", {
     expect_true(tinytex:::is_tinytex())
   })
