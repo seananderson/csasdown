@@ -6,12 +6,12 @@ csasdown is an R package that uses the bookdown package to generate CSAS Researc
 
 Using csasdown has some prerequisites, such as Pandoc, LaTeX and some fonts. To compile PDF documents using R, you need to have Pandoc, LaTeX and several related packages installed. If you have a recent version of  [RStudio](http://www.rstudio.com/products/rstudio/download/), then you already have Pandoc and don't need to do anything more about that.
 
-Next is LaTeX. By far the easiest way to install LaTeX on any platform is with the [`tinytex`](https://yihui.name/tinytex/) package:
+Next is LaTeX. If you already have LaTeX installed then move on to the next step. Otherwse, by far the easiest way to install LaTeX on any platform is with the [`tinytex`](https://yihui.name/tinytex/) package:
 
 ```r
-install.packages(c("tinytex", "rmarkdown"))
+install.packages("tinytex")
 tinytex::install_tinytex()
-# after restarting RStudio, confirm that you have LaTeX with 
+# after restarting RStudio, confirm that you have LaTeX with
 tinytex:::is_tinytex()
 ```
 
