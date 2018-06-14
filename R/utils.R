@@ -115,14 +115,42 @@ fix_envs <- function(x) {
   )
   if (length(i3)) x <- x[-i3]
 
-  x <- vapply(x, FUN = function(x) gsub("^\\\\subsection\\{", "\\\\subsubsection\\{", x),
-    FUN.VALUE = character(1))
-  x <- vapply(x, FUN = function(x) gsub("^\\\\section\\{", "\\\\subsection\\{", x),
-    FUN.VALUE = character(1))
-  x <- vapply(x, FUN = function(x) gsub("^\\\\chapter\\{", "\\\\section\\{", x),
-    FUN.VALUE = character(1))
-  x <- vapply(x, FUN = function(x) gsub("itemize\\}", "resdoclist\\}", x),
-    FUN.VALUE = character(1))
+  appendix_line <- min(grep("^\\\\Appendices$", x))
+
+  for (i in seq(1, appendix_line)) {
+    x[i] <- gsub("^\\\\subsection\\{", "\\\\subsubsection\\{", x[i])
+    x[i] <- gsub("^\\\\section\\{", "\\\\subsection\\{", x[i])
+    x[i] <- gsub("^\\\\chapter\\{", "\\\\section\\{", x[i])
+  }
+
+  # uppercase sections:
+  x <- gsub("(section\\{)([a-zA-Z0-9\\.\\-\\'\\?\\!\\,]*)(\\})",
+    "\\1\\U\\2\\3", x, perl = TRUE)
+  x <- gsub("(^\\\\chapter\\{)([a-zA-Z0-9\\.\\-\\'\\?\\!\\,]*)(\\})",
+    "\\1\\U\\2\\3", x, perl = TRUE)
+
+  for (i in seq(appendix_line + 1, length(x))) {
+    # x[i] <- gsub("^\\\\subsubsection\\{", "\\\\appsubsubsection\\{", x[i])
+    # x[i] <- gsub("^\\\\subsection\\{", "\\\\appsubsection\\{", x[i])
+    x[i] <- gsub("^\\\\section\\{", "\\\\appsection\\{", x[i])
+    x[i] <- gsub("^\\\\chapter\\{",
+      "\\\\starredchapter\\{APPENDIX~\\\\thechapter. ", x[i])
+  }
+  x <- inject_refstepcounters(x)
+
+  x <- gsub("itemize\\}", "resdoclist\\}", x)
+
+  x
+}
+
+inject_refstepcounters <- function(x) {
+  chpts <- grep("^\\\\starredchapter\\{", x)
+  for (i in chpts) {
+    x <- c(
+      x[seq(1, i - 2)],
+      "\\refstepcounter{chapter}",
+      x[seq(i - 1, length(x))])
+  }
   x
 }
 
