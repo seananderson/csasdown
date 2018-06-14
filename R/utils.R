@@ -121,6 +121,8 @@ fix_envs <- function(x) {
     FUN.VALUE = character(1))
   x <- vapply(x, FUN = function(x) gsub("^\\\\chapter\\{", "\\\\section\\{", x),
     FUN.VALUE = character(1))
+  x <- vapply(x, FUN = function(x) gsub("itemize\\}", "resdoclist\\}", x),
+    FUN.VALUE = character(1))
   x
 }
 
