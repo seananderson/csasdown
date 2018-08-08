@@ -188,7 +188,7 @@ add_arial <- function() {
   arial_folder <- system.file("texlocal", package = "csasdown")
   arial_folder_to <- file.path("C:/texlocal")
 
-  ok <- menu(c("Yes", "No"),
+  ok <- utils::menu(c("Yes", "No"),
     title = "OK to copy LaTeX font files to your computer?"
   ) == 1
 
@@ -204,7 +204,7 @@ add_arial <- function() {
       "or rename/delete your C:\\texlocal and run this function again.")
   }
 
-  ok <- menu(c("Continue", "Quit"),
+  ok <- utils::menu(c("Continue", "Quit"),
     title = paste0(
       "Please do the following:\n\n",
       "1. Go to Start->Programs->Miktex->",
@@ -225,7 +225,7 @@ add_arial <- function() {
 
   system("initexmf --admin --update-fndb")
 
-  ok <- menu(c("Continue", "Quit"),
+  ok <- utils::menu(c("Continue", "Quit"),
     title = paste0(
       "Please paste the following into the editor ",
       "that opened:\n",
