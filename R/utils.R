@@ -116,6 +116,7 @@ fix_envs <- function(x) {
   if (length(i3)) x <- x[-i3]
 
   appendix_line <- min(grep("^\\\\Appendices$", x))
+  if (identical(length(appendix_line), 0L)) appendix_line <- length(x) # no appendix
 
   for (i in seq(1, appendix_line)) {
     x[i] <- gsub("^\\\\subsection\\{", "\\\\subsubsection\\{", x[i])
