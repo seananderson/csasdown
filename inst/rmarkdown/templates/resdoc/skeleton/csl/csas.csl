@@ -219,7 +219,7 @@
         </group>
         <group delimiter=". ">
           <text macro="publisher"/>
-          <text macro="access"/>
+          <!-- <text macro="access"/> -->
         </group>
       </group>
     </layout>
