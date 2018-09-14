@@ -129,10 +129,8 @@ fix_envs <- function(x) {
   }
 
   # uppercase sections:
-  x <- gsub("(section\\{)([a-zA-Z0-9\\.\\-\\'\\?\\!\\,]*)(\\})",
-    "\\1\\U\\2\\3", x, perl = TRUE)
-  x <- gsub("(^\\\\chapter\\{)([a-zA-Z0-9\\.\\-\\'\\?\\!\\,]*)(\\})",
-    "\\1\\U\\2\\3", x, perl = TRUE)
+  # x <- gsub("(section\\{)([A-Za-z0-9\\\\ \\.,:\\(\\)-\\?\\!\\'\\}\\{]+)(\\}\\\\label)", "\\1\\U\\2\\L\\3", x, perl = TRUE)
+  # x <- gsub("(chapter\\{)([A-Za-z0-9\\\\ \\.,:\\(\\)-\\?\\!\\'\\}\\{]+)(\\}\\\\label)", "\\1\\U\\2\\L\\3", x, perl = TRUE)
 
   for (i in seq(appendix_line + 1, length(x))) {
     # x[i] <- gsub("^\\\\subsubsection\\{", "\\\\appsubsubsection\\{", x[i])
