@@ -142,6 +142,7 @@ fix_envs <- function(x) {
   x <- inject_refstepcounters(x)
 
   x <- gsub("itemize\\}", "resdoclist\\}", x)
+  x <- gsub("enumerate\\}", "resdoclist\\}", x)
 
   x
 }
