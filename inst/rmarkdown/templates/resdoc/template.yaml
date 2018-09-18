@@ -1,3 +1,4 @@
 name:  CSAS-ResDoc
 description: >
- Template for creating a CSAS Research Document using R Markdown using the R bookdown package.
+  Template for creating a CSAS Research Document using R Markdown using the R
+  bookdown package.
