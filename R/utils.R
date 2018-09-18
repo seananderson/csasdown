@@ -108,11 +108,14 @@ fix_envs <- function(x) {
   ## Find beginning and end of the abstract text
   abs_beg <- grep("begin_abstract_csasdown", x)
   abs_end <- grep("end_abstract_csasdown", x)
-  abs_vec <- x[(abs_beg + 1):(abs_end - 1)]
+  if (length(abs_beg) == 0L || length(abs_end) == 0L)
+    stop("`% begin_abstract_csasdown` or `% end_abstract_csasdown`` not found ",
+      "in `templates/csas.tex`", call. = FALSE)
+  abs_vec <- x[seq(abs_beg + 1, abs_end - 1)]
   abs_vec <- abs_vec[abs_vec != ""]
   abstract <- paste(abs_vec, collapse = " \\break \\break ")
-  first_part <- x[1:(abs_beg - 1)]
-  second_part <- x[(abs_end + 1):length(x)]
+  first_part <- x[seq_len(abs_beg - 1)]
+  second_part <- x[seq(abs_end + 1, length(x))]
   x <- c(first_part, abstract, second_part)
 
   beg_reg <- "^\\s*\\\\begin\\{.*\\}"
