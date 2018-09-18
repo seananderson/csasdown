@@ -26,7 +26,7 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
     toc_depth = toc_depth,
     highlight = highlight,
     keep_tex = TRUE,
-    pandoc_args = "--top-level-division=chapter",
+    pandoc_args = c("--top-level-division=chapter", "--wrap=none"),
     latex_engine = latex_engine,
     ...
   )
@@ -105,6 +105,16 @@ resdoc_epub <- function(...) {
 }
 
 fix_envs <- function(x) {
+  ## Find beginning and end of the abstract text
+  abs_beg <- grep("begin_abstract_csasdown", x)
+  abs_end <- grep("end_abstract_csasdown", x)
+  abs_vec <- x[(abs_beg + 1):(abs_end - 1)]
+  abs_vec <- abs_vec[abs_vec != ""]
+  abstract <- paste(abs_vec, collapse = " \\break \\break ")
+  first_part <- x[1:(abs_beg - 1)]
+  second_part <- x[(abs_end + 1):length(x)]
+  x <- c(first_part, abstract, second_part)
+
   beg_reg <- "^\\s*\\\\begin\\{.*\\}"
   end_reg <- "^\\s*\\\\end\\{.*\\}"
   i3 <- if (length(i1 <- grep(beg_reg, x))) (i1 - 1)[grepl("^\\s*$", x[i1 - 1])]
