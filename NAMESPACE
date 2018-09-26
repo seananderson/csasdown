@@ -2,6 +2,7 @@
 
 export(add_arial)
 export(add_resdoc_titlepage)
+export(csas_table)
 export(resdoc_epub)
 export(resdoc_gitbook)
 export(resdoc_pdf)
