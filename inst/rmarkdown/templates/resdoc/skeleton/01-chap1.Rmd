@@ -1,6 +1,6 @@
 # Introduction
 
-Welcome to the R Markdown CSAS template. This template is based on (and in many places copied directly from) the CSAS LaTeX template, but hopefully it will provide a nicer interface for those that have never used TeX or LaTeX before. Using R Markdown will also allow you to easily keep track of your analyses in R chunks of code, with the resulting plots and output included as well. The hope is this R Markdown template gets you in the habit of doing reproducible research, which benefits you long-term as a researcher, but also will greatly help anyone that is trying to reproduce or build onto your results down the road.
+Welcome to the R Markdown CSAS template. This template is based on (and in many places copied directly from) the huskydown R package, the thesisdown R package, and the CSAS LaTeX template. Hopefully it will provide a nicer interface for those that have never used TeX or LaTeX before. Using R Markdown will also allow you to easily keep track of your analyses in R chunks of code, with the resulting plots and output included as well. The hope is this R Markdown template gets you in the habit of doing reproducible research, which benefits you long-term as a researcher, but also will greatly help anyone that is trying to reproduce or build onto your results down the road.
 
 Hopefully, you won't have much of a learning period to go through and you will reap the benefits of a nicely formatted CSAS Res Doc. The use of LaTeX in combination with Markdown is more consistent than the output of a word processor, much less prone to corruption or crashing, and the resulting file is smaller than a Word file. After working with Markdown and R together for a few weeks, we are confident this will be your reporting style of choice going forward.
 
@@ -159,20 +159,19 @@ max_delays <- flights2 %>%
 
 A useful function in the `knitr` package for making nice tables in _R Markdown_ is called `kable`.  It is much easier to use than manually entering values into a table by copying and pasting values into Excel or LaTeX.  This again goes to show how nice reproducible documents can be! (Note the use of `results="asis"`, which will produce the table instead of the code to create the table.)  The `caption.short` argument is used to include a shorter title to appear in the List of Tables.
 
+Within CSAS you should use the function `csasdown::csas_table()` instead. It just calls the function `kable()`, space say but it adds some default argument values that will make the tables render correctly in both LaTeX and in Word documents.
+
 ```{r maxdelays, results="asis"}
 library(knitr)
-kable(max_delays, 
+csas_table(max_delays, 
       col.names = c("Airline", "Max Arrival Delay"),
       caption = "Maximum Delays by Airline",
-      caption.short = "Max Delays by Airline",
-      longtable = TRUE,
-      booktabs = TRUE)
+      caption.short = "Max Delays by Airline")
 ```
 
 The last two options make the table a little easier-to-read.
 
 We can further look into the properties of the largest value here for American Airlines Inc.  To do so, we can isolate the row corresponding to the arrival delay of 1539 minutes for American in our original `flights` dataset.
-
 
 ```{r max_props}
 flights %>% 
