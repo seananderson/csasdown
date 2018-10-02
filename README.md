@@ -2,35 +2,26 @@
 
 [![Travis build status](https://travis-ci.org/pbs-assess/csasdown.svg?branch=master)](https://travis-ci.org/pbs-assess/csasdown)
 
-csasdown is an R package that uses the bookdown package to generate CSAS Research Documents (Res Docs) in PDF, Word, or HTML using R Markdown. It is based on Chester Ismay's thesisdown package and Ben Marwick's huskydown package.
+csasdown is an R package that uses the bookdown package to generate Canadian Science Advisory Secretariat (CSAS) Research Documents ("Res Docs") in PDF or Word format using R Markdown. It is based on Chester Ismay's thesisdown package and Ben Marwick's huskydown package.
 
 ## Initial setup
 
-Using csasdown has some prerequisites, such as Pandoc, LaTeX and some fonts. To compile PDF documents using R, you need to have Pandoc, LaTeX and several related packages installed. If you have a recent version of  [RStudio](http://www.rstudio.com/products/rstudio/download/), then you already have Pandoc and don't need to do anything more about that.
+Using csasdown has some prerequisites, such as Pandoc, LaTeX, and fonts. To compile PDF documents using R, you need to have Pandoc, LaTeX and several related packages installed. If you have a recent version of  [RStudio](http://www.rstudio.com/products/rstudio/download/), then you already have Pandoc and don't need to do anything more about that.
 
-Next is LaTeX. If you already have LaTeX installed then move on to the next step. Otherwse, by far the easiest way to install LaTeX on any platform is with the [`tinytex`](https://yihui.name/tinytex/) package:
-
-```r
-install.packages("tinytex")
-tinytex::install_tinytex()
-# after restarting RStudio, confirm that you have LaTeX with
-tinytex:::is_tinytex()
-```
+Next you will need to install LaTeX. After you have installed LaTeX, you will need to make sure you have the Arial font installed and available for LaTeX. This shouldn't be a problem for macOS or Linux. For Windows, after you've installed csasdown, run `csasdown::add_arial()` for step-by-step instructions on how to proceed.
 
 ## Starting to write a Research Document
 
-To use csasdown from [RStudio](http://www.rstudio.com/products/rstudio/download/):
-
-1) Ensure that you have already installed LaTeX and are using the latest version of [RStudio](http://www.rstudio.com/products/rstudio/download/). You can use csasdown without RStudio. For example, you can write the Rmd files in your favourite text editor (e.g. [Atom](https://atom.io/), [Notepad++](https://notepad-plus-plus.org/)). But RStudio is probably the easiest tool for writing both R code and text in your Res Doc. 
+To use csasdown:
 
 2) Install the csasdown package: 
 
 ```r
-# install.packages("remotes")
-remotes::install_github("pbs-assess/csasdown")
+# install.packages("devtools")
+devtools::install_github("pbs-assess/csasdown")
 ```
 
-3) Run this line in your R console to create a new Res Doc from the template:
+3) Run this line in your R console to create a new Research Document from the built-in template:
 
 ```r
 rmarkdown::draft("index.Rmd", template = "resdoc", 
@@ -44,11 +35,11 @@ rmarkdown::draft("index.Rmd", template = "resdoc",
   package = "csasdown", create_dir = TRUE, edit = FALSE)
 ```
 
-Then look in the `index` folder. Rename it if you'd like.
+Then look in the `index` folder. Rename the folder if you'd like.
 
-## Day-to-day writing of a Res Doc
+## Day-to-day writing of a Research Document
 
-You need to edit the individual chapter R Markdown files to write your Res Doc. While writing, you should `git commit` your work frequently, after every major activity on your Res Doc. For example, every few paragraphs or section of text, and after major step of analysis development. You should `git push` at the end of each work session before you leave your computer or change task. For gentle novice-friendly guide to getting starting with using Git with R and RStudio, see <http://happygitwithr.com/>.
+You need to edit the individual chapter R Markdown files to write your Research Document. While writing, you should `git commit` your work frequently, after every major activity on your Research Document. For example, every few paragraphs or section of text, and after major step of analysis development. You should `git push` at the end of each work session before you leave your computer or change task. For gentle novice-friendly guide to getting starting with using Git with R and RStudio, see <http://happygitwithr.com/>.
 
 ## Rendering
 
@@ -58,7 +49,7 @@ To render your Res Doc into a PDF or Word document, open `index.Rmd` in RStudio 
 
 To change the output formats between PDF, Word, and gitbook look at the `output:` field in `index.Rmd`and comment-out the formats you don't want. You can include multiple.
 
-Alternatively, if you're not using RStudio, you can use this from the R console, assuming your have set the main directory (the one with the `index.Rmd` file) as your working directory:
+Alternatively, if you're not using RStudio, you can run this from the R console, assuming your have set the main directory (the one with the `index.Rmd` file) as your working directory:
 
 ```r
 bookdown::render_book("index.Rmd", csasdown::resdoc_pdf())
@@ -76,24 +67,24 @@ Run
 csasdown::add_resdoc_titlepage()
 ```
 
-if you want to add a CSAS .docx title page to the .docx file. Edit it first if you'd like.
+if you want to add a CSAS .docx title page to the .docx file or manually add this title page yourself after.
 
 ## Components
 
-The following components are ones you should edit to customize your Res Doc:
+The following components are ones you should edit to customize your Research Document:
 
 ### `_bookdown.yml`
 
-This is the main configuration file for your Res Doc. It determines what Rmd files are included in the output, and in what order. Arrange the order of your chapters in this file and ensure that the names match the names in your folders. If you add new chapters/sections, add them here.
+This is the main configuration file for your Research Document. It determines what .Rmd files are included in the output, and in what order. Arrange the order of your chapters in this file and ensure that the names match the names in your folders. If you add new chapters/sections, add them here.
 
 ### `index.Rmd`
 
 This file contains all the meta information that goes at the beginning of your
-document. You'll need to edit this to put your name on the first page, add the title of your Res Doc, etc.
+document. You'll need to edit this to put your name on the first page, add the title of your Research Document, etc.
 
 ### `01-chap1.Rmd`, `02-chap2.Rmd`, etc.
 
-These are the Rmd files for each chapter/section of your Res Doc. Write your Res Doc in these.
+These are the .Rmd files for each chapter/section of your report. Write your report in these.
 
 ### `bib/`
 
@@ -101,11 +92,11 @@ Store your bibliography (as BibTeX files) here. You might look at the [citr addi
 
 ### `csl/`
 
-Specific style files for bibliographies should be stored here. If you're writing a CSAS Res Doc, you'll want to use the included `csas.csl`, which is based on the CJFAS `.csl` file.
+Specific style files for bibliographies should be stored here. If you're writing a CSAS Research Document, you'll want to use the included `csas.csl`, which is based on the CJFAS (Canadian Journal of Fisheries and Aquatic Sciences) `.csl` file.
 
 ### `figure/` and `data/`
 
-Store your figures and data here and reference them in your R Markdown files. See the [bookdown book](https://bookdown.org/yihui/bookdown/) for details on cross-referencing items using R Markdown.
+Store pre-made figures and data here and reference them in your R Markdown files. See the [bookdown book](https://bookdown.org/yihui/bookdown/) for details on cross-referencing items using R Markdown.
 
 ## Related projects
 
