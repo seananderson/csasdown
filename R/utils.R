@@ -42,31 +42,6 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
   base
 }
 
-#' Creates an R Markdown gitbook Res Doc
-#'
-#' This is a function called in output in the YAML of the driver Rmd file
-#' to specify the creation of a webpage version of the resdoc.
-#'
-#' @param ... other arguments to [bookdown::gitbook()]
-#' @export
-#' @return A gitbook webpage
-#' @import bookdown
-resdoc_gitbook <- function(...) {
-  base <- gitbook(
-    split_by = "chapter+number",
-    config = list(toc = list(
-      collapse = "section",
-      before = '<li><a href="./"></a></li>',
-      after = '<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>',
-      ...
-    ))
-  )
-  # Mostly copied from knitr::render_sweave
-  base$knitr$opts_chunk$comment <- NA
-  base$knitr$opts_chunk$fig.align <- "center"
-  base
-}
-
 #' Creates an R Markdown Word Res Doc
 #'
 #' This is a function called in output in the YAML of the driver Rmd file
