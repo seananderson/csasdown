@@ -19,7 +19,7 @@
 #'  output: csasdown::resdoc_pdf
 #' }
 resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
-                       latex_engine = "xelatex", ...) {
+                       latex_engine = "pdflatex", ...) {
   base <- bookdown::pdf_book(
     template = "templates/csas.tex",
     toc = toc,
