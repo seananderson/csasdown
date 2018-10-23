@@ -8,18 +8,11 @@ delete "References" and replace it.
 -->
 
 # References {-}
-<!--
-This manually sets the header for this unnumbered chapter.
--->
+<!--This manually sets the header for this unnumbered chapter.-->
 \markboth{References}{References}
 
-<!--
-To create a hanging indent and spacing between entries.  These three lines may need to be removed for styles that don't require the hanging indent.
--->
-
-<!--
-\setlength{\parindent}{-0.20in}
-\setlength{\leftskip}{0.20in}
+\noindent
+\vspace{-2em}
+\setlength{\parindent}{-0.2in}
+\setlength{\leftskip}{0.2in}
 \setlength{\parskip}{8pt}
--->
-
