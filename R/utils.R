@@ -129,6 +129,14 @@ fix_envs <- function(x) {
   }
   x <- inject_refstepcounters(x)
 
+  # Need to remove hypertarget four references to appendices to work:
+  # rs_line <- grep("\\\\refstepcounter", x)
+  rs_line <- grep("\\\\hypertarget\\{app:", x)
+  x[rs_line + 0] <- gsub("hypertarget", 'label', x[rs_line + 0])
+  x[rs_line + 0] <- gsub("\\{%", '', x[rs_line + 0])
+  x[rs_line + 1] <- gsub("\\}$", '', x[rs_line + 1])
+  x[rs_line + 1] <- gsub("\\}.*\\}$", "}", x[rs_line + 1])
+
   x <- gsub("itemize\\}", "resdoclist\\}", x)
   x <- gsub("enumerate\\}", "resdoclist\\}", x)
 
