@@ -5,7 +5,7 @@
 \title{Creates an R Markdown PDF Res Doc}
 \usage{
 resdoc_pdf(toc = TRUE, toc_depth = 3, highlight = "default",
-  latex_engine = "xelatex", ...)
+  latex_engine = "pdflatex", ...)
 }
 \arguments{
 \item{toc}{A Boolean (\code{TRUE} or \code{FALSE}) specifying whether table of contents
