@@ -116,13 +116,7 @@ fix_envs <- function(x) {
     x[i] <- gsub("^\\\\chapter\\{", "\\\\section\\{", x[i])
   }
 
-  # uppercase sections:
-  # x <- gsub("(section\\{)([A-Za-z0-9\\\\ \\.,:\\(\\)-\\?\\!\\'\\}\\{]+)(\\}\\\\label)", "\\1\\U\\2\\L\\3", x, perl = TRUE)
-  # x <- gsub("(chapter\\{)([A-Za-z0-9\\\\ \\.,:\\(\\)-\\?\\!\\'\\}\\{]+)(\\}\\\\label)", "\\1\\U\\2\\L\\3", x, perl = TRUE)
-
   for (i in seq(appendix_line + 1, length(x))) {
-    # x[i] <- gsub("^\\\\subsubsection\\{", "\\\\appsubsubsection\\{", x[i])
-    # x[i] <- gsub("^\\\\subsection\\{", "\\\\appsubsection\\{", x[i])
     x[i] <- gsub("^\\\\section\\{", "\\\\appsection\\{", x[i])
     x[i] <- gsub("^\\\\chapter\\{",
       "\\\\starredchapter\\{APPENDIX~\\\\thechapter. ", x[i])
@@ -131,6 +125,7 @@ fix_envs <- function(x) {
 
   # Need to remove hypertarget four references to appendices to work:
   # rs_line <- grep("\\\\refstepcounter", x)
+  # FIXME: make more robust
   rs_line <- grep("\\\\hypertarget\\{app:", x)
   x[rs_line + 0] <- gsub("hypertarget", 'label', x[rs_line + 0])
   x[rs_line + 0] <- gsub("\\{%", '', x[rs_line + 0])
@@ -139,7 +134,6 @@ fix_envs <- function(x) {
 
   x <- gsub("itemize\\}", "resdoclist\\}", x)
   x <- gsub("enumerate\\}", "resdoclist\\}", x)
-
   x
 }
 
