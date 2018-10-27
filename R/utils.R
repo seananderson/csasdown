@@ -134,21 +134,8 @@ fix_envs <- function(x) {
 
   x <- gsub("itemize\\}", "resdoclist\\}", x)
   x <- gsub("enumerate\\}", "resdoclist\\}", x)
-
-  x <- gsub("Figure \\\\ref\\{", "Figure~\\\\ref{\\", x)
-  x <- gsub("Figures \\\\ref\\{", "Figures~\\\\ref{\\", x)
-  x <- gsub("Fig. \\\\ref\\{", "Fig.~\\\\ref{\\", x)
-  x <- gsub("Figs \\\\ref\\{", "Figs~\\\\ref{\\", x)
-  x <- gsub("Table \\\\ref\\{", "Table~\\\\ref{\\", x)
-  x <- gsub("Tables \\\\ref\\{", "Tables~\\\\ref{\\", x)
-  x <- gsub("Appendix \\\\ref\\{", "Appendix~\\\\ref{\\", x)
-  x <- gsub("Appendices \\\\ref\\{", "Appendices~\\\\ref{\\", x)
-  x <- gsub("Section \\\\ref\\{", "Section~\\\\ref{\\", x)
-  x <- gsub("Sections \\\\ref\\{", "Sections~\\\\ref{\\", x)
-  x <- gsub("Subsection \\\\ref\\{", "Subsection~\\\\ref{\\", x)
-  x <- gsub("Subsections \\\\ref\\{", "Subsections~\\\\ref{\\", x)
-  x <- gsub("Equation \\\\ref\\{", "Equation~\\\\ref{\\", x)
-  x <- gsub("Equations \\\\ref\\{", "Equations~\\\\ref{\\", x)
+  # Non-breaking spaces:
+  x <- gsub(" \\\\ref\\{", "~\\\\ref\\{", x)
 
   x
 }
