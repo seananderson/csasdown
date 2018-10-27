@@ -147,8 +147,8 @@ inject_refstepcounters <- function(x) {
   chpts <- grep("^\\\\starredchapter\\{", x)
   for (i in chpts) {
     x <- c(
-      x[seq(1, i - 2)],
-      "\\refstepcounter{chapter}",
+      x[seq(1, i - 3)],
+      paste0(x[i - 2], "\\clearpage\n\\refstepcounter{chapter}"),
       x[seq(i - 1, length(x))])
   }
   x
