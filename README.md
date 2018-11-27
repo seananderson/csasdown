@@ -52,7 +52,7 @@ To change the output formats between PDF, Word, and gitbook look at the `output:
 Alternatively, if you're not using RStudio, you can run this from the R console, assuming your have set the main directory (the one with the `index.Rmd` file) as your working directory:
 
 ```r
-bookdown::render_book("index.Rmd", csasdown::resdoc_pdf())
+bookdown::render_book("index.Rmd")
 ```
 
 The PDF or Word file of your Research Document will be deposited in the `_book/` directory.
