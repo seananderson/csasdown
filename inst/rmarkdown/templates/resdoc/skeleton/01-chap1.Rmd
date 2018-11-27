@@ -129,8 +129,9 @@ pkg <- c("dplyr", "ggplot2", "knitr", "bookdown", "devtools")
 new.pkg <- pkg[!(pkg %in% installed.packages())]
 # If there are any packages in the list that aren't installed,
 # install them
-if (length(new.pkg))
+if (length(new.pkg)) {
   install.packages(new.pkg, repos = "http://cran.rstudio.com")
+}
 library(csasdown)
 ```
 
@@ -144,9 +145,9 @@ The example we show here does the following:
 
 ```{r max_delays}
 library(dplyr)
-flights2 <- flights %>% 
+flights2 <- flights %>%
   select(carrier_name, arr_delay)
-max_delays <- flights2 %>% 
+max_delays <- flights2 %>%
   group_by(carrier_name) %>%
   summarize(max_arr_delay = max(arr_delay, na.rm = TRUE))
 ```
@@ -157,31 +158,20 @@ Within CSAS you should use the function `csasdown::csas_table()` instead. It jus
 
 ```{r maxdelays, results="asis"}
 library(knitr)
-csas_table(max_delays, 
-      col.names = c("Airline", "Max Arrival Delay"),
-      caption = "Maximum Delays by Airline")
+csas_table(max_delays,
+  col.names = c("Airline", "Max Arrival Delay"),
+  caption = "Maximum Delays by Airline"
+)
 ```
 
 The last two options make the table a little easier-to-read.
 
-We can further look into the properties of the largest value here for American Airlines Inc.  To do so, we can isolate the row corresponding to the arrival delay of 1539 minutes for American in our original `flights` dataset.
-
-```{r max_props}
-flights %>% 
-  filter(arr_delay == 1539, 
-         carrier_name == "American Airlines Inc.") %>%
-  select(-c(month, day, carrier, dest_name, hour, 
-            minute, carrier_name, arr_delay))
-```
-
-We see that the flight occurred on March 3rd and departed a little after 2 PM on its way to Dallas/Fort Worth.  Lastly, we show how we can visualize the arrival delay of all departing flights from Portland on March 3rd against time of departure.
+Let's make a plot of the data:
 
 ```{r march3plot, fig.height=3, fig.width=6}
 library(ggplot2)
-flights %>% 
-  filter(month == 3, day == 3) %>%
-  ggplot(aes(x = dep_time, 
-             y = arr_delay)) + 
+flights %>%
+  ggplot(aes(x = dep_time, y = arr_delay)) +
   geom_point()
 ```
 
@@ -194,3 +184,4 @@ flights %>%
 - Introduction to `dplyr` - <https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html>
 
 - `ggplot2` Documentation - <http://docs.ggplot2.org/current/>
+
