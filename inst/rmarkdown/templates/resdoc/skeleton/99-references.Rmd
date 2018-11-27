@@ -4,6 +4,8 @@ The bib chunk below must go last in this document according to how R Markdown re
 In general, you shouldn't need to edit this file.
 -->
 
+\clearpage
+
 # REFERENCES {-}
 <!--This manually sets the header for this unnumbered chapter.-->
 \markboth{References}{References}
