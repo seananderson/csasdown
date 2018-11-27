@@ -1,6 +1,4 @@
-# Mathematics and Science {#math-sci}
-
-## Math
+# MATHEMATICS {#math-sci}
 
 You can include most valid TeX math and it will render in all formats:
 

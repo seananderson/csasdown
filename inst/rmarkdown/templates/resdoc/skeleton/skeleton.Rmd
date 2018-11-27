@@ -19,12 +19,10 @@ abstract: |
 output:
  csasdown::resdoc_pdf
   # csasdown::resdoc_word
-
 type:
   res-doc
   # sr
   # sr-french
-
 # ------------
 # End of options to set
 knit: bookdown::render_book

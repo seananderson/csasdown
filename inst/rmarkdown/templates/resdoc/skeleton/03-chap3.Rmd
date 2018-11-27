@@ -2,13 +2,13 @@
 flights <- read.csv("data/flights.csv")
 ```
 
-# Tables, Graphics, References, and Labels {#ref-labels}
+# TABLES, GRAPHICS, REFERENCES, AND LABELS {#ref-labels}
 
-## Tables
+## TABLES
 
-By far the easiest way to present tables in your report is to store the contents of the table in a CSV or Excel file, then read that file in to your R Markdown document as a data frame. Then you can style the table with the `kable` function, or functions in the [kableExtra](https://cran.r-project.org/web/packages/kableExtra/index.html) pacakge. 
+By far the easiest way to present tables in your report is to store the contents of the table in a CSV or Excel file, then read that file in to your R Markdown document as a data frame. Then you can style the table with the `kable` function, or functions in the [kableExtra](https://cran.r-project.org/web/packages/kableExtra/index.html) pacakge. We recommend using `csasdown::csas_table()`, which simply passes some necessary arguments to `knitr::kable()` so that the tables will render correctly for CSAS.
 
-In addition to the tables that can be automatically generated from a data frame in R that you saw in [R Markdown Basics] using the `kable` function, you can also create tables using pandoc. (More information is available at <http://pandoc.org/README.html#tables>.)  This might be useful if you don't have values specifically stored in R, but you'd like to display them in table form.  Below is an example.  Pay careful attention to the alignment in the table and hyphens to create the rows and columns. Generally I don't recommend this approach of typing the table directly into your R Markdown document. 
+In addition to the tables that can be automatically generated from a data frame in R that you saw in [R Markdown Basics] using the `kable` function, you can also create tables using pandoc. (More information is available at <http://pandoc.org/README.html#tables>.)  This might be useful if you don't have values specifically stored in R, but you'd like to display them in table form.  Below is an example.  Pay careful attention to the alignment in the table and hyphens to create the rows and columns. Generally we don't recommend this approach of typing the table directly into your R Markdown document.
 
 ----------------------------------------------------------------------------------
   Factors                    Correlation between Parents & Child      Inherited
@@ -27,14 +27,12 @@ Table: (\#tab:inher) Correlation of Inheritance Factors for Parents and Child
 
 We can also create a link to the table by doing the following: Table \@ref(tab:inher).  If you go back to [Loading and exploring data] and look at the `kable` table, we can create a reference to this max delays table too: Table \@ref(tab:maxdelays). The addition of the `(\#tab:inher)` option to the end of the table caption allows us to then make a reference to Table `\@ref(tab:label)`. Note that this reference could appear anywhere throughout the document after the table has appeared.  
 
-<!-- We will next explore ways to create this label-ref link using figures. -->
-
 \clearpage
 
 <!-- clearpage ends the page, and also dumps out all floats.
   Floats are things like tables and figures. -->
 
-## Figures
+## FIGURES
 
 If your report has a lot of figures, _R Markdown_ might behave better for you than that other word processor. One perk is that it will automatically number the figures accordingly in each chapter. You'll also be able to create a label for each figure, add a caption, and then reference the figure in a way similar to what we saw with tables earlier.  If you label your figures, you can move the figures around and _R Markdown_ will automatically adjust the numbering for you.  No need for you to remember!  So that you don't have to get too far into LaTeX to do this, a couple R functions have been created for you to assist.  You'll see their use below.
 
@@ -46,17 +44,17 @@ If you need a graphic or tabular material to be part of the text, you can just p
 
 In the R chunk below, we will load in a picture stored as `uw.png` in our main directory.  We then give it the caption of "UW logo", the label of "uwlogo", and specify that this is a figure.  Make note of the different R chunk options that are given in the R Markdown file (not shown in the knitted document).
 
-```{r uwlogo, fig.cap="UW logo", eval=FALSE}
-include_graphics(path = "figure/uw.png")
+```{r example-fig, fig.cap="My caption"}
+plot(1:10)
 ```
 
-Here is a reference to the UW logo: Figure \@ref(fig:uwlogo).  Note the use of the `fig:` code here.  By naming the R chunk that contains the figure, we can then reference that figure later as done in the first sentence here.  We can also specify the caption for the figure via the R chunk option `fig.cap`.
+Here is a reference to the figure: Figure \@ref(fig:example-fig).  Note the use of the `fig:` code here.  By naming the R chunk that contains the figure, we can then reference that figure later as done in the first sentence here.  We can also specify the caption for the figure via the R chunk option `fig.cap`.
 
 \clearpage 
 
 <!-- starts a new page and stops trying to place floats such as tables and figures -->
 
-Below we will investigate how to save the output of an R plot and label it in a way similar to that done above.  Recall the `flights` dataset from Chapter \@ref(rmd-basics).  (Note that we've shown a different way to reference a section or chapter here.)  We will next explore a bar graph with the mean flight departure delays by airline from Portland for 2014.  Note also the use of the `scale` parameter which is discussed on the next page.
+Below we will investigate how to save the output of an R plot and label it in a way similar to that done above.  Recall the `flights` dataset from Section \@ref(rmd-basics).  (Note that we've shown a different way to reference a section here.)  We will next explore a bar graph with the mean flight departure delays by airline from Portland for 2014.  Note also the use of the `scale` parameter which is discussed on the next page.
 
 ```{r delaysboxplot, warnings=FALSE, messages=FALSE, fig.cap="Mean Delays by Airline", fig.width=6}
 flights %>% group_by(carrier) %>%
@@ -71,19 +69,11 @@ A table linking these carrier codes to airline names is available at <https://gi
 
 \clearpage
 
-Next, we will explore the use of the `out.extra` chunk option, which can be used to shrink or expand an image loaded from a file by specifying `"scale= "`. Here we use the mathematical graph stored in the "subdivision.pdf" file.
-
-```{r subd, results="asis", echo=FALSE, fig.cap="Subdiv. graph", out.extra="scale=0.75"}
-# include_graphics("figure/subdivision.pdf")
-```
-
-Here is a reference to this image: Figure \@ref(fig:subd).  Note that `echo=FALSE` is specified so that the R code is hidden in the document.
-
-## Footnotes and Endnotes
+## FOOTNOTES AND ENDNOTES
 
 You might want to footnote something. ^[footnote text] The footnote will be in a smaller font and placed appropriately. Endnotes work in much the same way. 
 
-## Bibliographies
+## BIBLIOGRAPHIES
 
 Of course you will need to cite things, and you will probably accumulate an armful of sources. There are a variety of tools available for creating a bibliography database (stored with the .bib extension).  In addition to BibTeX suggested below, you may want to consider using the free and easy-to-use tool called Zotero. Some Zotero documentation is at <http://libguides.reed.edu/citation/zotero>.  In addition, a tutorial is available from Middlebury College at <http://sites.middlebury.edu/zoteromiddlebury/>.
 

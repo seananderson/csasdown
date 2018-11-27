@@ -1,10 +1,7 @@
 <!--
 The bib chunk below must go last in this document according to how R Markdown renders.  More info is at http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html
--->
 
-<!-- 
-If you'd like to change the name of the bibliography to something else,
-delete "References" and replace it.
+In general, you shouldn't need to edit this file.
 -->
 
 # References {-}

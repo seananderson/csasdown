@@ -1,4 +1,4 @@
-# Introduction
+# INTRODUCTION
 
 Welcome to the R Markdown CSAS template. This template is based on (and in many places copied directly from) the huskydown R package, the thesisdown R package, and the CSAS LaTeX template. Hopefully it will provide a nicer interface for those that have never used TeX or LaTeX before. Using R Markdown will also allow you to easily keep track of your analyses in R chunks of code, with the resulting plots and output included as well. The hope is this R Markdown template gets you in the habit of doing reproducible research, which benefits you long-term as a researcher, but also will greatly help anyone that is trying to reproduce or build onto your results down the road.
 
@@ -6,13 +6,13 @@ Hopefully, you won't have much of a learning period to go through and you will r
 
 <!--  If you're still on the fence about using R Markdown, check out the resource for newbies available at <https://ismayc.github.io/rbasics-book/>.-->
 
-## Why use it?
+## WHY USE IT?
 
 R Markdown creates a simple and straightforward way to interface with the beauty of LaTeX.  Packages have been written in R to work directly with LaTeX to produce nicely formatting tables and paragraphs. In addition to creating a user friendly interface to LaTeX, R Markdown also allows you to read in your data, to analyze it and to visualize it using R functions, and also to provide the documentation and commentary on the results of your project.  Further, it allows for R results to be passed inline to the commentary of your results.  You'll see more on this later.
 
 <!--  Having your code and commentary all together in one place has a plethora of benefits! -->
 
-## Who should use it?
+## WHO SHOULD USE IT?
 
 Anyone who needs to use data analysis, math, tables, a lot of figures, complex cross-references, or who just cares about the final appearance of their document should use R Markdown. Of particular use should be anyone in the sciences, but the user-friendly nature of Markdown and its ability to keep track of and easily include figures, automatically generate a table of contents, index, references, table of figures, etc. should make it of great benefit to nearly anyone writing a CSAS Res Doc.
 
@@ -20,20 +20,15 @@ Anyone who needs to use data analysis, math, tables, a lot of figures, complex c
 The {#rmd-basics} text after the chapter declaration will allow us to link throughout the document back to the beginning of Chapter 1.  These labels will automatically be generated (if not specified) by changing the spaces to hyphens and capital letters to lowercase.  Look for the reference to this label at the beginning of Chapter 2.
 -->
 
-# R Markdown Basics {#rmd-basics}
+# R MARKDOWN BASICS {#rmd-basics}
 
 Here is a brief introduction into using _R Markdown_. _Markdown_ is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. _R Markdown_ provides the flexibility of _Markdown_ with the implementation of **R** input and output.  For more details on using _R Markdown_ see <http://rmarkdown.rstudio.com>.  
 
 Be careful with your spacing in _Markdown_ documents.  While whitespace largely is ignored, it does at times give _Markdown_ signals as to how to proceed.  As a habit, try to keep everything left aligned whenever possible, especially as you type a new paragraph.  In other words, there is no need to indent basic text in the Rmd document (in fact, it might cause your text to do funny things if you do).
 
-## Lists
+## LISTS
 
-It's easy to create a list.  It can be unordered like
-
-* Item 1
-* Item 2
-
-or it can be ordered like
+CSAS only allows ordered lists, such as:
 
 1. Item 1
 4. Item 2
@@ -48,7 +43,7 @@ To create a sublist, just indent the values a bit (at least four spaces or a tab
     - Item 3a
     - Item 3b
 
-## Line breaks
+## LINE BREAKS
 
 Make sure to add white space between lines if you'd like to start a new paragraph.  Look at what happens below in the outputted document if you don't:
 
@@ -61,7 +56,7 @@ Here is the first sentence.  Here is another sentence.  Here is the last sentenc
 
 This should be a new paragraph.
 
-## R chunks
+## R CHUNKS
 
 When you click the **Knit** button above a document will be generated that includes both content as well as the output of any embedded **R** code chunks within the document. You can embed an **R** code chunk like this (`cars` is a built-in **R** dataset):
 
@@ -69,7 +64,7 @@ When you click the **Knit** button above a document will be generated that inclu
 summary(cars)
 ```
 
-## Inline code
+## INLINE CODE
 
 If you'd like to put the results of your analysis directly into your discussion, add inline code like this:
 
@@ -87,7 +82,7 @@ Note the use of `>` here, which signifies a quotation environment that will be i
 
 As you see with `$2 \pi$` above, mathematics can be added by surrounding the mathematical text with dollar signs.  More examples of this are in [Mathematics and Science] if you uncomment the code in [Math].  
 
-## Including plots
+## INCLUDING PLOTS
 
 You can also embed plots.  For example, here is a way to use the base **R** graphics package to produce a plot using the built-in `pressure` dataset:
 
@@ -99,7 +94,7 @@ Note that the `echo=FALSE` parameter was added to the code chunk to prevent prin
 
 Another useful chunk option is the setting of `cache=TRUE` as you see here.  If document rendering becomes time consuming due to long computations or plots that are expensive to generate you can use knitr caching to improve performance.  Later in this file, you'll see a way to reference plots created in **R** or external figures.
 
-## Loading and exploring data
+## LOADING AND EXPLORING DATA
 
 Included in this template is a file called `flights.csv`.  This file includes a subset of the larger dataset of information about all flights that departed from Seattle and Portland in 2014.  More information about this dataset and its **R** package is available at <http://github.com/ismayc/pnwflights14>.  This subset includes only Portland flights and only rows that were complete with no missing values.  Merges were also done with the `airports` and `airlines` data sets in the `pnwflights14` package to get more descriptive airport and airline names.
 
@@ -136,7 +131,6 @@ new.pkg <- pkg[!(pkg %in% installed.packages())]
 # install them
 if (length(new.pkg))
   install.packages(new.pkg, repos = "http://cran.rstudio.com")
-# Load packages (huskydown will load all of the packages as well)
 library(csasdown)
 ```
 
@@ -159,14 +153,13 @@ max_delays <- flights2 %>%
 
 A useful function in the `knitr` package for making nice tables in _R Markdown_ is called `kable`.  It is much easier to use than manually entering values into a table by copying and pasting values into Excel or LaTeX.  This again goes to show how nice reproducible documents can be! (Note the use of `results="asis"`, which will produce the table instead of the code to create the table.)  The `caption.short` argument is used to include a shorter title to appear in the List of Tables.
 
-Within CSAS you should use the function `csasdown::csas_table()` instead. It just calls the function `kable()`, space say but it adds some default argument values that will make the tables render correctly in both LaTeX and in Word documents.
+Within CSAS you should use the function `csasdown::csas_table()` instead. It just calls the function `kable()`, but it adds some default argument values that will make the tables render correctly in both LaTeX and in Word documents.
 
 ```{r maxdelays, results="asis"}
 library(knitr)
 csas_table(max_delays, 
       col.names = c("Airline", "Max Arrival Delay"),
-      caption = "Maximum Delays by Airline",
-      caption.short = "Max Delays by Airline")
+      caption = "Maximum Delays by Airline")
 ```
 
 The last two options make the table a little easier-to-read.
@@ -192,7 +185,7 @@ flights %>%
   geom_point()
 ```
 
-## Additional resources
+## ADDITIONAL RESOURCES
 
 - _Markdown_ Cheatsheet - <https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet>
 
