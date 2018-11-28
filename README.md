@@ -4,6 +4,8 @@
 
 csasdown is an R package that uses the bookdown package to generate Canadian Science Advisory Secretariat (CSAS) Research Documents ("Res Docs") in PDF or Word format using R Markdown. It is based on Chester Ismay's thesisdown package and Ben Marwick's huskydown package.
 
+[Slides](https://www.dropbox.com/s/7m23mh3yfhk5ah8/csasdown-slides.pdf?dl=1)
+
 ## Initial setup
 
 Using csasdown has some prerequisites, such as Pandoc, LaTeX, and fonts. To compile PDF documents using R, you need to have Pandoc, LaTeX and several related packages installed. If you have a recent version of  [RStudio](http://www.rstudio.com/products/rstudio/download/), then you already have Pandoc and don't need to do anything more about that.
