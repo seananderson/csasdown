@@ -13,7 +13,7 @@ Using csasdown has some prerequisites, such as Pandoc, LaTeX, and fonts. To comp
 1) You will need to install LaTeX:
 
 ```r
-library(tinytex)
+install.packages("tinytex")
 tinytex::install_tinytex()
 ```
 
