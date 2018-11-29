@@ -109,7 +109,7 @@ fix_envs <- function(x) {
   )
   if (length(i3)) x <- x[-i3]
 
-  g <- grep("^\\\\Appendices$", x)
+  g <- grep("\\\\Appendices$", x)
   if (identical(length(g), 0L)){
     appendix_line <- length(x) - 1 # no appendix
   }else{
@@ -117,14 +117,14 @@ fix_envs <- function(x) {
   }
 
   for (i in seq(1, appendix_line)) {
-    x[i] <- gsub("^\\\\subsection\\{", "\\\\subsubsection\\{", x[i])
-    x[i] <- gsub("^\\\\section\\{", "\\\\subsection\\{", x[i])
-    x[i] <- gsub("^\\\\chapter\\{", "\\\\section\\{", x[i])
+    x[i] <- gsub("\\\\subsection\\{", "\\\\subsubsection\\{", x[i])
+    x[i] <- gsub("\\\\section\\{", "\\\\subsection\\{", x[i])
+    x[i] <- gsub("\\\\chapter\\{", "\\\\section\\{", x[i])
   }
 
   for (i in seq(appendix_line + 1, length(x))) {
-    x[i] <- gsub("^\\\\section\\{", "\\\\appsection\\{", x[i])
-    x[i] <- gsub("^\\\\chapter\\{",
+    x[i] <- gsub("\\\\section\\{", "\\\\appsection\\{", x[i])
+    x[i] <- gsub("\\\\chapter\\{",
       "\\\\starredchapter\\{APPENDIX~\\\\thechapter. ", x[i])
   }
   x <- inject_refstepcounters(x)
