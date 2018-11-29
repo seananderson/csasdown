@@ -10,11 +10,12 @@ csasdown is an R package that uses the bookdown package to generate Canadian Sci
 
 Using csasdown has some prerequisites, such as Pandoc, LaTeX, and fonts. To compile PDF documents using R, you need to have Pandoc, LaTeX and several related packages installed. If you have a recent version of  [RStudio](http://www.rstudio.com/products/rstudio/download/), then you already have Pandoc and don't need to do anything more about that.
 
-Next you will need to install LaTeX. After you have installed LaTeX, you will need to make sure you have the Arial font installed and available for LaTeX. This shouldn't be a problem for macOS or Linux. For Windows, after you've installed csasdown, run `csasdown::add_arial()` for step-by-step instructions on how to proceed.
+1) You will need to install LaTeX:
 
-## Starting to write a Research Document
-
-To use csasdown:
+```r
+library(tinytex)
+tinytex::install_tinytex()
+```
 
 2) Install the csasdown package: 
 
