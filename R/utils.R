@@ -62,24 +62,6 @@ resdoc_word <- function(...) {
   base
 }
 
-#' Creates an R Markdown epub Res Doc
-#'
-#' This is a function called in output in the YAML of the driver Rmd file
-#' to specify the creation of a epub version of the resdoc.
-#'
-#' @param ... other arguments to [bookdown::epub_book()]
-#' @import bookdown
-#' @export
-#' @return A ebook version of the resdoc. Not formatted to CSAS standards.
-resdoc_epub <- function(...) {
-  base <- epub_book(...)
-
-  # Mostly copied from knitr::render_sweave
-  base$knitr$opts_chunk$comment <- NA
-  base$knitr$opts_chunk$fig.align <- "center"
-  base
-}
-
 fix_envs <- function(x) {
   ## Change csas-style to use the sty file found in csasdown repo
   g <- grep("csas-style", x)
