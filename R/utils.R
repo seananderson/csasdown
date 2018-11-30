@@ -21,7 +21,7 @@
 resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
                        latex_engine = "pdflatex", ...) {
   base <- bookdown::pdf_book(
-    template = "templates/csas.tex",
+    template = system.file("csas-tex", "res-doc.tex", package = "csasdown"),
     toc = toc,
     toc_depth = toc_depth,
     highlight = highlight,
@@ -52,7 +52,8 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
 #' @return A Word Document based on the CSAS Res Doc template.
 resdoc_word <- function(...) {
   base <- word_document2(...,
-    reference_docx = "templates/RES2016-eng-content-only.docx"
+    reference_docx = system.file("csas-docx", "RES2016-eng-content-only.docx",
+      package = "csasdown")
   )
 
   # Mostly copied from knitr::render_sweave
