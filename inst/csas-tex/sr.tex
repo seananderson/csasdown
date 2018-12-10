@@ -1,0 +1,109 @@
+% Document setup
+\documentclass[11pt]{book}
+
+% Location of the csas-style repository: adjust path as needed
+\newcommand{\locRepo}{.}
+
+% Use the style file in the csas-style repository (sr.sty)
+\usepackage{\locRepo/sr}
+
+% Bibliography style file
+\bibliographystyle{../csas-style/res-doc}
+
+%%%% Commands for title page etc %%%%%
+
+% Publication year
+\newcommand{\rdYear}{2018}
+
+% Publication month
+\newcommand{\rdMonth}{October}
+
+% Approval date (default to publication year and month)
+\newcommand{\rdAppDate}{\rdMonth{} 23, \rdYear{}}
+
+% Approver (name\\position)
+\newcommand{\rdApp}{Carmel Lowe\\Regional Director}
+
+% Report number
+\newcommand{\rdNumber}{nnn}
+
+% Region
+\newcommand{\rdRegion}{Pacific Region}
+
+% Address
+\newcommand{\rdAddress}{Fisheries and Oceans Canada\\3190 Hammond Bay Road\\Nanaimo, BC V9T 6N7}
+
+% Phone
+\newcommand{\rdPhone}{(250) 756-7208}
+
+% Email
+\newcommand{\rdEmail}{csap@dfo-mpo.gc.ca}
+
+% Title
+\newcommand{\rdTitle}{Status of \fishName{} (\scienceName{}) in \assessYr{} and forecasts for \forecastYr{}}
+
+% French title
+\newcommand{\rdTitleFr}{\'{E}valuation des stocks de hareng du Pacifique (\emph{\scienceName{}}) en \assessYr{} et pr\'{e}visions pour \forecastYr{}}
+
+% Title short
+\newcommand{\rdTitleShort}{\fishName{}}
+
+%%%% End of title page commands %%%%%
+
+% Let it begin
+\begin{document}
+
+%%%% First page %%%%%
+
+<<setup, warning=FALSE, echo=FALSE, message=FALSE>>=
+
+# Make English or French figures
+plotEng <- FALSE
+
+# Run the example analysis
+source( file="R/example.R" )
+
+@
+
+% More custom variables
+<<variables, child='variables.rnw'>>=
+@
+
+% Start the first page
+\MakeFirstPage
+
+<<context, child='maindoc/1_context.rnw'>>=
+@
+
+<<background, child='maindoc/2_background.rnw'>>=
+@
+
+<<analysis, child='maindoc/3_analysis.rnw'>>=
+@
+
+<<conclusions, child='maindoc/4_conclusions.rnw'>>=
+@
+
+<<contributors, child='maindoc/5_contributors.rnw'>>=
+@
+
+% Generate the approval section
+\MakeApproval
+
+<<bibliography, child='maindoc/7_bibliography.rnw'>>=
+@
+
+<<tables, child='maindoc/8_tables.rnw'>>=
+@
+
+<<figures, child='maindoc/9_figures.rnw'>>=
+@
+
+% Generate the availability section
+\MakeAvailable
+
+<<appendix, child='maindoc/11_appendix.rnw'>>=
+@
+
+% Fin
+\end{document}
