@@ -1,4 +1,4 @@
-#' Creates an R Markdown PDF Res Doc
+#' Creates an R Markdown PDF with CSAS formatting
 #'
 #' This is a function called in output in the YAML of the driver Rmd file
 #' to specify using the CSAS LaTeX template and cls files.
@@ -14,6 +14,7 @@
 #' @param ... other arguments to [bookdown::pdf_book()].
 #' @return A modified `pdf_document` based on the CSAS LaTeX template.
 #' @import bookdown
+#' @rdname csas_pdf
 #' @examples
 #' \dontrun{
 #'  output: csasdown::resdoc_pdf
@@ -42,12 +43,15 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
   base
 }
 
-#' Creates an R Markdown Word Res Doc
+#' Creates an R Markdown Word CSAS-formatted document
 #'
 #' This is a function called in output in the YAML of the driver Rmd file
-#' to specify the creation of a Microsoft Word version of the resdoc.
+#' to specify the creation of a Microsoft Word version of the Research
+#' Document or Science Response.
+#'
 #' @param ... other arguments to [bookdown::word_document2()]
 #' @import bookdown
+#' @rdname csas_docx
 #' @export
 #' @return A Word Document based on the CSAS Res Doc template.
 resdoc_word <- function(...) {
@@ -57,6 +61,35 @@ resdoc_word <- function(...) {
   )
 
   # Mostly copied from knitr::render_sweave
+  base$knitr$opts_chunk$comment <- NA
+  base$knitr$opts_chunk$fig.align <- "center"
+  base
+}
+
+#' @export
+#' @rdname csas_pdf
+sr_pdf <- function(latex_engine = "pdflatex", ...) {
+  base <- bookdown::pdf_book(
+    template = system.file("csas-tex", "sr.tex", package = "csasdown"),
+    keep_tex = TRUE,
+    pandoc_args = c("--top-level-division=chapter", "--wrap=none"),
+    latex_engine = latex_engine,
+    ...
+  )
+  base$knitr$opts_chunk$comment <- NA
+  old_opt <- getOption("bookdown.post.latex")
+  options(bookdown.post.latex = fix_envs)
+  on.exit(options(bookdown.post.late = old_opt))
+  base
+}
+
+#' @export
+#' @rdname csas_docx
+sr_word <- function(...) {
+  base <- word_document2(...,
+    reference_docx = system.file("csas-docx", "RES2016-eng-content-only.docx",
+      package = "csasdown")
+  )
   base$knitr$opts_chunk$comment <- NA
   base$knitr$opts_chunk$fig.align <- "center"
   base
@@ -228,56 +261,3 @@ add_arial <- function() {
   system("initexmf --mkmaps")
 }
 
-#' Creates an R Markdown PDF SR
-#'
-#' This is a function called in output in the YAML of the driver Rmd file
-#' to specify using the CSAS LaTeX template and cls files.
-#'
-#' @export
-#' @param latex_engine LaTeX engine.
-#' @param ... other arguments to [bookdown::pdf_book()].
-#' @return A modified `pdf_document` based on the CSAS LaTeX template.
-#' @import bookdown
-#' @examples
-#' \dontrun{
-#'  output: csasdown::sr_pdf
-#' }
-sr_pdf <- function(latex_engine = "pdflatex", ...) {
-  base <- bookdown::pdf_book(
-    template = system.file("sr-tex", "sr.tex", package = "csasdown"),
-    keep_tex = TRUE,
-    pandoc_args = c("--top-level-division=chapter", "--wrap=none"),
-    latex_engine = latex_engine,
-    ...
-  )
-
-  # Mostly copied from knitr::render_sweave
-  base$knitr$opts_chunk$comment <- NA
-  # base$knitr$opts_chunk$fig.align <- "center"
-
-  old_opt <- getOption("bookdown.post.latex")
-  options(bookdown.post.latex = fix_envs)
-  on.exit(options(bookdown.post.late = old_opt))
-
-  base
-}
-
-#' Creates an R Markdown Word SR
-#'
-#' This is a function called in output in the YAML of the driver Rmd file
-#' to specify the creation of a Microsoft Word version of the SR.
-#' @param ... other arguments to [bookdown::word_document2()]
-#' @import bookdown
-#' @export
-#' @return A Word Document based on the CSAS SR template.
-sr_word <- function(...) {
-  base <- word_document2(...,
-                         reference_docx = system.file("csas-docx", "RES2016-eng-content-only.docx",
-                                                      package = "csasdown")
-  )
-
-  # Mostly copied from knitr::render_sweave
-  base$knitr$opts_chunk$comment <- NA
-  base$knitr$opts_chunk$fig.align <- "center"
-  base
-}
