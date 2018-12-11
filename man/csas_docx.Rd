@@ -5,11 +5,13 @@
 \alias{sr_word}
 \title{Creates an R Markdown Word CSAS-formatted document}
 \usage{
-resdoc_word(...)
+resdoc_word(french = FALSE, ...)
 
-sr_word(...)
+sr_word(french = FALSE, ...)
 }
 \arguments{
+\item{french}{Logical for French (vs. English).}
+
 \item{...}{other arguments to \code{\link[bookdown:word_document2]{bookdown::word_document2()}}}
 }
 \value{

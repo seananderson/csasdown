@@ -49,15 +49,16 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
 #' to specify the creation of a Microsoft Word version of the Research
 #' Document or Science Response.
 #'
+#' @param french Logical for French (vs. English).
 #' @param ... other arguments to [bookdown::word_document2()]
 #' @import bookdown
 #' @rdname csas_docx
 #' @export
 #' @return A Word Document based on the CSAS Res Doc template.
-resdoc_word <- function(...) {
+resdoc_word <- function(french = FALSE, ...) {
+  file <- if (french) "RES2016-fra.docx" else "RES2016-eng-content-only.docx"
   base <- word_document2(...,
-    reference_docx = system.file("csas-docx", "RES2016-eng-content-only.docx",
-      package = "csasdown")
+    reference_docx = system.file("csas-docx", file, package = "csasdown")
   )
 
   # Mostly copied from knitr::render_sweave
@@ -88,8 +89,7 @@ sr_pdf <- function(latex_engine = "pdflatex", ...) {
 sr_word <- function(french = FALSE, ...) {
   file <- if (french) "SRR-RS2016-fra.docx" else "SRR-RS2016-eng.docx"
   base <- word_document2(...,
-    reference_docx = system.file("csas-docx", file,
-      package = "csasdown")
+    reference_docx = system.file("csas-docx", file, package = "csasdown")
   )
   base$knitr$opts_chunk$comment <- NA
   base$knitr$opts_chunk$fig.align <- "center"
