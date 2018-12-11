@@ -22,7 +22,8 @@ phone: (555) 555-5555
 email: insert-local-csas-email-here@dfo-mpo.gc.ca
 output:
  csasdown::sr_pdf
-  # csasdown::sr_word
+  # csasdown::sr_word:
+    # french: false
 type:
   sr
 # ------------

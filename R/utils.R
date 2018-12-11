@@ -85,9 +85,10 @@ sr_pdf <- function(latex_engine = "pdflatex", ...) {
 
 #' @export
 #' @rdname csas_docx
-sr_word <- function(...) {
+sr_word <- function(french = FALSE, ...) {
+  file <- if (french) "SRR-RS2016-fra.docx" else "SRR-RS2016-eng.docx"
   base <- word_document2(...,
-    reference_docx = system.file("csas-docx", "SRR-RS2016-eng.docx",
+    reference_docx = system.file("csas-docx", file,
       package = "csasdown")
   )
   base$knitr$opts_chunk$comment <- NA
