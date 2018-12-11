@@ -87,7 +87,7 @@ sr_pdf <- function(latex_engine = "pdflatex", ...) {
 #' @rdname csas_docx
 sr_word <- function(...) {
   base <- word_document2(...,
-    reference_docx = system.file("csas-docx", "RES2016-eng-content-only.docx",
+    reference_docx = system.file("csas-docx", "SRR-RS2016-eng.docx",
       package = "csasdown")
   )
   base$knitr$opts_chunk$comment <- NA
