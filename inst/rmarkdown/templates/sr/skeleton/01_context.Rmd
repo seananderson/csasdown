@@ -1,0 +1,30 @@
+# Context
+
+Mandatory section and title.
+
+## Note on this section
+
+The context section must give the readers a clear idea of the issue being addressed and of the history of how the need for this process came about (e.g., the rationale for using the Science Response Process in this specific case).
+It should include the formal request/question from the client, the response deadline, as well as a short summary of the conclusion (one or two sentences).
+
+The rationale for the approach taken to answer the request can be described (e.g., specific scientific questions that were addressed).
+This section could also include information on previous related meetings and advice on which this process is based.
+
+This section is not intended for detailed background information on the science issues themselves, but rather gives the bigger picture.
+At the end of this section, the reader will have a clear understanding of the reason to produce the report, will know how this specific report fits in the sequence of past advice, and what advice is expected to be produced in the future on this specific issue.
+
+If the objective of the process was to comment on a specific report (e.g., Environmental Assessment report produced by a proponent in the context of the Canadian Environmental Assessment Act) then the relevant link to the report that was the subject of the review could be identified in this section.
+
+This section will be posted in HTML format on the CSAS website followed by the link to the full PDF version of the publication.
+
+## Mandatory paragraph
+
+[The meeting date and title must be exactly as they appear on the Fisheries and Oceans Science Advisory Schedule.
+Be sure to use the default text in the French template for the translation as well as the meeting information on the French version of the schedule.]
+
+This Science Response Report results from the Science Response Process [meeting date and title (e.g., of \rdMonth{} \rdYear{} on the \rdTitle{})].
+
+[Add the following sentence if there are other associated publications that will be posted on the schedule.]
+
+Additional publications from this meeting will be posted on the \href{http://www.isdm-gdsi.gc.ca/csas-sccs/applications/events-evenements/index-eng.asp}{DFO Science Advisory Schedule} as they become available.
+

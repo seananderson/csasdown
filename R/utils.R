@@ -1,4 +1,4 @@
-#' Creates an R Markdown PDF Res Doc
+#' Creates an R Markdown PDF with CSAS formatting
 #'
 #' This is a function called in output in the YAML of the driver Rmd file
 #' to specify using the CSAS LaTeX template and cls files.
@@ -14,6 +14,7 @@
 #' @param ... other arguments to [bookdown::pdf_book()].
 #' @return A modified `pdf_document` based on the CSAS LaTeX template.
 #' @import bookdown
+#' @rdname csas_pdf
 #' @examples
 #' \dontrun{
 #'  output: csasdown::resdoc_pdf
@@ -42,21 +43,54 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
   base
 }
 
-#' Creates an R Markdown Word Res Doc
+#' Creates an R Markdown Word CSAS-formatted document
 #'
 #' This is a function called in output in the YAML of the driver Rmd file
-#' to specify the creation of a Microsoft Word version of the resdoc.
+#' to specify the creation of a Microsoft Word version of the Research
+#' Document or Science Response.
+#'
+#' @param french Logical for French (vs. English).
 #' @param ... other arguments to [bookdown::word_document2()]
 #' @import bookdown
+#' @rdname csas_docx
 #' @export
 #' @return A Word Document based on the CSAS Res Doc template.
-resdoc_word <- function(...) {
+resdoc_word <- function(french = FALSE, ...) {
+  file <- if (french) "RES2016-fra.docx" else "RES2016-eng-content-only.docx"
   base <- word_document2(...,
-    reference_docx = system.file("csas-docx", "RES2016-eng-content-only.docx",
-      package = "csasdown")
+    reference_docx = system.file("csas-docx", file, package = "csasdown")
   )
 
   # Mostly copied from knitr::render_sweave
+  base$knitr$opts_chunk$comment <- NA
+  base$knitr$opts_chunk$fig.align <- "center"
+  base
+}
+
+#' @export
+#' @rdname csas_pdf
+sr_pdf <- function(latex_engine = "pdflatex", ...) {
+  base <- bookdown::pdf_book(
+    template = system.file("csas-tex", "sr.tex", package = "csasdown"),
+    keep_tex = TRUE,
+    pandoc_args = c("--top-level-division=chapter", "--wrap=none"),
+    latex_engine = latex_engine,
+    ...
+  )
+  base$knitr$opts_chunk$comment <- NA
+  old_opt <- getOption("bookdown.post.latex")
+  options(bookdown.post.latex = fix_envs)
+  on.exit(options(bookdown.post.late = old_opt))
+  base
+}
+
+#' @export
+#' @rdname csas_docx
+sr_word <- function(french = FALSE, ...) {
+  file <- if (french) "SRR-RS2016-fra.docx" else "SRR-RS2016-eng.docx"
+  base <- word_document2(...,
+    reference_docx = system.file("csas-docx", file, package = "csasdown")
+  )
   base$knitr$opts_chunk$comment <- NA
   base$knitr$opts_chunk$fig.align <- "center"
   base
@@ -72,15 +106,17 @@ fix_envs <- function(x) {
   ## Find beginning and end of the abstract text
   abs_beg <- grep("begin_abstract_csasdown", x)
   abs_end <- grep("end_abstract_csasdown", x)
-  if (length(abs_beg) == 0L || length(abs_end) == 0L)
-    stop("`% begin_abstract_csasdown` or `% end_abstract_csasdown`` not found ",
+  if (length(abs_beg) == 0L || length(abs_end) == 0L) {
+    warning("`% begin_abstract_csasdown` or `% end_abstract_csasdown`` not found ",
       "in `templates/csas.tex`", call. = FALSE)
-  abs_vec <- x[seq(abs_beg + 1, abs_end - 1)]
-  abs_vec <- abs_vec[abs_vec != ""]
-  abstract <- paste(abs_vec, collapse = " \\break \\break ")
-  first_part <- x[seq_len(abs_beg - 1)]
-  second_part <- x[seq(abs_end + 1, length(x))]
-  x <- c(first_part, abstract, second_part)
+  } else {
+    abs_vec <- x[seq(abs_beg + 1, abs_end - 1)]
+    abs_vec <- abs_vec[abs_vec != ""]
+    abstract <- paste(abs_vec, collapse = " \\break \\break ")
+    first_part <- x[seq_len(abs_beg - 1)]
+    second_part <- x[seq(abs_end + 1, length(x))]
+    x <- c(first_part, abstract, second_part)
+  }
 
   beg_reg <- "^\\s*\\\\begin\\{.*\\}"
   end_reg <- "^\\s*\\\\end\\{.*\\}"
@@ -227,3 +263,4 @@ add_arial <- function() {
 
   system("initexmf --mkmaps")
 }
+

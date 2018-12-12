@@ -1,0 +1,69 @@
+---
+title: "Title Here (*Latin Species Name*)"
+title_short: "Short Title"
+title_other: "Titre Ici (*Nom Latin*)"
+year: 20XX
+month: January
+report_number: nnn
+contributors: |
+  First Last Affiliation
+approver: Approver Name\\Regional Director
+approval_year: 20XX
+approval_month: January
+approval_day: 00
+region: Pacific Region
+address: |
+  ^1^Pacific Biological Station\
+     Fisheries and Oceans Canada, 3190 Hammond Bay Road\
+     Nanaimo, British Columbia, V9T 6N7, Canada\
+  ^2^Far, far away\
+     Another Galaxy
+phone: (555) 555-5555
+email: insert-local-csas-email-here@dfo-mpo.gc.ca
+output:
+ csasdown::sr_pdf
+  # csasdown::sr_word:
+    # french: false
+type:
+  sr
+# ------------
+# End of options to set
+knit: bookdown::render_book
+site: bookdown::bookdown_site
+link-citations: true
+bibliography: bib/refs.bib
+csl: csl/csas.csl
+lot: true
+lof: true
+# Any extra LaTeX code for the header:
+# header-includes:
+# - \usepackage{tikz}
+---
+
+```{r setup, echo=FALSE, cache=FALSE, message=FALSE, results='hide', warning=FALSE}
+# adjust as desired:
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  comment = "#>",
+  fig.path = if (knitr:::is_latex_output()) "knitr-figs-pdf/" else "knitr-figs-docx/",
+  cache.path = if (knitr:::is_latex_output()) "knitr-cache-tex/" else "knitr-cache-docx/",
+  fig.asp = 0.618,
+  fig.width = 9,
+  out.width = "6in",
+  echo = FALSE,
+#  autodep = TRUE,
+#  cache = TRUE,
+  cache.comments = FALSE,
+  dev = if (knitr:::is_latex_output()) "png" else "png",
+  dpi = 180,
+  fig.align = "center",
+  fig.pos = "htb"
+)
+```
+
+```{r load-libraries, cache=FALSE}
+# add other packages here:
+library(csasdown)
+```

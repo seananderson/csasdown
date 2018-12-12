@@ -71,3 +71,52 @@ test_that("bookdown::render_book generates the .docx of the resdoc", {
 
 add_resdoc_titlepage()
 expect_true(file.exists(file.path(testing_path, "index/_book/resdoc.docx")))
+
+# ----------------------------------------------------
+# SR:
+
+# create temporary directory in file system
+testing_path <- paste0(tempdir(), "/testing_directory_sr")
+dir.create(testing_path, showWarnings = FALSE)
+
+context("create the SR directories and files")
+
+if (getwd() != testing_path) setwd(testing_path)
+if (dir.exists("index")) unlink("index", recursive = TRUE)
+suppressMessages(rmarkdown::draft("index.Rmd",
+  system.file("rmarkdown",
+  "templates",
+  "sr",
+  package = "csasdown"
+  ),
+  create_dir = TRUE,
+  edit = FALSE
+))
+
+if (getwd() != file.path(testing_path, "index"))
+  setwd(file.path(testing_path, "index"))
+
+context("render into a PDF")
+
+expect_warning({ # warning expected because of currently missing abstract
+  bookdown::render_book("index.Rmd",
+    csasdown::sr_pdf(),
+    envir = globalenv()
+  )})
+
+test_that("bookdown::render_book generates the PDF of the SR", {
+  expect_true(file.exists(file.path(testing_path, "index/_book/sr.pdf")))
+})
+
+context("render into a .docx")
+
+suppressWarnings(bookdown::render_book("index.Rmd",
+  csasdown::sr_word(),
+  envir = globalenv()
+))
+
+test_that("bookdown::render_book generates the .docx of the SR", {
+  expect_true(file.exists(file.path(testing_path, "index/_book/sr.docx")))
+})
+
+expect_true(file.exists(file.path(testing_path, "index/_book/sr.docx")))

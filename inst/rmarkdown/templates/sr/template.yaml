@@ -1,0 +1,4 @@
+name:  CSAS-SR
+description: >
+  Template for creating a CSAS Science Response using R Markdown using the R
+  bookdown package.
