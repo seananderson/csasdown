@@ -96,6 +96,23 @@ sr_word <- function(french = FALSE, ...) {
   base
 }
 
+#' @export
+#' @rdname csas_pdf
+tr_pdf <- function(latex_engine = "pdflatex", ...) {
+  base <- bookdown::pdf_book(
+    template = system.file("csas-tex", "tech-report.tex", package = "csasdown"),
+    keep_tex = TRUE,
+    pandoc_args = c("--top-level-division=chapter", "--wrap=none"),
+    latex_engine = latex_engine,
+    ...
+  )
+  base$knitr$opts_chunk$comment <- NA
+  old_opt <- getOption("bookdown.post.latex")
+  options(bookdown.post.latex = fix_envs)
+  on.exit(options(bookdown.post.late = old_opt))
+  base
+}
+
 fix_envs <- function(x) {
   ## Change csas-style to use the sty file found in csasdown repo
   g <- grep("csas-style", x)
