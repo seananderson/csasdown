@@ -98,7 +98,7 @@ sr_word <- function(french = FALSE, ...) {
 
 #' @export
 #' @rdname csas_pdf
-tr_pdf <- function(latex_engine = "pdflatex", ...) {
+techreport_pdf <- function(latex_engine = "pdflatex", ...) {
   base <- bookdown::pdf_book(
     template = system.file("csas-tex", "tech-report.tex", package = "csasdown"),
     keep_tex = TRUE,
