@@ -108,7 +108,7 @@ test_that("bookdown::render_book generates the PDF of the SR", {
   expect_true(file.exists(file.path(testing_path, "index/_book/sr.pdf")))
 })
 
-context("render into a .docx")
+context("render SR into a .docx")
 
 suppressWarnings(bookdown::render_book("index.Rmd",
   csasdown::sr_word(),
@@ -149,7 +149,7 @@ context("render into a PDF")
 
 expect_warning({ # warning expected because of currently missing abstract
   bookdown::render_book("index.Rmd",
-    csasdown::tr_pdf(),
+    csasdown::techreport_pdf(),
     envir = globalenv()
   )})
 
@@ -157,3 +157,15 @@ test_that("bookdown::render_book generates the PDF of the SR", {
   expect_true(file.exists(file.path(testing_path, "index/_book/sr.pdf")))
 })
 
+context("render TR into a .docx")
+
+suppressWarnings(bookdown::render_book("index.Rmd",
+  csasdown::techreport_word(),
+  envir = globalenv()
+))
+
+test_that("bookdown::render_book generates the .docx of the techreport", {
+  expect_true(file.exists(file.path(testing_path, "index/_book/techreport.docx")))
+})
+
+expect_true(file.exists(file.path(testing_path, "index/_book/techreport.docx")))
