@@ -3,11 +3,14 @@
 \name{resdoc_word}
 \alias{resdoc_word}
 \alias{sr_word}
+\alias{techreport_word}
 \title{Creates an R Markdown Word CSAS-formatted document}
 \usage{
 resdoc_word(french = FALSE, ...)
 
 sr_word(french = FALSE, ...)
+
+techreport_word(french = FALSE, ...)
 }
 \arguments{
 \item{french}{Logical for French (vs. English).}
