@@ -154,7 +154,7 @@ expect_warning({ # warning expected because of currently missing abstract
   )})
 
 test_that("bookdown::render_book generates the PDF of the SR", {
-  expect_true(file.exists(file.path(testing_path, "index/_book/sr.pdf")))
+  expect_true(file.exists(file.path(testing_path, "index/_book/techreport.pdf")))
 })
 
 context("render TR into a .docx")
