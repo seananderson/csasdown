@@ -97,6 +97,19 @@ sr_word <- function(french = FALSE, ...) {
 }
 
 #' @export
+#' @rdname csas_docx
+techreport_word <- function(french = FALSE, ...) {
+  file <- if (french) "PRO-CR2016-fra.docx" else "PRO-CR2016-eng.docx"
+  base <- word_document2(...,
+    reference_docx = system.file("csas-docx", file, package = "csasdown")
+  )
+  base$knitr$opts_chunk$comment <- NA
+  base$knitr$opts_chunk$fig.align <- "center"
+  base
+}
+
+
+#' @export
 #' @rdname csas_pdf
 techreport_pdf <- function(latex_engine = "pdflatex", ...) {
   base <- bookdown::pdf_book(
