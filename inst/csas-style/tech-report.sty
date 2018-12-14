@@ -1,0 +1,328 @@
+%%%%% Load packages %%%%%
+\RequirePackage{fancyhdr}  % Make nice headers
+\RequirePackage{graphicx}  % Import figures
+\RequirePackage{booktabs}  % Nicer table formatting
+\RequirePackage{textcomp}  % Prevents two warnings in gensymb
+\RequirePackage{gensymb}  % Symbols for math and text
+\RequirePackage{lineno}  % Number lines (editing)
+\RequirePackage{longtable}  % Long tables (multi-page)
+\RequirePackage{amsmath}  % Math facilities
+\RequirePackage{microtype}  % Better type handling
+\RequirePackage{url}  % Format website addresses
+\RequirePackage{setspace}  % Extra space between lines (editing)
+\RequirePackage{lastpage}  % Count total number of pages
+\RequirePackage[nottoc, notbib]{tocbibind}  % Add index to TOC
+\RequirePackage{hanging}  % Hanging paragraphs (i.e., citations)
+\RequirePackage{placeins}  % Better float placement
+\RequirePackage{flafter}  % Floats after cross-references
+\RequirePackage{sectsty}  % Change section formatting
+\RequirePackage[english]{babel}  % Typographics and hyphenation
+\RequirePackage{titlecaps}  %  Case options for title
+\RequirePackage{textcase}  % More case options for title
+\RequirePackage[labelsep=period]{caption}  % Dots in captions
+\RequirePackage{lmodern}  % Nicer (c) symbol
+\RequirePackage{calc}  % Text length calculations
+\RequirePackage[authoryear]{natbib}  % Citations
+\RequirePackage{hyperref}  % Better cross references
+\RequirePackage{letltxmacro}  % Enable/disable footnotes
+\RequirePackage{pdfpages}  % Include PDF documents
+\RequirePackage[T1]{fontenc}  % Allow french characters (Resume)
+\RequirePackage{doi}  % DOI hyperlinks in references
+\RequirePackage{tikz}  % >% Flow diagram
+\RequirePackage[title]{appendix}  % More appendix options
+\RequirePackage{subcaption}  % Panels within a figure
+
+% Hyper links
+\hypersetup{colorlinks,
+            plainpages=true,
+            linkcolor=black,
+            citecolor=black,
+            urlcolor=blue }
+
+%%%%% Parameters %%%%%
+% General layout parameters for all pages:
+\renewcommand{\topfraction}{0.9}  % Max fraction of floats at top
+\renewcommand{\bottomfraction}{0.8}  % Max fraction of floats at bottom
+
+% Parameters for text pages (not float pages):
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}  % 2 may work better
+\setcounter{dbltopnumber}{2}  % for 2-column pages
+\renewcommand{\dbltopfraction}{0.9}  % Fit big float above 2-col. text
+\renewcommand{\textfraction}{0.07}  % Allow minimal text w. figs
+
+% Parameters for float pages (not text pages):
+\renewcommand{\floatpagefraction}{0.85}  % Require fuller float pages
+\renewcommand{\dblfloatpagefraction}{0.7}  % Require fuller float pages
+
+% Line numbers (e.g., for drafts) don't like equations: this is a fix
+\newcommand*\patchAmsMathEnvironmentForLineno[1]{%
+  \expandafter\let\csname old#1\expandafter\endcsname\csname #1\endcsname
+  \expandafter\let\csname oldend#1\expandafter\endcsname\csname end#1\endcsname
+  \renewenvironment{#1}%
+     {\linenomath\csname old#1\endcsname}%
+     {\csname oldend#1\endcsname\endlinenomath}}%
+\newcommand*\patchBothAmsMathEnvironmentsForLineno[1]{%
+  \patchAmsMathEnvironmentForLineno{#1}%
+  \patchAmsMathEnvironmentForLineno{#1*}}%
+\AtBeginDocument{%
+\patchBothAmsMathEnvironmentsForLineno{equation}%
+\patchBothAmsMathEnvironmentsForLineno{align}%
+\patchBothAmsMathEnvironmentsForLineno{flalign}%
+\patchBothAmsMathEnvironmentsForLineno{alignat}%
+\patchBothAmsMathEnvironmentsForLineno{gather}%
+\patchBothAmsMathEnvironmentsForLineno{multline}%
+}
+
+% Section formatting (in titles only, not x-refs or toc)
+%\makeatletter
+%\def\@seccntformat#1{\@ifundefined{#1@cntformat}%
+%   {\csname the#1\endcsname}%  default
+%   {\csname #1@cntformat\endcsname}}%  enable individual control
+%\newcommand{\section@cntformat}{\thesection.0.\ \ }% Trailing zero and dot
+%\newcommand{\subsection@cntformat}{\thesubsection.\ \ }% Trailing dot
+%\newcommand{\subsubsection@cntformat}{\thesubsubsection.\ \ }% Trailing dot
+%\makeatother
+
+% Update definitions
+\renewcommand{\headrulewidth}{0pt}  % No header line
+\setlength{\headheight}{14.5pt}
+\bibpunct{(}{)}{;}{a}{}{,}  % Punctuation for citations
+\fancyhead{}  % No header
+\sloppy  % No text in margins (line length)
+%\setlength\parindent{1em}  % Paragraph indent
+\sectionfont{\normalsize\centering\noindent}  % Section formatting
+\subsectionfont{\normalsize\raggedright\noindent}  % Subsection formatting
+
+% Yes, ugly, but that's the rules (Or is it? Might not be required)
+%\raggedright  % Ragged right
+%\raggedbottom  % Ragged bottom
+%\setlength\parindent{0pt}  % No indent paragraphs
+%\parskip 2ex  % Increase white space between paragraphs
+%\captionsetup{justification=raggedright, singlelinecheck=off}
+%\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+
+% Even uglier, but that's the rules (Or is it? Might not be required)
+%\RequirePackage{helvet}  % Font for text
+%\renewcommand{\familydefault}{\sfdefault}
+
+% Flow diagram options
+\usetikzlibrary{shapes, arrows.meta, shapes.geometric, positioning, backgrounds}
+\tikzstyle{terminal} = [draw, rectangle, text width=9.5em, rounded corners]
+\tikzstyle{decision} = [draw, diamond, text width=9.5em]
+\tikzstyle{process} = [draw, rectangle, text width=9.5em]
+\tikzstyle{inout} = [draw, trapezium, text width=9.25em, trapezium left angle=85, trapezium right angle=95]
+\tikzstyle{line} = [draw, -{Latex[length=2mm, width=1.5mm]}, thick]
+
+% Ensure auto-generated sections are uppercase
+\addto\captionsenglish{\renewcommand{\contentsname}{CONTENTS}}
+\addto\captionsenglish{\renewcommand{\refname}{REFERENCES}}
+\addto\captionsenglish{\renewcommand{\indexname}{INDEX}}
+\addto\captionsenglish{\renewcommand{\appendixname}{APPENDIX}}
+
+% Arguments for frames around figures (fbox)
+\setlength{\fboxsep}{0pt}  % Distance between frame and content
+\setlength{\fboxrule}{1pt}  % Thickness of the line
+
+% Add 'appendix' to \autoref labels (this doesn't seem to work)
+\newcommand*{\Appendixautorefname}{appendix}
+
+% Words that stay lowercase (for title case)
+\Addlcwords{a and as but etc for if in is of on the to with pallasii}
+
+% Better treatment of input (no extra trailing space)
+\newcommand{\inputsp}[1]{\input{#1}\unskip}
+
+% Math symbols
+\newcommand{\mli}[1]{\mathit{#1}}  % Multi-letter identifier (i.e., multi-character variable
+\newcommand{\mean}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}  % Bar (mean)
+\newcommand{\est}[1]{\widehat{#1}}  % Hat/circumflex (estimate)
+\newcommand{\til}[1]{\widetilde{#1}}  % Tilde (special)
+
+% Allow wide tables to spill into both margins equally: \centerfloat
+\makeatletter
+\newcommand*{\centerfloat}{%
+  \parindent \z@
+  \leftskip \z@ \@plus 1fil \@minus \textwidth
+  \rightskip\leftskip
+  \parfillskip \z@skip}
+\makeatother
+
+% Footnote fun
+\LetLtxMacro\Oldfootnote\footnote
+
+% Enable footnotes
+\newcommand{\EnableFootNotes}{%
+  \LetLtxMacro\footnote\Oldfootnote%
+}
+
+% Disable footnotes (on the cover page)
+\newcommand{\DisableFootNotes}{%
+  \renewcommand{\footnote}[2][]{\relax}
+}
+
+% New definition: Citation
+\newcommand{\trCitation}{
+\begin{hangparas}{1em}{1}
+\trAuthsBack{} \trYear{}. \trTitle{}. Can. Tech. Rep. Fish. Aquat. Sci. \trReportNum{}: \pageref{TRlastRoman}{}\,+\,\pageref{LastPage}{}\,p.
+\end{hangparas}}
+
+%%%%% Frontmatter %%%%%
+\def\frontmatter{%
+
+% Sections in capitals
+\renewcommand\listfigurename{LIST OF FIGURES}
+\renewcommand\listtablename{LIST OF TABLES}
+
+% Footnote symbols in front matter
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+
+% Prevent issues with the first two unnumbered pages
+\hypersetup{pageanchor=false}
+
+% First page: cover
+\thispagestyle{fancyplain}
+\DisableFootNotes
+\noindent
+\begin{flushleft}
+\LARGE
+\textbf{\trTitle{}}\\
+\vfill
+\Large
+\trAuthsLong{}
+\vfill
+\trAddy{}
+\vfill
+\trYear{}
+\vfill
+\LARGE
+\textbf{Canadian Technical Report of\\
+Fisheries and Aquatic Sciences \trReportNum{}}
+\lfoot{\includegraphics[height=7mm, keepaspectratio]{\locRepo/images/LogoDFO.png}}
+\cfoot{}
+\rfoot{\includegraphics[height=7mm, keepaspectratio]{\locRepo/images/LogoCanada.jpg}}
+\end{flushleft}
+\EnableFootNotes
+\clearpage
+
+% Second page: Technical report
+\footnotesize
+\lfoot{} \cfoot{\thepage} \rfoot{}
+\thispagestyle{empty}
+\begin{center}
+\textbf{Canadian Technical Report of Fisheries and Aquatic Sciences}
+\end{center}
+\noindent
+Technical reports contain scientific and technical information that contributes to existing knowledge but which is not normally appropriate for primary literature.
+Technical reports are directed primarily toward a worldwide audience and have an international distribution.
+No restriction is placed on subject matter and the series reflects the broad interests and policies of Fisheries and Oceans Canada, namely, fisheries and aquatic sciences.
+\indent
+\par
+Technical reports may be cited as full publications.
+The correct citation appears above the abstract of each report.
+Each report is abstracted in the data base \emph{Aquatic Sciences and Fisheries Abstracts}.
+\par
+Technical reports are produced regionally but are numbered nationally.
+Requests for individual reports will be filled by the issuing establishment listed on the front cover and title page.
+Out-of-stock reports will be supplied for a fee by commercial agents.
+\par
+Numbers 1--456 in this series were issued as Technical Reports of the Fisheries Research Board of Canada.
+Numbers 457--714 were issued as Department of the Environment, Fisheries and Marine Service, Research and Development Directorate Technical Reports.
+Numbers 715--924 were issued as Department of Fisheries and Environment, Fisheries and Marine Service Technical Reports.
+The current series name was changed with report number 925.
+\bigskip
+\begin{center}
+\textbf{Rapport technique canadien des sciences halieutiques et aquatiques}
+\end{center}
+\noindent
+Les rapports techniques contiennent des renseignements scientifiques et techniques qui constituent une contribution aux connaissances actuelles, mais qui ne sont pas normalement appropri\'{e}s pour la publication dans un journal scientifique.
+Les rapports techniques sont destin\'{e}s essentiellement \`{a} un public international et ils sont distribu\'{e}s \`{a} cet \'{e}chelon.
+II n'y a aucune restriction quant au sujet; de fait, la s\'{e}rie refl\`{e}te la vaste gamme des int\'{e}r\^{e}ts et des politiques de P\^{e}ches et Oc\'{e}ans Canada, c'est-\`{a}-dire les sciences halieutiques et aquatiques.
+\indent
+\par
+Les rapports techniques peuvent \^{e}tre cit\'{e}s comme des publications \`{a} part enti\`{e}re.
+Le titre exact figure au-dessus du r\'{e}sum\'{e} de chaque rapport.
+Les rapports techniques sont r\'{e}sum\'{e}s dans la base de donn\'{e}es \emph{R\'{e}sum\'{e}s des sciences aquatiques et halieutiques}.
+\par
+Les rapports techniques sont produits \`{a} l'\'{e}chelon r\'{e}gional, mais num\'{e}rot\'{e}s \`{a} l'\'{e}chelon national.
+Les demandes de rapports seront satisfaites par l'\'{e}tablissement auteur dont le nom figure sur la couverture et la page du titre.
+Les rapports \'{e}puis\'{e}s seront fournis contre r\'{e}tribution par les agents commerciaux.
+\par
+Les num\'{e}ros 1 \`{a} 456 de cette s\'{e}rie ont \'{e}t\'{e} publi\'{e}s \`{a} titre de Rapports techniques de l'Office des recherches sur les p\^{e}cheries du Canada.
+Les num\'{e}ros 457 \`{a} 714 sont parus \`{a} titre de Rapports techniques de la Direction g\'{e}n\'{e}rale de la recherche et du d\'{e}veloppement, Service des p\^{e}ches et de la mer, minist\`{e}re de l'Environnement.
+Les num\'{e}ros 715 \`{a} 924 ont \'{e}t\'{e} publi\'{e}s \`{a} titre de Rapports techniques du Service des p\^{e}ches et de la mer, minist\`{e}re des P\^{e}ches et de l'Environnement.
+Le nom actuel de la s\'{e}rie a \'{e}t\'{e} \'{e}tabli lors de la parution du num\'{e}ro 925.
+\clearpage
+
+% Start page numbering/anchoring
+\hypersetup{pageanchor=true}
+
+% Third page: Inside cover
+\normalsize
+\pagenumbering{roman}
+\thispagestyle{empty}
+\noindent
+\begin{center}
+Canadian Technical Report of\\
+Fisheries and Aquatic Sciences \trReportNum{}
+\vfill
+\trYear{}
+\vfill
+\textnormal{\MakeTextUppercase{\trTitle{}}}
+\vfill
+by
+\vfill
+\trAuthsLong{}
+\vfill
+\trAddy{}
+\end{center}
+\clearpage
+
+% Fourth page: Colophon
+\vspace*{\fill}
+\begin{center}
+\begin{minipage}{\widthof{\copyright{} Her Majesty the Queen in Right of Canada, \trYear{}}}
+\copyright{} Her Majesty the Queen in Right of Canada, \trYear{}\\
+Cat. No. Fs97-6/\trReportNum{} E \hfill ISSN 0706-6457\\
+Cat. No. Fs97-6/\trReportNum{} E-PDF \hfill ISSN 1488-5379
+\end{minipage}
+\end{center}
+\par
+\bigskip
+\noindent
+Correct citation for this publication:
+\bigskip
+\par
+\trCitation{}
+\clearpage
+
+% Add TOC to pdf bookmarks (clickable pdf)
+\pdfbookmark[1]{\contentsname}{toc}
+
+% Table of contents page
+\tableofcontents\clearpage
+
+% Lists of figures and tables (optional)
+\listoffigures \listoftables \clearpage
+
+% Abstract page(s)
+\section*{ABSTRACT}\addcontentsline{toc}{section}{ABSTRACT}
+\trCitation{}
+\bigskip
+\trAbstract{}
+\clearpage
+\section*{R\'{E}SUM\'{E}}\addcontentsline{toc}{section}{R\'{E}SUM\'{E}}
+\trCitation{}
+\bigskip
+\trResume{}
+\label{TRlastRoman}
+\clearpage
+
+% Settings for the main document
+\pagenumbering{arabic}  % Regular page numbers
+\pagestyle{fancy}  % No page number on first page of main document, use 'empty'
+\renewcommand*{\thefootnote}{\arabic{footnote}}  % Back to numeric footnotes
+\setcounter{footnote}{0}  % And start at 1
+
+}% End of frontmatter

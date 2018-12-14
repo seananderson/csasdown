@@ -3,12 +3,15 @@
 \name{resdoc_pdf}
 \alias{resdoc_pdf}
 \alias{sr_pdf}
+\alias{techreport_pdf}
 \title{Creates an R Markdown PDF with CSAS formatting}
 \usage{
 resdoc_pdf(toc = TRUE, toc_depth = 3, highlight = "default",
   latex_engine = "pdflatex", ...)
 
 sr_pdf(latex_engine = "pdflatex", ...)
+
+techreport_pdf(latex_engine = "pdflatex", ...)
 }
 \arguments{
 \item{toc}{A Boolean (\code{TRUE} or \code{FALSE}) specifying whether table of contents
