@@ -62,7 +62,7 @@
   \expandafter\let\csname oldend#1\expandafter\endcsname\csname end#1\endcsname
   \renewenvironment{#1}%
      {\linenomath\csname old#1\endcsname}%
-     {\csname oldend#1\endcsname\endlinenomath}}% 
+     {\csname oldend#1\endcsname\endlinenomath}}%
 \newcommand*\patchBothAmsMathEnvironmentsForLineno[1]{%
   \patchAmsMathEnvironmentForLineno{#1}%
   \patchAmsMathEnvironmentForLineno{#1*}}%
