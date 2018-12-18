@@ -11,6 +11,7 @@ approver: Approver Name\\Regional Director
 approval_year: 20XX
 approval_month: January
 approval_day: 00
+branch: Science Branch
 region: Pacific Region
 address: |
   ^1^Pacific Biological Station\
