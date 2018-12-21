@@ -2,4 +2,4 @@
 
 Mandatory section and title.
 
-\rdContributors{}
+List contributors here.

@@ -5,8 +5,6 @@ title_other: "Titre Ici (*Nom Latin*)"
 year: 20XX
 month: January
 report_number: nnn
-contributors: |
-  First Last Affiliation
 approver: Approver Name\\Regional Director
 approval_year: 20XX
 approval_month: January
