@@ -2,4 +2,14 @@
 
 Mandatory section and title.
 
-List contributors here.
+```{r, echo=FALSE, include=FALSE}
+contributors <- tibble::tribble(
+  ~Name,          ~Affiliation,
+  "Jane Smith",   "DFO Science, Pacific Region",
+  "John Smith",   "DFO Science, Maritimes Region",
+)
+```
+
+```{r, results='asis'}
+csasdown::csas_table(contributors)
+```
