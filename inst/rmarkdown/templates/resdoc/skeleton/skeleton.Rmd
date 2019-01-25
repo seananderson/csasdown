@@ -20,6 +20,7 @@ abstract: |
 output:
  csasdown::resdoc_pdf
   # csasdown::resdoc_word
+link_colour: navyblue # black or navyblue
 # ------------
 # End of options to set
 knit: bookdown::render_book
