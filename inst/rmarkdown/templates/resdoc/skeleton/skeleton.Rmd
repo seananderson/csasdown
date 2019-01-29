@@ -20,8 +20,7 @@ abstract: |
 output:
  csasdown::resdoc_pdf
   # csasdown::resdoc_word
-type:
-  res-doc
+link_colour: navyblue # black or navyblue
 # ------------
 # End of options to set
 knit: bookdown::render_book
@@ -57,6 +56,7 @@ knitr::opts_chunk$set(
   fig.align = "center",
   fig.pos = "htb"
 )
+options(kableExtra.latex.load_packages = FALSE)
 ```
 
 ```{r load-libraries, cache=FALSE}
