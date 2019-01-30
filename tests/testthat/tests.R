@@ -54,6 +54,7 @@ bookdown::render_book("index.Rmd",
   envir = globalenv()
 )
 
+update_csasstyle()
 test_that("bookdown::render_book generates the PDF of the resdoc", {
   expect_true(file.exists(file.path(testing_path, "index/_book/resdoc.pdf")))
 })
@@ -98,6 +99,7 @@ if (getwd() != file.path(testing_path, "index"))
 
 context("render into a PDF")
 
+update_csasstyle()
 expect_warning({ # warning expected because of currently missing abstract
   bookdown::render_book("index.Rmd",
     csasdown::sr_pdf(),
@@ -147,6 +149,7 @@ if (getwd() != file.path(testing_path, "index"))
 
 context("render into a PDF")
 
+update_csasstyle()
 expect_warning({ # warning expected because of currently missing abstract
   bookdown::render_book("index.Rmd",
     csasdown::techreport_pdf(),

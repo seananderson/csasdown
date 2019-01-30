@@ -126,12 +126,18 @@ techreport_pdf <- function(latex_engine = "pdflatex", ...) {
   base
 }
 
+#' Update CSAS style files
+#' @export
+update_csasstyle <- function() {
+ f <- system.file("csas-style", package = "csasdown")
+ dir.create("csas-style", showWarnings = FALSE)
+ file.copy(f, ".", overwrite = TRUE, recursive = TRUE)
+ message("csas-style has been updated.")
+}
+
 fix_envs <- function(x) {
   ## Change csas-style to use the sty file found in csasdown repo
   g <- grep("csas-style", x)
-  x[g] <- gsub("csas-style",
-               system.file("csas-style", package = "csasdown"),
-               x[g])
 
   ## Find beginning and end of the abstract text
   abs_beg <- grep("begin_abstract_csasdown", x)
