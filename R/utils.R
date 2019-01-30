@@ -31,6 +31,7 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
     latex_engine = latex_engine,
     ...
   )
+  update_csasstyle()
 
   # Mostly copied from knitr::render_sweave
   base$knitr$opts_chunk$comment <- NA
@@ -77,6 +78,7 @@ sr_pdf <- function(latex_engine = "pdflatex", ...) {
     latex_engine = latex_engine,
     ...
   )
+  update_csasstyle()
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
   options(bookdown.post.latex = fix_envs)
@@ -119,6 +121,8 @@ techreport_pdf <- function(latex_engine = "pdflatex", ...) {
     latex_engine = latex_engine,
     ...
   )
+
+  update_csasstyle()
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
   options(bookdown.post.latex = fix_envs)
@@ -132,7 +136,6 @@ update_csasstyle <- function() {
  f <- system.file("csas-style", package = "csasdown")
  dir.create("csas-style", showWarnings = FALSE)
  file.copy(f, ".", overwrite = TRUE, recursive = TRUE)
- message("csas-style has been updated.")
 }
 
 fix_envs <- function(x) {
