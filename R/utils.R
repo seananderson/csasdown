@@ -31,6 +31,7 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
     latex_engine = latex_engine,
     ...
   )
+  update_csasstyle()
 
   # Mostly copied from knitr::render_sweave
   base$knitr$opts_chunk$comment <- NA
@@ -77,6 +78,7 @@ sr_pdf <- function(latex_engine = "pdflatex", ...) {
     latex_engine = latex_engine,
     ...
   )
+  update_csasstyle()
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
   options(bookdown.post.latex = fix_envs)
@@ -119,6 +121,8 @@ techreport_pdf <- function(latex_engine = "pdflatex", ...) {
     latex_engine = latex_engine,
     ...
   )
+
+  update_csasstyle()
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
   options(bookdown.post.latex = fix_envs)
@@ -126,12 +130,15 @@ techreport_pdf <- function(latex_engine = "pdflatex", ...) {
   base
 }
 
+update_csasstyle <- function() {
+ f <- system.file("csas-style", package = "csasdown")
+ dir.create("csas-style", showWarnings = FALSE)
+ ignore <- file.copy(f, ".", overwrite = TRUE, recursive = TRUE)
+}
+
 fix_envs <- function(x) {
   ## Change csas-style to use the sty file found in csasdown repo
   g <- grep("csas-style", x)
-  x[g] <- gsub("csas-style",
-               system.file("csas-style", package = "csasdown"),
-               x[g])
 
   ## Find beginning and end of the abstract text
   abs_beg <- grep("begin_abstract_csasdown", x)
@@ -206,14 +213,17 @@ inject_refstepcounters <- function(x) {
   x
 }
 
-#' Add Res Doc titlepage
+#' Add a Res Doc titlepage to a docx file
+#'
+#' Add a Res Doc titlepage. Must hand edit `templates/RES2016-eng-titlepage.docx`
+#' to have your desired title and authors etc.
 #'
 #' @param titlepage Filename
 #' @param resdoc Filename
 #'
 #' @return A merged .docx
 #' @export
-add_resdoc_titlepage <- function(titlepage = "templates/RES2016-eng-titlepage.docx",
+add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2016-eng-titlepage.docx",
                                  resdoc = "_book/resdoc.docx") {
   title_doc <- officer::read_docx(titlepage)
   x <- officer::body_add_docx(title_doc, resdoc, pos = "before")
