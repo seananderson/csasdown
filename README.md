@@ -69,7 +69,7 @@ If you want to add a CSAS-formatted .docx title page, change the working directo
 ```r
 csasdown::add_resdoc_docx_titlepage()
 ```
-This will copy a CSAS title page to the "templates" folder. This page will have to be manually filled in and added to the Word document. 
+This will add a blank CSAS title page to the the Word document, which must be filled in manually. 
 
 ## Components
 
