@@ -64,13 +64,12 @@ The PDF or Word file of your Research Document will be deposited in the `_book/`
 
 <img src="screenshots/example-page.png" width="450">
 
-Run
+If you want to add a CSAS-formatted .docx title page, change the working directory to "index" and run the following command:
 
 ```r
-csasdown::add_resdoc_titlepage()
+csasdown::add_resdoc_docx_titlepage()
 ```
-
-if you want to add a CSAS .docx title page to the .docx file or manually add this title page yourself after.
+This will copy a CSAS title page to the "templates" folder. This page will have to be manually filled in and added to the Word document. 
 
 ## Components
 
