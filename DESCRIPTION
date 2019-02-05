@@ -1,6 +1,6 @@
 Package: csasdown
 Title: An R Markdown Template for Creating CSAS Research Documents
-Version: 0.0.5
+Version: 0.0.6
 Authors@R: c(person(c("Sean", "C."), "Anderson",
     email = "sean.anderson@dfo-mpo.gc.ca", role = c("aut", "cre")),
     person("Chris", "Grandin", role = "aut"),
@@ -18,7 +18,8 @@ Depends:
 Imports:
     bookdown,
     officer,
-    knitr
+    knitr,
+    rmarkdown
 Suggests:
     dplyr,
     ggplot2,
