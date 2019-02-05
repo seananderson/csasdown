@@ -33,6 +33,8 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
   )
   update_csasstyle()
 
+  browser()
+
   # Mostly copied from knitr::render_sweave
   base$knitr$opts_chunk$comment <- NA
   # base$knitr$opts_chunk$fig.align <- "center"
@@ -234,73 +236,25 @@ is_windows <- function() {
   identical(.Platform$OS.type, "windows")
 }
 
-#' Add Arial LaTeX fonts for Windows users
+#' Check to make sure index.Rmd contains all current YAML options
+#'
+#' As the packages updated sometimes new mandatory options are added to the
+#' `index.Rmd` file. Running this function will compare your file to the version
+#' built into the currently installed version of csasdown.
+#'
+#' @param type Type of document. Currently only in summative or research
+#'   documents. Currently this is only implemented for research documents.
 #'
 #' @export
-#' @examples
-#' \dontrun{
-#' add_arial()
-#' }
-add_arial <- function() {
-  if (!is_windows()) {
-    warning("This function is only for use on Windows machines.")
-    return(invisible())
-  }
-
-  arial_folder <- system.file("texlocal", package = "csasdown")
-  arial_folder_to <- file.path("C:/texlocal")
-
-  ok <- utils::menu(c("Yes", "No"),
-    title = "OK to copy LaTeX font files to your computer?"
-  ) == 1
-
-  if (!ok) {
-    return(invisible())
-  }
-
-  if (!file.exists(arial_folder_to)) {
-    file.copy(arial_folder, "C:/", recursive = TRUE, overwrite = FALSE)
+check_yaml <- function(type = "resdoc") {
+  x_skeleton <- names(rmarkdown::yaml_front_matter(
+    system.file("rmarkdown", "templates", "resdoc", "skeleton", "skeleton.Rmd",
+      package = "csasdown")))
+  x_index <- names(rmarkdown::yaml_front_matter("index.Rmd"))
+  .diff <- setdiff(x_skeleton, x_index)
+  if (length(.diff) > 0L) {
+    stop("Your `index.Rmd` file is missing: ", paste(.diff, collapse = ", "), ".")
   } else {
-    warning("We detected an existing folder at C:\\texlocal.\n",
-      "Either manually copy the Arial font files into C:\\texlocal",
-      "or rename/delete your C:\\texlocal and run this function again.")
+    message("Your `index.Rmd` file contains all necessary YAML options.")
   }
-
-  ok <- utils::menu(c("Continue", "Quit"),
-    title = paste0(
-      "Please do the following:\n\n",
-      "1. Go to Start->Programs->Miktex->",
-      "Maintenance(Admin)->MikTex Settings(Admin)\n",
-      "2. Go to the 'Roots' tab\n",
-      "3. Click 'Add' and add C:\\texlocal\n",
-      "4. Go to 'General' tab\n",
-      "5. Click 'Refresh FNDB' button\n",
-      "6. Click 'Update Formats' button\n",
-      "7. Click 'OK'\n",
-      "When done, press 1 to continue."
-    )
-  ) == 1
-
-  if (!ok) {
-    return(invisible())
-  }
-
-  system("initexmf --admin --update-fndb")
-
-  ok <- utils::menu(c("Continue", "Quit"),
-    title = paste0(
-      "Please paste the following into the editor ",
-      "that opened:\n",
-      "Map ua1.map\n\n",
-      "Then save and close the file.\n",
-      "When done, press 1 to continue."
-    )
-  ) == 1
-
-  if (!ok) {
-    return(invisible())
-  }
-
-  system("initexmf --mkmaps")
 }
-
