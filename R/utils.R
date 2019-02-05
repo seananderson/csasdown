@@ -238,12 +238,13 @@ is_windows <- function() {
 
 #' Check to make sure index.Rmd contains all current YAML options
 #'
-#' As the packages updated sometimes new mandatory options are added to the
-#' `index.Rmd` file. Running this function will compare your file to the version
-#' built into the currently installed version of csasdown.
+#' As the csasdown package is updated, sometimes new mandatory YAML options are added
+#' to the `index.Rmd` file. Running this function will compare your file to the
+#' version built into the currently installed version of csasdown and issue
+#' a `stop()` statement telling you what doesn't match if needed.
 #'
-#' @param type Type of document. Currently only in summative or research
-#'   documents. Currently this is only implemented for research documents.
+#' @param type Type of document. Currently this is only implemented for research
+#'   documents.
 #'
 #' @export
 check_yaml <- function(type = "resdoc") {

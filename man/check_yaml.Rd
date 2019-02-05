@@ -7,11 +7,12 @@
 check_yaml(type = "resdoc")
 }
 \arguments{
-\item{type}{Type of document. Currently only in summative or research
-documents. Currently this is only implemented for research documents.}
+\item{type}{Type of document. Currently this is only implemented for research
+documents.}
 }
 \description{
-As the packages updated sometimes new mandatory options are added to the
-\code{index.Rmd} file. Running this function will compare your file to the version
-built into the currently installed version of csasdown.
+As the csasdown package is updated, sometimes new mandatory YAML options are added
+to the \code{index.Rmd} file. Running this function will compare your file to the
+version built into the currently installed version of csasdown and issue
+a \code{stop()} statement telling you what doesn't match if needed.
 }
