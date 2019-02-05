@@ -49,6 +49,8 @@ if (getwd() != file.path(testing_path, "index"))
 
 context("render into a PDF")
 
+expect_message(check_yaml(), "contains all")
+
 bookdown::render_book("index.Rmd",
   csasdown::resdoc_pdf(),
   envir = globalenv()
