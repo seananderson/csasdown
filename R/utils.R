@@ -33,8 +33,6 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
   )
   update_csasstyle()
 
-  browser()
-
   # Mostly copied from knitr::render_sweave
   base$knitr$opts_chunk$comment <- NA
   # base$knitr$opts_chunk$fig.align <- "center"
