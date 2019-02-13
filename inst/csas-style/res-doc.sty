@@ -698,7 +698,23 @@ DFO Can.\ Sci.\ Advis.\ Sec.\ Res.\ Doc. \rdYear{}/\rdNumber{}.
 
 \clearpage
 
+\fancypagestyle{plain}{%
+\fancyhf{} % clear all header and footer fields
+\fancyfoot[C]{\sffamily\selectfont\thepage} % except the center
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}}
+\pagestyle{plain}
+
 \TableOfContents
+
+% \fancypagestyle{plain}{%
+% \fancyhf{} % clear all header and footer fields
+% \fancyfoot[C]{\sffamily\selectfont\thepage} % except the center
+% % \fancyfoot[L]{\slshape \rightmark}
+% % \fancyfoot[L]{\slshape \leftmark}
+% \renewcommand{\headrulewidth}{0.4pt}
+% \renewcommand{\footrulewidth}{0.4pt}}
+% \pagestyle{plain}
 
 \Main
 
