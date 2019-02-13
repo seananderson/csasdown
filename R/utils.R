@@ -207,7 +207,7 @@ inject_refstepcounters <- function(x) {
   for (i in chpts) {
     x <- c(
       x[seq(1, i - 3)],
-      paste0(x[i - 2], "\\clearpage\n\\refstepcounter{chapter}"),
+      paste0(x[i - 2], "\n\n\\clearpage\n\n\\refstepcounter{chapter}"),
       x[seq(i - 1, length(x))])
   }
   x
