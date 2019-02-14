@@ -24,7 +24,9 @@ tinytex::install_tinytex()
 devtools::install_github("pbs-assess/csasdown")
 ```
 
-3) Run this line in your R console to create a new Research Document from the built-in template:
+3) Start a new project directory if you'd like. If you're using RStudio: File -> New Project. Open the RStudio project or set your R working directory to the root folder of the project.
+
+4) Run this line in your R console to create a new Research Document from the built-in template:
 
 ```r
 rmarkdown::draft("index.Rmd", template = "resdoc", 
@@ -40,7 +42,7 @@ rmarkdown::draft("index.Rmd", template = "resdoc",
 
 Then look in the `index` folder. Rename the folder if you'd like.
 
-## Day-to-day writing of a Research Document
+## Day-to-day writing
 
 You need to edit the individual chapter R Markdown files to write your Research Document. While writing, you should `git commit` your work frequently, after every major activity on your Research Document. For example, every few paragraphs or section of text, and after major step of analysis development. You should `git push` at the end of each work session before you leave your computer or change task. For gentle novice-friendly guide to getting starting with using Git with R and RStudio, see <http://happygitwithr.com/>.
 
@@ -50,7 +52,7 @@ To render your Res Doc into a PDF or Word document, open `index.Rmd` in RStudio 
 
 <img src="screenshots/knit.png" width="400">
 
-To change the output formats between PDF, Word, and gitbook look at the `output:` field in `index.Rmd`and comment-out the formats you don't want. You can include multiple.
+To change the output formats between PDF and Word look at the `output:` field in `index.Rmd`and comment out the format you don't want.
 
 Alternatively, if you're not using RStudio, you can run this from the R console, assuming your have set the main directory (the one with the `index.Rmd` file) as your working directory:
 
@@ -58,19 +60,19 @@ Alternatively, if you're not using RStudio, you can run this from the R console,
 bookdown::render_book("index.Rmd")
 ```
 
-The PDF or Word file of your Research Document will be deposited in the `_book/` directory.
+The rendered PDF or Word file of your Research Document will be deposited in the `_book/` directory.
 
 <img src="screenshots/example-titlepage.png" width="450">
 
 <img src="screenshots/example-page.png" width="450">
 
-Run
+If you want to add a CSAS-formatted .docx title page, edit the file `templates/RES2016-eng-titlepage.docx` as desired and run the command:
 
 ```r
-csasdown::add_resdoc_titlepage()
+csasdown::add_resdoc_docx_titlepage()
 ```
 
-if you want to add a CSAS .docx title page to the .docx file or manually add this title page yourself after.
+This will attach the title page to the beginning of the Word document.
 
 ## Components
 
@@ -100,6 +102,10 @@ Specific style files for bibliographies should be stored here. If you're writing
 ### `figure/` and `data/`
 
 Store pre-made figures and data here and reference them in your R Markdown files. See the [bookdown book](https://bookdown.org/yihui/bookdown/) for details on cross-referencing items using R Markdown.
+
+### `templates/`
+
+This contains any `.docx` or `.tex` files that are need to compile the documents. With the exception of the title page file, you shouldn't have to edit any of these files.
 
 ## Related projects
 

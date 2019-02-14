@@ -59,6 +59,22 @@
 %% ------------------------------------------------------------------------------
 %% Use the resDoc.bst file for bibliography style.
 \usepackage{natbib}
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% Load hyperlink package and set up link colors
+\usepackage[breaklinks=true,
+            bookmarksopen=true,
+            bookmarksdepth=3]
+           {hyperref}
+\hypersetup{colorlinks,
+            plainpages=true,
+            linkcolor=black,
+            citecolor=black,
+            urlcolor=blue,
+            bookmarksopen=true,
+            bookmarksopenlevel=1}
+%% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
 %% Set up numbering of bookmarks in the final pdf
@@ -303,7 +319,7 @@
 \newcommand{\starredchapter}[1]{
   \clearpage
   %% Make spacing between top of page and heading less.
-  \vspace*{-50\p@}
+  \vspace*{-40\p@}
   \phantomsection
   %% Add the appendix name to the table of contents.
   \addcontentsline{toc}{chapter}{#1}\chapter*{#1}
@@ -313,7 +329,7 @@
 \newcommand{\abstract}{
   \clearpage
   %% Make spacing between top of page and heading less.
-  \vspace*{-50\p@}
+  \vspace*{-40\p@}
   \phantomsection
   %% Add the appendix name to the table of contents.
   \addcontentsline{toc}{section}{ABSTRACT}\nonumsection*{ABSTRACT}
@@ -520,7 +536,7 @@
 \usepackage{lastpage}
 
 % https://tex.stackexchange.com/questions/311132/how-to-style-hrefs-underlined-and-coloured-throughout-the-document
-\usepackage{soul}
+\usepackage{xcolor,soul}
 \usepackage{pdfcomment}
 
 
@@ -682,7 +698,23 @@ DFO Can.\ Sci.\ Advis.\ Sec.\ Res.\ Doc. \rdYear{}/\rdNumber{}.
 
 \clearpage
 
+\fancypagestyle{plain}{%
+\fancyhf{} % clear all header and footer fields
+\fancyfoot[C]{\sffamily\selectfont\thepage} % except the center
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}}
+\pagestyle{plain}
+
 \TableOfContents
+
+% \fancypagestyle{plain}{%
+% \fancyhf{} % clear all header and footer fields
+% \fancyfoot[C]{\sffamily\selectfont\thepage} % except the center
+% % \fancyfoot[L]{\slshape \rightmark}
+% % \fancyfoot[L]{\slshape \leftmark}
+% \renewcommand{\headrulewidth}{0.4pt}
+% \renewcommand{\footrulewidth}{0.4pt}}
+% \pagestyle{plain}
 
 \Main
 
