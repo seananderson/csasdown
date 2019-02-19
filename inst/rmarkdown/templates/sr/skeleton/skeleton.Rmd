@@ -5,10 +5,16 @@ title_other: "Titre Ici (*Nom Latin*)"
 year: 20XX
 month: January
 report_number: nnn
-approver: Approver Name\\Regional Director
-approval_year: 20XX
-approval_month: January
-approval_day: 00
+params:
+  approver: |
+    Approver Name\\
+    Regional Director\\
+    Science Branch, Your Region\\
+    Fisheries and Oceans Canada
+  approval_year: 20XX
+  approval_month: January
+  approval_day: 01
+branch: Science Branch
 region: Pacific Region
 address: |
   ^1^Pacific Biological Station\

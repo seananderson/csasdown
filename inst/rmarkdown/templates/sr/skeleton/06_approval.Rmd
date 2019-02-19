@@ -1,0 +1,7 @@
+# Approved by
+
+\begin{center}
+`r params$approver`
+
+`r paste0(params$approval_month, " ", params$approval_day, ", ", params$approval_year)`
+\end{center}

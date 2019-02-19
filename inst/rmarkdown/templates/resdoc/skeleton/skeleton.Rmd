@@ -19,14 +19,15 @@ abstract: |
   Start new paragraphs after a blank line and with 2 spaces indent. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 header: "Draft working paper --- Do not cite or circulate" # or "" to omit
 output:
- csasdown::resdoc_pdf
+ csasdown::resdoc_pdf:
+   french: false
   # csasdown::resdoc_word
 # ------------
 # End of options to set
 knit: bookdown::render_book
 link-citations: true
 bibliography: bib/refs.bib
-csl: csl/csas.csl
+csl: csl/csas.csl # or csl/csas-french.csl for French
 # Any extra LaTeX code for the header:
 # header-includes:
 # - \usepackage{tikz}
