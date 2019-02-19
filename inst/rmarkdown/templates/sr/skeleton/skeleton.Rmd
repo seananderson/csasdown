@@ -6,10 +6,14 @@ year: 20XX
 month: January
 report_number: nnn
 params:
-  approver: Approver Name\\Regional Director
+  approver: |
+    Approver Name\\
+    Regional Director\\
+    Science Branch, Your Region\\
+    Fisheries and Oceans Canada
   approval_year: 20XX
   approval_month: January
-  approval_day: 00
+  approval_day: 01
 branch: Science Branch
 region: Pacific Region
 address: |

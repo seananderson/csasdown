@@ -1,8 +1,7 @@
 # Approved by
 
-<!-- \rdApp{} -->
-<!-- \rdBranch{}, \rdRegion{} -->
-Fisheries and Oceans Canada
+\begin{center}
+`r params$approver`
 
 `r paste0(params$approval_month, " ", params$approval_day, ", ", params$approval_year)`
-
+\end{center}
