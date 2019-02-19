@@ -24,12 +24,9 @@ output:
 # ------------
 # End of options to set
 knit: bookdown::render_book
-site: bookdown::bookdown_site
 link-citations: true
 bibliography: bib/refs.bib
 csl: csl/csas.csl
-lot: true
-lof: true
 # Any extra LaTeX code for the header:
 # header-includes:
 # - \usepackage{tikz}
