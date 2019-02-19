@@ -20,9 +20,16 @@
 #'  output: csasdown::resdoc_pdf
 #' }
 resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
-                       latex_engine = "pdflatex", ...) {
+                       latex_engine = "pdflatex", french = FALSE, ...) {
+
+  if (french) {
+    file <- system.file("csas-tex", "res-doc-french.tex", package = "csasdown")
+  } else {
+    file <- system.file("csas-tex", "res-doc.tex", package = "csasdown")
+  }
+
   base <- bookdown::pdf_book(
-    template = system.file("csas-tex", "res-doc.tex", package = "csasdown"),
+    template = file,
     toc = toc,
     toc_depth = toc_depth,
     highlight = highlight,
