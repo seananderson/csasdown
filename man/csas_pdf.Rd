@@ -7,7 +7,7 @@
 \title{Creates an R Markdown PDF with CSAS formatting}
 \usage{
 resdoc_pdf(toc = TRUE, toc_depth = 3, highlight = "default",
-  latex_engine = "pdflatex", ...)
+  latex_engine = "pdflatex", french = FALSE, ...)
 
 sr_pdf(latex_engine = "pdflatex", ...)
 
@@ -24,6 +24,8 @@ should be created.}
 "zenburn", and "haddock". Pass \code{NULL} to prevent syntax highlighting.}
 
 \item{latex_engine}{LaTeX engine.}
+
+\item{french}{Logical for French (vs. English).}
 
 \item{...}{other arguments to \code{\link[bookdown:pdf_book]{bookdown::pdf_book()}}.}
 }

@@ -11,6 +11,7 @@
 #'   "default", "tango", "pygments", "kate", "monochrome", "espresso",
 #'   "zenburn", and "haddock". Pass `NULL` to prevent syntax highlighting.
 #' @param latex_engine LaTeX engine.
+#' @param french Logical for French (vs. English).
 #' @param ... other arguments to [bookdown::pdf_book()].
 #' @return A modified `pdf_document` based on the CSAS LaTeX template.
 #' @import bookdown
