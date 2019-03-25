@@ -1,4 +1,3 @@
-new_session: true
 book_filename: "resdoc"
 rmd_files: ["index.Rmd", "01-chap1.Rmd", "02-chap2.Rmd", "03-chap3.Rmd", "04-appendix.Rmd", "99-references.Rmd"]
 delete_merged_file: true
