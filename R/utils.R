@@ -209,6 +209,9 @@ fix_envs <- function(x) {
   # Non-breaking spaces:
   x <- gsub(" \\\\ref\\{", "~\\\\ref\\{", x)
 
+  # Add tooltips so that figures have alternative text for read-out-loud
+  x <- gsub("(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})", "\\\\pdftooltip{\\1}{Figure}", x)
+
   x
 }
 
