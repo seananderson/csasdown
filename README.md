@@ -24,44 +24,32 @@ tinytex::install_tinytex()
 devtools::install_github("pbs-assess/csasdown")
 ```
 
-3) Start a new project directory if you'd like. If you're using RStudio: File -> New Project. Open the RStudio project or set your R working directory to the root folder of the project.
+3) Start a new project directory if you'd like. If you're using RStudio: File -> New Project. Open the RStudio project or set your R working directory to the root folder of the project. Create a new sub-directory and change your working directory to that folder first if that is where you want the Research Document files.
 
-4) Run this line in your R console to create a new Research Document from the built-in template:
-
-```r
-rmarkdown::draft("index.Rmd", template = "resdoc", 
-  package = "csasdown", create_dir = FALSE, edit = FALSE)
-```
-
-Or, if you want to create the template files inside a subfolder, run:
+4) Run this line in your R console to create a new Research Document from the built-in template in whatever your working directory is:
 
 ```r
-rmarkdown::draft("index.Rmd", template = "resdoc", 
-  package = "csasdown", create_dir = TRUE, edit = FALSE)
+csasdown::draft("resdoc")
 ```
-
-Then look in the `index` folder. Rename the folder if you'd like.
 
 You can do the same for a Technical Report:
 ```r
-rmarkdown::draft("index.Rmd", template = "techreport", 
-  package = "csasdown", create_dir = TRUE, edit = FALSE)
+csasdown::draft("techrep")
 ```
 
 or for a Science Response:
-```r
-rmarkdown::draft("index.Rmd", template = "sr", 
-  package = "csasdown", create_dir = TRUE, edit = FALSE)
-```
 
+```r
+csasdown::draft("sr")
+```
 
 ## Day-to-day writing
 
-You need to edit the individual chapter R Markdown files to write your Research Document. While writing, you should `git commit` your work frequently, after every major activity on your Research Document. For example, every few paragraphs or section of text, and after major step of analysis development. You should `git push` at the end of each work session before you leave your computer or change task. For gentle novice-friendly guide to getting starting with using Git with R and RStudio, see <http://happygitwithr.com/>.
+You need to edit the individual chapter R Markdown files to write your report. While writing, you should `git commit` your work frequently. For a gentle novice-friendly guide to getting starting with using Git with R and RStudio, see <http://happygitwithr.com/>.
 
 ## Rendering
 
-To render your Res Doc into a PDF or Word document, open `index.Rmd` in RStudio and then click the "knit" button:
+To render your report into a PDF or Word document, open `index.Rmd` in RStudio and then click the "knit" button:
 
 <img src="screenshots/knit.png" width="400">
 
@@ -73,7 +61,7 @@ Alternatively, if you're not using RStudio, you can run this from the R console,
 bookdown::render_book("index.Rmd")
 ```
 
-The rendered PDF or Word file of your Research Document will be deposited in the `_book/` directory.
+The rendered PDF or Word file of your report will be deposited in the `_book/` directory.
 
 <img src="screenshots/example-titlepage.png" width="450">
 
@@ -110,7 +98,7 @@ Store your bibliography (as BibTeX files) here. You might look at the [citr addi
 
 ### `csl/`
 
-Specific style files for bibliographies should be stored here. If you're writing a CSAS Research Document, you'll want to use the included `csas.csl`, which is based on the CJFAS (Canadian Journal of Fisheries and Aquatic Sciences) `.csl` file.
+Specific style files for bibliographies should be stored here.You will want to use the included `csas.csl`, which is based on the CJFAS (Canadian Journal of Fisheries and Aquatic Sciences) `.csl` file.
 
 ### `figure/` and `data/`
 

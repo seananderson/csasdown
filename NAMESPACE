@@ -3,6 +3,7 @@
 export(add_resdoc_docx_titlepage)
 export(check_yaml)
 export(csas_table)
+export(draft)
 export(resdoc_pdf)
 export(resdoc_word)
 export(sr_pdf)
