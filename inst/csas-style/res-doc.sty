@@ -468,14 +468,14 @@
   labelsep*=0.01in,  % Space betw. numbers and text (note * is req'd)
   leftmargin=!,      % No space betw. margin of list and following lines
   itemindent=0pt,    % Hanging indentation (after first line)
-  itemsep=2pt        % Vertical space between list items
+  itemsep=1pt        % Vertical space between list items
 }
 \setlist[resdoclist,1]{label=\arabic*.}
 \setlist[resdoclist,2]{label=\alph*.}
 \setlist[resdoclist,3]{label=\roman*.}
 \setlist[resdoclist,4]{label=\arabic*.}
 \setlist[resdoclist,5]{label=\alph*.}
-% \setlist{nosep} % Remove all space between list items globally
+\setlist{nosep} % This needs to be here for itemsep above to be recognized
 
 %% Hanging indent of the bibliography items.
 \setlength{\bibhang}{0.25in}
