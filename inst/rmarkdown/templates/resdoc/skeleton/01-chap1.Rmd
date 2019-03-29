@@ -22,26 +22,38 @@ The {#rmd-basics} text after the chapter declaration will allow us to link throu
 
 # R MARKDOWN BASICS {#rmd-basics}
 
-Here is a brief introduction into using _R Markdown_. _Markdown_ is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. _R Markdown_ provides the flexibility of _Markdown_ with the implementation of **R** input and output.  For more details on using _R Markdown_ see <http://rmarkdown.rstudio.com>.  
+Here is a brief introduction into using _R Markdown_. _Markdown_ is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. _R Markdown_ provides the flexibility of _Markdown_ with the implementation of **R** input and output.  For more details on using _R Markdown_ see <http://rmarkdown.rstudio.com>.
 
 Be careful with your spacing in _Markdown_ documents.  While whitespace largely is ignored, it does at times give _Markdown_ signals as to how to proceed.  As a habit, try to keep everything left aligned whenever possible, especially as you type a new paragraph.  In other words, there is no need to indent basic text in the Rmd document (in fact, it might cause your text to do funny things if you do).
 
 ## LISTS
 
-CSAS only allows ordered lists, such as:
+CSAS allows ordered lists:
 
 1. Item 1
 4. Item 2
 
-Notice that I intentionally mislabeled Item 2 as number 4.  _Markdown_ automatically figures this out!  You can put any numbers in the list and it will create the list.  Check it out below.
+and bulleted lists:
 
-To create a sublist, just indent the values a bit (at least four spaces or a tab).  (Here's one case where indentation is key!)
+- Item 1
+- Item 2
+
+Notice in the ordered list that I intentionally mislabeled Item 2 as number 4.  _Markdown_ automatically figures this out!  You can put any numbers in the list and it will create the list.  Check it out below.
+
+To create sublists, just indent the values a bit (at least three spaces) and make sure there are no newlines between the items. (Here's one case where indentation is key!)
 
 1. Item 1
 1. Item 2
 1. Item 3
-    - Item 3a
-    - Item 3b
+   a. Item 3a
+   a. Item 3b
+      i. Item 3bi
+      i. Item 3bii
+      i. Item 3biii
+      i. Item 3biv
+      i. Item 3bv
+         1. Item 3bv1
+         1. Item 3bv2
 
 ## LINE BREAKS
 
@@ -50,7 +62,7 @@ Make sure to add white space between lines if you'd like to start a new paragrap
 Here is the first sentence.  Here is another sentence.  Here is the last sentence to end the paragraph.
 This should be a new paragraph.
 
-*Now for the correct way:* 
+*Now for the correct way:*
 
 Here is the first sentence.  Here is another sentence.  Here is the last sentence to end the paragraph.
 
@@ -68,7 +80,7 @@ summary(cars)
 
 If you'd like to put the results of your analysis directly into your discussion, add inline code like this:
 
-> The `cos` of $2 \pi$ is `r cos(2*pi)`. 
+> The `cos` of $2 \pi$ is `r cos(2*pi)`.
 
 Another example would be the direct calculation of the standard deviation:
 
@@ -80,7 +92,7 @@ One last neat feature is the use of the `ifelse` conditional statement which can
 
 Note the use of `>` here, which signifies a quotation environment that will be indented.
 
-As you see with `$2 \pi$` above, mathematics can be added by surrounding the mathematical text with dollar signs.  More examples of this are in [Mathematics and Science] if you uncomment the code in [Math].  
+As you see with `$2 \pi$` above, mathematics can be added by surrounding the mathematical text with dollar signs.  More examples of this are in [Mathematics and Science] if you uncomment the code in [Math].
 
 ## INCLUDING PLOTS
 
@@ -90,7 +102,7 @@ You can also embed plots.  For example, here is a way to use the base **R** grap
 plot(pressure)
 ```
 
-Note that the `echo=FALSE` parameter was added to the code chunk to prevent printing of the **R** code that generated the plot.  There are plenty of other ways to add chunk options.  More information is available at <http://yihui.name/knitr/options/>.  
+Note that the `echo=FALSE` parameter was added to the code chunk to prevent printing of the **R** code that generated the plot.  There are plenty of other ways to add chunk options.  More information is available at <http://yihui.name/knitr/options/>.
 
 Another useful chunk option is the setting of `cache=TRUE` as you see here.  If document rendering becomes time consuming due to long computations or plots that are expensive to generate you can use knitr caching to improve performance.  Later in this file, you'll see a way to reference plots created in **R** or external figures.
 
@@ -139,7 +151,7 @@ library(csasdown)
 
 The example we show here does the following:
 
-- Selects only the `carrier_name` and `arr_delay` from the `flights` dataset and then assigns this subset to a new variable called `flights2`. 
+- Selects only the `carrier_name` and `arr_delay` from the `flights` dataset and then assigns this subset to a new variable called `flights2`.
 
 - Using `flights2`, we determine the largest arrival delay for each of the carriers.
 
@@ -184,4 +196,3 @@ flights %>%
 - Introduction to `dplyr` - <https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html>
 
 - `ggplot2` Documentation - <http://docs.ggplot2.org/current/>
-

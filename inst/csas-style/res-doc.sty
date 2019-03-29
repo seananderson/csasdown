@@ -459,8 +459,7 @@
 %%  e.g. level 2 uses small alphabetic characters and
 %%  level 3 uses roman numerals.
 \usepackage{enumitem}
-\newlist{resdoclist}{enumerate}{5}
-\setlist[resdoclist]{
+\setenumerate{
   align=left,        % Left align labels
   topsep=0pt,        % Vertical space before the list
   labelindent=0pt,   % Space betw. margin of list and label
@@ -470,12 +469,23 @@
   itemindent=0pt,    % Hanging indentation (after first line)
   itemsep=1pt        % Vertical space between list items
 }
-\setlist[resdoclist,1]{label=\arabic*.}
-\setlist[resdoclist,2]{label=\alph*.}
-\setlist[resdoclist,3]{label=\roman*.}
-\setlist[resdoclist,4]{label=\arabic*.}
-\setlist[resdoclist,5]{label=\alph*.}
-\setlist{nosep} % This needs to be here for itemsep above to be recognized
+\setenumerate[1]{label=\arabic*.}
+\setenumerate[2]{label=\alph*.}
+\setenumerate[3]{label=\roman*.}
+\setenumerate[4]{label=\arabic*.}
+\setenumerate[5]{label=\alph*.}
+\setenumerate{nosep} % This needs to be here for itemsep above to be recognized
+\setitemize{
+  align=left,        % Left align labels
+  topsep=0pt,        % Vertical space before the list
+  labelindent=0pt,   % Space betw. margin of list and label
+  %% Even though the specs say 0.25 inches for labelsep, need 0.01 here.
+  labelsep*=0.01in,  % Space betw. numbers and text (note * is req'd)
+  leftmargin=!,      % No space betw. margin of list and following lines
+  itemindent=0pt,    % Hanging indentation (after first line)
+  itemsep=1pt        % Vertical space between list items
+}
+\setitemize{nosep}   % This needs to be here for itemsep above to be recognized
 
 %% Hanging indent of the bibliography items.
 \setlength{\bibhang}{0.25in}

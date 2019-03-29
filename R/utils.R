@@ -202,8 +202,8 @@ fix_envs <- function(x) {
   x[rs_line + 1] <- gsub("\\}$", '', x[rs_line + 1])
   x[rs_line + 1] <- gsub("\\}.*\\}$", "}", x[rs_line + 1])
 
-  x <- gsub("itemize\\}", "resdoclist\\}", x)
-  x <- gsub("enumerate\\}", "resdoclist\\}", x)
+  # x <- gsub("itemize\\}", "resdoclist\\}", x)
+  # x <- gsub("enumerate\\}", "resdoclist\\}", x)
 
   x <- gsub("^.*\\\\tightlist$", "", x)
   # Non-breaking spaces:
