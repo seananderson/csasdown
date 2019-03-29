@@ -13,6 +13,8 @@ draft(type = c("resdoc", "sr", "techrep"), create_dir = FALSE,
 \item{create_dir}{\code{TRUE} to create a new directory for the document.}
 
 \item{edit}{\code{TRUE} to edit the template immediately.}
+
+\item{...}{Other arguments to pass to \code{\link[rmarkdown:draft]{rmarkdown::draft()}}.}
 }
 \description{
 Create a draft of an R Markdown CSAS document
