@@ -42,6 +42,19 @@ rmarkdown::draft("index.Rmd", template = "resdoc",
 
 Then look in the `index` folder. Rename the folder if you'd like.
 
+You can do the same for a Technical Report:
+```r
+rmarkdown::draft("index.Rmd", template = "techreport", 
+  package = "csasdown", create_dir = TRUE, edit = FALSE)
+```
+
+or for a Science Response:
+```r
+rmarkdown::draft("index.Rmd", template = "sr", 
+  package = "csasdown", create_dir = TRUE, edit = FALSE)
+```
+
+
 ## Day-to-day writing
 
 You need to edit the individual chapter R Markdown files to write your Research Document. While writing, you should `git commit` your work frequently, after every major activity on your Research Document. For example, every few paragraphs or section of text, and after major step of analysis development. You should `git push` at the end of each work session before you leave your computer or change task. For gentle novice-friendly guide to getting starting with using Git with R and RStudio, see <http://happygitwithr.com/>.
