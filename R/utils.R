@@ -133,7 +133,7 @@ techreport_pdf <- function(latex_engine = "pdflatex", ...) {
   update_csasstyle()
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
-  options(bookdown.post.latex = fix_envs)
+  options(bookdown.post.latex = fix_ens_tr)
   on.exit(options(bookdown.post.late = old_opt))
   base
 }
@@ -144,23 +144,29 @@ update_csasstyle <- function() {
  ignore <- file.copy(f, ".", overwrite = TRUE, recursive = TRUE)
 }
 
-fix_envs <- function(x) {
+fix_ens_tr <- function(x) {
+  fix_envs(x, join_abstract = FALSE)
+}
+
+fix_envs <- function(x, join_abstract = TRUE) {
   ## Change csas-style to use the sty file found in csasdown repo
   g <- grep("csas-style", x)
 
   ## Find beginning and end of the abstract text
   abs_beg <- grep("begin_abstract_csasdown", x)
   abs_end <- grep("end_abstract_csasdown", x)
-  if (length(abs_beg) == 0L || length(abs_end) == 0L) {
-    warning("`% begin_abstract_csasdown` or `% end_abstract_csasdown`` not found ",
-      "in `templates/csas.tex`", call. = FALSE)
-  } else {
-    abs_vec <- x[seq(abs_beg + 1, abs_end - 1)]
-    abs_vec <- abs_vec[abs_vec != ""]
-    abstract <- paste(abs_vec, collapse = " \\break \\break ")
-    first_part <- x[seq_len(abs_beg - 1)]
-    second_part <- x[seq(abs_end + 1, length(x))]
-    x <- c(first_part, abstract, second_part)
+  if (join_abstract) {
+    if (length(abs_beg) == 0L || length(abs_end) == 0L) {
+      warning("`% begin_abstract_csasdown` or `% end_abstract_csasdown`` not found ",
+        "in `templates/csas.tex`", call. = FALSE)
+    } else {
+      abs_vec <- x[seq(abs_beg + 1, abs_end - 1)]
+      abs_vec <- abs_vec[abs_vec != ""]
+      abstract <- paste(abs_vec, collapse = " \\break \\break ")
+      first_part <- x[seq_len(abs_beg - 1)]
+      second_part <- x[seq(abs_end + 1, length(x))]
+      x <- c(first_part, abstract, second_part)
+    }
   }
 
   beg_reg <- "^\\s*\\\\begin\\{.*\\}"
