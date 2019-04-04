@@ -17,7 +17,7 @@
 #' csasdown::draft("techrep")
 #' }
 #' @export
-draft <- function(type = c("resdoc", "sr", "techrep"), create_dir = FALSE,
+draft <- function(type = c("resdoc", "sr", "techreport"), create_dir = FALSE,
   edit = FALSE, ...) {
   type <- match.arg(type)
   rmarkdown::draft("index.Rmd", template = type,

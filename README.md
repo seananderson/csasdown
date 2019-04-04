@@ -17,7 +17,7 @@ install.packages("tinytex")
 tinytex::install_tinytex()
 ```
 
-2) Install the csasdown package: 
+2) Install the csasdown package:
 
 ```r
 # install.packages("devtools")
@@ -34,7 +34,7 @@ csasdown::draft("resdoc")
 
 You can do the same for a Technical Report:
 ```r
-csasdown::draft("techrep")
+csasdown::draft("techreport")
 ```
 
 or for a Science Response:
