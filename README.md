@@ -1,6 +1,7 @@
 # csasdown
 
 [![Travis build status](https://travis-ci.org/pbs-assess/csasdown.svg?branch=master)](https://travis-ci.org/pbs-assess/csasdown)
+[![Coverage status](https://codecov.io/gh/pbs-assess/csasdown/branch/master/graph/badge.svg)](https://codecov.io/github/pbs-assess/csasdown?branch=master)
 
 csasdown is an R package that uses the bookdown package to generate Canadian Science Advisory Secretariat (CSAS) Research Documents ("Res Docs") in PDF or Word format using R Markdown. It is based on Chester Ismay's thesisdown package and Ben Marwick's huskydown package.
 
