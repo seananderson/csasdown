@@ -4,7 +4,7 @@
 \alias{draft}
 \title{Create a new CSAS document based on a template}
 \usage{
-draft(type = c("resdoc", "sr", "techrep"), create_dir = FALSE,
+draft(type = c("resdoc", "sr", "techreport"), create_dir = FALSE,
   edit = FALSE, ...)
 }
 \arguments{
