@@ -229,7 +229,7 @@
   \pagenumbering{roman}
   %% TOC is required by CSAS to be on page iii.
   \setcounter{page}{3}
-  \renewcommand{\contentsname}{\bf \large \vspace{-25mm} TABLE OF CONTENTS}
+  \renewcommand{\contentsname}{\bf \large \vspace{-20mm} TABLE OF CONTENTS}
   \addtocontents{toc}{\protect\thispagestyle{fancy}}
   \begin{center}
     \tableofcontents
@@ -614,20 +614,23 @@
 
 \thispagestyle{empty}
 
-\newgeometry{top=0.5in,bottom=0.5in,left=1in,right=1in}
+\newgeometry{top=0.55in,bottom=0.55in,left=1in,right=1in}
 
 \includegraphics[width=9.14cm]{\locRepo/images/title-header.png}
 
+\vspace{1.5mm}
+
 \textbf{Canadian Science Advisory Secretariat (CSAS)}
-\vspace{0.5mm}
+
+\vspace{0.4mm}
 
 \hrule
 
-\vspace{-1.5mm}
+\vspace{1.8mm}
 
 \textbf{Research Document \rdYear{}/\rdNumber{}}\\
 
-\vspace{0.2cm}
+\vspace{2mm}
 
 \textbf{\rdRegion{}}
 
@@ -648,7 +651,9 @@
 
 \hrule
 
-\vspace{-4.0mm}
+\vspace{-0.9mm}
+
+% \vspace{-4.0mm}
 \parbox{9cm}{\rdMonth{} \rdYear{}}%
 \begin{minipage}[t]{7.48cm}
 \flushright
@@ -664,19 +669,16 @@
 \begin{center}
 \textbf{Foreword}
 \end{center}
-\vspace{-1.5mm}
+\vspace{0.2mm}
 
-This series documents the scientific basis for the evaluation of aquatic resources and ecosystems in Canada.
-As such, it addresses the issues of the day in the time frames required and the documents it contains are not intended as definitive statements on the subjects addressed but rather as progress reports on ongoing investigations.
+This series documents the scientific basis for the evaluation of aquatic resources and ecosystems in Canada.  As such, it addresses the issues of the day in the time frames required and the documents it contains are not intended as definitive statements on the subjects addressed but rather as progress reports on ongoing investigations.
 
-Research documents are produced in the official language in which they are provided to the Secretariat.
-
-\vspace{1.5mm}
+\vspace{4.2mm}
 
 \begin{center}
 \textbf{Published by:\\}
-\vspace{0.2cm}
-Fisheries and Oceans Canada\\
+\vspace{1.9mm}
+Fisheries and Oceans Canada.\\
 Canadian Science Advisory Secretariat\\
 200 Kent Street\\
 Ottawa ON K1A 0E6\\
@@ -685,22 +687,26 @@ Ottawa ON K1A 0E6\\
 \href{http://www.dfo-mpo.gc.ca/csas-sccs/}{http://www.dfo-mpo.gc.ca/csas-sccs/}\\
 \href{mailto://csas-sccs@dfo-mpo.gc.ca}{csas-sccs@dfo-mpo.gc.ca}
 
-\vspace{-3mm}
+\vspace{0mm}
 \includegraphics[scale=0.96]{\locRepo/images/recycle.png}
 
-\vspace{-3mm}
+\vspace{-1mm}
 \textcopyright\ Her Majesty the Queen in Right of Canada, \rdYear{}\\
 ISSN 1919-5044
 \end{center}
 
-\vspace{-3mm}
+\vspace{-0.2mm}
 
 \textbf{Correct citation for this publication:}\\
-\vspace{0.2cm}
-\hangindent=0.6cm \rdAuthRev{}.
+\vspace{2mm}
+\hangindent=0.6cm \rdAuthRev{}
 \rdTitle{}.
 DFO Can.\ Sci.\ Advis.\ Sec.\ Res.\ Doc. \rdYear{}/\rdNumber{}.
 \pageref{TRlastRoman}{} + \pageref{LastPage} p.
+
+\vspace{0.2mm}
+\textbf{Aussi disponible en fran\c cais :}\\
+
 \vspace*{\fill}
 
 \thispagestyle{nofooter}
