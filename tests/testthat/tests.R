@@ -62,6 +62,20 @@ test_that("bookdown::render_book generates the PDF of the resdoc", {
   expect_true(file.exists(file.path(testing_path, "index/_book/resdoc.pdf")))
 })
 
+x <- readLines("index.Rmd")
+x[grep("french:", x)] <- gsub("false", "true", x[grep("french:", x)])
+file.remove(file.path(testing_path, "index/_book/resdoc.pdf"))
+
+expect_warning({
+  bookdown::render_book("index.Rmd",
+    csasdown::resdoc_pdf(),
+    envir = globalenv()
+  )})
+
+test_that("bookdown::render_book generates the PDF of the French resdoc", {
+  expect_true(file.exists(file.path(testing_path, "index/_book/resdoc.pdf")))
+})
+
 context("render into a .docx")
 
 suppressWarnings(bookdown::render_book("index.Rmd",
