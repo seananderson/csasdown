@@ -46,7 +46,10 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
   # base$knitr$opts_chunk$fig.align <- "center"
 
   old_opt <- getOption("bookdown.post.latex")
-  options(bookdown.post.latex = fix_envs)
+  if (french)
+    options(bookdown.post.latex = fix_envs_resdoc_french)
+  else
+    options(bookdown.post.latex = fix_envs)
   on.exit(options(bookdown.post.late = old_opt))
 
   base
@@ -133,7 +136,7 @@ techreport_pdf <- function(latex_engine = "pdflatex", ...) {
   update_csasstyle()
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
-  options(bookdown.post.latex = fix_ens_tr)
+  options(bookdown.post.latex = fix_envs_tr)
   on.exit(options(bookdown.post.late = old_opt))
   base
 }
@@ -144,11 +147,15 @@ update_csasstyle <- function() {
  ignore <- file.copy(f, ".", overwrite = TRUE, recursive = TRUE)
 }
 
-fix_ens_tr <- function(x) {
+fix_envs_tr <- function(x) {
   fix_envs(x, join_abstract = FALSE)
 }
 
-fix_envs <- function(x, join_abstract = TRUE) {
+fix_envs_resdoc_french <- function(x) {
+  fix_envs(x, join_abstract = TRUE, french = TRUE)
+}
+
+fix_envs <- function(x, join_abstract = TRUE, french = FALSE) {
   ## Change csas-style to use the sty file found in csasdown repo
   g <- grep("csas-style", x)
 
@@ -194,8 +201,13 @@ fix_envs <- function(x, join_abstract = TRUE) {
 
   for (i in seq(appendix_line + 1, length(x))) {
     x[i] <- gsub("\\\\section\\{", "\\\\appsection\\{", x[i])
-    x[i] <- gsub("\\\\chapter\\{",
-      "\\\\starredchapter\\{APPENDIX~\\\\thechapter. ", x[i])
+    if (!french) {
+      x[i] <- gsub("\\\\chapter\\{",
+        "\\\\starredchapter\\{APPENDIX~\\\\thechapter. ", x[i])
+    } else {
+      x[i] <- gsub("\\\\chapter\\{",
+        "\\\\starredchapter\\{ANNEXE~\\\\thechapter. ", x[i])
+    }
   }
   x <- inject_refstepcounters(x)
 
