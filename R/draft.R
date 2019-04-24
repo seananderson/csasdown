@@ -1,3 +1,4 @@
+# nocov start
 #' Create a new CSAS document based on a template
 #'
 #' Create a draft of an R Markdown CSAS document
@@ -23,3 +24,4 @@ draft <- function(type = c("resdoc", "sr", "techreport"), create_dir = FALSE,
   rmarkdown::draft("index.Rmd", template = type,
     package = "csasdown", create_dir = create_dir, edit = edit)
 }
+# nocov end
