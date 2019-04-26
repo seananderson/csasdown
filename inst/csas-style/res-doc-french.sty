@@ -157,8 +157,6 @@
 %% Paragraph text settings
 %% To not indent paragraphs.
 \setlength\parindent{0pt}
-%% To increase white space between paragraphs (since not indenting).
-\parskip 2ex
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
@@ -231,7 +229,7 @@
   \pagenumbering{roman}
   %% TOC is required by CSAS to be on page iii.
   \setcounter{page}{3}
-  \renewcommand{\contentsname}{\bf \large \vspace{-25mm} TABLE OF CONTENTS}
+  \renewcommand{\contentsname}{\bf \large \vspace{-20mm} TABLE OF CONTENTS}
   \addtocontents{toc}{\protect\thispagestyle{fancy}}
   \begin{center}
     \tableofcontents
@@ -368,7 +366,8 @@
 
 %% ------------------------------------------------------------------------------
 %% For landscape pages in CSAS documents
-\usepackage{pdflscape}
+% \usepackage{pdflscape}
+\usepackage{lscape}
 \usepackage[absolute]{textpos}
 \setlength{\TPHorizModule}
   {8.5in}
@@ -459,22 +458,33 @@
 %%  e.g. level 2 uses small alphabetic characters and
 %%  level 3 uses roman numerals.
 \usepackage{enumitem}
-\newlist{resdoclist}{enumerate}{5}
-\setlist[resdoclist]{
+\setenumerate{
   align=left,        % Left align labels
   topsep=0pt,        % Vertical space before the list
   labelindent=0pt,   % Space betw. margin of list and label
   %% Even though the specs say 0.25 inches for labelsep, need 0.01 here.
   labelsep*=0.01in,  % Space betw. numbers and text (note * is req'd)
   leftmargin=!,      % No space betw. margin of list and following lines
-  itemindent=0pt     % Hanging indentation (after first line)
+  itemindent=0pt,    % Hanging indentation (after first line)
+  itemsep=1pt        % Vertical space between list items
 }
-\setlist[resdoclist,1]{label=\arabic*.}
-\setlist[resdoclist,2]{label=\alph*.}
-\setlist[resdoclist,3]{label=\roman*.}
-\setlist[resdoclist,4]{label=\arabic*.}
-\setlist[resdoclist,5]{label=\alph*.}
-\setlist{nosep} % Remove all space between list items globally
+\setenumerate[1]{label=\arabic*.}
+\setenumerate[2]{label=\alph*.}
+\setenumerate[3]{label=\roman*.}
+\setenumerate[4]{label=\arabic*.}
+\setenumerate[5]{label=\alph*.}
+\setenumerate{nosep} % This needs to be here for itemsep above to be recognized
+\setitemize{
+  align=left,        % Left align labels
+  topsep=0pt,        % Vertical space before the list
+  labelindent=0pt,   % Space betw. margin of list and label
+  %% Even though the specs say 0.25 inches for labelsep, need 0.01 here.
+  labelsep*=0.01in,  % Space betw. numbers and text (note * is req'd)
+  leftmargin=!,      % No space betw. margin of list and following lines
+  itemindent=0pt,    % Hanging indentation (after first line)
+  itemsep=1pt        % Vertical space between list items
+}
+\setitemize{nosep}   % This needs to be here for itemsep above to be recognized
 
 %% Hanging indent of the bibliography items.
 \setlength{\bibhang}{0.25in}
@@ -514,7 +524,7 @@
 \usepackage{arydshln}
 %% So paragraphs will have a blank line between them
 \usepackage[parfill]{parskip}
-\setlength{\parskip}{12pt}
+\setlength{\parskip}{4pt}
 %% So links will anchor at figure, not caption
 \usepackage{hypcap}
 %% For two-panel plots
@@ -605,20 +615,23 @@
 
 \thispagestyle{empty}
 
-\newgeometry{top=0.5in,bottom=0.5in,left=1in,right=1in}
+\newgeometry{top=0.55in,bottom=0.55in,left=1in,right=1in}
 
 \includegraphics[width=9.14cm]{\locRepo/images/title-header-FR.png}
 
+\vspace{1.5mm}
+
 \textbf{Secrétariat canadien de consultation scientifique (SCCS)}
-\vspace{0.5mm}
+
+\vspace{0.4mm}
 
 \hrule
 
-\vspace{-1.5mm}
+\vspace{1.8mm}
 
 \textbf{Document de recherche \rdYear{}/\rdNumber{}}\\
 
-\vspace{0.2cm}
+\vspace{2mm}
 
 \textbf{\rdRegion{}}
 
@@ -639,7 +652,9 @@
 
 \hrule
 
-\vspace{-4.0mm}
+\vspace{-0.9mm}
+
+				 
 \parbox{9cm}{\rdMonth{} \rdYear{}}%
 \begin{minipage}[t]{7.48cm}
 \flushright
@@ -655,15 +670,15 @@
 \begin{center}
 \textbf{Avant-propos}
 \end{center}
-\vspace{-1.5mm}
+\vspace{0.2mm}
 
 La présente série documente les fondements scientifiques des évaluations des ressources et des écosystèmes aquatiques du Canada. Elle traite des problèmes courants selon les échéanciers dictés. Les documents qu’elle contient ne doivent pas être considérés comme des énoncés définitifs sur les sujets traités, mais plutôt comme des rapports d’étape sur les études en cours.
 
-\vspace{1.5mm}
+\vspace{4.2mm}
 
 \begin{center}
 \textbf{Publié par:\\}
-\vspace{0.2cm}
+\vspace{1.9mm}
 Pêches et Océans Canada\\
 Secrétariat canadien de consultation scientifique\\
 200, rue Kent\\
@@ -673,22 +688,26 @@ Ottawa ON K1A 0E6\\
 \href{http://www.dfo-mpo.gc.ca/csas-sccs/}{http://www.dfo-mpo.gc.ca/csas-sccs/}\\
 \href{mailto://csas-sccs@dfo-mpo.gc.ca}{csas-sccs@dfo-mpo.gc.ca}
 
-\vspace{-3mm}
+\vspace{0mm}
 \includegraphics[scale=0.96]{\locRepo/images/recycle.png}
 
-\vspace{-3mm}
+\vspace{-1mm}
 \textcopyright\ Sa Majesté la Reine du chef du Canada, \rdYear{}\\
 ISSN 2292-4272
 \end{center}
 
-\vspace{-3mm}
+\vspace{-0.2mm}
 
 \textbf{La présente publication doit être citée comme suit:}\\
-\vspace{0.2cm}
-\hangindent=0.6cm \rdAuthRev{}.
+\vspace{2mm}
+\hangindent=0.6cm \rdAuthRev{}
 \rdTitle{}.
 Secr.\ can.\ de\ consult.\ sci.\ du\ MPO.\ Doc.\ de\ rech. \rdYear{}/\rdNumber{}.
 \pageref{TRlastRoman}{} + \pageref{LastPage} p.
+
+\vspace{0.2mm}
+\textbf{Also available in English :}\\
+
 \vspace*{\fill}
 
 \thispagestyle{nofooter}
