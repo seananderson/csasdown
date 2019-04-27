@@ -3,13 +3,13 @@
 [![Travis build status](https://travis-ci.org/pbs-assess/csasdown.svg?branch=master)](https://travis-ci.org/pbs-assess/csasdown)
 [![Coverage status](https://codecov.io/gh/pbs-assess/csasdown/branch/master/graph/badge.svg)](https://codecov.io/github/pbs-assess/csasdown?branch=master)
 
-csasdown is an R package that uses the bookdown package to generate Canadian Science Advisory Secretariat (CSAS) Research Documents ("Res Docs") in PDF or Word format using R Markdown. It is based on Chester Ismay's thesisdown package and Ben Marwick's huskydown package.
+csasdown is an R package that uses the bookdown package to generate Canadian Science Advisory Secretariat (CSAS) documents in PDF or Word format using R Markdown. It is based on Chester Ismay's thesisdown package and Ben Marwick's huskydown package.
 
 Slides from a recent workshop on csasdown [[PDF](https://www.dropbox.com/s/7m23mh3yfhk5ah8/csasdown-slides.pdf?dl=1)].
 
 ## Initial setup
 
-Using csasdown has some prerequisites, such as Pandoc, LaTeX, and fonts. To compile PDF documents using R, you need to have Pandoc, LaTeX and several related packages installed. If you have a recent version of  [RStudio](http://www.rstudio.com/products/rstudio/download/), then you already have Pandoc and don't need to do anything more about that.
+To compile PDF documents using R, you need to have Pandoc, LaTeX and several related packages installed. If you have a recent version of  [RStudio](http://www.rstudio.com/products/rstudio/download/), then you already have Pandoc.
 
 1) You will need to install LaTeX:
 
@@ -25,7 +25,7 @@ tinytex::install_tinytex()
 devtools::install_github("pbs-assess/csasdown")
 ```
 
-3) Start a new project directory if you'd like. If you're using RStudio: File -> New Project. Open the RStudio project or set your R working directory to the root folder of the project. Create a new sub-directory and change your working directory to that folder first if that is where you want the Research Document files.
+3) Start a new project directory if you'd like. If you're using RStudio: File -> New Project. Open the RStudio project or set your R working directory to the root folder of the project. Create a new sub-directory and change your working directory to that folder first if that is where you want the report files.
 
 4) Run this line in your R console to create a new Research Document from the built-in template in whatever your working directory is:
 
@@ -34,6 +34,7 @@ csasdown::draft("resdoc")
 ```
 
 You can do the same for a Technical Report:
+
 ```r
 csasdown::draft("techreport")
 ```
@@ -68,7 +69,7 @@ The rendered PDF or Word file of your report will be deposited in the `_book/` d
 
 <img src="screenshots/example-page.png" width="450">
 
-If you want to add a CSAS-formatted .docx title page, edit the file `templates/RES2016-eng-titlepage.docx` as desired and run the command:
+If you want to add a CSAS-formatted .docx title page to a Res Doc, edit the file `templates/RES2016-eng-titlepage.docx` as desired and run the command:
 
 ```r
 csasdown::add_resdoc_docx_titlepage()
@@ -78,16 +79,15 @@ This will attach the title page to the beginning of the Word document.
 
 ## Components
 
-The following components are ones you should edit to customize your Research Document:
+The following components are ones you should edit to customize your report:
 
 ### `_bookdown.yml`
 
-This is the main configuration file for your Research Document. It determines what .Rmd files are included in the output, and in what order. Arrange the order of your chapters in this file and ensure that the names match the names in your folders. If you add new chapters/sections, add them here.
+This is the main configuration file for your report. It determines what .Rmd files are included in the output, and in what order. Arrange the order of your chapters in this file and ensure that the names match the names in your folders. If you add new sections, add them here.
 
 ### `index.Rmd`
 
-This file contains all the meta information that goes at the beginning of your
-document. You'll need to edit this to put your name on the first page, add the title of your Research Document, etc.
+This file contains all the meta information that goes at the beginning of your document. You'll need to edit this to put your name on the first page, add the title of your report, etc.
 
 ### `01-chap1.Rmd`, `02-chap2.Rmd`, etc.
 
@@ -99,7 +99,7 @@ Store your bibliography (as BibTeX files) here. You might look at the [citr addi
 
 ### `csl/`
 
-Specific style files for bibliographies should be stored here.You will want to use the included `csas.csl`, which is based on the CJFAS (Canadian Journal of Fisheries and Aquatic Sciences) `.csl` file.
+Style files for bibliographies should be stored here. You will want to use the included `csas.csl`, which is based on the CJFAS (Canadian Journal of Fisheries and Aquatic Sciences) `.csl` file.
 
 ### `figure/` and `data/`
 
