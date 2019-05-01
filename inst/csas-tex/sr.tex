@@ -12,20 +12,30 @@
 
 %%%% Commands for title page etc %%%%%
 
+% Title
+\newcommand{\rdTitle}{$title$}
+
+% French title
+\newcommand{\rdTitleFr}{$title_other$}
+
+% Title short
+\newcommand{\rdTitleShort}{$title_short$}
+
 % Publication year
 \newcommand{\rdYear}{$year$}
 
 % Publication month
 \newcommand{\rdMonth}{$month$}
 
-% Approval date (default to publication year and month)
-% \newcommand{\rdAppDate}{\rdMonth{}{$approval_month$} \rdDay{}{$approval_day$}, \rdYear{}{$approval_year$}}
+% Report number
+\newcommand{\rdNumber}{$report_number$}
 
 % Approver (name\\position)
 \newcommand{\rdApp}{$approver$}
-
-% Report number
-\newcommand{\rdNumber}{$report_number$}
+% \newcommand{\rdYear}{$approval_year$}
+% \newcommand{\rdAppMonth}{$approval_month$}
+% \newcommand{\rdAppDay}{$approval_day$}
+\newcommand{\rdAppDate}{$approval_month$ $approval_day$, $approval_year$}
 
 % Branch
 \newcommand{\rdBranch}{$branch$}
@@ -42,15 +52,6 @@
 % Email
 \newcommand{\rdEmail}{$email$}
 
-% Title
-\newcommand{\rdTitle}{$title$}
-
-% French title
-\newcommand{\rdTitleFr}{$title_other$}
-
-% Title short
-\newcommand{\rdTitleShort}{$title_short$}
-
 %%%% End of title page commands %%%%%
 
 \begin{document}
@@ -58,8 +59,6 @@
 \MakeFirstPage
 
 $body$
-
-\MakeApproval
 
 \MakeAvailable
 

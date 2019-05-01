@@ -5,15 +5,14 @@ title_other: "Titre Ici (*Nom Latin*)"
 year: 20XX
 month: January
 report_number: nnn
-params:
-  approver: |
-    Approver Name\\
-    Regional Director\\
-    Science Branch, Your Region\\
-    Fisheries and Oceans Canada
-  approval_year: 20XX
-  approval_month: January
-  approval_day: 01
+approver: |
+  Approver Name\\
+  Regional Director\\
+  Science Branch, Your Region\\
+  Fisheries and Oceans Canada
+approval_year: 20XX
+approval_month: January
+approval_day: 01
 branch: Science Branch
 region: Pacific Region
 address: |
@@ -23,7 +22,7 @@ address: |
   ^2^Far, far away\
      Another Galaxy
 phone: (555) 555-5555
-email: insert-local-csas-email-here@dfo-mpo.gc.ca
+email: csap@dfo-mpo.gc.ca
 output:
  csasdown::sr_pdf
   # csasdown::sr_word:
