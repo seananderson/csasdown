@@ -229,8 +229,7 @@ fix_envs <- function(x, join_abstract = TRUE, french = FALSE) {
   x <- gsub(" \\\\ref\\{", "~\\\\ref\\{", x)
 
   # Add tooltips so that figures have alternative text for read-out-loud
-  # FIXME - try drafting tech report and then adding plot(cars) in a code chunk and this causes latex undefined control sequence
-  # x <- gsub("(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})", "\\\\pdftooltip{\\1}{Figure}", x)
+  x <- gsub("(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})", "\\\\pdftooltip{\\1}{Figure}", x)
 
   x
 }
