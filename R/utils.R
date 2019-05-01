@@ -220,9 +220,6 @@ fix_envs <- function(x, join_abstract = TRUE, french = FALSE) {
   x[rs_line + 1] <- gsub("\\}$", '', x[rs_line + 1])
   x[rs_line + 1] <- gsub("\\}.*\\}$", "}", x[rs_line + 1])
 
-  # x <- gsub("itemize\\}", "resdoclist\\}", x)
-  # x <- gsub("enumerate\\}", "resdoclist\\}", x)
-
   x <- gsub("^.*\\\\tightlist$", "", x)
 
   # Non-breaking spaces:
@@ -230,6 +227,22 @@ fix_envs <- function(x, join_abstract = TRUE, french = FALSE) {
 
   # Add tooltips so that figures have alternative text for read-out-loud
   x <- gsub("(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})", "\\\\pdftooltip{\\1}{Figure}", x)
+
+  references_insertion_line <- grep("^\\\\textbackslash bibliography$", x)
+  # Move the bibliography to before the appendices:
+  if (length(references_insertion_line) > 0) {
+    x[references_insertion_line] <- ""
+    references_begin <- grep("^\\\\chapter\\*\\{REFERENCES\\}", x) - 1
+    if (length(references_begin) > 0) {
+      references_end <- length(x) - 1
+      x <- c(x[seq(1, references_insertion_line)],
+        x[seq(references_begin, references_end)],
+        x[seq(references_insertion_line + 1, references_begin - 1)],
+        x[length(x)])
+    } else {
+      warning("Did not find the beginning of the LaTeX bibliography.", call. = FALSE)
+    }
+  }
 
   x
 }

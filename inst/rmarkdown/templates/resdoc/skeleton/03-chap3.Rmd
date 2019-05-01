@@ -81,11 +81,15 @@ R Markdown uses pandoc (<http://pandoc.org/>) to build its bibliographies.  One 
 
 For more information about BibTeX and bibliographies, see (<http://web.reed.edu/cis/help/latex/index.html>). There are three pages on this topic:  _bibtex_ (which talks about using BibTeX, at <http://web.reed.edu/cis/help/latex/bibtex.html>), _bibtexstyles_ (about how to find and use the bibliography style that best suits your needs, at <http://web.reed.edu/cis/help/latex/bibtexstyles.html>) and _bibman_ (which covers how to make and maintain a bibliography by hand, without BibTeX, at <http://web.reed.edu/cis/help/latex/bibman.html>). The last page will not be useful unless you have only a few sources.
 
-If you look at the YAML header at the top of the main .Rmd file you can see that we can specify the style of the bibliography by referencing the appropriate csl file.  You can download a variety of different style files at <https://www.zotero.org/styles>.  Make sure to download the file into the csl folder.
-
 **Tips for Bibliographies**
 
 - The cite key (a citation's label) needs to be unique from the other entries.
 - When you have more than one author or editor, you need to separate each author's name by the word "and" e.g. `Author = {Noble, Sam and Youngberg, Jessica},`.
 - Bibliographies made using BibTeX (whether manually or using a manager) accept LaTeX markup, so you can italicize and add symbols as necessary.
 - To force capitalization in an article title or where all lowercase is generally used, bracket the capitalized word in curly braces. E.g. `{Pacific Cod}`.
+
+CSAS style requires the bibliography to be before the appendices and before tables and figures if you keep those together at the end of your document.
+
+Wherever you want your bibliography to appear, insert the following exactly like this with nothing else on the line:
+
+\bibliography
