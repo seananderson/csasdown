@@ -1,3 +1,10 @@
 book_filename: "sr"
-rmd_files: ["index.Rmd", "01_context.Rmd", "02_background.Rmd", "03_analysis.Rmd", "04_conclusions.Rmd", "05_contributors.Rmd","06_approval.Rmd","07_bibliography.Rmd"]
+rmd_files: ["index.Rmd",
+            "01_context.Rmd",
+            "02_background.Rmd",
+            "03_analysis.Rmd",
+            "04_conclusions.Rmd",
+            "05_contributors.Rmd",
+            "06_approval.Rmd",
+            "07_bibliography.Rmd"]
 delete_merged_file: true
