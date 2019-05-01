@@ -237,6 +237,8 @@ fix_envs <- function(x, join_abstract = TRUE, french = FALSE) {
       references_end <- length(x) - 1
       x <- c(x[seq(1, references_insertion_line)],
         x[seq(references_begin, references_end)],
+      # need to reset the various indentation settings:
+        "\\setlength{\\parindent}{0in} \\setlength{\\leftskip}{0in} \\setlength{\\parskip}{4pt}",
         x[seq(references_insertion_line + 1, references_begin - 1)],
         x[length(x)])
     } else {
