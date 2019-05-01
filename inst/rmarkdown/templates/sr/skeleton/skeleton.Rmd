@@ -6,9 +6,9 @@ year: 20XX
 month: January
 report_number: nnn
 approver: |
-  Approver Name\\
-  Regional Director\\
-  Science Branch, Your Region\\
+  Approver Name\
+  Regional Director\
+  Science Branch, Your Region\
   Fisheries and Oceans Canada
 approval_year: 20XX
 approval_month: January
@@ -21,7 +21,7 @@ address: |
      Nanaimo, British Columbia, V9T 6N7, Canada\
   ^2^Far, far away\
      Another Galaxy
-phone: (555) 555-5555
+phone: (250) 756-7208
 email: csap@dfo-mpo.gc.ca
 output:
  csasdown::sr_pdf
