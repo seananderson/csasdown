@@ -90,6 +90,4 @@ For more information about BibTeX and bibliographies, see (<http://web.reed.edu/
 
 CSAS style requires the bibliography to be before the appendices and before tables and figures if you keep those together at the end of your document.
 
-Wherever you want your bibliography to appear, insert the following exactly like this with nothing else on the line:
-
-\bibliography
+See the next file `04-references.Rmd` which will make the bibliography appear wherever that file is listed in `_bookdown.yml`.
