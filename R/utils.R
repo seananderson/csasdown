@@ -242,6 +242,7 @@ fix_envs <- function(x, join_abstract = TRUE, french = FALSE) {
         "\\setlength{\\parindent}{-0.2in}",
         "\\setlength{\\leftskip}{0.2in}",
         "\\setlength{\\parskip}{8pt}",
+        "",
         x[seq(references_begin, references_end)],
         "\\setlength{\\parindent}{0in} \\setlength{\\leftskip}{0in} \\setlength{\\parskip}{4pt}",
         x[seq(references_insertion_line + 1, references_begin - 1)],
