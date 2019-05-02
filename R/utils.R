@@ -231,7 +231,7 @@ fix_envs <- function(x, join_abstract = TRUE, french = FALSE) {
   references_insertion_line <- grep("^\\\\chapter\\*\\{REFERENCES\\}", x) + 1
   # Move the bibliography to before the appendices:
   if (length(references_insertion_line) > 0) {
-    references_begin <- grep("^\\\\hypertarget\\{refs\\}\\{\\}$", x) - 1
+    references_begin <- grep("^\\\\hypertarget\\{refs\\}\\{\\}$", x)
     if (length(references_begin) > 0) {
       references_end <- length(x) - 1
       x <- c(x[seq(1, references_insertion_line)],
