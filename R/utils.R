@@ -236,9 +236,11 @@ fix_envs <- function(x, join_abstract = TRUE, french = FALSE) {
     references_begin <- grep("^\\\\hypertarget\\{refs\\}\\{\\}$", x)
     if (length(references_begin) > 0) {
       references_end <- length(x) - 1
-      x <- c(x[seq(1, references_insertion_line)],
+      x <- c(x[seq(1, references_insertion_line - 1)],
+        "\\phantomsection",
+        x[references_insertion_line],
         "% This manually sets the header for this unnumbered chapter.",
-        "\\markboth{References}{References}",
+        # "\\markboth{References}{References}",
         "\\noindent",
         "\\vspace{-2em}",
         "\\setlength{\\parindent}{-0.2in}",
