@@ -229,6 +229,8 @@ fix_envs <- function(x, join_abstract = TRUE, french = FALSE) {
   x <- gsub("(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})", "\\\\pdftooltip{\\1}{Figure}", x)
 
   references_insertion_line <- grep("^\\\\chapter\\*\\{REFERENCES\\}", x) + 1
+  x[references_insertion_line - 1] <- sub("chapter", "section", x[references_insertion_line - 1])
+  x[references_insertion_line] <- sub("chapter", "section", x[references_insertion_line])
   # Move the bibliography to before the appendices:
   if (length(references_insertion_line) > 0) {
     references_begin <- grep("^\\\\hypertarget\\{refs\\}\\{\\}$", x)
