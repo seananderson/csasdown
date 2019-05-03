@@ -228,7 +228,10 @@ fix_envs <- function(x, join_abstract = TRUE, french = FALSE) {
   # Add tooltips so that figures have alternative text for read-out-loud
   x <- gsub("(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})", "\\\\pdftooltip{\\1}{Figure}", x)
 
-  references_insertion_line <- grep("^\\\\chapter\\*\\{REFERENCES\\}", x) + 1
+  # The following regex should work for French or English:
+  references_insertion_line <- grep(
+    "^\\\\chapter\\*\\{R\\p{L}F\\p{L}RENCES\\}", x, perl = TRUE) + 1
+
   x[references_insertion_line - 1] <- sub("chapter", "section", x[references_insertion_line - 1])
   x[references_insertion_line] <- sub("chapter", "section", x[references_insertion_line])
   # Move the bibliography to before the appendices:
