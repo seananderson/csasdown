@@ -41,10 +41,11 @@
 \usepackage[pagewise]
            {lineno}
 %% Page margins
-\usepackage[top=1in,
-            bottom=1in,
+\usepackage[top=0.25in,
+            bottom=1.5in,
             left=1in,
-            right=1in]
+            right=1in,
+			      includefoot]
            {geometry}
 %% ------------------------------------------------------------------------------
 
@@ -59,6 +60,7 @@
             singlelinecheck=false]
            {caption}
 %% ------------------------------------------------------------------------------
+\usepackage{afterpage}
 
 %% ------------------------------------------------------------------------------
 %% Table of Contents
@@ -370,12 +372,7 @@
 \renewcommand{\footrulewidth}{0.4pt}
 \renewcommand{\headrulewidth}{0.4pt}
 \fancyhead[C]{\textbf{\rdRegion{}} \hfill \textbf{Science Response: \rdTitleShort{}}}
-\fancyfoot[C]{\thepage}%Did I delete this line?
-\fancypagestyle{csapfancy}{%%
-  %% \fancyhead[L]{}%%{DRAFT -- Non-citable working paper}
-  %% \fancyhead[R]{}%%{CSAP WP2016zzzxx}
-  %% \fancyfoot[L]{}%%{Appendix \thechapter -- Model Results}
-  %% \fancyfoot[R]{}%%{\Sexpr{paste0(sppname," (",area.name,")")}}
+\fancypagestyle{csapfancy}{
   \fancyfoot[C]{\thepage}
   \renewcommand{\footrulewidth}{0.4pt}
   \renewcommand{\headrulewidth}{0.4pt}
@@ -564,7 +561,7 @@
 %% ------------------------------------------------------------------------------
 %% Set up first page (header and footer)
 \fancypagestyle{firstPage}{%
-    % \newgeometry{footskip=35pt}
+    \newgeometry{}
     \fancyhf{}
     \fancyhead{}
     \lhead{\includegraphics[width=9.2cm]{\locRepo/images/title-header.png}\\
@@ -574,19 +571,20 @@
     \textbf{Science Response \rdYear{}/\rdNumber{}}}
     \lfoot{\rdMonth{} \rdYear{}}
     \rfoot{\includegraphics[width=3.54cm]{\locRepo/images/title-footer.png}}
-    % \afterpage{\restoregeometry}
+    \afterpage{\cfoot{\thepage}}
+    \afterpage{\restoregeometry}
 }
 
 % Generate the first page
 \newcommand{\MakeFirstPage}{
   % Headers and footers for the first page
   \thispagestyle{firstPage}
-  % Make the title -- needs a big space to print below the header (issue #3)
+  % Make the title -- needs a big space to print below the header
   \vspace*{1.75cm}
   \begin{center}
   % This needs to be heading "level 1" (issue #5); secion is level 2, an so on
   \Large{\textbf{\MakeTextUppercase{\rdTitle{}}}}
-  \vspace{-0.2cm}
+  %\vspace{1in}
   \end{center}
 }
 
