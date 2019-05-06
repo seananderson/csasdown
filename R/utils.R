@@ -227,6 +227,10 @@ fix_envs <- function(x, join_abstract = TRUE, french = FALSE) {
 
   # Add tooltips so that figures have alternative text for read-out-loud
   x <- gsub("(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})", "\\\\pdftooltip{\\1}{Figure}", x)
+  allfigs <- grep("(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})", x)
+  for(i in seq_along(allfigs)){
+    x[allfigs[i]] <- gsub("Figure", paste("Figure", i), x[allfigs[i]])
+  }
 
   # The following regex should work for French or English:
   references_insertion_line <- grep(
