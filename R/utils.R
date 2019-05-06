@@ -225,12 +225,32 @@ fix_envs <- function(x, join_abstract = TRUE, french = FALSE) {
   # Non-breaking spaces:
   x <- gsub(" \\\\ref\\{", "~\\\\ref\\{", x)
 
+  # ----------------------------------------------------------------------
   # Add tooltips so that figures have alternative text for read-out-loud
-  x <- gsub("(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})", "\\\\pdftooltip{\\1}{Figure}", x)
-  allfigs <- grep("(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})", x)
-  for(i in seq_along(allfigs)){
-    x[allfigs[i]] <- gsub("Figure", paste("Figure", i), x[allfigs[i]])
+  figlabel_lines <- x[grep("\\\\label\\{fig:", x)]
+  fig_labels <- gsub("\\\\caption\\{(.*?)\\}\\\\label\\{fig:(.*?)\\}",
+    "\\2", figlabel_lines)
+  all_include_graphics <- grep("(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})", x)
+
+  # is this a true figure with a caption in Pandoc style?
+  all_include_graphics <-
+    all_include_graphics[grep("\\\\centering", x[all_include_graphics])]
+
+  if (identical(length(fig_labels), length(all_include_graphics))) {
+    for (i in seq_along(all_include_graphics)) {
+      x[all_include_graphics[i]] <-
+        gsub("(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})",
+        paste0("\\\\pdftooltip{\\1}{", "Figure \\\\ref{fig:", fig_labels[i], "}}"),
+          x[all_include_graphics[i]])
+    }
+  } else {
+    warning("The number of detected figure captions did not match the number of ",
+    "detected figures. Reverting to unnumbered alternative text figures.",
+      call. = FALSE)
+    x <- gsub("(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})",
+      "\\\\pdftooltip{\\1}{Figure}", x)
   }
+  # ----------------------------------------------------------------------
 
   # The following regex should work for French or English:
   references_insertion_line <- grep(
