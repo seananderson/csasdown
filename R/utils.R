@@ -230,7 +230,7 @@ fix_envs <- function(x, join_abstract = TRUE, french = FALSE) {
 
   # The following regex should work for French or English:
   references_insertion_line <- grep(
-    "^\\\\chapter\\*\\{R\\p{L}F\\p{L}RENCES\\}", x, perl = TRUE) + 1
+    "^\\\\chapter\\*\\{R\\p{L}F\\p{L}RENCES", x, perl = TRUE) + 1
 
   x[references_insertion_line - 1] <- sub("chapter", "section", x[references_insertion_line - 1])
   x[references_insertion_line] <- sub("chapter", "section", x[references_insertion_line])
