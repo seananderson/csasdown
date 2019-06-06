@@ -19,3 +19,28 @@ csasdown::csas_table(d,
 See Table \@ref(tab:testtab) for the example table.
 
 See Figure \@ref(fig:testfig) for the example figure.
+
+\clearpage
+
+<!-- clearpage ends the page, and also dumps out all floats.
+  Floats are things like tables and figures. -->
+```{r widelong, results = "asis"}
+yrs <- 1:45
+ages <- 1:15
+widelong <- matrix(round(rnorm(length(yrs) * length(ages), 20), 4),
+                        nr = length(yrs),
+                        nc = length(ages),
+                   dimnames = list(year = yrs, age = ages))
+widelong_df <- data.frame(cbind(yrs, widelong))
+
+# In landscape tables, you can change the font size if the table
+# is too large and overlaps the header and footer lines.
+csasdown::csas_table(widelong_df,
+                     col.names = c("Year", as.character(ages)),
+                     caption = "A long and wide table",
+                     format = "latex",
+                     landscape = TRUE,
+                     font_size = 8)
+```
+
+\clearpage
