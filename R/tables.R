@@ -32,20 +32,18 @@ csas_table <- function(x,
                     longtable = longtable,
                     ...)
   if(landscape){
-    k <- k %>%
-      kableExtra::landscape()
+    k <- kableExtra::landscape(k)
     if(repeat_header){
-      k <- k %>%
-        kableExtra::kable_styling(font_size = font_size,
-                                  latex_options = "repeat_header",
-                                  repeat_header_text = "",
-                                  repeat_header_method = "replace")
+      k <- kableExtra::kable_styling(k,
+                                     font_size = font_size,
+                                     latex_options = "repeat_header",
+                                     repeat_header_text = "",
+                                     repeat_header_method = "replace")
     }else{
-      k <- k %>%
-        kableExtra::kable_styling(font_size = font_size)
+      k <- kableExtra::kable_styling(k,
+                                     font_size = font_size)
     }
-    k <- k %>%
-      sub("\\caption\\[\\]\\{\\}", "\\caption*{}", .)
+    k <- sub("\\caption\\[\\]\\{\\}", "\\caption*{}", k)
   }
   k
 }
