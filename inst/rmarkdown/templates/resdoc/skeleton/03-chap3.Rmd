@@ -32,6 +32,26 @@ We can also create a link to the table by doing the following: Table \@ref(tab:i
 <!-- clearpage ends the page, and also dumps out all floats.
   Floats are things like tables and figures. -->
 
+```{r longwide, results="asis"}
+yrs <- 1:45
+ages <- 1:15
+wide.and.long <- matrix(round(rnorm(length(yrs)*length(ages), 20),4), nr=length(yrs),             nc=length(ages), 
+dimnames=list(year=yrs, age=ages))
+w.l.df <- data.frame(cbind(yrs, wide.and.long))
+
+csasdown::csas_table(
+  w.l.df,
+  col.names = c("Year", as.character(ages)),
+  caption = "A long and wide table",
+  format = "latex"
+  ) %>% 
+  kableExtra::landscape() %>% 
+  kableExtra::kable_styling(font_size = 8, latex_options = "repeat_header", 
+     repeat_header_text = "", repeat_header_method = "replace") %>% 
+  sub("\\caption\\[\\]\\{\\}", "\\caption*{}", .)
+```
+\clearpage
+
 ## FIGURES
 
 If your report has a lot of figures, _R Markdown_ might behave better for you than that other word processor. One perk is that it will automatically number the figures accordingly in each chapter. You'll also be able to create a label for each figure, add a caption, and then reference the figure in a way similar to what we saw with tables earlier.  If you label your figures, you can move the figures around and _R Markdown_ will automatically adjust the numbering for you.  No need for you to remember!  So that you don't have to get too far into LaTeX to do this, a couple R functions have been created for you to assist.  You'll see their use below.
