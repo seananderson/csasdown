@@ -9,7 +9,7 @@
 #' @param linesep As defined by [knitr::kable()].
 #' @param longtable As defined by [knitr::kable()].
 #' @param font_size Font size in pts.
-#' @param lanscape Make this table in landscape orientation?
+#' @param landscape Make this table in landscape orientation?
 #' @param repeat_header If landscape, repeat the header on subsequent pages?
 #' @param ... Other arguments to pass to [knitr::kable()].
 #'

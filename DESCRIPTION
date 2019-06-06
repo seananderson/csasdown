@@ -19,6 +19,7 @@ Imports:
     bookdown,
     officer,
     knitr,
+    kableExtra,
     rmarkdown
 Suggests:
     dplyr,

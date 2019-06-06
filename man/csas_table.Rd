@@ -5,7 +5,8 @@
 \title{Custom table for csasdown}
 \usage{
 csas_table(x, format = "pandoc", booktabs = TRUE, linesep = "",
-  longtable = TRUE, ...)
+  longtable = TRUE, font_size = 10, landscape = FALSE,
+  repeat_header = TRUE, ...)
 }
 \arguments{
 \item{x}{An R object, typically a matrix or data frame.}
@@ -17,6 +18,12 @@ csas_table(x, format = "pandoc", booktabs = TRUE, linesep = "",
 \item{linesep}{As defined by \code{\link[knitr:kable]{knitr::kable()}}.}
 
 \item{longtable}{As defined by \code{\link[knitr:kable]{knitr::kable()}}.}
+
+\item{font_size}{Font size in pts.}
+
+\item{landscape}{Make this table in landscape orientation?}
+
+\item{repeat_header}{If landscape, repeat the header on subsequent pages?}
 
 \item{...}{Other arguments to pass to \code{\link[knitr:kable]{knitr::kable()}}.}
 }
