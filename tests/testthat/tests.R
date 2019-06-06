@@ -62,6 +62,24 @@ test_that("bookdown::render_book generates the PDF of the resdoc", {
   expect_true(file.exists(file.path(testing_path, "index/_book/resdoc.pdf")))
 })
 
+if (getwd() != file.path(testing_path, "index"))
+  setwd(file.path(testing_path, "index"))
+
+context("render into a French PDF")
+
+expect_message(check_yaml(), "contains all")
+
+expect_warning({
+  bookdown::render_book("index.Rmd",
+                        csasdown::resdoc_pdf(french = TRUE),
+                        envir = globalenv()
+  )})
+
+test_that("bookdown::render_book generates the French PDF of the resdoc", {
+  expect_true(file.exists(file.path(testing_path, "index/_book/resdoc.pdf")))
+})
+
+
 x <- readLines("index.Rmd")
 x[grep("french:", x)] <- gsub("false", "true", x[grep("french:", x)])
 writeLines(x, con = "index.Rmd")
