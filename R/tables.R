@@ -24,6 +24,8 @@ csas_table <- function(x,
                        font_size = 10,
                        landscape = FALSE,
                        repeat_header = TRUE,
+                       repeat_header_text = "",
+                       repeat_header_method = "replace",
                        ...){
   k <- knitr::kable(x = x,
                     format = format,
@@ -37,8 +39,8 @@ csas_table <- function(x,
       k <- kableExtra::kable_styling(k,
                                      font_size = font_size,
                                      latex_options = "repeat_header",
-                                     repeat_header_text = "",
-                                     repeat_header_method = "replace")
+                                     repeat_header_text = repeat_header_text,
+                                     repeat_header_method = repeat_header_method)
     }else{
       k <- kableExtra::kable_styling(k,
                                      font_size = font_size)
