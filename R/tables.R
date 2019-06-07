@@ -26,13 +26,29 @@ csas_table <- function(x,
                        repeat_header = TRUE,
                        repeat_header_text = "",
                        repeat_header_method = "replace",
+                       col_names = NULL,
+                       col_names_align = "c",
                        ...){
-  k <- knitr::kable(x = x,
-                    format = format,
-                    booktabs = booktabs,
-                    linesep = linesep,
-                    longtable = longtable,
-                    ...)
+  if(!is.null(col_names)){
+    ## Check for newlines in column headers and convert to proper latex linebreaks
+    ## See 'Insert linebreak in table' section in the following
+    ## http://haozhu233.github.io/kableExtra/best_practice_for_newline_in_latex_table.pdf
+    col_names <- kableExtra::linebreak(col_names, align = col_names_align)
+    k <- knitr::kable(x = x,
+                      format = format,
+                      booktabs = booktabs,
+                      linesep = linesep,
+                      longtable = longtable,
+                      col.names = col_names,
+                      ...)
+  }else{
+    k <- knitr::kable(x = x,
+                      format = format,
+                      booktabs = booktabs,
+                      linesep = linesep,
+                      longtable = longtable,
+                      ...)
+  }
   if(landscape){
     k <- kableExtra::landscape(k)
     if(repeat_header){
