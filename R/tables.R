@@ -11,6 +11,8 @@
 #' @param font_size Font size in pts.
 #' @param landscape Make this table in landscape orientation?
 #' @param repeat_header If landscape, repeat the header on subsequent pages?
+#' @param repeat_header_method Same as [kableExtra::kable_styling()]
+#' @param col_names Names for the columns to show on table. If there are any \n's, they will be replaced with the
 #' @param ... Other arguments to pass to [knitr::kable()].
 #'
 #' @examples
@@ -21,7 +23,7 @@ csas_table <- function(x,
                        booktabs = TRUE,
                        linesep = "",
                        longtable = TRUE,
-                       font_size = 10,
+                       font_size = NULL,
                        landscape = FALSE,
                        repeat_header = TRUE,
                        repeat_header_text = "",
@@ -34,7 +36,10 @@ csas_table <- function(x,
     ## Check for newlines in column headers and convert to proper latex linebreaks
     ## See 'Insert linebreak in table' section in the following
     ## http://haozhu233.github.io/kableExtra/best_practice_for_newline_in_latex_table.pdf
-    col_names <- kableExtra::linebreak(col_names, align = col_names_align)
+    if(length(grep("\n", col_names))){
+      ## Only use kableExtra if there are newlines
+      col_names <- kableExtra::linebreak(col_names, align = col_names_align)
+    }
     k <- knitr::kable(x = x,
                       format = format,
                       booktabs = booktabs,

@@ -6,7 +6,9 @@
 \usage{
 csas_table(x, format = "pandoc", booktabs = TRUE, linesep = "",
   longtable = TRUE, font_size = 10, landscape = FALSE,
-  repeat_header = TRUE, ...)
+  repeat_header = TRUE, repeat_header_text = "",
+  repeat_header_method = "replace", col_names = NULL,
+  col_names_align = "c", escape = FALSE, ...)
 }
 \arguments{
 \item{x}{An R object, typically a matrix or data frame.}
