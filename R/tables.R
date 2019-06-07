@@ -28,6 +28,7 @@ csas_table <- function(x,
                        repeat_header_method = "replace",
                        col_names = NULL,
                        col_names_align = "c",
+                       escape = FALSE,
                        ...){
   if(!is.null(col_names)){
     ## Check for newlines in column headers and convert to proper latex linebreaks
@@ -40,6 +41,7 @@ csas_table <- function(x,
                       linesep = linesep,
                       longtable = longtable,
                       col.names = col_names,
+                      escape = escape,
                       ...)
   }else{
     k <- knitr::kable(x = x,
@@ -47,6 +49,7 @@ csas_table <- function(x,
                       booktabs = booktabs,
                       linesep = linesep,
                       longtable = longtable,
+                      escape = escape,
                       ...)
   }
   if(landscape){
