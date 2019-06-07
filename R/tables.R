@@ -8,11 +8,14 @@
 #' @param booktabs As defined by [knitr::kable()].
 #' @param linesep As defined by [knitr::kable()].
 #' @param longtable As defined by [knitr::kable()].
-#' @param font_size Font size in pts.
+#' @param font_size Font size in pts. If NULL, document font size is used.
 #' @param landscape Make this table in landscape orientation?
 #' @param repeat_header If landscape, repeat the header on subsequent pages?
-#' @param repeat_header_method Same as [kableExtra::kable_styling()]
-#' @param col_names Names for the columns to show on table. If there are any \n's, they will be replaced with the
+#' @param repeat_header_text Use to write a Continued.. messgae continuing pages with the long table
+#' @param repeat_header_method As defined by [kableExtra::kable_styling()].
+#' @param col_names Names for the columns to show on table. If there are any \\\ns, they will be replaced with the
+#' @param col_names_align As defined in [kableExtra::linebreak()].
+#' @param escape As defined by [kableExtra::kable_styling()].
 #' @param ... Other arguments to pass to [knitr::kable()].
 #'
 #' @examples
