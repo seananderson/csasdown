@@ -193,9 +193,9 @@ context("render into a PDF")
 #     envir = globalenv()
 #   )})
 
-test_that("bookdown::render_book generates the PDF of the SR", {
-  expect_true(file.exists(file.path(testing_path, "index/_book/techreport.pdf")))
-})
+# test_that("bookdown::render_book generates the PDF of the SR", {
+#   expect_true(file.exists(file.path(testing_path, "index/_book/techreport.pdf")))
+# })
 
 context("render TR into a .docx")
 
