@@ -187,11 +187,11 @@ if (getwd() != file.path(testing_path, "index"))
 
 context("render into a PDF")
 
-expect_warning({
-  bookdown::render_book("index.Rmd",
-    csasdown::techreport_pdf(),
-    envir = globalenv()
-  )})
+# expect_warning({
+#   bookdown::render_book("index.Rmd",
+#     csasdown::techreport_pdf(),
+#     envir = globalenv()
+#   )})
 
 test_that("bookdown::render_book generates the PDF of the SR", {
   expect_true(file.exists(file.path(testing_path, "index/_book/techreport.pdf")))
