@@ -11,7 +11,7 @@ resdoc_pdf(toc = TRUE, toc_depth = 3, highlight = "default",
 
 sr_pdf(latex_engine = "pdflatex", ...)
 
-techreport_pdf(latex_engine = "pdflatex", ...)
+techreport_pdf(french = FALSE, latex_engine = "pdflatex", ...)
 }
 \arguments{
 \item{toc}{A Boolean (\code{TRUE} or \code{FALSE}) specifying whether table of contents

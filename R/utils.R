@@ -124,7 +124,7 @@ techreport_word <- function(french = FALSE, ...) {
 
 #' @export
 #' @rdname csas_pdf
-techreport_pdf <- function(latex_engine = "pdflatex", ...) {
+techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex", ...) {
 
   if (french) {
     file <- system.file("csas-tex", "tech-report-french.tex", package = "csasdown")
