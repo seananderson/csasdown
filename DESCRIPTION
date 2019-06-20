@@ -26,7 +26,8 @@ Suggests:
     ggplot2,
     testthat,
     tinytex,
-    covr
+    covr,
+    tibble
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

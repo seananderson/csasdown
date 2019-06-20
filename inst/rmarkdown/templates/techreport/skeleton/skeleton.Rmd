@@ -63,6 +63,5 @@ options(kableExtra.latex.load_packages = FALSE)
 
 ```{r load-libraries, cache=FALSE}
 # add other packages here:
-library(tidyverse)
 library(csasdown)
 ```
