@@ -5,15 +5,15 @@ plot(cars)
 ```
 
 ```{r testtab}
-d <- tibble::tribble(
-  ~Year,    ~`Value 1`, ~`Value 2`,
-  "2018",    1.12,        31.9,
-  "2019",    2.32,         2.8,
-  "2020",    3.67,       112.2)
+d <- structure(list(
+  Year = c("2018", "2019", "2020"), 
+  `Value 1` = c(1.12, 2.32, 3.67), 
+  `Value 2` = c(31.9, 2.8, 112.2)), 
+  row.names = c(NA, -3L), class = "data.frame")
 
 csasdown::csas_table(d,
-                     align = c("c", "r", "r"),
-                     caption = "Test table with a caption will be numbered automatically.")
+  align = c("c", "r", "r"),
+  caption = "Test table with a caption will be numbered automatically.")
 ```
 
 See Table \@ref(tab:testtab) for the example table.
@@ -23,24 +23,24 @@ See Figure \@ref(fig:testfig) for the example figure.
 \clearpage
 
 <!-- clearpage ends the page, and also dumps out all floats.
-  Floats are things like tables and figures. -->
+Floats are things like tables and figures. -->
 ```{r widelong, results = "asis"}
 yrs <- 1:45
 ages <- 1:15
 widelong <- matrix(round(rnorm(length(yrs) * length(ages), 20), 4),
-                        nr = length(yrs),
-                        nc = length(ages),
-                   dimnames = list(year = yrs, age = ages))
+  nr = length(yrs),
+  nc = length(ages),
+  dimnames = list(year = yrs, age = ages))
 widelong_df <- data.frame(cbind(yrs, widelong))
 
 # In landscape tables, you can change the font size if the table
 # is too large and overlaps the header and footer lines.
 csasdown::csas_table(widelong_df,
-                     col.names = c("Year", as.character(ages)),
-                     caption = "A long and wide table",
-                     format = "latex",
-                     landscape = TRUE,
-                     font_size = 8)
+  col.names = c("Year", as.character(ages)),
+  caption = "A long and wide table",
+  format = "latex",
+  landscape = TRUE,
+  font_size = 8)
 ```
 
 \clearpage
