@@ -32,23 +32,23 @@ We can also create a link to the table by doing the following: Table \@ref(tab:i
 <!-- clearpage ends the page, and also dumps out all floats.
   Floats are things like tables and figures. -->
 
-```{r longwide, results="asis"}
+```{r widelong, results = "asis"}
 yrs <- 1:45
 ages <- 1:15
-wide.and.long <- matrix(round(rnorm(length(yrs)*length(ages), 20),4), nr=length(yrs),             nc=length(ages), 
-dimnames=list(year=yrs, age=ages))
-w.l.df <- data.frame(cbind(yrs, wide.and.long))
+widelong <- matrix(round(rnorm(length(yrs) * length(ages), 20), 4),
+                        nr = length(yrs),
+                        nc = length(ages),
+                   dimnames = list(year = yrs, age = ages))
+widelong_df <- data.frame(cbind(yrs, widelong))
 
-csasdown::csas_table(
-  w.l.df,
-  col.names = c("Year", as.character(ages)),
-  caption = "A long and wide table",
-  format = "latex"
-  ) %>% 
-  kableExtra::landscape() %>% 
-  kableExtra::kable_styling(font_size = 8, latex_options = "repeat_header", 
-     repeat_header_text = "", repeat_header_method = "replace") %>% 
-  sub("\\caption\\[\\]\\{\\}", "\\caption*{}", .)
+# In landscape tables, you can change the font size if the table
+# is too large and overlaps the header and footer lines.
+csasdown::csas_table(widelong_df,
+                     col.names = c("Year", as.character(ages)),
+                     caption = "A long and wide table",
+                     format = "latex",
+                     landscape = TRUE,
+                     font_size = 8)
 ```
 \clearpage
 

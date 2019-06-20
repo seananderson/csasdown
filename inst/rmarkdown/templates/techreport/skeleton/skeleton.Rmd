@@ -57,8 +57,8 @@ knitr::opts_chunk$set(
   dev = if (knitr:::is_latex_output()) "png" else "png",
   dpi = 180,
   fig.align = "center",
-  fig.pos = "htb"
-)
+  fig.pos = "htb")
+options(kableExtra.latex.load_packages = FALSE)
 ```
 
 ```{r load-libraries, cache=FALSE}

@@ -5,7 +5,10 @@
 \title{Custom table for csasdown}
 \usage{
 csas_table(x, format = "pandoc", booktabs = TRUE, linesep = "",
-  longtable = TRUE, ...)
+  longtable = TRUE, font_size = NULL, landscape = FALSE,
+  repeat_header = TRUE, repeat_header_text = "",
+  repeat_header_method = "replace", col_names = NULL,
+  col_names_align = "c", escape = FALSE, ...)
 }
 \arguments{
 \item{x}{An R object, typically a matrix or data frame.}
@@ -17,6 +20,22 @@ csas_table(x, format = "pandoc", booktabs = TRUE, linesep = "",
 \item{linesep}{As defined by \code{\link[knitr:kable]{knitr::kable()}}.}
 
 \item{longtable}{As defined by \code{\link[knitr:kable]{knitr::kable()}}.}
+
+\item{font_size}{Font size in pts. If NULL, document font size is used.}
+
+\item{landscape}{Make this table in landscape orientation?}
+
+\item{repeat_header}{If landscape, repeat the header on subsequent pages?}
+
+\item{repeat_header_text}{Use to write a Continued.. messgae continuing pages with the long table}
+
+\item{repeat_header_method}{As defined by \code{\link[kableExtra:kable_styling]{kableExtra::kable_styling()}}.}
+
+\item{col_names}{Names for the columns to show on table. If there are any \\ns, they will be replaced with the}
+
+\item{col_names_align}{As defined in \code{\link[kableExtra:linebreak]{kableExtra::linebreak()}}.}
+
+\item{escape}{As defined by \code{\link[kableExtra:kable_styling]{kableExtra::kable_styling()}}.}
 
 \item{...}{Other arguments to pass to \code{\link[knitr:kable]{knitr::kable()}}.}
 }
