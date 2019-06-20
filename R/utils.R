@@ -125,8 +125,15 @@ techreport_word <- function(french = FALSE, ...) {
 #' @export
 #' @rdname csas_pdf
 techreport_pdf <- function(latex_engine = "pdflatex", ...) {
+
+  if (french) {
+    file <- system.file("csas-tex", "tech-report-french.tex", package = "csasdown")
+  } else {
+    file <- system.file("csas-tex", "tech-report.tex", package = "csasdown")
+  }
+
   base <- bookdown::pdf_book(
-    template = system.file("csas-tex", "tech-report.tex", package = "csasdown"),
+    template = file,
     keep_tex = TRUE,
     pandoc_args = c("--top-level-division=chapter", "--wrap=none"),
     latex_engine = latex_engine,
