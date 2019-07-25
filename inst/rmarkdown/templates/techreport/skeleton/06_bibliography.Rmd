@@ -3,7 +3,7 @@
 
 <!-- If you want to references to appear somewhere before the end, add: -->
 <!-- <div id="refs"></div> -->
-<!-- where you wanted to appear -->
+<!-- where you want it to appear -->
 
 \clearpage
 
