@@ -1,0 +1,12 @@
+*.jpg
+*.png
+*.pdf
+*.html
+*.rda
+*.rds
+*.rds
+*.sty
+*.log
+*.upa
+_book/
+csas-style/
