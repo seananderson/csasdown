@@ -34,7 +34,10 @@
 \RequirePackage{pdfcomment} % For pdftooltip
 
 % Included so that the kableExtra::linebreak function can be used
-\usepackage{makecell}
+\RequirePackage{makecell}
+
+\RequirePackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
 
 %% ------------------------------------------------------------------------------
 %% For landscape pages in CSAS documents
@@ -156,7 +159,7 @@
 %\setlength\parindent{0pt}  % No indent paragraphs
 %\parskip 2ex  % Increase white space between paragraphs
 %\captionsetup{justification=raggedright, singlelinecheck=off}
-%\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
 
 % Even uglier, but that's the rules (Or is it? Might not be required)
 %\RequirePackage{helvet}  % Font for text
@@ -359,7 +362,7 @@ Correct citation for this publication:
 \tableofcontents\clearpage
 
 % Lists of figures and tables (optional)
-\listoffigures \listoftables \clearpage
+% \listoffigures \listoftables \clearpage
 
 % Abstract page(s)
 \section*{ABSTRACT}\addcontentsline{toc}{section}{ABSTRACT}
@@ -376,7 +379,7 @@ Correct citation for this publication:
 
 % Settings for the main document
 \pagenumbering{arabic}  % Regular page numbers
-\pagestyle{fancy}  % No page number on first page of main document, use 'empty'
+\pagestyle{plain}  % No page number on first page of main document, use 'empty'
 \renewcommand*{\thefootnote}{\arabic{footnote}}  % Back to numeric footnotes
 \setcounter{footnote}{0}  % And start at 1
 
