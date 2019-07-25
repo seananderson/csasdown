@@ -28,8 +28,8 @@
 \RequirePackage{pdfpages}  % Include PDF documents
 \RequirePackage[T1]{fontenc}  % Allow french characters (Resume)
 \RequirePackage{doi}  % DOI hyperlinks in references
-\RequirePackage{tikz}  % >% Flow diagram
-\RequirePackage[title]{appendix}  % More appendix options
+% \RequirePackage{tikz}  % >% Flow diagram
+\RequirePackage[title, toc]{appendix}  % More appendix options
 \RequirePackage{subcaption}  % Panels within a figure
 \RequirePackage{pdfcomment} % For pdftooltip
 
@@ -143,6 +143,24 @@
 %\newcommand{\subsubsection@cntformat}{\thesubsubsection.\ \ }% Trailing dot
 %\makeatother
 
+% -----------------------------------------------------------------
+% https://tex.stackexchange.com/questions/444054/how-to-end-appendix
+\makeatletter
+\newcounter{savesection}
+\newcounter{apdxsection}
+\renewcommand\appendix{\par
+  \setcounter{savesection}{\value{section}}%
+  \setcounter{section}{\value{apdxsection}}%
+  \setcounter{subsection}{0}%
+  \gdef\thesection{\@Alph\c@section}}
+\newcommand\unappendix{\par
+  \setcounter{apdxsection}{\value{section}}%
+  \setcounter{section}{\value{savesection}}%
+  \setcounter{subsection}{0}%
+  \gdef\thesection{\@arabic\c@section}}
+\makeatother
+% -----------------------------------------------------------------
+
 % Update definitions
 \renewcommand{\headrulewidth}{0pt}  % No header line
 \setlength{\headheight}{14.5pt}
@@ -165,13 +183,13 @@
 %\RequirePackage{helvet}  % Font for text
 %\renewcommand{\familydefault}{\sfdefault}
 
-% Flow diagram options
-\usetikzlibrary{shapes, arrows.meta, shapes.geometric, positioning, backgrounds}
-\tikzstyle{terminal} = [draw, rectangle, text width=9.5em, rounded corners]
-\tikzstyle{decision} = [draw, diamond, text width=9.5em]
-\tikzstyle{process} = [draw, rectangle, text width=9.5em]
-\tikzstyle{inout} = [draw, trapezium, text width=9.25em, trapezium left angle=85, trapezium right angle=95]
-\tikzstyle{line} = [draw, -{Latex[length=2mm, width=1.5mm]}, thick]
+% % Flow diagram options
+% \usetikzlibrary{shapes, arrows.meta, shapes.geometric, positioning, backgrounds}
+% \tikzstyle{terminal} = [draw, rectangle, text width=9.5em, rounded corners]
+% \tikzstyle{decision} = [draw, diamond, text width=9.5em]
+% \tikzstyle{process} = [draw, rectangle, text width=9.5em]
+% \tikzstyle{inout} = [draw, trapezium, text width=9.25em, trapezium left angle=85, trapezium right angle=95]
+% \tikzstyle{line} = [draw, -{Latex[length=2mm, width=1.5mm]}, thick]
 
 % Ensure auto-generated sections are uppercase
 \addto\captionsenglish{\renewcommand{\contentsname}{CONTENTS}}

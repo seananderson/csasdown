@@ -1,0 +1,19 @@
+<!-- The following code should appear at the beginning of the first appendix.
+(if you have one)
+After that, all subsequent sections will be turned into appendices. -->
+
+`r if(knitr:::is_latex_output()) '\\appendix'`
+
+<!-- `r if(!knitr:::is_latex_output()) '# (APPENDIX) Appendix {-}'` -->
+
+\clearpage
+
+# THE FIRST APPENDIX {#app:first-appendix}
+
+Content here.
+
+\clearpage
+
+# THE SECOND APPENDIX, FOR FUN {#app:second-appendix}
+
+More content.
