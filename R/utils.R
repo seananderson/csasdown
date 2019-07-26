@@ -291,7 +291,14 @@ fix_envs <- function(x, join_abstract = TRUE, french = FALSE) {
   }
 
   # Tech Report Appendices:
-  x <- gsub("\\% begin csasdown appendix", "\\begin{appendices} \n \\\\counterwithin{figure}{section}", x)
+  x <- gsub("\\% begin csasdown appendix",
+    paste0(
+      "\\begin{appendices}\n",
+      "\\\\counterwithin{figure}{section}\n",
+      "\\\\counterwithin{table}{section}\n",
+      "\\\\counterwithin{equation}{section}"),
+    x
+  )
   x <- gsub("\\% end csasdown appendix", "\\end{appendices}", x)
 
 }

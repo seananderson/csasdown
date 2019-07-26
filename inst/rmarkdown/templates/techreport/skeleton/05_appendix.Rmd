@@ -12,10 +12,18 @@ After that, all subsequent sections will be turned into appendices. -->
 
 Content here.
 
-```{r, fig.cap="Test"}
+```{r test1, fig.cap="Test"}
 plot(1)
 ```
 
+
+```{r test2, results='asis'}
+csasdown::csas_table(data.frame(x = c("a", "a", "b"), y = c(1, 2, 3)), caption = "Test")
+```
+
+Figure \@ref(fig:test1).
+
+Table \@ref(tab:test2).
 
 \clearpage
 
