@@ -290,7 +290,10 @@ fix_envs <- function(x, join_abstract = TRUE, french = FALSE) {
     }
   }
 
-  x
+  # Tech Report Appendices:
+  x <- gsub("\\% begin csasdown appendix", "\\begin{appendices} \n \\\\counterwithin{figure}{section}", x)
+  x <- gsub("\\% end csasdown appendix", "\\end{appendices}", x)
+
 }
 
 inject_refstepcounters <- function(x) {

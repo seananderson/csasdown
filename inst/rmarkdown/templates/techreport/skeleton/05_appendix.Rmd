@@ -2,9 +2,9 @@
 (if you have one)
 After that, all subsequent sections will be turned into appendices. -->
 
-`r if(knitr:::is_latex_output()) '\\appendix'`
+`r if(knitr:::is_latex_output()) '% begin csasdown appendix'`
 
-<!-- `r if(!knitr:::is_latex_output()) '# (APPENDIX) Appendix {-}'` -->
+`r if(!knitr:::is_latex_output()) '# (APPENDIX) Appendix {-}'`
 
 \clearpage
 
@@ -12,8 +12,16 @@ After that, all subsequent sections will be turned into appendices. -->
 
 Content here.
 
+```{r, fig.cap="Test"}
+plot(1)
+```
+
+
 \clearpage
 
 # THE SECOND APPENDIX, FOR FUN {#app:second-appendix}
 
 More content.
+
+<!-- At the end of your appendices add: -->
+`r if(knitr:::is_latex_output()) '% end csasdown appendix'`
