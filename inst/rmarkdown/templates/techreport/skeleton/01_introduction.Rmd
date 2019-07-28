@@ -1,3 +1,10 @@
 # Introduction
 
 A reference [@edwards2013].
+
+\begin{equation}
+  1 + 1
+  \label{eq:test}
+\end{equation}
+
+See Appendix \@ref(app:first-appendix). See Equation \@ref(eq:test).

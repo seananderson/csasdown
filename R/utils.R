@@ -218,7 +218,7 @@ fix_envs <- function(x, join_abstract = TRUE, french = FALSE) {
   }
   x <- inject_refstepcounters(x)
 
-  # Need to remove hypertarget four references to appendices to work:
+  # Need to remove hypertarget for references to appendices to work:
   # rs_line <- grep("\\\\refstepcounter", x)
   # FIXME: make more robust
   rs_line <- grep("\\\\hypertarget\\{app:", x)
@@ -301,6 +301,14 @@ fix_envs <- function(x, join_abstract = TRUE, french = FALSE) {
   )
   x <- gsub("\\% end csasdown appendix", "\\end{appendices}", x)
 
+  label_app <- grep("^\\\\label\\{app:", x)
+  for (i in seq_along(label_app)) {
+    if (grepl("^\\\\section\\{", x[label_app[i] + 1])) {
+      x[seq(label_app[i], label_app[i] + 1)] <- x[seq(label_app[i] + 1, label_app[i])]
+    }
+  }
+
+  x
 }
 
 inject_refstepcounters <- function(x) {

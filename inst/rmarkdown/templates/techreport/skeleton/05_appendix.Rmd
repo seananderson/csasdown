@@ -21,6 +21,11 @@ plot(1)
 csasdown::csas_table(data.frame(x = c("a", "a", "b"), y = c(1, 2, 3)), caption = "Test")
 ```
 
+\begin{equation}
+  1 + 1
+  \label{eq:test2}
+\end{equation}
+
 Figure \@ref(fig:test1).
 
 Table \@ref(tab:test2).
