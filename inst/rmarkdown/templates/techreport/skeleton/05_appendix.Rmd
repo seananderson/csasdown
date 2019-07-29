@@ -26,9 +26,9 @@ csasdown::csas_table(data.frame(x = c("a", "a", "b"), y = c(1, 2, 3)), caption =
   \label{eq:test2}
 \end{equation}
 
-Figure \@ref(fig:test1).
+See Figure \@ref(fig:test1) for the example appendix figure.
 
-Table \@ref(tab:test2).
+See Table \@ref(tab:test2) for the example appendix table.
 
 \clearpage
 
