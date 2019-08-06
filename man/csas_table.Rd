@@ -6,7 +6,7 @@
 \usage{
 csas_table(x, format = "pandoc", booktabs = TRUE, linesep = "",
   longtable = TRUE, font_size = NULL, landscape = FALSE,
-  repeat_header = TRUE, repeat_header_text = "",
+  bold_header = TRUE, repeat_header = TRUE, repeat_header_text = "",
   repeat_header_method = "replace", col_names = NULL,
   col_names_align = "c", escape = FALSE, ...)
 }
@@ -24,6 +24,8 @@ csas_table(x, format = "pandoc", booktabs = TRUE, linesep = "",
 \item{font_size}{Font size in pts. If NULL, document font size is used.}
 
 \item{landscape}{Make this table in landscape orientation?}
+
+\item{bold_header}{Make headers bold. Logical}
 
 \item{repeat_header}{If landscape, repeat the header on subsequent pages?}
 

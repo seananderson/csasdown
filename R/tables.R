@@ -10,6 +10,7 @@
 #' @param longtable As defined by [knitr::kable()].
 #' @param font_size Font size in pts. If NULL, document font size is used.
 #' @param landscape Make this table in landscape orientation?
+#' @param bold_header Make headers bold. Logical
 #' @param repeat_header If landscape, repeat the header on subsequent pages?
 #' @param repeat_header_text Use to write a Continued.. messgae continuing pages with the long table
 #' @param repeat_header_method As defined by [kableExtra::kable_styling()].
@@ -18,6 +19,8 @@
 #' @param escape As defined by [kableExtra::kable_styling()].
 #' @param ... Other arguments to pass to [knitr::kable()].
 #'
+#' @importFrom knitr kable
+#' @importFrom kableExtra row_spec kable_styling landscape linebreak
 #' @examples
 #' csas_table(head(iris))
 #' @export
@@ -28,6 +31,7 @@ csas_table <- function(x,
                        longtable = TRUE,
                        font_size = NULL,
                        landscape = FALSE,
+                       bold_header = TRUE,
                        repeat_header = TRUE,
                        repeat_header_text = "",
                        repeat_header_method = "replace",
@@ -41,38 +45,38 @@ csas_table <- function(x,
     ## http://haozhu233.github.io/kableExtra/best_practice_for_newline_in_latex_table.pdf
     if(length(grep("\n", col_names))){
       ## Only use kableExtra if there are newlines
-      col_names <- kableExtra::linebreak(col_names, align = col_names_align)
+      col_names <- linebreak(col_names, align = col_names_align)
     }
-    k <- knitr::kable(x = x,
-                      format = format,
-                      booktabs = booktabs,
-                      linesep = linesep,
-                      longtable = longtable,
-                      col.names = col_names,
-                      escape = escape,
-                      ...)
+    k <- kable(x = x,
+               format = format,
+               booktabs = booktabs,
+               linesep = linesep,
+               longtable = longtable,
+               col.names = col_names,
+               escape = escape,
+               ...)
   }else{
-    k <- knitr::kable(x = x,
-                      format = format,
-                      booktabs = booktabs,
-                      linesep = linesep,
-                      longtable = longtable,
-                      escape = escape,
-                      ...)
+    k <- kable(x = x,
+               format = format,
+               booktabs = booktabs,
+               linesep = linesep,
+               longtable = longtable,
+               escape = escape,
+               ...)
+  }
+  if(bold_header){
+    k <- row_spec(k, 0, bold = TRUE)
   }
   if(landscape){
-    k <- kableExtra::landscape(k)
+    k <- landscape(k)
     if(repeat_header){
-      k <- kableExtra::kable_styling(k,
-                                     font_size = font_size,
-                                     latex_options = "repeat_header",
-                                     repeat_header_text = repeat_header_text,
-                                     repeat_header_method = repeat_header_method)
-    }else{
-      k <- kableExtra::kable_styling(k,
-                                     font_size = font_size)
+      k <- kable_styling(k,
+                         latex_options = "repeat_header",
+                         repeat_header_text = repeat_header_text,
+                         repeat_header_method = repeat_header_method)
     }
-    k <- sub("\\caption\\[\\]\\{\\}", "\\caption*{}", k)
   }
+  k <- kable_styling(k, font_size = font_size)
+  k <- sub("\\caption\\[\\]\\{\\}", "\\caption*{}", k)
   k
 }
