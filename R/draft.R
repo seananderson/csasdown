@@ -15,7 +15,7 @@
 #' \dontrun{
 #' csasdown::draft("resdoc")
 #' csasdown::draft("sr")
-#' csasdown::draft("techrep")
+#' csasdown::draft("techreport")
 #' }
 #' @export
 draft <- function(type = c("resdoc", "sr", "techreport"), create_dir = FALSE,
