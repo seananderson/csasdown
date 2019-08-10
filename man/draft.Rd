@@ -27,6 +27,6 @@ function for further details.
 \dontrun{
 csasdown::draft("resdoc")
 csasdown::draft("sr")
-csasdown::draft("techrep")
+csasdown::draft("techreport")
 }
 }

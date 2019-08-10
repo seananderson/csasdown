@@ -54,7 +54,7 @@ fig_width <- 9
 fig_out_width <- "6in"
 fig_dpi <- 180
 fig_align <- "center"
-fig_pos <- "H"
+fig_pos <- "htb"
 opts_chunk$set(collapse = TRUE,
                warning = FALSE,
                message = FALSE,
