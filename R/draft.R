@@ -18,10 +18,16 @@
 #' csasdown::draft("techreport")
 #' }
 #' @export
-draft <- function(type = c("resdoc", "sr", "techreport"), create_dir = FALSE,
-  edit = FALSE, ...) {
+draft <- function(type = c("resdoc", "sr", "techreport"),
+                  create_dir = FALSE,
+                  edit = FALSE,
+                  ...) {
   type <- match.arg(type)
-  rmarkdown::draft("index.Rmd", template = type,
-    package = "csasdown", create_dir = create_dir, edit = edit)
+  rmarkdown::draft("index.Rmd",
+                   template = type,
+                   package = "csasdown",
+                   create_dir = create_dir,
+                   edit = edit,
+                   ...)
 }
 # nocov end
