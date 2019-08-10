@@ -44,26 +44,41 @@ lof: true
 ---
 
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE, results='hide', warning=FALSE}
-# adjust as desired:
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  warning = FALSE,
-  message = FALSE,
-  comment = "#>",
-  fig.path = if (knitr:::is_latex_output()) "knitr-figs-pdf/" else "knitr-figs-docx/",
-  cache.path = if (knitr:::is_latex_output()) "knitr-cache-tex/" else "knitr-cache-docx/",
-  fig.asp = 0.618,
-  fig.width = 9,
-  out.width = "6in",
-  echo = FALSE,
-#  autodep = TRUE,
-#  cache = TRUE,
-  cache.comments = FALSE,
-  dev = if (knitr:::is_latex_output()) "png" else "png",
-  dpi = 180,
-  fig.align = "center",
-  fig.pos = "htb"
-)
+library(knitr)
+if(is_latex_output()){
+  knitr_figs_dir <- here::here("knitr-figs-pdf")
+  knitr_cache_dir <- here::here("knitr-cache-pdf")
+  fig_out_type <- "png"
+}else{
+  knitr_figs_dir <- here::here("knitr-figs-docx")
+  knitr_cache_dir <- here::here("knitr-cache-docx")
+  fig_out_type <- "png"
+}
+fig_asp <- 0.618
+fig_width <- 9
+fig_out_width <- "6in"
+fig_dpi <- 180
+fig_align <- "center"
+fig_pos <- "H"
+opts_chunk$set(collapse = TRUE,
+               warning = FALSE,
+               message = FALSE,
+               comment = "#>",
+               fig.path = knitr_figs_dir,
+               cache.path = knitr_cache_dir,
+               fig.asp = fig_asp,
+               fig.width = fig_width,
+               out.width = fig_out_width,
+               echo = FALSE,
+               #  autodep = TRUE,
+               #  cache = TRUE,
+               cache.comments = FALSE,
+               dev = fig_out_type,
+               dpi = fig_dpi,
+               fig.align = fig_align,
+               fig.pos = fig_pos)
+options(xtable.comment = FALSE)
+options(kableExtra.latex.load_packages = FALSE)
 ```
 
 ```{r load-libraries, cache=FALSE}

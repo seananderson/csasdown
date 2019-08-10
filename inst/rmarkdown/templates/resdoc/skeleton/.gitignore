@@ -8,5 +8,9 @@
 *.sty
 *.log
 *.upa
-_book/
-csas-style/
+_book
+csas-style
+knitr-figs-pdf
+knitr-cache-pdf
+knitr-figs-docx
+knitr-cache-docx
