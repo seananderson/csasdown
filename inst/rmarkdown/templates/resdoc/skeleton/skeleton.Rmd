@@ -37,13 +37,13 @@ csl: csl/csas.csl # or csl/csas-french.csl for French
 
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE, results='hide', warning=FALSE}
 library(knitr)
-if(is_latex_output()){
-  knitr_figs_dir <- here::here("knitr-figs-pdf//")
-  knitr_cache_dir <- here::here("knitr-cache-pdf//")
+if (is_latex_output()) {
+  knitr_figs_dir <- "knitr-figs-pdf"
+  knitr_cache_dir <- "knitr-cache-pdf"
   fig_out_type <- "png"
-}else{
-  knitr_figs_dir <- here::here("knitr-figs-docx//")
-  knitr_cache_dir <- here::here("knitr-cache-docx//")
+} else {
+  knitr_figs_dir <- "knitr-figs-docx"
+  knitr_cache_dir <- "knitr-cache-docx"
   fig_out_type <- "png"
 }
 fig_asp <- 0.618
@@ -52,23 +52,25 @@ fig_out_width <- "6in"
 fig_dpi <- 180
 fig_align <- "center"
 fig_pos <- "htb"
-opts_chunk$set(collapse = TRUE,
-               warning = FALSE,
-               message = FALSE,
-               comment = "#>",
-               fig.path = knitr_figs_dir,
-               cache.path = knitr_cache_dir,
-               fig.asp = fig_asp,
-               fig.width = fig_width,
-               out.width = fig_out_width,
-               echo = FALSE,
-               #  autodep = TRUE,
-               #  cache = TRUE,
-               cache.comments = FALSE,
-               dev = fig_out_type,
-               dpi = fig_dpi,
-               fig.align = fig_align,
-               fig.pos = fig_pos)
+opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  comment = "#>",
+  fig.path = knitr_figs_dir,
+  cache.path = knitr_cache_dir,
+  fig.asp = fig_asp,
+  fig.width = fig_width,
+  out.width = fig_out_width,
+  echo = FALSE,
+  #  autodep = TRUE,
+  #  cache = TRUE,
+  cache.comments = FALSE,
+  dev = fig_out_type,
+  dpi = fig_dpi,
+  fig.align = fig_align,
+  fig.pos = fig_pos
+)
 options(xtable.comment = FALSE)
 options(kableExtra.latex.load_packages = FALSE)
 ```

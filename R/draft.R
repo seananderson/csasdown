@@ -24,10 +24,11 @@ draft <- function(type = c("resdoc", "sr", "techreport"),
                   ...) {
   type <- match.arg(type)
   rmarkdown::draft("index.Rmd",
-                   template = type,
-                   package = "csasdown",
-                   create_dir = create_dir,
-                   edit = edit,
-                   ...)
+    template = type,
+    package = "csasdown",
+    create_dir = create_dir,
+    edit = edit,
+    ...
+  )
 }
 # nocov end
