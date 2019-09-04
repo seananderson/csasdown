@@ -1,0 +1,68 @@
+% Document setup
+\documentclass[11pt]{book}
+
+% Location of the csas-style repository: adjust path as needed
+\newcommand{\locRepo}{csas-style}
+
+% Use the style file in the csas-style repository (sr.sty)
+\usepackage{\locRepo/sr-french}
+
+% header-includes from R markdown entry
+$header-includes$
+
+% Bibliography style file
+% \bibliographystyle{../csas-style/res-doc}
+
+%%%% Commands for title page etc %%%%%
+
+% Title
+\newcommand{\rdTitle}{$title$}
+
+% French title
+\newcommand{\rdTitleFr}{$title_other$}
+
+% Title short
+\newcommand{\rdTitleShort}{$title_short$}
+
+% Publication year
+\newcommand{\rdYear}{$year$}
+
+% Publication month
+\newcommand{\rdMonth}{$month$}
+
+% Report number
+\newcommand{\rdNumber}{$report_number$}
+
+% Approver (name\\position)
+\newcommand{\rdApp}{$approver$}
+% \newcommand{\rdYear}{$approval_year$}
+% \newcommand{\rdAppMonth}{$approval_month$}
+% \newcommand{\rdAppDay}{$approval_day$}
+\newcommand{\rdAppDate}{$approval_month$ $approval_day$, $approval_year$}
+
+% Branch
+\newcommand{\rdBranch}{$branch$}
+
+% Region
+\newcommand{\rdRegion}{$region$}
+
+% Address
+\newcommand{\rdAddress}{$address$}
+
+% Phone
+\newcommand{\rdPhone}{$phone$}
+
+% Email
+\newcommand{\rdEmail}{$email$}
+
+%%%% End of title page commands %%%%%
+
+\begin{document}
+
+\MakeFirstPage
+
+$body$
+
+\MakeAvailable
+
+\end{document}

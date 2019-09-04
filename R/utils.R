@@ -81,18 +81,30 @@ resdoc_word <- function(french = FALSE, ...) {
 
 #' @export
 #' @rdname csas_pdf
-sr_pdf <- function(latex_engine = "pdflatex", ...) {
+sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, ...) {
+
+  if (french) {
+    file <- system.file("csas-tex", "sr-french.tex", package = "csasdown")
+  } else {
+    file <- system.file("csas-tex", "sr.tex", package = "csasdown")
+  }
+
   base <- bookdown::pdf_book(
-    template = system.file("csas-tex", "sr.tex", package = "csasdown"),
+    template = file,
     keep_tex = TRUE,
     pandoc_args = c("--top-level-division=chapter", "--wrap=none"),
     latex_engine = latex_engine,
     ...
   )
   update_csasstyle()
+  
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
-  options(bookdown.post.latex = fix_envs)
+  
+  if (french)
+    options(bookdown.post.latex = fix_envs_resdoc_french)
+  else
+    options(bookdown.post.latex = fix_envs)
   on.exit(options(bookdown.post.late = old_opt))
   base
 }
@@ -374,3 +386,4 @@ check_yaml <- function(type = "resdoc") {
     message("Your `index.Rmd` file contains all necessary YAML options.")
   }
 }
+

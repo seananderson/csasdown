@@ -24,9 +24,9 @@ address: |
 phone: (250) 756-7208
 email: csap@dfo-mpo.gc.ca
 output:
- csasdown::sr_pdf
+ csasdown::sr_pdf:
   # csasdown::sr_word:
-    # french: false
+   french: false
 type:
   sr
 # ------------
