@@ -77,10 +77,10 @@ $header-includes$
 % New definition: Address
 \newcommand{\trAddy}{$address$}
 
-% Abstract
+% Resume
 \newcommand{\trAbstract}{$abstract$}
 
-% Resume (i.e., French abstract)
+% Abstract (i.e., English abstract)
 \newcommand{\trResume}{$abstract_other$}
 
 %%%%% Start %%%%%
@@ -88,6 +88,7 @@ $header-includes$
 % Start the document
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
+\renewcommand{\tablename}{Tableau}
 
 %%%% Front matter %%%%%
 

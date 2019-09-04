@@ -141,9 +141,13 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex", ...) {
   )
 
   update_csasstyle()
+  
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
-  options(bookdown.post.latex = fix_envs_tr)
+  if (french)
+	options(bookdown.post.latex = fix_envs_tr_french)
+  else
+	options(bookdown.post.latex = fix_envs_tr)
   on.exit(options(bookdown.post.late = old_opt))
   base
 }
@@ -156,6 +160,10 @@ update_csasstyle <- function() {
 
 fix_envs_tr <- function(x) {
   fix_envs(x, join_abstract = FALSE)
+}
+
+fix_envs_tr_french <- function(x) {
+  fix_envs(x, join_abstract = FALSE, french = TRUE)
 }
 
 fix_envs_resdoc_french <- function(x) {
