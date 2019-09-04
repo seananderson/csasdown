@@ -377,23 +377,40 @@ On doit citer la publication comme suit:
 % Add TOC to pdf bookmarks (clickable pdf)
 \pdfbookmark[1]{\contentsname}{toc}
 
+\newcommand\TableOfContents{
+  \thispagestyle{fancyplain}
+  \pagenumbering{roman}
+  %% TOC is required by CSAS to be on page iii.
+  \setcounter{page}{3}
+  \renewcommand{\contentsname}{\bf \large \vspace{-20mm} TABLE DES MATI\`ERES}
+  \addtocontents{toc}{\protect\thispagestyle{fancy}}
+  \begin{center}
+    \tableofcontents
+  \end{center}
+  \newpage
+  %% To number subsubheadings
+  \setcounter{secnumdepth}{5}
+}
+
 % Table of contents page
-\tableofcontents\clearpage
+% \tableofcontents\clearpage
+\TableOfContents
+
 
 % Lists of figures and tables (optional)
 % \listoffigures \listoftables \clearpage
 
 % Abstract page(s)
-\section*{ABSTRACT}\addcontentsline{toc}{section}{ABSTRACT}
-\trCitation{}
-\bigskip
-\trAbstract{}
-\clearpage
 \section*{R\'{E}SUM\'{E}}\addcontentsline{toc}{section}{R\'{E}SUM\'{E}}
 \trCitation{}
 \bigskip
 \trResume{}
 \label{TRlastRoman}
+\clearpage
+\section*{ABSTRACT}\addcontentsline{toc}{section}{ABSTRACT}
+\trCitation{}
+\bigskip
+\trAbstract{}
 \clearpage
 
 % Settings for the main document
