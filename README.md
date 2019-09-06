@@ -7,6 +7,8 @@ csasdown is an R package that uses the bookdown package to generate Canadian Sci
 
 Slides from a recent workshop on csasdown [[PDF](https://www.dropbox.com/s/7m23mh3yfhk5ah8/csasdown-slides.pdf?dl=1)].
 
+*Make sure to check the Wiki for hints and FAQs.*
+
 ## Initial setup
 
 To compile PDF documents using R, you need to have Pandoc, LaTeX and several related packages installed. If you have a recent version of  [RStudio](http://www.rstudio.com/products/rstudio/download/), then you already have Pandoc.
