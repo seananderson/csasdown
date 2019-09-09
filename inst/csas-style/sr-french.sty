@@ -387,21 +387,17 @@
 
 %% ------------------------------------------------------------------------------
 %% Defines the header and footer rules for a CSAS paper.
-\pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\footrulewidth}{0.4pt}
 \renewcommand{\headrulewidth}{0.4pt}
 \fancyhead[C]{\textbf{\rdRegion{}} \hfill \textbf{R\'{e}ponse des sciences: \rdTitleShort{}}}
-\fancyfoot[C]{\thepage}%Did I delete this line?
-\fancypagestyle{csapfancy}{%%
-  %% \fancyhead[L]{}%%{DRAFT -- Non-citable working paper}
-  %% \fancyhead[R]{}%%{CSAP WP2016zzzxx}
-  %% \fancyfoot[L]{}%%{Appendix \thechapter -- Model Results}
-  %% \fancyfoot[R]{}%%{\Sexpr{paste0(sppname," (",area.name,")")}}
+\fancyfoot[C]{\thepage}
+\fancypagestyle{csapfancy}{
   \fancyfoot[C]{\thepage}
   \renewcommand{\footrulewidth}{0.4pt}
   \renewcommand{\headrulewidth}{0.4pt}
 }
+\pagestyle{csapfancy}
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
