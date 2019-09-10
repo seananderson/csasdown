@@ -234,21 +234,6 @@
 {2.3ex \@plus.2ex}                %% afterskip
 {\normalfont\Large\bfseries}} %% style
 
-\newcommand\TableOfContents{
-  \thispagestyle{fancyplain}
-  \pagenumbering{roman}
-  %% TOC is required by CSAS to be on page iii.
-  \setcounter{page}{3}
-  \renewcommand{\contentsname}{\bf \large \vspace{-25mm} TABLE OF CONTENTS}
-  \addtocontents{toc}{\protect\thispagestyle{fancy}}
-  \begin{center}
-    \tableofcontents
-  \end{center}
-  \newpage
-  %% To number subsubheadings
-  \setcounter{secnumdepth}{5}
-}
-
 \newcommand\Citation[1]{
   %% Start citation indentation
   \leftskip=3em
@@ -333,30 +318,6 @@
   \addcontentsline{toc}{chapter}{#1}\chapter*{#1}
 }
 
-%% Make English abstract have entry in the table of contents
-\newcommand{\abstract}{
-  \clearpage
-  %% Make spacing between top of page and heading less.
-  \vspace*{-50\p@}
-  \phantomsection
-  %% Add the appendix name to the table of contents.
-  \addcontentsline{toc}{section}{ABSTRACT}\nonumsection*{ABSTRACT}
-}
-
-%% Make French abstract have entry in the table of contents
-\newcommand{\frenchabstract}[1]{
-  \clearpage
-  %% Make spacing between top of page and heading less.
-  \vspace*{-30\p@}
-  \phantomsection
-  \begin{center}
-    \Large \textbf{#1}
-  \end{center}
-  \vspace{-6mm}
-  %% Add the appendix name to the table of contents.
-  \addcontentsline{toc}{section}{R\'ESUM\'E}\nonumsection*{R\'ESUM\'E}
-}
-
 %% Make a landscape page properly, with the page numbers and bars rotated to
 %%  be along the long side for ease of reading in a PDF viewer.
 \newenvironment{landscapepage}[1]{
@@ -426,21 +387,17 @@
 
 %% ------------------------------------------------------------------------------
 %% Defines the header and footer rules for a CSAS paper.
-\pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\footrulewidth}{0.4pt}
 \renewcommand{\headrulewidth}{0.4pt}
 \fancyhead[C]{\textbf{\rdRegion{}} \hfill \textbf{R\'{e}ponse des sciences: \rdTitleShort{}}}
-\fancyfoot[C]{\thepage}%Did I delete this line?
-\fancypagestyle{csapfancy}{%%
-  %% \fancyhead[L]{}%%{DRAFT -- Non-citable working paper}
-  %% \fancyhead[R]{}%%{CSAP WP2016zzzxx}
-  %% \fancyfoot[L]{}%%{Appendix \thechapter -- Model Results}
-  %% \fancyfoot[R]{}%%{\Sexpr{paste0(sppname," (",area.name,")")}}
+\fancyfoot[C]{\thepage}
+\fancypagestyle{csapfancy}{
   \fancyfoot[C]{\thepage}
   \renewcommand{\footrulewidth}{0.4pt}
   \renewcommand{\headrulewidth}{0.4pt}
 }
+\pagestyle{csapfancy}
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
@@ -559,7 +516,6 @@
 
 % https://tex.stackexchange.com/questions/311132/how-to-style-hrefs-underlined-and-coloured-throughout-the-document
 \usepackage{xcolor,soul}
-\usepackage{pdfcomment}
 
 % Sections without numbers
 \setcounter{secnumdepth}{0}
@@ -641,7 +597,7 @@
   % Make the title
   \vspace*{1.75cm}
   \begin{center}
-  \Large{\textbf{\MakeTextUppercase{\rdTitle{}}}}
+  \Large{\textbf{\MakeTextUppercase{\rdTitleFr{}}}}
 
   \vspace{-0.2cm}
   \end{center}
@@ -673,7 +629,7 @@ Centre des avis scientifiques\\
 \rdAddress{}\\
 \vspace{0.1cm}
 T\'{e}l\'{e}phone: \rdPhone{}\\
-Courriel: \href{mailto:\rdEmail}{\rdEmail}\\
+Courriel: \rdEmail\\
 Addresse internet: \href{http://www.dfo-mpo.gc.ca/csas-sccs/}{www.dfo-mpo.gc.ca/csas-sccs/}\\
 \vspace{0.1cm}
 ISSN 1919-3769\\
@@ -685,17 +641,16 @@ ISSN 1919-3769\\
 La pr\'{e}sente publication doit \^{e}tre cit\'{e}e comme suit:
 
 \hangindent=0.6cm
-MPO. \rdYear{}. \rdTitle{}.
+MPO. \rdYear{}. \rdTitleFr{}.
 Secr.\ can.\ de consult.\ sci.\ du MPO, R\'{e}p.\ des Sci.\
 \rdYear{}/\rdNumber{}.
 
 \emph{Also available in English:}
 
 \hangindent=0.6cm
-\emph{DFO. \rdYear{}. \rdTitleEn{}.
+DFO. \rdYear{}. \rdTitle{}.
 DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.
-\rdYear{}/\rdNumber{}.}
-
+\rdYear{}/\rdNumber{}.
 
 \newpage
 }

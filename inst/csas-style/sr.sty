@@ -178,21 +178,6 @@
 {2.3ex \@plus.2ex}                %% afterskip
 {\normalfont\Large\bfseries}} %% style
 
-\newcommand\TableOfContents{
-  \thispagestyle{fancyplain}
-  \pagenumbering{roman}
-  %% TOC is required by CSAS to be on page iii.
-  \setcounter{page}{3}
-  \renewcommand{\contentsname}{\bf \large \vspace{-25mm} TABLE OF CONTENTS}
-  \addtocontents{toc}{\protect\thispagestyle{fancy}}
-  \begin{center}
-    \tableofcontents
-  \end{center}
-  \newpage
-  %% To number subsubheadings
-  \setcounter{secnumdepth}{5}
-}
-
 \newcommand\Citation[1]{
   %% Start citation indentation
   \leftskip=3em
@@ -277,30 +262,6 @@
   \addcontentsline{toc}{chapter}{#1}\chapter*{#1}
 }
 
-%% Make English abstract have entry in the table of contents
-\newcommand{\abstract}{
-  \clearpage
-  %% Make spacing between top of page and heading less.
-  \vspace*{-50\p@}
-  \phantomsection
-  %% Add the appendix name to the table of contents.
-  \addcontentsline{toc}{section}{ABSTRACT}\nonumsection*{ABSTRACT}
-}
-
-%% Make French abstract have entry in the table of contents
-\newcommand{\frenchabstract}[1]{
-  \clearpage
-  %% Make spacing between top of page and heading less.
-  \vspace*{-30\p@}
-  \phantomsection
-  \begin{center}
-    \Large \textbf{#1}
-  \end{center}
-  \vspace{-6mm}
-  %% Add the appendix name to the table of contents.
-  \addcontentsline{toc}{section}{R\'ESUM\'E}\nonumsection*{R\'ESUM\'E}
-}
-
 %% Make a landscape page properly, with the page numbers and bars rotated to
 %%  be along the long side for ease of reading in a PDF viewer.
 \newenvironment{landscapepage}[1]{
@@ -370,7 +331,6 @@
 
 %% ------------------------------------------------------------------------------
 %% Defines the header and footer rules for a CSAS paper.
-\pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\footrulewidth}{0.4pt}
 \renewcommand{\headrulewidth}{0.4pt}
@@ -380,6 +340,7 @@
   \renewcommand{\footrulewidth}{0.4pt}
   \renewcommand{\headrulewidth}{0.4pt}
 }
+\pagestyle{csapfancy}
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
@@ -498,7 +459,6 @@
 
 % https://tex.stackexchange.com/questions/311132/how-to-style-hrefs-underlined-and-coloured-throughout-the-document
 \usepackage{xcolor,soul}
-\usepackage{pdfcomment}
 
 % Sections without numbers
 \setcounter{secnumdepth}{0}
