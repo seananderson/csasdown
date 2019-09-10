@@ -46,12 +46,12 @@ lof: true
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE, results='hide', warning=FALSE}
 library(knitr)
 if (is_latex_output()) {
-  knitr_figs_dir <- "knitr-figs-pdf"
-  knitr_cache_dir <- "knitr-cache-pdf"
+  knitr_figs_dir <- "knitr-figs-pdf/"
+  knitr_cache_dir <- "knitr-cache-pdf/"
   fig_out_type <- "png"
 } else {
-  knitr_figs_dir <- "knitr-figs-docx"
-  knitr_cache_dir <- "knitr-cache-docx"
+  knitr_figs_dir <- "knitr-figs-docx/"
+  knitr_cache_dir <- "knitr-cache-docx/"
   fig_out_type <- "png"
 }
 fig_asp <- 0.618
