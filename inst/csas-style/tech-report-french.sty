@@ -377,24 +377,11 @@ On doit citer la publication comme suit:
 % Add TOC to pdf bookmarks (clickable pdf)
 \pdfbookmark[1]{\contentsname}{toc}
 
-\newcommand\TableOfContents{
-  \thispagestyle{fancyplain}
-  \pagenumbering{roman}
-  %% TOC is required by CSAS to be on page iii.
-  \setcounter{page}{3}
-  \renewcommand{\contentsname}{\bf \large \vspace{-20mm} TABLE DES MATI\`ERES}
-  \addtocontents{toc}{\protect\thispagestyle{fancy}}
-  \begin{center}
-    \tableofcontents
-  \end{center}
-  \newpage
-  %% To number subsubheadings
-  \setcounter{secnumdepth}{5}
-}
-
 % Table of contents page
 % \tableofcontents\clearpage
-\TableOfContents
+
+\renewcommand{\contentsname}{\bf TABLE DES MATI\`ERES}
+\tableofcontents\clearpage
 
 
 % Lists of figures and tables (optional)
