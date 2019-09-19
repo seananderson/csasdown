@@ -18,6 +18,7 @@
 #' @param col_names_align As defined in [kableExtra::linebreak()].
 #' @param escape As defined by [kableExtra::kable_styling()].
 #' @param ... Other arguments to pass to [knitr::kable()].
+#' @param hold_position force the table placement to be where the code is called (don't let latex positino the table where it wants)
 #'
 #' @importFrom knitr kable
 #' @importFrom kableExtra row_spec kable_styling landscape linebreak
@@ -38,6 +39,7 @@ csas_table <- function(x,
                        col_names = NULL,
                        col_names_align = "c",
                        escape = FALSE,
+                       hold_position = TRUE,
                        ...){
   if(!is.null(col_names)){
     ## Check for newlines in column headers and convert to proper latex linebreaks
@@ -77,6 +79,10 @@ csas_table <- function(x,
     }
   }
   k <- kable_styling(k, font_size = font_size)
+  if(hold_position){
+    k <- k %>%
+      kable_styling(latex_options = "hold_position")
+  }
   k <- sub("\\caption\\[\\]\\{\\}", "\\caption*{}", k)
   k
 }
