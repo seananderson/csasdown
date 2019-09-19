@@ -132,8 +132,11 @@
 %% The bibliography is renamed REFERENCES as well.
 \makeatletter
 %% These two commands are required to use Arial for the document.
-\renewcommand{\rmdefault}{phv}
-\renewcommand{\sfdefault}{phv}
+% \renewcommand{\rmdefault}{phv}
+% \renewcommand{\sfdefault}{phv}
+
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
 
 %% Useful shortcuts for equations
 \newcommand{\eb}{\begin{eqnarray}}
