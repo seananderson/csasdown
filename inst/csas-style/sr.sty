@@ -6,6 +6,7 @@
 %% Chris Grandin
 
 %% See res-doc.sty for more information on contents of this file
+\usepackage{tabularx}
 
 %% ------------------------------------------------------------------------------
 \usepackage{natbib}
@@ -131,8 +132,11 @@
 %% The bibliography is renamed REFERENCES as well.
 \makeatletter
 %% These two commands are required to use Arial for the document.
-\renewcommand{\rmdefault}{phv}
-\renewcommand{\sfdefault}{phv}
+% \renewcommand{\rmdefault}{phv}
+% \renewcommand{\sfdefault}{phv}
+
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
 
 %% Useful shortcuts for equations
 \newcommand{\eb}{\begin{eqnarray}}
@@ -449,8 +453,8 @@
 \usepackage{multirow}
 % To do 'for' loops in latex
 \usepackage{pgffor}
-% For float barriers
-\usepackage{placeins}
+% For float barriers --  add a silent floatbarrier to section commands
+\usepackage[section]{placeins}
 % Include PDFs (i.e., whole page)
 \usepackage{pdfpages}
 

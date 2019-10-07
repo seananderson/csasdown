@@ -97,14 +97,14 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, ...) {
     ...
   )
   update_csasstyle()
-  
+
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
-  
+
   if (french)
-    options(bookdown.post.latex = fix_envs_resdoc_french)
+    options(bookdown.post.latex = fix_envs_sr_french)
   else
-    options(bookdown.post.latex = fix_envs)
+    options(bookdown.post.latex = fix_envs_sr)
   on.exit(options(bookdown.post.late = old_opt))
   base
 }
@@ -153,7 +153,7 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex", ...) {
   )
 
   update_csasstyle()
-  
+
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
   if (french)
@@ -170,6 +170,14 @@ update_csasstyle <- function() {
  ignore <- file.copy(f, ".", overwrite = TRUE, recursive = TRUE)
 }
 
+fix_envs_sr <- function(x) {
+  fix_envs(x, include_abstract = FALSE, join_abstract = FALSE)
+}
+
+fix_envs_sr_french <- function(x) {
+  fix_envs(x, include_abstract = FALSE, join_abstract = FALSE, french = TRUE)
+}
+
 fix_envs_tr <- function(x) {
   fix_envs(x, join_abstract = FALSE)
 }
@@ -182,27 +190,31 @@ fix_envs_resdoc_french <- function(x) {
   fix_envs(x, join_abstract = TRUE, french = TRUE)
 }
 
-fix_envs <- function(x, join_abstract = TRUE, french = FALSE) {
+fix_envs <- function(x,
+                     include_abstract = TRUE,
+                     join_abstract = TRUE,
+                     french = FALSE) {
   ## Change csas-style to use the sty file found in csasdown repo
   g <- grep("csas-style", x)
 
-  ## Find beginning and end of the abstract text
-  abs_beg <- grep("begin_abstract_csasdown", x)
-  abs_end <- grep("end_abstract_csasdown", x)
-  if (join_abstract) {
-    if (length(abs_beg) == 0L || length(abs_end) == 0L) {
-      warning("`% begin_abstract_csasdown` or `% end_abstract_csasdown`` not found ",
-        "in `templates/csas.tex`", call. = FALSE)
-    } else {
-      abs_vec <- x[seq(abs_beg + 1, abs_end - 1)]
-      abs_vec <- abs_vec[abs_vec != ""]
-      abstract <- paste(abs_vec, collapse = " \\break \\break ")
-      first_part <- x[seq_len(abs_beg - 1)]
-      second_part <- x[seq(abs_end + 1, length(x))]
-      x <- c(first_part, abstract, second_part)
+  ## Find beginning and end of the abstract text is it is not a Science Response document
+  if(include_abstract){
+    abs_beg <- grep("begin_abstract_csasdown", x)
+    abs_end <- grep("end_abstract_csasdown", x)
+    if (join_abstract) {
+      if (length(abs_beg) == 0L || length(abs_end) == 0L) {
+        warning("`% begin_abstract_csasdown` or `% end_abstract_csasdown`` not found ",
+                "in `templates/csas.tex`", call. = FALSE)
+      } else {
+        abs_vec <- x[seq(abs_beg + 1, abs_end - 1)]
+        abs_vec <- abs_vec[abs_vec != ""]
+        abstract <- paste(abs_vec, collapse = " \\break \\break ")
+        first_part <- x[seq_len(abs_beg - 1)]
+        second_part <- x[seq(abs_end + 1, length(x))]
+        x <- c(first_part, abstract, second_part)
+      }
     }
   }
-
   beg_reg <- "^\\s*\\\\begin\\{.*\\}"
   end_reg <- "^\\s*\\\\end\\{.*\\}"
   i3 <- if (length(i1 <- grep(beg_reg, x))) (i1 - 1)[grepl("^\\s*$", x[i1 - 1])]
