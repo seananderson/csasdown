@@ -291,12 +291,16 @@ fix_envs <- function(x,
   }
   # ----------------------------------------------------------------------
 
-  # The following regex should work for French or English:
-  references_insertion_line <- grep(
-    "^\\\\chapter\\*\\{R\\p{L}F\\p{L}RENCES|{Sources [a-zA-Z]+ [a-zA-Z]+}", x, perl = TRUE) + 1
+  regexs <- c(
+    "^\\\\CHAPTER\\*\\{R\\p{L}F\\p{L}RENCES", # French or English
+    "^\\\\SECTION{SOURCES DE RENSEIGNEMENTS}",
+    "^\\\\SECTION{SOURCES OF INFORMATION}")
+  .matches <- lapply(regexs, function(.x) grep(.x, toupper(x), perl = TRUE) + 1)
+  references_insertion_line <- unlist(.matches)
 
   x[references_insertion_line - 1] <- sub("chapter", "section", x[references_insertion_line - 1])
   x[references_insertion_line] <- sub("chapter", "section", x[references_insertion_line])
+
   # Move the bibliography to before the appendices:
   if (length(references_insertion_line) > 0) {
     references_begin <- grep("^\\\\hypertarget\\{refs\\}\\{\\}$", x)
