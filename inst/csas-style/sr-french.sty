@@ -104,7 +104,12 @@
 %% ------------------------------------------------------------------------------
 %% For ragged right and bottom margins (yes, ugly, but that's the rules, which
 %%  of course exist because right justified in Word always looks so bad)
-\raggedright
+\RequirePackage{ragged2e}
+\RequirePackage{microtype}
+% Default is 50 (lots of hyphenation); bigger values penalize hyphenation more; make it huge to completely avoid them;
+% 1200 is my guess at a reasonable compromise:
+\hyphenpenalty=1200 % https://tex.stackexchange.com/questions/291685/minimize-hyphenations-with-ragged2e
+\RaggedRight
 \raggedbottom
 %% ------------------------------------------------------------------------------
 
