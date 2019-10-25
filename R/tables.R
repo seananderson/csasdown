@@ -180,6 +180,9 @@ add_extra_header <- function(kable_input,
 
   table_info <- kableExtra::magic_mirror(kable_input)
   header <- kableExtra:::standardize_header_input(header)
+  if(length(table_info$colnames) != nrow(header)){
+    stop("The number of extra headers supplied is not the same as the number of columns in the table", call. = FALSE)
+  }
   if(escape){
     header$header <- kableExtra:::input_escape(header$header, align)
   }
