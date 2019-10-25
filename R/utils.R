@@ -195,7 +195,7 @@ fix_envs <- function(x,
                      include_abstract = TRUE,
                      join_abstract = TRUE,
                      french = FALSE,
-                     prepub = FALSE) {
+                     prepub) {
   ## Change csas-style to use the sty file found in csasdown repo
   g <- grep("csas-style", x)
 
@@ -346,13 +346,12 @@ fix_envs <- function(x,
     }
   }
 
-  x
   # Implement "Approved pre-publication" version (science response)
   if( prepub ) {
     # 1. Modify header first page
     # 2. Modify short title
-    st_loc_1 <- grep( pattern="\\% Beginning of short title", x=x ) + 1
-    st_loc_2 <- grep( pattern="\\% End of short title", x=x ) - 1
+    st_loc_1 <- grep( pattern="\\% Title short", x=x ) + 1
+    st_loc_2 <- grep( pattern="\\% End of title short", x=x ) - 1
     if( st_loc1 != st_loc_2 ) stop( "Can't find short title (title_short)" )
     short_title_text <- x[st_loc_1]
     short_title_text_new <- paste( short_title_text, "APPROVED PRE-PUBLICATION",
@@ -360,6 +359,9 @@ fix_envs <- function(x,
     x[st_loc_1] <- short_title_text_new
     # 3. Modify citation (2 things)
   }
+
+  x
+
 }
 
 inject_refstepcounters <- function(x) {
