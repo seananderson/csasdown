@@ -347,6 +347,14 @@ fix_envs <- function(x,
   }
 
   x
+  # Implement "Approved pre-publication" version (science response)
+  if( prepub ) {
+    st_loc <- grep("% Beginning of short title", x) + 1
+    short_title_text <- x[st_loc]
+    short_title_text_new <- paste( short_title_text, "APPROVED PRE-PUBLICATION",
+                               sep=" -- " )
+    x[st_loc] <- short_title_text_new
+  }
 }
 
 inject_refstepcounters <- function(x) {
