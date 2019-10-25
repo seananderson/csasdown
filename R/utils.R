@@ -81,7 +81,8 @@ resdoc_word <- function(french = FALSE, ...) {
 
 #' @export
 #' @rdname csas_pdf
-sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, ...) {
+sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
+                   ...) {
 
   if (french) {
     file <- system.file("csas-tex", "sr-french.tex", package = "csasdown")
@@ -193,7 +194,8 @@ fix_envs_resdoc_french <- function(x) {
 fix_envs <- function(x,
                      include_abstract = TRUE,
                      join_abstract = TRUE,
-                     french = FALSE) {
+                     french = FALSE,
+                     prepub = FALSE) {
   ## Change csas-style to use the sty file found in csasdown repo
   g <- grep("csas-style", x)
 
