@@ -9,7 +9,8 @@
 resdoc_pdf(toc = TRUE, toc_depth = 3, highlight = "default",
   latex_engine = "pdflatex", french = FALSE, ...)
 
-sr_pdf(latex_engine = "pdflatex", french = FALSE, ...)
+sr_pdf(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
+  ...)
 
 techreport_pdf(french = FALSE, latex_engine = "pdflatex", ...)
 }
