@@ -361,7 +361,7 @@ fix_envs <- function(x,
     cite_loc <- grep(
       pattern="Correct citation for this publication", x=x )
     cite_text <- x[cite_loc]
-    cite_text_new <- "\\MakeAvailable{Correct citation (until published)}{\\emph{Aussi disponible en fran\\c{c}ais (jusqu'à la publication):}}"
+    cite_text_new <- "\\MakeAvailable{Correct citation (until published):}{\\CiteEng{}}{}{}"
     x[cite_loc] <- cite_text_new
   }
 
