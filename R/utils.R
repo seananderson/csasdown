@@ -172,7 +172,7 @@ update_csasstyle <- function() {
 }
 
 fix_envs_sr <- function(x) {
-  fix_envs(x, include_abstract = FALSE, join_abstract = FALSE)
+  fix_envs(x, include_abstract = FALSE, join_abstract = FALSE, prepub=prepub)
 }
 
 fix_envs_sr_french <- function(x) {
@@ -195,7 +195,7 @@ fix_envs <- function(x,
                      include_abstract = TRUE,
                      join_abstract = TRUE,
                      french = FALSE,
-                     prepub) {
+                     prepub = FALSE) {
   ## Change csas-style to use the sty file found in csasdown repo
   g <- grep("csas-style", x)
 
@@ -352,10 +352,12 @@ fix_envs <- function(x,
     # 2. Modify short title
     st_loc_1 <- grep( pattern="\\% Title short", x=x ) + 1
     st_loc_2 <- grep( pattern="\\% End of title short", x=x ) - 1
-    if( st_loc1 != st_loc_2 ) stop( "Can't find short title (title_short)" )
+    if( st_loc_1 != st_loc_2 ) stop( "Can't find short title (title_short)" )
     short_title_text <- x[st_loc_1]
-    short_title_text_new <- paste( short_title_text, "APPROVED PRE-PUBLICATION",
-                               sep=" -- " )
+    short_title_text_clean <- gsub( pattern="\\}+$", replacement="",
+                                    x=short_title_text )
+    short_title_text_new <- paste( short_title_text_clean,
+                                   " -- APPROVED PRE-PUBLICATION\\}", sep="" )
     x[st_loc_1] <- short_title_text_new
     # 3. Modify citation (2 things)
   }
