@@ -353,13 +353,15 @@ fix_envs <- function(x,
     st_loc_1 <- grep( pattern="\\% Title short", x=x ) + 1
     st_loc_2 <- grep( pattern="\\% End of title short", x=x ) - 1
     if( st_loc_1 != st_loc_2 ) stop( "Can't find short title (title_short)" )
-    short_title_text <- x[st_loc_1]
-    short_title_text_clean <- gsub( pattern="\\}+$", replacement="",
-                                    x=short_title_text )
-    short_title_text_new <- paste( short_title_text_clean,
-                                   "APPROVED PRE-PUBLICATION}", sep=" -- " )
-    x[st_loc_1] <- short_title_text_new
+    st_text <- x[st_loc_1]
+    st_text_clean <- gsub( pattern="\\}+$", replacement="", x=st_text )
+    st_text_new <- paste0( st_text_clean, " -- APPROVED PRE-PUBLICATION}" )
+    x[st_loc_1] <- st_text_new
     # 3. Modify citation (2 things)
+    cite_loc <- grep( pattern="Correct citation for this publication", x=x )
+    cite_text <- x[cite_loc]
+    cite_text_new <- "Correct citation (until published):"
+    x[cite_loc] <- cite_text_new
   }
 
   x
