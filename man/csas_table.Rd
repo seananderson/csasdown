@@ -51,33 +51,33 @@ with the long table}
 
 \item{extra_header}{character vector of extra headers to be placed above the headers}
 
-\item{ex_bold}{See \code{bold} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{ex_bold}{See \code{bold} in kableExtra:::pdfTable_add_header_above()}
 
-\item{ex_italic}{See \code{italic} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{ex_italic}{See \code{italic} in kableExtra:::pdfTable_add_header_above()}
 
-\item{ex_monospace}{See \code{monospace} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{ex_monospace}{See \code{monospace} in kableExtra:::pdfTable_add_header_above()}
 
-\item{ex_underline}{See \code{underline} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{ex_underline}{See \code{underline} in kableExtra:::pdfTable_add_header_above()}
 
-\item{ex_strikeout}{See \code{strikeout} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{ex_strikeout}{See \code{strikeout} in kableExtra:::pdfTable_add_header_above()}
 
-\item{ex_align}{See \code{align} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{ex_align}{See \code{align} in kableExtra:::pdfTable_add_header_above()}
 
-\item{ex_color}{See \code{color} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{ex_color}{See \code{color} in kableExtra:::pdfTable_add_header_above()}
 
-\item{ex_background}{See \code{background} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{ex_background}{See \code{background} in kableExtra:::pdfTable_add_header_above()}
 
-\item{ex_font_size}{See \code{font_size} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{ex_font_size}{See \code{font_size} in kableExtra:::pdfTable_add_header_above()}
 
-\item{ex_angle}{See \code{angle} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{ex_angle}{See \code{angle} in kableExtra:::pdfTable_add_header_above()}
 
-\item{ex_escape}{See \code{escape} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{ex_escape}{See \code{escape} in kableExtra:::pdfTable_add_header_above()}
 
-\item{ex_line}{See \code{line} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{ex_line}{See \code{line} in kableExtra:::pdfTable_add_header_above()}
 
-\item{ex_line_sep}{See \code{line_sep} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{ex_line_sep}{See \code{line_sep} in kableExtra:::pdfTable_add_header_above()}
 
-\item{...}{Other arguments passed to \code{\link[knitr:kable]{knitr::kable()}} and \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{...}{Other arguments passed to \code{\link[knitr:kable]{knitr::kable()}} and kableExtra:::pdfTable_add_header_above()}
 }
 \description{
 This is a custom wrapper for \code{\link[knitr:kable]{knitr::kable()}} with some arguments set so that

@@ -14,34 +14,34 @@ add_extra_header(kable_input, header = NULL, bold = FALSE,
 
 \item{header}{a vector of character strings to use for the extra header names}
 
-\item{bold}{See \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{bold}{See kableExtra:::pdfTable_add_header_above()}
 
-\item{italic}{See \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{italic}{See kableExtra:::pdfTable_add_header_above()}
 
-\item{monospace}{See \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{monospace}{See kableExtra:::pdfTable_add_header_above()}
 
-\item{underline}{See \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{underline}{See kableExtra:::pdfTable_add_header_above()}
 
-\item{strikeout}{See \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{strikeout}{See kableExtra:::pdfTable_add_header_above()}
 
-\item{align}{See \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{align}{See kableExtra:::pdfTable_add_header_above()}
 
-\item{color}{See \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{color}{See kableExtra:::pdfTable_add_header_above()}
 
-\item{background}{See \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{background}{See kableExtra:::pdfTable_add_header_above()}
 
-\item{font_size}{See \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{font_size}{See kableExtra:::pdfTable_add_header_above()}
 
-\item{angle}{See \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{angle}{See kableExtra:::pdfTable_add_header_above()}
 
-\item{escape}{See \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{escape}{See kableExtra:::pdfTable_add_header_above()}
 
-\item{line}{See \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{line}{See kableExtra:::pdfTable_add_header_above()}
 
-\item{line_sep}{See \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+\item{line_sep}{See kableExtra:::pdfTable_add_header_above()}
 }
 \value{
-See \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}
+See kableExtra:::pdfTable_add_header_above()
 }
 \description{
 Adds an extra header to the top of a \code{\link[=csas_table]{csas_table()}}. Works for longpages.

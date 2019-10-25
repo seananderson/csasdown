@@ -22,20 +22,20 @@
 #' @param hold_position force the table placement to be where the code is called
 #'   (don't let latex position the table where it wants)
 #' @param extra_header character vector of extra headers to be placed above the headers
-#' @param ... Other arguments passed to [knitr::kable()] and [kableExtra:::pdfTable_add_header_above()]
-#' @param ex_bold See `bold` in [kableExtra:::pdfTable_add_header_above()]
-#' @param ex_italic See `italic` in [kableExtra:::pdfTable_add_header_above()]
-#' @param ex_monospace See `monospace` in [kableExtra:::pdfTable_add_header_above()]
-#' @param ex_underline See `underline` in [kableExtra:::pdfTable_add_header_above()]
-#' @param ex_strikeout See `strikeout` in [kableExtra:::pdfTable_add_header_above()]
-#' @param ex_align See `align` in [kableExtra:::pdfTable_add_header_above()]
-#' @param ex_color See `color` in [kableExtra:::pdfTable_add_header_above()]
-#' @param ex_background See `background` in [kableExtra:::pdfTable_add_header_above()]
-#' @param ex_font_size See `font_size` in [kableExtra:::pdfTable_add_header_above()]
-#' @param ex_angle See `angle` in [kableExtra:::pdfTable_add_header_above()]
-#' @param ex_escape See `escape` in [kableExtra:::pdfTable_add_header_above()]
-#' @param ex_line See `line` in [kableExtra:::pdfTable_add_header_above()]
-#' @param ex_line_sep See `line_sep` in [kableExtra:::pdfTable_add_header_above()]
+#' @param ... Other arguments passed to [knitr::kable()] and kableExtra:::pdfTable_add_header_above()
+#' @param ex_bold See `bold` in kableExtra:::pdfTable_add_header_above()
+#' @param ex_italic See `italic` in kableExtra:::pdfTable_add_header_above()
+#' @param ex_monospace See `monospace` in kableExtra:::pdfTable_add_header_above()
+#' @param ex_underline See `underline` in kableExtra:::pdfTable_add_header_above()
+#' @param ex_strikeout See `strikeout` in kableExtra:::pdfTable_add_header_above()
+#' @param ex_align See `align` in kableExtra:::pdfTable_add_header_above()
+#' @param ex_color See `color` in kableExtra:::pdfTable_add_header_above()
+#' @param ex_background See `background` in kableExtra:::pdfTable_add_header_above()
+#' @param ex_font_size See `font_size` in kableExtra:::pdfTable_add_header_above()
+#' @param ex_angle See `angle` in kableExtra:::pdfTable_add_header_above()
+#' @param ex_escape See `escape` in kableExtra:::pdfTable_add_header_above()
+#' @param ex_line See `line` in kableExtra:::pdfTable_add_header_above()
+#' @param ex_line_sep See `line_sep` in kableExtra:::pdfTable_add_header_above()
 #'
 #' @importFrom knitr kable
 #' @importFrom kableExtra row_spec kable_styling landscape linebreak
@@ -147,21 +147,21 @@ csas_table <- function(x,
 #'
 #' @param kable_input An R object, typically a matrix or data frame.
 #' @param header a vector of character strings to use for the extra header names
-#' @param bold See [kableExtra:::pdfTable_add_header_above()]
-#' @param italic See [kableExtra:::pdfTable_add_header_above()]
-#' @param monospace See [kableExtra:::pdfTable_add_header_above()]
-#' @param underline See [kableExtra:::pdfTable_add_header_above()]
-#' @param strikeout See [kableExtra:::pdfTable_add_header_above()]
-#' @param align See [kableExtra:::pdfTable_add_header_above()]
-#' @param color See [kableExtra:::pdfTable_add_header_above()]
-#' @param background See [kableExtra:::pdfTable_add_header_above()]
-#' @param font_size See [kableExtra:::pdfTable_add_header_above()]
-#' @param angle See [kableExtra:::pdfTable_add_header_above()]
-#' @param escape See [kableExtra:::pdfTable_add_header_above()]
-#' @param line See [kableExtra:::pdfTable_add_header_above()]
-#' @param line_sep See [kableExtra:::pdfTable_add_header_above()]
+#' @param bold See kableExtra:::pdfTable_add_header_above()
+#' @param italic See kableExtra:::pdfTable_add_header_above()
+#' @param monospace See kableExtra:::pdfTable_add_header_above()
+#' @param underline See kableExtra:::pdfTable_add_header_above()
+#' @param strikeout See kableExtra:::pdfTable_add_header_above()
+#' @param align See kableExtra:::pdfTable_add_header_above()
+#' @param color See kableExtra:::pdfTable_add_header_above()
+#' @param background See kableExtra:::pdfTable_add_header_above()
+#' @param font_size See kableExtra:::pdfTable_add_header_above()
+#' @param angle See kableExtra:::pdfTable_add_header_above()
+#' @param escape See kableExtra:::pdfTable_add_header_above()
+#' @param line See kableExtra:::pdfTable_add_header_above()
+#' @param line_sep See kableExtra:::pdfTable_add_header_above()
 #'
-#' @return See [kableExtra:::pdfTable_add_header_above()]
+#' @return See kableExtra:::pdfTable_add_header_above()
 add_extra_header <- function(kable_input,
                              header = NULL,
                              bold = FALSE,
