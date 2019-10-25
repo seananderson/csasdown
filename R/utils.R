@@ -349,11 +349,16 @@ fix_envs <- function(x,
   x
   # Implement "Approved pre-publication" version (science response)
   if( prepub ) {
-    st_loc <- grep("% Beginning of short title", x) + 1
-    short_title_text <- x[st_loc]
+    # 1. Modify header first page
+    # 2. Modify short title
+    st_loc_1 <- grep( pattern="\\% Beginning of short title", x=x ) + 1
+    st_loc_2 <- grep( pattern="\\% End of short title", x=x ) - 1
+    if( st_loc1 != st_loc_2 ) stop( "Can't find short title (title_short)" )
+    short_title_text <- x[st_loc_1]
     short_title_text_new <- paste( short_title_text, "APPROVED PRE-PUBLICATION",
                                sep=" -- " )
-    x[st_loc] <- short_title_text_new
+    x[st_loc_1] <- short_title_text_new
+    # 3. Modify citation (2 things)
   }
 }
 
