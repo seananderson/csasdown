@@ -577,7 +577,7 @@
 }
 
 % Generate the availability
-\newcommand{\MakeAvailable}{
+\newcommand{\MakeAvailable}[2]{
 
 \newpage
 
@@ -598,14 +598,14 @@ ISSN 1919-3769\\
 \includegraphics[scale=0.96]{\locRepo/images/recycle.png}
 \end{center}
 
-Correct citation for this publication:
+#1
 
 \hangindent=0.6cm
 DFO. \rdYear{}. \rdTitle{}.
 DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.
 \rdYear{}/\rdNumber{}.
 
-\emph{Aussi disponible en fran\c{c}ais:}
+#2
 
 \hangindent=0.6cm
 \emph{MPO. \rdYear{}. \rdTitleFr{}. Secr.\ can.\ de consult.\ sci.\ du MPO, R\'{e}p.\ des Sci.\ \rdYear{}/\rdNumber{}.}
