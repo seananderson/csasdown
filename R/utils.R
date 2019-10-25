@@ -357,7 +357,7 @@ fix_envs <- function(x,
     short_title_text_clean <- gsub( pattern="\\}+$", replacement="",
                                     x=short_title_text )
     short_title_text_new <- paste( short_title_text_clean,
-                                   " -- APPROVED PRE-PUBLICATION\\}", sep="" )
+                                   "APPROVED PRE-PUBLICATION}", sep=" -- " )
     x[st_loc_1] <- short_title_text_new
     # 3. Modify citation (2 things)
   }
