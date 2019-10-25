@@ -19,9 +19,23 @@
 #'   \\\ns, they will be replaced with the
 #' @param col_names_align As defined in [kableExtra::linebreak()].
 #' @param escape As defined by [kableExtra::kable_styling()].
-#' @param ... Other arguments to pass to [knitr::kable()].
 #' @param hold_position force the table placement to be where the code is called
-#'   (don't let latex positino the table where it wants)
+#'   (don't let latex position the table where it wants)
+#' @param extra_header character vector of extra headers to be placed above the headers
+#' @param ... Other arguments passed to [knitr::kable()] and [kableExtra:::pdfTable_add_header_above()]
+#' @param ex_bold See `bold` in [kableExtra:::pdfTable_add_header_above()]
+#' @param ex_italic See `italic` in [kableExtra:::pdfTable_add_header_above()]
+#' @param ex_monospace See `monospace` in [kableExtra:::pdfTable_add_header_above()]
+#' @param ex_underline See `underline` in [kableExtra:::pdfTable_add_header_above()]
+#' @param ex_strikeout See `strikeout` in [kableExtra:::pdfTable_add_header_above()]
+#' @param ex_align See `align` in [kableExtra:::pdfTable_add_header_above()]
+#' @param ex_color See `color` in [kableExtra:::pdfTable_add_header_above()]
+#' @param ex_background See `background` in [kableExtra:::pdfTable_add_header_above()]
+#' @param ex_font_size See `font_size` in [kableExtra:::pdfTable_add_header_above()]
+#' @param ex_angle See `angle` in [kableExtra:::pdfTable_add_header_above()]
+#' @param ex_escape See `escape` in [kableExtra:::pdfTable_add_header_above()]
+#' @param ex_line See `line` in [kableExtra:::pdfTable_add_header_above()]
+#' @param ex_line_sep See `line_sep` in [kableExtra:::pdfTable_add_header_above()]
 #'
 #' @importFrom knitr kable
 #' @importFrom kableExtra row_spec kable_styling landscape linebreak
@@ -43,6 +57,20 @@ csas_table <- function(x,
                        col_names_align = "c",
                        escape = FALSE,
                        hold_position = TRUE,
+                       extra_header = NULL,
+                       ex_bold = FALSE,
+                       ex_italic = FALSE,
+                       ex_monospace = FALSE,
+                       ex_underline = FALSE,
+                       ex_strikeout = FALSE,
+                       ex_align = "c",
+                       ex_color = NULL,
+                       ex_background = NULL,
+                       ex_font_size = NULL,
+                       ex_angle = NULL,
+                       ex_escape = TRUE,
+                       ex_line = TRUE,
+                       ex_line_sep = 3,
                        ...) {
   if (!is.null(col_names)) {
     # Check for newlines in column headers and convert to proper latex linebreaks
@@ -91,5 +119,110 @@ csas_table <- function(x,
     k <- kable_styling(k, latex_options = "hold_position")
   }
   k <- sub("\\caption\\[\\]\\{\\}", "\\caption*{}", k)
+  if(!is.null(extra_header)){
+    kable_format <- attr(k, "format")
+    if(kable_format != "latex"){
+      stop("Adding an extra header is only supported for latex builds.", call. = FALSE)
+    }
+    k <- add_extra_header(k,
+                          header = extra_header,
+                          ex_bold,
+                          ex_italic,
+                          ex_monospace,
+                          ex_underline,
+                          ex_strikeout,
+                          ex_align,
+                          ex_color,
+                          ex_background,
+                          ex_font_size,
+                          ex_angle,
+                          ex_escape,
+                          ex_line,
+                          ex_line_sep)
+  }
   k
+}
+
+#' Adds an extra header to the top of a [csas_table()]. Works for longpages.
+#'
+#' @param kable_input An R object, typically a matrix or data frame.
+#' @param header a vector of character strings to use for the extra header names
+#' @param bold See [kableExtra:::pdfTable_add_header_above()]
+#' @param italic See [kableExtra:::pdfTable_add_header_above()]
+#' @param monospace See [kableExtra:::pdfTable_add_header_above()]
+#' @param underline See [kableExtra:::pdfTable_add_header_above()]
+#' @param strikeout See [kableExtra:::pdfTable_add_header_above()]
+#' @param align See [kableExtra:::pdfTable_add_header_above()]
+#' @param color See [kableExtra:::pdfTable_add_header_above()]
+#' @param background See [kableExtra:::pdfTable_add_header_above()]
+#' @param font_size See [kableExtra:::pdfTable_add_header_above()]
+#' @param angle See [kableExtra:::pdfTable_add_header_above()]
+#' @param escape See [kableExtra:::pdfTable_add_header_above()]
+#' @param line See [kableExtra:::pdfTable_add_header_above()]
+#' @param line_sep See [kableExtra:::pdfTable_add_header_above()]
+#'
+#' @return See [kableExtra:::pdfTable_add_header_above()]
+add_extra_header <- function(kable_input,
+                             header = NULL,
+                             bold = FALSE,
+                             italic = FALSE,
+                             monospace = FALSE,
+                             underline = FALSE,
+                             strikeout = FALSE,
+                             align = "c",
+                             color = NULL,
+                             background,
+                             font_size,
+                             angle,
+                             escape,
+                             line = TRUE,
+                             line_sep = 3){
+
+  table_info <- kableExtra::magic_mirror(kable_input)
+  header <- kableExtra:::standardize_header_input(header)
+  if(escape){
+    header$header <- kableExtra:::input_escape(header$header, align)
+  }
+  align <- match.arg(align, c("c", "l", "r"))
+  hline_type <- switch(table_info$booktabs + 1,
+                       "\\\\hline",
+                       "\\\\toprule")
+  new_header_split <-
+    kableExtra:::pdfTable_new_header_generator(header,
+                                               table_info$booktabs,
+                                               bold,
+                                               italic,
+                                               monospace,
+                                               underline,
+                                               strikeout,
+                                               align,
+                                               color,
+                                               background,
+                                               font_size,
+                                               angle,
+                                               line_sep)
+  if(line){
+    new_header <- paste0(new_header_split[1], "\n",
+                         new_header_split[2])
+  }else{
+    new_header <- new_header_split[1]
+  }
+  j <- utf8_inp <- kableExtra:::solve_enc(kable_input)
+  out <- stringr::str_replace_all(utf8_inp,
+                                  hline_type,
+                                  paste0(hline_type, "\n", new_header))
+  out <- structure(out,
+                   format = "latex",
+                   class = "knitr_kable")
+
+  if(is.null(table_info$new_header_row)){
+    table_info$new_header_row <- new_header_split[1]
+    table_info$header_df <- list(header)
+  }else{
+    table_info$new_header_row <- c(table_info$new_header_row,
+                                   new_header_split[1])
+    table_info$header_df[[length(table_info$header_df) + 1]] <- header
+  }
+  attr(out, "kable_meta") <- table_info
+  out
 }

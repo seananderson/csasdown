@@ -143,7 +143,6 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex", ...) {
   } else {
     file <- system.file("csas-tex", "tech-report.tex", package = "csasdown")
   }
-
   base <- bookdown::pdf_book(
     template = file,
     keep_tex = TRUE,

@@ -8,7 +8,12 @@ csas_table(x, format = "pandoc", booktabs = TRUE, linesep = "",
   longtable = TRUE, font_size = NULL, landscape = FALSE,
   bold_header = TRUE, repeat_header = TRUE, repeat_header_text = "",
   repeat_header_method = "replace", col_names = NULL,
-  col_names_align = "c", escape = FALSE, hold_position = TRUE, ...)
+  col_names_align = "c", escape = FALSE, hold_position = TRUE,
+  extra_header = NULL, ex_bold = FALSE, ex_italic = FALSE,
+  ex_monospace = FALSE, ex_underline = FALSE, ex_strikeout = FALSE,
+  ex_align = "c", ex_color = NULL, ex_background = NULL,
+  ex_font_size = NULL, ex_angle = NULL, ex_escape = TRUE,
+  ex_line = TRUE, ex_line_sep = 3, ...)
 }
 \arguments{
 \item{x}{An R object, typically a matrix or data frame.}
@@ -42,9 +47,37 @@ with the long table}
 \item{escape}{As defined by \code{\link[kableExtra:kable_styling]{kableExtra::kable_styling()}}.}
 
 \item{hold_position}{force the table placement to be where the code is called
-(don't let latex positino the table where it wants)}
+(don't let latex position the table where it wants)}
 
-\item{...}{Other arguments to pass to \code{\link[knitr:kable]{knitr::kable()}}.}
+\item{extra_header}{character vector of extra headers to be placed above the headers}
+
+\item{ex_bold}{See \code{bold} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+
+\item{ex_italic}{See \code{italic} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+
+\item{ex_monospace}{See \code{monospace} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+
+\item{ex_underline}{See \code{underline} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+
+\item{ex_strikeout}{See \code{strikeout} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+
+\item{ex_align}{See \code{align} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+
+\item{ex_color}{See \code{color} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+
+\item{ex_background}{See \code{background} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+
+\item{ex_font_size}{See \code{font_size} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+
+\item{ex_angle}{See \code{angle} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+
+\item{ex_escape}{See \code{escape} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+
+\item{ex_line}{See \code{line} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+
+\item{ex_line_sep}{See \code{line_sep} in \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
+
+\item{...}{Other arguments passed to \code{\link[knitr:kable]{knitr::kable()}} and \code{\link[kableExtra:::pdfTable_add_header_above]{kableExtra::::pdfTable_add_header_above()}}}
 }
 \description{
 This is a custom wrapper for \code{\link[knitr:kable]{knitr::kable()}} with some arguments set so that
