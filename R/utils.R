@@ -348,7 +348,15 @@ fix_envs <- function(x,
 
   # Implement "Approved pre-publication" version (science response)
   if( prepub ) {
-    # 1. Modify header first page
+    # 1. Modify header first page (report number)
+    rn_loc_1 <- grep( pattern="\\% Report number", x=x ) + 1
+    rn_loc_2 <- grep( pattern="\\% End of report number", x=x ) - 1
+    if( rn_loc_1 != rn_loc_2 )
+      stop( "Can't find report number (report_number)" )
+    rn_text <- x[rn_loc_1]
+    rn_text_clean <- gsub( pattern="\\}+$", replacement="", x=rn_text )
+    rn_text_new <- paste0( rn_text_clean, " -- APPROVED PRE-PUBLICATION}" )
+    x[rn_loc_1] <- rn_text_new
     # 2. Modify short title
     st_loc_1 <- grep( pattern="\\% Title short", x=x ) + 1
     st_loc_2 <- grep( pattern="\\% End of title short", x=x ) - 1
