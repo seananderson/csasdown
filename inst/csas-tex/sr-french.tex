@@ -23,6 +23,7 @@ $header-includes$
 
 % Title short
 \newcommand{\rdTitleShort}{$title_short$}
+% End of title short
 
 % Publication year
 \newcommand{\rdYear}{$year$}
@@ -32,6 +33,7 @@ $header-includes$
 
 % Report number
 \newcommand{\rdNumber}{$report_number$}
+% End of report number
 
 % Approver (name\\position)
 \newcommand{\rdApp}{$approver$}
@@ -63,6 +65,6 @@ $header-includes$
 
 $body$
 
-\MakeAvailable
+\MakeAvailable{La pr\'{e}sente publication doit \^{e}tre cit\'{e}e comme suit:}{\CiteFr{\rdYear{}/\rdNumber{}}}{\emph{Also available in English:}}{\CiteEng{\rdYear{}/\rdNumber{}}}
 
 \end{document}
