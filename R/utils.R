@@ -348,6 +348,9 @@ fix_envs <- function(x,
 
   # Implement "Approved pre-publication" version (science response)
   if( prepub ) {
+    # Text to insert
+    addText <- ifelse( french, " -- PRÉ-PUBLICATION APPROUVÉE}",
+                      " -- APPROVED PRE-PUBLICATION}" )
     # 1. Modify header first page (report number)
     rn_loc_1 <- grep( pattern="\\% Report number", x=x ) + 1
     rn_loc_2 <- grep( pattern="\\% End of report number", x=x ) - 1
@@ -355,7 +358,7 @@ fix_envs <- function(x,
       stop( "Can't find report number (report_number)" )
     rn_text <- x[rn_loc_1]
     rn_text_clean <- gsub( pattern="\\}+$", replacement="", x=rn_text )
-    rn_text_new <- paste0( rn_text_clean, " -- APPROVED PRE-PUBLICATION}" )
+    rn_text_new <- paste0( rn_text_clean, addText )
     x[rn_loc_1] <- rn_text_new
     # 2. Modify short title
     st_loc_1 <- grep( pattern="\\% Title short", x=x ) + 1
@@ -363,7 +366,7 @@ fix_envs <- function(x,
     if( st_loc_1 != st_loc_2 ) stop( "Can't find short title (title_short)" )
     st_text <- x[st_loc_1]
     st_text_clean <- gsub( pattern="\\}+$", replacement="", x=st_text )
-    st_text_new <- paste0( st_text_clean, " -- APPROVED PRE-PUBLICATION}" )
+    st_text_new <- paste0( st_text_clean, addText )
     x[st_loc_1] <- st_text_new
     # 3. Modify citation (2 things)
     cite_loc <- grep(
