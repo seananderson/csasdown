@@ -83,6 +83,7 @@ options(kableExtra.latex.load_packages = FALSE)
 ```
 
 ```{r load-libraries, cache=FALSE}
+french <- rmarkdown::metadata$output$`csasdown::sr_pdf`$french
 prepub <- rmarkdown::metadata$output$`csasdown::sr_pdf`$prepub
 # add other packages here:
 library(csasdown)
