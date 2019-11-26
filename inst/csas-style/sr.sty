@@ -622,7 +622,7 @@ DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.
 
 % Background for landscape pages (header and footer)
 \newenvironment{landscapeBG}{
-  \newgeometry{hmargin=1in, vmargin=1in}
+  \newgeometry{hmargin=1.25in, vmargin=1in}
   \begin{landscape}
 
   \newcommand{\regionWidthW}{\widthof{\textbf{\rdRegion{}}}}
@@ -641,12 +641,14 @@ DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.
       \vspace*{2cm}
       \parbox[b]{\regionWidthW}{\textbf{\rdRegion{}}}
       \hfill
-      \parbox[b]{\remainderWidthW}{\RaggedLeft{\textbf{Science Response: \rdTitleShort{}}}}
+      \parbox[b]{\remainderWidthW}{\RaggedLeft{\textbf{Science Response: \rdTitleShort{}}}}\\
+      \vspace{-0.3cm}
       \rule{\linewidth}{0.4pt}\\
+      \vspace{18.2cm}
       \vfill
       \rule{\linewidth}{0.4pt}\\
-      \begin{center}\thepage{}\end{center}
-      \vspace*{2cm}
+      \begin{center}\thepage{}\end{center}\\
+      \vspace{2cm}
       }
       \end{varwidth}
     }
