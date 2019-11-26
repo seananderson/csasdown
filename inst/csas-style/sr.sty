@@ -616,3 +616,23 @@ DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.
 
 \newpage
 }
+
+% Default is no background
+\newcommand{\noBG}{\backgroundsetup{contents={}}}
+
+% Background for landscape pages (header and footer)
+\newcommand{\landscapeBG}{
+  \backgroundsetup{
+    angle=90,
+    opacity=1,
+    scale=1,
+    color=black,
+    nodeanchor=south,
+    position={current page.east},
+    vshift=1.5cm,
+    contents={\begin{varwidth}{\linewidth}{
+      \rule{\linewidth}{0.4pt}\\
+      \begin{center}\thepage{}\end{center}}\end{varwidth}
+    }
+  }
+}
