@@ -621,7 +621,9 @@ DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.
 \newcommand{\noBG}{\backgroundsetup{contents={}}}
 
 % Background for landscape pages (header and footer)
-\newcommand{\landscapeBG}{
+\newenvironment{landscapeBG}{
+  \begin{landscape}
+  \thispagestyle{empty}
   \backgroundsetup{
     angle=90,
     opacity=1,
@@ -635,4 +637,5 @@ DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.
       \begin{center}\thepage{}\end{center}}\end{varwidth}
     }
   }
+  \end{landscape}
 }
