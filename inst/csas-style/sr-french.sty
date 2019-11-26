@@ -613,3 +613,47 @@ Secr.\ can.\ de consult.\ sci.\ du MPO, R\'{e}p.\ des Sci.\
 
 \newpage
 }
+
+% Default is no background
+\newcommand{\noBG}{\backgroundsetup{contents={}}}
+
+% Background for landscape pages (header and footer)
+\newenvironment{landscapeBG}{
+  \newgeometry{hmargin=1.25in, vmargin=1in}
+  \begin{landscape}
+
+  \newcommand{\regionWidthW}{\widthof{\textbf{\rdRegion{}}}}
+  \newcommand{\remainderWidthW}{\linewidth - \regionWidthW}
+
+  \thispagestyle{empty}
+  \backgroundsetup{
+    angle=90,
+    opacity=1,
+    scale=1,
+    color=black,
+    nodeanchor=south,
+    position={current page.west},
+    vshift=-8.5in,
+    contents={\begin{varwidth}{\linewidth}{
+      \vspace*{2cm}
+      \parbox[b]{\regionWidthW}{\textbf{\rdRegion{}}}
+      \hfill
+      \parbox[b]{\remainderWidthW}{\RaggedLeft{\textbf{Science Response: \rdTitleShort{}}}}\\
+      \vspace{-0.3cm}
+      \rule{\linewidth}{0.4pt}\\
+      \vspace{16.75cm}
+      \vfill
+      \rule{\linewidth}{0.4pt}\\
+      \begin{center}\thepage{}\end{center}
+      \vspace{0.9cm}
+      \hphantom{.}
+      }
+      \end{varwidth}
+    }
+  }
+  }
+  {
+  \end{landscape}
+  \restoregeometry
+  \clearpage
+}
