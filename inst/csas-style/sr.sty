@@ -624,6 +624,10 @@ DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.
 \newenvironment{landscapeBG}{
   \newgeometry{hmargin=1in, vmargin=1in}
   \begin{landscape}
+
+  \newcommand{\regionWidthW}{\widthof{\textbf{\rdRegion{}}}}
+  \newcommand{\remainderWidthW}{\linewidth - \regionWidthW}
+
   \thispagestyle{empty}
   \backgroundsetup{
     angle=90,
@@ -632,10 +636,19 @@ DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.
     color=black,
     nodeanchor=south,
     position={current page.west},
-    vshift=-1.5cm,
+    vshift=-8.5in,
     contents={\begin{varwidth}{\linewidth}{
+      \vspace*{2cm}
+      \parbox[b]{\regionWidthW}{\textbf{\rdRegion{}}}
+      \hfill
+      \parbox[b]{\remainderWidthW}{\RaggedLeft{\textbf{Science Response: \rdTitleShort{}}}}
       \rule{\linewidth}{0.4pt}\\
-      \begin{center}\thepage{}\end{center}}\end{varwidth}
+      \vfill
+      \rule{\linewidth}{0.4pt}\\
+      \begin{center}\thepage{}\end{center}
+      \vspace*{2cm}
+      }
+      \end{varwidth}
     }
   }
   }
