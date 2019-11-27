@@ -625,11 +625,9 @@ Secr.\ can.\ de consult.\ sci.\ du MPO, R\'{e}p.\ des Sci.\
 \newenvironment{landscapeBG}{
   \newgeometry{hmargin=1.25in, vmargin=1in}
   \begin{landscape}
-
   \newcommand{\regionWidthW}{\widthof{\textbf{\rdRegion{}}}}
   \newcommand{\remainderWidthW}{\linewidth - \regionWidthW}
-
-  \thispagestyle{empty}
+  \pagestyle{empty}
   \backgroundsetup{
     angle=90,
     opacity=1,
@@ -658,6 +656,7 @@ Secr.\ can.\ de consult.\ sci.\ du MPO, R\'{e}p.\ des Sci.\
   }
   {
   \end{landscape}
+  \pagestyle{csapfancy}
   \restoregeometry
   \clearpage
 }
