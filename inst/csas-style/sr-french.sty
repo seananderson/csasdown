@@ -143,10 +143,6 @@
 \usepackage{helvet}
 \renewcommand{\familydefault}{\sfdefault}
 
-% Packages for landscape pages
-\usepackage{background}
-\usepackage{varwidth}
-
 %% Useful shortcuts for equations
 \newcommand{\eb}{\begin{eqnarray}}
 \newcommand{\ee}{\end{eqnarray}}
@@ -618,8 +614,9 @@ Secr.\ can.\ de consult.\ sci.\ du MPO, R\'{e}p.\ des Sci.\
 \newpage
 }
 
-% Default is no background
-\newcommand{\noBG}{\backgroundsetup{contents={}}}
+% Packages for landscape pages
+\usepackage[contents={}]{background}
+\usepackage{varwidth}
 
 % Background for landscape pages (header and footer)
 \newenvironment{landscapeBG}{
