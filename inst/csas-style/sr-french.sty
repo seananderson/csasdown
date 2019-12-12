@@ -397,7 +397,7 @@
 \setenumerate[3]{label=\roman*.}
 \setenumerate[4]{label=\arabic*.}
 \setenumerate[5]{label=\alph*.}
-\setenumerate{nosep} % This needs to be here for itemsep above to be recognized
+\setenumerate{itemsep=3pt} % This needs to be here for itemsep above to be recognized
 \setitemize{
   align=left,        % Left align labels
   topsep=0pt,        % Vertical space before the list
@@ -408,7 +408,7 @@
   itemindent=0pt,    % Hanging indentation (after first line)
   itemsep=3pt        % Vertical space between list items
 }
-\setitemize{nosep}   % This needs to be here for itemsep above to be recognized
+\setitemize{itemsep=3pt}   % This needs to be here for itemsep above to be recognized
 
 %% Hanging indent of the bibliography items.
 \setlength{\bibhang}{0.25in}
