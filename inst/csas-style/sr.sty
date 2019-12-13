@@ -552,13 +552,12 @@
 
 % Generate the first page
 \newcommand{\MakeFirstPage}{
-  \hypertarget{PageOne}{}
   % Headers and footers for the first page
   \thispagestyle{firstPage}
   % Make the title -- needs a big space to print below the header
   \vspace*{1.75cm}
   \begin{center}
-  % This needs to be heading "level 1" (issue #5); secion is level 2, an so on
+  \hypertarget{PageOne}{}
   \Large{\textbf{\MakeTextUppercase{\rdTitle{}}}}
   %\vspace{1in}
   \end{center}
@@ -658,6 +657,3 @@ DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.
   \restoregeometry
   \clearpage
 }
-
-% Bookmark title
-\usepackage{bookmark}
