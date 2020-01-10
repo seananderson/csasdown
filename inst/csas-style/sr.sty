@@ -657,3 +657,6 @@ DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.
   \restoregeometry
   \clearpage
 }
+
+% Add leading zeros to get length 3
+\newcommand{\threedigits}[1]{\ifnum#1<10 00#1\else\ifnum#1<100 0#1\else#1\fi\fi}
