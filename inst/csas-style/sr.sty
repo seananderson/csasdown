@@ -24,6 +24,17 @@
             urlcolor=blue,
             bookmarksopen=true,
             bookmarksopenlevel=1}
+% Underlines
+\usepackage[normalem]{ulem}
+% hack into hyperref (from https://tex.stackexchange.com/a/23212)
+\makeatletter
+\DeclareUrlCommand\ULurl@@{%
+  \def\UrlFont{\sffamily\color{blue}}%
+  \def\UrlLeft{\uline\bgroup}%
+  \def\UrlRight{\egroup}}
+\def\ULurl@#1{\hyper@linkurl{\ULurl@@{#1}}{#1}}
+\DeclareRobustCommand*\ULurl{\hyper@normalise\ULurl@}
+\makeatother
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
@@ -590,7 +601,7 @@ Centre for Science Advice\\
 \rdAddress{}\\
 \vspace{0.1cm}
 Telephone: \rdPhone{}\\
-E-Mail: \rdEmail{}\\
+E-Mail: \ULurl{\rdEmail{}}\\
 Internet address: \href{http://www.dfo-mpo.gc.ca/csas-sccs/}{www.dfo-mpo.gc.ca/csas-sccs/}\\
 \vspace{0.1cm}
 ISSN 1919-3769\\
