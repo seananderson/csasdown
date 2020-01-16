@@ -28,12 +28,8 @@
 \usepackage[normalem]{ulem}
 % hack into hyperref (from https://tex.stackexchange.com/a/23212)
 \makeatletter
-\DeclareUrlCommand\ULurl@@{%
-  \def\UrlFont{\sffamily\color{blue}}%
-  \def\UrlLeft{\uline\bgroup}%
-  \def\UrlRight{\egroup}}
-\def\ULurl@#1{\hyper@linkurl{\ULurl@@{#1}}{#1}}
-\DeclareRobustCommand*\ULurl{\hyper@normalise\ULurl@}
+\newcommand*{\link}{\begingroup\@makeother\#\@mylink}
+\newcommand*{\@mylink}[2]{\href{#1}{\uline{#2}}\endgroup}
 \makeatother
 %% ------------------------------------------------------------------------------
 
@@ -601,9 +597,9 @@ Centre for Science Advice\\
 \rdAddress{}\\
 \vspace{0.1cm}
 Telephone: \rdPhone{}\\
-% E-mail: \href{mailto:\rdEmail{}}{\rdEmail{}}\\  % Doesn't work
-E-mail: \href{mailto:me@email.ca}{me@email.ca}\\
-Internet address: \href{http://www.dfo-mpo.gc.ca/csas-sccs/}{www.dfo-mpo.gc.ca/csas-sccs/}\\
+% E-mail: \link{mailto:\rdEmail{}}{\rdEmail{}}\\  % Doesn't work
+E-mail: \link{mailto:me@email.ca}{me@email.ca}\\
+Internet address: \link{http://www.dfo-mpo.gc.ca/csas-sccs/}{www.dfo-mpo.gc.ca/csas-sccs/}\\
 \vspace{0.1cm}
 ISSN 1919-3769\\
 \copyright{} Her Majesty the Queen in Right of Canada, \rdYear{}\\
