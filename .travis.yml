@@ -1,18 +1,17 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
-sudo: true
 cache: packages
 warnings_are_errors: false
-
-after_success:
-    - Rscript -e 'covr::codecov()'
 
 addons:
   apt:
     sources:
-    - sourceline: 'ppa:opencpu/imagemagick'
-    - sourceline: 'ppa:opencpu/poppler'
+    - sourceline: 'ppa:ubuntugis/imagemagick'
+    - sourceline: 'ppa:ubuntugis/poppler'
     packages:
     - libmagick++-dev
     - libpoppler-cpp-dev
+
+after_success:
+    - Rscript -e 'covr::codecov()'
