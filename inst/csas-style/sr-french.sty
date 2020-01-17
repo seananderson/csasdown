@@ -24,6 +24,13 @@
             urlcolor=blue,
             bookmarksopen=true,
             bookmarksopenlevel=1}
+% Underlines
+\usepackage[normalem]{ulem}
+% hack into hyperref (from https://tex.stackexchange.com/q/208808)
+\makeatletter
+\newcommand*{\link}{\begingroup\@makeother\#\@mylink}
+\newcommand*{\@mylink}[2]{\href{#1}{\uline{#2}}\endgroup}
+\makeatother
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
@@ -580,39 +587,6 @@
 % Generate the availability
 \newcommand{\MakeAvailable}{
 
-\newpage
-
-\section{Le pr\'{e}sent rapport est disponible aupr\`{e}s du}
-
-\begin{center}
-Centre des avis scientifiques\\
-\rdRegion{}\\
-\rdAddress{}\\
-\vspace{0.1cm}
-T\'{e}l\'{e}phone: \rdPhone{}\\
-Courriel: \rdEmail\\
-Addresse internet: \href{http://www.dfo-mpo.gc.ca/csas-sccs/}{www.dfo-mpo.gc.ca/csas-sccs/}\\
-\vspace{0.1cm}
-ISSN 1919-3769\\
-\copyright{} Sa Majest\'{e} la Reine du chef du Canada, \rdYear{}\\
-\vspace{0.2cm}
-\includegraphics[scale=0.96]{\locRepo/images/recycle.png}
-\end{center}
-
-La pr\'{e}sente publication doit \^{e}tre cit\'{e}e comme suit:
-
-\hangindent=0.6cm
-MPO. \rdYear{}. \rdTitle{}.
-Secr.\ can.\ de consult.\ sci.\ du MPO, R\'{e}p.\ des Sci.\
-\rdYear{}/\rdNumber{}.
-
-\emph{Also available in English:}
-
-\hangindent=0.6cm
-\emph{DFO. \rdYear{}. \rdTitleFr{}. DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.\ \rdYear{}/\rdNumber{}.}
-
-
-\newpage
 }
 
 % Packages for landscape pages
