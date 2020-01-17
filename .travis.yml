@@ -7,3 +7,12 @@ warnings_are_errors: false
 
 after_success:
     - Rscript -e 'covr::codecov()'
+
+addons:
+  apt:
+    sources:
+    - sourceline: 'ppa:opencpu/imagemagick'
+    - sourceline: 'ppa:opencpu/poppler'
+    packages:
+    - libmagick++-dev
+    - libpoppler-cpp-dev
