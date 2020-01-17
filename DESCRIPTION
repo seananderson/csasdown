@@ -1,37 +1,60 @@
 Package: csasdown
-Title: An R Markdown Template for Creating CSAS Research Documents
-Version: 0.0.7
-Authors@R: c(person(c("Sean", "C."), "Anderson",
-    email = "sean.anderson@dfo-mpo.gc.ca", role = c("aut", "cre")),
-    person("Chris", "Grandin", role = "aut"),
-    person(c("Andrew", "M."), "Edwards", role = "aut"),
-    person(c("Matthew", "H."), "Grinnell", role = "aut"),
-    person("Daniel", "Ricard", role = "aut"),
-    person("Chester", "Ismay", role = "aut", comment = "Development of thesisdown"),
-    person("Nick", "Solomon", role = "aut", comment = "Development of thesisdown"),
-    person("Ben", "Marwick", role = "aut", comment = "Development of huskydown"))
-Description: Uses the bookdown R package to generate CSAS Research Documents in
-    PDF, Word, or HTML. Based on Chester Ismay's thesisdown package and
-    Ben Marwick's huskydown package.
+Title: Reproducible CSAS Reports with Bookdown
+Version: 0.0.8
+Authors@R: 
+    c(person(given = c("Sean", "C."),
+             family = "Anderson",
+             role = c("aut", "cre"),
+             email = "sean.anderson@dfo-mpo.gc.ca"),
+      person(given = "Chris",
+             family = "Grandin",
+             role = "aut"),
+      person(given = c("Andrew", "M."),
+             family = "Edwards",
+             role = "aut"),
+      person(given = c("Matthew", "H."),
+             family = "Grinnell",
+             role = "aut"),
+      person(given = "Daniel",
+             family = "Ricard",
+             role = "aut"),
+      person(given = "Chester",
+             family = "Ismay",
+             role = "aut",
+             comment = "Development of thesisdown"),
+      person(given = "Nick",
+             family = "Solomon",
+             role = "aut",
+             comment = "Development of thesisdown"),
+      person(given = "Ben",
+             family = "Marwick",
+             role = "aut",
+             comment = "Development of huskydown"))
+Description: Uses the 'bookdown' R package to generate CSAS
+    (Canadian Science Advisory Secretariat) Research Documents, Science
+    Responses, and Technical Reports in PDF or Word format. The package is
+    based on Chester Ismay's thesisdown package and Ben Marwick's
+    huskydown package.
+License: MIT + file LICENSE
 Depends:
     R (>= 3.3.0)
 Imports:
     bookdown,
-    officer,
-    knitr,
     kableExtra,
-    rmarkdown
+    knitr,
+    officer,
+    rmarkdown,
+    stringr
 Suggests:
+    covr,
     dplyr,
     ggplot2,
+    magick,
     testthat,
-    tinytex,
-    covr,
-    magick
-License: MIT + file LICENSE
+    tinytex
+ByteCompile: true
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.2
-ByteCompile: true
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.0.2
 SystemRequirements: pandoc (>= 1.18) - http://pandoc.org
