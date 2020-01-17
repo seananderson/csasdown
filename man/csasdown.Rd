@@ -3,6 +3,7 @@
 \docType{package}
 \name{csasdown}
 \alias{csasdown}
+\alias{csasdown-package}
 \title{csasdown: A package for creating CSAS Research Document with R Markdown / bookdown}
 \description{
 csasdown: A package for creating CSAS Research Document with R Markdown / bookdown

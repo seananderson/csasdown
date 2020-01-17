@@ -6,14 +6,8 @@
 \alias{techreport_pdf}
 \title{Creates an R Markdown PDF with CSAS formatting}
 \usage{
-resdoc_pdf(
-  toc = TRUE,
-  toc_depth = 3,
-  highlight = "default",
-  latex_engine = "pdflatex",
-  french = FALSE,
-  ...
-)
+resdoc_pdf(toc = TRUE, toc_depth = 3, highlight = "default",
+  latex_engine = "pdflatex", french = FALSE, ...)
 
 sr_pdf(latex_engine = "pdflatex", french = FALSE, ...)
 

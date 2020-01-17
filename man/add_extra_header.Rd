@@ -4,23 +4,10 @@
 \alias{add_extra_header}
 \title{Adds an extra header to the top of a \code{\link[=csas_table]{csas_table()}}. Works for longpages.}
 \usage{
-add_extra_header(
-  kable_input,
-  header = NULL,
-  bold = FALSE,
-  italic = FALSE,
-  monospace = FALSE,
-  underline = FALSE,
-  strikeout = FALSE,
-  align = "c",
-  color = NULL,
-  background,
-  font_size,
-  angle,
-  escape,
-  line = TRUE,
-  line_sep = 3
-)
+add_extra_header(kable_input, header = NULL, bold = FALSE,
+  italic = FALSE, monospace = FALSE, underline = FALSE,
+  strikeout = FALSE, align = "c", color = NULL, background,
+  font_size, angle, escape, line = TRUE, line_sep = 3)
 }
 \arguments{
 \item{kable_input}{An R object, typically a matrix or data frame.}

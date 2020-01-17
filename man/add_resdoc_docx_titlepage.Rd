@@ -4,10 +4,9 @@
 \alias{add_resdoc_docx_titlepage}
 \title{Add a Res Doc titlepage to a docx file}
 \usage{
-add_resdoc_docx_titlepage(
-  titlepage = "templates/RES2016-eng-titlepage.docx",
-  resdoc = "_book/resdoc.docx"
-)
+
+  add_resdoc_docx_titlepage(titlepage = "templates/RES2016-eng-titlepage.docx",
+  resdoc = "_book/resdoc.docx")
 }
 \arguments{
 \item{titlepage}{Filename}
