@@ -4,16 +4,38 @@
 \alias{csas_table}
 \title{Custom table for csasdown}
 \usage{
-csas_table(x, format = "pandoc", booktabs = TRUE, linesep = "",
-  longtable = TRUE, font_size = NULL, landscape = FALSE,
-  bold_header = TRUE, repeat_header = TRUE, repeat_header_text = "",
-  repeat_header_method = "replace", col_names = NULL,
-  col_names_align = "c", escape = FALSE, hold_position = TRUE,
-  extra_header = NULL, ex_bold = FALSE, ex_italic = FALSE,
-  ex_monospace = FALSE, ex_underline = FALSE, ex_strikeout = FALSE,
-  ex_align = "c", ex_color = NULL, ex_background = NULL,
-  ex_font_size = NULL, ex_angle = NULL, ex_escape = TRUE,
-  ex_line = TRUE, ex_line_sep = 3, ...)
+csas_table(
+  x,
+  format = "pandoc",
+  booktabs = TRUE,
+  linesep = "",
+  longtable = TRUE,
+  font_size = NULL,
+  landscape = FALSE,
+  bold_header = TRUE,
+  repeat_header = TRUE,
+  repeat_header_text = "",
+  repeat_header_method = "replace",
+  col_names = NULL,
+  col_names_align = "c",
+  escape = FALSE,
+  hold_position = TRUE,
+  extra_header = NULL,
+  ex_bold = FALSE,
+  ex_italic = FALSE,
+  ex_monospace = FALSE,
+  ex_underline = FALSE,
+  ex_strikeout = FALSE,
+  ex_align = "c",
+  ex_color = NULL,
+  ex_background = NULL,
+  ex_font_size = NULL,
+  ex_angle = NULL,
+  ex_escape = TRUE,
+  ex_line = TRUE,
+  ex_line_sep = 3,
+  ...
+)
 }
 \arguments{
 \item{x}{An R object, typically a matrix or data frame.}
@@ -39,8 +61,7 @@ with the long table}
 
 \item{repeat_header_method}{As defined by \code{\link[kableExtra:kable_styling]{kableExtra::kable_styling()}}.}
 
-\item{col_names}{Names for the columns to show on table. If there are any
-\\ns, they will be replaced with the}
+\item{col_names}{Names for the columns to show on table.}
 
 \item{col_names_align}{As defined in \code{\link[kableExtra:linebreak]{kableExtra::linebreak()}}.}
 

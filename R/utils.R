@@ -193,6 +193,15 @@ fix_envs <- function(x,
                      include_abstract = TRUE,
                      join_abstract = TRUE,
                      french = FALSE) {
+
+  # Switch up email for some regions:
+  pac_region <- grepl("rdRegiod\\}\\{Pacific Region}$", x)
+  if (length(pac_region) > 0) {
+    x <- gsub("mailto:csas-sccs@dfo-mpo.gc.ca\\}\\{csas-sccs@dfo-mpo.gc.ca\\}",
+      "mailto:csap@dfo-mpo.gc.ca\\}\\{csap@dfo-mpo.gc.ca\\}", x)
+  }
+  # FIXME: if we want to go this route we should add the other regions
+
   ## Change csas-style to use the sty file found in csasdown repo
   g <- grep("csas-style", x)
 
