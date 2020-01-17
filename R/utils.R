@@ -195,7 +195,7 @@ fix_envs <- function(x,
                      french = FALSE) {
 
   # Switch up email for some regions:
-  pac_region <- grepl("rdRegiod\\}\\{Pacific Region}$", x)
+  pac_region <- grepl("rdRegion\\}\\{Pacific Region}$", x)
   if (length(pac_region) > 0) {
     x <- gsub("mailto:csas-sccs@dfo-mpo.gc.ca\\}\\{csas-sccs@dfo-mpo.gc.ca\\}",
       "mailto:csap@dfo-mpo.gc.ca\\}\\{csap@dfo-mpo.gc.ca\\}", x)
