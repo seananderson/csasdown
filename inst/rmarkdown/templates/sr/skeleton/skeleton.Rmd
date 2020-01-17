@@ -4,7 +4,7 @@ title_short: "Short Title"
 title_other: "Titre Ici (*Nom Latin*)"
 year: 20XX
 month: January
-report_number: nnn
+report_number: 999
 approver: |
   Approver Name\
   Regional Director
