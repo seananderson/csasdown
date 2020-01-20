@@ -413,17 +413,15 @@ check_yaml <- function(type = "resdoc") {
 
 #' Insert regional CSAS email address to contact for information
 #'
-#' @param region Region in which the document is published. Character vector
-#' (i.e., Pacific)
-#' @param type Type of document. Currently this is only implemented for Science
-#' Response documents.
+#' @param region Region in which the document is published; character vector
+#' (i.e., Pacific). Default is "National Capital Region."
 #'
 #' @importFrom tibble tribble
 #'
 #' @export
 #'
 #' @return Email address as a character vector
-get_email <- function( region, type="sr" ) {
+get_email <- function( region="National Capital Region" ) {
   # Create a table with region name, region name if french, and email address
   dat <- tribble(
     ~Region, ~RegionFr, ~Email,
@@ -445,7 +443,7 @@ get_email <- function( region, type="sr" ) {
   # If region not detected
   if( length(ind) == 0 ) {
     # Use national email address
-    email <- "csas-sccs@dfo-mpo.gc.ca"
+    email <- dat$Email[dat$Region == "National Capital Region"]
     # Warning
     warning( "Region not detected; use national CSAS email" )
   } else {  # End if no region, otherwise get email

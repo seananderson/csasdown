@@ -4,14 +4,11 @@
 \alias{get_email}
 \title{Insert regional CSAS email address to contact for information}
 \usage{
-get_email(region, type = "sr")
+get_email(region = "National Capital Region")
 }
 \arguments{
-\item{region}{Region in which the document is published. Character vector
-(i.e., Pacific)}
-
-\item{type}{Type of document. Currently this is only implemented for Science
-Response documents.}
+\item{region}{Region in which the document is published; character vector
+(i.e., Pacific). Default is "National Capital Region."}
 }
 \value{
 Email address as a character vector
