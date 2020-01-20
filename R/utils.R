@@ -433,6 +433,25 @@ get_email <- function( region, type="sr" ) {
     "Gulf Region", "Région du Golfe", "Gerald.Chaput@dfo-mpo.gc.ca",
     "Maritimes Region", "Région des Maritimes", "XMARMRAP@dfo-mpo.gc.ca",
     "Central and Arctic Region", "Centre & Arctique", "xcna-csa-cas@dfo-mpo.gc.ca" )
-
-}
+  # If french
+  if( french ) {
+    # Get index for region (row)
+    ind <- which( dat$RegionFr == region )
+  } else{  # End if french, otherwise
+    # Get index for region (row)
+    ind <- which( dat$Region == region )
+  }  # End if not french
+  # If region not detected
+  if( length(ind) == 0 ) {
+    # Use national email address
+    email <- "csas-sccs@dfo-mpo.gc.ca"
+    # Warning
+    warning( "Region not detected; use national CSAS email" )
+  } else {  # End if no region, otherwise get email
+    # Get email address
+    email <- dat$Email[ind]
+  }  # End if region detected
+  # Return email
+  return( email )
+}  # End get_email
 
