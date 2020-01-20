@@ -430,8 +430,8 @@ get_email <- function( region, type="sr" ) {
     "Pacific Region", "Région du Pacifique", "csap@dfo-mpo.gc.ca",
     "Newfoundland and Labrador Region", "Région de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca",
     "Quebec", "Québec", "bras@dfo-mpo.gc.ca",
-    "Gulf Region", "Région du Golfe", "csas-sccs@dfo-mpo.gc.ca",
-    "Maritimes Region", "Région des Maritimes", "MaritimesRAP.XMAR@dfo-mpo.gc.ca",
+    "Gulf Region", "Région du Golfe", "Gerald.Chaput@dfo-mpo.gc.ca",
+    "Maritimes Region", "Région des Maritimes", "XMARMRAP@dfo-mpo.gc.ca",
     "Central and Arctic Region", "Centre & Arctique", "xcna-csa-cas@dfo-mpo.gc.ca" )
 
 }
