@@ -4,11 +4,13 @@
 \alias{get_email}
 \title{Insert regional CSAS email address to contact for information}
 \usage{
-get_email(region = "National Capital Region")
+get_email(region = "National Capital Region", isFrench = FALSE)
 }
 \arguments{
 \item{region}{Region in which the document is published; character vector
 (i.e., Pacific). Default is "National Capital Region."}
+
+\item{isFrench}{Logical (default FALSE). Is the report in French or not?}
 }
 \value{
 Email address as a character vector

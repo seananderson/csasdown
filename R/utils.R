@@ -415,15 +415,14 @@ check_yaml <- function(type = "resdoc") {
 #'
 #' @param region Region in which the document is published; character vector
 #' (i.e., Pacific). Default is "National Capital Region."
-#'
-#' @importFrom tibble tribble
+#' @param isFrench Logical (default FALSE). Is the report in French or not?
 #'
 #' @export
 #'
 #' @return Email address as a character vector
-get_email <- function( region="National Capital Region" ) {
+get_email <- function( region="National Capital Region", isFrench=FALSE ) {
   # Create a table with region name, region name if french, and email address
-  dat <- tribble(
+  dat <- tibble::tribble(
     ~Region, ~RegionFr, ~Email,
     "Central and Arctic Region", "Région du Centre et de l'Arctique", "xcna-csa-cas@dfo-mpo.gc.ca",
     "Gulf Region", "Région du Golfe", "Gerald.Chaput@dfo-mpo.gc.ca",
@@ -433,7 +432,7 @@ get_email <- function( region="National Capital Region" ) {
     "Pacific Region", "Région du Pacifique", "csap@dfo-mpo.gc.ca",
     "Quebec Region", "Région du Québec", "bras@dfo-mpo.gc.ca" )
   # If french
-  if( french ) {
+  if( isFrench ) {
     # Get index for region (row)
     ind <- which( dat$RegionFr == region )
   } else{  # End if french, otherwise
