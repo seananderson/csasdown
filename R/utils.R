@@ -422,7 +422,7 @@ check_yaml <- function(type = "resdoc") {
 #'
 #' @export
 #'
-#' @return email address as a character vector
+#' @return Email address as a character vector
 get_email <- function( region, type="sr" ) {
   # Create a table with region name, region name if french, and email address
   dat <- tribble( ~Region, ~RegionFr, ~Email,
@@ -451,7 +451,7 @@ get_email <- function( region, type="sr" ) {
     # Get email address
     email <- dat$Email[ind]
   }  # End if region detected
-  # Return email
+  # Return email address
   return( email )
 }  # End get_email
 
