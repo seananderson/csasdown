@@ -429,10 +429,10 @@ get_email <- function( region, type="sr" ) {
     "National Capital Region", "Région de la capitale nationale", "csas-sccs@dfo-mpo.gc.ca",
     "Pacific Region", "Région du Pacifique", "csap@dfo-mpo.gc.ca",
     "Newfoundland and Labrador Region", "Région de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca",
-    "Quebec", "Québec", "bras@dfo-mpo.gc.ca",
+    "Quebec Region", "Région du Québec", "bras@dfo-mpo.gc.ca",
     "Gulf Region", "Région du Golfe", "Gerald.Chaput@dfo-mpo.gc.ca",
     "Maritimes Region", "Région des Maritimes", "XMARMRAP@dfo-mpo.gc.ca",
-    "Central and Arctic Region", "Centre & Arctique", "xcna-csa-cas@dfo-mpo.gc.ca" )
+    "Central and Arctic Region", "Région du Centre et de l'Arctique", "xcna-csa-cas@dfo-mpo.gc.ca" )
   # If french
   if( french ) {
     # Get index for region (row)
