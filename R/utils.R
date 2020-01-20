@@ -411,3 +411,28 @@ check_yaml <- function(type = "resdoc") {
   }
 }
 
+#' Insert regional CSAS email address to contact for information
+#'
+#' @param region Region in which the document is published. Character vector
+#' (i.e., Pacific)
+#' @param type Type of document. Currently this is only implemented for Science
+#' Response documents.
+#'
+#' @importFrom tibble tribble
+#'
+#' @export
+#'
+#' @return email address as a character vector
+get_email <- function( region, type="sr" ) {
+  # Create a table with region name, region name if french, and email address
+  dat <- tribble( ~Region, ~RegionFr, ~Email,
+    "National Capital Region", "Région de la capitale nationale", "csas-sccs@dfo-mpo.gc.ca",
+    "Pacific Region", "Région du Pacifique", "csap@dfo-mpo.gc.ca",
+    "Newfoundland and Labrador Region", "Région de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca",
+    "Quebec", "Québec", "bras@dfo-mpo.gc.ca",
+    "Gulf Region", "Région du Golfe", "csas-sccs@dfo-mpo.gc.ca",
+    "Maritimes Region", "Région des Maritimes", "MaritimesRAP.XMAR@dfo-mpo.gc.ca",
+    "Central and Arctic Region", "Centre & Arctique", "xcna-csa-cas@dfo-mpo.gc.ca" )
+
+}
+
