@@ -200,7 +200,11 @@ fix_envs <- function(x,
     x <- gsub("mailto:csas-sccs@dfo-mpo.gc.ca\\}\\{csas-sccs@dfo-mpo.gc.ca\\}",
       "mailto:csap@dfo-mpo.gc.ca\\}\\{csap@dfo-mpo.gc.ca\\}", x)
   }
-  # FIXME: if we want to go this route we should add the other regions
+  # Get regional contact info
+  # Insert mailing address
+  # Insert phone number
+  # Insert email address
+
 
   ## Change csas-style to use the sty file found in csasdown repo
   g <- grep("csas-style", x)
@@ -411,10 +415,10 @@ check_yaml <- function(type = "resdoc") {
   }
 }
 
-#' Return regional CSAS email address, phone number, and address for the last
-#' page in the section "This report is available from the." Return contact
-#' information for the national CSAS office if regional information is not
-#' available (with a warning).
+#' Return regional CSAS email address, phone number, and mailing address for
+#' the last page in the section "This report is available from the." Return
+#' contactinformation for the national CSAS office if regional information is
+#' not available (with a warning).
 #'
 #' @param region Region in which the document is published; character vector.
 #' (i.e., Pacific). Default is "National Capital Region."
@@ -422,7 +426,7 @@ check_yaml <- function(type = "resdoc") {
 #'
 #' @export
 #'
-#' @return Email address, phone number, and address as list of character
+#' @return Email address, phone number, and mailing address as list of character
 #' vectors.
 get_contact_info <- function( region="National Capital Region", isFr=FALSE ) {
   # Create a table with region name, region name if french, and email address
@@ -450,19 +454,19 @@ get_contact_info <- function( region="National Capital Region", isFr=FALSE ) {
     email <- dat$Email[dat$Region == "National Capital Region"]
     # Use national phone number
     phone <- dat$Phone[dat$Region == "National Capital Region"]
-    # Use national address
+    # Use national mailing address
     address <- dat$Address[dat$Region == "National Capital Region"]
     # Warning
     warning( "Region not detected; use national CSAS contact info" )
   } else {  # End if no region, otherwise get email
     # Get email address
     email <- dat$Email[ind]
-    # Get email address
+    # Get phone number
     phone <- dat$Phone[ind]
-    # Get address
+    # Get mailing address
     address <- dat$Address[ind]
   }  # End if region detected
-  # Return email address
+  # Return contact info
   return( list(email=email, phone=phone, address=address) )
 }  # End get_contact_info
 
