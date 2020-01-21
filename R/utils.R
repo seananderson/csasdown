@@ -196,8 +196,8 @@ fix_envs <- function(x,
   # Get region line
   region_line <- grep( pattern="% Region", x ) + 1
   # Get region
-  # FIXME: Need to extract the region from this string
-  region <- "Gulf Region"
+  # FIXME: Need to extract the region from `x[region_line]`
+  region <- "Pacific Region"
   # Get regional contact info
   contact_info <- get_contact_info( region=region, isFr=french )
   # Insert mailing address
