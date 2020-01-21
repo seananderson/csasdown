@@ -438,6 +438,7 @@ get_contact_info <- function( region="National Capital Region", isFr=FALSE ) {
   # If french
   if( isFr ) {
     # Get index for region (row)
+    # TODO: This does not match with accents
     ind <- which( dat$RegionFr == region )
   } else{  # End if french, otherwise
     # Get index for region (row)
@@ -459,7 +460,7 @@ get_contact_info <- function( region="National Capital Region", isFr=FALSE ) {
     # Get email address
     phone <- dat$Phone[ind]
     # Get address
-    address <- dat$Phone[ind]
+    address <- dat$Address[ind]
   }  # End if region detected
   # Return email address
   return( list(email=email, phone=phone, address=address) )
