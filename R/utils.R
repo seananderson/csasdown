@@ -411,29 +411,31 @@ check_yaml <- function(type = "resdoc") {
   }
 }
 
-#' Return regional CSAS email address for the last page in the section "This
-#' report is available from the."
+#' Return regional CSAS email address and phone number for the last page in the
+#' section "This report is available from the." Return contact information for
+#' the national CSAS office if regional information is not available (with a
+#' warning).
 #'
-#' @param region Region in which the document is published; character vector
+#' @param region Region in which the document is published; character vector.
 #' (i.e., Pacific). Default is "National Capital Region."
-#' @param isFrench Logical (default FALSE). Is the report in French or not?
+#' @param isFr Logical (default FALSE). Is the report in French or not?
 #'
 #' @export
 #'
-#' @return Email address as a character vector
-get_email <- function( region="National Capital Region", isFrench=FALSE ) {
+#' @return Email address and phone number as list of character vectors.
+get_contact_info <- function( region="National Capital Region", isFr=FALSE ) {
   # Create a table with region name, region name if french, and email address
   dat <- tibble::tribble(
-    ~Region, ~RegionFr, ~Email,
-    "Central and Arctic Region", "R\\'egion du Centre et de l'Arctique", "xcna-csa-cas@dfo-mpo.gc.ca",
-    "Gulf Region", "R\\'egion du Golfe", "Gerald.Chaput@dfo-mpo.gc.ca",
-    "Maritimes Region", "R\\'egion des Maritimes", "XMARMRAP@dfo-mpo.gc.ca",
-    "National Capital Region", "R\\'egion de la capitale nationale", "csas-sccs@dfo-mpo.gc.ca",
-    "Newfoundland and Labrador Region", "R\\'egion de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca",
-    "Pacific Region", "R\\'egion du Pacifique", "csap@dfo-mpo.gc.ca",
-    "Quebec Region", "R\\'egion du Qu\\'ebec", "bras@dfo-mpo.gc.ca" )
+    ~Region, ~RegionFr, ~Email, ~Phone,
+    "Central and Arctic Region", "R\\'egion du Centre et de l'Arctique", "xcna-csa-cas@dfo-mpo.gc.ca", "(204) 983-5232",
+    "Gulf Region", "R\\'egion du Golfe", "Gerald.Chaput@dfo-mpo.gc.ca", "(506) 851-2022",
+    "Maritimes Region", "R\\'egion des Maritimes", "XMARMRAP@dfo-mpo.gc.ca", "(902) 426-3246",
+    "National Capital Region", "R\\'egion de la capitale nationale", "csas-sccs@dfo-mpo.gc.ca", "(613) 990-0194",
+    "Newfoundland and Labrador Region", "R\\'egion de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca", "(709) 772-8892",
+    "Pacific Region", "R\\'egion du Pacifique", "csap@dfo-mpo.gc.ca", "(250) 756-7088",
+    "Quebec Region", "R\\'egion du Qu\\'ebec", "bras@dfo-mpo.gc.ca", "(418) 775-0825" )
   # If french
-  if( isFrench ) {
+  if( isFr ) {
     # Get index for region (row)
     ind <- which( dat$RegionFr == region )
   } else{  # End if french, otherwise
@@ -444,13 +446,17 @@ get_email <- function( region="National Capital Region", isFrench=FALSE ) {
   if( length(ind) == 0 ) {
     # Use national email address
     email <- dat$Email[dat$Region == "National Capital Region"]
+    # Use national phone number
+    phone <- dat$Phone[dat$Region == "National Capital Region"]
     # Warning
-    warning( "Region not detected; use national CSAS email" )
+    warning( "Region not detected; use national CSAS email and phone number" )
   } else {  # End if no region, otherwise get email
     # Get email address
     email <- dat$Email[ind]
+    # Get email address
+    phone <- dat$Phone[ind]
   }  # End if region detected
   # Return email address
-  return( email )
-}  # End get_email
+  return( list(email=email, phone=phone) )
+}  # End get_contact_info
 
