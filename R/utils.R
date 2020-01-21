@@ -449,7 +449,7 @@ get_contact_info <- function( region="National Capital Region", isFr=FALSE ) {
     # Use national phone number
     phone <- dat$Phone[dat$Region == "National Capital Region"]
     # Warning
-    warning( "Region not detected; use national CSAS email and phone number" )
+    warning( "Region not detected; use national CSAS contact info" )
   } else {  # End if no region, otherwise get email
     # Get email address
     email <- dat$Email[ind]
