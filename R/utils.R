@@ -427,13 +427,13 @@ get_contact_info <- function( region="National Capital Region", isFr=FALSE ) {
   # Create a table with region name, region name if french, and email address
   dat <- tibble::tribble(
     ~Region, ~RegionFr, ~Email, ~Phone,
-    "Central and Arctic Region", "R\\'egion du Centre et de l'Arctique", "xcna-csa-cas@dfo-mpo.gc.ca", "(204) 983-5232",
-    "Gulf Region", "R\\'egion du Golfe", "Gerald.Chaput@dfo-mpo.gc.ca", "(506) 851-2022",
-    "Maritimes Region", "R\\'egion des Maritimes", "XMARMRAP@dfo-mpo.gc.ca", "(902) 426-3246",
-    "National Capital Region", "R\\'egion de la capitale nationale", "csas-sccs@dfo-mpo.gc.ca", "(613) 990-0194",
-    "Newfoundland and Labrador Region", "R\\'egion de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca", "(709) 772-8892",
-    "Pacific Region", "R\\'egion du Pacifique", "csap@dfo-mpo.gc.ca", "(250) 756-7088",
-    "Quebec Region", "R\\'egion du Qu\\'ebec", "bras@dfo-mpo.gc.ca", "(418) 775-0825" )
+    "Central and Arctic Region", "R\'{e}gion du Centre et de l'Arctique", "xcna-csa-cas@dfo-mpo.gc.ca", "(204) 983-5232",
+    "Gulf Region", "R\'{e}gion du Golfe", "Gerald.Chaput@dfo-mpo.gc.ca", "(506) 851-2022",
+    "Maritimes Region", "R\'{e}gion des Maritimes", "XMARMRAP@dfo-mpo.gc.ca", "(902) 426-3246",
+    "National Capital Region", "R\'{e}egion de la capitale nationale", "csas-sccs@dfo-mpo.gc.ca", "(613) 990-0194",
+    "Newfoundland and Labrador Region", "R\'{e}gion de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca", "(709) 772-8892",
+    "Pacific Region", "R\'{e}gion du Pacifique", "csap@dfo-mpo.gc.ca", "(250) 756-7088",
+    "Quebec Region", "R\'{e}gion du Qu\'{e}bec", "bras@dfo-mpo.gc.ca", "(418) 775-0825" )
   # If french
   if( isFr ) {
     # Get index for region (row)
