@@ -20,7 +20,6 @@ address: |
   ^2^Far, far away\
      Another Galaxy
 phone: (250) 756-7208
-email: csap@dfo-mpo.gc.ca
 output:
  csasdown::sr_pdf:
   # csasdown::sr_word:
