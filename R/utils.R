@@ -411,7 +411,8 @@ check_yaml <- function(type = "resdoc") {
   }
 }
 
-#' Insert regional CSAS email address to contact for information
+#' Return regional CSAS email address for the last page in the section "This
+#' report is available from the."
 #'
 #' @param region Region in which the document is published; character vector
 #' (i.e., Pacific). Default is "National Capital Region."
@@ -424,13 +425,13 @@ get_email <- function( region="National Capital Region", isFrench=FALSE ) {
   # Create a table with region name, region name if french, and email address
   dat <- tibble::tribble(
     ~Region, ~RegionFr, ~Email,
-    "Central and Arctic Region", "Région du Centre et de l'Arctique", "xcna-csa-cas@dfo-mpo.gc.ca",
-    "Gulf Region", "Région du Golfe", "Gerald.Chaput@dfo-mpo.gc.ca",
-    "Maritimes Region", "Région des Maritimes", "XMARMRAP@dfo-mpo.gc.ca",
-    "National Capital Region", "Région de la capitale nationale", "csas-sccs@dfo-mpo.gc.ca",
-    "Newfoundland and Labrador Region", "Région de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca",
-    "Pacific Region", "Région du Pacifique", "csap@dfo-mpo.gc.ca",
-    "Quebec Region", "Région du Québec", "bras@dfo-mpo.gc.ca" )
+    "Central and Arctic Region", "R\\'egion du Centre et de l'Arctique", "xcna-csa-cas@dfo-mpo.gc.ca",
+    "Gulf Region", "R\\'egion du Golfe", "Gerald.Chaput@dfo-mpo.gc.ca",
+    "Maritimes Region", "R\\'egion des Maritimes", "XMARMRAP@dfo-mpo.gc.ca",
+    "National Capital Region", "R\\'egion de la capitale nationale", "csas-sccs@dfo-mpo.gc.ca",
+    "Newfoundland and Labrador Region", "R\\'egion de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca",
+    "Pacific Region", "R\\'egion du Pacifique", "csap@dfo-mpo.gc.ca",
+    "Quebec Region", "R\\'egion du Qu\\'ebec", "bras@dfo-mpo.gc.ca" )
   # If french
   if( isFrench ) {
     # Get index for region (row)

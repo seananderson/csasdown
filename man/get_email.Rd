@@ -2,7 +2,8 @@
 % Please edit documentation in R/utils.R
 \name{get_email}
 \alias{get_email}
-\title{Insert regional CSAS email address to contact for information}
+\title{Return regional CSAS email address for the last page in the section "This
+report is available from the."}
 \usage{
 get_email(region = "National Capital Region", isFrench = FALSE)
 }
@@ -16,5 +17,6 @@ get_email(region = "National Capital Region", isFrench = FALSE)
 Email address as a character vector
 }
 \description{
-Insert regional CSAS email address to contact for information
+Return regional CSAS email address for the last page in the section "This
+report is available from the."
 }
