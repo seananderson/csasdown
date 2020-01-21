@@ -194,17 +194,28 @@ fix_envs <- function(x,
                      join_abstract = TRUE,
                      french = FALSE) {
 
-  # Switch up email for some regions:
-  pac_region <- grepl("rdRegion\\}\\{Pacific Region}$", x)
-  if (length(pac_region) > 0) {
-    x <- gsub("mailto:csas-sccs@dfo-mpo.gc.ca\\}\\{csas-sccs@dfo-mpo.gc.ca\\}",
-      "mailto:csap@dfo-mpo.gc.ca\\}\\{csap@dfo-mpo.gc.ca\\}", x)
-  }
+  # # Switch up email for some regions:
+  # pac_region <- grepl("rdRegion\\}\\{Pacific Region}$", x)
+  # if (length(pac_region) > 0) {
+  #   x <- gsub("mailto:csas-sccs@dfo-mpo.gc.ca\\}\\{csas-sccs@dfo-mpo.gc.ca\\}",
+  #     "mailto:csap@dfo-mpo.gc.ca\\}\\{csap@dfo-mpo.gc.ca\\}", x)
+  # }
+  # Get region line
+  region_line <- grep( pattern="% Region", x ) + 1
+  # Get region
+  # TODO: Can't figure out how to grab region
+  region <- "Pacific Region"
   # Get regional contact info
+  contact_info <- get_contact_info( region=region, isFr=french )
   # Insert mailing address
+  x <- sub( pattern="AddressPlaceholder", replacement=contact_info$address,
+            x=x )
   # Insert phone number
+  x <- sub( pattern="PhonePlaceholder", replacement=contact_info$phone, x=x )
   # Insert email address
-
+  x <- sub( pattern="EmailPlaceholder",
+            replacement=paste0("\\\\link\\{mailto:", contact_info$email,
+                               "\\}\\{", contact_info$email, "\\}"), x=x )
 
   ## Change csas-style to use the sty file found in csasdown repo
   g <- grep("csas-style", x)
@@ -432,13 +443,13 @@ get_contact_info <- function( region="National Capital Region", isFr=FALSE ) {
   # Create a table with region name, region name if french, and email address
   dat <- tibble::tribble(
     ~Region, ~RegionFr, ~Email, ~Phone, ~Address,
-    "Central and Arctic Region", "R\'{e}gion du Centre et de l'Arctique", "xcna-csa-cas@dfo-mpo.gc.ca", "(204) 983-5232", "501 University Cres.\\Winnipeg, MB, R3T 2N6",
-    "Gulf Region", "R\'{e}gion du Golfe", "Gerald.Chaput@dfo-mpo.gc.ca", "(506) 851-2022", "343 Universit\'{e} Ave.\\Moncton, NB, E1C 9B6",
-    "Maritimes Region", "R\'{e}gion des Maritimes", "XMARMRAP@dfo-mpo.gc.ca", "(902) 426-3246", "1 Challenger Dr.\\Dartmouth, NS, B2Y 4A2",
-    "National Capital Region", "R\'{e}egion de la capitale nationale", "csas-sccs@dfo-mpo.gc.ca", "(613) 990-0194", "200 Kent St.\\Ottawa, ON, K1A 0E6",
-    "Newfoundland and Labrador Region", "R\'{e}gion de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca", "(709) 772-8892", "P.O. Box 5667 St. John's, NL, A1C 5X1",
-    "Pacific Region", "R\'{e}gion du Pacifique", "csap@dfo-mpo.gc.ca", "(250) 756-7088", "3190 Hammond Bay Rd.\\Nanaimo, BC, V9T 6N7",
-    "Quebec Region", "R\'{e}gion du Qu\'{e}bec", "bras@dfo-mpo.gc.ca", "(418) 775-0825", "850 route de la Mer, P.O. Box 1000\\Mont-Joli, QC, G5H 3Z4" )
+    "Central and Arctic Region", "R\'{e}gion du Centre et de l'Arctique", "xcna-csa-cas@dfo-mpo.gc.ca", "(204) 983-5232", "501 University Cres.\\\\\\\\Winnipeg, MB, R3T 2N6",
+    "Gulf Region", "R\'{e}gion du Golfe", "Gerald.Chaput@dfo-mpo.gc.ca", "(506) 851-2022", "343 Universit\'{e} Ave.\\\\\\\\Moncton, NB, E1C 9B6",
+    "Maritimes Region", "R\'{e}gion des Maritimes", "XMARMRAP@dfo-mpo.gc.ca", "(902) 426-3246", "1 Challenger Dr.\\\\\\\\Dartmouth, NS, B2Y 4A2",
+    "National Capital Region", "R\'{e}egion de la capitale nationale", "csas-sccs@dfo-mpo.gc.ca", "(613) 990-0194", "200 Kent St.\\\\\\\\Ottawa, ON, K1A 0E6",
+    "Newfoundland and Labrador Region", "R\'{e}gion de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca", "(709) 772-8892", "P.O. Box 5667\\\\\\\\St. John's, NL, A1C 5X1",
+    "Pacific Region", "R\'{e}gion du Pacifique", "csap@dfo-mpo.gc.ca", "(250) 756-7088", "3190 Hammond Bay Rd.\\\\\\\\Nanaimo, BC, V9T 6N7",
+    "Quebec Region", "R\'{e}gion du Qu\'{e}bec", "bras@dfo-mpo.gc.ca", "(418) 775-0825", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli, QC, G5H 3Z4" )
   # If french
   if( isFr ) {
     # Get index for region (row)
@@ -458,7 +469,7 @@ get_contact_info <- function( region="National Capital Region", isFr=FALSE ) {
     address <- dat$Address[dat$Region == "National Capital Region"]
     # Warning
     warning( "Region not detected; use national CSAS contact info" )
-  } else {  # End if no region, otherwise get email
+  } else {  # End if no region, otherwise get contact info
     # Get email address
     email <- dat$Email[ind]
     # Get phone number
