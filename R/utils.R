@@ -350,7 +350,7 @@ fix_envs <- function(x,
   # Implement "Approved pre-publication" version (science response)
   if( prepub ) {
     # Text to add
-    addText <- ifelse( french, " -- PRÉ-PUBLICATION APPROUVÉE}",
+    addText <- ifelse( french, " -- PR\u00C9-PUBLICATION APPROUV\u00C9E}",
                       " -- APPROVED PRE-PUBLICATION}" )
     # 1. Modify header first page (report number)
     rn_loc_1 <- grep( pattern="\\% Report number", x=x ) + 1
@@ -373,7 +373,7 @@ fix_envs <- function(x,
     cite_loc <- grep( pattern="\\\\MakeAvailable\\{", x=x )
     cite_text <- x[cite_loc]
     cite_text_new <- ifelse( french,
-                             "\\MakeAvailable{Cite comme ceci (jusqu'à la publication)}{\\CiteFr{Sous presse}}{}{}",
+                             "\\MakeAvailable{Cite comme ceci (jusqu'\u00E0 la publication)}{\\CiteFr{Sous presse}}{}{}",
                              "\\MakeAvailable{Correct citation (until published):}{\\CiteEng{In press}}{}{}" )
     x[cite_loc] <- cite_text_new
   }
