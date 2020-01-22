@@ -433,7 +433,7 @@ check_yaml <- function(type = "resdoc") {
 #' @return Email address, phone number, and mailing address as list of character
 #' vectors.
 get_contact_info <- function( region="National Capital Region", isFr=FALSE ) {
-  # Create a table with region name, region name if french, and email address
+  # Region name (English and French), email, phone, and address
   dat <- tibble::tribble(
     ~Region, ~RegionFr, ~Email, ~Phone, ~Address,
     "Central and Arctic Region", "R\\\\'{e}gion du Centre et de l'Arctique", "xcna-csa-cas@dfo-mpo.gc.ca", "(204) 983-5232", "501 University Cres.\\\\\\\\Winnipeg, MB, R3T 2N6",
@@ -454,23 +454,17 @@ get_contact_info <- function( region="National Capital Region", isFr=FALSE ) {
   }  # End if not french
   # If region not detected
   if( length(ind) == 0 ) {
-    # Use national email address
+    # Use national contact info
     email <- dat$Email[dat$Region == "National Capital Region"]
-    # Use national phone number
     phone <- dat$Phone[dat$Region == "National Capital Region"]
-    # Use national mailing address
     address <- dat$Address[dat$Region == "National Capital Region"]
-    # Warning
     warning( "Region not detected; use national CSAS contact info" )
-  } else {  # End if no region, otherwise get contact info
-    # Get email address
+  } else {  # End if no region, otherwise get regional contact info
+    # Get regional contact info
     email <- dat$Email[ind]
-    # Get phone number
     phone <- dat$Phone[ind]
-    # Get mailing address
     address <- dat$Address[ind]
   }  # End if region detected
-  # Return contact info
   return( list(email=email, phone=phone, address=address) )
 }  # End get_contact_info
 
