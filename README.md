@@ -27,7 +27,7 @@ tinytex::install_tinytex()
 devtools::install_github("pbs-assess/csasdown")
 ```
 
-3) Start a new project directory if you'd like. If you're using RStudio: File -> New Project. Open the RStudio project or set your R working directory to the root folder of the project. Create a new sub-directory and change your working directory to that folder first if that is where you want the report files.
+3) Start a new project directory if you'd like. If you're using RStudio: File -> New Project. Open the RStudio project or set your R working directory to the root folder of the project.
 
 4) Run this line in your R console to create a new Research Document from the built-in template in whatever your working directory is:
 
