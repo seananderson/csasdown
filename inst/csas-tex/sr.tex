@@ -10,9 +10,6 @@
 % header-includes from R markdown entry
 $header-includes$
 
-% Bibliography style file
-% \bibliographystyle{../csas-style/res-doc}
-
 %%%% Commands for title page etc %%%%%
 
 % Title
@@ -32,14 +29,12 @@ $header-includes$
 \newcommand{\rdMonth}{$month$}
 
 % Report number
-\newcommand{\rdNumber}{$report_number$}
-% End of report number
+\newcommand{\rdNumber}{\threedigits{$report_number$}}
 
 % Approver (name\\position)
 \newcommand{\rdApp}{$approver$}
-% \newcommand{\rdYear}{$approval_year$}
-% \newcommand{\rdAppMonth}{$approval_month$}
-% \newcommand{\rdAppDay}{$approval_day$}
+
+% Approval date
 \newcommand{\rdAppDate}{$approval_month$ $approval_day$, $approval_year$}
 
 % Branch
@@ -48,23 +43,47 @@ $header-includes$
 % Region
 \newcommand{\rdRegion}{$region$}
 
-% Address
-\newcommand{\rdAddress}{$address$}
-
-% Phone
-\newcommand{\rdPhone}{$phone$}
-
-% Email
-\newcommand{\rdEmail}{$email$}
-
 %%%% End of title page commands %%%%%
 
 \begin{document}
+
+\bookmark[dest=PageOne]{\rdTitle{}}
 
 \MakeFirstPage
 
 $body$
 
-\MakeAvailable{Correct citation for this publication:}{\CiteEng{\rdYear{}/\rdNumber{}}}{\emph{Aussi disponible en fran\c{c}ais:}}{\CiteFr{\rdYear{}/\rdNumber{}}}
+\clearpage
+
+\chapter{This report is available from the}
+\begin{center}
+Centre for Science Advice\\
+\rdRegion{}\\
+Fisheries and Oceans Canada\\
+AddressPlaceholder\\
+\vspace{0.1cm}
+Telephone: PhonePlaceholder\\
+E-mail: EmailPlaceholder\\
+Internet address: \link{http://www.dfo-mpo.gc.ca/csas-sccs/}{www.dfo-mpo.gc.ca/csas-sccs/}\\
+\vspace{0.1cm}
+ISSN 1919-3769\\
+\copyright{} Her Majesty the Queen in Right of Canada, \rdYear{}\\
+\vspace{0.2cm}
+\includegraphics[scale=0.96]{\locRepo/images/recycle.png}
+\end{center}
+
+Correct citation for this publication:
+
+\hangindent=0.6cm
+DFO. \rdYear{}. \rdTitle{}.
+DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.
+\rdYear{}/\rdNumber{}.
+
+\emph{Aussi disponible en fran\c{c}ais:}
+
+\hangindent=0.6cm
+\emph{MPO. \rdYear{}. \rdTitleFr{}.
+Secr.\ can.\ de consult.\ sci.\ du MPO, R\'{e}p.\ des Sci.\
+\rdYear{}/\rdNumber{}.}
 
 \end{document}

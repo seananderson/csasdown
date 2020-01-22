@@ -20,7 +20,7 @@
 #' @rdname csas_pdf
 #' @examples
 #' \dontrun{
-#'  output: csasdown::resdoc_pdf
+#' output:csasdown::resdoc_pdf
 #' }
 resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
                        latex_engine = "pdflatex", french = FALSE,
@@ -49,10 +49,11 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
   # base$knitr$opts_chunk$fig.align <- "center"
 
   old_opt <- getOption("bookdown.post.latex")
-  if (french)
+  if (french) {
     options(bookdown.post.latex = fix_envs_resdoc_french)
-  else
+  } else {
     options(bookdown.post.latex = fix_envs)
+  }
   on.exit(options(bookdown.post.late = old_opt))
 
   base
@@ -86,7 +87,6 @@ resdoc_word <- function(french = FALSE, ...) {
 #' @rdname csas_pdf
 sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
                    ...) {
-
   if (french) {
     file <- system.file("csas-tex", "sr-french.tex", package = "csasdown")
   } else {
@@ -105,10 +105,11 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
 
-  if (french)
+  if (french) {
     options(bookdown.post.latex = fix_envs_sr_french)
-  else
+  } else {
     options(bookdown.post.latex = fix_envs_sr)
+  }
   on.exit(options(bookdown.post.late = old_opt))
   base
 }
@@ -141,13 +142,11 @@ techreport_word <- function(french = FALSE, ...) {
 #' @export
 #' @rdname csas_pdf
 techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex", ...) {
-
   if (french) {
     file <- system.file("csas-tex", "tech-report-french.tex", package = "csasdown")
   } else {
     file <- system.file("csas-tex", "tech-report.tex", package = "csasdown")
   }
-
   base <- bookdown::pdf_book(
     template = file,
     keep_tex = TRUE,
@@ -160,18 +159,19 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex", ...) {
 
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
-  if (french)
-	options(bookdown.post.latex = fix_envs_tr_french)
-  else
-	options(bookdown.post.latex = fix_envs_tr)
+  if (french) {
+    options(bookdown.post.latex = fix_envs_tr_french)
+  } else {
+    options(bookdown.post.latex = fix_envs_tr)
+  }
   on.exit(options(bookdown.post.late = old_opt))
   base
 }
 
 update_csasstyle <- function() {
- f <- system.file("csas-style", package = "csasdown")
- dir.create("csas-style", showWarnings = FALSE)
- ignore <- file.copy(f, ".", overwrite = TRUE, recursive = TRUE)
+  f <- system.file("csas-style", package = "csasdown")
+  dir.create("csas-style", showWarnings = FALSE)
+  ignore <- file.copy(f, ".", overwrite = TRUE, recursive = TRUE)
 }
 
 fix_envs_sr <- function(x) {
@@ -200,17 +200,46 @@ fix_envs <- function(x,
                      join_abstract = TRUE,
                      french = FALSE,
                      prepub = FALSE) {
+  # Get region line
+  region_line <- grep(pattern = "% Region", x) + 1
+  # If region is specified (currently only SRs)
+  if (length(region_line) > 0) {
+    # Get region name and contact info
+    region <- regmatches(
+      x = x[region_line],
+      m = regexec(
+        pattern = "\\\\rdRegion\\}\\{(.*?)\\}+$",
+        text = x[region_line]
+      )
+    )[[1]][2]
+    contact_info <- get_contact_info(region = region, isFr = french)
+    # Insert contact info
+    x <- sub(
+      pattern = "AddressPlaceholder", replacement = contact_info$address,
+      x = x
+    )
+    x <- sub(pattern = "PhonePlaceholder", replacement = contact_info$phone, x = x)
+    x <- sub(
+      pattern = "EmailPlaceholder",
+      replacement = paste0(
+        "\\\\link\\{mailto:", contact_info$email,
+        "\\}\\{", contact_info$email, "\\}"
+      ), x = x
+    )
+  } # End if region exists (SRs)
   ## Change csas-style to use the sty file found in csasdown repo
   g <- grep("csas-style", x)
 
   ## Find beginning and end of the abstract text is it is not a Science Response document
-  if(include_abstract){
+  if (include_abstract) {
     abs_beg <- grep("begin_abstract_csasdown", x)
     abs_end <- grep("end_abstract_csasdown", x)
     if (join_abstract) {
       if (length(abs_beg) == 0L || length(abs_end) == 0L) {
         warning("`% begin_abstract_csasdown` or `% end_abstract_csasdown`` not found ",
-                "in `templates/csas.tex`", call. = FALSE)
+          "in `templates/csas.tex`",
+          call. = FALSE
+        )
       } else {
         abs_vec <- x[seq(abs_beg + 1, abs_end - 1)]
         abs_vec <- abs_vec[abs_vec != ""]
@@ -232,9 +261,9 @@ fix_envs <- function(x,
   if (length(i3)) x <- x[-i3]
 
   g <- grep("\\\\Appendices$", x)
-  if (identical(length(g), 0L)){
+  if (identical(length(g), 0L)) {
     appendix_line <- length(x) - 1 # no appendix
-  }else{
+  } else {
     appendix_line <- min(g)
   }
 
@@ -247,11 +276,15 @@ fix_envs <- function(x,
   for (i in seq(appendix_line + 1, length(x))) {
     x[i] <- gsub("\\\\section\\{", "\\\\appsection\\{", x[i])
     if (!french) {
-      x[i] <- gsub("\\\\chapter\\{",
-        "\\\\starredchapter\\{APPENDIX~\\\\thechapter. ", x[i])
+      x[i] <- gsub(
+        "\\\\chapter\\{",
+        "\\\\starredchapter\\{APPENDIX~\\\\thechapter. ", x[i]
+      )
     } else {
-      x[i] <- gsub("\\\\chapter\\{",
-        "\\\\starredchapter\\{ANNEXE~\\\\thechapter. ", x[i])
+      x[i] <- gsub(
+        "\\\\chapter\\{",
+        "\\\\starredchapter\\{ANNEXE~\\\\thechapter. ", x[i]
+      )
     }
   }
   x <- inject_refstepcounters(x)
@@ -260,9 +293,9 @@ fix_envs <- function(x,
   # rs_line <- grep("\\\\refstepcounter", x)
   # FIXME: make more robust
   rs_line <- grep("\\\\hypertarget\\{app:", x)
-  x[rs_line + 0] <- gsub("hypertarget", 'label', x[rs_line + 0])
-  x[rs_line + 0] <- gsub("\\{%", '', x[rs_line + 0])
-  x[rs_line + 1] <- gsub("\\}$", '', x[rs_line + 1])
+  x[rs_line + 0] <- gsub("hypertarget", "label", x[rs_line + 0])
+  x[rs_line + 0] <- gsub("\\{%", "", x[rs_line + 0])
+  x[rs_line + 1] <- gsub("\\}$", "", x[rs_line + 1])
   x[rs_line + 1] <- gsub("\\}.*\\}$", "}", x[rs_line + 1])
 
   x <- gsub("^.*\\\\tightlist$", "", x)
@@ -273,8 +306,10 @@ fix_envs <- function(x,
   # ----------------------------------------------------------------------
   # Add tooltips so that figures have alternative text for read-out-loud
   figlabel_lines <- x[grep("\\\\label\\{fig:", x)]
-  fig_labels <- gsub("\\\\caption\\{(.*?)\\}\\\\label\\{fig:(.*?)\\}",
-    "\\2", figlabel_lines)
+  fig_labels <- gsub(
+    "\\\\caption\\{(.*?)\\}\\\\label\\{fig:(.*?)\\}",
+    "\\2", figlabel_lines
+  )
   all_include_graphics <- grep("(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})", x)
 
   # is this a true figure with a caption in Pandoc style?
@@ -284,23 +319,29 @@ fix_envs <- function(x,
   if (identical(length(fig_labels), length(all_include_graphics))) {
     for (i in seq_along(all_include_graphics)) {
       x[all_include_graphics[i]] <-
-        gsub("(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})",
-        paste0("\\\\pdftooltip{\\1}{", "Figure \\\\ref{fig:", fig_labels[i], "}}"),
-          x[all_include_graphics[i]])
+        gsub(
+          "(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})",
+          paste0("\\\\pdftooltip{\\1}{", "Figure \\\\ref{fig:", fig_labels[i], "}}"),
+          x[all_include_graphics[i]]
+        )
     }
   } else {
     warning("The number of detected figure captions did not match the number of ",
-    "detected figures. Reverting to unnumbered alternative text figures.",
-      call. = FALSE)
-    x <- gsub("(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})",
-      "\\\\pdftooltip{\\1}{Figure}", x)
+      "detected figures. Reverting to unnumbered alternative text figures.",
+      call. = FALSE
+    )
+    x <- gsub(
+      "(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})",
+      "\\\\pdftooltip{\\1}{Figure}", x
+    )
   }
   # ----------------------------------------------------------------------
 
   regexs <- c(
     "^\\\\CHAPTER\\*\\{R\\p{L}F\\p{L}RENCES", # French or English
     "^\\\\SECTION{SOURCES DE RENSEIGNEMENTS}",
-    "^\\\\SECTION{SOURCES OF INFORMATION}")
+    "^\\\\SECTION{SOURCES OF INFORMATION}"
+  )
   .matches <- lapply(regexs, function(.x) grep(.x, toupper(x), perl = TRUE) + 1)
   references_insertion_line <- unlist(.matches)
 
@@ -312,7 +353,8 @@ fix_envs <- function(x,
     references_begin <- grep("^\\\\hypertarget\\{refs\\}\\{\\}$", x)
     if (length(references_begin) > 0) {
       references_end <- length(x) - 1
-      x <- c(x[seq(1, references_insertion_line - 1)],
+      x <- c(
+        x[seq(1, references_insertion_line - 1)],
         "\\phantomsection",
         x[references_insertion_line],
         "% This manually sets the header for this unnumbered chapter.",
@@ -326,19 +368,22 @@ fix_envs <- function(x,
         x[seq(references_begin, references_end)],
         "\\setlength{\\parindent}{0in} \\setlength{\\leftskip}{0in} \\setlength{\\parskip}{4pt}",
         x[seq(references_insertion_line + 1, references_begin - 1)],
-        x[length(x)])
+        x[length(x)]
+      )
     } else {
       warning("Did not find the beginning of the LaTeX bibliography.", call. = FALSE)
     }
   }
 
   # Tech Report Appendices:
-  x <- gsub("\\% begin csasdown appendix",
+  x <- gsub(
+    "\\% begin csasdown appendix",
     paste0(
       "\\begin{appendices}\n",
       "\\\\counterwithin{figure}{section}\n",
       "\\\\counterwithin{table}{section}\n",
-      "\\\\counterwithin{equation}{section}"),
+      "\\\\counterwithin{equation}{section}"
+    ),
     x
   )
   x <- gsub("\\% end csasdown appendix", "\\end{appendices}", x)
@@ -391,7 +436,8 @@ inject_refstepcounters <- function(x) {
     x <- c(
       x[seq(1, i - 3)],
       paste0(x[i - 2], "\n\n\\clearpage\n\n\\refstepcounter{chapter}"),
-      x[seq(i - 1, length(x))])
+      x[seq(i - 1, length(x))]
+    )
   }
   x
 }
@@ -407,7 +453,7 @@ inject_refstepcounters <- function(x) {
 #' @return A merged .docx
 #' @export
 add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2016-eng-titlepage.docx",
-                                 resdoc = "_book/resdoc.docx") {
+                                      resdoc = "_book/resdoc.docx") {
   title_doc <- officer::read_docx(titlepage)
   x <- officer::body_add_docx(title_doc, resdoc, pos = "before")
   print(x, target = resdoc)
@@ -431,7 +477,9 @@ is_windows <- function() {
 check_yaml <- function(type = "resdoc") {
   x_skeleton <- names(rmarkdown::yaml_front_matter(
     system.file("rmarkdown", "templates", "resdoc", "skeleton", "skeleton.Rmd",
-      package = "csasdown")))
+      package = "csasdown"
+    )
+  ))
   x_index <- names(rmarkdown::yaml_front_matter("index.Rmd"))
   .diff <- setdiff(x_skeleton, x_index)
   if (length(.diff) > 0L) {
@@ -441,3 +489,51 @@ check_yaml <- function(type = "resdoc") {
   }
 }
 
+#' Return regional CSAS email address, phone number, and mailing address for
+#' the last page in the section "This report is available from the." Return
+#' contactinformation for the national CSAS office if regional information is
+#' not available (with a warning).
+#'
+#' @param region Region in which the document is published; character vector.
+#' (i.e., Pacific). Default is "National Capital Region."
+#' @param isFr Logical (default FALSE). Is the report in French or not?
+#'
+#' @export
+#'
+#' @return Email address, phone number, and mailing address as list of character
+#' vectors.
+get_contact_info <- function(region = "National Capital Region", isFr = FALSE) {
+  # Region name (English and French), email, phone, and address
+  dat <- tibble::tribble(
+    ~Region, ~RegionFr, ~Email, ~Phone, ~Address,
+    "Central and Arctic Region", "R\u00E9gion du Centre et de l'Arctique", "xcna-csa-cas@dfo-mpo.gc.ca", "(204) 983-5232", "501 University Cres.\\\\\\\\Winnipeg, MB, R3T 2N6",
+    "Gulf Region", "R\u00E9gion du Golfe", "Gerald.Chaput@dfo-mpo.gc.ca", "(506) 851-2022", "343 Universit\u00E9 Ave.\\\\\\\\Moncton, NB, E1C 9B6",
+    "Maritimes Region", "R\u00E9gion des Maritimes", "XMARMRAP@dfo-mpo.gc.ca", "(902) 426-3246", "1 Challenger Dr.\\\\\\\\Dartmouth, NS, B2Y 4A2",
+    "National Capital Region", "R\u00E9gion de la capitale nationale", "csas-sccs@dfo-mpo.gc.ca", "(613) 990-0194", "200 Kent St.\\\\\\\\Ottawa, ON, K1A 0E6",
+    "Newfoundland and Labrador Region", "R\u00E9gion de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca", "(709) 772-8892", "P.O. Box 5667\\\\\\\\St. John's, NL, A1C 5X1",
+    "Pacific Region", "R\u00E9gion du Pacifique", "csap@dfo-mpo.gc.ca", "(250) 756-7088", "3190 Hammond Bay Rd.\\\\\\\\Nanaimo, BC, V9T 6N7",
+    "Quebec Region", "R\u00E9gion du Qu\u00E9bec", "bras@dfo-mpo.gc.ca", "(418) 775-0825", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli, QC, G5H 3Z4"
+  )
+  # If french
+  if (isFr) {
+    # Get index for region (row)
+    ind <- which(dat$RegionFr == region)
+  } else { # End if french, otherwise
+    # Get index for region (row)
+    ind <- which(dat$Region == region)
+  } # End if not french
+  # If region not detected
+  if (length(ind) == 0) {
+    # Use national contact info
+    email <- dat$Email[dat$Region == "National Capital Region"]
+    phone <- dat$Phone[dat$Region == "National Capital Region"]
+    address <- dat$Address[dat$Region == "National Capital Region"]
+    warning("Region not detected; use national CSAS contact info")
+  } else { # End if no region, otherwise get regional contact info
+    # Get regional contact info
+    email <- dat$Email[ind]
+    phone <- dat$Phone[ind]
+    address <- dat$Address[ind]
+  } # End if region detected
+  return(list(email = email, phone = phone, address = address))
+} # End get_contact_info

@@ -24,6 +24,13 @@
             urlcolor=blue,
             bookmarksopen=true,
             bookmarksopenlevel=1}
+% Underlines
+\usepackage[normalem]{ulem}
+% hack into hyperref (from https://tex.stackexchange.com/q/208808)
+\makeatletter
+\newcommand*{\link}{\begingroup\@makeother\#\@mylink}
+\newcommand*{\@mylink}[2]{\href{#1}{\sffamily\uline{#2}}\endgroup}
+\makeatother
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
@@ -240,7 +247,8 @@
 %% Makes figures stick to the top of the page. i.e. if there is a single figure
 %%  on a page, it will be placed in the center. This forces it to stick
 %%  to the top.
-\setlength\@fptop{0pt}
+\setlength{\@fptop}{0pt}
+\setlength{\@fpsep}{18pt}  % Reduce space betwen floats too
 
 %% From hake.sty:
 %% Change default options for float rules for figure and tables, from:
@@ -344,7 +352,7 @@
 \renewcommand{\footrulewidth}{0.4pt}
 \renewcommand{\headrulewidth}{0.4pt}
 \newcommand{\regionWidth}{\widthof{\textbf{\rdRegion{}}}}
-\newcommand{\remainderWidth}{\linewidth - \regionWidth}
+\newcommand{\remainderWidth}{\linewidth - \regionWidth - 0.5cm}
 \fancyhead[L]{\parbox[b]{\regionWidth}{\textbf{\rdRegion{}}}}
 \fancyhead[R]{\parbox[b]{\remainderWidth}{\RaggedLeft{\textbf{Science Response: \rdTitleShort{}}}}}
 \fancypagestyle{csapfancy}{
@@ -390,14 +398,14 @@
   labelsep*=0.01in,  % Space betw. numbers and text (note * is req'd)
   leftmargin=!,      % No space betw. margin of list and following lines
   itemindent=0pt,    % Hanging indentation (after first line)
-  itemsep=1pt        % Vertical space between list items
+  itemsep=3pt        % Vertical space between list items
 }
 \setenumerate[1]{label=\arabic*.}
 \setenumerate[2]{label=\alph*.}
 \setenumerate[3]{label=\roman*.}
 \setenumerate[4]{label=\arabic*.}
 \setenumerate[5]{label=\alph*.}
-\setenumerate{nosep} % This needs to be here for itemsep above to be recognized
+\setenumerate{itemsep=3pt} % This needs to be here for itemsep above to be recognized
 \setitemize{
   align=left,        % Left align labels
   topsep=0pt,        % Vertical space before the list
@@ -406,9 +414,9 @@
   labelsep*=0.01in,  % Space betw. numbers and text (note * is req'd)
   leftmargin=!,      % No space betw. margin of list and following lines
   itemindent=0pt,    % Hanging indentation (after first line)
-  itemsep=1pt        % Vertical space between list items
+  itemsep=3pt        % Vertical space between list items
 }
-\setitemize{nosep}   % This needs to be here for itemsep above to be recognized
+\setitemize{itemsep=3pt}   % This needs to be here for itemsep above to be recognized
 
 %% Hanging indent of the bibliography items.
 \setlength{\bibhang}{0.25in}
@@ -539,13 +547,13 @@
     \newgeometry{}
     \fancyhf{}
     \fancyhead{}
-    \lhead{\includegraphics[width=9.2cm]{\locRepo/images/title-header.png}\\
+    \lhead{\includegraphics[width=9.2cm]{\locRepo/images/Fip-stacked-DFO-EOS-eng_bw.png}\\
     \vspace{0.6cm}
     \textbf{\rdRegion{}}}
     \rhead{\textbf{Canadian Science Advisory Secretariat}\\
     \textbf{Science Response \rdYear{}/\rdNumber{}}}
     \lfoot{\rdMonth{} \rdYear{}}
-    \rfoot{\includegraphics[width=3.54cm]{\locRepo/images/title-footer.png}}
+    \rfoot{\includegraphics[width=3.54cm]{\locRepo/images/canada_bw.png}}
     \afterpage{\cfoot{\thepage}}
     \afterpage{\restoregeometry}
 }
@@ -557,7 +565,7 @@
   % Make the title -- needs a big space to print below the header
   \vspace*{1.75cm}
   \begin{center}
-  % This needs to be heading "level 1" (issue #5); secion is level 2, an so on
+  \hypertarget{PageOne}{}
   \Large{\textbf{\MakeTextUppercase{\rdTitle{}}}}
   %\vspace{1in}
   \end{center}
@@ -565,7 +573,7 @@
 
 % Generate the approval
 \newcommand{\MakeApproval}{
-  \section[Approved]{Approved by}
+  \section{Approved by}
   \begin{minipage}[c]{\linewidth}
   \begin{center}
   \rdApp{}\\
@@ -574,46 +582,52 @@
   \rdAppDate{}\\
   \end{center}
   \end{minipage}
+  \vspace{1mm}
 }
 
-\newcommand{\CiteEng}[1]{
-\hangindent=0.6cm
-DFO. \rdYear{}. \rdTitle{}. DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp. #1.
+% Packages for landscape pages
+\usepackage[contents={}]{background}
+\usepackage{varwidth}
+
+% Background for landscape pages (header and footer)
+\newenvironment{turn}{
+  \newgeometry{hmargin=1.25in, vmargin=1in}
+  \begin{landscape}
+  \newcommand{\regionWidthW}{\widthof{\textbf{\rdRegion{}}}}
+  \newcommand{\remainderWidthW}{\linewidth - \regionWidthW - 0.5cm}
+  \pagestyle{empty}
+  \backgroundsetup{
+    angle=90,
+    opacity=1,
+    scale=1,
+    color=black,
+    nodeanchor=south,
+    position={current page.west},
+    vshift=-8.5in,
+    contents={\begin{varwidth}{\linewidth}{
+      \vspace*{2cm}
+      \parbox[b]{\regionWidthW}{\textbf{\rdRegion{}}}
+      \hfill
+      \parbox[b]{\remainderWidthW}{\RaggedLeft{\textbf{Science Response: \rdTitleShort{}}}}\\
+      \vspace{-0.3cm}
+      \rule{\linewidth}{0.4pt}\\
+      \vspace{16.75cm}
+      \vfill
+      \rule{\linewidth}{0.4pt}\\
+      \begin{center}\thepage{}\end{center}
+      \vspace{0.9cm}
+      \hphantom{.}
+      }
+      \end{varwidth}
+    }
+  }
+  }
+  {
+  \end{landscape}
+  \pagestyle{csapfancy}
+  \restoregeometry
+  \clearpage
 }
 
-\newcommand{\CiteFr}[1]{
-\hangindent=0.6cm
-\emph{MPO. \rdYear{}. \rdTitleFr{}. Secr.\ can.\ de consult.\ sci.\ du MPO, R\'{e}p.\ des Sci.\ #1.}
-}
-
-% Generate the availability
-\newcommand{\MakeAvailable}[4]{
-
-\newpage
-
-\section[Available]{This report is available from the}
-
-\begin{center}
-Centre for Science Advice\\
-\rdRegion{}\\
-\rdAddress{}\\
-\vspace{0.1cm}
-Telephone: \rdPhone{}\\
-E-Mail: \rdEmail{}\\
-Internet address: \href{http://www.dfo-mpo.gc.ca/csas-sccs/}{www.dfo-mpo.gc.ca/csas-sccs/}\\
-\vspace{0.1cm}
-ISSN 1919-3769\\
-\copyright{} Her Majesty the Queen in Right of Canada, \rdYear{}\\
-\vspace{0.2cm}
-\includegraphics[scale=0.96]{\locRepo/images/recycle.png}
-\end{center}
-
-#1
-
-#2
-
-#3
-
-#4
-
-}
+% Add leading zeros to get length 3
+\newcommand{\threedigits}[1]{\ifnum#1<10 00#1\else\ifnum#1<100 0#1\else#1\fi\fi}

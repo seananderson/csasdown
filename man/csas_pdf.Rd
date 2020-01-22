@@ -48,6 +48,6 @@ to specify using the CSAS LaTeX template and cls files.
 }
 \examples{
 \dontrun{
- output: csasdown::resdoc_pdf
+output:csasdown::resdoc_pdf
 }
 }

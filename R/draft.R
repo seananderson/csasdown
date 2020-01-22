@@ -28,7 +28,31 @@ draft <- function(type = c("resdoc", "sr", "techreport"),
     package = "csasdown",
     create_dir = create_dir,
     edit = edit,
-    ...
-  )
+    ...)
+  create_rstudio_project_file()
+}
+
+#' Creates a blank Rstudio project file in the current directory with the same name
+#' as the current directory.
+create_rstudio_project_file <- function(){
+  wd <- getwd()
+  fn <- file.path(wd, paste0(basename(wd), ".Rproj"))
+  txt <- c("Version: 1.0",
+           "\n",
+           "\n",
+           "RestoreWorkspace: Default",
+           "SaveWorkspace: Default",
+           "AlwaysSaveHistory: Default",
+           "\n",
+           "EnableCodeIndexing: Yes",
+           "UseSpacesForTab: Yes",
+           "NumSpacesForTab: 2",
+           "Encoding: UTF-8",
+           "\n",
+           "RnwWeave: knitr",
+           "LaTeX: pdfLaTeX",
+           "\n",
+           "StripTrailingWhitespace: Yes")
+  writeLines(txt, fn)
 }
 # nocov end
