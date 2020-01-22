@@ -197,18 +197,15 @@ fix_envs <- function(x,
   region_line <- grep( pattern="% Region", x ) + 1
   # If region is specified (currently for SRs)
   if( length(region_line) > 0 ) {
-    # Get region
-    region <- regmatches( x[region_line],
-                          regexec('\\\\rdRegion\\}\\{(.*?)\\}+$',
-                                  x[region_line]))[[1]][2]
-    # Get regional contact info
+    # Get region name and contact info
+    region <- regmatches( x=x[region_line],
+                          m=regexec(pattern='\\\\rdRegion\\}\\{(.*?)\\}+$',
+                                  text=x[region_line]))[[1]][2]
     contact_info <- get_contact_info( region=region, isFr=french )
-    # Insert mailing address
+    # Insert contact info
     x <- sub( pattern="AddressPlaceholder", replacement=contact_info$address,
               x=x )
-    # Insert phone number
     x <- sub( pattern="PhonePlaceholder", replacement=contact_info$phone, x=x )
-    # Insert email address
     x <- sub( pattern="EmailPlaceholder",
               replacement=paste0("\\\\link\\{mailto:", contact_info$email,
                                  "\\}\\{", contact_info$email, "\\}"), x=x )
