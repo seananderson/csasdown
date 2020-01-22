@@ -13,7 +13,7 @@ Slides from a recent workshop on csasdown [[PDF](https://www.dropbox.com/s/7m23m
 
 To compile PDF documents using R, you need to have Pandoc, LaTeX and several related packages installed. If you have a recent version of  [RStudio](http://www.rstudio.com/products/rstudio/download/), then you already have Pandoc.
 
-1) You will need to install LaTeX:
+1) You will need to install LaTeX if you do not have it already (csasdown works with MikTeX so do not install tinytex if you already have MikTeX):
 
 ```r
 install.packages("tinytex")
