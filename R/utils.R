@@ -12,6 +12,8 @@
 #'   "zenburn", and "haddock". Pass `NULL` to prevent syntax highlighting.
 #' @param latex_engine LaTeX engine.
 #' @param french Logical for French (vs. English).
+#' @param prepub Logical for whether this is a prepublication version
+#'  (currently not implemented for ResDocs)
 #' @param ... other arguments to [bookdown::pdf_book()].
 #' @return A modified `pdf_document` based on the CSAS LaTeX template.
 #' @import bookdown
@@ -21,7 +23,8 @@
 #'  output: csasdown::resdoc_pdf
 #' }
 resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
-                       latex_engine = "pdflatex", french = FALSE, ...) {
+                       latex_engine = "pdflatex", french = FALSE,
+                       prepub = FALSE, ...) {
 
   if (french) {
     file <- system.file("csas-tex", "res-doc-french.tex", package = "csasdown")

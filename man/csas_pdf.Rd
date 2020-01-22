@@ -12,6 +12,7 @@ resdoc_pdf(
   highlight = "default",
   latex_engine = "pdflatex",
   french = FALSE,
+  prepub = FALSE,
   ...
 )
 
@@ -32,6 +33,9 @@ should be created.}
 \item{latex_engine}{LaTeX engine.}
 
 \item{french}{Logical for French (vs. English).}
+
+\item{prepub}{Logical for whether this is a prepublication version
+(currently not implemented for ResDocs)}
 
 \item{...}{other arguments to \code{\link[bookdown:pdf_book]{bookdown::pdf_book()}}.}
 }
