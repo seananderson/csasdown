@@ -195,7 +195,7 @@ fix_envs <- function(x,
                      french = FALSE) {
   # Get region line
   region_line <- grep( pattern="% Region", x ) + 1
-  # If region is specified (currently for SRs)
+  # If region is specified (currently only SRs)
   if( length(region_line) > 0 ) {
     # Get region name and contact info
     region <- regmatches( x=x[region_line],
@@ -209,7 +209,7 @@ fix_envs <- function(x,
     x <- sub( pattern="EmailPlaceholder",
               replacement=paste0("\\\\link\\{mailto:", contact_info$email,
                                  "\\}\\{", contact_info$email, "\\}"), x=x )
-  }  # End if region exists
+  }  # End if region exists (SRs)
   ## Change csas-style to use the sty file found in csasdown repo
   g <- grep("csas-style", x)
 
