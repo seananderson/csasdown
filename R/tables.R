@@ -16,7 +16,7 @@
 #'   with the long table
 #' @param repeat_header_method As defined by [kableExtra::kable_styling()].
 #' @param col_names Names for the columns to show on table. If there are any
-#'   \\\ns, they will be replaced with the
+#'   they will be replaced with the
 #' @param col_names_align As defined in [kableExtra::linebreak()].
 #' @param escape As defined by [kableExtra::kable_styling()].
 #' @param ... Other arguments to pass to [knitr::kable()].

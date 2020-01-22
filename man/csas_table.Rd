@@ -4,11 +4,24 @@
 \alias{csas_table}
 \title{Custom table for csasdown}
 \usage{
-csas_table(x, format = "pandoc", booktabs = TRUE, linesep = "",
-  longtable = TRUE, font_size = NULL, landscape = FALSE,
-  bold_header = TRUE, repeat_header = TRUE, repeat_header_text = "",
-  repeat_header_method = "replace", col_names = NULL,
-  col_names_align = "c", escape = FALSE, hold_position = TRUE, ...)
+csas_table(
+  x,
+  format = "pandoc",
+  booktabs = TRUE,
+  linesep = "",
+  longtable = TRUE,
+  font_size = NULL,
+  landscape = FALSE,
+  bold_header = TRUE,
+  repeat_header = TRUE,
+  repeat_header_text = "",
+  repeat_header_method = "replace",
+  col_names = NULL,
+  col_names_align = "c",
+  escape = FALSE,
+  hold_position = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{An R object, typically a matrix or data frame.}
@@ -35,7 +48,7 @@ with the long table}
 \item{repeat_header_method}{As defined by \code{\link[kableExtra:kable_styling]{kableExtra::kable_styling()}}.}
 
 \item{col_names}{Names for the columns to show on table. If there are any
-\\ns, they will be replaced with the}
+they will be replaced with the}
 
 \item{col_names_align}{As defined in \code{\link[kableExtra:linebreak]{kableExtra::linebreak()}}.}
 
