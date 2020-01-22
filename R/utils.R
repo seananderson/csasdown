@@ -446,7 +446,6 @@ get_contact_info <- function( region="National Capital Region", isFr=FALSE ) {
   # If french
   if( isFr ) {
     # Get index for region (row)
-    # FIXME: Need this to work when there are french accents
     ind <- which( dat$RegionFr == region )
   } else{  # End if french, otherwise
     # Get index for region (row)
