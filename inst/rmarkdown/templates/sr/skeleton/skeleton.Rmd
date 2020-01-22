@@ -13,13 +13,6 @@ approval_month: January
 approval_day: 01
 branch: Science Branch
 region: Pacific Region
-address: |
-  ^1^Pacific Biological Station\
-     Fisheries and Oceans Canada, 3190 Hammond Bay Road\
-     Nanaimo, British Columbia, V9T 6N7, Canada\
-  ^2^Far, far away\
-     Another Galaxy
-phone: (250) 756-7208
 output:
  csasdown::sr_pdf:
   # csasdown::sr_word:
