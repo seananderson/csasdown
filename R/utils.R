@@ -407,7 +407,7 @@ fix_envs <- function(x,
       stop( "Can't find report number (report_number)" )
     rn_text <- x[rn_loc_1]
     rn_text_clean <- gsub( pattern="\\}+$", replacement="", x=rn_text )
-    rn_text_new <- paste0( rn_text_clean, addText )
+    rn_text_new <- paste0( rn_text_clean, "}", addText )
     x[rn_loc_1] <- rn_text_new
     # 2. Modify short title
     st_loc_1 <- grep( pattern="\\% Title short", x=x ) + 1
