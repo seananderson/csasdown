@@ -585,9 +585,18 @@
   \vspace{1mm}
 }
 
-% Generate the availability
-\newcommand{\MakeAvailable}{
+\newcommand{\CiteEng}[1]{
+\hangindent=0.6cm
+\emph{DFO. \rdYear{}. \rdTitle{}. DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp. #1.}
+}
 
+\newcommand{\CiteFr}[1]{
+\hangindent=0.6cm
+MPO. \rdYear{}. \rdTitleFr{}. Secr.\ can.\ de consult.\ sci.\ du MPO, R\'{e}p.\ des Sci.\ #1.
+}
+
+% Generate the availability
+\newcommand{\MakeAvailable}[4]{
 }
 
 % Packages for landscape pages

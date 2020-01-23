@@ -12,6 +12,8 @@
 #'   "zenburn", and "haddock". Pass `NULL` to prevent syntax highlighting.
 #' @param latex_engine LaTeX engine.
 #' @param french Logical for French (vs. English).
+#' @param prepub Logical for whether this is a prepublication version
+#'  (currently not implemented for ResDocs)
 #' @param ... other arguments to [bookdown::pdf_book()].
 #' @return A modified `pdf_document` based on the CSAS LaTeX template.
 #' @import bookdown
@@ -21,7 +23,9 @@
 #' output:csasdown::resdoc_pdf
 #' }
 resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
-                       latex_engine = "pdflatex", french = FALSE, ...) {
+                       latex_engine = "pdflatex", french = FALSE,
+                       prepub = FALSE, ...) {
+
   if (french) {
     file <- system.file("csas-tex", "res-doc-french.tex", package = "csasdown")
   } else {
@@ -81,7 +85,8 @@ resdoc_word <- function(french = FALSE, ...) {
 
 #' @export
 #' @rdname csas_pdf
-sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, ...) {
+sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
+                   ...) {
   if (french) {
     file <- system.file("csas-tex", "sr-french.tex", package = "csasdown")
   } else {
@@ -170,11 +175,12 @@ update_csasstyle <- function() {
 }
 
 fix_envs_sr <- function(x) {
-  fix_envs(x, include_abstract = FALSE, join_abstract = FALSE)
+  fix_envs(x, include_abstract = FALSE, join_abstract = FALSE, prepub=prepub)
 }
 
 fix_envs_sr_french <- function(x) {
-  fix_envs(x, include_abstract = FALSE, join_abstract = FALSE, french = TRUE)
+  fix_envs(x, include_abstract = FALSE, join_abstract = FALSE, french = TRUE,
+           prepub=prepub)
 }
 
 fix_envs_tr <- function(x) {
@@ -192,7 +198,8 @@ fix_envs_resdoc_french <- function(x) {
 fix_envs <- function(x,
                      include_abstract = TRUE,
                      join_abstract = TRUE,
-                     french = FALSE) {
+                     french = FALSE,
+                     prepub = FALSE) {
   # Get region line
   region_line <- grep(pattern = "% Region", x) + 1
   # If region is specified (currently only SRs)
@@ -388,7 +395,39 @@ fix_envs <- function(x,
     }
   }
 
+  # Implement "Approved pre-publication" version (science response)
+  if( prepub ) {
+    # Text to add
+    addText <- ifelse( french, " -- PR\u00C9-PUBLICATION APPROUV\u00C9E}",
+                      " -- APPROVED PRE-PUBLICATION}" )
+    # 1. Modify header first page (report number)
+    rn_loc_1 <- grep( pattern="\\% Report number", x=x ) + 1
+    rn_loc_2 <- grep( pattern="\\% End of report number", x=x ) - 1
+    if( rn_loc_1 != rn_loc_2 )
+      stop( "Can't find report number (report_number)" )
+    rn_text <- x[rn_loc_1]
+    rn_text_clean <- gsub( pattern="\\}+$", replacement="", x=rn_text )
+    rn_text_new <- paste0( rn_text_clean, addText )
+    x[rn_loc_1] <- rn_text_new
+    # 2. Modify short title
+    st_loc_1 <- grep( pattern="\\% Title short", x=x ) + 1
+    st_loc_2 <- grep( pattern="\\% End of title short", x=x ) - 1
+    if( st_loc_1 != st_loc_2 ) stop( "Can't find short title (title_short)" )
+    st_text <- x[st_loc_1]
+    st_text_clean <- gsub( pattern="\\}+$", replacement="", x=st_text )
+    st_text_new <- paste0( st_text_clean, addText )
+    x[st_loc_1] <- st_text_new
+    # 3. Modify citation (2 things)
+    cite_loc <- grep( pattern="\\\\MakeAvailable\\{", x=x )
+    cite_text <- x[cite_loc]
+    cite_text_new <- ifelse( french,
+                             "\\MakeAvailable{Cite comme ceci (jusqu'\u00E0 la publication)}{\\CiteFr{Sous presse}}{}{}",
+                             "\\MakeAvailable{Correct citation (until published):}{\\CiteEng{In press}}{}{}" )
+    x[cite_loc] <- cite_text_new
+  }
+
   x
+
 }
 
 inject_refstepcounters <- function(x) {
