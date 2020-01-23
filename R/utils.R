@@ -49,11 +49,15 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
   # base$knitr$opts_chunk$fig.align <- "center"
 
   old_opt <- getOption("bookdown.post.latex")
-  if (french) {
-    options(bookdown.post.latex = fix_envs_resdoc_french)
-  } else {
-    options(bookdown.post.latex = fix_envs)
-  }
+  options(bookdown.post.latex = function(x) {
+    fix_envs(
+      x = x,
+      french = french,
+      prepub = prepub,
+      include_abstract = TRUE,
+      join_abstract = TRUE
+    )
+  })
   on.exit(options(bookdown.post.late = old_opt))
 
   base
@@ -164,11 +168,13 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex", ...) {
 
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
-  if (french) {
-    options(bookdown.post.latex = fix_envs_tr_french)
-  } else {
-    options(bookdown.post.latex = fix_envs_tr)
-  }
+  options(bookdown.post.latex = function(x) {
+    fix_envs(
+      x = x,
+      french = french,
+      join_abstract = FALSE
+    )
+  })
   on.exit(options(bookdown.post.late = old_opt))
   base
 }
@@ -177,18 +183,6 @@ update_csasstyle <- function() {
   f <- system.file("csas-style", package = "csasdown")
   dir.create("csas-style", showWarnings = FALSE)
   ignore <- file.copy(f, ".", overwrite = TRUE, recursive = TRUE)
-}
-
-fix_envs_tr <- function(x) {
-  fix_envs(x, join_abstract = FALSE)
-}
-
-fix_envs_tr_french <- function(x) {
-  fix_envs(x, join_abstract = FALSE, french = TRUE)
-}
-
-fix_envs_resdoc_french <- function(x) {
-  fix_envs(x, join_abstract = TRUE, french = TRUE)
 }
 
 fix_envs <- function(x,
