@@ -25,7 +25,6 @@
 resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
                        latex_engine = "pdflatex", french = FALSE,
                        prepub = FALSE, ...) {
-
   if (french) {
     file <- system.file("csas-tex", "res-doc-french.tex", package = "csasdown")
   } else {
@@ -117,7 +116,7 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
       include_abstract = FALSE,
       join_abstract = FALSE
     )
-    })
+  })
 
   on.exit(options(bookdown.post.late = old_opt))
   base
@@ -386,38 +385,40 @@ fix_envs <- function(x,
   }
 
   # Implement "Approved pre-publication" version (science response)
-  if( prepub ) {
+  if (prepub) {
     # Text to add
-    addText <- ifelse( french, " -- PR\u00C9-PUBLICATION APPROUV\u00C9E}",
-                      " -- APPROVED PRE-PUBLICATION}" )
+    addText <- ifelse(french, " -- PR\u00C9-PUBLICATION APPROUV\u00C9E}",
+      " -- APPROVED PRE-PUBLICATION}"
+    )
     # 1. Modify header first page (report number)
-    rn_loc_1 <- grep( pattern="\\% Report number", x=x ) + 1
-    rn_loc_2 <- grep( pattern="\\% End of report number", x=x ) - 1
-    if( rn_loc_1 != rn_loc_2 )
-      stop( "Can't find report number (report_number)" )
+    rn_loc_1 <- grep(pattern = "\\% Report number", x = x) + 1
+    rn_loc_2 <- grep(pattern = "\\% End of report number", x = x) - 1
+    if (rn_loc_1 != rn_loc_2) {
+      stop("Can't find report number (report_number)")
+    }
     rn_text <- x[rn_loc_1]
-    rn_text_clean <- gsub( pattern="\\}+$", replacement="", x=rn_text )
-    rn_text_new <- paste0( rn_text_clean, "}", addText )
+    rn_text_clean <- gsub(pattern = "\\}+$", replacement = "", x = rn_text)
+    rn_text_new <- paste0(rn_text_clean, "}", addText)
     x[rn_loc_1] <- rn_text_new
     # 2. Modify short title
-    st_loc_1 <- grep( pattern="\\% Title short", x=x ) + 1
-    st_loc_2 <- grep( pattern="\\% End of title short", x=x ) - 1
-    if( st_loc_1 != st_loc_2 ) stop( "Can't find short title (title_short)" )
+    st_loc_1 <- grep(pattern = "\\% Title short", x = x) + 1
+    st_loc_2 <- grep(pattern = "\\% End of title short", x = x) - 1
+    if (st_loc_1 != st_loc_2) stop("Can't find short title (title_short)")
     st_text <- x[st_loc_1]
-    st_text_clean <- gsub( pattern="\\}+$", replacement="", x=st_text )
-    st_text_new <- paste0( st_text_clean, addText )
+    st_text_clean <- gsub(pattern = "\\}+$", replacement = "", x = st_text)
+    st_text_new <- paste0(st_text_clean, addText)
     x[st_loc_1] <- st_text_new
     # 3. Modify citation (2 things)
-    cite_loc <- grep( pattern="\\\\MakeAvailable\\{", x=x )
+    cite_loc <- grep(pattern = "\\\\MakeAvailable\\{", x = x)
     cite_text <- x[cite_loc]
-    cite_text_new <- ifelse( french,
-                             "\\MakeAvailable{Cite comme ceci (jusqu'\u00E0 la publication)}{\\CiteFr{Sous presse}}{}{}",
-                             "\\MakeAvailable{Correct citation (until published):}{\\CiteEng{In press}}{}{}" )
+    cite_text_new <- ifelse(french,
+      "\\MakeAvailable{Cite comme ceci (jusqu'\u00E0 la publication)}{\\CiteFr{Sous presse}}{}{}",
+      "\\MakeAvailable{Correct citation (until published):}{\\CiteEng{In press}}{}{}"
+    )
     x[cite_loc] <- cite_text_new
   }
 
   x
-
 }
 
 inject_refstepcounters <- function(x) {
