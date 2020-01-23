@@ -179,14 +179,6 @@ update_csasstyle <- function() {
   ignore <- file.copy(f, ".", overwrite = TRUE, recursive = TRUE)
 }
 
-fix_envs_sr <- function(x) {
-  fix_envs(x, include_abstract = FALSE, join_abstract = FALSE)
-}
-
-fix_envs_sr_french <- function(x) {
-  fix_envs(x, include_abstract = FALSE, join_abstract = FALSE, french = TRUE)
-}
-
 fix_envs_tr <- function(x) {
   fix_envs(x, join_abstract = FALSE)
 }
