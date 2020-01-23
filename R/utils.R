@@ -105,11 +105,16 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
 
-  if (french) {
-    options(bookdown.post.latex = fix_envs_sr_french)
-  } else {
-    options(bookdown.post.latex = fix_envs_sr)
-  }
+  options(bookdown.post.latex = function(x) {
+    fix_envs(
+      x = x,
+      french = french,
+      prepub = prepub,
+      include_abstract = FALSE,
+      join_abstract = FALSE
+    )
+    })
+
   on.exit(options(bookdown.post.late = old_opt))
   base
 }
@@ -175,12 +180,11 @@ update_csasstyle <- function() {
 }
 
 fix_envs_sr <- function(x) {
-  fix_envs(x, include_abstract = FALSE, join_abstract = FALSE, prepub=prepub)
+  fix_envs(x, include_abstract = FALSE, join_abstract = FALSE)
 }
 
 fix_envs_sr_french <- function(x) {
-  fix_envs(x, include_abstract = FALSE, join_abstract = FALSE, french = TRUE,
-           prepub=prepub)
+  fix_envs(x, include_abstract = FALSE, join_abstract = FALSE, french = TRUE)
 }
 
 fix_envs_tr <- function(x) {
