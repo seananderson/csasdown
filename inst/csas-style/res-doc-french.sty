@@ -1,62 +1,5 @@
 %% res-doc.sty - Unoffocial LaTeX style file for Canadian
 %%  Science Advisory Secretariat Research Documents.
-%% Authors:
-%% Andrew Edwards
-%% Rowan Haigh
-%% Chris Grandin
-
-%% Use the following codes for references within the document, for example
-%% \label{sec:catch-data} and \ref{sec:catch-data} .
-%%   chap: appendix
-%%    sec: section
-%% subsec: subsection
-%%    fig: figure
-%%    tab: table
-%%     eq: equation
-%%    lst: code listing
-%%    itm: enumerated list item
-%%    app: appendix subsection
-%% No code will default to an equation, e.g. \label{length-weight} and
-%%  \ref{length-weight}, which is the LaTeX standard. But be consistent in
-%%  using eq: or not (at least within an Appendix).
-%%
-%% Notes on installing a package when the MikTex servers are down:
-%% Go to CTAN and get your package. Unzip, and mvoe contents to:
-%% C:Program Files/MiKTeX 2.6/tex/latex/PACKAGE_NAME where
-%%  PACKAGE_NAME is whatever the name of the package you are
-%%  installing is. In this directory, there are files called
-%%  .dtx and .ins files. Run this on a command line:
-%%   latex PACKAGE_NAME.ins
-%%  which will create the .sty files from the .ins files.
-%%  Now you have to refresh FNDB:
-%% Go to Start -> All Programs -> MiKTeX X.x -> Maintenance(Admin) ->
-%% MikTex Settings(Admin)
-
-%% Notes on installing the required Arial font:
-%% Make a empty directory called C:\texlocal
-%% Go to this URL:
-%% http://mirrors.ctan.org/install/fonts/urw/arial.tds.zip
-%% Download the TDS-compliant zip and unzip into C:\texlocal
-%% The directory should contain three subdirectories: doc, fonts, and tex.
-%% Be sure that the directory under `fonts' includes `type1' not `type'
-%%  (rename if necesary)
-%% Go to Start->Programs->Maintenance(Admin)->MikTex Settings(Admin)
-%%  - Go to the Roots tab
-%%  - Click `Add' and add C:\texlocal
-%%  - Go to `General' tab
-%%  - Click `Refresh FNDB' button
-%%  - Click `Update Formats' button
-%% Open a command line:
-%%  - Run the following command:
-%%     initexmf --edit-config-file updmap
-%%  - Insert the following line:
-%%     Map ua1.map
-%%  - Save the file and close the editor.
-%%  - Run the following command to rebuild the font map files:
-%%     initexmf --mkmaps
-%% ------------------------------------------------------------------------------
-%%\usepackage[french]{babel}
-%% ------------------------------------------------------------------------------
 
 \usepackage{tabularx}
 
@@ -625,7 +568,7 @@
 
 \newgeometry{top=0.55in,bottom=0.55in,left=1in,right=1in}
 
-\includegraphics[width=9.14cm]{\locRepo/images/Fip-stacked-DFO-EOS-fra.png}
+\includegraphics[width=9.14cm]{\locRepo/images/Fip-stacked-DFO-EOS-fra_bw.png}
 
 \vspace{1.5mm}
 
@@ -666,7 +609,7 @@
 \parbox{9cm}{\rdMonth{} \rdYear{}}%
 \begin{minipage}[t]{7.48cm}
 \flushright
-\includegraphics[width=3.54cm]{\locRepo/images/canada_c.png}%
+\includegraphics[width=3.54cm]{\locRepo/images/canada_bw.png}%
 \end{minipage}
 
 \clearpage

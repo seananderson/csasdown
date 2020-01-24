@@ -25,7 +25,6 @@
 resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
                        latex_engine = "pdflatex", french = FALSE,
                        prepub = FALSE, ...) {
-
   if (french) {
     file <- system.file("csas-tex", "res-doc-french.tex", package = "csasdown")
   } else {
@@ -49,11 +48,15 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
   # base$knitr$opts_chunk$fig.align <- "center"
 
   old_opt <- getOption("bookdown.post.latex")
-  if (french) {
-    options(bookdown.post.latex = fix_envs_resdoc_french)
-  } else {
-    options(bookdown.post.latex = fix_envs)
-  }
+  options(bookdown.post.latex = function(x) {
+    fix_envs(
+      x = x,
+      french = french,
+      prepub = prepub,
+      include_abstract = TRUE,
+      join_abstract = TRUE
+    )
+  })
   on.exit(options(bookdown.post.late = old_opt))
 
   base
@@ -105,11 +108,16 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
 
-  if (french) {
-    options(bookdown.post.latex = fix_envs_sr_french)
-  } else {
-    options(bookdown.post.latex = fix_envs_sr)
-  }
+  options(bookdown.post.latex = function(x) {
+    fix_envs(
+      x = x,
+      french = french,
+      prepub = prepub,
+      include_abstract = FALSE,
+      join_abstract = FALSE
+    )
+  })
+
   on.exit(options(bookdown.post.late = old_opt))
   base
 }
@@ -159,11 +167,13 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex", ...) {
 
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
-  if (french) {
-    options(bookdown.post.latex = fix_envs_tr_french)
-  } else {
-    options(bookdown.post.latex = fix_envs_tr)
-  }
+  options(bookdown.post.latex = function(x) {
+    fix_envs(
+      x = x,
+      french = french,
+      join_abstract = FALSE
+    )
+  })
   on.exit(options(bookdown.post.late = old_opt))
   base
 }
@@ -172,27 +182,6 @@ update_csasstyle <- function() {
   f <- system.file("csas-style", package = "csasdown")
   dir.create("csas-style", showWarnings = FALSE)
   ignore <- file.copy(f, ".", overwrite = TRUE, recursive = TRUE)
-}
-
-fix_envs_sr <- function(x) {
-  fix_envs(x, include_abstract = FALSE, join_abstract = FALSE, prepub=prepub)
-}
-
-fix_envs_sr_french <- function(x) {
-  fix_envs(x, include_abstract = FALSE, join_abstract = FALSE, french = TRUE,
-           prepub=prepub)
-}
-
-fix_envs_tr <- function(x) {
-  fix_envs(x, join_abstract = FALSE)
-}
-
-fix_envs_tr_french <- function(x) {
-  fix_envs(x, join_abstract = FALSE, french = TRUE)
-}
-
-fix_envs_resdoc_french <- function(x) {
-  fix_envs(x, join_abstract = TRUE, french = TRUE)
 }
 
 fix_envs <- function(x,
@@ -396,26 +385,28 @@ fix_envs <- function(x,
   }
 
   # Implement "Approved pre-publication" version (science response)
-  if( prepub ) {
+  if (prepub) {
     # Text to add
-    addText <- ifelse( french, " -- PR\u00C9-PUBLICATION APPROUV\u00C9E}",
-                      " -- APPROVED PRE-PUBLICATION}" )
+    addText <- ifelse(french, " -- PR\u00C9-PUBLICATION APPROUV\u00C9E}",
+      " -- APPROVED PRE-PUBLICATION}"
+    )
     # 1. Modify header first page (report number)
-    rn_loc_1 <- grep( pattern="\\% Report number", x=x ) + 1
-    rn_loc_2 <- grep( pattern="\\% End of report number", x=x ) - 1
-    if( rn_loc_1 != rn_loc_2 )
-      stop( "Can't find report number (report_number)" )
+    rn_loc_1 <- grep(pattern = "\\% Report number", x = x) + 1
+    rn_loc_2 <- grep(pattern = "\\% End of report number", x = x) - 1
+    if (rn_loc_1 != rn_loc_2) {
+      stop("Can't find report number (report_number)")
+    }
     rn_text <- x[rn_loc_1]
-    rn_text_clean <- gsub( pattern="\\}+$", replacement="", x=rn_text )
-    rn_text_new <- paste0( rn_text_clean, "}", addText )
+    rn_text_clean <- gsub(pattern = "\\}+$", replacement = "", x = rn_text)
+    rn_text_new <- paste0(rn_text_clean, "}", addText)
     x[rn_loc_1] <- rn_text_new
     # 2. Modify short title
-    st_loc_1 <- grep( pattern="\\% Title short", x=x ) + 1
-    st_loc_2 <- grep( pattern="\\% End of title short", x=x ) - 1
-    if( st_loc_1 != st_loc_2 ) stop( "Can't find short title (title_short)" )
+    st_loc_1 <- grep(pattern = "\\% Title short", x = x) + 1
+    st_loc_2 <- grep(pattern = "\\% End of title short", x = x) - 1
+    if (st_loc_1 != st_loc_2) stop("Can't find short title (title_short)")
     st_text <- x[st_loc_1]
-    st_text_clean <- gsub( pattern="\\}+$", replacement="", x=st_text )
-    st_text_new <- paste0( st_text_clean, addText )
+    st_text_clean <- gsub(pattern = "\\}+$", replacement = "", x = st_text)
+    st_text_new <- paste0(st_text_clean, addText)
     x[st_loc_1] <- st_text_new
     # 3. Modify citation (2 things)
     if( french ) {
