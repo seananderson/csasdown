@@ -631,3 +631,17 @@
 
 % Add leading zeros to get length 3
 \newcommand{\threedigits}[1]{\ifnum#1<10 00#1\else\ifnum#1<100 0#1\else#1\fi\fi}
+
+% English citation
+\newcommand{\citeEng}[1]{
+\hangindent=0.6cm
+DFO. \rdYear{}. \rdTitle{}.
+DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.
+#1.}
+
+% French citation
+\newcommand{\citeFr}[1]{
+\hangindent=0.6cm
+\emph{MPO. \rdYear{}. \rdTitleFr{}.
+Secr.\ can.\ de consult.\ sci.\ du MPO, R\'{e}p.\ des Sci.\
+#1.}}
