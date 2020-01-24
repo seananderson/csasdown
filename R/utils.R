@@ -409,48 +409,58 @@ fix_envs <- function(x,
     st_text_new <- paste0(st_text_clean, addText)
     x[st_loc_1] <- st_text_new
     # 3. Modify citation (2 things)
-    if( french ) {
+    if (french) {
       # Edit french citation
       cite_head_fr <- grep(
-        pattern="La pr\\\\\'\\{e\\}sente publication doit \\\\\\^\\{e\\}tre cit\\\\\'\\{e\\}e comme suit:",
-        x=x )
-      if( length(cite_head_fr)==0 )  stop( "Can't find French citation header")
+        pattern = "La pr\\\\\'\\{e\\}sente publication doit \\\\\\^\\{e\\}tre cit\\\\\'\\{e\\}e comme suit:",
+        x = x
+      )
+      if (length(cite_head_fr) == 0) stop("Can't find French citation header")
       x[cite_head_fr] <- "Cite comme ceci (jusqu'\u00E0 la publication):"
       cite_loc_fr <- grep(
-        pattern="\\\\citeFr\\{\\\\rdYear\\{\\}/\\\\rdNumber\\{\\}\\}", x=x )
-      if( length(cite_loc_fr)==0 )  stop( "Can't find French citation")
+        pattern = "\\\\citeFr\\{\\\\rdYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
+      )
+      if (length(cite_loc_fr) == 0) stop("Can't find French citation")
       x[cite_loc_fr] <- "\\citeFr{Sous presse}"
       # Nuke english citation
-      cite_head_eng <- grep( pattern="\\\\emph\\{Also available in English:\\}",
-                             x=x )
-      if( length(cite_head_eng)==0 )  stop( "Can't find English citation header")
+      cite_head_eng <- grep(
+        pattern = "\\\\emph\\{Also available in English:\\}",
+        x = x
+      )
+      if (length(cite_head_eng) == 0) stop("Can't find English citation header")
       x[cite_head_eng] <- ""
       cite_loc_eng <- grep(
-        pattern="\\\\citeEng\\{\\\\rdYear\\{\\}/\\\\rdNumber\\{\\}\\}", x=x )
-      if( length(cite_loc_eng)==0 )  stop( "Can't find English citation")
+        pattern = "\\\\citeEng\\{\\\\rdYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
+      )
+      if (length(cite_loc_eng) == 0) stop("Can't find English citation")
       x[cite_loc_eng] <- ""
     } else {
       # Edit english citation
-      cite_head_eng <- grep( pattern="Correct citation for this publication:",
-                            x=x )
-      if( length(cite_head_eng)==0 )  stop( "Can't find English citation header")
+      cite_head_eng <- grep(
+        pattern = "Correct citation for this publication:",
+        x = x
+      )
+      if (length(cite_head_eng) == 0) stop("Can't find English citation header")
       x[cite_head_eng] <- "Correct citation (until published):"
       cite_loc_eng <- grep(
-        pattern="\\\\citeEng\\{\\\\rdYear\\{\\}/\\\\rdNumber\\{\\}\\}", x=x )
-      if( length(cite_loc_eng)==0 )  stop( "Can't find English citation")
+        pattern = "\\\\citeEng\\{\\\\rdYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
+      )
+      if (length(cite_loc_eng) == 0) stop("Can't find English citation")
       x[cite_loc_eng] <- "\\citeEng{In press}"
       # Nuke french citation
       cite_head_fr <- grep(
-        pattern="\\\\emph\\{Aussi disponible en fran\\\\c\\{c\\}ais:\\}",
-        x=x )
-      if( length(cite_head_fr)==0 )  stop( "Can't find French citation header")
+        pattern = "\\\\emph\\{Aussi disponible en fran\\\\c\\{c\\}ais:\\}",
+        x = x
+      )
+      if (length(cite_head_fr) == 0) stop("Can't find French citation header")
       x[cite_head_fr] <- ""
       cite_loc_fr <- grep(
-        pattern="\\\\citeFr\\{\\\\rdYear\\{\\}/\\\\rdNumber\\{\\}\\}", x=x )
-      if( length(cite_loc_fr)==0 )  stop( "Can't find French citation")
+        pattern = "\\\\citeFr\\{\\\\rdYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
+      )
+      if (length(cite_loc_fr) == 0) stop("Can't find French citation")
       x[cite_loc_fr] <- ""
-    }  # End modify citations
-  }  # End if prepub
+    } # End modify citations
+  } # End if prepub
   x
 }
 
