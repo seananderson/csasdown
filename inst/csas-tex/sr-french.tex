@@ -10,9 +10,6 @@
 % header-includes from R markdown entry
 $header-includes$
 
-% Bibliography style file
-% \bibliographystyle{../csas-style/res-doc}
-
 %%%% Commands for title page etc %%%%%
 
 % Title
@@ -23,6 +20,7 @@ $header-includes$
 
 % Title short
 \newcommand{\rdTitleShort}{$title_short$}
+% End of title short
 
 % Publication year
 \newcommand{\rdYear}{$year$}
@@ -32,12 +30,12 @@ $header-includes$
 
 % Report number
 \newcommand{\rdNumber}{\threedigits{$report_number$}}
+% End of report number
 
 % Approver (name\\position)
 \newcommand{\rdApp}{$approver$}
-% \newcommand{\rdYear}{$approval_year$}
-% \newcommand{\rdAppMonth}{$approval_month$}
-% \newcommand{\rdAppDay}{$approval_day$}
+
+% Approval date
 \newcommand{\rdAppDate}{$approval_day$ $approval_month$ $approval_year$}
 
 % Branch
@@ -45,15 +43,6 @@ $header-includes$
 
 % Region
 \newcommand{\rdRegion}{$region$}
-
-% Address
-\newcommand{\rdAddress}{$address$}
-
-% Phone
-\newcommand{\rdPhone}{$phone$}
-
-% Email
-\newcommand{\rdEmail}{$email$}
 
 %%%% End of title page commands %%%%%
 
@@ -65,17 +54,20 @@ $header-includes$
 
 \MakeFirstPage
 
-\newpage
+$body$
 
-\section{Le pr\'{e}sent rapport est disponible aupr\`{e}s du}
+\clearpage
+
+\chapter{Le pr\'{e}sent rapport est disponible aupr\`{e}s du}
 
 \begin{center}
 Centre des avis scientifiques\\
 \rdRegion{}\\
-\rdAddress{}\\
+P\^{e}ches et Oc\'{e}ans Canada\\
+AddressPlaceholder\\
 \vspace{0.1cm}
-T\'{e}l\'{e}phone: \rdPhone{}\\
-Courriel: \link{mailto:csas-sccs@dfo-mpo.gc.ca}{csas-sccs@dfo-mpo.gc.ca}\\
+T\'{e}l\'{e}phone: PhonePlaceholder\\
+Courriel: EmailPlaceholder\\
 Addresse internet: \link{http://www.dfo-mpo.gc.ca/csas-sccs/}{www.dfo-mpo.gc.ca/csas-sccs/}\\
 \vspace{0.1cm}
 ISSN 1919-3769\\
@@ -86,18 +78,10 @@ ISSN 1919-3769\\
 
 La pr\'{e}sente publication doit \^{e}tre cit\'{e}e comme suit:
 
-\hangindent=0.6cm
-MPO. \rdYear{}. \rdTitle{}.
-Secr.\ can.\ de consult.\ sci.\ du MPO, R\'{e}p.\ des Sci.\
-\rdYear{}/\rdNumber{}.
+\citeFr{\rdYear{}/\rdNumber{}}
 
 \emph{Also available in English:}
 
-\hangindent=0.6cm
-\emph{DFO. \rdYear{}. \rdTitleFr{}. DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.\ \rdYear{}/\rdNumber{}.}
-
-\newpage
-
-$body$
+\citeEng{\rdYear{}/\rdNumber{}}
 
 \end{document}

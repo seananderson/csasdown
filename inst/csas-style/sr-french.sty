@@ -1,9 +1,5 @@
 %% res-doc.sty - Unofficial LaTeX style file for Canadian
 %%  Science Response Documents.
-%% Authors:
-%% Andrew Edwards
-%% Rowan Haigh
-%% Chris Grandin
 
 %% See res-doc.sty for more information on contents of this file
 \usepackage{tabularx}
@@ -29,7 +25,7 @@
 % hack into hyperref (from https://tex.stackexchange.com/q/208808)
 \makeatletter
 \newcommand*{\link}{\begingroup\@makeother\#\@mylink}
-\newcommand*{\@mylink}[2]{\href{#1}{\uline{#2}}\endgroup}
+\newcommand*{\@mylink}[2]{\href{#1}{\sffamily\uline{#2}}\endgroup}
 \makeatother
 %% ------------------------------------------------------------------------------
 
@@ -53,7 +49,7 @@
             bottom=1.5in,
             left=1in,
             right=1in,
-			      includefoot]
+            includefoot]
            {geometry}
 %% ------------------------------------------------------------------------------
 
@@ -247,7 +243,8 @@
 %% Makes figures stick to the top of the page. i.e. if there is a single figure
 %%  on a page, it will be placed in the center. This forces it to stick
 %%  to the top.
-\setlength\@fptop{0pt}
+\setlength{\@fptop}{0pt}
+\setlength{\@fpsep}{18pt}  % Reduce space betwen floats too
 
 %% From hake.sty:
 %% Change default options for float rules for figure and tables, from:
@@ -584,9 +581,18 @@
   \vspace{1mm}
 }
 
-% Generate the availability
-\newcommand{\MakeAvailable}{
+\newcommand{\CiteEng}[1]{
+\hangindent=0.6cm
+\emph{DFO. \rdYear{}. \rdTitle{}. DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp. #1.}
+}
 
+\newcommand{\CiteFr}[1]{
+\hangindent=0.6cm
+MPO. \rdYear{}. \rdTitleFr{}. Secr.\ can.\ de consult.\ sci.\ du MPO, R\'{e}p.\ des Sci.\ #1.
+}
+
+% Generate the availability
+\newcommand{\MakeAvailable}[4]{
 }
 
 % Packages for landscape pages
@@ -635,3 +641,17 @@
 
 % Add leading zeros to get length 3
 \newcommand{\threedigits}[1]{\ifnum#1<10 00#1\else\ifnum#1<100 0#1\else#1\fi\fi}
+
+% French citation
+\newcommand{\citeFr}[1]{
+\hangindent=0.6cm
+MPO. \rdYear{}. \rdTitle{}.
+Secr.\ can.\ de consult.\ sci.\ du MPO, R\'{e}p.\ des Sci.\
+#1.}
+
+% English citation
+\newcommand{\citeEng}[1]{
+\hangindent=0.6cm
+\emph{DFO. \rdYear{}. \rdTitleFr{}.
+DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.
+#1.}}

@@ -13,7 +13,7 @@ Slides from a recent workshop on csasdown [[PDF](https://www.dropbox.com/s/7m23m
 
 To compile PDF documents using R, you need to have Pandoc, LaTeX and several related packages installed. If you have a recent version of  [RStudio](http://www.rstudio.com/products/rstudio/download/), then you already have Pandoc.
 
-1) You will need to install LaTeX:
+1) You will need to install LaTeX if you do not have it already. csasdown works with TeX Live on Unix or MikTeX on Windows, so you do not need to install [tinytex](https://yihui.org/tinytex/#for-r-users) if you already have one of these; however, you may find tinytex more convenient regardless. tinytex automates the process of downloading necessary packages for you whereas MikTeX often involves manual intervention on DFO networks. If you choose to install tinytex, you may choose to remove TeX Live or MikTeX first to keep things simple.
 
 ```r
 install.packages("tinytex")
@@ -27,7 +27,7 @@ tinytex::install_tinytex()
 devtools::install_github("pbs-assess/csasdown")
 ```
 
-3) Start a new project directory if you'd like. If you're using RStudio: File -> New Project. Open the RStudio project or set your R working directory to the root folder of the project. Create a new sub-directory and change your working directory to that folder first if that is where you want the report files.
+3) Start a new project directory if you'd like. If you're using RStudio: File -> New Project. Open the RStudio project or set your R working directory to the root folder of the project.
 
 4) Run this line in your R console to create a new Research Document from the built-in template in whatever your working directory is:
 
