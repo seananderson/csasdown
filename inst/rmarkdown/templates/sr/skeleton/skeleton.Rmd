@@ -1,7 +1,7 @@
 ---
-title: "Title Here (*Latin Species Name*)"
-title_short: "Short Title"
-title_other: "Titre Ici (*Nom Latin*)"
+title: "Title here (*Latin species name*)"
+title_short: "Short title"
+title_other: "Titre ici (*Nom latin*)"
 year: 20XX
 month: January
 report_number: 999
@@ -76,7 +76,6 @@ options(kableExtra.latex.load_packages = FALSE)
 
 ```{r load-libraries, cache=FALSE}
 french <- rmarkdown::metadata$output$`csasdown::sr_pdf`$french
-prepub <- rmarkdown::metadata$output$`csasdown::sr_pdf`$prepub
 # add other packages here:
 library(csasdown)
 ```
