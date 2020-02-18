@@ -189,6 +189,12 @@ fix_envs <- function(x,
                      join_abstract = TRUE,
                      french = FALSE,
                      prepub = FALSE) {
+
+
+  # fix equations:
+  x <- gsub("^\\\\\\[$", "\\\\begin{equation}", x)
+  x <- gsub("^\\\\\\]$", "\\\\end{equation}", x)
+
   # Get region line
   region_line <- grep(pattern = "% Region", x) + 1
   # If region is specified (currently only SRs)
