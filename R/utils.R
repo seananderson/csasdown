@@ -194,6 +194,8 @@ fix_envs <- function(x,
   # fix equations:
   x <- gsub("^\\\\\\[$", "\\\\begin{equation}", x)
   x <- gsub("^\\\\\\]$", "\\\\end{equation}", x)
+  x <- gsub("^\\\\\\]\\.$", "\\\\end{equation}.", x)
+  x <- gsub("^\\\\\\],$", "\\\\end{equation},", x)
 
   # Get region line
   region_line <- grep(pattern = "% Region", x) + 1
