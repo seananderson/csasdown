@@ -48,7 +48,8 @@ Imports:
     knitr,
     officer,
     rmarkdown,
-    stringr
+    stringr,
+    tibble
 Suggests:
     covr,
     dplyr,
