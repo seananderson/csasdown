@@ -475,11 +475,19 @@ fix_envs <- function(x,
 inject_refstepcounters <- function(x) {
   chpts <- grep("^\\\\starredchapter\\{", x)
   for (i in chpts) {
-    x <- c(
-      x[seq(1, i - 3)],
-      paste0(x[i - 2], "\n\n\\clearpage\n\n\\refstepcounter{chapter}"),
-      x[seq(i - 1, length(x))]
-    )
+    if (grepl("hypertarget", x[i-1])) {
+      x <- c(
+        x[seq(1, i - 3)],
+        paste0(x[i - 2], "\n\n\\clearpage\n\n\\refstepcounter{chapter}"),
+        x[seq(i - 1, length(x))]
+      )
+    } else { # otherwise; in very rare setups(?)
+      x <- c(
+        x[seq(1, i - 2)],
+        paste0(x[i - 1], "\n\n\\clearpage\n\n\\refstepcounter{chapter}"),
+        x[seq(i, length(x))]
+      )
+    }
   }
   x
 }
