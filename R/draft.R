@@ -34,6 +34,9 @@ draft <- function(type = c("resdoc", "sr", "techreport"),
   if(file.exists("_gitignore")){
     file.rename("_gitignore", ".gitignore")
   }
+  if(file.exists("_here")){
+    file.rename("_here", ".here")
+  }
   create_rstudio_project_file()
 }
 
