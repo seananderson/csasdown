@@ -19,23 +19,23 @@ Pacific Herring stock assessment Science Response in [English](http://www.dfo-mp
 
 To compile PDF documents using R, you need to have Pandoc, LaTeX and several related packages installed. If you have a recent version of  [RStudio](http://www.rstudio.com/products/rstudio/download/), then you already have Pandoc.
 
-1) You will need to install LaTeX if you do not have it already. csasdown works with TeX Live on Unix or MikTeX on Windows, so you do not need to install [tinytex](https://yihui.org/tinytex/#for-r-users) if you already have one of these; however, you may find tinytex more convenient regardless. tinytex automates the process of downloading necessary packages for you whereas MikTeX often involves manual intervention on DFO networks. If you choose to install tinytex, you may choose to remove TeX Live or MikTeX first to keep things simple.
+1. You will need to install LaTeX if you do not have it already. csasdown works with TeX Live on Unix or MikTeX on Windows, so you do not need to install [tinytex](https://yihui.org/tinytex/#for-r-users) if you already have one of these; however, you may find tinytex more convenient regardless. tinytex automates the process of downloading necessary packages for you whereas MikTeX often involves manual intervention on DFO networks. If you choose to install tinytex, you may choose to remove TeX Live or MikTeX first to keep things simple.
 
 ```r
 install.packages("tinytex")
 tinytex::install_tinytex()
 ```
 
-2) Install the csasdown package:
+2. Install the csasdown package:
 
 ```r
 # install.packages("devtools")
 devtools::install_github("pbs-assess/csasdown")
 ```
 
-3) Create a new project in a new directory to hold your document project and all the files that csasdown creates. If you're using RStudio: File -> New Project -> New Directory -> New Project. Check the box **Open in new session** (lower left). If you are going to use GitHub version control (or if you are not sure), check the box **Create a git repository**. Click **Create Project**. A new RStudio project will open up, and will have its working directory set to the new document project's directory. To check this, type ```getwd()``` in the console.
+3. Create a new project in a new directory to hold your document project and all the files that csasdown creates. If you're using RStudio: File -> New Project -> New Directory -> New Project. Check the box **Open in new session** (lower left). If you are going to use GitHub version control (or if you are not sure), check the box **Create a git repository**. Click **Create Project**. A new RStudio project will open up, and will have its working directory set to the new document project's directory. To check this, type ```getwd()``` in the console.
 
-4) Run this line in your R console to create a new Research Document from the built-in template in whatever your working directory is:
+4. Run this line in your R console to create a new Research Document from the built-in template in whatever your working directory is:
 
 ```r
 csasdown::draft("resdoc")
@@ -52,6 +52,20 @@ or for a Science Response:
 ```r
 csasdown::draft("sr")
 ```
+
+5. *(Optional but recommended)* To make the initial commit on your GitHub page, first make a new, blank repository on GitHub. Open your git client software, navigate to the working directory of your new project and type the following commands:
+
+```git add *``` to add all the new files you created in step 4.
+
+```git commit -m "Initial commit"```
+
+```git remote add origin URL``` where URL is the new repository URL as copied from the GitHub site. For example the URL for the csasdown project is https://github.com/pbs-assess/csasdown. This URL can usually be copied from your browser's URL line at the top and pasted into your command line.
+
+```git remote -v``` verifies you entered the correct URL and it is bound to **origin**
+
+```git push --set-upstream origin master```
+
+Look on your GitHub repository and you should see all the new files there. Your git client is now set up to push and fetch from your repository on GitHub.
 
 ## Day-to-day writing
 
