@@ -13,7 +13,7 @@ Please check the [wiki](https://github.com/pbs-assess/csasdown/wiki) for hints a
 
 ## Publications which were prepared using csasdown
 
-
+Pacific Herring stock assessment Science Response in [English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-eng.html) and [French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-fra.html).
 
 ## Initial setup
 
