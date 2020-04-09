@@ -9,7 +9,7 @@ Slides from a short workshop on csasdown last year [[PDF](https://www.dropbox.co
 
 If you use csasdown to write a report, please let us know so we can add it to the list of publications using the package. This helps us justify spending our work time on its development. You can post an issue, make a pull request adding it to this readme, or send us a quick email (contact details [here](https://github.com/pbs-assess/csasdown/blob/c76731e8580bb12da9324e56ff5e56a8d4901aeb/DESCRIPTION#L5-L8)).
 
-Please check the [wiki](https://github.com/pbs-assess/csasdown/wiki) for hints and FAQs.*
+Please check the [wiki](https://github.com/pbs-assess/csasdown/wiki) for hints and FAQs.
 
 ## Initial setup
 
