@@ -21,17 +21,12 @@ Please check the [wiki](https://github.com/pbs-assess/csasdown/wiki) for hints a
 
 To compile PDF documents using R, you need to have Pandoc, LaTeX and several related packages installed. If you have a recent version of  [RStudio](http://www.rstudio.com/products/rstudio/download/), then you already have Pandoc.
 
-1. You will need to install LaTeX if you do not have it already. csasdown works with TeX Live on Unix or MikTeX on Windows, so you do not need to install [tinytex](https://yihui.org/tinytex/#for-r-users) if you already have one of these; however, you may find tinytex more convenient regardless. tinytex automates the process of downloading necessary packages for you whereas MikTeX often involves manual intervention on DFO networks. If you choose to install tinytex, you may choose to remove TeX Live or MikTeX first to keep things simple.
-
-```r
-install.packages("tinytex")
-tinytex::install_tinytex()
-```
+1. You will need to install LaTeX if you do not have it already. Read [this](LATEX_INSTALL.md) for a detailed description of this procedure.
 
 2. Install the csasdown package:
 
 ```r
-# install.packages("devtools")
+install.packages("devtools")
 devtools::install_github("pbs-assess/csasdown")
 ```
 
@@ -55,7 +50,9 @@ or for a Science Response:
 csasdown::draft("sr")
 ```
 
-5. *(Optional but recommended)* To make the initial commit on your GitHub page, first make a new, blank repository on GitHub. Open your git client software, navigate to the working directory of your new project and type the following commands:
+5. Render the document right away to make sure everything works by opening the file **index.Rmd** and clicking the **knit** button. Once completed, a preview pane showing the PDF document will appear. The location of the PDF is in the **_book** directory. See the *Rendering* section below for more information.
+
+6. *(Optional but recommended)* To make the initial commit on your GitHub page, first make a new, blank repository on GitHub. Open your git client software, navigate to the working directory of your new project and type the following commands:
 
 ```git add *``` to add all the new files you created in step 4.
 
