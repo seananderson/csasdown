@@ -134,11 +134,13 @@ This contains any `.docx` or `.tex` files that are need to compile the documents
 
 ***Advanced topic***
 
-Sometimes a document will knit perfectly but there will be an error in the LaTeX part, which will be displayed in the console. It can be helpful to break the error up and try to fix the latex part manually, then implement that fix into your R code. The easiest way to do this is, from your root directory of your document project, run the following:
+Sometimes a document will knit perfectly but there will be an error in the LaTeX part. It can be very helpful fix the LaTeX error manually, then implement that fix into your R code. The easiest way to do this is to run the following from the root directory of your project (where your .Rproj file is located):
 
 ```r
   root_dir <- getwd()
-  tmp_dir <- create_tempdir_for_latex("resdoc", "b")
+  tmp_dir <- create_tempdir_for_latex(type = "resdoc", where = "r")
+  # or tmp_dir <- create_tempdir_for_latex(type = "sr", where = "r")
+  # or tmp_dir <- create_tempdir_for_latex(type = "techreport", where = "r")
   setwd(tmp_dir)
   tinytex::latexmk("resdoc.tex")
   # or tinytex::latexmk("sr.tex")
@@ -147,7 +149,9 @@ Sometimes a document will knit perfectly but there will be an error in the LaTeX
 
 This code creates a temporary directory somewhere on your file system. In Windows this will be in `C:\Users\your_user_name\AppData\Local\Temp` unless you provide a directory to the *tmp_dir* argument in the `create_tempdir_for_latex()` function.
 
-When you run the `tinytex::latexmk("resdoc.tex")` command from within that temporary directory, latex only will be run on the `resdoc.tex` file and the PDF or Word file will be generated. You can debug latex errors here by modifying the .tex file directly and re-running the `tinytex::latexmk("resdoc.tex")` function to see if it compiles. Once it does it is up to you to figure out what R code in your project needs to be modified to fix this issue. Note this directory is garbage-collected by R meaning it will be destroyed. Don't write any code in there that you need to keep.
+The `where = "r"` part in the `create_tempdir_for_latex(type = "resdoc", where = "r")` call tells the function to look for the `resdoc.tex` file in the root directory of your project. If the compilation of the document fails for any reason, this file is left in the root directory. If it succeeds, it is found in the `_book` subdirectory. In that case you would use `create_tempdir_for_latex(type = "resdoc", where = "b")`. Usually you want to debug when compilation fails, so you would usually use `where = "r"` (the default).
+
+When you run the `tinytex::latexmk("resdoc.tex")` command from within that temporary directory, LaTeX will be run on the `resdoc.tex` file and the PDF or Word file will be generated. You can debug LaTeX errors here by modifying the .tex file directly and re-running the `tinytex::latexmk("resdoc.tex")` function to see if it compiles. Once it does it is up to you to figure out what R code in your project needs to be modified to fix this issue. Note this directory is garbage-collected by R meaning it will be destroyed once the R session is closed. Don't write any code in the .tex file that you intend to keep.
 
 When you are done, return to your project's root directory:
 ```r
