@@ -58,7 +58,9 @@ csasdown::draft("sr")
 
 5. Render the document right away to make sure everything works by opening the file **index.Rmd** and clicking the **knit** button. Once completed, a preview pane showing the PDF document will appear. The location of the PDF is in the **_book** directory. See the *Rendering* section below for more information.
 
-6. *(Optional but recommended)* To make the initial commit on your GitHub page, first make a new, blank repository on GitHub. Open your git client software, navigate to the working directory of your new project and type the following commands:
+6. Read the output PDF carefully and compare with what is written in the Rmd files. This will help you understand more quickly how the document is put together and how you might want to structure your document.
+
+7. *(Optional but recommended)* To make the initial commit on your GitHub page, first make a new, blank repository on GitHub. Open your git client software, navigate to the working directory of your new project and type the following commands:
 
 ```git add *``` to add all the new files you created in step 4.
 
@@ -78,17 +80,43 @@ You need to edit the individual chapter R Markdown files to write your report. W
 
 ## Rendering
 
+***
+**Render the document often!**
+
+This can't be stressed enough. Every time you add something new, render the document to make sure you didn't break the build. It is much easier to find the problem when only one small known change was made since the last time it was rendered. 
+***
+
 To render your report into a PDF or Word document, open `index.Rmd` in RStudio and then click the "knit" button:
 
 <img src="screenshots/knit.png" width="400">
 
-To change the output formats between PDF and Word look at the `output:` field in `index.Rmd`and comment out the format you don't want.
+To change the output formats between PDF and Word look at the YAML header part of `index.Rmd`  (the part between the two sets of triple dashes) and change this:
+
+```
+output:
+ csasdown::resdoc_pdf:
+   french: false
+```
+
+to this:
+
+```
+output:
+ csasdown::resdoc_word:
+   french: false
+```
+
+**Notes**
+* This is also the only place you should be changing your document language.
+* Replace `resdoc_pdf` and `resdoc_word` with `sr_pdf`, `sr_word`, `techreport_pdf`, or `techreport_word` for other document types.
 
 Alternatively, if you're not using RStudio, you can run this from the R console, assuming your have set the main directory (the one with the `index.Rmd` file) as your working directory:
 
 ```r
 bookdown::render_book("index.Rmd")
 ```
+
+This method of rendering also allows you to insert `browser()` calls in your code and stop compilation to debug. It also does *not* open a preview viewer once finished, so you will have to navigate to the `_book/` directory and open it up manually.
 
 The rendered PDF or Word file of your report will be deposited in the `_book/` directory.
 
@@ -110,15 +138,15 @@ The following components are ones you should edit to customize your report:
 
 ### `_bookdown.yml`
 
-This is the main configuration file for your report. It determines what .Rmd files are included in the output, and in what order. Arrange the order of your chapters in this file and ensure that the names match the names in your folders. If you add new sections, add them here.
+This is the main configuration file for your report. It determines what `.Rmd` files are included in the output, and in what order. Arrange the order of your chapters in this file and ensure that the names match the names in your folders. If you add new `.Rmd` files, add them here. You may comment out some files while working on others by placing a `#` in front of them. This will stop compilation of those files, reducing the time to compile while working on another file.
 
 ### `index.Rmd`
 
-This file contains all the meta information that goes at the beginning of your document. You'll need to edit this to put your name on the first page, add the title of your report, etc.
+This file contains all the meta information that goes at the beginning of your document. You'll need to edit this to put your name on the first page, add the title of your report, etc. **The name of this file cannot be changed.**
 
 ### `01-chap1.Rmd`, `02-chap2.Rmd`, etc.
 
-These are the .Rmd files for each chapter/section of your report. Write your report in these.
+These are the .Rmd files for each chapter/section of your report. Write your report in these. You can delete any or all of these and create as many of your own as you wish, but if you do you must change the **_bookdown.yml** file accordingly.
 
 ### `bib/`
 
