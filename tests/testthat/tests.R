@@ -343,3 +343,39 @@ expect_true(dir.exists(file.path(tmp_dir, "knitr-figs-pdf")))
 expect_true(dir.exists(file.path(tmp_dir, "knitr-figs-word")))
 expect_true(file.exists(file.path(tmp_dir, "techreport.tex")))
 
+# ----------------------------------------------------
+# Testing of other input in latex copying function
+
+expect_error(create_tempdir_for_latex("techrepotr",
+                                      "b",
+                                      tmp_dir = file.path(testing_path, "test"),
+                                      root_dir = getwd()))
+
+expect_error(create_tempdir_for_latex("techreport",
+                                      "s",
+                                      tmp_dir = file.path(testing_path, "test"),
+                                      root_dir = getwd()))
+
+expect_error(create_tempdir_for_latex(NULL,
+                                      "b",
+                                      tmp_dir = file.path(testing_path, "test"),
+                                      root_dir = getwd()))
+
+expect_error(create_tempdir_for_latex("resdoc",
+                                      NULL,
+                                      tmp_dir = file.path(testing_path, "test"),
+                                      root_dir = getwd()))
+
+file.copy("_book/techreport.tex", "techreport.tex")
+tmp_dir <- create_tempdir_for_latex("techreport",
+                                    "r",
+                                    tmp_dir = file.path(testing_path, "test"),
+                                    root_dir = getwd())
+expect_true(file.exists(file.path(testing_path, "test", "techreport.tex")))
+
+tmp_dir <- create_tempdir_for_latex("techreport",
+                                    "r",
+                                    tmp_dir = NULL,
+                                    root_dir = getwd())
+expect_true(file.exists(file.path(tmp_dir, "techreport.tex")))
+
