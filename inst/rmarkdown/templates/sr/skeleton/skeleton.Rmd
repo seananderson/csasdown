@@ -85,5 +85,6 @@ if(french){
 }
 
 # add other packages here:
+library(tidyverse)
 library(csasdown)
 ```
