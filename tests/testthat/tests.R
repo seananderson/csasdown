@@ -210,3 +210,136 @@ test_that("bookdown::render_book generates the .docx of the techreport", {
 })
 
 expect_true(file.exists(file.path(testing_path, "index/_book/techreport.docx")))
+
+# ----------------------------------------------------
+# Creation and copying of test files to a temporary directory for resdoc
+
+testing_path <- paste0(tempdir(), "/testing_directory_resdoc_file_copying")
+dir.create(testing_path, showWarnings = FALSE)
+
+context("Create a resdoc, and then copy the files to a new, temporary directory for latex compilation and debugging")
+
+setwd(testing_path)
+if (dir.exists("index")) unlink("index", recursive = TRUE)
+suppressMessages(rmarkdown::draft("index.Rmd",
+                                  system.file("rmarkdown",
+                                              "templates",
+                                              "resdoc",
+                                              package = "csasdown"
+                                  ),
+                                  create_dir = TRUE,
+                                  edit = FALSE
+))
+setwd(file.path(testing_path, "index"))
+
+suppressWarnings(bookdown::render_book("index.Rmd",
+                      csasdown::resdoc_pdf(),
+                      envir = globalenv()))
+
+tmp_dir <- create_tempdir_for_latex("resdoc",
+                                    "b",
+                                    tmp_dir = file.path(testing_path, "test"),
+                                    root_dir = getwd())
+tmp_csas_dir <- file.path(tmp_dir, "csas-style")
+
+expect_true(file.exists(file.path(tmp_csas_dir, "res-doc.sty")))
+expect_true(file.exists(file.path(tmp_csas_dir, "res-doc-french.sty")))
+expect_true(file.exists(file.path(tmp_csas_dir, "sr.sty")))
+expect_true(file.exists(file.path(tmp_csas_dir, "sr-french.sty")))
+expect_true(file.exists(file.path(tmp_csas_dir, "tech-report.sty")))
+expect_true(file.exists(file.path(tmp_csas_dir, "tech-report-french.sty")))
+expect_true(dir.exists(file.path(tmp_csas_dir, "images")))
+expect_true(dir.exists(file.path(tmp_dir, "knitr-cache-pdf")))
+expect_true(dir.exists(file.path(tmp_dir, "knitr-cache-word")))
+expect_true(dir.exists(file.path(tmp_dir, "knitr-figs-pdf")))
+expect_true(dir.exists(file.path(tmp_dir, "knitr-figs-word")))
+expect_true(file.exists(file.path(tmp_dir, "resdoc.tex")))
+
+# ----------------------------------------------------
+# Creation and copying of test files to a temporary directory for sr
+
+testing_path <- paste0(tempdir(), "/testing_directory_sr_file_copying")
+dir.create(testing_path, showWarnings = FALSE)
+
+context("Create a sr, and then copy the files to a new, temporary directory for latex compilation and debugging")
+
+setwd(testing_path)
+if (dir.exists("index")) unlink("index", recursive = TRUE)
+suppressMessages(rmarkdown::draft("index.Rmd",
+                                  system.file("rmarkdown",
+                                              "templates",
+                                              "sr",
+                                              package = "csasdown"
+                                  ),
+                                  create_dir = TRUE,
+                                  edit = FALSE
+))
+setwd(file.path(testing_path, "index"))
+
+suppressWarnings(bookdown::render_book("index.Rmd",
+                      csasdown::sr_pdf(),
+                      envir = globalenv()))
+
+tmp_dir <- create_tempdir_for_latex("sr",
+                                    "b",
+                                    tmp_dir = file.path(testing_path, "test"),
+                                    root_dir = getwd())
+tmp_csas_dir <- file.path(tmp_dir, "csas-style")
+
+expect_true(file.exists(file.path(tmp_csas_dir, "res-doc.sty")))
+expect_true(file.exists(file.path(tmp_csas_dir, "res-doc-french.sty")))
+expect_true(file.exists(file.path(tmp_csas_dir, "sr.sty")))
+expect_true(file.exists(file.path(tmp_csas_dir, "sr-french.sty")))
+expect_true(file.exists(file.path(tmp_csas_dir, "tech-report.sty")))
+expect_true(file.exists(file.path(tmp_csas_dir, "tech-report-french.sty")))
+expect_true(dir.exists(file.path(tmp_csas_dir, "images")))
+expect_true(dir.exists(file.path(tmp_dir, "knitr-cache-pdf")))
+expect_true(dir.exists(file.path(tmp_dir, "knitr-cache-word")))
+expect_true(dir.exists(file.path(tmp_dir, "knitr-figs-pdf")))
+expect_true(dir.exists(file.path(tmp_dir, "knitr-figs-word")))
+expect_true(file.exists(file.path(tmp_dir, "sr.tex")))
+
+# ----------------------------------------------------
+# Creation and copying of test files to a temporary directory for techreport
+
+testing_path <- paste0(tempdir(), "/testing_directory_tr_file_copying")
+dir.create(testing_path, showWarnings = FALSE)
+
+context("Create a tech report, and then copy the files to a new, temporary directory for latex compilation and debugging")
+
+setwd(testing_path)
+if (dir.exists("index")) unlink("index", recursive = TRUE)
+suppressMessages(rmarkdown::draft("index.Rmd",
+                                  system.file("rmarkdown",
+                                              "templates",
+                                              "techreport",
+                                              package = "csasdown"
+                                  ),
+                                  create_dir = TRUE,
+                                  edit = FALSE
+))
+setwd(file.path(testing_path, "index"))
+
+suppressWarnings(bookdown::render_book("index.Rmd",
+                      csasdown::techreport_pdf(),
+                      envir = globalenv()))
+
+tmp_dir <- create_tempdir_for_latex("techreport",
+                                    "b",
+                                    tmp_dir = file.path(testing_path, "test"),
+                                    root_dir = getwd())
+tmp_csas_dir <- file.path(tmp_dir, "csas-style")
+
+expect_true(file.exists(file.path(tmp_csas_dir, "res-doc.sty")))
+expect_true(file.exists(file.path(tmp_csas_dir, "res-doc-french.sty")))
+expect_true(file.exists(file.path(tmp_csas_dir, "sr.sty")))
+expect_true(file.exists(file.path(tmp_csas_dir, "sr-french.sty")))
+expect_true(file.exists(file.path(tmp_csas_dir, "tech-report.sty")))
+expect_true(file.exists(file.path(tmp_csas_dir, "tech-report-french.sty")))
+expect_true(dir.exists(file.path(tmp_csas_dir, "images")))
+expect_true(dir.exists(file.path(tmp_dir, "knitr-cache-pdf")))
+expect_true(dir.exists(file.path(tmp_dir, "knitr-cache-word")))
+expect_true(dir.exists(file.path(tmp_dir, "knitr-figs-pdf")))
+expect_true(dir.exists(file.path(tmp_dir, "knitr-figs-word")))
+expect_true(file.exists(file.path(tmp_dir, "techreport.tex")))
+
