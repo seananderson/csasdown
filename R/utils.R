@@ -593,6 +593,7 @@ get_contact_info <- function(region = "National Capital Region", isFr = FALSE) {
 #' @param where Where to look for the tex file. If "r", look in root directory, if "b", look in the _book
 #' subdirectory. Any other value will cause an error
 #' @param tmp_dir A temporary directory. If NULL, once will be created in the filesystem using [tempdir()]
+#' @param root_dir A directory where everything will be copied from
 #'
 #' @return The temporary directory's full path
 #' @export

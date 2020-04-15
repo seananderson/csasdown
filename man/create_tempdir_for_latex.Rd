@@ -18,6 +18,8 @@ create_tempdir_for_latex(
 subdirectory. Any other value will cause an error}
 
 \item{tmp_dir}{A temporary directory. If NULL, once will be created in the filesystem using \code{\link[=tempdir]{tempdir()}}}
+
+\item{root_dir}{A directory where everything will be copied from}
 }
 \value{
 The temporary directory's full path
