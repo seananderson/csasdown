@@ -27,7 +27,7 @@ Please check the [wiki](https://github.com/pbs-assess/csasdown/wiki) for hints a
 
 To compile PDF documents using R, you need to have Pandoc, LaTeX and several related packages installed. If you have a recent version of  [RStudio](http://www.rstudio.com/products/rstudio/download/), then you already have Pandoc.
 
-1. You will need to install LaTeX if you do not have it already. Read [this](LATEX_INSTALL.md) for a detailed description of this procedure.
+1. You will need to install LaTeX if you do not have it already. Read [this Wiki page](https://github.com/pbs-assess/csasdown/wiki/Latex-Installation-for-csasdown) for a detailed description of this procedure.
 
 2. Install the csasdown package:
 
