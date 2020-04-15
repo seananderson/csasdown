@@ -361,10 +361,15 @@ expect_error(create_tempdir_for_latex(NULL,
                                       tmp_dir = file.path(testing_path, "test"),
                                       root_dir = getwd()))
 
-expect_error(create_tempdir_for_latex("resdoc",
+expect_error(create_tempdir_for_latex("techreport",
                                       NULL,
                                       tmp_dir = file.path(testing_path, "test"),
                                       root_dir = getwd()))
+
+expect_error(create_tempdir_for_latex("techreport",
+                                    "r",
+                                    tmp_dir = file.path(testing_path, "test"),
+                                    root_dir = getwd()))
 
 file.copy("_book/techreport.tex", "techreport.tex")
 tmp_dir <- create_tempdir_for_latex("techreport",
