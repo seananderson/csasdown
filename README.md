@@ -21,7 +21,10 @@ Please check the [wiki](https://github.com/pbs-assess/csasdown/wiki) for hints a
 
 2019 Southern Gulf of St. Lawrence Atlantic Cod Research Document in [English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_038-eng.html) and [French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_038-fra.html).
 
-2020 Pacific Herring stock assessment Science Response in [English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-eng.html) and [French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-fra.html).
+2020 Pacific Herring stock assessment Science Response in
+[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-eng.html) and
+[French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-fra.html).
+Also, see the [GitHub repository](https://github.com/pbs-assess/herringsr).
 
 ## Initial setup
 
