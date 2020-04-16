@@ -85,6 +85,8 @@ if(french){
 }
 
 # add other packages here:
-library(tidyverse)
+library(dplyr)
+library(readr)
+library(tibble)
 library(csasdown)
 ```

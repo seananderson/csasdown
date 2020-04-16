@@ -1,6 +1,10 @@
 library(testthat)
-library(tidyverse)
+library(dplyr)
+library(readr)
+library(tibble)
 library(csasdown)
 
-test_check("tidyverse")
+test_check("dplyr")
+test_check("readr")
+test_check("tibble")
 test_check("csasdown")

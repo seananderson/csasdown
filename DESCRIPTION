@@ -44,15 +44,16 @@ Depends:
     R (>= 3.3.0)
 Imports:
     bookdown,
+    dplyr,
     kableExtra,
     knitr,
     officer,
+    readr,
     rmarkdown,
     stringr,
     tibble
 Suggests:
     covr,
-    dplyr,
     ggplot2,
     magick,
     testthat,
