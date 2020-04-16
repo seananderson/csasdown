@@ -35,8 +35,8 @@ csl: csl/csas.csl
 lot: true
 lof: true
 # Any extra LaTeX code for the header:
-# header-includes:
-# - \usepackage{tikz}
+header-includes:
+ - \usepackage{multirow}
 ---
 
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE, results='hide', warning=FALSE}
