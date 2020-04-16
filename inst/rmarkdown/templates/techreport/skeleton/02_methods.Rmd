@@ -1,59 +1,97 @@
 # Methods
 
-```{r testfig, fig.cap = "Test figure with a caption will be numbered automatically."}
+To render the document in French, simply open `index.Rmd` and change this:
+
+```
+output:
+ csasdown::techreport_pdf:
+   french: false
+```
+to this:
+```
+output:
+ csasdown::techreport_pdf:
+   french: true
+```
+and render as usual. You can switch back and forth at any time to see the changes in the examples. If you develop your document with this in mind you will save yourself a lot of work when you receive the translations and it's time to publish the French version. Try it now, and once in awhile when you are developing your document.
+
+Here is a simple figure plotted in a `knitr` code chunk. Look at the code (`02_methods.Rmd`) to see how all figure and table captions should be written to permit easy migration to French.
+
+(ref:testfig) Test figure with a caption will be numbered automatically.
+
+(ref:testfig-french) French caption would go here once you've had it translated.
+
+```{r testfig, fig.pos="H", fig.cap = ifelse(french, "(ref:testfig-french)", "(ref:testfig)"), }
 plot(cars)
 ```
 
-```{r testtab}
+Here are two ways to make the same example data frame and simple `csas_table()` calls for each: 
+
+(ref:testtab) Test figure with a caption will be numbered automatically.
+
+(ref:testtab-french) French caption would go here once you've had it translated.
+
+```{r testtab, echo=TRUE}
 d <- structure(list(
   Year = c("2018", "2019", "2020"), 
   `Value 1` = c(1.12, 2.32, 3.67), 
   `Value 2` = c(31.9, 2.8, 112.2)), 
   row.names = c(NA, -3L), class = "data.frame")
 
+d1 <- tribble(
+  ~Year, ~`Value 1`, ~`Value 2`,
+   2018,       1.12,       31.9,
+   2019,       2.32,        2.8,
+   2020,       3.67,      112.2)
+
 csasdown::csas_table(d,
   align = c("c", "r", "r"),
-  caption = "Test table with a caption will be numbered automatically.")
+  caption = ifelse(french,
+                   "French goes here",
+                   "Test table (data is d) with a caption will be numbered automatically."))
 ```
 
-\clearpage
+```{r testtab2}
+csasdown::csas_table(d1,
+  align = c("c", "r", "r"),
+  caption = ifelse(french,
+                   "French goes here",
+                   "Test table (data is d1) with a caption will be numbered automatically."))
+```
 
-Next we show a more complicated table with merged rows and text wrapping. Note that this example must be implemented internally in LaTeX, so your text must have any special characters in LaTeX escaped with a backslash (see text in `dat` for examples):
+Notice the difference in how the English and French captions are generated for tables compared to the way they are generated for figures.
 
-```{r multi-row-table}
-dat <- tribble(
-  ~`Overarching goal`, ~`Performance metrics`,
-  "Rebuild depleted CUs\n(These performance metrics infer a relatively monotonic trajectory towards a rebuilding target)", "Probability that all red-status CUs rebuild to above their lower rebuilding thresholds (e.g., lower WSP benchmark) within a given time frame.",
-  "", "Probability that any one (or a specified proportion of) red-status CU(s) rebuilds to above its lower rebuilding threshold within a given time frame.",
-  "", "Proportion of red-status CUs that rebuild to above their lower rebuilding thresholds with a specified probability within a given time frame. (Median over MC trials and 95\\% CIs)",
-  "", "Number of years required to achieve lower rebuilding thresholds for one (a proportion of, or all) red-listed CU(s) with a specific probability. (Median over MC trials and 95\\% CIs)",
-  
-  "Minimize risk of loss\n(These metrics can be duplicated for numerous rebuilding and target thresholds)", "Proportion of years that all CUs are above a quasi-extirpation threshold across the modelled time period. (Median over MC trials and 95\\% CIs)",
-  "", "Proportion of years where all CUs are above their lower rebuilding thresholds within the modelled time period. (Median over MC trials and 95\\% CIs)",
-  "", "Proportion of years where at least one (or a specified \\% of) CU(s) is(are) above their lower rebuilding thresholds within the modelled time period. (Median over MC trials and 95\\% CIs)",
-  "", "Proportion of years where all CUs remain above their lower (or upper) rebuilding threshold across the modelled time period. (Median over MC trials and 95\\% CIs)",
-  "", "Mean spawner abundances over the modelled time-period (or most recent generation) relative to lower rebuilding threshold. (Median over MC trials and 95\\% CIs)",
-  "", "Variation in spawner abundances: CV of (or average \\% change between years in) spawner abundances over the modelled time period. (Median value over MC trials and 95\\% CIs) (suggested as indicator of extinction risk by Wainwright and Waples 1998)",
-  
-  "Avoid COSEWIC listing", "Short-term trends in spawner biomass over the last three generations. (Median over MC trials and 95\\% CIs) \\emph{COSEWIC Criterion A}",
-  "", "Probability that short-term trends in abundances are > 30\\% (COSEWIC threshold) in the most recent time period. \\emph{COSEWIC Criterion A}",
-  "", "Proportion of years where the short-term trend metrics < 30\\% for all CUs (or specified \\% of CUs). (Median over MC trials and 95\\% CIs) \\emph{COSEWIC Criterion A}",
-  "", "Proportion of years where the short-term trend is stationary or positive and abundances are greater than 10,000. \\emph{COSEWIC Criterion C}",
-  "", "Proportion of years where all CUs are above COSEWIC small population size thresholds, across the entire sampling period. (Median over MC trials and 95\\% CIs). \\emph{COSEWIC Criterion D}",
+Next we show a more complicated table with grouped rows and text wrapping. The code becomes more difficult when you want to make non-trivial tables, so it is recommended to think about how to keep tables as simple as possible to avoid this kind of code if you're not comfortable with it. 
 
-  "Maintain exploitation rates below sustainable levels", "Mean exploitation rate relative to current $U_{MSY}$ for over the modelled time period. (Median value over MC trials and 95\\% CIs)",
+The code below works like this:
 
-  "Maximize catch and stability in catch", "Proportion of years that mean catch for the CU-aggregate is above a minimum acceptable level over the entire sampling period, in the short term (first 1-2 generations), or in the long term (last 1-2 generations). (Median value over MC trials and 95\\% CIs)",
-  "", "Mean catch over the entire sampling period, in the short term (first 1-2 generations), or in the long term (last 1-2 generations), for totals and segregated into different fisheries (e.g., mixed-CU vs. terminal). (Median value over MC trials and 95\\% CIs)",
-  "", "Catch variability: CV of (or average \\% change between years in) catch over the sampling period, for totals and segregated into different fisheries (e.g., mixed vs. terminal). (Median value over MC trials and 95\\% CIs)",
+1. `read_csv(here::here("data", "multirow.csv"))` - reads data in from the data file
+2. `mutate_all(kableExtra::linebreak)` -  changes `\\n` to `\n` in all columns. Even though the data file contains only `\n`, the `readr::read_csv()` function changes these to `\\n`. The extra backslashes are required to escape the two, so four are needed
+3. `mutate_all(kableExtra::linebreak)` -  replaces `\n`'s in all columns with a special LaTeX command that causes newlines to be created
+4. `mutate_all(function(x){gsub("%", "\\\\%", x)})` - replaces percent signs with an escaped version in all columns, as they are special characters in LaTeX
+5. `mutate_all(function(x){gsub("emph\\{", "\\\\emph\\{", x)})` - replaces `emph{` with an escaped version in all columns so that LaTeX can run it as its own command `emph{}` (italicization)
+6. Removes all NA's from the grouping column, replacing them with empty strings
+7. Make the table
+8. The 5 `kableExtra::row_spec(XX, hline_after = TRUE)` commands - insert a horizontal line after each group. You need to look at your data and change these numbers, and probably add or remove some
+9. The 2 `kableExtra::column_spec(XX, width = "XXem")` commands - change the width of the two columns to a set value. This has the effect of wrapping the text so it doesn't run off the page
 
-  "Allocate catch to terminal vs. mixed-CU fisheries", "Proportion of catch in mixed-CU vs terminal fisheries averaged over the entire sampling period (Median value over MC trials and 95\\% CIs)")
+Understanding how this table works will take you a long way in LaTex table generation. For example you could make any text bold that you want by using `\textbf{}` instead of `\emph{}`. To do that, you would just change the `emph` in the data file (`multirow.csv`) to `textbf` and add a new line in the code below `mutate_all(function(x){gsub("textbf\\{", "\\\\textbf\\{", x)}) %>%`.
 
-dat %>% 
+```{r multi-row-table, echo=TRUE}
+read_csv(here::here("data", "multirow.csv")) %>% 
+  mutate_all(function(x){gsub("\\\\n", "\n", x)}) %>% 
   mutate_all(kableExtra::linebreak) %>%
+  mutate_all(function(x){gsub("%", "\\\\%", x)}) %>% 
+  mutate_all(function(x){gsub("emph\\{", "\\\\emph\\{", x)}) %>% 
+  mutate(`Overarching goal` = ifelse(is.na(`Overarching goal`),
+                                     "",
+                                     `Overarching goal`)) %>% 
   csas_table(format = "latex",
              escape = FALSE,
-             font_size = 11) %>%
+             font_size = 11,
+             caption = ifelse(french,
+                              "French goes here",
+                              "Goals and performance metrics")) %>%
   kableExtra::row_spec(4, hline_after = TRUE) %>% 
   kableExtra::row_spec(10, hline_after = TRUE) %>% 
   kableExtra::row_spec(15, hline_after = TRUE) %>% 
