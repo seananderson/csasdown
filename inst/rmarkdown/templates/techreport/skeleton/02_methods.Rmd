@@ -72,12 +72,15 @@ The code below works like this:
 3. `mutate_all(kableExtra::linebreak)` -  replaces `\n`'s in all columns with a special LaTeX command that causes newlines to be created
 4. `mutate_all(function(x){gsub("%", "\\\\%", x)})` - replaces percent signs with an escaped version in all columns, as they are special characters in LaTeX
 5. `mutate_all(function(x){gsub("emph\\{", "\\\\emph\\{", x)})` - replaces `emph{` with an escaped version in all columns so that LaTeX can run it as its own command `emph{}` (italicization)
-6. Removes all NA's from the grouping column, replacing them with empty strings
-7. Make the table
-8. The 5 `kableExtra::row_spec(XX, hline_after = TRUE)` commands - insert a horizontal line after each group. You need to look at your data and change these numbers, and probably add or remove some
-9. The 2 `kableExtra::column_spec(XX, width = "XXem")` commands - change the width of the two columns to a set value. This has the effect of wrapping the text so it doesn't run off the page
+6. Remove all NA's from the grouping column, replacing them with empty strings so `NA` doesn't appear in the output table
+7. `csas_table()` command - makes the table from the input data
+8. The 5 `kableExtra::row_spec(XX, hline_after = TRUE)` commands - insert a horizontal line across the whole table after each group.
+9. The lines with `kableExtra::row_spec(1, extra_latex_after = "\\cmidrule(l){2-2}") %>%` commands - insert a horizontal line across the second column only (`{2-2}` signifies the column range)
+10. The 2 `kableExtra::column_spec(XX, width = "XXem")` commands - change the width of the column to a set value. This has the effect of wrapping the text so it doesn't run off the page
 
-Understanding how this table works will take you a long way in LaTex table generation. For example you could make any text bold that you want by using `\textbf{}` instead of `\emph{}`. To do that, you would just change the `emph` in the data file (`multirow.csv`) to `textbf` and add a new line in the code below `mutate_all(function(x){gsub("textbf\\{", "\\\\textbf\\{", x)}) %>%`.
+Understanding how this table works will take you a long way in LaTex table generation. For example you could make any text bold that you want by using `\textbf{}` instead of `\emph{}`. To do that, you would just change the `emph` in the data file (`multirow.csv`) to `textbf` and add a the following new line into the code below, right before or after the line that deals with `emph`:
+
+`mutate_all(function(x){gsub("textbf\\{", "\\\\textbf\\{", x)}) %>%`
 
 ```{r multi-row-table, echo=TRUE}
 read_csv(file.path("data", "multirow.csv")) %>% 
@@ -94,10 +97,24 @@ read_csv(file.path("data", "multirow.csv")) %>%
              caption = ifelse(french,
                               "French goes here",
                               "Goals and performance metrics")) %>%
+  kableExtra::row_spec(1, extra_latex_after = "\\cmidrule(l){2-2}") %>% 
+  kableExtra::row_spec(2, extra_latex_after = "\\cmidrule(l){2-2}") %>% 
+  kableExtra::row_spec(3, extra_latex_after = "\\cmidrule(l){2-2}") %>% 
   kableExtra::row_spec(4, hline_after = TRUE) %>% 
+  kableExtra::row_spec(5, extra_latex_after = "\\cmidrule(l){2-2}") %>% 
+  kableExtra::row_spec(6, extra_latex_after = "\\cmidrule(l){2-2}") %>% 
+  kableExtra::row_spec(7, extra_latex_after = "\\cmidrule(l){2-2}") %>% 
+  kableExtra::row_spec(8, extra_latex_after = "\\cmidrule(l){2-2}") %>% 
+  kableExtra::row_spec(9, extra_latex_after = "\\cmidrule(l){2-2}") %>% 
   kableExtra::row_spec(10, hline_after = TRUE) %>% 
+  kableExtra::row_spec(11, extra_latex_after = "\\cmidrule(l){2-2}") %>% 
+  kableExtra::row_spec(12, extra_latex_after = "\\cmidrule(l){2-2}") %>% 
+  kableExtra::row_spec(13, extra_latex_after = "\\cmidrule(l){2-2}") %>% 
+  kableExtra::row_spec(14, extra_latex_after = "\\cmidrule(l){2-2}") %>% 
   kableExtra::row_spec(15, hline_after = TRUE) %>% 
   kableExtra::row_spec(16, hline_after = TRUE) %>% 
+  kableExtra::row_spec(17, extra_latex_after = "\\cmidrule(l){2-2}") %>% 
+  kableExtra::row_spec(18, extra_latex_after = "\\cmidrule(l){2-2}") %>% 
   kableExtra::row_spec(19, hline_after = TRUE) %>% 
   kableExtra::column_spec(1, width = "15em") %>%
   kableExtra::column_spec(2, width = "30em")
