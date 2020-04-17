@@ -45,6 +45,7 @@ Depends:
 Imports:
     bookdown,
     dplyr,
+    ggplot2,
     kableExtra,
     knitr,
     officer,
@@ -54,7 +55,6 @@ Imports:
     tibble
 Suggests:
     covr,
-    ggplot2,
     magick,
     testthat,
     tinytex
