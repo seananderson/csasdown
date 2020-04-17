@@ -79,28 +79,24 @@ csas_table <- function(x,
       ## Only use kableExtra if there are newlines
       col_names <- linebreak(col_names, align = col_names_align)
     }
-    k <- kable(
-      x = x,
-      format = format,
-      booktabs = booktabs,
-      linesep = linesep,
-      longtable = longtable,
-      col.names = col_names,
-      escape = escape,
-      ...
-    ) %>%
-      kable_styling(font_size = font_size)
+    k <- kable(x = x,
+               format = format,
+               booktabs = booktabs,
+               linesep = linesep,
+               longtable = longtable,
+               col.names = col_names,
+               escape = escape,
+               ...)
+    k <- kable_styling(k, font_size = font_size)
   } else {
-    k <- kable(
-      x = x,
-      format = format,
-      booktabs = booktabs,
-      linesep = linesep,
-      longtable = longtable,
-      escape = escape,
-      ...
-    ) %>%
-      kable_styling(font_size = font_size)
+    k <- kable(x = x,
+               format = format,
+               booktabs = booktabs,
+               linesep = linesep,
+               longtable = longtable,
+               escape = escape,
+               ...)
+    k <- kable_styling(k, font_size = font_size)
   }
   if (bold_header) {
     k <- row_spec(k, 0, bold = TRUE)
