@@ -61,6 +61,8 @@ csasdown::csas_table(d1,
 
 Notice the difference in how the English and French captions are generated for tables compared to the way they are generated for figures.
 
+To reference the tables and figures, just place code like this for tables: `\@ref(tab:testtab)` inline in text (`testtab` is the knitr code chunk name) and like this for figures: `\@ref(fig:testfig)`. Note the difference in the tag preceeding the colon in those code snippets, `tab` for table references and `fig` for figure references. Here are the table references so far in this document: Table \@ref(tab:testtab) and Table \@ref(tab:testtab2), and the figure reference: Figure \@ref(fig:testfig). The numbers are clickable.
+
 Next we show a more complicated table with grouped rows and text wrapping. The code becomes more difficult when you want to make non-trivial tables, so it is recommended to think about how to keep tables as simple as possible to avoid this kind of code if you're not comfortable with it. 
 
 The code below works like this:
@@ -101,10 +103,7 @@ read_csv(file.path("data", "multirow.csv")) %>%
   kableExtra::column_spec(2, width = "30em")
 
 ```
-
-See Table \@ref(tab:testtab) for the example table.
-
-See Figure \@ref(fig:testfig) for the example figure.
+On the following pages we have an example of a long and wide table which is in landscape mode. This is accomplished by setting `landscape = TRUE` in the `csas_table()` call. You can change the font size if the table it still too large and overlaps the header and footer lines.
 
 \clearpage
 
@@ -119,8 +118,6 @@ widelong <- matrix(round(rnorm(length(yrs) * length(ages), 20), 4),
   dimnames = list(year = yrs, age = ages))
 widelong_df <- data.frame(cbind(yrs, widelong))
 
-# In landscape tables, you can change the font size if the table
-# is too large and overlaps the header and footer lines.
 csasdown::csas_table(widelong_df,
   col.names = c("Year", as.character(ages)),
   caption = "A long and wide table",
