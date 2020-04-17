@@ -114,7 +114,7 @@ Included in this template is a file called `flights.csv`.  This file includes a 
 
 We can load in this data set using the following command (`read_csv()` is from the package `readr`):
 ```{r load_data, echo=TRUE}
-flights <- read_csv(here::here("data", "flights.csv"))
+flights <- read_csv(file.path("data", "flights.csv"))
 ```  
 
 \  
