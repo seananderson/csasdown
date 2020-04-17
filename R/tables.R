@@ -88,7 +88,8 @@ csas_table <- function(x,
       col.names = col_names,
       escape = escape,
       ...
-    )
+    ) %>%
+      kable_styling(font_size = font_size)
   } else {
     k <- kable(
       x = x,
@@ -98,7 +99,8 @@ csas_table <- function(x,
       longtable = longtable,
       escape = escape,
       ...
-    )
+    ) %>%
+      kable_styling(font_size = font_size)
   }
   if (bold_header) {
     k <- row_spec(k, 0, bold = TRUE)
