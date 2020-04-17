@@ -66,7 +66,7 @@ Next we show a more complicated table with grouped rows and text wrapping. The c
 The code below works like this:
 
 1. `read_csv(file.path("data", "multirow.csv"))` - reads data in from the data file
-2. `mutate_all(kableExtra::linebreak)` -  changes `\\n` to `\n` in all columns. Even though the data file contains only `\n`, the `readr::read_csv()` function changes these to `\\n`. The extra backslashes are required to escape the two, so four are needed
+2. `mutate_all(function(x){gsub("\\\\n", "\n", x)})` -  changes `\\n` to `\n` in all columns. Even though the data file contains only `\n`, the `readr::read_csv()` function changes these to `\\n`. The extra backslashes are required to escape the two, so four are needed
 3. `mutate_all(kableExtra::linebreak)` -  replaces `\n`'s in all columns with a special LaTeX command that causes newlines to be created
 4. `mutate_all(function(x){gsub("%", "\\\\%", x)})` - replaces percent signs with an escaped version in all columns, as they are special characters in LaTeX
 5. `mutate_all(function(x){gsub("emph\\{", "\\\\emph\\{", x)})` - replaces `emph{` with an escaped version in all columns so that LaTeX can run it as its own command `emph{}` (italicization)
