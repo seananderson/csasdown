@@ -1,6 +1,7 @@
 context("Test the techreport document generation and create_tempdir_for_latex()")
 
-testing_path <- tempdir()
+testing_path <- file.path(tempdir(), "techreport")
+dir.create(testing_path, showWarnings = FALSE)
 setwd(testing_path)
 unlink("index", recursive = TRUE, force = TRUE)
 suppressMessages(rmarkdown::draft("index.Rmd",
@@ -69,7 +70,6 @@ test_that("bookdown::render_book generates the PDF of the French techreport", {
 
 # ----------------------------------------------------
 # Creation and copying of test files to a temporary directory
-testing_path <- tempdir()
 setwd(testing_path)
 unlink("index", recursive = TRUE, force = TRUE)
 suppressMessages(rmarkdown::draft("index.Rmd",
