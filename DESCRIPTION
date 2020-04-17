@@ -50,6 +50,7 @@ Imports:
     knitr,
     officer,
     readr,
+    rosettafish,
     rmarkdown,
     stringr,
     tibble
