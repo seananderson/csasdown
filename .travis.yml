@@ -9,6 +9,7 @@ addons:
     update: true
     sources:
       - sourceline: 'ppa:cran/imagemagick'
+      - sourceline: 'pbs-assess/rosettafish'
     packages:
       - libmagick++-dev
 
