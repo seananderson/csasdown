@@ -14,3 +14,5 @@ addons:
 
 after_success:
     - Rscript -e 'covr::codecov()'
+after_failure:
+    - ./travis-tool.sh dump_logs
