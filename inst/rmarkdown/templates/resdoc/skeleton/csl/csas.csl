@@ -208,6 +208,7 @@
     <sort>
       <key macro="author"/>
       <key variable="issued"/>
+      <key macro="citation-locator"/>
     </sort>
     <layout suffix=".">
       <group delimiter=". ">
