@@ -51,6 +51,7 @@ Imports:
     officer,
     readr,
     rmarkdown,
+    rosettafish,
     stringr,
     tibble
 Suggests:
