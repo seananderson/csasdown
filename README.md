@@ -28,6 +28,11 @@ Advis. Sec. Sci. Resp. 2020/004.
 [[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-fra.html)
 [[GitHub repository]](https://github.com/pbs-assess/herringsr)
 
+Hansen, S.C., Obradovich, S.G., Rooper, C.N., Waddell, B.J., Nichol, L.M., MacNeill, S., and Barton, L.L. 2020.
+Index Site Surveys time series (1978--2018) based on survey methodology 
+and environmental variability. Can. Tech. Rep. Fish. Aquat. Sci. 3330: vii + 110 p.
+[English](https://waves-vagues.dfo-mpo.gc.ca/Library/40849296.pdf)
+
 Forrest, R.E., Anderson, S.C., Grandin, C.J., and Paul J. Starr. In press. Assessment of Pacific Cod (*Gadus macrocephalus*) for Hecate Strait and Queen Charlotte Sound (Area 5ABCD), and West Coast Vancouver Island (Area 3CD) in 2018. DFO Can. Sci. Advis. Sec. Res. Doc. In press/nnn. iv + 204 p.
 
 Swain, D.P., Ricard, D., Rolland, N., and Aubry, É. 2019. Assessment of the southern Gulf of
