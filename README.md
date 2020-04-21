@@ -5,8 +5,6 @@
 
 ***
 **Please see the [Wiki](https://github.com/pbs-assess/csasdown/wiki) page for important Notes and FAQ.**
-
-If you have an problem, please check there first before posting an issue.
 ***
 
 csasdown is an R package that uses the bookdown package to generate Canadian Science Advisory Secretariat (CSAS) documents in PDF or Word format using R Markdown. It is based on Chester Ismay's thesisdown package and Ben Marwick's huskydown package.
@@ -19,6 +17,14 @@ Please check the [wiki](https://github.com/pbs-assess/csasdown/wiki) for hints a
 
 ## Publications which were prepared using csasdown
 
+Haggarty, D.R., Huynh, Q.C., Forrest, R.E., Anderson, S.C., Bresch, M.J., Keppel, E.A. In review.
+Evaluation of potential rebuilding strategies for Inside Yelloweye Rockﬁsh (*Sebastes ruberrimus*) in British Columbia. DFO Can. Sci. Advis. Sec. Res. Doc. In review/nnn. v + 135 p.
+[[GitHub repository]](https://github.com/pbs-assess/yelloweye-inside)
+
+Anderson, S.C., Forrest, R.E., Huynh, Q.C., Keppel, E.A. In review. A management procedure
+framework for groundﬁsh in British Columbia. DFO Can. Sci. Advis. Sec. Res. Doc. In review/nnn. v + 133 p.
+[[GitHub repository]](https://github.com/pbs-assess/gfmp)
+
 2019 Southern Gulf of St. Lawrence Atlantic Cod Research Document [[English]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_038-eng.html)
 [[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_038-fra.html)
 
@@ -27,15 +33,13 @@ Stock status update with application of management procedures for Pacific Herrin
 [[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-fra.html)
 [[GitHub repository]](https://github.com/pbs-assess/herringsr)
 
-Evaluation of potential rebuilding strategies for Inside Yelloweye Rockfish (*Sebastes ruberrimus*) in British Columbia (in publication)
-[[GitHub repository]](https://github.com/pbs-assess/yelloweye-inside).
+Forrest, R.E., Anderson, S.C., Grandin, C.J., and Paul J. Starr. In press. Assessment of Pacific Cod (Gadus macrocephalus) for Hecate Strait and Queen Charlotte Sound (Area 5ABCD), and West Coast Vancouver Island (Area 3CD) in 2018. DFO Can. Sci. Advis. Sec. Res. Doc. In press/nnn. iv + 204 p.
 
-A Management Procedure Framework for Groundﬁsh in British Columbia (in pre-review)
-[[GitHub repository]](https://github.com/pbs-assess/gfmp)
-
-A reproducible data synopsis report for over 100 species of British Columbia groundfish
-[[English]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html)
-[[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html)
+Anderson, S.C., Keppel, E.A., Edwards, A.M. 2019. A reproducible data synopsis 
+for over 100 species of British Columbia groundfish. DFO Can. Sci. Advis. Sec.
+Res. Doc. 2019/041. vii + 321 p.
+([English version](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html),
+[French version](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html)),
 [[GitHub repository]](https://github.com/pbs-assess/gfsynopsis)
 
 ## Initial setup
