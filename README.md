@@ -21,21 +21,26 @@ Anderson, S.C., Forrest, R.E., Huynh, Q.C., Keppel, E.A. In review. A management
 framework for groundﬁsh in British Columbia. DFO Can. Sci. Advis. Sec. Res. Doc. In review/nnn. v + 133 p.
 [[GitHub repository]](https://github.com/pbs-assess/gfmp)
 
-2019 Southern Gulf of St. Lawrence Atlantic Cod Research Document [[English]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_038-eng.html)
-[[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_038-fra.html)
-
-Stock status update with application of management procedures for Pacific Herring (*Clupea pallasii*) in British Columbia: Status in 2019 and forecast for 2020
+DFO. 2020. Stock status update with application of management procedures for Pacifc Herring
+(*Clupea pallasii*) in British Columbia: Status in 2019 and forecast for 2020. DFO Can. Sci.
+Advis. Sec. Sci. Resp. 2020/004. 
 [[English]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-eng.html)
 [[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-fra.html)
 [[GitHub repository]](https://github.com/pbs-assess/herringsr)
 
 Forrest, R.E., Anderson, S.C., Grandin, C.J., and Paul J. Starr. In press. Assessment of Pacific Cod (Gadus macrocephalus) for Hecate Strait and Queen Charlotte Sound (Area 5ABCD), and West Coast Vancouver Island (Area 3CD) in 2018. DFO Can. Sci. Advis. Sec. Res. Doc. In press/nnn. iv + 204 p.
 
+Swain, D.P., Ricard, D., Rolland, N., and Aubry, É. 2019. Assessment of the southern Gulf of
+St. Lawrence Atlantic Cod (*Gadus morhua*) stock of NAFO Div. 4T and 4Vn (November to
+April), March 2019. DFO Can. Sci. Advis. Sec. Res. Doc. 2019/038. iv + 105 p.
+[[English]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_038-eng.html)
+[[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_038-fra.html)
+
 Anderson, S.C., Keppel, E.A., Edwards, A.M. 2019. A reproducible data synopsis 
 for over 100 species of British Columbia groundfish. DFO Can. Sci. Advis. Sec.
 Res. Doc. 2019/041. vii + 321 p.
-([English version](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html),
-[French version](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html)),
+[[English]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html),
+[[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html)),
 [[GitHub repository]](https://github.com/pbs-assess/gfsynopsis)
 
 ## Initial setup
