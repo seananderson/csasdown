@@ -19,12 +19,24 @@ Please check the [wiki](https://github.com/pbs-assess/csasdown/wiki) for hints a
 
 ## Publications which were prepared using csasdown
 
-2019 Southern Gulf of St. Lawrence Atlantic Cod Research Document in [English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_038-eng.html) and [French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_038-fra.html).
+2019 Southern Gulf of St. Lawrence Atlantic Cod Research Document [[English]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_038-eng.html)
+[[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_038-fra.html)
 
-2020 Pacific Herring stock assessment Science Response in
-[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-eng.html) and
-[French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-fra.html).
-Also, see the [GitHub repository](https://github.com/pbs-assess/herringsr).
+Stock status update with application of management procedures for Pacific Herring (*Clupea pallasii*) in British Columbia: Status in 2019 and forecast for 2020
+[[English]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-eng.html)
+[[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-fra.html)
+[[GitHub repository]](https://github.com/pbs-assess/herringsr)
+
+Evaluation of potential rebuilding strategies for Inside Yelloweye Rockfish (*Sebastes ruberrimus*) in British Columbia (in publication)
+[[GitHub repository]](https://github.com/pbs-assess/yelloweye-inside).
+
+A Management Procedure Framework for Groundﬁsh in British Columbia (in pre-review)
+[[GitHub repository]](https://github.com/pbs-assess/gfmp)
+
+A reproducible data synopsis report for over 100 species of British Columbia groundfish
+[[English]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html)
+[[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html)
+[[GitHub repository]](https://github.com/pbs-assess/gfsynopsis)
 
 ## Initial setup
 
