@@ -40,7 +40,7 @@ Anderson, S.C., Keppel, E.A., Edwards, A.M. 2019. A reproducible data synopsis
 for over 100 species of British Columbia groundfish. DFO Can. Sci. Advis. Sec.
 Res. Doc. 2019/041. vii + 321 p.
 [[English]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html),
-[[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html)),
+[[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html),
 [[GitHub repository]](https://github.com/pbs-assess/gfsynopsis)
 
 ## Initial setup
