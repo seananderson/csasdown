@@ -79,8 +79,14 @@ options(kableExtra.latex.load_packages = FALSE)
 # `french` and `prepub` variables are extracted from the YAML headers above and
 #  are used throughout the document. To make the document all in french, change
 #  the line in the YAML header above to `french: true`
-french <- rmarkdown::metadata$output$`csasdown::resdoc_pdf`$french
-prepub <- rmarkdown::metadata$output$`csasdown::resdoc_pdf`$prepub
+meta <- rmarkdown::metadata$output
+if(length(grep("pdf", names(meta)))){
+  french <- meta$`csasdown::resdoc_pdf`$french
+  prepub <- meta$`csasdown::resdoc_pdf`$prepub
+}else if(length(grep("word", names(meta)))){
+  french <- meta$`csasdown::resdoc_word`$french
+  prepub <- meta$`csasdown::resdoc_word`$prepub
+}
 if(french){
   options(OutDec =  ",")
 }
