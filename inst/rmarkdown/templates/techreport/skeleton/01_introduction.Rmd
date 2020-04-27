@@ -1,12 +1,12 @@
 # Introduction
 
-GitHub repository: [csasdown](https://github.com/pbs-assess/csasdown)
+Welcome to report generation using `csasdown`. Included in this example document are many useful bits of information on how to write a reproducible report document using  the `csasdown` package, which is based on [RMarkdown](https://rmarkdown.rstudio.com/) and [Bookdown](https://bookdown.org/). The information given in this example document should be used with all three `csasdown` document types: Research Document (`resdoc`), Science Response (`sr`), and Technical Report (`techreport`).
 
-Welcome to the techreport document in csasdown. Included in this example document are many useful bits of information on how to write a reproducible technical report document using csasdown, which is based on [RMarkdown](https://rmarkdown.rstudio.com/) and [Bookdown](https://bookdown.org/). If you get stuck on anything, read the csasdown [README](https://github.com/pbs-assess/csasdown/blob/master/README.md) carefully and all the [Wiki pages](https://github.com/pbs-assess/csasdown/wiki). There are many tips and tricks located in those pages. With that, we dive right in.
+If you get stuck on anything, read the `csasdown` [README](https://github.com/pbs-assess/csasdown/blob/master/README.md) carefully and all the [Wiki pages](https://github.com/pbs-assess/csasdown/wiki). There are many tips and tricks located in those pages. 
 
-Inserting a hyperlink in RMarkdown is easy, just look at the code for the paragraph above.
+Inserting a hyperlink in RMarkdown is easy, just look at the code for the paragraph above. It is located in **01_introduction.Rmd**
 
-Include references in the `bib/refs.bib` file in the same format as the example that is already in the file. This is called BiBTeX format. Once you have added the reference, you can cite it using RMarkdown in the following ways:
+Include references in the **bib/refs.bib** file in the same format as the example that is already in the file. This is called *BiBLaTeX* format. Once you have added the reference, you can cite it using RMarkdown in the following ways:
 
 1. In parentheses: `[@edwards2013]` - [@edwards2013]
 2. Inline: `@edwards2013` - @edwards2013
@@ -14,7 +14,14 @@ Include references in the `bib/refs.bib` file in the same format as the example 
 
 Note that the year part of the citation is clickable and will take you directly to the reference in the References section.
 
-Here is an example equation. Note that csasdown automatically numbers it on the right-hand side of the page. It does this consecutively throughout the document sections, but appendices are each numbered on their own, e.g. A.1, A.2,... B.1, B.2,..., etc.
+Here is an example equation with the code used to generate it. Note that `csasdown` automatically numbers it on the right-hand side of the page. It does this consecutively throughout the document sections, but appendices are each numbered on their own, e.g. A.1, A.2, ... for Appendix A, and B.1, B.2, ... for Appendix B.
+
+````
+\begin{equation}
+  1 + 1
+  \label{eq:test}
+\end{equation}
+````
 
 \begin{equation}
   1 + 1
@@ -28,3 +35,21 @@ The code inside the parentheses comes from the tag after the header for the sect
 `# THE FIRST APPENDIX {#app:first-appendix}`
 
 Everything in the curly braces except for the hash sign is the tag you use to reference a section.
+
+A reference to the equation above looks like this: `\@ref(eq:test)` and appears rendered like this: Figure \@ref(eq:test). In general, the labels for any type of reference are shown in Table \@ref(tab:ref-tab). Bibliography citation references are slightly different and are discussed above.
+
+```{r ref-tab}
+refs_tab <- tribble(
+  ~`Type of Reference`, ~`Reference type label`,
+             "Section",                   "sec",
+            "Appendix",                   "app",
+            "Equation",                    "eq",
+              "Figure",                   "fig",
+               "Table",                   "tab")
+
+csasdown::csas_table(refs_tab,
+  align = c("r", "r"),
+  caption = ifelse(french,
+                   "French goes here",
+                   "Reference types and their labels. The second column is the `xx` label in `\\@ref(xx:refname)`."))
+```
