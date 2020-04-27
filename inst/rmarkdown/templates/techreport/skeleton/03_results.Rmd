@@ -6,7 +6,7 @@ Here's another plot for fun:
 
 (ref:batman) Batman!
 
-(ref:batman-french) Homme chauve-souris! (doesn't have the same ring to it does it?)
+(ref:batman-french) Homme chauve-souris!
 
 ```{r batman, fig.cap=ifelse(french, "(ref:batman-french)", "(ref:batman)")}
 #' Call the Batman
@@ -67,6 +67,6 @@ batman <- function(){
 batman()
 ```
 
-Note that this figure is numbered consecutively even though the first figure appears in a different file and section. The figures, tables, and equations are numbered **after** all the files are stitched together by csasdown.
+Note that this figure is numbered consecutively even though the first figure appears in a different file and section. The figures, tables, and equations are numbered **after** all the files are stitched together by `csasdown`.
 
 

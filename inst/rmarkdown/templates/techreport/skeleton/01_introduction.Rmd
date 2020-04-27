@@ -46,7 +46,7 @@ A reference to the equation above looks like this: `\@ref(eq:test)` and renders 
 
 ```{r ref-tab}
 refs_tab <- tribble(
-  ~`Type of Reference`,                    ~`Rmarkdown code`,
+     ~`Reference type`,                    ~`Rmarkdown code`,
              "Section",        "`\\@ref(sec:section-label)`",
           "Subsection",  "`\\@ref(subsec:subsection-label)`",
             "Appendix",       "`\\@ref(app:appendix-label)`",
