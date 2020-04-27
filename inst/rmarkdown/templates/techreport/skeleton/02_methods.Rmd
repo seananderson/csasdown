@@ -29,22 +29,12 @@ plot(cars)
 
 Here are two ways to make the same example data frame and simple `csas_table()` calls for each: 
 
-(ref:testtab) Test figure with a caption will be numbered automatically.
-
-(ref:testtab-french) French caption would go here once you've had it translated.
-
 ```{r testtab, echo=TRUE}
 d <- structure(list(
   Year = c("2018", "2019", "2020"), 
   `Value 1` = c(1.12, 2.32, 3.67), 
   `Value 2` = c(31.9, 2.8, 112.2)), 
   row.names = c(NA, -3L), class = "data.frame")
-
-d1 <- tribble(
-  ~Year, ~`Value 1`, ~`Value 2`,
-   2018,       1.12,       31.9,
-   2019,       2.32,        2.8,
-   2020,       3.67,      112.2)
 
 csasdown::csas_table(d,
   align = c("c", "r", "r"),
@@ -54,6 +44,12 @@ csasdown::csas_table(d,
 ```
 
 ```{r testtab2, echo=TRUE}
+d1 <- tribble(
+  ~Year, ~`Value 1`, ~`Value 2`,
+   2018,       1.12,       31.9,
+   2019,       2.32,        2.8,
+   2020,       3.67,      112.2)
+
 csasdown::csas_table(d1,
   align = c("c", "r", "r"),
   caption = ifelse(french,
@@ -63,7 +59,7 @@ csasdown::csas_table(d1,
 
 Notice the difference in how the English and French captions are generated for tables compared to the way they are generated for figures.
 
-To reference the tables and figures, just place code like this for tables: `\@ref(tab:testtab)` inline in text (`testtab` is the knitr code chunk name) and like this for figures: `\@ref(fig:testfig)`. Note the difference in the tag preceeding the colon in those code snippets, `tab` for table references and `fig` for figure references. Here are the table references so far in this document: Table \@ref(tab:testtab) and Table \@ref(tab:testtab2), and the figure reference: Figure \@ref(fig:testfig). The numbers are clickable.
+To reference the tables and figures, just place code like this for tables: `\@ref(tab:testtab)` inline in text (`testtab` is the knitr code chunk name) and like this for figures: `\@ref(fig:testfig)`. Note the difference in the tag preceeding the colon in those code snippets, `tab` for table references and `fig` for figure references (See Table \@ref(tab:ref-tab) for all types). Here are the table references so far in this document: Table \@ref(tab:testtab) and Table \@ref(tab:testtab2), and the figure reference: Figure \@ref(fig:testfig). The numbers are clickable.
 
 Next we show a more complicated table with grouped rows and text wrapping. The code becomes more difficult when you want to make non-trivial tables, so it is recommended to think about how to keep tables as simple as possible to avoid this kind of code if you're not comfortable with it. 
 
@@ -122,6 +118,9 @@ read_csv(file.path("data", "multirow.csv")) %>%
   kableExtra::column_spec(2, width = "30em")
 
 ```
+
+While building complex tables you *must* take an iterative approach once you've made the basic table and want to add detailed elements: add one element; test; fix errors; fix logic/design issues; repeat. In Table \@ref(tab:multi-row-table), one line of code at a time was added with the results checked and made sure to be correct before adding the next line of code.
+
 On the following pages we have an example of a long and wide table which is in landscape mode. This is accomplished by setting `landscape = TRUE` in the `csas_table()` call. You can change the font size if the table it still too large and overlaps the header and footer lines.
 
 \clearpage
