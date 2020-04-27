@@ -80,11 +80,13 @@ or for a Science Response:
 csasdown::draft("sr")
 ```
 
+Note that the `techreport` example contains a lot of information on getting started with Rmarkdown and should be the first one you render if you are new to `csasdown`.
+
 5. Render the document right away to make sure everything works by opening the file **index.Rmd** and clicking the **knit** button. Once completed, a preview pane showing the PDF document will appear. The location of the PDF is in the **_book** directory. See the *Rendering* section below for more information.
 
 6. Read the output PDF carefully and compare with what is written in the Rmd files. This will help you understand more quickly how the document is put together and how you might want to structure your document.
 
-7. *(Optional but recommended)* To make the initial commit on your GitHub page, first make a new, blank repository on GitHub. Open your git client software, navigate to the working directory of your new project and type the following commands:
+7. *(Optional but recommended)* To make the initial commit on your GitHub page, first make a new, blank repository on GitHub. Open your git client software (https://git-scm.com/downloads), navigate to the working directory of your new project and type the following commands:
 
 ```git add *``` to add all the new files you created in step 4.
 
