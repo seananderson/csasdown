@@ -174,12 +174,6 @@
 {0.5ex \@plus.1ex}
 {\normalfont\bf}}
 
-\renewcommand{\subsubsubsection}{\@startsection
-{subsubsection}{5}{0.75cm}
-{-1.5ex \@plus -0.25ex \@minus -.1ex}
-{0.5ex \@plus.1ex}
-{\normalfont\bf}}
-
 \renewcommand{\chapter}{\@startsection
 {chapter}{1}{0mm}
 {-1ex \@plus -0.25ex \@minus -.1ex}
@@ -215,7 +209,6 @@
   \renewcommand{\thesection}{\arabic{section}.}
   \renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
   \renewcommand{\thesubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
-  \renewcommand{\thesubsubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}.\arabic{subsubsubsection}}
   \renewcommand{\thetable}{\arabic{table}}
   \renewcommand{\thefigure}{\arabic{figure}}
   \renewcommand{\theequation}{\arabic{equation}}
@@ -231,7 +224,6 @@
   \renewcommand{\thesection}{\thechapter.\arabic{section}}
   \renewcommand{\thesubsection}{\thechapter.\arabic{section}.\arabic{subsection}}
   \renewcommand{\thesubsubsection}{\thechapter.\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
-  \renewcommand{\thesubsubsubsection}{\thechapter.\arabic{section}.\arabic{subsection}.\arabic{subsubsection}.\arabic{subsubsubsection}}
   \renewcommand{\thetable}{\thechapter.\arabic{table}}
   \renewcommand{\thefigure}{\thechapter.\arabic{figure}}
   \renewcommand{\theequation}{\thechapter.\arabic{equation}}
@@ -409,7 +401,6 @@
 \setenumerate[3]{label=\roman*.}
 \setenumerate[4]{label=\arabic*.}
 \setenumerate[5]{label=\alph*.}
-\setenumerate[6]{label=\roman*.}
 \setenumerate{itemsep=3pt} % This needs to be here for itemsep above to be recognized
 \setitemize{
   align=left,        % Left align labels
