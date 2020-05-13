@@ -13,6 +13,10 @@ Slides from a short workshop on csasdown last year [[PDF](https://www.dropbox.co
 
 If you use csasdown to write a report, please let us know so we can add it to the list of publications using the package. This helps us justify spending our work time on its development. You can post an issue, make a pull request adding it to this readme, or send us a quick email (contact details [here](https://github.com/pbs-assess/csasdown/blob/c76731e8580bb12da9324e56ff5e56a8d4901aeb/DESCRIPTION#L5-L8)).
 
+Lacko, L.C. and Acheson, S.M. and Connors, B.M. 2020. Summary of the Annual 2018 and 2019 Sablefish (*Anoplopoma fimbria*) Trap Surveys, October 9 - November 19, 2018 and October 8 - November 25, 2019. Can. Tech. Rep. Fish. Aquat. Sci. nnn: viii + 63 p. [[GitHub Repository]](https://github.com/sabledata/surveyreport)
+
+DFO. 2020. Evaluating the robustness of candidate management procedures in the BC Sablefish (*Anoplopoma fibria*) fishery for 2019-2020.. DFO Can. Sci. Advis. Sec. Sci. Resp. 2020/025. [[GitHub Repository]](https://github.com/samueldnj/SablefishSR2019)
+
 Haggarty, D.R., Huynh, Q.C., Forrest, R.E., Anderson, S.C., Bresch, M.J., Keppel, E.A. In review.
 Evaluation of potential rebuilding strategies for Inside Yelloweye Rockﬁsh (*Sebastes ruberrimus*) in British Columbia. DFO Can. Sci. Advis. Sec. Res. Doc. In review/nnn. v + 135 p.
 [[GitHub repository]](https://github.com/pbs-assess/yelloweye-inside)
