@@ -44,23 +44,26 @@ Depends:
     R (>= 3.3.0)
 Imports:
     bookdown,
+    dplyr,
+    ggplot2,
     kableExtra,
     knitr,
     officer,
+    readr,
     rmarkdown,
+    rosettafish,
     stringr,
     tibble
 Suggests:
     covr,
-    dplyr,
-    ggplot2,
     magick,
     testthat,
-    tinytex,
-    magick
+    tinytex
+Remotes:
+    pbs-assess/rosettafish
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 SystemRequirements: pandoc (>= 1.18) - http://pandoc.org

@@ -1,0 +1,21 @@
+Overarching goal, Performance metrics
+Rebuild depleted CUs\n(These performance metrics infer a relatively monotonic trajectory towards a rebuilding target), Probability that all red-status CUs rebuild to above their lower rebuilding thresholds (e.g. lower WSP benchmark) within a given time frame.
+, Probability that any one (or a specified proportion of) red-status CU(s) rebuilds to above its lower rebuilding threshold within a given time frame.
+, Proportion of red-status CUs that rebuild to above their lower rebuilding thresholds with a specified probability within a given time frame. (Median over MC trials and 95% CIs)
+, Number of years required to achieve lower rebuilding thresholds for one (a proportion of or all) red-listed CU(s) with a specific probability. (Median over MC trials and 95% CIs)
+Minimize risk of loss\n(These metrics can be duplicated for numerous rebuilding and target thresholds), Proportion of years that all CUs are above a quasi-extirpation threshold across the modelled time period. (Median over MC trials and 95% CIs)
+, Proportion of years where all CUs are above their lower rebuilding thresholds within the modelled time period. (Median over MC trials and 95% CIs)
+, Proportion of years where at least one (or a specified % of) CU(s) is(are) above their lower rebuilding thresholds within the modelled time period. (Median over MC trials and 95% CIs)
+, Proportion of years where all CUs remain above their lower (or upper) rebuilding threshold across the modelled time period. (Median over MC trials and 95% CIs)
+, Mean spawner abundances over the modelled time-period (or most recent generation) relative to lower rebuilding threshold. (Median over MC trials and 95% CIs)
+, Variation in spawner abundances: CV of (or average % change between years in) spawner abundances over the modelled time period. (Median value over MC trials and 95% CIs) (suggested as indicator of extinction risk by Wainwright and Waples 1998)
+Avoid COSEWIC listing, Short-term trends in spawner biomass over the last three generations. (Median over MC trials and 95% CIs) emph{COSEWIC Criterion A}
+, Probability that short-term trends in abundances are > 30% (COSEWIC threshold) in the most recent time period. emph{COSEWIC Criterion A}
+, Proportion of years where the short-term trend metrics < 30% for all CUs (or specified % of CUs). (Median over MC trials and 95% CIs) emph{COSEWIC Criterion A}
+, Proportion of years where the short-term trend is stationary or positive and abundances are greater than 10,000. emph{COSEWIC Criterion C}
+, Proportion of years where all CUs are above COSEWIC small population size thresholds; across the entire sampling period. (Median over MC trials and 95% CIs). emph{COSEWIC Criterion D}
+Maintain exploitation rates below sustainable levels, Mean exploitation rate relative to current $U_{MSY}$ for over the modelled time period. (Median value over MC trials and 95% CIs)
+Maximize catch and stability in catch, Proportion of years that mean catch for the CU-aggregate is above a minimum acceptable level over the entire sampling period; in the short term (first 1-2 generations); or in the long term (last 1-2 generations). (Median value over MC trials and 95% CIs)
+, Mean catch over the entire sampling period; in the short term (first 1-2 generations); or in the long term (last 1-2 generations); for totals and segregated into different fisheries (e.g. mixed-CU vs. terminal). (Median value over MC trials and 95% CIs)
+, Catch variability: CV of (or average % change between years in) catch over the sampling period; for totals and segregated into different fisheries (e.g. mixed vs. terminal). (Median value over MC trials and 95% CIs)
+Allocate catch to terminal vs. mixed-CU fisheries, Proportion of catch in mixed-CU vs terminal fisheries averaged over the entire sampling period (Median value over MC trials and 95% CIs)

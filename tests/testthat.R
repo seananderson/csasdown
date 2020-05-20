@@ -1,4 +1,12 @@
 library(testthat)
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(tibble)
 library(csasdown)
 
+test_check("dplyr")
+#test_check("ggplot2")
+test_check("readr")
+test_check("tibble")
 test_check("csasdown")

@@ -2,6 +2,7 @@
 
 export(add_resdoc_docx_titlepage)
 export(check_yaml)
+export(create_tempdir_for_latex)
 export(csas_table)
 export(draft)
 export(get_contact_info)
