@@ -24,7 +24,7 @@
 #' }
 resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
                        latex_engine = "pdflatex", french = FALSE,
-                       prepub = FALSE, ...) {
+                       prepub = FALSE, copy_sty = TRUE, ...) {
   if (french) {
     file <- system.file("csas-tex", "res-doc-french.tex", package = "csasdown")
   } else {
@@ -41,7 +41,7 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
     latex_engine = latex_engine,
     ...
   )
-  update_csasstyle()
+  update_csasstyle(copy = copy_sty)
 
   # Mostly copied from knitr::render_sweave
   base$knitr$opts_chunk$comment <- NA
@@ -89,7 +89,7 @@ resdoc_word <- function(french = FALSE, ...) {
 #' @export
 #' @rdname csas_pdf
 sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
-                   ...) {
+                   copy_sty = TRUE, ...) {
   if (french) {
     file <- system.file("csas-tex", "sr-french.tex", package = "csasdown")
   } else {
@@ -103,7 +103,7 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
     latex_engine = latex_engine,
     ...
   )
-  update_csasstyle()
+  update_csasstyle(copy = copy_sty)
 
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
@@ -124,7 +124,7 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
 
 #' @export
 #' @rdname csas_docx
-sr_word <- function(french = FALSE, ...) {
+sr_word <- function(french = FALSE, copy_sty = TRUE, ...) {
   file <- if (french) "SRR-RS2016-fra.docx" else "SRR-RS2016-eng.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
@@ -136,7 +136,7 @@ sr_word <- function(french = FALSE, ...) {
 
 #' @export
 #' @rdname csas_docx
-techreport_word <- function(french = FALSE, ...) {
+techreport_word <- function(french = FALSE, copy_sty = TRUE, ...) {
   file <- if (french) "PRO-CR2016-fra.docx" else "PRO-CR2016-eng.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
@@ -146,10 +146,10 @@ techreport_word <- function(french = FALSE, ...) {
   base
 }
 
-
 #' @export
 #' @rdname csas_pdf
-techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex", ...) {
+techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
+                           copy_sty = TRUE, ...) {
   if (french) {
     file <- system.file("csas-tex", "tech-report-french.tex", package = "csasdown")
   } else {
@@ -163,7 +163,7 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex", ...) {
     ...
   )
 
-  update_csasstyle()
+  update_csasstyle(copy = copy_sty)
 
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
@@ -178,10 +178,19 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex", ...) {
   base
 }
 
-update_csasstyle <- function() {
-  f <- system.file("csas-style", package = "csasdown")
-  dir.create("csas-style", showWarnings = FALSE)
-  ignore <- file.copy(f, ".", overwrite = TRUE, recursive = TRUE)
+#' Copy the csas-style directory from the local library location to
+#' the current directory, overwriting.
+#'
+#' @param copy Logical. If TRUE, copy and overwrite if the directory already exists.
+#' If FALSE, only copy if the directory does not exist in the current directory
+#'
+#' @return Nothing
+update_csasstyle <- function(copy = TRUE) {
+  fn <- system.file("csas-style", package = "csasdown")
+  if(copy || (!dir.exists("csas-style") && !copy)){
+    dir.create("csas-style", showWarnings = FALSE)
+    ignore <- file.copy(fn, ".", overwrite = TRUE, recursive = TRUE)
+  }
 }
 
 fix_envs <- function(x,
