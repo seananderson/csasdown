@@ -23,7 +23,7 @@ header: "Draft working paper --- Do not cite or circulate" # or "" to omit
 output:
  csasdown::resdoc_pdf:
    french: false
-  # csasdown::resdoc_word
+   copy_sty: true
 # ------------
 # End of options to set
 knit: bookdown::render_book
