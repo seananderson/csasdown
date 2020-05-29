@@ -24,7 +24,7 @@
 #' }
 resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
                        latex_engine = "pdflatex", french = FALSE,
-                       prepub = FALSE, ...) {
+                       prepub = FALSE, copy_sty = TRUE, ...) {
   if (french) {
     file <- system.file("csas-tex", "res-doc-french.tex", package = "csasdown")
   } else {
@@ -37,11 +37,11 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
     toc_depth = toc_depth,
     highlight = highlight,
     keep_tex = TRUE,
-    pandoc_args = c("--top-level-division=chapter", "--wrap=none"),
+    pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
     latex_engine = latex_engine,
     ...
   )
-  update_csasstyle()
+  update_csasstyle(copy = copy_sty)
 
   # Mostly copied from knitr::render_sweave
   base$knitr$opts_chunk$comment <- NA
@@ -89,7 +89,7 @@ resdoc_word <- function(french = FALSE, ...) {
 #' @export
 #' @rdname csas_pdf
 sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
-                   ...) {
+                   copy_sty = TRUE, ...) {
   if (french) {
     file <- system.file("csas-tex", "sr-french.tex", package = "csasdown")
   } else {
@@ -103,7 +103,7 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
     latex_engine = latex_engine,
     ...
   )
-  update_csasstyle()
+  update_csasstyle(copy = copy_sty)
 
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
@@ -124,7 +124,7 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
 
 #' @export
 #' @rdname csas_docx
-sr_word <- function(french = FALSE, ...) {
+sr_word <- function(french = FALSE, copy_sty = TRUE, ...) {
   file <- if (french) "SRR-RS2016-fra.docx" else "SRR-RS2016-eng.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
@@ -136,7 +136,7 @@ sr_word <- function(french = FALSE, ...) {
 
 #' @export
 #' @rdname csas_docx
-techreport_word <- function(french = FALSE, ...) {
+techreport_word <- function(french = FALSE, copy_sty = TRUE, ...) {
   file <- if (french) "PRO-CR2016-fra.docx" else "PRO-CR2016-eng.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
@@ -146,10 +146,10 @@ techreport_word <- function(french = FALSE, ...) {
   base
 }
 
-
 #' @export
 #' @rdname csas_pdf
-techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex", ...) {
+techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
+                           copy_sty = TRUE, ...) {
   if (french) {
     file <- system.file("csas-tex", "tech-report-french.tex", package = "csasdown")
   } else {
@@ -163,7 +163,7 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex", ...) {
     ...
   )
 
-  update_csasstyle()
+  update_csasstyle(copy = copy_sty)
 
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
@@ -178,10 +178,19 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex", ...) {
   base
 }
 
-update_csasstyle <- function() {
-  f <- system.file("csas-style", package = "csasdown")
-  dir.create("csas-style", showWarnings = FALSE)
-  ignore <- file.copy(f, ".", overwrite = TRUE, recursive = TRUE)
+#' Copy the csas-style directory from the local library location to
+#' the current directory, overwriting.
+#'
+#' @param copy Logical. If TRUE, copy and overwrite if the directory already exists.
+#' If FALSE, only copy if the directory does not exist in the current directory
+#'
+#' @return Nothing
+update_csasstyle <- function(copy = TRUE) {
+  fn <- system.file("csas-style", package = "csasdown")
+  if(copy || (!dir.exists("csas-style") && !copy)){
+    dir.create("csas-style", showWarnings = FALSE)
+    ignore <- file.copy(fn, ".", overwrite = TRUE, recursive = TRUE)
+  }
 }
 
 fix_envs <- function(x,
@@ -189,6 +198,14 @@ fix_envs <- function(x,
                      join_abstract = TRUE,
                      french = FALSE,
                      prepub = FALSE) {
+
+
+  # fix equations:
+  x <- gsub("^\\\\\\[$", "\\\\begin{equation}", x)
+  x <- gsub("^\\\\\\]$", "\\\\end{equation}", x)
+  x <- gsub("^\\\\\\]\\.$", "\\\\end{equation}.", x)
+  x <- gsub("^\\\\\\],$", "\\\\end{equation},", x)
+
   # Get region line
   region_line <- grep(pattern = "% Region", x) + 1
   # If region is specified (currently only SRs)
@@ -467,10 +484,12 @@ fix_envs <- function(x,
 inject_refstepcounters <- function(x) {
   chpts <- grep("^\\\\starredchapter\\{", x)
   for (i in chpts) {
+    # in very rare setups hypertarget doesn't appear(?):
+    .i <- if (grepl("hypertarget", x[i-1])) i else i + 1
     x <- c(
-      x[seq(1, i - 3)],
-      paste0(x[i - 2], "\n\n\\clearpage\n\n\\refstepcounter{chapter}"),
-      x[seq(i - 1, length(x))]
+      x[seq(1, .i - 3)],
+      paste0(x[.i - 2], "\n\n\\clearpage\n\n\\refstepcounter{chapter}"),
+      x[seq(.i - 1, length(x))]
     )
   }
   x
@@ -571,3 +590,71 @@ get_contact_info <- function(region = "National Capital Region", isFr = FALSE) {
   } # End if region detected
   return(list(email = email, phone = phone, address = address))
 } # End get_contact_info
+
+#' Creates a temporary directory for compiling the latex file with latex commands for a csasdown type
+#'
+#' @details The compiled tex file will be copied from either the root directory or the _book directory, depending
+#' on the value of `where`. The necessary directories knitr-figs-pdf, knitr-figs-word, knitr-cache-pdf, and
+#' knitr-cache-word will be copied recursively into the temporary directory, preserving the directory structure
+#' necessary for the build.
+#'
+#' @param type The csasdown document type. See [draft()]
+#' @param where Where to look for the tex file. If "r", look in root directory, if "b", look in the _book
+#' subdirectory. Any other value will cause an error
+#' @param tmp_dir A temporary directory. If NULL, once will be created in the filesystem using [tempdir()]
+#' @param root_dir A directory where everything will be copied from
+#'
+#' @return The temporary directory's full path
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' root_dir <- getwd()
+#' tmp_dir <- create_tempdir_for_latex("resdoc", "b")
+#' setwd(tmp_dir)
+#' tinytex::latexmk("resdoc.tex")
+#' setwd(root_dir)
+#' }
+create_tempdir_for_latex <- function(type = NULL,
+                                     where = "r",
+                                     tmp_dir = NULL,
+                                     root_dir = here::here()){
+  stopifnot(type == "resdoc" ||
+            type == "sr" ||
+            type == "techreport")
+  stopifnot(where == "r" ||
+            where == "b")
+
+  if(is.null(tmp_dir)){
+    tmp_dir <- tempdir()
+  }
+
+  copy_dir <- function(from_dir, to_dir, recursive = TRUE){
+    dir.create(to_dir, showWarnings = FALSE)
+    to_dir <- file.path(to_dir, from_dir)
+    dir.create(to_dir, showWarnings = FALSE)
+    from_dir <- file.path(root_dir, from_dir)
+    from_files <- file.path(from_dir, dir(from_dir))
+    invisible(file.copy(from_files, to_dir, recursive = recursive))
+  }
+
+  # Copy required directories and files recursively
+  copy_dir("csas-style", tmp_dir)
+  copy_dir("knitr-cache-pdf", tmp_dir)
+  copy_dir("knitr-cache-word", tmp_dir)
+  copy_dir("knitr-figs-pdf", tmp_dir)
+  copy_dir("knitr-figs-word", tmp_dir)
+
+  # Copy the TEX file
+  tex_file_name <- paste0(type, ".tex")
+  if(where == "b"){
+    tex_file <- file.path(root_dir, "_book", tex_file_name)
+  }else if(where == "r"){
+    tex_file <- file.path(root_dir, tex_file_name)
+  }
+  if(!file.exists(tex_file)){
+    stop(paste0(type, ".tex"), " does not exist in the ", ifelse(where == "b", "_book", "root"), " directory")
+  }
+  invisible(file.copy(tex_file, tmp_dir))
+  tmp_dir
+}

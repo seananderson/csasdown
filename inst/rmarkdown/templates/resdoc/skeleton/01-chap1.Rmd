@@ -110,11 +110,20 @@ Another useful chunk option is the setting of `cache=TRUE` as you see here.  If 
 
 Included in this template is a file called `flights.csv`.  This file includes a subset of the larger dataset of information about all flights that departed from Seattle and Portland in 2014.  More information about this dataset and its **R** package is available at <http://github.com/ismayc/pnwflights14>.  This subset includes only Portland flights and only rows that were complete with no missing values.  Merges were also done with the `airports` and `airlines` data sets in the `pnwflights14` package to get more descriptive airport and airline names.
 
-We can load in this data set using the following command:
+\  
 
-```{r load_data}
-flights <- read.csv("data/flights.csv")
-```
+We can load in this data set using the following command (`read_csv()` is from the package `readr`):
+```{r load_data, echo=TRUE}
+flights <- read_csv(file.path("data", "flights.csv"))
+```  
+
+\  
+
+*Before we continue, note that to insert extra blank lines in text as we did above and below, we need to have a line with a backslash followed by two spaces. Look carefully at those lines in the code editor.*
+
+\  
+
+All your tabular data should be in `.csv` files and placed in the `data` directory. The function `here::here()` should always be used when loading data into the project because it will prepend the full root directory of the project onto the directories and files inside the call. This gives consistent file structure access across multiple machines and platforms.
 
 The data is now stored in the data frame called `flights` in **R**.  To get a better feel for the variables included in this dataset we can use a variety of functions.  Here we can see the dimensions (rows by columns) and also the names of the columns.
 
@@ -122,8 +131,14 @@ The data is now stored in the data frame called `flights` in **R**.  To get a be
 dim(flights)
 names(flights)
 ```
+\  
 
-Another good idea is to take a look at the dataset in table form.  With this dataset having more than 50,000 rows, we won't explicitly show the results of the command here.  I recommend you enter the command into the Console **_after_** you have run the **R** chunks above to load the data into **R**.
+Another good idea is to take a look at the dataset in table form.  With this dataset having more than 50,000 rows, we won't explicitly show the results of the command here.  I recommend you enter the command into the Console **_after_** you have run the **R** chunks above to load the data into **R**. To do that, you can use the command `View(flights)`.
+
+A simple and effective way to see the entire structure in one call is to use the `glimpse()` command like this:
+```{r glimpse_flights, echo = TRUE}
+glimpse(flights)
+```
 
 ```{r view_flights, eval=FALSE}
 View(flights)
@@ -133,7 +148,7 @@ While not required, it is highly recommended you use the `dplyr` package to mani
 
 We begin by checking to ensure that needed packages are installed and then we load them into our current working environment:
 
-```{r load_pkgs, message=FALSE}
+```{r load_pkgs, message=FALSE, echo=TRUE}
 # List of packages required for this analysis
 pkg <- c("dplyr", "ggplot2", "knitr", "bookdown", "devtools")
 # Check if packages are not installed and assign the

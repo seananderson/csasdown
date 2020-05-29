@@ -1,4 +1,4 @@
-context("csasdown::csas_table")
+context("Test the csasdown::csas_table() function")
 
 df <- data.frame(a = 1:20, b = 1:20)
 

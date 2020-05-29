@@ -15,9 +15,9 @@ branch: Science Branch
 region: Pacific Region
 output:
  csasdown::sr_pdf:
-  # csasdown::sr_word:
    french: false
    prepub: false
+   copy_sty: true
 type:
   sr
 # ------------
@@ -75,7 +75,24 @@ options(kableExtra.latex.load_packages = FALSE)
 ```
 
 ```{r load-libraries, cache=FALSE}
-french <- rmarkdown::metadata$output$`csasdown::sr_pdf`$french
+# `french` and `prepub` variables are extracted from the YAML headers above and
+#  are used throughout the document. To make the document all in french, change
+#  the line in the YAML header above to `french: true`
+meta <- rmarkdown::metadata$output
+if(length(grep("pdf", names(meta)))){
+  french <- meta$`csasdown::sr_pdf`$french
+  prepub <- meta$`csasdown::sr_pdf`$prepub
+}else if(length(grep("word", names(meta)))){
+  french <- meta$`csasdown::sr_word`$french
+  prepub <- meta$`csasdown::sr_word`$prepub
+}
+if(french){
+  options(OutDec =  ",")
+}
+
 # add other packages here:
+library(dplyr)
+library(readr)
+library(tibble)
 library(csasdown)
 ```
