@@ -23,6 +23,7 @@ abstract_other: |
 output:
  csasdown::techreport_pdf:
    french: false
+   copy_sty: true
 type:
   techreport
 # ------------

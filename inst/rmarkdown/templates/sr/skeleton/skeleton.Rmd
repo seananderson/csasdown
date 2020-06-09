@@ -15,9 +15,9 @@ branch: Science Branch
 region: Pacific Region
 output:
  csasdown::sr_pdf:
-  # csasdown::sr_word:
    french: false
    prepub: false
+   copy_sty: true
 type:
   sr
 # ------------

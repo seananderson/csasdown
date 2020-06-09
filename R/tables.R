@@ -103,13 +103,12 @@ csas_table <- function(x,
   }
   if (landscape) {
     k <- landscape(k)
-    if (repeat_header) {
-      k <- kable_styling(k,
-        latex_options = "repeat_header",
-        repeat_header_text = repeat_header_text,
-        repeat_header_method = repeat_header_method
-      )
-    }
+  }
+  if (repeat_header) {
+    k <- kable_styling(k,
+                       latex_options = "repeat_header",
+                       repeat_header_text = repeat_header_text,
+                       repeat_header_method = repeat_header_method)
   }
   k <- kable_styling(k, font_size = font_size)
   if (hold_position) {
