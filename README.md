@@ -75,11 +75,12 @@ Lacko, L.C. and Acheson, S.M. and Connors, B.M. 2020. Summary of the Annual 2018
 DFO. 2020. Evaluating the robustness of candidate management procedures in the BC Sablefish (*Anoplopoma fibria*) fishery for 2019-2020.. DFO Can. Sci. Advis. Sec. Sci. Resp. 2020/025. [[GitHub Repository]](https://github.com/samueldnj/SablefishSR2019)
 
 Haggarty, D.R., Huynh, Q.C., Forrest, R.E., Anderson, S.C., Bresch, M.J., Keppel, E.A. In review.
-Evaluation of potential rebuilding strategies for Inside Yelloweye Rockﬁsh (*Sebastes ruberrimus*) in British Columbia. DFO Can. Sci. Advis. Sec. Res. Doc. In review/nnn. v + 135 p.
+Evaluation of potential rebuilding strategies for Inside Yelloweye Rockﬁsh (*Sebastes ruberrimus*) in British Columbia. DFO Can. Sci. Advis. Sec. Res. Doc. Accepted at Regional Peer Review meeting in June 2020. v + 135 p.
 [[GitHub repository]](https://github.com/pbs-assess/yelloweye-inside)
 
 Anderson, S.C., Forrest, R.E., Huynh, Q.C., Keppel, E.A. In review. A management procedure
-framework for groundﬁsh in British Columbia. DFO Can. Sci. Advis. Sec. Res. Doc. In review/nnn. v + 133 p.
+framework for groundﬁsh in British Columbia. DFO Can. Sci. Advis. Sec. Res. Doc. 
+Accepted at Regional Peer Review meeting in June 2020. v + 133 p.
 [[GitHub repository]](https://github.com/pbs-assess/gfmp)
 
 DFO. 2020. Stock status update with application of management procedures for Pacifc Herring
