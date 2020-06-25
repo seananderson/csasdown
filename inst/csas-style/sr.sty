@@ -382,6 +382,7 @@
 %% The following controls the look of the second-level in an enumeration list
 %% This will make list items circles instead of stars
 \renewcommand{\labelitemii}{$\circ$}
+\renewcommand{\labelitemi}{$\bullet$}
 %% Sets up the levels of lists with types to use for each,
 %%  e.g. level 2 uses small alphabetic characters and
 %%  level 3 uses roman numerals.
@@ -413,6 +414,12 @@
   itemsep=3pt        % Vertical space between list items
 }
 \setitemize{itemsep=3pt}   % This needs to be here for itemsep above to be recognized
+
+% This actually does most of the bullet spacing:
+\setlist[itemize,1]{leftmargin=14pt,labelsep=10pt}
+\setlist[itemize,2]{leftmargin=15pt,labelsep=10pt}
+\setlist[enumerate,1]{leftmargin=14pt}
+\setlist[enumerate,2]{leftmargin=15pt}
 
 %% Hanging indent of the bibliography items.
 \setlength{\bibhang}{0.25in}
