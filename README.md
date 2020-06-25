@@ -66,6 +66,8 @@ Look on your GitHub repository and you should see all the new files there. Your 
 
 ## Publications prepared using csasdown
 
+DFO. 2020. Population status update for the northern resident killer whale (*Orcinus Orca*) in 2019. DFO Can. Sci. Advis. Sec. Sci. Resp. 2020/nnn. In press.
+
 Hansen, S.C., Obradovich, S.G., Rooper, C.N., Waddell, B.J., Nichol, L.M., MacNeill, S., and Barton, L.L. 2020. Identifying variables for standardization of the Northern Abalone (Haliotis kamtschatkana) Index Site Surveys time series (1978-2018) based on survey methodology and environmental variability. Can. Tech. Rep. Fish. Aquat. Sci. 3330: vii + 110 p. [[English]](https://waves-vagues.dfo-mpo.gc.ca/Library/40849296.pdf)
 
 Boldt, J., Anderson, E., King, J., Dennis-Bohm, H., Zubkowski, T., and Flostrand, L. 2020. Integrated Pelagic Ecosystem Survey on the Vancouver Island Continental Shelf, June 15 - July 15, 2019. Can. Tech. Rep. Fish. Aquat. Sci. 3339: vii + 85 p. [[English]](https://waves-vagues.dfo-mpo.gc.ca/Library/40843476.pdf)
