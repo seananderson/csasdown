@@ -15,7 +15,7 @@ techreport_word(french = FALSE, ...)
 \arguments{
 \item{french}{Logical for French (vs. English).}
 
-\item{...}{other arguments to \code{\link[bookdown:word_document2]{bookdown::word_document2()}}}
+\item{...}{other arguments to \code{\link[bookdown:html_document2]{bookdown::word_document2()}}}
 }
 \value{
 A Word Document based on the CSAS Res Doc template.

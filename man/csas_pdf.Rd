@@ -13,12 +13,30 @@ resdoc_pdf(
   latex_engine = "pdflatex",
   french = FALSE,
   prepub = FALSE,
+  copy_sty = TRUE,
+  pandoc_args = c("--top-level-division=chapter", "--wrap=none",
+    "--default-image-extension=png"),
   ...
 )
 
-sr_pdf(latex_engine = "pdflatex", french = FALSE, prepub = FALSE, ...)
+sr_pdf(
+  latex_engine = "pdflatex",
+  french = FALSE,
+  prepub = FALSE,
+  copy_sty = TRUE,
+  pandoc_args = c("--top-level-division=chapter", "--wrap=none",
+    "--default-image-extension=png"),
+  ...
+)
 
-techreport_pdf(french = FALSE, latex_engine = "pdflatex", ...)
+techreport_pdf(
+  french = FALSE,
+  latex_engine = "pdflatex",
+  copy_sty = TRUE,
+  pandoc_args = c("--top-level-division=chapter", "--wrap=none",
+    "--default-image-extension=png"),
+  ...
+)
 }
 \arguments{
 \item{toc}{A Boolean (\code{TRUE} or \code{FALSE}) specifying whether table of contents
@@ -36,6 +54,11 @@ should be created.}
 
 \item{prepub}{Logical for whether this is a prepublication version
 (currently not implemented for ResDocs)}
+
+\item{copy_sty}{Copy the .sty files every time? Set to \code{FALSE} to "freeze" the
+.sty file if you need to edit it.}
+
+\item{pandoc_args}{Any other arguments to pandoc.}
 
 \item{...}{other arguments to \code{\link[bookdown:pdf_book]{bookdown::pdf_book()}}.}
 }
