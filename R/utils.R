@@ -14,6 +14,9 @@
 #' @param french Logical for French (vs. English).
 #' @param prepub Logical for whether this is a prepublication version
 #'  (currently not implemented for ResDocs)
+#' @param copy_sty Copy the .sty files every time? Set to `FALSE` to "freeze" the
+#'   .sty file if you need to edit it.
+#' @param pandoc_args Any other arguments to pandoc.
 #' @param ... other arguments to [bookdown::pdf_book()].
 #' @return A modified `pdf_document` based on the CSAS LaTeX template.
 #' @import bookdown
@@ -24,7 +27,9 @@
 #' }
 resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
                        latex_engine = "pdflatex", french = FALSE,
-                       prepub = FALSE, copy_sty = TRUE, ...) {
+                       prepub = FALSE, copy_sty = TRUE,
+                       pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
+                       ...) {
   if (french) {
     file <- system.file("csas-tex", "res-doc-french.tex", package = "csasdown")
   } else {
@@ -37,7 +42,7 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
     toc_depth = toc_depth,
     highlight = highlight,
     keep_tex = TRUE,
-    pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
+    pandoc_args = pandoc_args,
     latex_engine = latex_engine,
     ...
   )
@@ -89,7 +94,9 @@ resdoc_word <- function(french = FALSE, ...) {
 #' @export
 #' @rdname csas_pdf
 sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
-                   copy_sty = TRUE, ...) {
+                   copy_sty = TRUE,
+                   pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
+                   ...) {
   if (french) {
     file <- system.file("csas-tex", "sr-french.tex", package = "csasdown")
   } else {
@@ -99,7 +106,7 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
   base <- bookdown::pdf_book(
     template = file,
     keep_tex = TRUE,
-    pandoc_args = c("--top-level-division=chapter", "--wrap=none"),
+    pandoc_args = pandoc_args,
     latex_engine = latex_engine,
     ...
   )
@@ -124,7 +131,7 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
 
 #' @export
 #' @rdname csas_docx
-sr_word <- function(french = FALSE, copy_sty = TRUE, ...) {
+sr_word <- function(french = FALSE, ...) {
   file <- if (french) "SRR-RS2016-fra.docx" else "SRR-RS2016-eng.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
@@ -136,7 +143,7 @@ sr_word <- function(french = FALSE, copy_sty = TRUE, ...) {
 
 #' @export
 #' @rdname csas_docx
-techreport_word <- function(french = FALSE, copy_sty = TRUE, ...) {
+techreport_word <- function(french = FALSE, ...) {
   file <- if (french) "PRO-CR2016-fra.docx" else "PRO-CR2016-eng.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
@@ -149,16 +156,17 @@ techreport_word <- function(french = FALSE, copy_sty = TRUE, ...) {
 #' @export
 #' @rdname csas_pdf
 techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
-                           copy_sty = TRUE, ...) {
+                           copy_sty = TRUE, pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"), ...) {
   if (french) {
     file <- system.file("csas-tex", "tech-report-french.tex", package = "csasdown")
   } else {
     file <- system.file("csas-tex", "tech-report.tex", package = "csasdown")
   }
+
   base <- bookdown::pdf_book(
     template = file,
     keep_tex = TRUE,
-    pandoc_args = c("--top-level-division=chapter", "--wrap=none"),
+    pandoc_args = pandoc_args,
     latex_engine = latex_engine,
     ...
   )
@@ -187,7 +195,7 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
 #' @return Nothing
 update_csasstyle <- function(copy = TRUE) {
   fn <- system.file("csas-style", package = "csasdown")
-  if(copy || (!dir.exists("csas-style") && !copy)){
+  if (copy || (!dir.exists("csas-style") && !copy)) {
     dir.create("csas-style", showWarnings = FALSE)
     ignore <- file.copy(fn, ".", overwrite = TRUE, recursive = TRUE)
   }
@@ -485,7 +493,7 @@ inject_refstepcounters <- function(x) {
   chpts <- grep("^\\\\starredchapter\\{", x)
   for (i in chpts) {
     # in very rare setups hypertarget doesn't appear(?):
-    .i <- if (grepl("hypertarget", x[i-1])) i else i + 1
+    .i <- if (grepl("hypertarget", x[i - 1])) i else i + 1
     x <- c(
       x[seq(1, .i - 3)],
       paste0(x[.i - 2], "\n\n\\clearpage\n\n\\refstepcounter{chapter}"),
@@ -618,18 +626,18 @@ get_contact_info <- function(region = "National Capital Region", isFr = FALSE) {
 create_tempdir_for_latex <- function(type = NULL,
                                      where = "r",
                                      tmp_dir = NULL,
-                                     root_dir = here::here()){
+                                     root_dir = here::here()) {
   stopifnot(type == "resdoc" ||
-            type == "sr" ||
-            type == "techreport")
+    type == "sr" ||
+    type == "techreport")
   stopifnot(where == "r" ||
-            where == "b")
+    where == "b")
 
-  if(is.null(tmp_dir)){
+  if (is.null(tmp_dir)) {
     tmp_dir <- tempdir()
   }
 
-  copy_dir <- function(from_dir, to_dir, recursive = TRUE){
+  copy_dir <- function(from_dir, to_dir, recursive = TRUE) {
     dir.create(to_dir, showWarnings = FALSE)
     to_dir <- file.path(to_dir, from_dir)
     dir.create(to_dir, showWarnings = FALSE)
@@ -647,12 +655,12 @@ create_tempdir_for_latex <- function(type = NULL,
 
   # Copy the TEX file
   tex_file_name <- paste0(type, ".tex")
-  if(where == "b"){
+  if (where == "b") {
     tex_file <- file.path(root_dir, "_book", tex_file_name)
-  }else if(where == "r"){
+  } else if (where == "r") {
     tex_file <- file.path(root_dir, tex_file_name)
   }
-  if(!file.exists(tex_file)){
+  if (!file.exists(tex_file)) {
     stop(paste0(type, ".tex"), " does not exist in the ", ifelse(where == "b", "_book", "root"), " directory")
   }
   invisible(file.copy(tex_file, tmp_dir))
