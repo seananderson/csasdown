@@ -199,7 +199,9 @@ add_extra_header <- function(kable_input,
                                                background,
                                                font_size,
                                                angle,
-                                               line_sep)
+                                               line_sep,
+                                               border_left = FALSE,
+                                               border_right = FALSE)
   if(line){
     new_header <- paste0(new_header_split[1], "\n",
                          new_header_split[2])
