@@ -257,7 +257,7 @@ fix_envs <- function(x,
       } else {
         abs_vec <- x[seq(abs_beg + 1, abs_end - 1)]
         abs_vec <- abs_vec[abs_vec != ""]
-        abstract <- paste(abs_vec, collapse = " \\break \\break ")
+        abstract <- paste(abs_vec, collapse = " \\vspace{1.5mm} \\break ")
         first_part <- x[seq_len(abs_beg - 1)]
         second_part <- x[seq(abs_end + 1, length(x))]
         x <- c(first_part, abstract, second_part)
