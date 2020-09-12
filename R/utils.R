@@ -486,6 +486,10 @@ fix_envs <- function(x,
       x[cite_loc_fr] <- ""
     } # End modify citations
   } # End if prepub
+
+  # Fix Res. Doc. 2013/092: -> Res. Doc. 2013/092.
+  x <- gsub("Res\\. Doc\\. ([0-9]{4}/[0-9]{2,}):", "Res. Doc. \\1.", x)
+  x <- gsub("MPO\\. Doc\\. de rech ([0-9]{4}/[0-9]{2,}):", "MPO. Doc. de rech \\1.", x)
   x
 }
 
