@@ -70,6 +70,10 @@ Look on your GitHub repository and you should see all the new files there. Your 
 
 ## Publications prepared using csasdown
 
+Ouellette-Plante, J., Chabot, D., Nozères, C. et Bourdages, H. 2020. Régimes alimentaires de poissons démersaux provenant des relevés écosystémiques du NGCC Teleost dans l’estuaire et le nord du golfe du Saint-Laurent, août 2015-2017. Rapp. tech. can. sci. halieut. aquat. 3383: v + 124 p. [[French](https://waves-vagues.dfo-mpo.gc.ca/Library/40889191.pdf)] [[English](https://waves-vagues.dfo-mpo.gc.ca/Library/40889178.pdf)]
+
+Holt, C.A., Freshwater, C., Holt, K., and Huang, A.-M. 2020. A quantitative tool for evaluating rebuilding plans for Pacific salmon. Can. Tech. Rep. Fish. Aquat. Sci. 3402: v + 26 p. [[English](https://waves-vagues.dfo-mpo.gc.ca/Library/40889385.pdf)]
+
 DFO. 2020. Population status update for the northern resident killer whale (*Orcinus Orca*) in 2019. DFO Can. Sci. Advis. Sec. Sci. Resp. 2020/040. [[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_040-eng.html)] [[French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_040-fra.html)]
 
 Hansen, S.C., Obradovich, S.G., Rooper, C.N., Waddell, B.J., Nichol, L.M., MacNeill, S., and Barton, L.L. 2020. Identifying variables for standardization of the Northern Abalone (Haliotis kamtschatkana) Index Site Surveys time series (1978-2018) based on survey methodology and environmental variability. Can. Tech. Rep. Fish. Aquat. Sci. 3330: vii + 110 p. [[English]](https://waves-vagues.dfo-mpo.gc.ca/Library/40849296.pdf)
