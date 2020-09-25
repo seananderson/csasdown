@@ -42,6 +42,14 @@
 
 \usepackage{tabularx}
 
+% Underlines
+\usepackage[normalem]{ulem}
+% hack into hyperref (from https://tex.stackexchange.com/q/208808)
+\makeatletter
+\newcommand*{\link}{\begingroup\@makeother\#\@mylink}
+\newcommand*{\@mylink}[2]{\href{#1}{\uline{#2}}\endgroup}
+\makeatother
+
 %% ------------------------------------------------------------------------------
 %% For landscape pages in CSAS documents
 % \usepackage{pdflscape}

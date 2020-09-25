@@ -501,6 +501,14 @@
 \usepackage{xcolor,soul}
 \usepackage{pdfcomment}
 
+% Underlines
+\usepackage[normalem]{ulem}
+% hack into hyperref (from https://tex.stackexchange.com/q/208808)
+\makeatletter
+\newcommand*{\link}{\begingroup\@makeother\#\@mylink}
+\newcommand*{\@mylink}[2]{\href{#1}{\uline{#2}}\endgroup}
+\makeatother
+
 % Included so that the kableExtra::linebreak function can be used
 \usepackage{makecell}
 
@@ -639,8 +647,8 @@ Canadian Science Advisory Secretariat\\
 Ottawa ON K1A 0E6\\
 \vspace{0.17cm}
 
-\href{http://www.dfo-mpo.gc.ca/csas-sccs/}{http://www.dfo-mpo.gc.ca/csas-sccs/}\\
-\href{mailto://csas-sccs@dfo-mpo.gc.ca}{csas-sccs@dfo-mpo.gc.ca}
+\link{http://www.dfo-mpo.gc.ca/csas-sccs/}{http://www.dfo-mpo.gc.ca/csas-sccs/}\\
+\link{mailto://csas-sccs@dfo-mpo.gc.ca}{csas-sccs@dfo-mpo.gc.ca}
 
 \vspace{0mm}
 \includegraphics[scale=0.96]{\locRepo/images/recycle.png}
