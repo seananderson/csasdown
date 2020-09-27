@@ -1,15 +1,15 @@
 # csasdown <img src='man/figures/csasdown-logo.png' align="right" height="139" />
 
-> Reproducible CSAS Reports with Bookdown
+> Reproducible CSAS Reports with R Markdown
 
 [![Travis build status](https://travis-ci.org/pbs-assess/csasdown.svg?branch=master)](https://travis-ci.org/pbs-assess/csasdown)
 [![Coverage status](https://codecov.io/gh/pbs-assess/csasdown/branch/master/graph/badge.svg)](https://codecov.io/github/pbs-assess/csasdown?branch=master)
 
-csasdown is an R package that facilitates generating Canadian Science Advisory Secretariat (CSAS) documents in PDF or Word format using R Markdown and bookdown. It inspired by Chester Ismay's thesisdown package and Ben Marwick's huskydown package.
+csasdown is an R package that facilitates generating Canadian Science Advisory Secretariat (CSAS) documents in PDF or Word format using R Markdown and bookdown.
 
 Please check the [wiki](https://github.com/pbs-assess/csasdown/wiki) for hints and FAQs.
 
-Slides from a short workshop on csasdown last year [[PDF](https://www.dropbox.com/s/7m23mh3yfhk5ah8/csasdown-slides.pdf?dl=1)].
+Slides from a short workshop on csasdown: [[PDF](https://www.dropbox.com/s/7m23mh3yfhk5ah8/csasdown-slides.pdf?dl=1)].
 
 Have a problem? If it's a bug or feature request please post it as a [GitHub Issue](https://github.com/pbs-assess/csasdown/issues). If it's a quick question on csasdown use, find us on [DFO MS Teams](https://teams.microsoft.com/l/channel/19%3ae15d7a8e776b418b8e4975a4c9c5f93f%40thread.skype/R%2520-%2520csasdown?groupId=50a32c0d-d5fe-4368-b95b-4beaaa1ba1a1&tenantId=1594fdae-a1d9-4405-915d-011467234338).
 
@@ -28,7 +28,7 @@ install.packages("remotes")
 remotes::install_github("pbs-assess/csasdown")
 ```
 
-3. Create a new project in a new directory to hold your document project and all the files that csasdown creates. If you're using RStudio: click File -> New Project -> New Directory -> New Project, then type the name of the project in the **Directory name** box. Check the box **Open in new session**. If you are going to use GitHub version control (or if you are not sure), check the box **Create a git repository**. Click **Create Project**. A new RStudio project will open up, and will have its working directory set to the new document project's directory. To check this, type ```getwd()``` in the console.
+3. Create a new project in a new directory to hold your document project and all the files that csasdown creates. If you're using RStudio: click File -> New Project -> New Directory -> New Project, then type the name of the project in the **Directory name** box. Check the box **Open in new session**. If you are going to use GitHub version control (or if you are not sure), check the box **Create a git repository**. Click **Create Project**. A new RStudio project will open up, and will have its working directory set to the new document project's directory.
 
 4. Run this line in your R console to create a new Research Document from the built-in template in whatever your working directory is:
 
@@ -50,11 +50,14 @@ csasdown::draft("sr")
 
 Note that the `techreport` example contains a lot of information on getting started with R Markdown and should be the first one you render if you are new to `csasdown`. The `resdoc` example contains other examples.
 
-5. Render the document right away to make sure everything works by opening the file **index.Rmd** and clicking the **knit** button. Once completed, a preview pane showing the PDF document will appear. The location of the PDF is in the **_book** directory. See the *Rendering* section below for more information.
+5. Render the document right away to make sure everything works by opening the file **index.Rmd** and clicking the **knit** button in RStudio. Once completed, a preview pane showing the PDF document will appear. The location of the PDF is in the **_book** directory. See the *Rendering* section below for more information.
 
 6. Read the output PDF carefully and compare with what is written in the .Rmd files. This will help you understand more quickly how the document is put together and how you might want to structure your document.
 
-7. *(Optional but recommended)* To make the initial commit on your GitHub page, first make a new, blank repository on GitHub. New to Git? Start with <https://happygitwithr.com/>. Open your git client software, navigate to the working directory of your new project and type the following commands:
+7. *(Optional but recommended)* Create a blank repository on GitHub, commit your changes, and push to GitHub. New to Git? Start with <https://happygitwithr.com/>.
+
+<!--
+Open your git client software, navigate to the working directory of your new project and type the following commands:
 
 ```git add *``` to add all the new files you created in step 4.
 
@@ -67,8 +70,9 @@ Note that the `techreport` example contains a lot of information on getting star
 ```git push --set-upstream origin master```
 
 Look on your GitHub repository and you should see all the new files there. Your git client is now set up to push and fetch from your repository on GitHub.
+-->
 
-8. Need to make an English and French version? See csasdown's sister package [rosettafish](https://github.com/pbs-assess/rosettafish).
+8. Need to make an English *and* French version? csasdown has support for both. Also see csasdown's sister package [rosettafish](https://github.com/pbs-assess/rosettafish).
 
 ## Publications prepared using csasdown
 
@@ -171,6 +175,7 @@ The rendered PDF or Word file of your report will be deposited in the `_book/` d
 
 <img src="screenshots/example-page.png" width="450">
 
+<!--
 If you want to add a CSAS-formatted .docx title page to a Res Doc, edit the file `templates/RES2016-eng-titlepage.docx` as desired and run the command:
 
 ```r
@@ -178,6 +183,7 @@ csasdown::add_resdoc_docx_titlepage()
 ```
 
 This will attach the title page to the beginning of the Word document.
+-->
 
 ## Components
 
@@ -213,7 +219,7 @@ This contains any `.docx` or `.tex` files that are need to compile the documents
 
 ## Related projects
 
-This project has drawn directly on code and ideas in the following:
+This project has drawn directly on code and ideas from the following:
 
 - <https://github.com/benmarwick/huskydown>
 - <https://github.com/ismayc/thesisdown>
