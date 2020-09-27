@@ -1,4 +1,6 @@
-# csasdown
+# csasdown <img src='man/figures/csasdown-logo.png' align="right" height="139" />
+
+> Reproducible CSAS Reports with Bookdown
 
 [![Travis build status](https://travis-ci.org/pbs-assess/csasdown.svg?branch=master)](https://travis-ci.org/pbs-assess/csasdown)
 [![Coverage status](https://codecov.io/gh/pbs-assess/csasdown/branch/master/graph/badge.svg)](https://codecov.io/github/pbs-assess/csasdown?branch=master)
