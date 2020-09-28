@@ -60,8 +60,13 @@
 %% ------------------------------------------------------------------------------
 %% Table of Contents
 \usepackage{tocloft}
+%% Set dot spacing size in TOC for each section
+\renewcommand{\cftchapdotsep}{1}
+\renewcommand{\cftsecdotsep}{1}
+\renewcommand{\cftsubsecdotsep}{1}
+\renewcommand{\cftsubsubsecdotsep}{1}
 %% Enable dots for chapters in the TOC
-\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftchapleader}{\cftdotfill{\cftchapdotsep}}
 %% Un-bold the chapter text in the TOC
 \renewcommand{\cftchapfont}{\mdseries}
 %% Un-bold the chapter page numbers in the TOC
