@@ -369,7 +369,7 @@ fix_envs <- function(x,
       references_end <- length(x) - 1
       x <- c(
         x[seq(1, references_insertion_line - 1)],
-        "\\phantomsection",
+        #"\\phantomsection",
         x[references_insertion_line],
         "% This manually sets the header for this unnumbered chapter.",
         # "\\markboth{References}{References}",
@@ -384,6 +384,12 @@ fix_envs <- function(x,
         x[seq(references_insertion_line + 1, references_begin - 1)],
         x[length(x)]
       )
+      # Modify References from starred chapter to regular chapter so that it is numbered
+      starred_references_line <- grep("\\\\section\\*\\{REFERENCES\\}\\\\label\\{references\\}\\}", x)
+      x[starred_references_line] <- gsub("\\*", "", x[starred_references_line])
+      # Remove the add contents line which was used to add the unnumbered section before
+      add_toc_contents_line <- grep("\\\\addcontentsline\\{toc\\}\\{section\\}\\{REFERENCES\\}", x)
+      x[add_toc_contents_line] <- ""
     } else {
       warning("Did not find the beginning of the LaTeX bibliography.", call. = FALSE)
     }
