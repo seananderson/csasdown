@@ -76,8 +76,11 @@
 %%  (entry, indent, numWidth)
 %% See the tocloft documentation to get these values
 \cftsetindents{chapter}{1.5em}{2.3em}
-%% Make vertical spacing between chapter entries in TOC = zero.
-\setlength{\cftbeforechapskip}{0pt}
+%% Set vertical spacing between entries in TOC
+\setlength{\cftbeforechapskip}{5pt}
+\setlength{\cftbeforesecskip}{5pt}
+\setlength{\cftbeforesubsecskip}{5pt}
+\setlength{\cftbeforesubsubsecskip}{5pt}
 %% Remove space between the Table of contents title and it's content.
 \setlength\cftaftertoctitleskip{6pt}
 %% ------------------------------------------------------------------------------
