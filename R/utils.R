@@ -314,6 +314,10 @@ fix_envs <- function(x,
 
   x <- gsub("^.*\\\\tightlist$", "", x)
 
+  # \eqref needs to be \ref so the equation references don't have () around them
+  # https://tex.stackexchange.com/a/107425
+  x <- gsub(" \\\\eqref\\{", "~\\\\ref\\{", x)
+
   # Non-breaking spaces:
   x <- gsub(" \\\\ref\\{", "~\\\\ref\\{", x)
 
