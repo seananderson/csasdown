@@ -22,9 +22,10 @@
 run_pdflatex <- function(extra_pdflatex = 1, ...) {
   dir_file <- list.files("_book", pattern = "*.tex", full.names = TRUE)[[1]]
   file <- list.files("_book", pattern = "*.tex", full.names = FALSE)[[1]]
-  if (file.exists(file)) {
+  if (file.exists(file) || file.exists(gsub("\\.tex", "\\.pdf", file))) {
     stop("The file '", file,
-      "' already exists.\nDelete it before running this function.", call. = FALSE)
+      "' (or its PDF version) already exists\nin the main report folder.",
+      " Delete it before running this function.", call. = FALSE)
   }
   file.copy(dir_file, ".", overwrite = FALSE)
   tinytex::latexmk(file, max_times = 12, ...)
@@ -32,6 +33,7 @@ run_pdflatex <- function(extra_pdflatex = 1, ...) {
   for (i in seq_len(extra_pdflatex)) {
     tinytex::pdflatex(file)
   }
-  file.copy(file, dir_file, overwrite = TRUE)
+  file.copy(gsub("\\.tex", "\\.pdf", file), "_book", overwrite = TRUE)
   file.remove(file)
+  file.remove(gsub("\\.tex", "\\.pdf", file))
 }
