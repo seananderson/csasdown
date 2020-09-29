@@ -23,7 +23,7 @@ draft <- function(type = c("resdoc", "sr", "techreport"),
                   edit = FALSE,
                   ...) {
 
-  if (!grepl("\\/inst\\/rmarkdown", type)) { # so it also works with unit testing
+  if (!grepl("\\/rmarkdown\\/templates", type)) { # so it also works with unit testing
     # type <- match.arg(type)
     if (!type %in% c("resdoc", "sr", "techreport")) {
       # Travis issue:
