@@ -25,6 +25,9 @@ Alternatively, if simple, describe the steps to reproduce the behavior. For exam
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
+**Observed behavior**
+What is actually happening?
+
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
