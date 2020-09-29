@@ -171,6 +171,15 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
     ...
   )
 
+  cover_file_pdf <- if (french) "tech-report-cover-french.pdf" else "tech-report-cover.pdf"
+  cover_file_docx <- if (french) "tech-report-cover-french.docx" else "tech-report-cover.docx"
+  if (!file.exists(cover_file_pdf)) {
+    cover_docx <- system.file("rmarkdown", "templates", "techreport", "skeleton", cover_file_docx, package = "csasdown")
+    cover_pdf <- system.file("rmarkdown", "templates", "techreport", "skeleton", cover_file_pdf, package = "csasdown")
+    warning("Missing the Tech Report cover page. Copying in the files...", call. = FALSE)
+    file.copy(cover_docx, ".", overwrite = FALSE)
+    file.copy(cover_pdf, ".", overwrite = FALSE)
+  }
   update_csasstyle(copy = copy_sty)
 
   base$knitr$opts_chunk$comment <- NA
