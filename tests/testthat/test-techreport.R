@@ -21,6 +21,8 @@ expect_warning({
   )
 })
 
+run_pdflatex()
+
 test_that("bookdown::render_book generates the PDF of the techreport", {
   expect_true(file.exists(file.path(testing_path, "_book", "techreport.pdf")))
 })
