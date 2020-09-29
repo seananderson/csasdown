@@ -4,15 +4,11 @@ testing_path <- file.path(tempdir(), "resdoc")
 dir.create(testing_path, showWarnings = FALSE)
 setwd(testing_path)
 unlink("index", recursive = TRUE, force = TRUE)
-suppressMessages(rmarkdown::draft("index.Rmd",
-                                  system.file("rmarkdown",
-                                              "templates",
-                                              "resdoc",
-                                              package = "csasdown"
-                                  ),
-                                  create_dir = TRUE,
-                                  edit = FALSE)
-                 )
+suppressMessages(csasdown::draft(
+  system.file("rmarkdown", "templates", "resdoc", package = "csasdown"),
+  create_dir = TRUE,
+  edit = FALSE
+))
 files <- file.path(testing_path, "index", dir("index"))
 invisible(file.copy(files, testing_path, recursive = TRUE))
 
@@ -20,8 +16,9 @@ invisible(file.copy(files, testing_path, recursive = TRUE))
 # Render the PDF resdoc
 expect_warning({
   bookdown::render_book("index.Rmd",
-                        csasdown::resdoc_pdf(),
-                        envir = globalenv())
+    csasdown::resdoc_pdf(),
+    envir = globalenv()
+  )
 })
 
 test_that("bookdown::render_book generates the PDF of the resdoc", {
@@ -31,9 +28,9 @@ test_that("bookdown::render_book generates the PDF of the resdoc", {
 # ----------------------------------------------------
 # Render the Word resdoc
 suppressWarnings(bookdown::render_book("index.Rmd",
-                                       csasdown::resdoc_word(),
-                                       envir = globalenv())
-)
+  csasdown::resdoc_word(),
+  envir = globalenv()
+))
 
 test_that("bookdown::render_book generates the .docx of the resdoc", {
   expect_true(file.exists(file.path(testing_path, "_book", "resdoc.docx")))
@@ -56,8 +53,9 @@ expect_message(check_yaml(), "contains all")
 # First, using the french argument of resdoc_pdf()
 expect_warning({
   bookdown::render_book("index.Rmd",
-                        csasdown::resdoc_pdf(french = TRUE),
-                        envir = globalenv())
+    csasdown::resdoc_pdf(french = TRUE),
+    envir = globalenv()
+  )
 })
 
 test_that("bookdown::render_book generates the PDF of the French resdoc", {
@@ -72,9 +70,10 @@ file.remove(file.path(testing_path, "_book", "resdoc.pdf"))
 
 expect_warning({
   bookdown::render_book("index.Rmd",
-                        csasdown::resdoc_pdf(),
-                        envir = globalenv())
-  })
+    csasdown::resdoc_pdf(),
+    envir = globalenv()
+  )
+})
 
 test_that("bookdown::render_book generates the PDF of the French resdoc", {
   expect_true(file.exists(file.path(testing_path, "_book", "resdoc.pdf")))
@@ -85,27 +84,24 @@ test_that("bookdown::render_book generates the PDF of the French resdoc", {
 
 setwd(testing_path)
 unlink("index", recursive = TRUE, force = TRUE)
-suppressMessages(rmarkdown::draft("index.Rmd",
-                                  system.file("rmarkdown",
-                                              "templates",
-                                              "resdoc",
-                                              package = "csasdown"
-                                  ),
-                                  create_dir = TRUE,
-                                  edit = FALSE)
-)
+suppressMessages(csasdown::draft(
+  system.file("rmarkdown", "templates", "resdoc", package = "csasdown"),
+  create_dir = TRUE,
+  edit = FALSE
+))
 
 suppressWarnings(bookdown::render_book("index.Rmd",
-                                       csasdown::resdoc_pdf(),
-                                       envir = globalenv())
-)
+  csasdown::resdoc_pdf(),
+  envir = globalenv()
+))
 files <- file.path(testing_path, "index", dir("index"))
 invisible(file.copy(files, testing_path, recursive = TRUE))
 
 tmp_dir <- create_tempdir_for_latex("resdoc",
-                                    "b",
-                                    tmp_dir = file.path(testing_path, "test"),
-                                    root_dir = getwd())
+  "b",
+  tmp_dir = file.path(testing_path, "test"),
+  root_dir = getwd()
+)
 tmp_csas_dir <- file.path(tmp_dir, "csas-style")
 
 expect_true(file.exists(file.path(tmp_csas_dir, "res-doc.sty")))
@@ -125,14 +121,16 @@ expect_true(file.exists(file.path(tmp_dir, "resdoc.tex")))
 # to a user-assigned directory
 file.copy(file.path("_book", "resdoc.tex"), "resdoc.tex")
 tmp_dir <- create_tempdir_for_latex("resdoc",
-                                    "r",
-                                    tmp_dir = file.path(testing_path, "test"),
-                                    root_dir = getwd())
+  "r",
+  tmp_dir = file.path(testing_path, "test"),
+  root_dir = getwd()
+)
 expect_true(file.exists(file.path(testing_path, "test", "resdoc.tex")))
 
 # Test correct application of system-created directory
 tmp_dir <- create_tempdir_for_latex("resdoc",
-                                    "r",
-                                    tmp_dir = NULL,
-                                    root_dir = getwd())
+  "r",
+  tmp_dir = NULL,
+  root_dir = getwd()
+)
 expect_true(file.exists(file.path(tmp_dir, "resdoc.tex")))

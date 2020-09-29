@@ -1,6 +1,5 @@
 Version: 1.0
 
-RestoreWorkspace: No
 SaveWorkspace: No
 AlwaysSaveHistory: Default
 
@@ -10,7 +9,7 @@ NumSpacesForTab: 2
 Encoding: UTF-8
 
 RnwWeave: knitr
-LaTeX: XeLaTeX
+LaTeX: pdfLaTeX
 
 AutoAppendNewline: Yes
 StripTrailingWhitespace: Yes
