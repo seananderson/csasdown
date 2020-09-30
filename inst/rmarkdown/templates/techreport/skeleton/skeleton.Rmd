@@ -24,6 +24,8 @@ output:
  csasdown::techreport_pdf:
    french: false
    copy_sty: true
+   line_nums: true
+   line_nums_mod: 1
 type:
   techreport
 # ------------

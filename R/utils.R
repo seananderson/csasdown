@@ -16,6 +16,8 @@
 #'  (currently not implemented for ResDocs)
 #' @param copy_sty Copy the .sty files every time? Set to `FALSE` to "freeze" the
 #'   .sty file if you need to edit it.
+#' @param line_nums Include line numbers in the document? Logical.
+#' @param line_nums_mod Numerical. Which modulo line numbers to label, 2 = every second line, etc.
 #' @param pandoc_args Any other arguments to pandoc.
 #' @param ... other arguments to [bookdown::pdf_book()].
 #' @return A modified `pdf_document` based on the CSAS LaTeX template.
@@ -28,6 +30,7 @@
 resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
                        latex_engine = "pdflatex", french = FALSE,
                        prepub = FALSE, copy_sty = TRUE,
+                       line_nums = TRUE, line_nums_mod = 1,
                        pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
                        ...) {
   if (french) {
@@ -46,7 +49,13 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
     latex_engine = latex_engine,
     ...
   )
-  update_csasstyle(copy = copy_sty)
+  if(class(line_nums_mod) != "integer"){
+    stop("line_nums_mod must be a numeric value.", call. = FALSE)
+  }
+  update_csasstyle(copy = copy_sty,
+                   line_nums = line_nums,
+                   line_nums_mod = line_nums_mod,
+                   which_sty = ifelse(french, "res-doc-french.sty", "res-doc.sty"))
 
   # Mostly copied from knitr::render_sweave
   base$knitr$opts_chunk$comment <- NA
@@ -95,6 +104,7 @@ resdoc_word <- function(french = FALSE, ...) {
 #' @rdname csas_pdf
 sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
                    copy_sty = TRUE,
+                   line_nums = TRUE, line_nums_mod = 1,
                    pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
                    ...) {
   if (french) {
@@ -110,7 +120,10 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
     latex_engine = latex_engine,
     ...
   )
-  update_csasstyle(copy = copy_sty)
+  update_csasstyle(copy = copy_sty,
+                   line_nums = line_nums,
+                   line_nums_mod = line_nums_mod,
+                   which_sty = ifelse(french, "sr-french.sty", "sr.sty"))
 
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
@@ -156,7 +169,9 @@ techreport_word <- function(french = FALSE, ...) {
 #' @export
 #' @rdname csas_pdf
 techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
-                           copy_sty = TRUE, pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"), ...) {
+                           copy_sty = TRUE,
+                           line_nums = TRUE, line_nums_mod = 1,
+                           pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"), ...) {
   if (french) {
     file <- system.file("csas-tex", "tech-report-french.tex", package = "csasdown")
   } else {
@@ -180,7 +195,10 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
     file.copy(cover_docx, ".", overwrite = FALSE)
     file.copy(cover_pdf, ".", overwrite = FALSE)
   }
-  update_csasstyle(copy = copy_sty)
+  update_csasstyle(copy = copy_sty,
+                   line_nums = line_nums,
+                   line_nums_mod = line_nums_mod,
+                   which_sty = ifelse(french, "tech-report-french.sty", "tech-report.sty"))
 
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
@@ -196,17 +214,35 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
 }
 
 #' Copy the csas-style directory from the local library location to
-#' the current directory, overwriting.
+#' the current directory, overwriting and edit the style file if necessary
 #'
 #' @param copy Logical. If TRUE, copy and overwrite if the directory already exists.
 #' If FALSE, only copy if the directory does not exist in the current directory
+#' @param line_nums Logical. Include line numbering in the document
+#' @param line_nums_mod Numerical. Which modulo line numbers to label, 2 = every second line, etc.
+#' @param which_sty Name of the style file to modify
 #'
 #' @return Nothing
-update_csasstyle <- function(copy = TRUE) {
+update_csasstyle <- function(copy = TRUE, line_nums = TRUE, line_nums_mod = 1, which_sty = "res-doc.sty") {
   fn <- system.file("csas-style", package = "csasdown")
   if (copy || (!dir.exists("csas-style") && !copy)) {
     dir.create("csas-style", showWarnings = FALSE)
     ignore <- file.copy(fn, ".", overwrite = TRUE, recursive = TRUE)
+  }
+  if(line_nums){
+    csas_style <- readLines(here::here("csas-style", which_sty))
+    if(length(grep("res-doc", which_sty))){
+      frontmatter_loc <- grep("frontmatter\\{", csas_style)
+      beg_of_file <- csas_style[1:(frontmatter_loc - 1)]
+      end_of_file <- csas_style[frontmatter_loc:length(csas_style)]
+      modulo <- paste0("\\modulolinenumbers[", line_nums_mod, "]")
+      csas_style <- c(beg_of_file, "\\linenumbers", modulo, end_of_file)
+      writeLines(csas_style, here::here("csas-style", which_sty))
+    }else{
+      modulo <- paste0("\\modulolinenumbers[", line_nums_mod, "]")
+      csas_style <- c(csas_style, "\\linenumbers", modulo)
+      writeLines(csas_style, here::here("csas-style", which_sty))
+    }
   }
 }
 
