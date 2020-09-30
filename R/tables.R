@@ -87,7 +87,8 @@ csas_table <- function(x,
                col.names = col_names,
                escape = escape,
                ...)
-    k <- kable_styling(k, font_size = font_size)
+    suppressWarnings(k <- kable_styling(k, font_size = font_size))
+
   } else {
     k <- kable(x = x,
                format = format,
@@ -96,23 +97,24 @@ csas_table <- function(x,
                longtable = longtable,
                escape = escape,
                ...)
-    k <- kable_styling(k, font_size = font_size)
+    suppressWarnings(k <- kable_styling(k, font_size = font_size))
   }
   if (bold_header) {
-    k <- row_spec(k, 0, bold = TRUE)
+    suppressWarnings(k <- row_spec(k, 0, bold = TRUE))
   }
   if (landscape) {
     k <- landscape(k)
   }
   if (repeat_header) {
+    suppressWarnings(
     k <- kable_styling(k,
                        latex_options = "repeat_header",
                        repeat_header_text = repeat_header_text,
-                       repeat_header_method = repeat_header_method)
+                       repeat_header_method = repeat_header_method))
   }
-  k <- kable_styling(k, font_size = font_size)
+  suppressWarnings(k <- kable_styling(k, font_size = font_size))
   if (hold_position) {
-    k <- kable_styling(k, latex_options = "hold_position")
+    suppressWarnings(k <- kable_styling(k, latex_options = "hold_position"))
   }
   k <- sub("\\caption\\[\\]\\{\\}", "\\caption*{}", k)
   if(!is.null(extra_header)){
