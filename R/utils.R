@@ -30,7 +30,7 @@
 resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
                        latex_engine = "pdflatex", french = FALSE,
                        prepub = FALSE, copy_sty = TRUE,
-                       line_nums = TRUE, line_nums_mod = 1,
+                       line_nums = FALSE, line_nums_mod = 1,
                        pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
                        ...) {
   if (french) {
@@ -49,8 +49,9 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
     latex_engine = latex_engine,
     ...
   )
-  if(class(line_nums_mod) != "integer"){
-    stop("line_nums_mod must be a numeric value.", call. = FALSE)
+
+  if(!class(line_nums_mod) %in% c("integer", "numeric")){
+    stop("line_nums_mod must be a numeric or integer value.", call. = FALSE)
   }
   update_csasstyle(copy = copy_sty,
                    line_nums = line_nums,
@@ -104,7 +105,7 @@ resdoc_word <- function(french = FALSE, ...) {
 #' @rdname csas_pdf
 sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
                    copy_sty = TRUE,
-                   line_nums = TRUE, line_nums_mod = 1,
+                   line_nums = FALSE, line_nums_mod = 1,
                    pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
                    ...) {
   if (french) {
@@ -170,7 +171,7 @@ techreport_word <- function(french = FALSE, ...) {
 #' @rdname csas_pdf
 techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
                            copy_sty = TRUE,
-                           line_nums = TRUE, line_nums_mod = 1,
+                           line_nums = FALSE, line_nums_mod = 1,
                            pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"), ...) {
   if (french) {
     file <- system.file("csas-tex", "tech-report-french.tex", package = "csasdown")
