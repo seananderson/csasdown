@@ -1,6 +1,6 @@
 Package: csasdown
 Title: Reproducible CSAS Reports with Bookdown
-Version: 0.0.8
+Version: 0.0.8.9001
 Authors@R: 
     c(person(given = c("Sean", "C."),
              family = "Anderson",
