@@ -3,18 +3,29 @@
 \name{update_csasstyle}
 \alias{update_csasstyle}
 \title{Copy the csas-style directory from the local library location to
-the current directory, overwriting.}
+the current directory, overwriting and edit the style file if necessary}
 \usage{
-update_csasstyle(copy = TRUE)
+update_csasstyle(
+  copy = TRUE,
+  line_nums = TRUE,
+  line_nums_mod = 1,
+  which_sty = "res-doc.sty"
+)
 }
 \arguments{
 \item{copy}{Logical. If TRUE, copy and overwrite if the directory already exists.
 If FALSE, only copy if the directory does not exist in the current directory}
+
+\item{line_nums}{Logical. Include line numbering in the document}
+
+\item{line_nums_mod}{Numerical. Which modulo line numbers to label, 2 = every second line, etc.}
+
+\item{which_sty}{Name of the style file to modify}
 }
 \value{
 Nothing
 }
 \description{
 Copy the csas-style directory from the local library location to
-the current directory, overwriting.
+the current directory, overwriting and edit the style file if necessary
 }

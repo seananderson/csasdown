@@ -14,6 +14,8 @@ resdoc_pdf(
   french = FALSE,
   prepub = FALSE,
   copy_sty = TRUE,
+  line_nums = TRUE,
+  line_nums_mod = 1,
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),
   ...
@@ -24,6 +26,8 @@ sr_pdf(
   french = FALSE,
   prepub = FALSE,
   copy_sty = TRUE,
+  line_nums = TRUE,
+  line_nums_mod = 1,
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),
   ...
@@ -33,6 +37,8 @@ techreport_pdf(
   french = FALSE,
   latex_engine = "pdflatex",
   copy_sty = TRUE,
+  line_nums = TRUE,
+  line_nums_mod = 1,
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),
   ...
@@ -57,6 +63,10 @@ should be created.}
 
 \item{copy_sty}{Copy the .sty files every time? Set to \code{FALSE} to "freeze" the
 .sty file if you need to edit it.}
+
+\item{line_nums}{Include line numbers in the document? Logical.}
+
+\item{line_nums_mod}{Numerical. Which modulo line numbers to label, 2 = every second line, etc.}
 
 \item{pandoc_args}{Any other arguments to pandoc.}
 

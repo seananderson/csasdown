@@ -58,8 +58,7 @@ Imports:
 Suggests:
     covr,
     magick,
-    testthat,
-    tinytex
+    testthat
 Remotes:
     pbs-assess/rosettafish
 ByteCompile: true
