@@ -158,7 +158,7 @@ sr_word <- function(french = FALSE, ...) {
 #' @export
 #' @rdname csas_docx
 techreport_word <- function(french = FALSE, ...) {
-  file <- if (french) "PRO-CR2016-fra.docx" else "PRO-CR2016-eng.docx"
+  file <- ifelse(french, "tech-report-cover-fra.docx", "tech-report-cover-eng.docx")
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
   )
@@ -578,6 +578,24 @@ add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2016-eng-titlepa
   title_doc <- officer::read_docx(titlepage)
   x <- officer::body_add_docx(title_doc, resdoc, pos = "before")
   print(x, target = resdoc)
+}
+
+#' Add a titlepage to a Tech report docx file
+#'
+#' Must hand edit the first two pages of your file afterwards to have your desired title and authors.
+#'
+#' @param titlepage Filename
+#' @param resdoc Filename
+#' @param french Logical. If TRUE, Add the French title page
+#'
+#' @return A merged .docx
+#' @export
+add_techreport_docx_titlepage <- function(titlepage = ifelse(french, "templates/tech-report-cover-fra.docx", "templates/tech-report-cover-eng.docx"),
+                                          doc = "_book/techreport.docx",
+                                          french = FALSE) {
+  title_doc <- officer::read_docx(titlepage)
+  x <- officer::body_add_docx(title_doc, doc, pos = "before")
+  print(x, target = doc)
 }
 
 is_windows <- function() {
