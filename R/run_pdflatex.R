@@ -28,11 +28,12 @@ run_pdflatex <- function(extra_pdflatex = 1, ...) {
       " Delete it before running this function.", call. = FALSE)
   }
   file.copy(dir_file, ".", overwrite = FALSE)
-  tinytex::latexmk(file, max_times = 12, ...)
+  tinytex::latexmk(file, clean = FALSE, ...)
   # The point of this function is that latexmk sometimes misses a run:
-  for (i in seq_len(extra_pdflatex)) {
-    tinytex::pdflatex(file)
+  for (i in seq_len(extra_pdflatex - 1)) {
+    tinytex::pdflatex(file, clean = FALSE)
   }
+  tinytex::pdflatex(file, clean = TRUE)
   file.copy(gsub("\\.tex", "\\.pdf", file), "_book", overwrite = TRUE)
   file.remove(file)
   file.remove(gsub("\\.tex", "\\.pdf", file))
