@@ -158,7 +158,7 @@ sr_word <- function(french = FALSE, ...) {
 #' @export
 #' @rdname csas_docx
 techreport_word <- function(french = FALSE, ...) {
-  file <- ifelse(french, "tech-report-cover-fra.docx", "tech-report-cover-eng.docx")
+  file <- "tech-report.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
   )
