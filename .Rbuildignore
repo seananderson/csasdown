@@ -15,4 +15,4 @@
 ^index$
 ^fonts\.zip$
 ^screenshots
-^.github$
+^\.github$
