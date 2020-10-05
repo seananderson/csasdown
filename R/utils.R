@@ -518,7 +518,7 @@ fix_envs <- function(x,
     } else {
       # Edit english citation
       cite_head_eng <- grep(
-        pattern = "Correct citation for this publication:",
+        pattern = "Correct Citation for this Publication:",
         x = x
       )
       if (length(cite_head_eng) == 0) stop("Can't find English citation header")
