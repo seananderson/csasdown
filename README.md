@@ -76,6 +76,11 @@ Look on your GitHub repository and you should see all the new files there. Your 
 
 ## Publications prepared using csasdown
 
+Obradovich, S.G., Hansen, S.C., Zhang, Z., MacNeill, S., Nichol, L.M., Rooper, C.N., St. Germain,
+C., Curtis, D.L., Waddell, B.J., and Barton, L.L. In press. Pre-COSEWIC review of DFO
+information on Northern Abalone (*Haliotis kamtschatkana*) along the Pacific Coast of Canada.
+DFO Can. Sci. Advis. Sec. Res. Doc. In press/nnn. iv + 74 p.
+
 Ouellette-Plante, J., Chabot, D., Nozères, C. et Bourdages, H. 2020. Régimes alimentaires de poissons démersaux provenant des relevés écosystémiques du NGCC Teleost dans l’estuaire et le nord du golfe du Saint-Laurent, août 2015-2017. Rapp. tech. can. sci. halieut. aquat. 3383: v + 124 p. [[French](https://waves-vagues.dfo-mpo.gc.ca/Library/40889191.pdf)] [[English](https://waves-vagues.dfo-mpo.gc.ca/Library/40889178.pdf)]
 
 Holt, C.A., Freshwater, C., Holt, K., and Huang, A.-M. 2020. A quantitative tool for evaluating rebuilding plans for Pacific salmon. Can. Tech. Rep. Fish. Aquat. Sci. 3402: v + 26 p. [[English](https://waves-vagues.dfo-mpo.gc.ca/Library/40889385.pdf)]
@@ -105,10 +110,6 @@ Advis. Sec. Sci. Resp. 2020/004.
 [[English]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-eng.html)
 [[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-fra.html)
 [[GitHub repository]](https://github.com/pbs-assess/herringsr)
-
-Hansen, S.C., Obradovich, S.G., Rooper, C.N., Waddell, B.J., Nichol, L.M., MacNeill, S., and Barton, L.L. 2020.
-Index Site Surveys time series (1978–2018) based on survey methodology and environmental variability. Can. Tech. Rep. Fish. Aquat. Sci. 3330: vii + 110 p.
-[[English]](https://waves-vagues.dfo-mpo.gc.ca/Library/40849296.pdf)
 
 Forrest, R.E., Anderson, S.C., Grandin, C.J., and Paul J. Starr. In press. Assessment of Pacific Cod (*Gadus macrocephalus*) for Hecate Strait and Queen Charlotte Sound (Area 5ABCD), and West Coast Vancouver Island (Area 3CD) in 2018. DFO Can. Sci. Advis. Sec. Res. Doc. In press/nnn. iv + 204 p.
 
