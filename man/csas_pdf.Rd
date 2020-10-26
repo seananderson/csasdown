@@ -13,12 +13,19 @@ resdoc_pdf(
   latex_engine = "pdflatex",
   french = FALSE,
   prepub = FALSE,
+  copy_sty = TRUE,
   ...
 )
 
-sr_pdf(latex_engine = "pdflatex", french = FALSE, prepub = FALSE, ...)
+sr_pdf(
+  latex_engine = "pdflatex",
+  french = FALSE,
+  prepub = FALSE,
+  copy_sty = TRUE,
+  ...
+)
 
-techreport_pdf(french = FALSE, latex_engine = "pdflatex", ...)
+techreport_pdf(french = FALSE, latex_engine = "pdflatex", copy_sty = TRUE, ...)
 }
 \arguments{
 \item{toc}{A Boolean (\code{TRUE} or \code{FALSE}) specifying whether table of contents
