@@ -4,15 +4,11 @@ testing_path <- file.path(tempdir(), "sr")
 dir.create(testing_path, showWarnings = FALSE)
 setwd(testing_path)
 unlink("index", recursive = TRUE, force = TRUE)
-suppressMessages(rmarkdown::draft("index.Rmd",
-                                  system.file("rmarkdown",
-                                              "templates",
-                                              "sr",
-                                              package = "csasdown"
-                                  ),
-                                  create_dir = TRUE,
-                                  edit = FALSE)
-                 )
+suppressMessages(csasdown::draft(
+  system.file("rmarkdown", "templates", "sr", package = "csasdown"),
+  create_dir = TRUE,
+  edit = FALSE
+))
 files <- file.path(testing_path, "index", dir("index"))
 invisible(file.copy(files, testing_path, recursive = TRUE))
 
@@ -20,8 +16,9 @@ invisible(file.copy(files, testing_path, recursive = TRUE))
 # Render the PDF sr
 expect_warning({
   bookdown::render_book("index.Rmd",
-                        csasdown::sr_pdf(),
-                        envir = globalenv())
+    csasdown::sr_pdf(),
+    envir = globalenv()
+  )
 })
 
 test_that("bookdown::render_book generates the PDF of the sr", {
@@ -31,9 +28,9 @@ test_that("bookdown::render_book generates the PDF of the sr", {
 # ----------------------------------------------------
 # Render the Word sr
 suppressWarnings(bookdown::render_book("index.Rmd",
-                                       csasdown::sr_word(),
-                                       envir = globalenv())
-)
+  csasdown::sr_word(),
+  envir = globalenv()
+))
 
 test_that("bookdown::render_book generates the .docx of the sr", {
   expect_true(file.exists(file.path(testing_path, "_book", "sr.docx")))
@@ -44,8 +41,9 @@ test_that("bookdown::render_book generates the .docx of the sr", {
 # First, using the french argument of sr_pdf()
 expect_warning({
   bookdown::render_book("index.Rmd",
-                        csasdown::sr_pdf(french = TRUE),
-                        envir = globalenv())
+    csasdown::sr_pdf(french = TRUE),
+    envir = globalenv()
+  )
 })
 
 test_that("bookdown::render_book generates the PDF of the French sr", {
@@ -59,9 +57,11 @@ writeLines(x, con = "index.Rmd")
 file.remove(file.path(testing_path, "_book", "sr.pdf"))
 
 expect_warning({
-  bookdown::render_book("index.Rmd",
-                        csasdown::sr_pdf(),
-                        envir = globalenv())
+  bookdown::render_book(
+    system.file("rmarkdown", "templates", "sr", package = "csasdown"),
+    csasdown::sr_pdf(),
+    envir = globalenv()
+  )
 })
 
 test_that("bookdown::render_book generates the PDF of the French sr", {
@@ -72,27 +72,24 @@ test_that("bookdown::render_book generates the PDF of the French sr", {
 # Creation and copying of test files to a temporary directory
 setwd(testing_path)
 unlink("index", recursive = TRUE, force = TRUE)
-suppressMessages(rmarkdown::draft("index.Rmd",
-                                  system.file("rmarkdown",
-                                              "templates",
-                                              "sr",
-                                              package = "csasdown"
-                                  ),
-                                  create_dir = TRUE,
-                                  edit = FALSE)
-)
+suppressMessages(csasdown::draft(
+  system.file("rmarkdown", "templates", "sr", package = "csasdown"),
+  create_dir = TRUE,
+  edit = FALSE
+))
 
 suppressWarnings(bookdown::render_book("index.Rmd",
-                                       csasdown::sr_pdf(),
-                                       envir = globalenv())
-)
+  csasdown::sr_pdf(),
+  envir = globalenv()
+))
 files <- file.path(testing_path, "index", dir("index"))
 invisible(file.copy(files, testing_path, recursive = TRUE))
 
 tmp_dir <- create_tempdir_for_latex("sr",
-                                    "b",
-                                    tmp_dir = file.path(testing_path, "test"),
-                                    root_dir = getwd())
+  "b",
+  tmp_dir = file.path(testing_path, "test"),
+  root_dir = getwd()
+)
 tmp_csas_dir <- file.path(tmp_dir, "csas-style")
 
 expect_true(file.exists(file.path(tmp_csas_dir, "res-doc.sty")))
@@ -112,14 +109,16 @@ expect_true(file.exists(file.path(tmp_dir, "sr.tex")))
 # to a user-assigned directory
 file.copy(file.path("_book", "sr.tex"), "sr.tex")
 tmp_dir <- create_tempdir_for_latex("sr",
-                                    "r",
-                                    tmp_dir = file.path(testing_path, "test"),
-                                    root_dir = getwd())
+  "r",
+  tmp_dir = file.path(testing_path, "test"),
+  root_dir = getwd()
+)
 expect_true(file.exists(file.path(testing_path, "test", "sr.tex")))
 
 # Test correct application of system-created directory
 tmp_dir <- create_tempdir_for_latex("sr",
-                                    "r",
-                                    tmp_dir = NULL,
-                                    root_dir = getwd())
+  "r",
+  tmp_dir = NULL,
+  root_dir = getwd()
+)
 expect_true(file.exists(file.path(tmp_dir, "sr.tex")))

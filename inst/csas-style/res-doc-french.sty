@@ -35,8 +35,9 @@
 
 %% ------------------------------------------------------------------------------
 %% If you want to show line numbers in the document
-\usepackage[pagewise]
+\usepackage[running]
            {lineno}
+
 %% Page margins
 \usepackage[top=1in,
             bottom=1in,
@@ -60,8 +61,13 @@
 %% ------------------------------------------------------------------------------
 %% Table of Contents
 \usepackage{tocloft}
+%% Set dot spacing size in TOC for each section
+\renewcommand{\cftchapdotsep}{1}
+\renewcommand{\cftsecdotsep}{1}
+\renewcommand{\cftsubsecdotsep}{1}
+\renewcommand{\cftsubsubsecdotsep}{1}
 %% Enable dots for chapters in the TOC
-\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftchapleader}{\cftdotfill{\cftchapdotsep}}
 %% Un-bold the chapter text in the TOC
 \renewcommand{\cftchapfont}{\mdseries}
 %% Un-bold the chapter page numbers in the TOC
@@ -70,8 +76,11 @@
 %%  (entry, indent, numWidth)
 %% See the tocloft documentation to get these values
 \cftsetindents{chapter}{1.5em}{2.3em}
-%% Make vertical spacing between chapter entries in TOC = zero.
-\setlength{\cftbeforechapskip}{0pt}
+%% Set vertical spacing between entries in TOC
+\setlength{\cftbeforechapskip}{5pt}
+\setlength{\cftbeforesecskip}{5pt}
+\setlength{\cftbeforesubsecskip}{5pt}
+\setlength{\cftbeforesubsubsecskip}{5pt}
 %% Remove space between the Table of contents title and it's content.
 \setlength\cftaftertoctitleskip{6pt}
 %% ------------------------------------------------------------------------------
@@ -500,6 +509,14 @@
 \usepackage{xcolor,soul}
 \usepackage{pdfcomment}
 
+% Underlines
+\usepackage[normalem]{ulem}
+% hack into hyperref (from https://tex.stackexchange.com/q/208808)
+\makeatletter
+\newcommand*{\link}{\begingroup\@makeother\#\@mylink}
+\newcommand*{\@mylink}[2]{\href{#1}{\uline{#2}}\endgroup}
+\makeatother
+
 
 %% Allows the french abstract to be pasted in with special characters intact
 %% Make sure maindoc.rnw is saved in utf8 encoding.
@@ -636,8 +653,8 @@ Secrétariat canadien de consultation scientifique\\
 Ottawa ON K1A 0E6\\
 \vspace{0.17cm}
 
-\href{http://www.dfo-mpo.gc.ca/csas-sccs/}{http://www.dfo-mpo.gc.ca/csas-sccs/}\\
-\href{mailto://csas-sccs@dfo-mpo.gc.ca}{csas-sccs@dfo-mpo.gc.ca}
+\link{http://www.dfo-mpo.gc.ca/csas-sccs/}{http://www.dfo-mpo.gc.ca/csas-sccs/}\\
+\link{mailto://csas-sccs@dfo-mpo.gc.ca}{csas-sccs@dfo-mpo.gc.ca}
 
 \vspace{0mm}
 \includegraphics[scale=0.96]{\locRepo/images/recycle.png}

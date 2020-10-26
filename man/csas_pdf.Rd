@@ -14,6 +14,10 @@ resdoc_pdf(
   french = FALSE,
   prepub = FALSE,
   copy_sty = TRUE,
+  line_nums = FALSE,
+  line_nums_mod = 1,
+  pandoc_args = c("--top-level-division=chapter", "--wrap=none",
+    "--default-image-extension=png"),
   ...
 )
 
@@ -26,6 +30,20 @@ sr_pdf(
 )
 
 techreport_pdf(french = FALSE, latex_engine = "pdflatex", copy_sty = TRUE, ...)
+  line_nums = FALSE,
+  line_nums_mod = 1,
+  pandoc_args = c("--top-level-division=chapter", "--wrap=none",
+    "--default-image-extension=png"),
+  ...
+  french = FALSE,
+  latex_engine = "pdflatex",
+  copy_sty = TRUE,
+  line_nums = FALSE,
+  line_nums_mod = 1,
+  pandoc_args = c("--top-level-division=chapter", "--wrap=none",
+    "--default-image-extension=png"),
+  ...
+)
 }
 \arguments{
 \item{toc}{A Boolean (\code{TRUE} or \code{FALSE}) specifying whether table of contents
@@ -43,6 +61,15 @@ should be created.}
 
 \item{prepub}{Logical for whether this is a prepublication version
 (currently not implemented for ResDocs)}
+
+\item{copy_sty}{Copy the .sty files every time? Set to \code{FALSE} to "freeze" the
+.sty file if you need to edit it.}
+
+\item{line_nums}{Include line numbers in the document? Logical.}
+
+\item{line_nums_mod}{Numerical. Which modulo line numbers to label, 2 = every second line, etc.}
+
+\item{pandoc_args}{Any other arguments to pandoc.}
 
 \item{...}{other arguments to \code{\link[bookdown:pdf_book]{bookdown::pdf_book()}}.}
 }

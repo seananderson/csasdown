@@ -1,6 +1,6 @@
 Package: csasdown
 Title: Reproducible CSAS Reports with Bookdown
-Version: 0.0.8
+Version: 0.0.8.9001
 Authors@R: 
     c(person(given = c("Sean", "C."),
              family = "Anderson",
@@ -53,17 +53,17 @@ Imports:
     rmarkdown,
     rosettafish,
     stringr,
-    tibble
+    tibble,
+    tinytex
 Suggests:
     covr,
     magick,
-    testthat,
-    tinytex
+    testthat
 Remotes:
     pbs-assess/rosettafish
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1.9000
 SystemRequirements: pandoc (>= 1.18) - http://pandoc.org

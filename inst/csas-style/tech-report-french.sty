@@ -4,7 +4,7 @@
 \RequirePackage{booktabs}  % Nicer table formatting
 \RequirePackage{textcomp}  % Prevents two warnings in gensymb
 \RequirePackage{gensymb}  % Symbols for math and text
-\RequirePackage{lineno}  % Number lines (editing)
+\RequirePackage[running]{lineno}  % Number lines (editing)
 \RequirePackage{longtable}  % Long tables (multi-page)
 \RequirePackage{amsmath}  % Math facilities
 \RequirePackage{microtype}  % Better type handling
@@ -36,10 +36,20 @@
 % Included so that the kableExtra::linebreak function can be used
 \RequirePackage{makecell}
 
+\RequirePackage{pdfpages}
+
 \RequirePackage{helvet}
 \renewcommand{\familydefault}{\sfdefault}
 
 \usepackage{tabularx}
+
+% Underlines
+\usepackage[normalem]{ulem}
+% hack into hyperref (from https://tex.stackexchange.com/q/208808)
+\makeatletter
+\newcommand*{\link}{\begingroup\@makeother\#\@mylink}
+\newcommand*{\@mylink}[2]{\href{#1}{\uline{#2}}\endgroup}
+\makeatother
 
 %% ------------------------------------------------------------------------------
 %% For landscape pages in CSAS documents
@@ -207,6 +217,7 @@
 \addto\captionsenglish{\renewcommand{\appendixname}{ANNEXE}}
 
 \renewcommand\appendixtocname{ANNEXES}
+\renewcommand\appendixpagename{ANNEXES}
 
 % Arguments for frames around figures (fbox)
 \setlength{\fboxsep}{0pt}  % Distance between frame and content
@@ -268,79 +279,83 @@
 % Prevent issues with the first two unnumbered pages
 \hypersetup{pageanchor=false}
 
-% First page: cover
-\thispagestyle{fancyplain}
-\DisableFootNotes
-\noindent
-\begin{flushleft}
-\Large
-\textbf{\trTitle{}}\\
-\vfill
-\large
-\trAuthsLong{}
-\vfill
-\trAddy{}
-\vfill
-\trYear{}
-\vfill
-\Large
-\textbf{Rapport technique canadien des\\
-sciences halieutiques et aquatiques \trReportNum{}}
-\lfoot{\includegraphics[height=7mm, keepaspectratio]{\locRepo/images/f_dfo_bw.png}}
-\cfoot{}
-\rfoot{\includegraphics[height=7mm, keepaspectratio]{\locRepo/images/canada_bw.png}}
-\end{flushleft}
-\EnableFootNotes
-\clearpage
+% % First page: cover
+% \thispagestyle{fancyplain}
+% \DisableFootNotes
+% \noindent
+% \begin{flushleft}
+% \Large
+% \textbf{\trTitle{}}\\
+% \vfill
+% \large
+% \trAuthsLong{}
+% \vfill
+% \trAddy{}
+% \vfill
+% \trYear{}
+% \vfill
+% \Large
+% \textbf{Rapport technique canadien des\\
+% sciences halieutiques et aquatiques \trReportNum{}}
+% \lfoot{\includegraphics[height=7mm, keepaspectratio]{\locRepo/images/f_dfo_bw.png}}
+% \cfoot{}
+% \rfoot{\includegraphics[height=7mm, keepaspectratio]{\locRepo/images/canada_bw.png}}
+% \end{flushleft}
+% \EnableFootNotes
+% \clearpage
 
-% Second page: Technical report
-\footnotesize
-\lfoot{} \cfoot{\thepage} \rfoot{}
-\thispagestyle{empty}
-\begin{center}
-\textbf{Rapport technique canadien des sciences halieutiques et aquatiques}
-\end{center}
-\noindent
-Les rapports techniques contiennent des renseignements scientifiques et techniques qui constituent une contribution aux connaissances actuelles, mais qui ne sont pas normalement appropri\'{e}s pour la publication dans un journal scientifique.
-Les rapports techniques sont destin\'{e}s essentiellement \`{a} un public international et ils sont distribu\'{e}s \`{a} cet \'{e}chelon.
-II n'y a aucune restriction quant au sujet; de fait, la s\'{e}rie refl\`{e}te la vaste gamme des int\'{e}r\^{e}ts et des politiques de P\^{e}ches et Oc\'{e}ans Canada, c'est-\`{a}-dire les sciences halieutiques et aquatiques.
-\indent
-\par
-Les rapports techniques peuvent \^{e}tre cit\'{e}s comme des publications \`{a} part enti\`{e}re.
-Le titre exact figure au-dessus du r\'{e}sum\'{e} de chaque rapport.
-Les rapports techniques sont r\'{e}sum\'{e}s dans la base de donn\'{e}es \emph{R\'{e}sum\'{e}s des sciences aquatiques et halieutiques}.
-\par
-Les rapports techniques sont produits \`{a} l'\'{e}chelon r\'{e}gional, mais num\'{e}rot\'{e}s \`{a} l'\'{e}chelon national.
-Les demandes de rapports seront satisfaites par l'\'{e}tablissement auteur dont le nom figure sur la couverture et la page du titre.
-Les rapports \'{e}puis\'{e}s seront fournis contre r\'{e}tribution par les agents commerciaux.
-\par
-Les num\'{e}ros 1 \`{a} 456 de cette s\'{e}rie ont \'{e}t\'{e} publi\'{e}s \`{a} titre de Rapports techniques de l'Office des recherches sur les p\^{e}cheries du Canada.
-Les num\'{e}ros 457 \`{a} 714 sont parus \`{a} titre de Rapports techniques de la Direction g\'{e}n\'{e}rale de la recherche et du d\'{e}veloppement, Service des p\^{e}ches et de la mer, minist\`{e}re de l'Environnement.
-Les num\'{e}ros 715 \`{a} 924 ont \'{e}t\'{e} publi\'{e}s \`{a} titre de Rapports techniques du Service des p\^{e}ches et de la mer, minist\`{e}re des P\^{e}ches et de l'Environnement.
-Le nom actuel de la s\'{e}rie a \'{e}t\'{e} \'{e}tabli lors de la parution du num\'{e}ro 925.
-\bigskip
-\begin{center}
-\textbf{Canadian Technical Report of Fisheries and Aquatic Sciences}
-\end{center}
-\noindent
-Technical reports contain scientific and technical information that contributes to existing knowledge but which is not normally appropriate for primary literature.
-Technical reports are directed primarily toward a worldwide audience and have an international distribution.
-No restriction is placed on subject matter and the series reflects the broad interests and policies of Fisheries and Oceans Canada, namely, fisheries and aquatic sciences.
-\indent
-\par
-Technical reports may be cited as full publications.
-The correct citation appears above the abstract of each report.
-Each report is abstracted in the data base \emph{Aquatic Sciences and Fisheries Abstracts}.
-\par
-Technical reports are produced regionally but are numbered nationally.
-Requests for individual reports will be filled by the issuing establishment listed on the front cover and title page.
-Out-of-stock reports will be supplied for a fee by commercial agents.
-\par
-Numbers 1--456 in this series were issued as Technical Reports of the Fisheries Research Board of Canada.
-Numbers 457--714 were issued as Department of the Environment, Fisheries and Marine Service, Research and Development Directorate Technical Reports.
-Numbers 715--924 were issued as Department of Fisheries and Environment, Fisheries and Marine Service Technical Reports.
-The current series name was changed with report number 925.
-\clearpage
+\includepdf[pages=-]{tech-report-cover-french.pdf}
+
+% % Second page: Technical report
+% \footnotesize
+% \lfoot{} \cfoot{\thepage} \rfoot{}
+% \thispagestyle{empty}
+% \begin{center}
+% \textbf{Rapport technique canadien des sciences halieutiques et aquatiques}
+% \end{center}
+% \noindent
+% Les rapports techniques contiennent des renseignements scientifiques et techniques qui constituent une contribution aux connaissances actuelles, mais qui ne sont pas normalement appropri\'{e}s pour la publication dans un journal scientifique.
+% Les rapports techniques sont destin\'{e}s essentiellement \`{a} un public international et ils sont distribu\'{e}s \`{a} cet \'{e}chelon.
+% II n'y a aucune restriction quant au sujet; de fait, la s\'{e}rie refl\`{e}te la vaste gamme des int\'{e}r\^{e}ts et des politiques de P\^{e}ches et Oc\'{e}ans Canada, c'est-\`{a}-dire les sciences halieutiques et aquatiques.
+% \indent
+% \par
+% Les rapports techniques peuvent \^{e}tre cit\'{e}s comme des publications \`{a} part enti\`{e}re.
+% Le titre exact figure au-dessus du r\'{e}sum\'{e} de chaque rapport.
+% Les rapports techniques sont r\'{e}sum\'{e}s dans la base de donn\'{e}es \emph{R\'{e}sum\'{e}s des sciences aquatiques et halieutiques}.
+% \par
+% Les rapports techniques sont produits \`{a} l'\'{e}chelon r\'{e}gional, mais num\'{e}rot\'{e}s \`{a} l'\'{e}chelon national.
+% Les demandes de rapports seront satisfaites par l'\'{e}tablissement auteur dont le nom figure sur la couverture et la page du titre.
+% Les rapports \'{e}puis\'{e}s seront fournis contre r\'{e}tribution par les agents commerciaux.
+% \par
+% Les num\'{e}ros 1 \`{a} 456 de cette s\'{e}rie ont \'{e}t\'{e} publi\'{e}s \`{a} titre de Rapports techniques de l'Office des recherches sur les p\^{e}cheries du Canada.
+% Les num\'{e}ros 457 \`{a} 714 sont parus \`{a} titre de Rapports techniques de la Direction g\'{e}n\'{e}rale de la recherche et du d\'{e}veloppement, Service des p\^{e}ches et de la mer, minist\`{e}re de l'Environnement.
+% Les num\'{e}ros 715 \`{a} 924 ont \'{e}t\'{e} publi\'{e}s \`{a} titre de Rapports techniques du Service des p\^{e}ches et de la mer, minist\`{e}re des P\^{e}ches et de l'Environnement.
+% Le nom actuel de la s\'{e}rie a \'{e}t\'{e} \'{e}tabli lors de la parution du num\'{e}ro 925.
+% \bigskip
+% \begin{center}
+% \textbf{Canadian Technical Report of Fisheries and Aquatic Sciences}
+% \end{center}
+% \noindent
+% Technical reports contain scientific and technical information that contributes to existing knowledge but which is not normally appropriate for primary literature.
+% Technical reports are directed primarily toward a worldwide audience and have an international distribution.
+% No restriction is placed on subject matter and the series reflects the broad interests and policies of Fisheries and Oceans Canada, namely, fisheries and aquatic sciences.
+% \indent
+% \par
+% Technical reports may be cited as full publications.
+% The correct citation appears above the abstract of each report.
+% Each report is abstracted in the data base \emph{Aquatic Sciences and Fisheries Abstracts}.
+% \par
+% Technical reports are produced regionally but are numbered nationally.
+% Requests for individual reports will be filled by the issuing establishment listed on the front cover and title page.
+% Out-of-stock reports will be supplied for a fee by commercial agents.
+% \par
+% Numbers 1--456 in this series were issued as Technical Reports of the Fisheries Research Board of Canada.
+% Numbers 457--714 were issued as Department of the Environment, Fisheries and Marine Service, Research and Development Directorate Technical Reports.
+% Numbers 715--924 were issued as Department of Fisheries and Environment, Fisheries and Marine Service Technical Reports.
+% The current series name was changed with report number 925.
+% \clearpage
+
+\includepdf[pages=-]{\locRepo/pages/AquatTechCouvInt.pdf}
 
 % Start page numbering/anchoring
 \hypersetup{pageanchor=true}
@@ -370,7 +385,7 @@ par
 \vspace*{\fill}
 \begin{center}
 \copyright{} Sa Majesté la Reine du Chef du Canada, \trYear{}\\
-N° de cat. Fs97-6/\trReportNum{} F-PDF \quad ISBN \trISBN{} \quad ISSN 1488-545X
+N° de cat. Fs97-6/\trReportNum{}F-PDF \quad ISBN \trISBN{} \quad ISSN 1488-545X
 \end{center}
 \par
 \bigskip

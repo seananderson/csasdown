@@ -1,29 +1,34 @@
-# csasdown
+# csasdown <img src='man/figures/csasdown-logo.png' align="right" height="139" />
+
+> Reproducible CSAS Reports with R Markdown
 
 [![Travis build status](https://travis-ci.org/pbs-assess/csasdown.svg?branch=master)](https://travis-ci.org/pbs-assess/csasdown)
 [![Coverage status](https://codecov.io/gh/pbs-assess/csasdown/branch/master/graph/badge.svg)](https://codecov.io/github/pbs-assess/csasdown?branch=master)
 
-csasdown is an R package that uses the bookdown package to generate Canadian Science Advisory Secretariat (CSAS) documents in PDF or Word format using R Markdown. It is based on Chester Ismay's thesisdown package and Ben Marwick's huskydown package.
+csasdown is an R package that facilitates generating Canadian Science Advisory Secretariat (CSAS) documents in PDF or Word format using R Markdown and bookdown.
 
 Please check the [wiki](https://github.com/pbs-assess/csasdown/wiki) for hints and FAQs.
 
-Slides from a short workshop on csasdown last year [[PDF](https://www.dropbox.com/s/7m23mh3yfhk5ah8/csasdown-slides.pdf?dl=1)].
+Slides from a short workshop on csasdown: [[PDF](https://www.dropbox.com/s/7m23mh3yfhk5ah8/csasdown-slides.pdf?dl=1)].
 
-**If you use csasdown to write a report, please let us know so we can add it to the list of publications using the package. This helps us justify spending our work time on its development. You can post an issue, make a pull request adding it to this readme, or send us a quick email (contact details [here](https://github.com/pbs-assess/csasdown/blob/c76731e8580bb12da9324e56ff5e56a8d4901aeb/DESCRIPTION#L5-L8)).**
+Have a problem? If it's a bug or feature request please post it as a [GitHub Issue](https://github.com/pbs-assess/csasdown/issues). If it's a quick question on csasdown use, find us on [DFO MS Teams](https://teams.microsoft.com/l/channel/19%3ae15d7a8e776b418b8e4975a4c9c5f93f%40thread.skype/R%2520-%2520csasdown?groupId=50a32c0d-d5fe-4368-b95b-4beaaa1ba1a1&tenantId=1594fdae-a1d9-4405-915d-011467234338).
+
+**If you use csasdown to write a report, please let us know so we can add it to the list of publications using the package. This helps us justify spending our work time on its development. You can post an issue, make a pull request adding it to this readme, send us a quick email (contact details [here](https://github.com/pbs-assess/csasdown/blob/c76731e8580bb12da9324e56ff5e56a8d4901aeb/DESCRIPTION#L5-L8)), or find us on [DFO MS Teams](https://teams.microsoft.com/l/channel/19%3ae15d7a8e776b418b8e4975a4c9c5f93f%40thread.skype/R%2520-%2520csasdown?groupId=50a32c0d-d5fe-4368-b95b-4beaaa1ba1a1&tenantId=1594fdae-a1d9-4405-915d-011467234338).**
+
 ## Initial setup
 
-To compile PDF documents using R, you need to have Pandoc, LaTeX and several related packages installed. If you have a recent version of  [RStudio](http://www.rstudio.com/products/rstudio/download/), then you already have Pandoc.
+To compile PDF documents using R, you need to have Pandoc, LaTeX, and several related packages installed. If you have a recent version of  [RStudio](http://www.rstudio.com/products/rstudio/download/), then you already have Pandoc.
 
-1. You will need to install LaTeX if you do not have it already. Read [this Wiki page](https://github.com/pbs-assess/csasdown/wiki/Latex-Installation-for-csasdown) for a detailed description of this procedure.
+1. You will need to install LaTeX if you do not have it already. Read [this Wiki page](https://github.com/pbs-assess/csasdown/wiki/Latex-Installation-for-csasdown) for a detailed description of this procedure. Most likely you will want to use the R package tinytex.
 
 2. Install the csasdown package:
 
 ```r
-install.packages("devtools")
-devtools::install_github("pbs-assess/csasdown")
+install.packages("remotes")
+remotes::install_github("pbs-assess/csasdown")
 ```
 
-3. Create a new project in a new directory to hold your document project and all the files that csasdown creates. If you're using RStudio: click File -> New Project -> New Directory -> New Project, then type the name of the project in the **Directory name** box. Check the box **Open in new session**. If you are going to use GitHub version control (or if you are not sure), check the box **Create a git repository**. Click **Create Project**. A new RStudio project will open up, and will have its working directory set to the new document project's directory. To check this, type ```getwd()``` in the console.
+3. Create a new project in a new directory to hold your document project and all the files that csasdown creates. If you're using RStudio: click File -> New Project -> New Directory -> New Project, then type the name of the project in the **Directory name** box. Check the box **Open in new session**. If you are going to use GitHub version control (or if you are not sure), check the box **Create a git repository**. Click **Create Project**. A new RStudio project will open up, and will have its working directory set to the new document project's directory.
 
 4. Run this line in your R console to create a new Research Document from the built-in template in whatever your working directory is:
 
@@ -43,29 +48,44 @@ or for a Science Response:
 csasdown::draft("sr")
 ```
 
-Note that the `techreport` example contains a lot of information on getting started with Rmarkdown and should be the first one you render if you are new to `csasdown`.
+Note that the `techreport` example contains a lot of information on getting started with R Markdown and should be the first one you render if you are new to `csasdown`. The `resdoc` example contains other examples.
 
-5. Render the document right away to make sure everything works by opening the file **index.Rmd** and clicking the **knit** button. Once completed, a preview pane showing the PDF document will appear. The location of the PDF is in the **_book** directory. See the *Rendering* section below for more information.
+5. Render the document right away to make sure everything works by opening the file **index.Rmd** and clicking the **knit** button in RStudio. Once completed, a preview pane showing the PDF document will appear. The location of the PDF is in the **_book** directory. See the *Rendering* section below for more information.
 
-6. Read the output PDF carefully and compare with what is written in the Rmd files. This will help you understand more quickly how the document is put together and how you might want to structure your document.
+6. Read the output PDF carefully and compare with what is written in the .Rmd files. This will help you understand more quickly how the document is put together and how you might want to structure your document.
 
-7. *(Optional but recommended)* To make the initial commit on your GitHub page, first make a new, blank repository on GitHub. Open your git client software (https://git-scm.com/downloads), navigate to the working directory of your new project and type the following commands:
+7. *(Optional but recommended)* Create a blank repository on GitHub, commit your changes, and push to GitHub. New to Git? Start with <https://happygitwithr.com/>.
+
+<!--
+Open your git client software, navigate to the working directory of your new project and type the following commands:
 
 ```git add *``` to add all the new files you created in step 4.
 
 ```git commit -m "Initial commit"```
 
-```git remote add origin URL``` where URL is the new repository URL as copied from the GitHub site. For example the URL for the csasdown project is https://github.com/pbs-assess/csasdown. This URL can usually be copied from your browser's URL line at the top and pasted into your command line.
+```git remote add origin URL``` where URL is the new repository URL as copied from the GitHub site.
 
 ```git remote -v``` verifies you entered the correct URL and it is bound to **origin**
 
 ```git push --set-upstream origin master```
 
 Look on your GitHub repository and you should see all the new files there. Your git client is now set up to push and fetch from your repository on GitHub.
+-->
+
+8. Need to make an English *and* French version? csasdown has support for both. Also see csasdown's sister package [rosettafish](https://github.com/pbs-assess/rosettafish).
 
 ## Publications prepared using csasdown
 
-DFO. 2020. Population status update for the northern resident killer whale (*Orcinus Orca*) in 2019. DFO Can. Sci. Advis. Sec. Sci. Resp. 2020/040. In press.
+Obradovich, S.G., Hansen, S.C., Zhang, Z., MacNeill, S., Nichol, L.M., Rooper, C.N., St. Germain,
+C., Curtis, D.L., Waddell, B.J., and Barton, L.L. In press. Pre-COSEWIC review of DFO
+information on Northern Abalone (*Haliotis kamtschatkana*) along the Pacific Coast of Canada.
+DFO Can. Sci. Advis. Sec. Res. Doc. In press/nnn. iv + 74 p.
+
+Ouellette-Plante, J., Chabot, D., Nozères, C. et Bourdages, H. 2020. Régimes alimentaires de poissons démersaux provenant des relevés écosystémiques du NGCC Teleost dans l’estuaire et le nord du golfe du Saint-Laurent, août 2015-2017. Rapp. tech. can. sci. halieut. aquat. 3383: v + 124 p. [[French](https://waves-vagues.dfo-mpo.gc.ca/Library/40889191.pdf)] [[English](https://waves-vagues.dfo-mpo.gc.ca/Library/40889178.pdf)]
+
+Holt, C.A., Freshwater, C., Holt, K., and Huang, A.-M. 2020. A quantitative tool for evaluating rebuilding plans for Pacific salmon. Can. Tech. Rep. Fish. Aquat. Sci. 3402: v + 26 p. [[English](https://waves-vagues.dfo-mpo.gc.ca/Library/40889385.pdf)]
+
+DFO. 2020. Population status update for the northern resident killer whale (*Orcinus Orca*) in 2019. DFO Can. Sci. Advis. Sec. Sci. Resp. 2020/040. [[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_040-eng.html)] [[French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_040-fra.html)]
 
 Hansen, S.C., Obradovich, S.G., Rooper, C.N., Waddell, B.J., Nichol, L.M., MacNeill, S., and Barton, L.L. 2020. Identifying variables for standardization of the Northern Abalone (Haliotis kamtschatkana) Index Site Surveys time series (1978-2018) based on survey methodology and environmental variability. Can. Tech. Rep. Fish. Aquat. Sci. 3330: vii + 110 p. [[English]](https://waves-vagues.dfo-mpo.gc.ca/Library/40849296.pdf)
 
@@ -90,10 +110,6 @@ Advis. Sec. Sci. Resp. 2020/004.
 [[English]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-eng.html)
 [[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-fra.html)
 [[GitHub repository]](https://github.com/pbs-assess/herringsr)
-
-Hansen, S.C., Obradovich, S.G., Rooper, C.N., Waddell, B.J., Nichol, L.M., MacNeill, S., and Barton, L.L. 2020.
-Index Site Surveys time series (1978–2018) based on survey methodology and environmental variability. Can. Tech. Rep. Fish. Aquat. Sci. 3330: vii + 110 p.
-[[English]](https://waves-vagues.dfo-mpo.gc.ca/Library/40849296.pdf)
 
 Forrest, R.E., Anderson, S.C., Grandin, C.J., and Paul J. Starr. In press. Assessment of Pacific Cod (*Gadus macrocephalus*) for Hecate Strait and Queen Charlotte Sound (Area 5ABCD), and West Coast Vancouver Island (Area 3CD) in 2018. DFO Can. Sci. Advis. Sec. Res. Doc. In press/nnn. iv + 204 p.
 
@@ -160,6 +176,7 @@ The rendered PDF or Word file of your report will be deposited in the `_book/` d
 
 <img src="screenshots/example-page.png" width="450">
 
+<!--
 If you want to add a CSAS-formatted .docx title page to a Res Doc, edit the file `templates/RES2016-eng-titlepage.docx` as desired and run the command:
 
 ```r
@@ -167,6 +184,7 @@ csasdown::add_resdoc_docx_titlepage()
 ```
 
 This will attach the title page to the beginning of the Word document.
+-->
 
 ## Components
 
@@ -200,40 +218,14 @@ Store pre-made figures and data here and reference them in your R Markdown files
 
 This contains any `.docx` or `.tex` files that are need to compile the documents. With the exception of the title page file, you shouldn't have to edit any of these files.
 
-## Debugging the LaTeX output on its own
-
-***Advanced topic***
-
-Sometimes a document will knit perfectly but there will be an error in the LaTeX part. It can be very helpful fix the LaTeX error manually, then implement that fix into your R code. The easiest way to do this is to run the following from the root directory of your project (where your .Rproj file is located):
-
-```r
-  root_dir <- getwd()
-  tmp_dir <- create_tempdir_for_latex(type = "resdoc", where = "r")
-  # or tmp_dir <- create_tempdir_for_latex(type = "sr", where = "r")
-  # or tmp_dir <- create_tempdir_for_latex(type = "techreport", where = "r")
-  setwd(tmp_dir)
-  tinytex::latexmk("resdoc.tex")
-  # or tinytex::latexmk("sr.tex")
-  # or tinytex::latexmk("techreport.tex")
-```
-
-This code creates a temporary directory somewhere on your file system. In Windows this will be in `C:\Users\your_user_name\AppData\Local\Temp` unless you provide a directory to the *tmp_dir* argument in the `create_tempdir_for_latex()` function.
-
-The `where = "r"` part in the `create_tempdir_for_latex(type = "resdoc", where = "r")` call tells the function to look for the `resdoc.tex` file in the root directory of your project. If the compilation of the document fails for any reason, this file is left in the root directory. If it succeeds, it is found in the `_book` subdirectory. In that case you would use `create_tempdir_for_latex(type = "resdoc", where = "b")`. Usually you want to debug when compilation fails, so you would usually use `where = "r"` (the default).
-
-When you run the `tinytex::latexmk("resdoc.tex")` command from within that temporary directory, LaTeX will be run on the `resdoc.tex` file and the PDF or Word file will be generated. You can debug LaTeX errors here by modifying the .tex file directly and re-running the `tinytex::latexmk("resdoc.tex")` function to see if it compiles. Once it does it is up to you to figure out what R code in your project needs to be modified to fix this issue. Note this directory is garbage-collected by R meaning it will be destroyed once the R session is closed. Don't write any code in the .tex file that you intend to keep.
-
-When you are done, return to your project's root directory:
-```r
-  setwd(root_dir)
-```
-
 ## Related projects
 
-This project has drawn directly on code and ideas in the following:
+This project has drawn directly on code and ideas from the following:
 
 - <https://github.com/benmarwick/huskydown>
 - <https://github.com/ismayc/thesisdown>
+
+[NAFOdown](https://github.com/nafc-assess/NAFOdown) is a derivative of csasdown for rendering NAFO (Northwest Atlantic Fisheries Organization) reports.
 
 ## Contributing
 

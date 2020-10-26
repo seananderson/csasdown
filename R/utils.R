@@ -14,6 +14,11 @@
 #' @param french Logical for French (vs. English).
 #' @param prepub Logical for whether this is a prepublication version
 #'  (currently not implemented for ResDocs)
+#' @param copy_sty Copy the .sty files every time? Set to `FALSE` to "freeze" the
+#'   .sty file if you need to edit it.
+#' @param line_nums Include line numbers in the document? Logical.
+#' @param line_nums_mod Numerical. Which modulo line numbers to label, 2 = every second line, etc.
+#' @param pandoc_args Any other arguments to pandoc.
 #' @param ... other arguments to [bookdown::pdf_book()].
 #' @return A modified `pdf_document` based on the CSAS LaTeX template.
 #' @import bookdown
@@ -24,7 +29,10 @@
 #' }
 resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
                        latex_engine = "pdflatex", french = FALSE,
-                       prepub = FALSE, copy_sty = TRUE, ...) {
+                       prepub = FALSE, copy_sty = TRUE,
+                       line_nums = FALSE, line_nums_mod = 1,
+                       pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
+                       ...) {
   if (french) {
     file <- system.file("csas-tex", "res-doc-french.tex", package = "csasdown")
   } else {
@@ -37,11 +45,18 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
     toc_depth = toc_depth,
     highlight = highlight,
     keep_tex = TRUE,
-    pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
+    pandoc_args = pandoc_args,
     latex_engine = latex_engine,
     ...
   )
-  update_csasstyle(copy = copy_sty)
+
+  if(!class(line_nums_mod) %in% c("integer", "numeric")){
+    stop("line_nums_mod must be a numeric or integer value.", call. = FALSE)
+  }
+  update_csasstyle(copy = copy_sty,
+                   line_nums = line_nums,
+                   line_nums_mod = line_nums_mod,
+                   which_sty = ifelse(french, "res-doc-french.sty", "res-doc.sty"))
 
   # Mostly copied from knitr::render_sweave
   base$knitr$opts_chunk$comment <- NA
@@ -89,7 +104,10 @@ resdoc_word <- function(french = FALSE, ...) {
 #' @export
 #' @rdname csas_pdf
 sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
-                   copy_sty = TRUE, ...) {
+                   copy_sty = TRUE,
+                   line_nums = FALSE, line_nums_mod = 1,
+                   pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
+                   ...) {
   if (french) {
     file <- system.file("csas-tex", "sr-french.tex", package = "csasdown")
   } else {
@@ -99,11 +117,14 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
   base <- bookdown::pdf_book(
     template = file,
     keep_tex = TRUE,
-    pandoc_args = c("--top-level-division=chapter", "--wrap=none"),
+    pandoc_args = pandoc_args,
     latex_engine = latex_engine,
     ...
   )
-  update_csasstyle(copy = copy_sty)
+  update_csasstyle(copy = copy_sty,
+                   line_nums = line_nums,
+                   line_nums_mod = line_nums_mod,
+                   which_sty = ifelse(french, "sr-french.sty", "sr.sty"))
 
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
@@ -124,7 +145,7 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
 
 #' @export
 #' @rdname csas_docx
-sr_word <- function(french = FALSE, copy_sty = TRUE, ...) {
+sr_word <- function(french = FALSE, ...) {
   file <- if (french) "SRR-RS2016-fra.docx" else "SRR-RS2016-eng.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
@@ -136,8 +157,8 @@ sr_word <- function(french = FALSE, copy_sty = TRUE, ...) {
 
 #' @export
 #' @rdname csas_docx
-techreport_word <- function(french = FALSE, copy_sty = TRUE, ...) {
-  file <- if (french) "PRO-CR2016-fra.docx" else "PRO-CR2016-eng.docx"
+techreport_word <- function(french = FALSE, ...) {
+  file <- "tech-report.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
   )
@@ -149,21 +170,36 @@ techreport_word <- function(french = FALSE, copy_sty = TRUE, ...) {
 #' @export
 #' @rdname csas_pdf
 techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
-                           copy_sty = TRUE, ...) {
+                           copy_sty = TRUE,
+                           line_nums = FALSE, line_nums_mod = 1,
+                           pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"), ...) {
   if (french) {
     file <- system.file("csas-tex", "tech-report-french.tex", package = "csasdown")
   } else {
     file <- system.file("csas-tex", "tech-report.tex", package = "csasdown")
   }
+
   base <- bookdown::pdf_book(
     template = file,
     keep_tex = TRUE,
-    pandoc_args = c("--top-level-division=chapter", "--wrap=none"),
+    pandoc_args = pandoc_args,
     latex_engine = latex_engine,
     ...
   )
 
-  update_csasstyle(copy = copy_sty)
+  cover_file_pdf <- if (french) "tech-report-cover-french.pdf" else "tech-report-cover.pdf"
+  cover_file_docx <- if (french) "tech-report-cover-french.docx" else "tech-report-cover.docx"
+  if (!file.exists(cover_file_pdf)) {
+    cover_docx <- system.file("rmarkdown", "templates", "techreport", "skeleton", cover_file_docx, package = "csasdown")
+    cover_pdf <- system.file("rmarkdown", "templates", "techreport", "skeleton", cover_file_pdf, package = "csasdown")
+    warning("Missing the Tech Report cover page. Copying in the files...", call. = FALSE)
+    file.copy(cover_docx, ".", overwrite = FALSE)
+    file.copy(cover_pdf, ".", overwrite = FALSE)
+  }
+  update_csasstyle(copy = copy_sty,
+                   line_nums = line_nums,
+                   line_nums_mod = line_nums_mod,
+                   which_sty = ifelse(french, "tech-report-french.sty", "tech-report.sty"))
 
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
@@ -179,17 +215,35 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
 }
 
 #' Copy the csas-style directory from the local library location to
-#' the current directory, overwriting.
+#' the current directory, overwriting and edit the style file if necessary
 #'
 #' @param copy Logical. If TRUE, copy and overwrite if the directory already exists.
 #' If FALSE, only copy if the directory does not exist in the current directory
+#' @param line_nums Logical. Include line numbering in the document
+#' @param line_nums_mod Numerical. Which modulo line numbers to label, 2 = every second line, etc.
+#' @param which_sty Name of the style file to modify
 #'
 #' @return Nothing
-update_csasstyle <- function(copy = TRUE) {
+update_csasstyle <- function(copy = TRUE, line_nums = TRUE, line_nums_mod = 1, which_sty = "res-doc.sty") {
   fn <- system.file("csas-style", package = "csasdown")
-  if(copy || (!dir.exists("csas-style") && !copy)){
+  if (copy || (!dir.exists("csas-style") && !copy)) {
     dir.create("csas-style", showWarnings = FALSE)
     ignore <- file.copy(fn, ".", overwrite = TRUE, recursive = TRUE)
+  }
+  if(line_nums){
+    csas_style <- readLines(here::here("csas-style", which_sty))
+    if(length(grep("res-doc", which_sty))){
+      frontmatter_loc <- grep("frontmatter\\{", csas_style)
+      beg_of_file <- csas_style[1:(frontmatter_loc - 1)]
+      end_of_file <- csas_style[frontmatter_loc:length(csas_style)]
+      modulo <- paste0("\\modulolinenumbers[", line_nums_mod, "]")
+      csas_style <- c(beg_of_file, "\\linenumbers", modulo, end_of_file)
+      writeLines(csas_style, here::here("csas-style", which_sty))
+    }else{
+      modulo <- paste0("\\modulolinenumbers[", line_nums_mod, "]")
+      csas_style <- c(csas_style, "\\linenumbers", modulo)
+      writeLines(csas_style, here::here("csas-style", which_sty))
+    }
   }
 }
 
@@ -249,7 +303,7 @@ fix_envs <- function(x,
       } else {
         abs_vec <- x[seq(abs_beg + 1, abs_end - 1)]
         abs_vec <- abs_vec[abs_vec != ""]
-        abstract <- paste(abs_vec, collapse = " \\break \\break ")
+        abstract <- paste(abs_vec, collapse = " \\vspace{1.5mm} \\break ")
         first_part <- x[seq_len(abs_beg - 1)]
         second_part <- x[seq(abs_end + 1, length(x))]
         x <- c(first_part, abstract, second_part)
@@ -306,6 +360,10 @@ fix_envs <- function(x,
 
   x <- gsub("^.*\\\\tightlist$", "", x)
 
+  # \eqref needs to be \ref so the equation references don't have () around them
+  # https://tex.stackexchange.com/a/107425
+  x <- gsub("\\\\eqref\\{", "\\\\ref\\{", x)
+
   # Non-breaking spaces:
   x <- gsub(" \\\\ref\\{", "~\\\\ref\\{", x)
 
@@ -361,7 +419,7 @@ fix_envs <- function(x,
       references_end <- length(x) - 1
       x <- c(
         x[seq(1, references_insertion_line - 1)],
-        "\\phantomsection",
+        #"\\phantomsection",
         x[references_insertion_line],
         "% This manually sets the header for this unnumbered chapter.",
         # "\\markboth{References}{References}",
@@ -376,6 +434,12 @@ fix_envs <- function(x,
         x[seq(references_insertion_line + 1, references_begin - 1)],
         x[length(x)]
       )
+      # Modify References from starred chapter to regular chapter so that it is numbered
+      starred_references_line <- grep("\\\\section\\*\\{REFERENCES\\}\\\\label\\{references\\}\\}", x)
+      x[starred_references_line] <- gsub("\\*", "", x[starred_references_line])
+      # Remove the add contents line which was used to add the unnumbered section before
+      add_toc_contents_line <- grep("\\\\addcontentsline\\{toc\\}\\{section\\}\\{REFERENCES\\}", x)
+      x[add_toc_contents_line] <- ""
     } else {
       warning("Did not find the beginning of the LaTeX bibliography.", call. = FALSE)
     }
@@ -454,7 +518,7 @@ fix_envs <- function(x,
     } else {
       # Edit english citation
       cite_head_eng <- grep(
-        pattern = "Correct citation for this publication:",
+        pattern = "Correct Citation for this Publication:",
         x = x
       )
       if (length(cite_head_eng) == 0) stop("Can't find English citation header")
@@ -478,6 +542,10 @@ fix_envs <- function(x,
       x[cite_loc_fr] <- ""
     } # End modify citations
   } # End if prepub
+
+  # Fix Res. Doc. 2013/092: -> Res. Doc. 2013/092.
+  x <- gsub("Res\\. Doc\\. ([0-9]{4}/[0-9]{2,}):", "Res. Doc. \\1.", x)
+  x <- gsub("MPO\\. Doc\\. de rech ([0-9]{4}/[0-9]{2,}):", "MPO. Doc. de rech \\1.", x)
   x
 }
 
@@ -485,7 +553,7 @@ inject_refstepcounters <- function(x) {
   chpts <- grep("^\\\\starredchapter\\{", x)
   for (i in chpts) {
     # in very rare setups hypertarget doesn't appear(?):
-    .i <- if (grepl("hypertarget", x[i-1])) i else i + 1
+    .i <- if (grepl("hypertarget", x[i - 1])) i else i + 1
     x <- c(
       x[seq(1, .i - 3)],
       paste0(x[.i - 2], "\n\n\\clearpage\n\n\\refstepcounter{chapter}"),
@@ -510,6 +578,24 @@ add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2016-eng-titlepa
   title_doc <- officer::read_docx(titlepage)
   x <- officer::body_add_docx(title_doc, resdoc, pos = "before")
   print(x, target = resdoc)
+}
+
+#' Add a titlepage to a Tech report docx file
+#'
+#' Must hand edit the first two pages of your file afterwards to have your desired title and authors.
+#'
+#' @param titlepage Filename
+#' @param resdoc Filename
+#' @param french Logical. If TRUE, Add the French title page
+#'
+#' @return A merged .docx
+#' @export
+add_techreport_docx_titlepage <- function(titlepage = ifelse(french, "templates/tech-report-cover-fra.docx", "templates/tech-report-cover-eng.docx"),
+                                          doc = "_book/techreport.docx",
+                                          french = FALSE) {
+  title_doc <- officer::read_docx(titlepage)
+  x <- officer::body_add_docx(title_doc, doc, pos = "before")
+  print(x, target = doc)
 }
 
 is_windows <- function() {
@@ -618,18 +704,18 @@ get_contact_info <- function(region = "National Capital Region", isFr = FALSE) {
 create_tempdir_for_latex <- function(type = NULL,
                                      where = "r",
                                      tmp_dir = NULL,
-                                     root_dir = here::here()){
+                                     root_dir = here::here()) {
   stopifnot(type == "resdoc" ||
-            type == "sr" ||
-            type == "techreport")
+    type == "sr" ||
+    type == "techreport")
   stopifnot(where == "r" ||
-            where == "b")
+    where == "b")
 
-  if(is.null(tmp_dir)){
+  if (is.null(tmp_dir)) {
     tmp_dir <- tempdir()
   }
 
-  copy_dir <- function(from_dir, to_dir, recursive = TRUE){
+  copy_dir <- function(from_dir, to_dir, recursive = TRUE) {
     dir.create(to_dir, showWarnings = FALSE)
     to_dir <- file.path(to_dir, from_dir)
     dir.create(to_dir, showWarnings = FALSE)
@@ -647,12 +733,12 @@ create_tempdir_for_latex <- function(type = NULL,
 
   # Copy the TEX file
   tex_file_name <- paste0(type, ".tex")
-  if(where == "b"){
+  if (where == "b") {
     tex_file <- file.path(root_dir, "_book", tex_file_name)
-  }else if(where == "r"){
+  } else if (where == "r") {
     tex_file <- file.path(root_dir, tex_file_name)
   }
-  if(!file.exists(tex_file)){
+  if (!file.exists(tex_file)) {
     stop(paste0(type, ".tex"), " does not exist in the ", ifelse(where == "b", "_book", "root"), " directory")
   }
   invisible(file.copy(tex_file, tmp_dir))

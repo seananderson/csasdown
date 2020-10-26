@@ -22,10 +22,21 @@ draft <- function(type = c("resdoc", "sr", "techreport"),
                   create_dir = FALSE,
                   edit = FALSE,
                   ...) {
-  type <- match.arg(type)
+
+  if (!grepl("\\/rmarkdown\\/templates", type)) { # so it also works with unit testing
+    # type <- match.arg(type)
+    if (!type %in% c("resdoc", "sr", "techreport")) {
+      # Travis issue:
+      warning("`type` should be one of 'resdoc', 'sr', or 'techreport'.", call. = FALSE)
+    }
+    package <- "csasdown"
+  } else {
+    package <- NULL
+  }
+
   rmarkdown::draft("index.Rmd",
     template = type,
-    package = "csasdown",
+    package = package,
     create_dir = create_dir,
     edit = edit,
     ...)
@@ -60,6 +71,7 @@ create_rstudio_project_file <- function(){
            "RnwWeave: knitr",
            "LaTeX: pdfLaTeX",
            "\n",
+           "AutoAppendNewLine: Yes",
            "StripTrailingWhitespace: Yes")
   writeLines(txt, fn)
 }
