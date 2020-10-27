@@ -26,14 +26,15 @@ sr_pdf(
   french = FALSE,
   prepub = FALSE,
   copy_sty = TRUE,
+  ...
+)
+
+techreport_pdf(french = FALSE, latex_engine = "pdflatex", copy_sty = TRUE, ...)
   line_nums = FALSE,
   line_nums_mod = 1,
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),
   ...
-)
-
-techreport_pdf(
   french = FALSE,
   latex_engine = "pdflatex",
   copy_sty = TRUE,
