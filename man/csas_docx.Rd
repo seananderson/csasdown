@@ -8,9 +8,9 @@
 \usage{
 resdoc_word(french = FALSE, ...)
 
-sr_word(french = FALSE, copy_sty = TRUE, ...)
+sr_word(french = FALSE, ...)
 
-techreport_word(french = FALSE, copy_sty = TRUE, ...)
+techreport_word(french = FALSE, ...)
 }
 \arguments{
 \item{french}{Logical for French (vs. English).}
