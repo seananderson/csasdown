@@ -585,7 +585,7 @@ add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2016-eng-titlepa
 #' Must hand edit the first two pages of your file afterwards to have your desired title and authors.
 #'
 #' @param titlepage Filename
-#' @param resdoc Filename
+#' @param doc Filename
 #' @param french Logical. If TRUE, Add the French title page
 #'
 #' @return A merged .docx

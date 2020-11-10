@@ -14,9 +14,9 @@ add_techreport_docx_titlepage(
 \arguments{
 \item{titlepage}{Filename}
 
-\item{french}{Logical. If TRUE, Add the French title page}
+\item{doc}{Filename}
 
-\item{resdoc}{Filename}
+\item{french}{Logical. If TRUE, Add the French title page}
 }
 \value{
 A merged .docx
