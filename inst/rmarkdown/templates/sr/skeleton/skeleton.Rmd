@@ -3,14 +3,16 @@ title: "Insert title here; title must be exactly as it appears on the cover page
 title_short: "Short title"
 title_other: "Insérez le titre ici; il doit correspondre exactement à celui de la page couverture, mais en lettres minuscules (*Nom latin*)"
 year: 20XX
-month: January
+month: Month
 report_number: 999
 approver: |
   Approver Name\
   Regional Director
 approval_year: 20XX
-approval_month: January
+approval_month: Month
 approval_day: 01
+work_done_year: 20XX
+work_done_month: Month
 branch: Science Branch
 region: Pacific Region
 output:
