@@ -1,8 +1,6 @@
 ^codecov\.yml$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^\.travis\.yml$
-^Dockerfile$
 ^appveyor\.yml$
 ^NEWS\.md$
 ^README\.md$
@@ -13,6 +11,5 @@
 ^\.gitattributes$
 ^\.gitignore$
 ^index$
-^fonts\.zip$
 ^screenshots
 ^\.github$
