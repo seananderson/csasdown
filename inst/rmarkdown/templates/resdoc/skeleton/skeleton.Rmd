@@ -31,7 +31,6 @@ output:
 knit: bookdown::render_book
 link-citations: true
 bibliography: bib/refs.bib
-csl: csl/csas.csl # or csl/csas-french.csl for French
 # Any extra LaTeX code for the header:
 # header-includes:
 # - \usepackage{tikz}
@@ -89,7 +88,9 @@ if(length(grep("pdf", names(meta)))){
   french <- meta$`csasdown::resdoc_word`$french
   prepub <- meta$`csasdown::resdoc_word`$prepub
 }
+csl <- "csl/csas.csl"
 if(french){
+  csl <- "csl/csas-french.csl"
   options(OutDec =  ",")
 }
 
@@ -99,3 +100,7 @@ library(readr)
 library(tibble)
 library(csasdown)
 ```
+
+---
+csl: `r csl`    
+---

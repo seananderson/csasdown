@@ -34,7 +34,6 @@ knit: bookdown::render_book
 site: bookdown::bookdown_site
 link-citations: true
 bibliography: bib/refs.bib
-csl: csl/csas.csl
 lot: true
 lof: true
 # Any extra LaTeX code for the header:
@@ -94,7 +93,9 @@ if(length(grep("pdf", names(meta)))){
   french <- meta$`csasdown::techreport_word`$french
   prepub <- meta$`csasdown::techreport_word`$prepub
 }
+csl <- "csl/csas.csl"
 if(french){
+  csl <- "csl/csas-french.csl"
   options(OutDec =  ",")
 }
 
@@ -106,3 +107,7 @@ library(rosettafish)
 library(tibble)
 library(csasdown)
 ```
+
+---
+csl: `r csl`    
+---
