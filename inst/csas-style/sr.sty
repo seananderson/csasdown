@@ -46,10 +46,11 @@
            {lineno}
 %% Page margins
 \usepackage[top=1in,
-            bottom=1in,
+            bottom=0.45in,
             left=1in,
             right=1in,
-            includefoot]
+            includefoot,
+            footskip=20pt]
            {geometry}
 %% ------------------------------------------------------------------------------
 
@@ -547,7 +548,7 @@
 %% ------------------------------------------------------------------------------
 %% Set up first page (header and footer)
 \fancypagestyle{firstPage}{%
-    \newgeometry{}
+    \newgeometry{top=0.90in}
     \fancyhf{}
     \fancyhead{}
     \lhead{\includegraphics[width=9.2cm]{\locRepo/images/Fip-stacked-DFO-EOS-eng_bw.png}\\
@@ -566,7 +567,7 @@
   % Headers and footers for the first page
   \thispagestyle{firstPage}
   % Make the title -- needs a big space to print below the header
-  \vspace*{1.75cm}
+  \vspace*{2.20cm}
   \begin{center}
   \hypertarget{PageOne}{}
   \Large{\textbf{\MakeTextUppercase{\rdTitle{}}}}
