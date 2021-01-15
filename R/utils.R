@@ -229,7 +229,6 @@ update_csasstyle <- function(copy = TRUE, line_nums = TRUE, line_nums_mod = 1, w
   if (copy || (!dir.exists("csas-style") && !copy)) {
     dir.create("csas-style", showWarnings = FALSE)
     ignore <- file.copy(fn, ".", overwrite = TRUE, recursive = TRUE)
-  }
   if(line_nums){
     csas_style <- readLines(here::here("csas-style", which_sty))
     if(length(grep("res-doc", which_sty))){
@@ -244,6 +243,7 @@ update_csasstyle <- function(copy = TRUE, line_nums = TRUE, line_nums_mod = 1, w
       csas_style <- c(csas_style, "\\linenumbers", modulo)
       writeLines(csas_style, here::here("csas-style", which_sty))
     }
+  }
   }
 }
 
