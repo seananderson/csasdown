@@ -79,6 +79,21 @@ Look on your GitHub repository and you should see all the new files there. Your 
 
 ## Publications prepared using csasdown
 
+DFO. 2021. Status Update of Pacifc Cod (*Gadus macrocephalus*) for West Coast Vancouver
+Island (Area 3CD), and Hecate Strait and Queen Charlotte Sound (Area 5ABCD) in 2020.
+DFO Can. Sci. Advis. Sec. Sci. Resp. 2021/002. 
+[[English version]](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_002-eng.html), [[French version]](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_002-fra.html)). [[GitHub repository]](https://github.com/pbs-assess/pacific-cod-2020)
+
+DFO. 2021. Stock status update with application of management procedures for Pacific Herring
+(*Clupea pallasii*) in British Columbia: Status in 2020 and forecast for 2021. DFO Can. Sci.
+Advis. Sec. Sci. Resp. 2021/001.
+<https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_001-eng.html>
+
+Anderson, E.D., King, J.R. and Zubkowski, T.B. 2021. Ecosystem-Based Juvenile Pacific Salmon
+(*Oncorhynchus* spp.) Survey on the North Coast of British Columbia, October 6-16, 2020. Can.
+Data Rep. Fish. Aquat. Sci. 1331: vi + 36 p.
+[[English]](http://publications.gc.ca/site/eng/9.894954/publication.html)
+
 Obradovich, S.G., Hansen, S.C., Zhang, Z., MacNeill, S., Nichol, L.M., Rooper, C.N., St. Germain,
 C., Curtis, D.L., Waddell, B.J., and Barton, L.L. In press. Pre-COSEWIC review of DFO
 information on Northern Abalone (*Haliotis kamtschatkana*) along the Pacific Coast of Canada.
@@ -98,11 +113,11 @@ Lacko, L.C. and Acheson, S.M. and Connors, B.M. 2020. Summary of the Annual 2018
 
 DFO. 2020. Evaluating the robustness of candidate management procedures in the BC Sablefish (*Anoplopoma fibria*) fishery for 2019-2020. DFO Can. Sci. Advis. Sec. Sci. Resp. 2020/025. [[GitHub Repository]](https://github.com/samueldnj/SablefishSR2019)
 
-Haggarty, D.R., Huynh, Q.C., Forrest, R.E., Anderson, S.C., Bresch, M.J., Keppel, E.A. In review.
+Haggarty, D.R., Huynh, Q.C., Forrest, R.E., Anderson, S.C., Bresch, M.J., Keppel, E.A. In press.
 Evaluation of potential rebuilding strategies for Inside Yelloweye Rockﬁsh (*Sebastes ruberrimus*) in British Columbia. DFO Can. Sci. Advis. Sec. Res. Doc. Accepted at Regional Peer Review meeting in June 2020. v + 135 p.
 [[GitHub repository]](https://github.com/pbs-assess/yelloweye-inside)
 
-Anderson, S.C., Forrest, R.E., Huynh, Q.C., Keppel, E.A. In review. A management procedure
+Anderson, S.C., Forrest, R.E., Huynh, Q.C., Keppel, E.A. In press. A management procedure
 framework for groundﬁsh in British Columbia. DFO Can. Sci. Advis. Sec. Res. Doc. 
 Accepted at Regional Peer Review meeting in June 2020. v + 133 p.
 [[GitHub repository]](https://github.com/pbs-assess/gfmp)
@@ -114,7 +129,7 @@ Advis. Sec. Sci. Resp. 2020/004.
 [[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-fra.html)
 [[GitHub repository]](https://github.com/pbs-assess/herringsr)
 
-Forrest, R.E., Anderson, S.C., Grandin, C.J., and Paul J. Starr. In press. Assessment of Pacific Cod (*Gadus macrocephalus*) for Hecate Strait and Queen Charlotte Sound (Area 5ABCD), and West Coast Vancouver Island (Area 3CD) in 2018. DFO Can. Sci. Advis. Sec. Res. Doc. In press/nnn. iv + 204 p.
+Forrest, R.E., Anderson, S.C., Grandin, C.J., and Paul J. Starr. In press. Assessment of Pacific Cod (*Gadus macrocephalus*) for Hecate Strait and Queen Charlotte Sound (Area 5ABCD), and West Coast Vancouver Island (Area 3CD) in 2018. DFO Can. Sci. Advis. Sec. Res. Doc. 2020/070 iv + 204 p. [[English version]](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2020/2020_070-eng.html), [[French version]](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2020/2020_070-fra.html)). [[GitHub repository]](https://github.com/pbs-assess/pacific-cod-2018)
 
 Swain, D.P., Ricard, D., Rolland, N., and Aubry, É. 2019. Assessment of the southern Gulf of
 St. Lawrence Atlantic Cod (*Gadus morhua*) stock of NAFO Div. 4T and 4Vn (November to
