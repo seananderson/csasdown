@@ -1,5 +1,3 @@
-context("Test the techreport document generation and create_tempdir_for_latex()")
-
 testing_path <- file.path(tempdir(), "techreport")
 dir.create(testing_path, showWarnings = FALSE)
 setwd(testing_path)
