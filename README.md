@@ -82,7 +82,7 @@ Look on your GitHub repository and you should see all the new files there. Your 
 DFO. 2021. Status Update of Pacifc Cod (*Gadus macrocephalus*) for West Coast Vancouver
 Island (Area 3CD), and Hecate Strait and Queen Charlotte Sound (Area 5ABCD) in 2020.
 DFO Can. Sci. Advis. Sec. Sci. Resp. 2021/002. 
-[[English version](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_002-eng.html)], [[French version](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_002-fra.html)]. [[GitHub repository](https://github.com/pbs-assess/pacific-cod-2020)]
+[[English](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_002-eng.html)], [[French](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_002-fra.html)], [[GitHub repository](https://github.com/pbs-assess/pacific-cod-2020)]
 
 DFO. 2021. Stock status update with application of management procedures for Pacific Herring
 (*Clupea pallasii*) in British Columbia: Status in 2020 and forecast for 2021. DFO Can. Sci.
@@ -94,8 +94,13 @@ Anderson, E.D., King, J.R. and Zubkowski, T.B. 2021. Ecosystem-Based Juvenile Pa
 Data Rep. Fish. Aquat. Sci. 1331: vi + 36 p.
 [[English]](http://publications.gc.ca/site/eng/9.894954/publication.html)
 
+Nephin, J., Jeffery, S., Thiess, M., Archer, S., Murdock, I., Boschen-Rose, J., and Dudas, S.
+2020. Methods and results from remotely operated vehicle (ROV) survey PAC2017-030:
+Exploring high and low current areas in the Salish Sea. Can. Tech. Rep. Fish. Aquat. Sci.
+3405: vi + 39 p. [[English](http://www.publications.gc.ca/site/eng/9.891774/publication.html)]
+
 Obradovich, S.G., Hansen, S.C., Zhang, Z., MacNeill, S., Nichol, L.M., Rooper, C.N., St. Germain,
-C., Curtis, D.L., Waddell, B.J., and Barton, L.L. In press. Pre-COSEWIC review of DFO
+C., Curtis, D.L., Waddell, B.J., and Barton, L.L. 2020. Pre-COSEWIC review of DFO
 information on Northern Abalone (*Haliotis kamtschatkana*) along the Pacific Coast of Canada.
 DFO Can. Sci. Advis. Sec. Res. Doc. In press/nnn. iv + 74 p.
 
