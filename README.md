@@ -79,8 +79,28 @@ Look on your GitHub repository and you should see all the new files there. Your 
 
 ## Publications prepared using csasdown
 
+DFO. 2021. Status Update of Pacifc Cod (*Gadus macrocephalus*) for West Coast Vancouver
+Island (Area 3CD), and Hecate Strait and Queen Charlotte Sound (Area 5ABCD) in 2020.
+DFO Can. Sci. Advis. Sec. Sci. Resp. 2021/002. 
+[[English](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_002-eng.html)], [[French](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_002-fra.html)], [[GitHub repository](https://github.com/pbs-assess/pacific-cod-2020)]
+
+DFO. 2021. Stock status update with application of management procedures for Pacific Herring
+(*Clupea pallasii*) in British Columbia: Status in 2020 and forecast for 2021. DFO Can. Sci.
+Advis. Sec. Sci. Resp. 2021/001.
+[[English](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_001-eng.html)], [[French](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_001-fra.html)]
+
+Anderson, E.D., King, J.R. and Zubkowski, T.B. 2021. Ecosystem-Based Juvenile Pacific Salmon
+(*Oncorhynchus* spp.) Survey on the North Coast of British Columbia, October 6-16, 2020. Can.
+Data Rep. Fish. Aquat. Sci. 1331: vi + 36 p.
+[[English]](http://publications.gc.ca/site/eng/9.894954/publication.html)
+
+Nephin, J., Jeffery, S., Thiess, M., Archer, S., Murdock, I., Boschen-Rose, J., and Dudas, S.
+2020. Methods and results from remotely operated vehicle (ROV) survey PAC2017-030:
+Exploring high and low current areas in the Salish Sea. Can. Tech. Rep. Fish. Aquat. Sci.
+3405: vi + 39 p. [[English](http://www.publications.gc.ca/site/eng/9.891774/publication.html)]
+
 Obradovich, S.G., Hansen, S.C., Zhang, Z., MacNeill, S., Nichol, L.M., Rooper, C.N., St. Germain,
-C., Curtis, D.L., Waddell, B.J., and Barton, L.L. In press. Pre-COSEWIC review of DFO
+C., Curtis, D.L., Waddell, B.J., and Barton, L.L. 2020. Pre-COSEWIC review of DFO
 information on Northern Abalone (*Haliotis kamtschatkana*) along the Pacific Coast of Canada.
 DFO Can. Sci. Advis. Sec. Res. Doc. In press/nnn. iv + 74 p.
 
@@ -90,44 +110,44 @@ Holt, C.A., Freshwater, C., Holt, K., and Huang, A.-M. 2020. A quantitative tool
 
 DFO. 2020. Population status update for the northern resident killer whale (*Orcinus Orca*) in 2019. DFO Can. Sci. Advis. Sec. Sci. Resp. 2020/040. [[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_040-eng.html)] [[French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_040-fra.html)]
 
-Hansen, S.C., Obradovich, S.G., Rooper, C.N., Waddell, B.J., Nichol, L.M., MacNeill, S., and Barton, L.L. 2020. Identifying variables for standardization of the Northern Abalone (Haliotis kamtschatkana) Index Site Surveys time series (1978-2018) based on survey methodology and environmental variability. Can. Tech. Rep. Fish. Aquat. Sci. 3330: vii + 110 p. [[English]](https://waves-vagues.dfo-mpo.gc.ca/Library/40849296.pdf)
+Hansen, S.C., Obradovich, S.G., Rooper, C.N., Waddell, B.J., Nichol, L.M., MacNeill, S., and Barton, L.L. 2020. Identifying variables for standardization of the Northern Abalone (Haliotis kamtschatkana) Index Site Surveys time series (1978-2018) based on survey methodology and environmental variability. Can. Tech. Rep. Fish. Aquat. Sci. 3330: vii + 110 p. [[English](https://waves-vagues.dfo-mpo.gc.ca/Library/40849296.pdf)]
 
-Boldt, J., Anderson, E., King, J., Dennis-Bohm, H., Zubkowski, T., and Flostrand, L. 2020. Integrated Pelagic Ecosystem Survey on the Vancouver Island Continental Shelf, June 15 - July 15, 2019. Can. Tech. Rep. Fish. Aquat. Sci. 3339: vii + 85 p. [[English]](https://waves-vagues.dfo-mpo.gc.ca/Library/40843476.pdf)
+Boldt, J., Anderson, E., King, J., Dennis-Bohm, H., Zubkowski, T., and Flostrand, L. 2020. Integrated Pelagic Ecosystem Survey on the Vancouver Island Continental Shelf, June 15 - July 15, 2019. Can. Tech. Rep. Fish. Aquat. Sci. 3339: vii + 85 p. [[English](https://waves-vagues.dfo-mpo.gc.ca/Library/40843476.pdf)]
 
 Lacko, L.C. and Acheson, S.M. and Connors, B.M. 2020. Summary of the Annual 2018 and 2019 Sablefish (*Anoplopoma fimbria*) Trap Surveys, October 9 - November 19, 2018 and October 8 - November 25, 2019. Can. Tech. Rep. Fish. Aquat. Sci. nnn: viii + 63 p. [[GitHub Repository]](https://github.com/sabledata/surveyreport)
 
 DFO. 2020. Evaluating the robustness of candidate management procedures in the BC Sablefish (*Anoplopoma fibria*) fishery for 2019-2020. DFO Can. Sci. Advis. Sec. Sci. Resp. 2020/025. [[GitHub Repository]](https://github.com/samueldnj/SablefishSR2019)
 
-Haggarty, D.R., Huynh, Q.C., Forrest, R.E., Anderson, S.C., Bresch, M.J., Keppel, E.A. In review.
+Haggarty, D.R., Huynh, Q.C., Forrest, R.E., Anderson, S.C., Bresch, M.J., Keppel, E.A. In press.
 Evaluation of potential rebuilding strategies for Inside Yelloweye Rockﬁsh (*Sebastes ruberrimus*) in British Columbia. DFO Can. Sci. Advis. Sec. Res. Doc. Accepted at Regional Peer Review meeting in June 2020. v + 135 p.
-[[GitHub repository]](https://github.com/pbs-assess/yelloweye-inside)
+[[GitHub repository](https://github.com/pbs-assess/yelloweye-inside)]
 
-Anderson, S.C., Forrest, R.E., Huynh, Q.C., Keppel, E.A. In review. A management procedure
+Anderson, S.C., Forrest, R.E., Huynh, Q.C., Keppel, E.A. In press. A management procedure
 framework for groundﬁsh in British Columbia. DFO Can. Sci. Advis. Sec. Res. Doc. 
 Accepted at Regional Peer Review meeting in June 2020. v + 133 p.
-[[GitHub repository]](https://github.com/pbs-assess/gfmp)
+[[GitHub repository](https://github.com/pbs-assess/gfmp)]
 
 DFO. 2020. Stock status update with application of management procedures for Pacifc Herring
 (*Clupea pallasii*) in British Columbia: Status in 2019 and forecast for 2020. DFO Can. Sci.
 Advis. Sec. Sci. Resp. 2020/004. 
-[[English]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-eng.html)
-[[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-fra.html)
-[[GitHub repository]](https://github.com/pbs-assess/herringsr)
+[[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-eng.html)]
+[[French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-fra.html)]
+[[GitHub repository](https://github.com/pbs-assess/herringsr)]
 
-Forrest, R.E., Anderson, S.C., Grandin, C.J., and Paul J. Starr. In press. Assessment of Pacific Cod (*Gadus macrocephalus*) for Hecate Strait and Queen Charlotte Sound (Area 5ABCD), and West Coast Vancouver Island (Area 3CD) in 2018. DFO Can. Sci. Advis. Sec. Res. Doc. In press/nnn. iv + 204 p.
+Forrest, R.E., Anderson, S.C., Grandin, C.J., and Paul J. Starr. In press. Assessment of Pacific Cod (*Gadus macrocephalus*) for Hecate Strait and Queen Charlotte Sound (Area 5ABCD), and West Coast Vancouver Island (Area 3CD) in 2018. DFO Can. Sci. Advis. Sec. Res. Doc. 2020/070 iv + 204 p. [[English version](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2020/2020_070-eng.html)], [[French version](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2020/2020_070-fra.html)]. [[GitHub repository](https://github.com/pbs-assess/pacific-cod-2018)]
 
 Swain, D.P., Ricard, D., Rolland, N., and Aubry, É. 2019. Assessment of the southern Gulf of
 St. Lawrence Atlantic Cod (*Gadus morhua*) stock of NAFO Div. 4T and 4Vn (November to
 April), March 2019. DFO Can. Sci. Advis. Sec. Res. Doc. 2019/038. iv + 105 p.
-[[English]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_038-eng.html)
-[[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_038-fra.html)
+[[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_038-eng.html)]
+[[French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_038-fra.html)]
 
 Anderson, S.C., Keppel, E.A., Edwards, A.M. 2019. A reproducible data synopsis 
 for over 100 species of British Columbia groundfish. DFO Can. Sci. Advis. Sec.
 Res. Doc. 2019/041. vii + 321 p.
-[[English]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html)
-[[French]](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html)
-[[GitHub repository]](https://github.com/pbs-assess/gfsynopsis)
+[[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html)]
+[[French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html)]
+[[GitHub repository](https://github.com/pbs-assess/gfsynopsis)]
 
 ## Day-to-day writing
 

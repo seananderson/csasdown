@@ -1,5 +1,3 @@
-context("Test the csasdown::csas_table() function")
-
 df <- data.frame(a = 1:20, b = 1:20)
 
 test_that("csasdown::csas_table works with an extra_header", {
