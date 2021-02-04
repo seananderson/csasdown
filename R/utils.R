@@ -18,6 +18,8 @@
 #'   .sty file if you need to edit it.
 #' @param line_nums Include line numbers in the document? Logical.
 #' @param line_nums_mod Numerical. Which modulo line numbers to label, 2 = every second line, etc.
+#' @param lot_lof Include list of tables and list of figures in the document? Logical.
+#'  (implemented only for ResDocs)
 #' @param pandoc_args Any other arguments to pandoc.
 #' @param ... other arguments to [bookdown::pdf_book()].
 #' @return A modified `pdf_document` based on the CSAS LaTeX template.
@@ -31,6 +33,7 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
                        latex_engine = "pdflatex", french = FALSE,
                        prepub = FALSE, copy_sty = TRUE,
                        line_nums = FALSE, line_nums_mod = 1,
+					   lot_lof=FALSE,
                        pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
                        ...) {
   if (french) {
@@ -56,6 +59,7 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
   update_csasstyle(copy = copy_sty,
                    line_nums = line_nums,
                    line_nums_mod = line_nums_mod,
+				   lot_lof = lot_lof,
                    which_sty = ifelse(french, "res-doc-french.sty", "res-doc.sty"))
 
   # Mostly copied from knitr::render_sweave
@@ -224,7 +228,7 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
 #' @param which_sty Name of the style file to modify
 #'
 #' @return Nothing
-update_csasstyle <- function(copy = TRUE, line_nums = TRUE, line_nums_mod = 1, which_sty = "res-doc.sty") {
+update_csasstyle <- function(copy = TRUE, line_nums = TRUE, line_nums_mod = 1, lot_lof = FALSE, which_sty = "res-doc.sty") {
   fn <- system.file("csas-style", package = "csasdown")
   if (copy || (!dir.exists("csas-style") && !copy)) {
     dir.create("csas-style", showWarnings = FALSE)
@@ -242,6 +246,21 @@ update_csasstyle <- function(copy = TRUE, line_nums = TRUE, line_nums_mod = 1, w
       modulo <- paste0("\\modulolinenumbers[", line_nums_mod, "]")
       csas_style <- c(csas_style, "\\linenumbers", modulo)
       writeLines(csas_style, here::here("csas-style", which_sty))
+    }
+  }
+  if(lot_lof){
+    csas_style <- readLines(here::here("csas-style", which_sty))
+    if(length(grep("res-doc", which_sty))){
+      pagenumbering_loc <- grep("pagenumbering\\{arabic", csas_style)
+      beg_of_file <- csas_style[1:(pagenumbering_loc - 1)]
+      end_of_file <- csas_style[pagenumbering_loc:length(csas_style)]
+      lot <- "\\listoftables"
+	  cp <- "\\clearpage"
+	  lof <- "\\listoffigures"
+      csas_style <- c(beg_of_file, lot, cp, lof, cp, end_of_file)
+      writeLines(csas_style, here::here("csas-style", which_sty))
+    }else{
+	## what to put here?
     }
   }
   }
