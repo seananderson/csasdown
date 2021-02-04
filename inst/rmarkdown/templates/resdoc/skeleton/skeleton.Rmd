@@ -26,6 +26,7 @@ output:
    copy_sty: true
    line_nums: true
    line_nums_mod: 1
+   lot_lof: false
 # ------------
 # End of options to set
 knit: bookdown::render_book
