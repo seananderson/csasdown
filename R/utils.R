@@ -241,33 +241,33 @@ update_csasstyle <- function(copy = TRUE, line_nums = TRUE, line_nums_mod = 1,
     dir.create("csas-style", showWarnings = FALSE)
     ignore <- file.copy(fn, ".", overwrite = TRUE, recursive = TRUE)
     if (line_nums) {
-      csas_style <- readLines(here::here("csas-style", which_sty))
-      if (length(grep("res-doc", which_sty))) {
+      csas_style <- readLines(file.path("csas-style", which_sty))
+      if (grepl("res-doc", which_sty)) {
         frontmatter_loc <- grep("frontmatter\\{", csas_style)
-        beg_of_file <- csas_style[1:(frontmatter_loc - 1)]
-        end_of_file <- csas_style[frontmatter_loc:length(csas_style)]
+        beg_of_file <- csas_style[seq(1, (frontmatter_loc - 1))]
+        end_of_file <- csas_style[seq(frontmatter_loc, length(csas_style))]
         modulo <- paste0("\\modulolinenumbers[", line_nums_mod, "]")
         csas_style <- c(beg_of_file, "\\linenumbers", modulo, end_of_file)
-        writeLines(csas_style, here::here("csas-style", which_sty))
+        writeLines(csas_style, file.path("csas-style", which_sty))
       } else {
         modulo <- paste0("\\modulolinenumbers[", line_nums_mod, "]")
         csas_style <- c(csas_style, "\\linenumbers", modulo)
-        writeLines(csas_style, here::here("csas-style", which_sty))
+        writeLines(csas_style, file.path("csas-style", which_sty))
       }
     }
     if (lot_lof) {
-      csas_style <- readLines(here::here("csas-style", which_sty))
-      if (length(grep("res-doc", which_sty))) {
+      csas_style <- readLines(file.path("csas-style", which_sty))
+      if (grepl("res-doc", which_sty)) {
         pagenumbering_loc <- grep("pagenumbering\\{arabic", csas_style)
-        beg_of_file <- csas_style[1:(pagenumbering_loc - 1)]
-        end_of_file <- csas_style[pagenumbering_loc:length(csas_style)]
+        beg_of_file <- csas_style[seq(1, (pagenumbering_loc - 1))]
+        end_of_file <- csas_style[seq(pagenumbering_loc, length(csas_style))]
         lot <- "\\listoftables"
         cp <- "\\clearpage"
         lof <- "\\listoffigures"
         csas_style <- c(beg_of_file, lot, cp, lof, cp, end_of_file)
-        writeLines(csas_style, here::here("csas-style", which_sty))
+        writeLines(csas_style, file.path("csas-style", which_sty))
       } else {
-        ## what to put here?
+        warning("`lot_lof` is only implemented for Res Docs.", call. = FALSE)
       }
     }
   }
