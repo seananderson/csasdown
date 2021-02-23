@@ -7,7 +7,13 @@
 %% Use the resDoc.bst file for bibliography style.
 \usepackage{natbib}
 %% ------------------------------------------------------------------------------
-
+%% add PDF metadata
+\AtBeginDocument{%
+  \hypersetup{%
+    pdftitle={\rdTitle{}},%
+    pdfauthor={\rdAuth{}},%
+  }%
+}
 %% ------------------------------------------------------------------------------
 %% Load hyperlink package and set up link colors
 \usepackage[breaklinks=true,

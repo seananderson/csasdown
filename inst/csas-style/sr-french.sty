@@ -6,6 +6,13 @@
 
 %% ------------------------------------------------------------------------------
 \usepackage{natbib}
+%% add PDF metadata
+\AtBeginDocument{%
+  \hypersetup{%
+    pdftitle={\rdTitle{}},%
+    pdfauthor={Pêches et Océans Canada},%
+  }%
+}
 
 %% ------------------------------------------------------------------------------
 %% Load hyperlink package and set up link colors
