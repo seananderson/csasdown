@@ -1,3 +1,10 @@
+%% add PDF metadata
+\AtBeginDocument{%
+  \hypersetup{%
+    pdftitle={\trTitle{}},%
+    pdfauthor={\trAuthsLong{}},%
+  }%
+}
 %%%%% Load packages %%%%%
 \RequirePackage{fancyhdr}  % Make nice headers
 \RequirePackage{graphicx}  % Import figures
