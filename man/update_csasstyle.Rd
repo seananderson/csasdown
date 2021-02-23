@@ -9,6 +9,7 @@ update_csasstyle(
   copy = TRUE,
   line_nums = TRUE,
   line_nums_mod = 1,
+  lot_lof = FALSE,
   which_sty = "res-doc.sty"
 )
 }

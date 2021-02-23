@@ -16,6 +16,7 @@ resdoc_pdf(
   copy_sty = TRUE,
   line_nums = FALSE,
   line_nums_mod = 1,
+  lot_lof = FALSE,
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),
   ...
@@ -67,6 +68,9 @@ should be created.}
 \item{line_nums}{Include line numbers in the document? Logical.}
 
 \item{line_nums_mod}{Numerical. Which modulo line numbers to label, 2 = every second line, etc.}
+
+\item{lot_lof}{Include list of tables and list of figures in the document? Logical.
+(implemented only for ResDocs)}
 
 \item{pandoc_args}{Any other arguments to pandoc.}
 
