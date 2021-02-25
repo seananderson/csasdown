@@ -9,7 +9,6 @@
 #' @param linesep As defined by [knitr::kable()].
 #' @param longtable As defined by [knitr::kable()].
 #' @param font_size Font size in pts. If NULL, document font size is used.
-#' @param landscape Make this table in landscape orientation?
 #' @param bold_header Make headers bold. Logical
 #' @param repeat_header If landscape, repeat the header on subsequent pages?
 #' @param repeat_header_text Use to write a Continued.. messgae continuing pages
@@ -47,7 +46,6 @@ csas_table <- function(x,
                        linesep = "",
                        longtable = TRUE,
                        font_size = NULL,
-                       landscape = FALSE,
                        bold_header = TRUE,
                        repeat_header = TRUE,
                        repeat_header_text = "",
@@ -101,9 +99,6 @@ csas_table <- function(x,
   }
   if (bold_header) {
     suppressWarnings(k <- row_spec(k, 0, bold = TRUE))
-  }
-  if (landscape) {
-    k <- landscape(k)
   }
   if (repeat_header) {
     suppressWarnings(
