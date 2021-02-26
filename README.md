@@ -89,6 +89,9 @@ DFO. 2021. Stock status update with application of management procedures for Pac
 Advis. Sec. Sci. Resp. 2021/001.
 [[English](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_001-eng.html)], [[French](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_001-fra.html)]
 
+Anderson, E.A., King, J.R., Zubowski, T.B. Ecosystem-Based Juvenile Pacific Salmon (Oncorhynchus spp.) Trawl Survey off North East Vancouver Island, September 30 - October 8, 2019. Can. Data Rep. Fish. Aquat. Sci. 1335: vi + 39 p.
+[[English]](http://publications.gc.ca/site/eng/9.896590/publication.html)
+
 Anderson, E.D., King, J.R. and Zubkowski, T.B. 2021. Ecosystem-Based Juvenile Pacific Salmon
 (*Oncorhynchus* spp.) Survey on the North Coast of British Columbia, October 6-16, 2020. Can.
 Data Rep. Fish. Aquat. Sci. 1331: vi + 36 p.
@@ -127,7 +130,7 @@ framework for groundﬁsh in British Columbia. DFO Can. Sci. Advis. Sec. Res. Do
 Accepted at Regional Peer Review meeting in June 2020. v + 133 p.
 [[GitHub repository](https://github.com/pbs-assess/gfmp)]
 
-DFO. 2020. Stock status update with application of management procedures for Pacifc Herring
+DFO. 2020. Stock status update with application of management procedures for Pacific Herring
 (*Clupea pallasii*) in British Columbia: Status in 2019 and forecast for 2020. DFO Can. Sci.
 Advis. Sec. Sci. Resp. 2020/004. 
 [[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2020/2020_004-eng.html)]
