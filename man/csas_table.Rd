@@ -11,7 +11,6 @@ csas_table(
   linesep = "",
   longtable = TRUE,
   font_size = NULL,
-  landscape = FALSE,
   bold_header = TRUE,
   repeat_header = TRUE,
   repeat_header_text = "",
@@ -49,8 +48,6 @@ csas_table(
 \item{longtable}{As defined by \code{\link[knitr:kable]{knitr::kable()}}.}
 
 \item{font_size}{Font size in pts. If NULL, document font size is used.}
-
-\item{landscape}{Make this table in landscape orientation?}
 
 \item{bold_header}{Make headers bold. Logical}
 

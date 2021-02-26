@@ -32,6 +32,7 @@ We can also create a link to the table by doing the following: Table \@ref(tab:i
 <!-- clearpage ends the page, and also dumps out all floats.
   Floats are things like tables and figures. -->
 
+\begin{landscapepage}
 ```{r widelong, results = "asis"}
 yrs <- 1:45
 ages <- 1:15
@@ -47,9 +48,9 @@ csasdown::csas_table(widelong_df,
                      col.names = c("Year", as.character(ages)),
                      caption = "A long and wide table",
                      format = "latex",
-                     landscape = TRUE,
                      font_size = 8)
 ```
+\end{landscapepage}
 \clearpage
 
 ## FIGURES

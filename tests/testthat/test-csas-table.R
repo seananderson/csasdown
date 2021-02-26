@@ -3,10 +3,9 @@ df <- data.frame(a = 1:20, b = 1:20)
 test_that("csasdown::csas_table works with an extra_header", {
   x <- csasdown::csas_table(
     df,
-    caption = "Example of long wide table with header above column names",
+    caption = "Example of long table with header above column names",
     format = "latex",
     escape = FALSE,
-    landscape = TRUE,
     repeat_header = TRUE,
     font_size = 8,
     extra_header = toupper(letters[1:ncol(df)]),

@@ -60,54 +60,42 @@
 \makeatother
 
 %% ------------------------------------------------------------------------------
+%% To add headers and footers to landscape pages
+\usepackage{everypage}
+
+%% Make a landscape page properly, with the page numbers and bars rotated to
+%%  be along the long side for ease of reading in a PDF viewer.
+\newenvironment{landscapepage}[1]{
+  \newgeometry{hmargin=1in,vmargin=1in}
+\pagestyle{empty} % to clear portrait header and footer from page
+  \begin{landscape}
+    \centering
+    #1
+}{
+  \end{landscape}
+  \restoregeometry
+  \clearpage
+}
+
+\makeatother
+%% Creates a header and footer on the long page sides on landscape pages
+\AddEverypageHook{\ifdim\textwidth=\textheight
+  \fancyhf{}\fancyfoot{}
+\begin{textblock}{0.05}(0.925,0.5)
+{\rotatebox{90}{\sffamily\selectfont\small\thepage}}\end{textblock}
+ \begin{textblock}{1}(0.1,0.0909)
+{\rotatebox{90}{\rule{9in}{0.25pt}}}\end{textblock}
+  \begin{textblock}{1}(0.9,0.0909)
+  {\rotatebox{90}{\rule{9in}{0.25pt}}}\end{textblock}
+\fi}
+
 %% For landscape pages in CSAS documents
-% \usepackage{pdflscape}
-\usepackage{lscape}
+\usepackage{pdflscape} % rotates landscape pages
 \usepackage[absolute]{textpos}
 \setlength{\TPHorizModule}
   {8.5in}
 \setlength{\TPVertModule}
   {11.0in}
-\fancypagestyle{csaplscape}{
-  %% The argument is the left footer text
-  %% clear all header and footer fields
-  \fancyhf{}
-  \fancyfoot{}
-  %% Make the footers appear in landscape mode
-  %% The 25pt in the first line adjusts the height (in landscape mode)
-  %%  and the 90 rotates the footer name. The \footskip+0.0 makes it align
-  %%  with the footer bar, like the pages in portrait mode do.
-  %% Left footer:
-  %% \fancyfoot[L]{\makebox[\textwidth+25pt][r]{
-  %%    \smash{\raisebox{\dimexpr\footskip+0.0\textheight}{\rotatebox{90}{\fishname}}}}}
-  %% Right footer - uncomment and change DRAFT to whatever the value for the right
-  %%  footer is and the 1.3 to fit it. This is a hack, no time to figure it out.
-  %% \fancyfoot[R]{\makebox[\textwidth+25pt][r]{
-  %%    \smash{\raisebox{\dimexpr\footskip+1.3\textheight}{\rotatebox{90}{DRAFT}}}}}
-  \begin{textblock}
-    {1}(0.1,0.0909)
-    {\rotatebox{90}
-      {\rule{9in}{0.25pt}}
-    }
-  \end{textblock}
-  \begin{textblock}
-    {1}(0.9,0.0909)
-    {\rotatebox{90}
-      {\rule{9in}{0.25pt}}
-    }
-  \end{textblock}
-  \begin{textblock}
-    {0.05}(0.925,0.5)
-    {\rotatebox{90}
-      {\thepage}
-    }
-  \end{textblock}
-  %% Get rid of lines along sides of landscape page
-  \renewcommand{\headrulewidth}
-    {0pt}
-  \renewcommand{\footrulewidth}
-    {0pt}
-}
 %% ------------------------------------------------------------------------------
 
 % Hyper links
