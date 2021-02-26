@@ -242,7 +242,7 @@ update_csasstyle <- function(copy = TRUE,
                              lot_lof = FALSE,
                              which_sty = "res-doc.sty") {
   fn <- system.file("csas-style", package = "csasdown")
-  if (copy || (!dir.exists("csas-style") && !copy)) {
+  if (copy || !dir.exists("csas-style")) {
     dir.create("csas-style", showWarnings = FALSE)
     ignore <- file.copy(fn, ".", overwrite = TRUE, recursive = TRUE)
     if (line_nums) {
