@@ -89,7 +89,7 @@ DFO. 2021. Stock status update with application of management procedures for Pac
 Advis. Sec. Sci. Resp. 2021/001.
 [[English](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_001-eng.html)], [[French](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_001-fra.html)]
 
-Anderson, E.A., King, J.R., Zubowski, T.B. Ecosystem-Based Juvenile Pacific Salmon (Oncorhynchus spp.) Trawl Survey off North East Vancouver Island, September 30 - October 8, 2019. Can. Data Rep. Fish. Aquat. Sci. 1335: vi + 39 p.
+Anderson, E.D., King, J.R., Zubowski, T.B. 2021. Ecosystem-Based Juvenile Pacific Salmon (Oncorhynchus spp.) Trawl Survey off North East Vancouver Island, September 30 - October 8, 2019. Can. Data Rep. Fish. Aquat. Sci. 1335: vi + 39 p.
 [[English]](http://publications.gc.ca/site/eng/9.896590/publication.html)
 
 Anderson, E.D., King, J.R. and Zubkowski, T.B. 2021. Ecosystem-Based Juvenile Pacific Salmon
