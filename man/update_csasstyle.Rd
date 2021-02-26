@@ -21,6 +21,9 @@ If FALSE, only copy if the directory does not exist in the current directory}
 
 \item{line_nums_mod}{Numerical. Which modulo line numbers to label, 2 = every second line, etc.}
 
+\item{lot_lof}{Include list of tables and list of figures in the document? Logical.
+(implemented only for ResDocs)}
+
 \item{which_sty}{Name of the style file to modify}
 }
 \value{

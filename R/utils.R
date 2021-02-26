@@ -232,10 +232,15 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
 #' @param line_nums Logical. Include line numbering in the document
 #' @param line_nums_mod Numerical. Which modulo line numbers to label, 2 = every second line, etc.
 #' @param which_sty Name of the style file to modify
+#' @param lot_lof Include list of tables and list of figures in the document? Logical.
+#'  (implemented only for ResDocs)
 #'
 #' @return Nothing
-update_csasstyle <- function(copy = TRUE, line_nums = TRUE, line_nums_mod = 1,
-                             lot_lof = FALSE, which_sty = "res-doc.sty") {
+update_csasstyle <- function(copy = TRUE,
+                             line_nums = TRUE,
+                             line_nums_mod = 1,
+                             lot_lof = FALSE,
+                             which_sty = "res-doc.sty") {
   fn <- system.file("csas-style", package = "csasdown")
   if (copy || (!dir.exists("csas-style") && !copy)) {
     dir.create("csas-style", showWarnings = FALSE)
