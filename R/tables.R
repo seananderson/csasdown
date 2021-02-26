@@ -11,9 +11,6 @@
 #' @param font_size Font size in pts. If NULL, document font size is used.
 #' @param bold_header Make headers bold. Logical
 #' @param repeat_header If landscape, repeat the header on subsequent pages?
-#' @param repeat_header_text Use to write a Continued.. messgae continuing pages
-#'   with the long table
-#' @param repeat_header_method As defined by [kableExtra::kable_styling()].
 #' @param col_names Names for the columns to show on table.
 #' @param col_names_align As defined in [kableExtra::linebreak()].
 #' @param escape As defined by [kableExtra::kable_styling()].
@@ -48,8 +45,6 @@ csas_table <- function(x,
                        font_size = NULL,
                        bold_header = TRUE,
                        repeat_header = TRUE,
-                       repeat_header_text = "",
-                       repeat_header_method = "replace",
                        col_names = NULL,
                        col_names_align = "c",
                        escape = FALSE,
@@ -102,10 +97,11 @@ csas_table <- function(x,
   }
   if (repeat_header) {
     suppressWarnings(
-    k <- kable_styling(k,
-                       latex_options = "repeat_header",
-                       repeat_header_text = repeat_header_text,
-                       repeat_header_method = repeat_header_method))
+      k <- kable_styling(k,
+                         latex_options = "repeat_header",
+                         repeat_header_continued = "\\textit{Continued on Next Page ...}",
+                         repeat_header_text = "\\textit{Continued from previous page ...}",
+                         repeat_header_method = "replace"))
   }
   suppressWarnings(k <- kable_styling(k, font_size = font_size))
   if (hold_position) {
