@@ -577,6 +577,17 @@ fix_envs <- function(x,
   # Fix Res. Doc. 2013/092: -> Res. Doc. 2013/092.
   x <- gsub("Res\\. Doc\\. ([0-9]{4}/[0-9]{2,}):", "Res. Doc. \\1.", x)
   x <- gsub("MPO\\. Doc\\. de rech ([0-9]{4}/[0-9]{2,}):", "MPO. Doc. de rech \\1.", x)
+
+  # Fix Pandoc/LaTeX bug as of 2021-04-07 where
+  # \leavevmode\vadjust pre{\hypertarget{ref-edwards2013}{}}%
+  # gets created instead of
+  # \leavevmode{\hypertarget{ref-edwards2013}{}}%
+  # and creates error
+  # ! You can't use `\vadjust' in vertical mode.
+  #    \leavevmode\vadjust
+  # pre{\hypertarget{ref-edwards2013}{}}%
+  x <- gsub("\\\\vadjust pre", "", x)
+
   x
 }
 
