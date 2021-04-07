@@ -79,6 +79,12 @@ Look on your GitHub repository and you should see all the new files there. Your 
 
 ## Publications prepared using csasdown
 
+DFO. 2021. Update of indices of abundance to 2020 for Atlantic Cod (NAFO Div. 4T and 
+4Vn (November to April)) and American Plaice (NAFO Div. 4T) assessed and managed by 
+DFO Gulf Region.
+DFO Can. Sci. Advis. Sec. Sci. Resp. 2021/011.
+[[English](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_011-eng.html)], [[French](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_011-fra.html)]
+
 DFO. 2021. Status Update of Pacifc Cod (*Gadus macrocephalus*) for West Coast Vancouver
 Island (Area 3CD), and Hecate Strait and Queen Charlotte Sound (Area 5ABCD) in 2020.
 DFO Can. Sci. Advis. Sec. Sci. Resp. 2021/002. 
