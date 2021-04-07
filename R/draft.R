@@ -22,7 +22,6 @@ draft <- function(type = c("resdoc", "sr", "techreport"),
                   create_dir = FALSE,
                   edit = FALSE,
                   ...) {
-
   if (!grepl("\\/rmarkdown\\/templates", type)) { # so it also works with unit testing
     # type <- match.arg(type)
     if (!type %in% c("resdoc", "sr", "techreport")) {
@@ -39,13 +38,14 @@ draft <- function(type = c("resdoc", "sr", "techreport"),
     package = package,
     create_dir = create_dir,
     edit = edit,
-    ...)
+    ...
+  )
   # rmarkdown::draft does not copy files that begin with a dot (on Windows)
   # so we just rename the git ignore file
-  if(file.exists("_gitignore")){
+  if (file.exists("_gitignore")) {
     file.rename("_gitignore", ".gitignore")
   }
-  if(file.exists("_here")){
+  if (file.exists("_here")) {
     file.rename("_here", ".here")
   }
   create_rstudio_project_file()
@@ -53,26 +53,28 @@ draft <- function(type = c("resdoc", "sr", "techreport"),
 
 #' Creates a blank Rstudio project file in the current directory with the same name
 #' as the current directory.
-create_rstudio_project_file <- function(){
+create_rstudio_project_file <- function() {
   wd <- getwd()
   fn <- file.path(wd, paste0(basename(wd), ".Rproj"))
-  txt <- c("Version: 1.0",
-           "\n",
-           "\n",
-           "RestoreWorkspace: Default",
-           "SaveWorkspace: Default",
-           "AlwaysSaveHistory: Default",
-           "\n",
-           "EnableCodeIndexing: Yes",
-           "UseSpacesForTab: Yes",
-           "NumSpacesForTab: 2",
-           "Encoding: UTF-8",
-           "\n",
-           "RnwWeave: knitr",
-           "LaTeX: pdfLaTeX",
-           "\n",
-           "AutoAppendNewLine: Yes",
-           "StripTrailingWhitespace: Yes")
+  txt <- c(
+    "Version: 1.0",
+    "\n",
+    "\n",
+    "RestoreWorkspace: Default",
+    "SaveWorkspace: Default",
+    "AlwaysSaveHistory: Default",
+    "\n",
+    "EnableCodeIndexing: Yes",
+    "UseSpacesForTab: Yes",
+    "NumSpacesForTab: 2",
+    "Encoding: UTF-8",
+    "\n",
+    "RnwWeave: knitr",
+    "LaTeX: pdfLaTeX",
+    "\n",
+    "AutoAppendNewLine: Yes",
+    "StripTrailingWhitespace: Yes"
+  )
   writeLines(txt, fn)
 }
 # nocov end

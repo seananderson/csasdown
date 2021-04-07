@@ -10,6 +10,7 @@ test_that("csasdown::csas_table works with an extra_header", {
     font_size = 8,
     extra_header = toupper(letters[1:ncol(df)]),
     ex_line_sep = 0,
-    ex_align = "r")
+    ex_align = "r"
+  )
   expect_true(grepl("endfirsthead", x))
 })

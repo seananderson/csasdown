@@ -82,17 +82,17 @@ options(kableExtra.latex.load_packages = FALSE)
 #  are used throughout the document. To make the document all in french, change
 #  the line in the YAML header above to `french: true`
 meta <- rmarkdown::metadata$output
-if(length(grep("pdf", names(meta)))){
+if (length(grep("pdf", names(meta)))) {
   french <- meta$`csasdown::sr_pdf`$french
   prepub <- meta$`csasdown::sr_pdf`$prepub
-}else if(length(grep("word", names(meta)))){
+} else if (length(grep("word", names(meta)))) {
   french <- meta$`csasdown::sr_word`$french
   prepub <- meta$`csasdown::sr_word`$prepub
 }
 csl <- "csl/csas.csl"
-if(french){
+if (french) {
   csl <- "csl/csas-french.csl"
-  options(OutDec =  ",")
+  options(OutDec = ",")
 }
 
 # add other packages here:

@@ -25,7 +25,9 @@ run_pdflatex <- function(extra_pdflatex = 1, ...) {
   if (file.exists(file) || file.exists(gsub("\\.tex", "\\.pdf", file))) {
     stop("The file '", file,
       "' (or its PDF version) already exists\nin the main report folder.",
-      " Delete it before running this function.", call. = FALSE)
+      " Delete it before running this function.",
+      call. = FALSE
+    )
   }
   file.copy(dir_file, ".", overwrite = FALSE)
   tinytex::latexmk(file, clean = FALSE, ...)
