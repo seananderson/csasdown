@@ -102,8 +102,8 @@ csas_table <- function(x,
     suppressWarnings(
       k <- kable_styling(k,
         latex_options = "repeat_header",
-        repeat_header_continued = "\\textit{Continued on Next Page ...}",
-        repeat_header_text = "\\textit{Continued from previous page ...}",
+        repeat_header_continued = FALSE,
+        repeat_header_text = "",
         repeat_header_method = "replace"
       )
     )
