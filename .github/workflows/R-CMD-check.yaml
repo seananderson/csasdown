@@ -42,7 +42,7 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
-        # - uses: r-lib/actions/setup-tinytex@master
+      - uses: r-lib/actions/setup-tinytex@master
 
       - name: Query dependencies
         run: |
@@ -66,9 +66,6 @@ jobs:
           do
             eval sudo $cmd
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
-
-      - name: Install extra LaTeX packages
-        run: sudo apt-get install texlive-science texlive-latex-extra texlive-bibtex-extra
 
       - name: Install dependencies
         run: |
