@@ -397,6 +397,7 @@ fix_envs <- function(x,
 
   # Non-breaking spaces:
   x <- gsub(" \\\\ref\\{", "~\\\\ref\\{", x)
+  x <- gsub(" :", "~:", x) # French
 
   # ----------------------------------------------------------------------
   # Add tooltips so that figures have alternative text for read-out-loud
