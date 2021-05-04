@@ -78,6 +78,10 @@ Look on your GitHub repository and you should see all the new files there. Your 
 8. Need to make an English *and* French version? csasdown has support for both. Also see csasdown's sister package [rosettafish](https://github.com/pbs-assess/rosettafish).
 
 ## Publications prepared using csasdown
+Asselin, N.C., Hanson, J.M., Ricard, D. and Rondeau, A. 2021. Methods and summary data 
+from the Northumberland Strait multi-species bottom trawl survey, 1999 to 2018. 
+Can. Tech. Rep. Fish. Aquat. Sci. 3432: v + 118 p. 
+[[English](http://waves-vagues.dfo-mpo.gc.ca/Library/40960730.pdf)]
 
 DFO. 2021. Update of indices of abundance to 2020 for Atlantic Cod (NAFO Div. 4T and 
 4Vn (November to April)) and American Plaice (NAFO Div. 4T) assessed and managed by 
