@@ -19,7 +19,7 @@
 #' @param line_nums Include line numbers in the document? Logical.
 #' @param line_nums_mod Numerical. Which modulo line numbers to label, 2 = every second line, etc.
 #' @param lot_lof Include list of tables and list of figures in the document? Logical.
-#'  (implemented only for ResDocs)
+#'  (implemented only for ResDocs and TechReports)
 #' @param pandoc_args Any other arguments to pandoc.
 #' @param ... other arguments to [bookdown::pdf_book()].
 #' @return A modified `pdf_document` based on the CSAS LaTeX template.
@@ -180,6 +180,7 @@ techreport_word <- function(french = FALSE, ...) {
 techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
                            copy_sty = TRUE,
                            line_nums = FALSE, line_nums_mod = 1,
+                           lot_lof = FALSE,
                            pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"), ...) {
   if (french) {
     file <- system.file("csas-tex", "tech-report-french.tex", package = "csasdown")
@@ -208,6 +209,7 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
     copy = copy_sty,
     line_nums = line_nums,
     line_nums_mod = line_nums_mod,
+    lot_lof = lot_lof,
     which_sty = ifelse(french, "tech-report-french.sty", "tech-report.sty")
   )
 
@@ -233,7 +235,7 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
 #' @param line_nums_mod Numerical. Which modulo line numbers to label, 2 = every second line, etc.
 #' @param which_sty Name of the style file to modify
 #' @param lot_lof Include list of tables and list of figures in the document? Logical.
-#'  (implemented only for ResDocs)
+#'  (implemented only for ResDocs and TechReports)
 #'
 #' @return Nothing
 update_csasstyle <- function(copy = TRUE,
@@ -262,7 +264,7 @@ update_csasstyle <- function(copy = TRUE,
     }
     if (lot_lof) {
       csas_style <- readLines(file.path("csas-style", which_sty))
-      if (grepl("res-doc", which_sty)) {
+      if (grepl("res-doc", which_sty) | grepl("tech-report", which_sty)) {
         pagenumbering_loc <- grep("pagenumbering\\{arabic", csas_style)
         beg_of_file <- csas_style[seq(1, (pagenumbering_loc - 1))]
         end_of_file <- csas_style[seq(pagenumbering_loc, length(csas_style))]
@@ -272,7 +274,7 @@ update_csasstyle <- function(copy = TRUE,
         csas_style <- c(beg_of_file, lot, cp, lof, cp, end_of_file)
         writeLines(csas_style, file.path("csas-style", which_sty))
       } else {
-        warning("`lot_lof` is only implemented for Res Docs.", call. = FALSE)
+        warning("`lot_lof` is only implemented for Res Docs and TechReports.", call. = FALSE)
       }
     }
   }

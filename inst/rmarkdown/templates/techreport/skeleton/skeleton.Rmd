@@ -26,6 +26,7 @@ output:
    copy_sty: true
    line_nums: true
    line_nums_mod: 1
+   lot_lof: false
 type:
   techreport
 # ------------
@@ -34,8 +35,6 @@ knit: bookdown::render_book
 site: bookdown::bookdown_site
 link-citations: true
 bibliography: bib/refs.bib
-lot: true
-lof: true
 # Any extra LaTeX code for the header:
 header-includes:
  - \usepackage{float}
