@@ -12,6 +12,8 @@ Include references in the **bib/refs.bib** file in the same format as the exampl
 2. Inline: `@edwards2013` - renders as: @edwards2013
 3. Without author: `[-@edwards2013]` - renders as: [-@edwards2013]
 
+Some references: [@francis2011, @edwards2013, @swainbenoit2015].
+
 Note that the year part of the citation is clickable and will take you directly to the reference in the References section.
 
 Here is an example equation with the code used to generate it. Note that `csasdown` automatically numbers it on the right-hand side of the page. It does this consecutively throughout the document sections, but appendices are each numbered on their own, e.g. A.1, A.2, ... for Appendix A, and B.1, B.2, ... for Appendix B.
