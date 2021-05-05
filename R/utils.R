@@ -96,7 +96,7 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
 #' @export
 #' @return A Word Document based on the CSAS Res Doc template.
 resdoc_word <- function(french = FALSE, ...) {
-  file <- if (french) "RES2016-fra.docx" else "RES2016-eng-content-only.docx"
+  file <- if (french) "RES2021-fra-content.docx" else "RES2021-eng-content.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
   )
@@ -154,7 +154,7 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
 #' @export
 #' @rdname csas_docx
 sr_word <- function(french = FALSE, ...) {
-  file <- if (french) "SRR-RS2016-fra.docx" else "SRR-RS2016-eng.docx"
+  file <- if (french) "SRR-RS2021-fra.docx" else "SRR-RS2021-eng.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
   )
@@ -610,7 +610,7 @@ inject_refstepcounters <- function(x) {
 
 #' Add a Res Doc titlepage to a docx file
 #'
-#' Add a Res Doc titlepage. Must hand edit `templates/RES2016-eng-titlepage.docx`
+#' Add a Res Doc titlepage. Must hand edit `templates/RES2021-eng-titlepage.docx`
 #' to have your desired title and authors etc.
 #'
 #' @param titlepage Filename
@@ -618,7 +618,7 @@ inject_refstepcounters <- function(x) {
 #'
 #' @return A merged .docx
 #' @export
-add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2016-eng-titlepage.docx",
+add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2021-eng-titlepage.docx",
                                       resdoc = "_book/resdoc.docx") {
   title_doc <- officer::read_docx(titlepage)
   x <- officer::body_add_docx(title_doc, resdoc, pos = "before")
