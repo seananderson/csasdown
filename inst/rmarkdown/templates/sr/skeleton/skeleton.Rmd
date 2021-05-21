@@ -4,7 +4,7 @@ title_short: "Short title"
 title_other: "Insérez le titre ici; il doit correspondre exactement à celui de la page couverture, mais en lettres minuscules (*Nom latin*)"
 year: 20XX
 month: Month
-report_number: 999
+report_number: 999 # This *must* be numeric! E.g., not `nnn`.
 approver: |
   Approver Name\
   Regional Director
