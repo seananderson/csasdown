@@ -15,6 +15,8 @@ work_done_year: 20XX
 work_done_month: Month
 branch: Science Branch
 region: Pacific Region
+isbn: "ISBN-Here"
+cat_no: "Cat-Number-Here"
 output:
  csasdown::sr_pdf:
    french: false
