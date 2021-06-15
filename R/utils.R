@@ -470,11 +470,11 @@ fix_envs <- function(x,
       )
       # Modify References from starred chapter to regular chapter so that it is numbered
       if (french) {
-        starred_references_line <- grep("\\\\section\\*\\{R\\u00c9F\\u00c9RENCES CIT\\u00c9E\\}\\\\label\\{ruxe9fuxe9rences-cituxe9es\\}\\}", x)
+        starred_references_line <- grep("\\\\section\\*\\{R\\\u00c9F\\\u00c9RENCES CIT\\\u00c9E\\}\\\\label\\{ruxe9fuxe9rences-cituxe9es\\}\\}", x)
         x[starred_references_line] <- gsub("\\*", "", x[starred_references_line])
         # Remove the add contents line which was used to add the unnumbered section before
         # stringi::stri_escape_unicode("RÉFÉRENCES CITÉE") # can't use UTF-8 in packages:
-        add_toc_contents_line <- grep("\\\\addcontentsline\\{toc\\}\\{section\\}\\{R\\u00c9F\\u00c9RENCES CIT\\u00c9E\\}", x)
+        add_toc_contents_line <- grep("\\\\addcontentsline\\{toc\\}\\{section\\}\\{R\\\u00c9F\\\u00c9RENCES CIT\\\u00c9E\\}", x)
         x[add_toc_contents_line] <- ""
       } else {
       starred_references_line <- grep("\\\\section\\*\\{REFERENCES\\}\\\\label\\{references\\}\\}", x)
