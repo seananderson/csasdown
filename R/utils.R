@@ -469,21 +469,20 @@ fix_envs <- function(x,
         x[length(x)]
       )
       # Modify References from starred chapter to regular chapter so that it is numbered
-      if(french){
+      if (french) {
         starred_references_line <- grep("\\\\section\\*\\{RÉFÉRENCES CITÉES\\}\\\\label\\{ruxe9fuxe9rences-cituxe9es\\}\\}", x)
         x[starred_references_line] <- gsub("\\*", "", x[starred_references_line])
         # Remove the add contents line which was used to add the unnumbered section before
         add_toc_contents_line <- grep("\\\\addcontentsline\\{toc\\}\\{section\\}\\{RÉFÉRENCES CITÉES\\}", x)
         x[add_toc_contents_line] <- ""
-      }
-      else {
+      } else {
       starred_references_line <- grep("\\\\section\\*\\{REFERENCES\\}\\\\label\\{references\\}\\}", x)
       x[starred_references_line] <- gsub("\\*", "", x[starred_references_line])
       # Remove the add contents line which was used to add the unnumbered section before
       add_toc_contents_line <- grep("\\\\addcontentsline\\{toc\\}\\{section\\}\\{REFERENCES\\}", x)
       x[add_toc_contents_line] <- ""
     }
-    } else {
+  } else {
       warning("Did not find the beginning of the LaTeX bibliography.", call. = FALSE)
     }
   }
