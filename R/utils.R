@@ -634,6 +634,26 @@ add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2021-eng-titlepa
   print(x, target = resdoc)
 }
 
+
+#' Add front matter to Res Doc docx file
+#'
+#' Add title page and table of contents to a Res Doc. Must hand edit
+#' `templates/RES2021-eng-frontmatter.docx`to have your desired title and authors etc.
+#'
+#' @param frontmatter  Path to title page file included with resdoc template
+#' @param resdoc       Path to content generated using resdoc_word
+#'
+#' @return A merged .docx
+#' @export
+add_resdoc_docx_frontmatter <- function(frontmatter = "templates/RES2021-eng-frontmatter.docx",
+                                        resdoc = "_book/resdoc.docx") {
+  frontmatter_doc <- officer::read_docx(frontmatter)
+  x <- officer::body_add_docx(frontmatter_doc, resdoc, pos = "before")
+  x <- officer::cursor_reach(x, keyword = "TABLE OF CONTENTS")
+  x <- officer::body_add_toc(x)
+  print(x, target = resdoc)
+}
+
 #' Add a titlepage to a Tech report docx file
 #'
 #' Must hand edit the first two pages of your file afterwards to have your desired title and authors.
