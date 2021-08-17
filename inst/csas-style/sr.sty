@@ -306,8 +306,16 @@
 
 \makeatother
 %% Creates a header and footer on the long page sides on landscape pages
+\newcommand{\regionlandWidth}{\widthof{\selectfont\fontsize{11}{13.2}\textbf{\rdRegion{}}}}
+\newcommand{\shorttitlelandWidth}{\widthof{\selectfont\fontsize{11}{13.2}\textbf{Science Response: \rdTitleShort{}}}}
+\newcommand{\remainderlandWidth}{9in - \regionlandWidth - \shorttitlelandWidth}
+
 \AddEverypageHook{\ifdim\textwidth=\textheight
   \fancyhf{}\fancyfoot{}
+   \begin{textblock*}{11pt}(0.68in,1in+\shorttitlelandWidth+\remainderlandWidth)
+{\rotatebox{90}{\selectfont\fontsize{11}{13.2}\textbf{\rdRegion{}}}}\end{textblock*}
+\begin{textblock}{0.05}(0.08,0.0909)
+{\rotatebox{90}{\selectfont\fontsize{11}{13.2}\textbf{Science Response: \rdTitleShort{}}}}\end{textblock}
 \begin{textblock}{0.05}(0.925,0.5)
 {\rotatebox{90}{\sffamily\selectfont\small\thepage}}\end{textblock}
  \begin{textblock}{1}(0.1,0.0909)
