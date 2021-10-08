@@ -536,13 +536,13 @@ fix_envs <- function(x,
     if (french) {
       # Edit french citation
       cite_head_fr <- grep(
-        pattern = "La pr\\\\\'\\{e\\}sente publication doit \\\\\\^\\{e\\}tre cit\\\\\'\\{e\\}e comme suit:",
+        pattern = "La pr\\\\\'\\{e\\}sente publication doit \\\\\\^\\{e\\}tre cit\\\\\'\\{e\\}e comme suit~:",
         x = x
       )
       if (length(cite_head_fr) == 0) stop("Can't find French citation header")
-      x[cite_head_fr] <- "Cite comme ceci (jusqu'\u00E0 la publication):"
+      x[cite_head_fr] <- "Cite comme ceci (jusqu'\u00E0 la publication)~:"
       cite_loc_fr <- grep(
-        pattern = "\\\\citeFr\\{\\\\rdYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
+        pattern = "\\\\citeFr\\{\\\\rdWorkDoneYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
       )
       if (length(cite_loc_fr) == 0) stop("Can't find French citation")
       x[cite_loc_fr] <- "\\citeFr{Sous presse}"
@@ -554,7 +554,7 @@ fix_envs <- function(x,
       if (length(cite_head_eng) == 0) stop("Can't find English citation header")
       x[cite_head_eng] <- ""
       cite_loc_eng <- grep(
-        pattern = "\\\\citeEng\\{\\\\rdYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
+        pattern = "\\\\citeEng\\{\\\\rdWorkDoneYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
       )
       if (length(cite_loc_eng) == 0) stop("Can't find English citation")
       x[cite_loc_eng] <- ""
@@ -567,19 +567,19 @@ fix_envs <- function(x,
       if (length(cite_head_eng) == 0) stop("Can't find English citation header")
       x[cite_head_eng] <- "Correct citation (until published):"
       cite_loc_eng <- grep(
-        pattern = "\\\\citeEng\\{\\\\rdYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
+        pattern = "\\\\citeEng\\{\\\\rdWorkDoneYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
       )
       if (length(cite_loc_eng) == 0) stop("Can't find English citation")
       x[cite_loc_eng] <- "\\citeEng{In press}"
       # Nuke french citation
       cite_head_fr <- grep(
-        pattern = "\\\\emph\\{Aussi disponible en fran\\\\c\\{c\\}ais:\\}",
+        pattern = "\\\\emph\\{Aussi disponible en fran\\\\c\\{c\\}ais~:\\}",
         x = x
       )
       if (length(cite_head_fr) == 0) stop("Can't find French citation header")
       x[cite_head_fr] <- ""
       cite_loc_fr <- grep(
-        pattern = "\\\\citeFr\\{\\\\rdYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
+        pattern = "\\\\citeFr\\{\\\\rdWorkDoneYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
       )
       if (length(cite_loc_fr) == 0) stop("Can't find French citation")
       x[cite_loc_fr] <- ""
@@ -721,10 +721,10 @@ get_contact_info <- function(region = "National Capital Region", isFr = FALSE) {
     ~Region, ~RegionFr, ~Email, ~Phone, ~Address, ~AddressFr,
     "Central and Arctic Region", "R\u00E9gion du Centre et de l'Arctique", "xcna-csa-cas@dfo-mpo.gc.ca", "(204) 983-5232", "501 University Cres.\\\\\\\\Winnipeg, MB, R3T 2N6", "501 University Cres.\\\\\\\\Winnipeg, Man., R3T 2N6",
     "Gulf Region", "R\u00E9gion du Golfe", "DFO.GLFCSA-CASGOLFE.MPO@dfo-mpo.gc.ca", "(506) 851-2022", "343 Universit\u00E9 Ave.\\\\\\\\Moncton, NB, E1C 9B6", "343 Universit\u00E9 Ave.\\\\\\\\Moncton, N.-B., E1C 9B6",
-    "Maritimes Region", "R\u00E9gion des Maritimes", "XMARMRAP@dfo-mpo.gc.ca", "(902) 426-3246", "1 Challenger Dr.\\\\\\\\Dartmouth, NS, B2Y 4A2", "1 Challenger Dr.\\\\\\\\Dartmouth, N.-E., B2Y 4A2", 
-    "National Capital Region", "R\u00E9gion de la capitale nationale", "csas-sccs@dfo-mpo.gc.ca", "(613) 990-0194", "200 Kent St.\\\\\\\\Ottawa, ON, K1A 0E6", "200 Kent St.\\\\\\\\Ottawa, Ont., K1A 0E6", 
-    "Newfoundland and Labrador Region", "R\u00E9gion de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca", "(709) 772-8892", "P.O. Box 5667\\\\\\\\St. John's, NL, A1C 5X1", "P.O. Box 5667\\\\\\\\St. John's, T.-N.-L., A1C 5X1", 
-    "Pacific Region", "R\u00E9gion du Pacifique", "csap@dfo-mpo.gc.ca", "(250) 756-7208", "3190 Hammond Bay Rd.\\\\\\\\Nanaimo, BC, V9T 6N7", "3190 Hammond Bay Rd.\\\\\\\\Nanaimo, C.-B., V9T 6N7", 
+    "Maritimes Region", "R\u00E9gion des Maritimes", "XMARMRAP@dfo-mpo.gc.ca", "(902) 426-3246", "1 Challenger Dr.\\\\\\\\Dartmouth, NS, B2Y 4A2", "1 Challenger Dr.\\\\\\\\Dartmouth, N.-E., B2Y 4A2",
+    "National Capital Region", "R\u00E9gion de la capitale nationale", "csas-sccs@dfo-mpo.gc.ca", "(613) 990-0194", "200 Kent St.\\\\\\\\Ottawa, ON, K1A 0E6", "200 Kent St.\\\\\\\\Ottawa, Ont., K1A 0E6",
+    "Newfoundland and Labrador Region", "R\u00E9gion de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca", "(709) 772-8892", "P.O. Box 5667\\\\\\\\St. John's, NL, A1C 5X1", "P.O. Box 5667\\\\\\\\St. John's, T.-N.-L., A1C 5X1",
+    "Pacific Region", "R\u00E9gion du Pacifique", "csap@dfo-mpo.gc.ca", "(250) 756-7208", "3190 Hammond Bay Rd.\\\\\\\\Nanaimo, BC, V9T 6N7", "3190 Hammond Bay Rd.\\\\\\\\Nanaimo, C.-B., V9T 6N7",
     "Quebec Region", "R\u00E9gion du Qu\u00E9bec", "bras@dfo-mpo.gc.ca", "(418) 775-0825", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli, QC, G5H 3Z4", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli, Qc, G5H 3Z4"
   )
   # If french
