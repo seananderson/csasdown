@@ -23,7 +23,7 @@ RUN wget -qO- \
     ulem makecell scalerel was setspace sectsty tocbibind \
     hanging babel-english babel-french titlecaps ifnextok \
     textcase doi appendix soulpos chngcntr amsfonts soulutf8 \
-    dvips \
+    dvips booktabs wrapfig threeparttable threeparttablex \
   && tlmgr path add \
   && Rscript -e "tinytex::r_texmf()" \
   && tlmgr init-usertree \
