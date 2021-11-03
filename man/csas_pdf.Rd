@@ -17,6 +17,7 @@ resdoc_pdf(
   line_nums = FALSE,
   line_nums_mod = 1,
   lot_lof = FALSE,
+  draft_watermark = FALSE,
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),
   ...
@@ -29,6 +30,7 @@ sr_pdf(
   copy_sty = TRUE,
   line_nums = FALSE,
   line_nums_mod = 1,
+  draft_watermark = FALSE,
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),
   ...
@@ -41,6 +43,7 @@ techreport_pdf(
   line_nums = FALSE,
   line_nums_mod = 1,
   lot_lof = FALSE,
+  draft_watermark = FALSE,
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),
   ...
@@ -60,7 +63,7 @@ should be created.}
 
 \item{french}{Logical for French (vs. English).}
 
-\item{prepub}{Logical for whether this is a prepublication version
+\item{prepub}{Logical for whether this is a pre-publication version
 (currently not implemented for ResDocs)}
 
 \item{copy_sty}{Copy the .sty files every time? Set to \code{FALSE} to "freeze" the
@@ -72,6 +75,8 @@ should be created.}
 
 \item{lot_lof}{Include list of tables and list of figures in the document? Logical.
 (implemented only for ResDocs and TechReports)}
+
+\item{draft_watermark}{If \code{TRUE} show a DRAFT watermark on all pages of the output document}
 
 \item{pandoc_args}{Any other arguments to pandoc.}
 

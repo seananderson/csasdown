@@ -12,8 +12,9 @@
 #'   "zenburn", and "haddock". Pass `NULL` to prevent syntax highlighting.
 #' @param latex_engine LaTeX engine.
 #' @param french Logical for French (vs. English).
-#' @param prepub Logical for whether this is a prepublication version
+#' @param prepub Logical for whether this is a pre-publication version
 #'  (currently not implemented for ResDocs)
+#' @param draft_watermark If `TRUE` show a DRAFT watermark on all pages of the output document
 #' @param copy_sty Copy the .sty files every time? Set to `FALSE` to "freeze" the
 #'   .sty file if you need to edit it.
 #' @param line_nums Include line numbers in the document? Logical.
@@ -29,11 +30,17 @@
 #' \dontrun{
 #' output:csasdown::resdoc_pdf
 #' }
-resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
-                       latex_engine = "pdflatex", french = FALSE,
-                       prepub = FALSE, copy_sty = TRUE,
-                       line_nums = FALSE, line_nums_mod = 1,
+resdoc_pdf <- function(toc = TRUE,
+                       toc_depth = 3,
+                       highlight = "default",
+                       latex_engine = "pdflatex",
+                       french = FALSE,
+                       prepub = FALSE,
+                       copy_sty = TRUE,
+                       line_nums = FALSE,
+                       line_nums_mod = 1,
                        lot_lof = FALSE,
+                       draft_watermark = FALSE,
                        pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
                        ...) {
   if (french) {
@@ -60,6 +67,7 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
     copy = copy_sty,
     line_nums = line_nums,
     line_nums_mod = line_nums_mod,
+    draft_watermark = draft_watermark,
     lot_lof = lot_lof,
     which_sty = ifelse(french, "res-doc-french.sty", "res-doc.sty")
   )
@@ -112,6 +120,7 @@ resdoc_word <- function(french = FALSE, ...) {
 sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
                    copy_sty = TRUE,
                    line_nums = FALSE, line_nums_mod = 1,
+                   draft_watermark = FALSE,
                    pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
                    ...) {
   if (french) {
@@ -131,6 +140,7 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
     copy = copy_sty,
     line_nums = line_nums,
     line_nums_mod = line_nums_mod,
+    draft_watermark = draft_watermark,
     which_sty = ifelse(french, "sr-french.sty", "sr.sty")
   )
 
@@ -181,6 +191,7 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
                            copy_sty = TRUE,
                            line_nums = FALSE, line_nums_mod = 1,
                            lot_lof = FALSE,
+                           draft_watermark = FALSE,
                            pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"), ...) {
   if (french) {
     file <- system.file("csas-tex", "tech-report-french.tex", package = "csasdown")
@@ -210,6 +221,7 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
     line_nums = line_nums,
     line_nums_mod = line_nums_mod,
     lot_lof = lot_lof,
+    draft_watermark = draft_watermark,
     which_sty = ifelse(french, "tech-report-french.sty", "tech-report.sty")
   )
 
@@ -236,19 +248,43 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
 #' @param which_sty Name of the style file to modify
 #' @param lot_lof Include list of tables and list of figures in the document? Logical.
 #'  (implemented only for ResDocs and TechReports)
+#' @param draft_watermark If `TRUE` show a DRAFT watermark on all pages of the output document
 #'
 #' @return Nothing
 update_csasstyle <- function(copy = TRUE,
                              line_nums = TRUE,
                              line_nums_mod = 1,
                              lot_lof = FALSE,
+                             draft_watermark = FALSE,
                              which_sty = "res-doc.sty") {
+
   fn <- system.file("csas-style", package = "csasdown")
+  if(!copy && line_nums){
+    stop("You have set copy_sty to FALSE and line_nums to TRUE in the index.Rmd YAML header. ",
+         "The permanent style file cannot be modified as needed to include line numbering. ",
+         "Either set copy_sty to TRUE or line_nums to FALSE to build.",
+         call. = FALSE)
+  }
+  if(!copy && lot_lof){
+    stop("You have set copy_sty to FALSE and lot_lof to TRUE in the index.Rmd YAML header. ",
+         "The permanent style file cannot be modified as needed to include the lists of tables and figures. ",
+         "Either set copy_sty to TRUE or lot_lof to FALSE to build.",
+         call. = FALSE)
+  }
+  if(!copy && draft_watermark){
+    stop("You have set copy_sty to FALSE and draft_watermark to TRUE in the index.Rmd YAML header. ",
+         "The permanent style file cannot be modified as needed to include the DRAFT watermark. ",
+         "Either set copy_sty to TRUE or draft_watermark to FALSE to build.",
+         call. = FALSE)
+  }
+
   if (copy || !dir.exists("csas-style")) {
     dir.create("csas-style", showWarnings = FALSE)
     ignore <- file.copy(fn, ".", overwrite = TRUE, recursive = TRUE)
-    if (line_nums) {
+    if(line_nums || lot_lof || draft_watermark){
       csas_style <- readLines(file.path("csas-style", which_sty))
+    }
+    if (line_nums) {
       if (grepl("res-doc", which_sty)) {
         frontmatter_loc <- grep("frontmatter\\{", csas_style)
         beg_of_file <- csas_style[seq(1, (frontmatter_loc - 1))]
@@ -263,7 +299,6 @@ update_csasstyle <- function(copy = TRUE,
       }
     }
     if (lot_lof) {
-      csas_style <- readLines(file.path("csas-style", which_sty))
       if (grepl("res-doc", which_sty) | grepl("tech-report", which_sty)) {
         pagenumbering_loc <- grep("pagenumbering\\{arabic", csas_style)
         beg_of_file <- csas_style[seq(1, (pagenumbering_loc - 1))]
@@ -276,6 +311,18 @@ update_csasstyle <- function(copy = TRUE,
       } else {
         warning("`lot_lof` is only implemented for Res Docs and TechReports.", call. = FALSE)
       }
+    }
+    if(draft_watermark){
+      last_usepackage_ind <- tail(grep("usepackage", csas_style), 1)
+      beg_of_file <- csas_style[seq(1, last_usepackage_ind)]
+      end_of_file <- csas_style[seq(last_usepackage_ind + 1, length(csas_style))]
+      draft_watermark_include <- "\\usepackage{draftwatermark}"
+      if(last_usepackage_ind == length(csas_style)){
+        csas_style <- c(beg_of_file, draft_watermark_include)
+      }else{
+        csas_style <- c(beg_of_file, draft_watermark_include, end_of_file)
+      }
+      writeLines(csas_style, file.path("csas-style", which_sty))
     }
   }
 }

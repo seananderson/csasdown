@@ -27,6 +27,7 @@ output:
    line_nums: true
    line_nums_mod: 1
    lot_lof: false
+   draft_watermark: false
 type:
   techreport
 # ------------

@@ -24,6 +24,7 @@ output:
    copy_sty: true
    line_nums: true
    line_nums_mod: 1
+   draft_watermark: false
 type:
   sr
 # ------------
