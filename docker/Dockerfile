@@ -1,5 +1,5 @@
 # Base image https://hub.docker.com/u/rocker/
-FROM rocker/tidyverse:3.6.3
+FROM rocker/tidyverse:latest
 LABEL maintainer = "chris.grandin@gmail.com"
 
 # Install Linux packages needed for various R packages to run
@@ -8,8 +8,12 @@ libxt6
 
 # Add LaTeX, rticles and bookdown support
 # See https://github.com/rocker-org/rocker-versioned/blob/master/verse/3.6.3.Dockerfile
-RUN wget -qO- \
-    "https://github.com/yihui/tinytex/raw/master/tools/install-unx.sh" | \
+#
+# A working version of install-unx.sh and install-base.sh are located in this directory
+# but not used. They are there as a backup in case the URLs become broken in the future
+# or change enough to break this script. Note that install-unx.sh calls install-base.sh
+RUN wget -O- \
+    "https://raw.githubusercontent.com/yihui/tinytex/main/tools/install-unx.sh" | \
     sh -s - --admin --no-path \
   && mv ~/.TinyTeX /opt/TinyTeX \
   && /opt/TinyTeX/bin/*/tlmgr path add \
@@ -23,7 +27,7 @@ RUN wget -qO- \
     ulem makecell scalerel was setspace sectsty tocbibind \
     hanging babel-english babel-french titlecaps ifnextok \
     textcase doi appendix soulpos chngcntr amsfonts soulutf8 \
-    dvips booktabs wrapfig threeparttable threeparttablex \
+    dvips booktabs wrapfig threeparttable threeparttablex draftwatermark \
   && tlmgr path add \
   && Rscript -e "tinytex::r_texmf()" \
   && tlmgr init-usertree \
@@ -37,5 +41,7 @@ RUN Rscript install_packages.R
 ENV USER=rstudio PASSWORD=qwerty
 
 # To run the container, go into the directory your document is in/will be in and run this:
+#
 # docker run -d -p 8787:8787 --mount type=bind,source="$(pwd)",target=/home/rstudio cgrandin/csasdown
-
+#
+# If prompted for the username and password, they are rstudio and qwerty
