@@ -5,3 +5,6 @@
 inst/rmarkdown/templates/thesis/skeleton/_book/*
 inst/rmarkdown/templates/thesis/skeleton/_bookdown_files/*
 ~$*.doc*
+
+.bash_history
+.rstudio
