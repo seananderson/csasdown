@@ -250,6 +250,7 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
 #'  (implemented only for ResDocs and TechReports)
 #' @param draft_watermark If `TRUE` show a DRAFT watermark on all pages of the output document
 #'
+#' @importFrom utils tail
 #' @return Nothing
 update_csasstyle <- function(copy = TRUE,
                              line_nums = TRUE,
@@ -646,6 +647,52 @@ fix_envs <- function(x,
   #    \leavevmode\vadjust
   # pre{\hypertarget{ref-edwards2013}{}}%
   x <- gsub("\\\\vadjust pre", "", x)
+
+  # Enable reference linking to subsections of appendices
+  # Need a new counter for each appendix
+  star_chap_inds <- grep("starredchapter", x)
+  # If there are Appendices (Resdoc and SR only, the techreport has a totally different TEX structure)
+  if(length(star_chap_inds)){
+    counters <- paste0("app_counter_", seq_along(star_chap_inds))
+    pre_starred_x <- x[1:(star_chap_inds[1] - 1)]
+    appendix_chunks <- list(length = length(star_chap_inds))
+    for(i in seq_along(star_chap_inds)){
+      if(i == length(star_chap_inds)){
+        appendix_chunks[[i]] <- x[star_chap_inds[i]:length(x)]
+      }else{
+        appendix_chunks[[i]] <- x[star_chap_inds[i]:(star_chap_inds[i + 1] - 1)]
+      }
+    }
+    # At this point the TEX file is broken into several chunks, `pre_starred_x` which
+    # is everything before the appendices, and N chunks in the list `appendix_chunks`,
+    # one for each appendix
+
+    # Apply mods to the appendix chunks
+    for(x in seq_along(appendix_chunks)){
+      asection_inds <- grep("appsection", appendix_chunks[[x]])
+      if(length(asection_inds)){
+        # Append the counter for the appendix
+        pre_appsection <- appendix_chunks[[x]][1:(asection_inds[1] - 2)]
+        the_rest <- appendix_chunks[[x]][(asection_inds[1] - 1):length(appendix_chunks[[x]])]
+        appendix_chunks[[x]] <- c(pre_appsection,
+                                  paste0("\\newcounter{appendix_sec_counter_",
+                                         x,
+                                         "}"),
+                                  paste0("\\refstepcounter{appendix_sec_counter_",
+                                         x,
+                                         "}"),
+                                  the_rest)
+        asection_inds <- grep("appsection", appendix_chunks[[x]])
+        tmp_appsections <- appendix_chunks[[x]][asection_inds]
+        tmp_labels <- appendix_chunks[[x]][asection_inds - 1]
+        appendix_chunks[[x]][asection_inds - 1] <- tmp_appsections
+        appendix_chunks[[x]][asection_inds] <- tmp_labels
+      }
+    }
+    appendix_chunks <- unlist(appendix_chunks)
+    names(appendix_chunks) <- NULL
+    x <- c(pre_starred_x, appendix_chunks)
+  }
 
   x
 }

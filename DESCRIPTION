@@ -61,7 +61,8 @@ Imports:
     rosettafish,
     stringr,
     tibble,
-    tinytex (>= 0.28)
+    tinytex (>= 0.28),
+    utils
 Suggests:
     covr,
     magick,
