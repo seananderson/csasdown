@@ -112,3 +112,67 @@ For more information about BibTeX and bibliographies, see (<http://web.reed.edu/
 CSAS style requires the bibliography to be before the appendices and before tables and figures if you keep those together at the end of your document.
 
 See the next file `04-references.Rmd` which will make the bibliography appear wherever that file is listed in `_bookdown.yml`.
+
+**Tests for appendix section referencing**
+
+Here are some references to a complex set of appendices. The appendices have sections and subsections which are used to test a special routine in csasdown. Appendices are not numbered chapters and as such special code was needed to allow for referencing of sections and subsections in them. This resdoc document is built during automated testing and these are placed here to ensure a complex testing case passes for the appendix referencing routine.
+
+APP A:
+
+Appendix \@ref(app:a)
+
+Appendix section \@ref(app:a-1)
+
+Appendix subsection \@ref(app:a-1-1)
+
+Appendix subsection \@ref(app:a-1-2)
+
+Appendix section \@ref(app:a-2)
+
+Appendix subsection \@ref(app:a-2-1)
+
+Appendix subsection \@ref(app:a-2-2)
+
+Appendix section \@ref(app:a-3)
+
+Appendix subsection \@ref(app:a-3-1)
+
+Appendix subsection \@ref(app:a-3-2)
+
+Appendix subsection \@ref(app:a-3-3)
+
+Appendix subsection \@ref(app:a-3-4)
+
+
+APP B:
+
+Appendix \@ref(app:b)
+
+Appendix section \@ref(app:b-1)
+
+Appendix section \@ref(app:b-2)
+
+APP C:
+
+Appendix \@ref(app:c)
+
+Appendix section \@ref(app:c-1)
+
+Appendix section \@ref(app:c-2)
+
+Appendix section \@ref(app:c-3)
+
+Appendix section \@ref(app:c-4)
+
+Appendix subsection \@ref(app:c-4-1)
+
+Appendix subsection \@ref(app:c-4-2)
+
+Appendix subsubsection \@ref(app:c-4-2-1)
+
+Appendix subsection \@ref(app:c-4-3)
+
+APP D:
+
+Appendix \@ref(app:d)
+
