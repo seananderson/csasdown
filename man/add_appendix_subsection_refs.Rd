@@ -10,7 +10,7 @@ add_appendix_subsection_refs(x)
 \item{x}{A vector of lines of the TEX file}
 }
 \value{
-Modified TEX lines ( a vector of lines of the TEX file)
+Modified TEX lines (a vector of lines of the TEX file)
 }
 \description{
 Fix the appendix subsections so they can be referenced properly in text

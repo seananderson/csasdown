@@ -690,6 +690,7 @@ add_appendix_subsection_refs <- function(x){
         app_chunk_inds <- grep("^\\\\appsection\\{", app_chunk)
         # Now, break each into section chunks
         sec_chunks <- list()
+        sec_header <- list()
         for(i in seq_along(app_chunk_inds)){
           if(i == length(app_chunk_inds)){
             sec_chunks[[i]] <- app_chunk[(app_chunk_inds[i] - 1):length(app_chunk)]
@@ -710,7 +711,7 @@ add_appendix_subsection_refs <- function(x){
           subsection_inds <- grep("^\\\\subsection\\{", sec_chunks[[i]])
           if(length(subsection_inds)){
             sec_chunk <- sec_chunks[[i]]
-            sec_header <- sec_chunk[1:(subsection_inds[1] - 2)]
+            sec_header[[i]] <- sec_chunk[1:(subsection_inds[1] - 2)]
             sec_chunk <- sec_chunk[(subsection_inds[1] - 1):length(sec_chunk)]
             sec_chunk_inds <- grep("^\\\\subsection\\{", sec_chunk)
             subsec_chunks <- list()
@@ -730,26 +731,29 @@ add_appendix_subsection_refs <- function(x){
               }
             }
             subsec_chunks <- unlist(subsec_chunks)
-            counter_lines <- c(paste0("\\newcounter{appendix_subsection_counter_",
+            counter_lines <- c(paste0("\\newcounter{appendix_",
                                       k,
-                                      "}"),
-                               paste0("\\refstepcounter{appendix_subsection_counter_",
+                                      "_subsection_",
+                                      i,
+                                      "_counter}"),
+                               paste0("\\refstepcounter{appendix_",
                                       k,
-                                      "}"))
+                                      "_subsection_",
+                                      i,
+                                      "_counter}"))
             subsec_chunks <- c(counter_lines, subsec_chunks)
             names(subsec_chunks) <- NULL
-            sec_chunks[[i]] <- subsec_chunks
+            sec_chunks[[i]] <- c(sec_header[[i]], subsec_chunks)
           }
         }
         sec_chunks <- unlist(sec_chunks)
-        sec_chunks <- c(sec_header, sec_chunks)
         sec_header <- NULL
-        counter_lines <- c(paste0("\\newcounter{appendix_appsection_counter_",
+        counter_lines <- c(paste0("\\newcounter{appendix_",
                                   k,
-                                  "}"),
-                           paste0("\\refstepcounter{appendix_appsection_counter_",
+                                  "_appsection_counter}"),
+                           paste0("\\refstepcounter{appendix_",
                                   k,
-                                  "}"))
+                                  "_appsection_counter}"))
         sec_chunks <- c(counter_lines, sec_chunks)
         names(sec_chunks) <- NULL
         appendix_chunks[[k]] <- c(app_header, sec_chunks)
