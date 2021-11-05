@@ -696,10 +696,14 @@ add_appendix_subsection_refs <- function(x){
           }else{
             sec_chunks[[i]] <- app_chunk[(app_chunk_inds[i] - 1):(app_chunk_inds[i + 1] - 2)]
           }
-          tmp_label <- sec_chunks[[i]][1]
-          tmp_section <- sec_chunks[[i]][2]
-          sec_chunks[[i]][1] <- tmp_section
-          sec_chunks[[i]][2] <- tmp_label
+          # Check for a label and allow missing label
+          if(!length(grep("hypertarget", sec_chunks[[i]][1]))){
+            # An auto-generated label was added and switching the label and appsection is not necessary
+            tmp_label <- sec_chunks[[i]][1]
+            tmp_section <- sec_chunks[[i]][2]
+            sec_chunks[[i]][1] <- tmp_section
+            sec_chunks[[i]][2] <- tmp_label
+          }
           # Iterate through each section chunk and create a list for the subsection chunks
           subsection_inds <- grep("subsection", sec_chunks[[i]])
           if(length(subsection_inds)){
@@ -714,10 +718,13 @@ add_appendix_subsection_refs <- function(x){
               }else{
                 subsec_chunks[[j]] <- sec_chunk[(sec_chunk_inds[j] - 1):(sec_chunk_inds[j + 1] - 2)]
               }
-              tmp_label <- subsec_chunks[[j]][1]
-              tmp_subsection <- subsec_chunks[[j]][2]
-              subsec_chunks[[j]][1] <- tmp_subsection
-              subsec_chunks[[j]][2] <- tmp_label
+              if(!length(grep("hypertarget", subsec_chunks[[j]][1]))){
+                # An auto-generated label was added and switching the label and subsection is not necessary
+                tmp_label <- subsec_chunks[[j]][1]
+                tmp_subsection <- subsec_chunks[[j]][2]
+                subsec_chunks[[j]][1] <- tmp_subsection
+                subsec_chunks[[j]][2] <- tmp_label
+              }
             }
             subsec_chunks <- unlist(subsec_chunks)
             counter_lines <- c(paste0("\\newcounter{appendix_subsection_counter_",
