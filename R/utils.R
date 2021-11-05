@@ -649,18 +649,30 @@ fix_envs <- function(x,
   x <- gsub("\\\\vadjust pre", "", x)
 
   # Enable reference linking to subsections of appendices
+  x <- add_appendix_subsection_refs(x)
+
+  x
+}
+
+#' Fix the appendix subsections so they can be referenced properly in text
+#'
+#' @param x A vector of lines of the TEX file
+#'
+#' @return Modified TEX lines ( a vector of lines of the TEX file)
+add_appendix_subsection_refs <- function(x){
+
   # Need a new counter for each appendix
   star_chap_inds <- grep("starredchapter", x)
   # If there are Appendices (Resdoc and SR only, the techreport has a totally different TEX structure)
   if(length(star_chap_inds)){
     counters <- paste0("app_counter_", seq_along(star_chap_inds))
-    pre_starred_x <- x[1:(star_chap_inds[1] - 1)]
-    appendix_chunks <- list(length = length(star_chap_inds))
+    pre_starred_x <- x[1:(star_chap_inds[1] - 3)]
+    appendix_chunks <- list()
     for(i in seq_along(star_chap_inds)){
       if(i == length(star_chap_inds)){
-        appendix_chunks[[i]] <- x[star_chap_inds[i]:length(x)]
+        appendix_chunks[[i]] <- x[(star_chap_inds[i] - 2):length(x)]
       }else{
-        appendix_chunks[[i]] <- x[star_chap_inds[i]:(star_chap_inds[i + 1] - 1)]
+        appendix_chunks[[i]] <- x[(star_chap_inds[i] - 2):(star_chap_inds[i + 1] - 3)]
       }
     }
     # At this point the TEX file is broken into several chunks, `pre_starred_x` which
@@ -668,31 +680,75 @@ fix_envs <- function(x,
     # one for each appendix
 
     # Apply mods to the appendix chunks
-    for(x in seq_along(appendix_chunks)){
-      asection_inds <- grep("appsection", appendix_chunks[[x]])
-      if(length(asection_inds)){
-        # Append the counter for the appendix
-        pre_appsection <- appendix_chunks[[x]][1:(asection_inds[1] - 2)]
-        the_rest <- appendix_chunks[[x]][(asection_inds[1] - 1):length(appendix_chunks[[x]])]
-        appendix_chunks[[x]] <- c(pre_appsection,
-                                  paste0("\\newcounter{appendix_sec_counter_",
-                                         x,
-                                         "}"),
-                                  paste0("\\refstepcounter{appendix_sec_counter_",
-                                         x,
-                                         "}"),
-                                  the_rest)
-        asection_inds <- grep("appsection", appendix_chunks[[x]])
-        tmp_appsections <- appendix_chunks[[x]][asection_inds]
-        tmp_labels <- appendix_chunks[[x]][asection_inds - 1]
-        appendix_chunks[[x]][asection_inds - 1] <- tmp_appsections
-        appendix_chunks[[x]][asection_inds] <- tmp_labels
+    for(k in seq_along(appendix_chunks)){
+      appsection_inds <- grep("appsection", appendix_chunks[[k]])
+      if(length(appsection_inds)){
+        # Strip appendix header away and call function on the rest
+        app_chunk <- appendix_chunks[[k]]
+        app_header <- app_chunk[1:(appsection_inds[1] - 2)]
+        app_chunk <- app_chunk[(appsection_inds[1] - 1):length(app_chunk)]
+        app_chunk_inds <- grep("appsection", app_chunk)
+        # Now, break each into section chunks
+        sec_chunks <- list()
+        for(i in seq_along(app_chunk_inds)){
+          if(i == length(app_chunk_inds)){
+            sec_chunks[[i]] <- app_chunk[(app_chunk_inds[i] - 1):length(app_chunk)]
+          }else{
+            sec_chunks[[i]] <- app_chunk[(app_chunk_inds[i] - 1):(app_chunk_inds[i + 1] - 2)]
+          }
+          tmp_label <- sec_chunks[[i]][1]
+          tmp_section <- sec_chunks[[i]][2]
+          sec_chunks[[i]][1] <- tmp_section
+          sec_chunks[[i]][2] <- tmp_label
+          # Iterate through each section chunk and create a list for the subsection chunks
+          subsection_inds <- grep("subsection", sec_chunks[[i]])
+          if(length(subsection_inds)){
+            sec_chunk <- sec_chunks[[i]]
+            sec_header <- sec_chunk[1:(subsection_inds[1] - 2)]
+            sec_chunk <- sec_chunk[(subsection_inds[1] - 1):length(sec_chunk)]
+            sec_chunk_inds <- grep("subsection", sec_chunk)
+            subsec_chunks <- list()
+            for(j in seq_along(sec_chunk_inds)){
+              if(j == length(sec_chunk_inds)){
+                subsec_chunks[[j]] <- sec_chunk[(sec_chunk_inds[j] - 1):length(sec_chunk)]
+              }else{
+                subsec_chunks[[j]] <- sec_chunk[(sec_chunk_inds[j] - 1):(sec_chunk_inds[j + 1] - 2)]
+              }
+              tmp_label <- subsec_chunks[[j]][1]
+              tmp_subsection <- subsec_chunks[[j]][2]
+              subsec_chunks[[j]][1] <- tmp_subsection
+              subsec_chunks[[j]][2] <- tmp_label
+            }
+            subsec_chunks <- unlist(subsec_chunks)
+            counter_lines <- c(paste0("\\newcounter{appendix_subsection_counter_",
+                                      k,
+                                      "}"),
+                               paste0("\\refstepcounter{appendix_subsection_counter_",
+                                      k,
+                                      "}"))
+            subsec_chunks <- c(counter_lines, subsec_chunks)
+            names(subsec_chunks) <- NULL
+            sec_chunks[[i]] <- subsec_chunks
+          }
+        }
+        sec_chunks <- unlist(sec_chunks)
+        sec_chunks <- c(sec_header, sec_chunks)
+        sec_header <- NULL
+        counter_lines <- c(paste0("\\newcounter{appendix_appsection_counter_",
+                                  k,
+                                  "}"),
+                           paste0("\\refstepcounter{appendix_appsection_counter_",
+                                  k,
+                                  "}"))
+        sec_chunks <- c(counter_lines, sec_chunks)
+        names(sec_chunks) <- NULL
+        appendix_chunks[[k]] <- c(app_header, sec_chunks)
       }
     }
-    appendix_chunks <- unlist(appendix_chunks)
-    names(appendix_chunks) <- NULL
-    x <- c(pre_starred_x, appendix_chunks)
   }
+  appendix_chunks <- unlist(appendix_chunks)
+  names(appendix_chunks) <- NULL
+  x <- c(pre_starred_x, appendix_chunks)
 
   x
 }
