@@ -658,11 +658,11 @@ fix_envs <- function(x,
 #'
 #' @param x A vector of lines of the TEX file
 #'
-#' @return Modified TEX lines ( a vector of lines of the TEX file)
+#' @return Modified TEX lines (a vector of lines of the TEX file)
 add_appendix_subsection_refs <- function(x){
 
   # Need a new counter for each appendix
-  star_chap_inds <- grep("starredchapter", x)
+  star_chap_inds <- grep("^\\\\starredchapter\\{", x)
   # If there are Appendices (Resdoc and SR only, the techreport has a totally different TEX structure)
   if(length(star_chap_inds)){
     counters <- paste0("app_counter_", seq_along(star_chap_inds))
@@ -677,17 +677,17 @@ add_appendix_subsection_refs <- function(x){
     }
     # At this point the TEX file is broken into several chunks, `pre_starred_x` which
     # is everything before the appendices, and N chunks in the list `appendix_chunks`,
-    # one for each appendix
+    # one element for each appendix
 
     # Apply mods to the appendix chunks
     for(k in seq_along(appendix_chunks)){
-      appsection_inds <- grep("appsection", appendix_chunks[[k]])
+      appsection_inds <- grep("^\\\\appsection\\{", appendix_chunks[[k]])
       if(length(appsection_inds)){
         # Strip appendix header away and call function on the rest
         app_chunk <- appendix_chunks[[k]]
         app_header <- app_chunk[1:(appsection_inds[1] - 2)]
         app_chunk <- app_chunk[(appsection_inds[1] - 1):length(app_chunk)]
-        app_chunk_inds <- grep("appsection", app_chunk)
+        app_chunk_inds <- grep("^\\\\appsection\\{", app_chunk)
         # Now, break each into section chunks
         sec_chunks <- list()
         for(i in seq_along(app_chunk_inds)){
@@ -697,20 +697,22 @@ add_appendix_subsection_refs <- function(x){
             sec_chunks[[i]] <- app_chunk[(app_chunk_inds[i] - 1):(app_chunk_inds[i + 1] - 2)]
           }
           # Check for a label and allow missing label
-          if(!length(grep("hypertarget", sec_chunks[[i]][1]))){
-            # An auto-generated label was added and switching the label and appsection is not necessary
+          if(!length(grep("^\\\\hypertarget\\{", sec_chunks[[i]][1]))){
+            # An auto-generated label was not added (using manually-added label) so switching the
+            # label and appsection is necessary
             tmp_label <- sec_chunks[[i]][1]
             tmp_section <- sec_chunks[[i]][2]
             sec_chunks[[i]][1] <- tmp_section
             sec_chunks[[i]][2] <- tmp_label
           }
+
           # Iterate through each section chunk and create a list for the subsection chunks
-          subsection_inds <- grep("subsection", sec_chunks[[i]])
+          subsection_inds <- grep("^\\\\subsection\\{", sec_chunks[[i]])
           if(length(subsection_inds)){
             sec_chunk <- sec_chunks[[i]]
             sec_header <- sec_chunk[1:(subsection_inds[1] - 2)]
             sec_chunk <- sec_chunk[(subsection_inds[1] - 1):length(sec_chunk)]
-            sec_chunk_inds <- grep("subsection", sec_chunk)
+            sec_chunk_inds <- grep("^\\\\subsection\\{", sec_chunk)
             subsec_chunks <- list()
             for(j in seq_along(sec_chunk_inds)){
               if(j == length(sec_chunk_inds)){
@@ -718,8 +720,9 @@ add_appendix_subsection_refs <- function(x){
               }else{
                 subsec_chunks[[j]] <- sec_chunk[(sec_chunk_inds[j] - 1):(sec_chunk_inds[j + 1] - 2)]
               }
-              if(!length(grep("hypertarget", subsec_chunks[[j]][1]))){
-                # An auto-generated label was added and switching the label and subsection is not necessary
+              if(!length(grep("^\\\\hypertarget\\{", subsec_chunks[[j]][1]))){
+                # An auto-generated label was not added (using manually-added label) so switching the
+                # label and subsection is necessary
                 tmp_label <- subsec_chunks[[j]][1]
                 tmp_subsection <- subsec_chunks[[j]][2]
                 subsec_chunks[[j]][1] <- tmp_subsection
@@ -752,10 +755,10 @@ add_appendix_subsection_refs <- function(x){
         appendix_chunks[[k]] <- c(app_header, sec_chunks)
       }
     }
+    appendix_chunks <- unlist(appendix_chunks)
+    names(appendix_chunks) <- NULL
+    x <- c(pre_starred_x, appendix_chunks)
   }
-  appendix_chunks <- unlist(appendix_chunks)
-  names(appendix_chunks) <- NULL
-  x <- c(pre_starred_x, appendix_chunks)
 
   x
 }
