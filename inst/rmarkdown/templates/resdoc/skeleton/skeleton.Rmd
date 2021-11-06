@@ -31,6 +31,7 @@ output:
    line_nums_mod: 1
    lot_lof: false
    draft_watermark: false
+   include_section_nums: true
 # ------------
 # End of options to set
 knit: bookdown::render_book

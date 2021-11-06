@@ -15,6 +15,8 @@
 #' @param prepub Logical for whether this is a pre-publication version
 #'  (currently not implemented for ResDocs)
 #' @param draft_watermark If `TRUE` show a DRAFT watermark on all pages of the output document
+#' @param include_section_nums If `TRUE` include the section and subsection numbers in the body titles.
+#' The table of contents will still show the numbers.
 #' @param copy_sty Copy the .sty files every time? Set to `FALSE` to "freeze" the
 #'   .sty file if you need to edit it.
 #' @param line_nums Include line numbers in the document? Logical.
@@ -41,6 +43,7 @@ resdoc_pdf <- function(toc = TRUE,
                        line_nums_mod = 1,
                        lot_lof = FALSE,
                        draft_watermark = FALSE,
+                       include_section_nums = TRUE,
                        pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
                        ...) {
   if (french) {
@@ -82,6 +85,7 @@ resdoc_pdf <- function(toc = TRUE,
       x = x,
       french = french,
       prepub = prepub,
+      include_section_nums = include_section_nums,
       include_abstract = TRUE,
       join_abstract = TRUE
     )
@@ -332,7 +336,8 @@ fix_envs <- function(x,
                      include_abstract = TRUE,
                      join_abstract = TRUE,
                      french = FALSE,
-                     prepub = FALSE) {
+                     prepub = FALSE,
+                     include_section_nums = TRUE) {
 
 
   # fix equations:
@@ -650,6 +655,21 @@ fix_envs <- function(x,
 
   # Enable reference linking to subsections of appendices
   x <- add_appendix_subsection_refs(x)
+
+  if(!include_section_nums){
+    document_start_ind <- grep("^\\\\documentclass", x)
+    pre_start <- x[1:document_start_ind]
+    post_start <- x[(document_start_ind + 1):length(x)]
+    inp_lines <- c("\\makeatletter",
+                   "\\def\\@seccntformat#1{",
+                   "  \\expandafter\\ifx\\csname c@#1\\endcsname\\c@section\\else",
+                   "  \\expandafter\\ifx\\csname c@#1\\endcsname\\c@subsection\\else",
+                   "  \\expandafter\\ifx\\csname c@#1\\endcsname\\c@subsubsection\\else",
+                   "  \\csname the#1\\endcsname\\quad",
+                   "  \\fi\\fi\\fi}",
+                   "\\makeatother")
+    x <- c(pre_start, inp_lines, post_start)
+  }
 
   x
 }
