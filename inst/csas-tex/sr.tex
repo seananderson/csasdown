@@ -18,6 +18,12 @@ $header-includes$
 % French title
 \newcommand{\rdTitleFr}{$title_other$}
 
+% Make the PDF bookmark title uppercase
+\ExplSyntaxOn
+\cs_set_eq:NN\textupper\text_uppercase:n
+\ExplSyntaxOff
+\newcommand{\rdTitleUpper}{\textupper{\rdTitle{}}}
+
 % Title short
 \newcommand{\rdTitleShort}{$title_short$}
 % End of title short
@@ -119,7 +125,7 @@ $endif$
 
 \begin{document}
 
-\bookmark[dest=PageOne]{\rdTitle{}}
+\bookmark[dest=PageOne]{\rdTitleUpper{}}
 
 \MakeFirstPage
 
