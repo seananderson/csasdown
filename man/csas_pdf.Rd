@@ -18,6 +18,7 @@ resdoc_pdf(
   line_nums_mod = 1,
   lot_lof = FALSE,
   draft_watermark = FALSE,
+  include_section_nums = TRUE,
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),
   ...
@@ -77,6 +78,9 @@ should be created.}
 (implemented only for ResDocs and TechReports)}
 
 \item{draft_watermark}{If \code{TRUE} show a DRAFT watermark on all pages of the output document}
+
+\item{include_section_nums}{If \code{TRUE} include the section and subsection numbers in the body titles.
+The table of contents will still show the numbers.}
 
 \item{pandoc_args}{Any other arguments to pandoc.}
 

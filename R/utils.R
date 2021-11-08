@@ -822,10 +822,11 @@ add_appendix_subsection_refs <- function(x){
         appendix_chunks[[h]] <- c(app_header, sec_chunks)
       }
     }
+    appendix_chunks <- unlist(appendix_chunks)
+    names(appendix_chunks) <- NULL
+    x <- c(pre_starred_x, appendix_chunks)
+
   }
-  appendix_chunks <- unlist(appendix_chunks)
-  names(appendix_chunks) <- NULL
-  x <- c(pre_starred_x, appendix_chunks)
   x
 }
 
