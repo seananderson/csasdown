@@ -9,7 +9,7 @@
 resdoc_pdf(
   toc = TRUE,
   toc_depth = 3,
-  highlight = "default",
+  highlight = "tango",
   latex_engine = "pdflatex",
   french = FALSE,
   prepub = FALSE,
@@ -32,6 +32,7 @@ sr_pdf(
   line_nums = FALSE,
   line_nums_mod = 1,
   draft_watermark = FALSE,
+  highlight = "tango",
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),
   ...
@@ -45,6 +46,7 @@ techreport_pdf(
   line_nums_mod = 1,
   lot_lof = FALSE,
   draft_watermark = FALSE,
+  highlight = "tango",
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),
   ...
@@ -57,10 +59,10 @@ should be created.}
 \item{toc_depth}{A positive integer.}
 
 \item{highlight}{Syntax highlighting style. Supported styles include
-"default", "tango", "pygments", "kate", "monochrome", "espresso",
+"tango", "pygments", "kate", "monochrome", "espresso",
 "zenburn", and "haddock". Pass \code{NULL} to prevent syntax highlighting.}
 
-\item{latex_engine}{LaTeX engine.}
+\item{latex_engine}{LaTeX engine to render with. 'pdflatex' or 'xelatex'}
 
 \item{french}{Logical for French (vs. English).}
 

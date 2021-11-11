@@ -8,9 +8,9 @@
 #'   should be created.
 #' @param toc_depth A positive integer.
 #' @param highlight Syntax highlighting style. Supported styles include
-#'   "default", "tango", "pygments", "kate", "monochrome", "espresso",
+#'   "tango", "pygments", "kate", "monochrome", "espresso",
 #'   "zenburn", and "haddock". Pass `NULL` to prevent syntax highlighting.
-#' @param latex_engine LaTeX engine.
+#' @param latex_engine LaTeX engine to render with. 'pdflatex' or 'xelatex'
 #' @param french Logical for French (vs. English).
 #' @param prepub Logical for whether this is a pre-publication version
 #'  (currently not implemented for ResDocs)
@@ -34,7 +34,7 @@
 #' }
 resdoc_pdf <- function(toc = TRUE,
                        toc_depth = 3,
-                       highlight = "default",
+                       highlight = "tango",
                        latex_engine = "pdflatex",
                        french = FALSE,
                        prepub = FALSE,
@@ -46,6 +46,13 @@ resdoc_pdf <- function(toc = TRUE,
                        include_section_nums = TRUE,
                        pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
                        ...) {
+
+  themes <- c("pygments", "tango", "espresso", "zenburn", "kate", "monochrome", "breezedark", "haddock")
+  if(!length(highlight) || !highlight %in% themes){
+    stop("in YAML, `csasdown:resdco_pdf: highlight` must be one of ", paste(themes, collapse = ", "),
+         "\nSee pandoc documentation, --highlight-style argument.", call. = FALSE)
+  }
+
   if (french) {
     file <- system.file("csas-tex", "res-doc-french.tex", package = "csasdown")
   } else {
@@ -56,12 +63,13 @@ resdoc_pdf <- function(toc = TRUE,
     template = file,
     toc = toc,
     toc_depth = toc_depth,
-    highlight = highlight,
     keep_tex = TRUE,
     pandoc_args = pandoc_args,
     latex_engine = latex_engine,
     ...
   )
+  tmp_hl <- grep("--highlight-style", base$pandoc$args)
+  base$pandoc$args <- base$pandoc$args[-c(tmp_hl[1], tmp_hl[1] + 1)]
 
   if (!class(line_nums_mod) %in% c("integer", "numeric")) {
     stop("line_nums_mod must be a numeric or integer value.", call. = FALSE)
@@ -85,6 +93,7 @@ resdoc_pdf <- function(toc = TRUE,
       x = x,
       french = french,
       prepub = prepub,
+      highlight = highlight,
       include_section_nums = include_section_nums,
       include_abstract = TRUE,
       join_abstract = TRUE
@@ -125,6 +134,7 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
                    copy_sty = TRUE,
                    line_nums = FALSE, line_nums_mod = 1,
                    draft_watermark = FALSE,
+                   highlight = "tango",
                    pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
                    ...) {
   if (french) {
@@ -140,6 +150,9 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
     latex_engine = latex_engine,
     ...
   )
+  tmp_hl <- grep("--highlight-style", base$pandoc$args)
+  base$pandoc$args <- base$pandoc$args[-c(tmp_hl[1], tmp_hl[1] + 1)]
+
   update_csasstyle(
     copy = copy_sty,
     line_nums = line_nums,
@@ -156,6 +169,7 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
       x = x,
       french = french,
       prepub = prepub,
+      highlight = highlight,
       include_abstract = FALSE,
       join_abstract = FALSE
     )
@@ -196,6 +210,7 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
                            line_nums = FALSE, line_nums_mod = 1,
                            lot_lof = FALSE,
                            draft_watermark = FALSE,
+                           highlight = "tango",
                            pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"), ...) {
   if (french) {
     file <- system.file("csas-tex", "tech-report-french.tex", package = "csasdown")
@@ -210,6 +225,8 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
     latex_engine = latex_engine,
     ...
   )
+  tmp_hl <- grep("--highlight-style", base$pandoc$args)
+  base$pandoc$args <- base$pandoc$args[-c(tmp_hl[1], tmp_hl[1] + 1)]
 
   cover_file_pdf <- if (french) "tech-report-cover-french.pdf" else "tech-report-cover.pdf"
   cover_file_docx <- if (french) "tech-report-cover-french.docx" else "tech-report-cover.docx"
@@ -235,6 +252,7 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
     fix_envs(
       x = x,
       french = french,
+      highlight = highlight,
       join_abstract = FALSE
     )
   })
@@ -337,6 +355,7 @@ fix_envs <- function(x,
                      join_abstract = TRUE,
                      french = FALSE,
                      prepub = FALSE,
+                     highlight = "tango",
                      include_section_nums = TRUE) {
 
 
@@ -669,6 +688,15 @@ fix_envs <- function(x,
                    "  \\fi\\fi\\fi}",
                    "\\makeatother")
     x <- c(pre_start, inp_lines, post_start)
+  }
+
+  # Add the latex chunk for code highlighting
+  theme_ind <- grep("^% Add theme here$", x)
+  if(length(theme_ind)){
+    pre_theme <- x[1:(theme_ind - 1)]
+    post_theme <- x[(theme_ind + 1):length(x)]
+    theme_latex <- readLines(system.file("themes", paste0(highlight, ".latex"), package = "csasdown"))
+    x <- c(pre_theme, theme_latex, post_theme)
   }
 
   x

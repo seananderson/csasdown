@@ -21,10 +21,21 @@ output:
  csasdown::sr_pdf:
    french: false
    prepub: false
+   # copy_sty is a toggle to copy the style file from the csasdown package every time you compile
+   # the document. If false, any changes you have made to the style file in your project
+   # will remain between compilations. If true, your changes will be lost when you compile
    copy_sty: true
+   # line_nums is a toggle to show line numbers on the left side of the page. 
    line_nums: true
+   # line_nums_mod represents showing every Nth line if line_nums is true
    line_nums_mod: 1
+   # draft_watermark is a toggle to show/not show a DRAFT watermark across every page
    draft_watermark: false
+   # highlight is the theme to use for code output. Must be one of the list given by:
+   # pandoc --list-highlight-styles
+   # which are:
+   # pygments, tango, espresso, zenburn, kate, monochrome, breezedark, haddock
+   highlight: tango
 type:
   sr
 # ------------
