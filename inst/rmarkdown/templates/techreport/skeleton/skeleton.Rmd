@@ -40,6 +40,13 @@ output:
    # pandoc --list-highlight-styles
    # which are:
    # pygments, tango, espresso, zenburn, kate, monochrome, breezedark, haddock
+   # or the name of a custom *.latex file which is most easily made by copying one from 
+   # the csasdown library 'themes' directory, this directory on your machine:
+   # file.path(.libPaths(), "csasdown", "themes")
+   # to your working directory (the one containing index.Rmd)
+   # To change the foreground text color, change the RGB value in the line containing
+   # 'DefineVerbatimEnvironment'
+   # To change background color, change the RGB values in the line containing 'shadecolor'
    highlight: tango
 type:
   techreport

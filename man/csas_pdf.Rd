@@ -60,7 +60,13 @@ should be created.}
 
 \item{highlight}{Syntax highlighting style. Supported styles include
 "tango", "pygments", "kate", "monochrome", "espresso",
-"zenburn", and "haddock". Pass \code{NULL} to prevent syntax highlighting.}
+"zenburn", and "haddock". If not in this list of styles, the directory in which
+the build process was called will be searched for the given theme file. You can
+copy one from the csasdown library install on your machine and modify as necessary.
+Find them by looking here:
+file.path(.libPaths(), "csasdown", "themes")
+Pass \code{NULL} to prevent syntax highlighting (uses 'monochrome' theme) for slightly
+different text format but no highlighting}
 
 \item{latex_engine}{LaTeX engine to render with. 'pdflatex' or 'xelatex'}
 

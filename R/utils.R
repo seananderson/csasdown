@@ -8,8 +8,14 @@
 #'   should be created.
 #' @param toc_depth A positive integer.
 #' @param highlight Syntax highlighting style. Supported styles include
-#'   "tango", "pygments", "kate", "monochrome", "espresso",
-#'   "zenburn", and "haddock". Pass `NULL` to prevent syntax highlighting.
+#'  "tango", "pygments", "kate", "monochrome", "espresso",
+#'  "zenburn", and "haddock". If not in this list of styles, the directory in which
+#'  the build process was called will be searched for the given theme file. You can
+#'  copy one from the csasdown library install on your machine and modify as necessary.
+#'  Find them by looking here:
+#'  file.path(.libPaths(), "csasdown", "themes")
+#'  Pass `NULL` to prevent syntax highlighting (uses 'monochrome' theme) for slightly
+#'  different text format but no highlighting
 #' @param latex_engine LaTeX engine to render with. 'pdflatex' or 'xelatex'
 #' @param french Logical for French (vs. English).
 #' @param prepub Logical for whether this is a pre-publication version
@@ -27,6 +33,7 @@
 #' @param ... other arguments to [bookdown::pdf_book()].
 #' @return A modified `pdf_document` based on the CSAS LaTeX template.
 #' @import bookdown
+#' @importFrom here here
 #' @rdname csas_pdf
 #' @examples
 #' \dontrun{
@@ -48,8 +55,14 @@ resdoc_pdf <- function(toc = TRUE,
                        ...) {
 
   themes <- c("pygments", "tango", "espresso", "zenburn", "kate", "monochrome", "breezedark", "haddock")
-  if(!length(highlight) || !highlight %in% themes){
+
+  if(is.null(highlight)){
+    highlight = "monochrome"
+  }
+
+  if((!highlight %in% themes) && !file.exists(here(highlight))){
     stop("in YAML, `csasdown:resdco_pdf: highlight` must be one of ", paste(themes, collapse = ", "),
+         "\nor a filename for a custom latex theme file.",
          "\nSee pandoc documentation, --highlight-style argument.", call. = FALSE)
   }
 
@@ -137,6 +150,19 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
                    highlight = "tango",
                    pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
                    ...) {
+
+  themes <- c("pygments", "tango", "espresso", "zenburn", "kate", "monochrome", "breezedark", "haddock")
+
+  if(is.null(highlight)){
+    highlight = "monochrome"
+  }
+
+  if((!highlight %in% themes) && !file.exists(here(highlight))){
+    stop("in YAML, `csasdown:resdco_pdf: highlight` must be one of ", paste(themes, collapse = ", "),
+         "\nor a filename for a custom latex theme file.",
+         "\nSee pandoc documentation, --highlight-style argument.", call. = FALSE)
+  }
+
   if (french) {
     file <- system.file("csas-tex", "sr-french.tex", package = "csasdown")
   } else {
@@ -212,6 +238,19 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
                            draft_watermark = FALSE,
                            highlight = "tango",
                            pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"), ...) {
+
+  themes <- c("pygments", "tango", "espresso", "zenburn", "kate", "monochrome", "breezedark", "haddock")
+
+  if(is.null(highlight)){
+    highlight = "monochrome"
+  }
+
+  if((!highlight %in% themes) && !file.exists(here(highlight))){
+    stop("in YAML, `csasdown:resdco_pdf: highlight` must be one of ", paste(themes, collapse = ", "),
+         "\nor a filename for a custom latex theme file.",
+         "\nSee pandoc documentation, --highlight-style argument.", call. = FALSE)
+  }
+
   if (french) {
     file <- system.file("csas-tex", "tech-report-french.tex", package = "csasdown")
   } else {
@@ -693,9 +732,14 @@ fix_envs <- function(x,
   # Add the latex chunk for code highlighting
   theme_ind <- grep("^% Add theme here$", x)
   if(length(theme_ind)){
+    themes <- c("pygments", "tango", "espresso", "zenburn", "kate", "monochrome", "breezedark", "haddock")
     pre_theme <- x[1:(theme_ind - 1)]
     post_theme <- x[(theme_ind + 1):length(x)]
-    theme_latex <- readLines(system.file("themes", paste0(highlight, ".latex"), package = "csasdown"))
+    if(highlight %in% themes){
+      theme_latex <- readLines(system.file("themes", paste0(highlight, ".latex"), package = "csasdown"))
+    }else{
+      theme_latex <- readLines(here(highlight))
+    }
     x <- c(pre_theme, theme_latex, post_theme)
   }
 
@@ -1036,7 +1080,7 @@ get_contact_info <- function(region = "National Capital Region", isFr = FALSE) {
 create_tempdir_for_latex <- function(type = NULL,
                                      where = "r",
                                      tmp_dir = NULL,
-                                     root_dir = here::here()) {
+                                     root_dir = here()) {
   stopifnot(type == "resdoc" ||
     type == "sr" ||
     type == "techreport")

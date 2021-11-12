@@ -52,6 +52,7 @@ Depends:
 Imports:
     bookdown,
     dplyr,
+    here,
     ggplot2,
     kableExtra,
     knitr,
@@ -66,8 +67,7 @@ Imports:
 Suggests:
     covr,
     magick,
-    testthat,
-    here
+    testthat
 Remotes:
     pbs-assess/rosettafish
 ByteCompile: true
