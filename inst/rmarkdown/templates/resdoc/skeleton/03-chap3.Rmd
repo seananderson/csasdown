@@ -25,12 +25,14 @@ In addition to the tables that can be automatically generated from a data frame 
 ------------------------- ----------------------------------------- --------------
 Table: (\#tab:inher) Correlation of Inheritance Factors for Parents and Child 
 
-We can also create a link to the table by doing the following: Table \@ref(tab:inher).  If you go back to [Loading and exploring data] and look at the `kable` table, we can create a reference to this max delays table too: Table \@ref(tab:maxdelays). The addition of the `(\#tab:inher)` option to the end of the table caption allows us to then make a reference to Table `\@ref(tab:label)`. Note that this reference could appear anywhere throughout the document after the table has appeared.  
-
 \clearpage
 
 <!-- clearpage ends the page, and also dumps out all floats.
   Floats are things like tables and figures. -->
+
+We can also create a link to the table by doing the following: Table \@ref(tab:inher).  If you go back to [Loading and exploring data] and look at the `kable` table, we can create a reference to this max delays table too: Table \@ref(tab:maxdelays). The addition of the `(\#tab:inher)` option to the end of the table caption allows us to then make a reference to Table `\@ref(tab:label)`. Note that this reference could appear anywhere throughout the document after the table has appeared.  
+
+\clearpage
 
 \begin{landscapepage}
 ```{r widelong, results = "asis"}
@@ -46,7 +48,7 @@ widelong_df <- data.frame(cbind(yrs, widelong))
 # is too large and overlaps the header and footer lines.
 csasdown::csas_table(widelong_df,
                      col.names = c("Year", as.character(ages)),
-                     caption = "A long and wide table",
+                     caption = "A long and wide landscape table",
                      format = "latex",
                      font_size = 8)
 ```
@@ -112,6 +114,8 @@ For more information about BibTeX and bibliographies, see (<http://web.reed.edu/
 CSAS style requires the bibliography to be before the appendices and before tables and figures if you keep those together at the end of your document.
 
 See the next file `04-references.Rmd` which will make the bibliography appear wherever that file is listed in `_bookdown.yml`.
+
+\clearpage
 
 **Tests for appendix section referencing**
 
