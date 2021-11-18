@@ -4,6 +4,9 @@
 % https://tex.stackexchange.com/a/325436
 \frenchbsetup{SmallCapsFigTabCaptions=false}
 
+%% Move the footer position flush to the left margin (default is indented a bit)
+\usepackage[flushmargin, bottom]{footmisc}
+
 \usepackage{tabularx}
 \usepackage[all]{nowidow}
 
@@ -57,6 +60,8 @@
             right=1in]
            {geometry}
 %% ------------------------------------------------------------------------------
+%% Add space between the bottom of the text and the footnoterule (line)
+\addtolength{\skip\footins}{10pt}
 
 %% ------------------------------------------------------------------------------
 %% To add in headers and footers

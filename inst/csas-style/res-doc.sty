@@ -1,6 +1,9 @@
 %% res-doc.sty - Unoffocial LaTeX style file for Canadian
 %%  Science Advisory Secretariat Research Documents.
 
+%% Move the footer position flush to the left margin (default is indented a bit)
+\usepackage[flushmargin, bottom]{footmisc}
+
 \usepackage{tabularx}
 \usepackage[all]{nowidow}
 
@@ -52,8 +55,11 @@
             bottom=1in,
             left=1in,
             right=1in]
+            %showframe] % Show the frames outlining all the parts of the page
            {geometry}
 %% ------------------------------------------------------------------------------
+%% Add space between the bottom of the text and the footnoterule (line)
+\addtolength{\skip\footins}{10pt}
 
 %% ------------------------------------------------------------------------------
 %% To add in headers and footers
@@ -360,6 +366,8 @@
 
 %% ------------------------------------------------------------------------------
 %% Defines the header and footer rules for a CSAS paper.
+\renewcommand\headrule{\hrule width1.0\textwidth}
+\renewcommand\footrule{\hrule width1.0\textwidth}
 \pagestyle{fancy}
 \renewcommand{\footrulewidth}{0.4pt}
 \renewcommand{\headrulewidth}{0.4pt}
