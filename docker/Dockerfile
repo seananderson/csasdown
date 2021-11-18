@@ -8,8 +8,7 @@ FROM rocker/tidyverse:latest
 LABEL maintainer = "chris.grandin@gmail.com"
 
 # Install Linux packages needed for various R packages to run
-RUN apt-get update -qq && apt-get -y --no-install-recommends install \
-libxt6
+RUN apt-get update -qq && apt-get -y --no-install-recommends install libxt6
 
 # Add LaTeX, rticles and bookdown support
 #
@@ -33,6 +32,7 @@ RUN wget -O- \
     hanging babel-english babel-french titlecaps ifnextok \
     textcase doi appendix soulpos chngcntr amsfonts soulutf8 \
     dvips booktabs wrapfig threeparttable threeparttablex draftwatermark \
+    footmisc \
   && tlmgr path add \
   && Rscript -e "tinytex::r_texmf()" \
   && tlmgr init-usertree \
