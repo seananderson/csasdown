@@ -8,7 +8,7 @@ create_tempdir_for_latex(
   type = NULL,
   where = "r",
   tmp_dir = NULL,
-  root_dir = here::here()
+  root_dir = here()
 )
 }
 \arguments{

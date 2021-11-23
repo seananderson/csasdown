@@ -52,6 +52,7 @@ Depends:
 Imports:
     bookdown,
     dplyr,
+    here,
     ggplot2,
     kableExtra,
     knitr,
@@ -61,17 +62,17 @@ Imports:
     rosettafish,
     stringr,
     tibble,
-    tinytex (>= 0.28)
+    tinytex (>= 0.28),
+    utils
 Suggests:
     covr,
     magick,
-    testthat,
-    here
+    testthat
 Remotes:
     pbs-assess/rosettafish
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 SystemRequirements: pandoc (>= 1.18) - http://pandoc.org

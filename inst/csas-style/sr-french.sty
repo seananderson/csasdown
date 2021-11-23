@@ -58,10 +58,11 @@
             left=1in,
             right=1in,
             includefoot,
+            headheight=1in,
             footskip=27pt]
            {geometry}
 
-\setlength{\headsep}{25pt}
+\setlength{\headsep}{15pt}
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
@@ -538,7 +539,7 @@
 %% ------------------------------------------------------------------------------
 %% Set up first page (header and footer)
 \fancypagestyle{firstPage}{%
-    \newgeometry{top=0.90in}
+    \newgeometry{top=0.90in, headheight=0.5in}
     \fancyhf{}
     \fancyhead{}
     \lhead{\includegraphics[width=9.2cm]{\locRepo/images/Fip-stacked-DFO-EOS-fra_bw.png}\\
