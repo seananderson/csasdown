@@ -2,8 +2,7 @@
 <!-- <div id="refs"></div> -->
 <!-- where you want it to appear -->
 
-<!-- In general, you shouldn't need to edit this file with the exception of
-the following French/English translation. For a French document, set the following header to: # Références Citées  {-} -->
+<!-- You shouldn't need to edit this file -->
 
 \clearpage
 
