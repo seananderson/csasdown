@@ -79,6 +79,8 @@ Look on your GitHub repository and you should see all the new files there. Your 
 
 ## Publications prepared using csasdown
 
+Jackson, J.W., Head, E.J.H., Beazley, L.I. and Cogswell, A.T. 2021. Oceanographic monitoring of the Gully MPA – A synopsis of data collected by the Atlantic Zone Monitoring Program. Can. Tech. Rep. Hydrogr. Ocean Sci. 337: xiv + 87 p. [[English](https://waves-vagues.dfo-mpo.gc.ca/Library/41014984.pdf)] [[GitHub Repository]](https://github.com/AtlanticR/reproducible-gully-report)
+
 Obradovich, S.G., Hansen, S.C., Zhang, Z., MacNeill, S., Nichol, L.M., Rooper, C.N., St. Germain,
 C., Curtis, D.L., Waddell, B.J., and Barton, L.L. In press. Pre-COSEWIC review of DFO
 information on Northern Abalone (*Haliotis kamtschatkana*) along the Pacific Coast of Canada.
