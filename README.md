@@ -112,6 +112,8 @@ Nephin, J., Jeffery, S., Thiess, M., Archer, S., Murdock, I., Boschen-Rose, J., 
 Exploring high and low current areas in the Salish Sea. Can. Tech. Rep. Fish. Aquat. Sci.
 3405: vi + 39 p. [[English](http://www.publications.gc.ca/site/eng/9.891774/publication.html)]
 
+Jackson, J.W., Head, E.J.H., Beazley, L.I. and Cogswell, A.T. 2021. Oceanographic monitoring of the Gully MPA – A synopsis of data collected by the Atlantic Zone Monitoring Program. Can. Tech. Rep. Hydrogr. Ocean Sci. 337: xiv + 87 p. [[English](https://waves-vagues.dfo-mpo.gc.ca/Library/41014984.pdf)] [[GitHub Repository]](https://github.com/AtlanticR/reproducible-gully-report)
+
 Obradovich, S.G., Hansen, S.C., Zhang, Z., MacNeill, S., Nichol, L.M., Rooper, C.N., St. Germain,
 C., Curtis, D.L., Waddell, B.J., and Barton, L.L. 2020. Pre-COSEWIC review of DFO
 information on Northern Abalone (*Haliotis kamtschatkana*) along the Pacific Coast of Canada.
