@@ -9,13 +9,16 @@
 resdoc_pdf(
   toc = TRUE,
   toc_depth = 3,
-  highlight = "default",
+  highlight = "tango",
   latex_engine = "pdflatex",
   french = FALSE,
   prepub = FALSE,
   copy_sty = TRUE,
   line_nums = FALSE,
   line_nums_mod = 1,
+  lot_lof = FALSE,
+  draft_watermark = FALSE,
+  include_section_nums = TRUE,
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),
   ...
@@ -28,6 +31,8 @@ sr_pdf(
   copy_sty = TRUE,
   line_nums = FALSE,
   line_nums_mod = 1,
+  draft_watermark = FALSE,
+  highlight = "tango",
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),
   ...
@@ -39,6 +44,9 @@ techreport_pdf(
   copy_sty = TRUE,
   line_nums = FALSE,
   line_nums_mod = 1,
+  lot_lof = FALSE,
+  draft_watermark = FALSE,
+  highlight = "tango",
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),
   ...
@@ -51,14 +59,20 @@ should be created.}
 \item{toc_depth}{A positive integer.}
 
 \item{highlight}{Syntax highlighting style. Supported styles include
-"default", "tango", "pygments", "kate", "monochrome", "espresso",
-"zenburn", and "haddock". Pass \code{NULL} to prevent syntax highlighting.}
+"tango", "pygments", "kate", "monochrome", "espresso",
+"zenburn", and "haddock". If not in this list of styles, the directory in which
+the build process was called will be searched for the given theme file. You can
+copy one from the csasdown library install on your machine and modify as necessary.
+Find them by looking here:
+file.path(.libPaths(), "csasdown", "themes")
+Pass \code{NULL} to prevent syntax highlighting (uses 'monochrome' theme) for slightly
+different text format but no highlighting}
 
-\item{latex_engine}{LaTeX engine.}
+\item{latex_engine}{LaTeX engine to render with. 'pdflatex' or 'xelatex'}
 
 \item{french}{Logical for French (vs. English).}
 
-\item{prepub}{Logical for whether this is a prepublication version
+\item{prepub}{Logical for whether this is a pre-publication version
 (currently not implemented for ResDocs)}
 
 \item{copy_sty}{Copy the .sty files every time? Set to \code{FALSE} to "freeze" the
@@ -67,6 +81,14 @@ should be created.}
 \item{line_nums}{Include line numbers in the document? Logical.}
 
 \item{line_nums_mod}{Numerical. Which modulo line numbers to label, 2 = every second line, etc.}
+
+\item{lot_lof}{Include list of tables and list of figures in the document? Logical.
+(implemented only for ResDocs and TechReports)}
+
+\item{draft_watermark}{If \code{TRUE} show a DRAFT watermark on all pages of the output document}
+
+\item{include_section_nums}{If \code{TRUE} include the section and subsection numbers in the body titles.
+The table of contents will still show the numbers.}
 
 \item{pandoc_args}{Any other arguments to pandoc.}
 

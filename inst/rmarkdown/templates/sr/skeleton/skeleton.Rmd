@@ -4,7 +4,7 @@ title_short: "Short title"
 title_other: "Insérez le titre ici; il doit correspondre exactement à celui de la page couverture, mais en lettres minuscules (*Nom latin*)"
 year: 20XX
 month: Month
-report_number: 999
+report_number: 999 # This *must* be numeric! E.g., not `nnn`.
 approver: |
   Approver Name\
   Regional Director
@@ -15,13 +15,34 @@ work_done_year: 20XX
 work_done_month: Month
 branch: Science Branch
 region: Pacific Region
+isbn: "ISBN-Here"
+cat_no: "Cat-Number-Here"
 output:
  csasdown::sr_pdf:
    french: false
    prepub: false
+   # copy_sty is a toggle to copy the style file from the csasdown package every time you compile
+   # the document. If false, any changes you have made to the style file in your project
+   # will remain between compilations. If true, your changes will be lost when you compile
    copy_sty: true
+   # line_nums is a toggle to show line numbers on the left side of the page. 
    line_nums: true
+   # line_nums_mod represents showing every Nth line if line_nums is true
    line_nums_mod: 1
+   # draft_watermark is a toggle to show/not show a DRAFT watermark across every page
+   draft_watermark: false
+   # highlight is the theme to use for code output. Must be one of the list given by:
+   # pandoc --list-highlight-styles
+   # which are:
+   # pygments, tango, espresso, zenburn, kate, monochrome, breezedark, haddock
+   # or the name of a custom *.latex file which is most easily made by copying one from 
+   # the csasdown library 'themes' directory, this directory on your machine:
+   # file.path(.libPaths(), "csasdown", "themes")
+   # to your working directory (the one containing index.Rmd)
+   # To change the foreground text color, change the RGB value in the line containing
+   # 'DefineVerbatimEnvironment'
+   # To change background color, change the RGB values in the line containing 'shadecolor'
+   highlight: tango
 type:
   sr
 # ------------
@@ -82,17 +103,17 @@ options(kableExtra.latex.load_packages = FALSE)
 #  are used throughout the document. To make the document all in french, change
 #  the line in the YAML header above to `french: true`
 meta <- rmarkdown::metadata$output
-if(length(grep("pdf", names(meta)))){
+if (length(grep("pdf", names(meta)))) {
   french <- meta$`csasdown::sr_pdf`$french
   prepub <- meta$`csasdown::sr_pdf`$prepub
-}else if(length(grep("word", names(meta)))){
+} else if (length(grep("word", names(meta)))) {
   french <- meta$`csasdown::sr_word`$french
   prepub <- meta$`csasdown::sr_word`$prepub
 }
 csl <- "csl/csas.csl"
-if(french){
+if (french) {
   csl <- "csl/csas-french.csl"
-  options(OutDec =  ",")
+  options(OutDec = ",")
 }
 
 # add other packages here:

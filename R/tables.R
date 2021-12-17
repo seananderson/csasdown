@@ -9,12 +9,8 @@
 #' @param linesep As defined by [knitr::kable()].
 #' @param longtable As defined by [knitr::kable()].
 #' @param font_size Font size in pts. If NULL, document font size is used.
-#' @param landscape Make this table in landscape orientation?
 #' @param bold_header Make headers bold. Logical
 #' @param repeat_header If landscape, repeat the header on subsequent pages?
-#' @param repeat_header_text Use to write a Continued.. messgae continuing pages
-#'   with the long table
-#' @param repeat_header_method As defined by [kableExtra::kable_styling()].
 #' @param col_names Names for the columns to show on table.
 #' @param col_names_align As defined in [kableExtra::linebreak()].
 #' @param escape As defined by [kableExtra::kable_styling()].
@@ -47,11 +43,8 @@ csas_table <- function(x,
                        linesep = "",
                        longtable = TRUE,
                        font_size = NULL,
-                       landscape = FALSE,
                        bold_header = TRUE,
                        repeat_header = TRUE,
-                       repeat_header_text = "",
-                       repeat_header_method = "replace",
                        col_names = NULL,
                        col_names_align = "c",
                        escape = FALSE,
@@ -79,64 +72,68 @@ csas_table <- function(x,
       ## Only use kableExtra if there are newlines
       col_names <- linebreak(col_names, align = col_names_align)
     }
-    k <- kable(x = x,
-               format = format,
-               booktabs = booktabs,
-               linesep = linesep,
-               longtable = longtable,
-               col.names = col_names,
-               escape = escape,
-               ...)
+    k <- kable(
+      x = x,
+      format = format,
+      booktabs = booktabs,
+      linesep = linesep,
+      longtable = longtable,
+      col.names = col_names,
+      escape = escape,
+      ...
+    )
     suppressWarnings(k <- kable_styling(k, font_size = font_size))
-
   } else {
-    k <- kable(x = x,
-               format = format,
-               booktabs = booktabs,
-               linesep = linesep,
-               longtable = longtable,
-               escape = escape,
-               ...)
+    k <- kable(
+      x = x,
+      format = format,
+      booktabs = booktabs,
+      linesep = linesep,
+      longtable = longtable,
+      escape = escape,
+      ...
+    )
     suppressWarnings(k <- kable_styling(k, font_size = font_size))
   }
   if (bold_header) {
     suppressWarnings(k <- row_spec(k, 0, bold = TRUE))
   }
-  if (landscape) {
-    k <- landscape(k)
-  }
   if (repeat_header) {
     suppressWarnings(
-    k <- kable_styling(k,
-                       latex_options = "repeat_header",
-                       repeat_header_text = repeat_header_text,
-                       repeat_header_method = repeat_header_method))
+      k <- kable_styling(k,
+        latex_options = "repeat_header",
+        repeat_header_continued = FALSE,
+        repeat_header_text = "",
+        repeat_header_method = "replace"
+      )
+    )
   }
   suppressWarnings(k <- kable_styling(k, font_size = font_size))
   if (hold_position) {
     suppressWarnings(k <- kable_styling(k, latex_options = "hold_position"))
   }
   k <- sub("\\caption\\[\\]\\{\\}", "\\caption*{}", k)
-  if(!is.null(extra_header)){
+  if (!is.null(extra_header)) {
     kable_format <- attr(k, "format")
-    if(kable_format != "latex"){
+    if (kable_format != "latex") {
       stop("Adding an extra header is only supported for latex builds.", call. = FALSE)
     }
     k <- add_extra_header(k,
-                          header = extra_header,
-                          ex_bold,
-                          ex_italic,
-                          ex_monospace,
-                          ex_underline,
-                          ex_strikeout,
-                          ex_align,
-                          ex_color,
-                          ex_background,
-                          ex_font_size,
-                          ex_angle,
-                          ex_escape,
-                          ex_line,
-                          ex_line_sep)
+      header = extra_header,
+      ex_bold,
+      ex_italic,
+      ex_monospace,
+      ex_underline,
+      ex_strikeout,
+      ex_align,
+      ex_color,
+      ex_background,
+      ex_font_size,
+      ex_angle,
+      ex_escape,
+      ex_line,
+      ex_line_sep
+    )
   }
   k
 }
@@ -174,56 +171,64 @@ add_extra_header <- function(kable_input,
                              angle,
                              escape,
                              line = TRUE,
-                             line_sep = 3){
-
+                             line_sep = 3) {
   table_info <- kableExtra::magic_mirror(kable_input)
   header <- kableExtra:::standardize_header_input(header)
-  if(length(table_info$colnames) != nrow(header)){
+  if (length(table_info$colnames) != nrow(header)) {
     stop("The number of extra headers supplied is not the same as the number of columns in the table", call. = FALSE)
   }
-  if(escape){
+  if (escape) {
     header$header <- kableExtra:::input_escape(header$header, align)
   }
   align <- match.arg(align, c("c", "l", "r"))
   hline_type <- switch(table_info$booktabs + 1,
-                       "\\\\hline",
-                       "\\\\toprule")
+    "\\\\hline",
+    "\\\\toprule"
+  )
   new_header_split <-
     kableExtra:::pdfTable_new_header_generator(header,
-                                               table_info$booktabs,
-                                               bold,
-                                               italic,
-                                               monospace,
-                                               underline,
-                                               strikeout,
-                                               align,
-                                               color,
-                                               background,
-                                               font_size,
-                                               angle,
-                                               line_sep,
-                                               border_left = FALSE,
-                                               border_right = FALSE)
-  if(line){
-    new_header <- paste0(new_header_split[1], "\n",
-                         new_header_split[2])
-  }else{
+      table_info$booktabs,
+      bold,
+      italic,
+      monospace,
+      underline,
+      strikeout,
+      align,
+      color,
+      background,
+      font_size,
+      angle,
+      line_sep,
+      border_left = FALSE,
+      border_right = FALSE
+    )
+  if (line) {
+    new_header <- paste0(
+      new_header_split[1], "\n",
+      new_header_split[2]
+    )
+  } else {
     new_header <- new_header_split[1]
   }
   j <- utf8_inp <- kableExtra:::solve_enc(kable_input)
-  out <- stringr::str_replace_all(utf8_inp,
-                                  hline_type,
-                                  paste0(hline_type, "\n", new_header))
+  out <- stringr::str_replace_all(
+    utf8_inp,
+    hline_type,
+    paste0(hline_type, "\n", new_header)
+  )
   out <- structure(out,
-                   format = "latex",
-                   class = "knitr_kable")
+    format = "latex",
+    class = "knitr_kable"
+  )
 
-  if(is.null(table_info$new_header_row)){
+  if (is.null(table_info$new_header_row)) {
     table_info$new_header_row <- new_header_split[1]
     table_info$header_df <- list(header)
-  }else{
-    table_info$new_header_row <- c(table_info$new_header_row,
-                                   new_header_split[1])
+  } else {
+    table_info$new_header_row <- c(
+      table_info$new_header_row,
+      new_header_split[1]
+    )
     table_info$header_df[[length(table_info$header_df) + 1]] <- header
   }
   attr(out, "kable_meta") <- table_info

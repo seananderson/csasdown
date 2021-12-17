@@ -9,6 +9,8 @@ update_csasstyle(
   copy = TRUE,
   line_nums = TRUE,
   line_nums_mod = 1,
+  lot_lof = FALSE,
+  draft_watermark = FALSE,
   which_sty = "res-doc.sty"
 )
 }
@@ -19,6 +21,11 @@ If FALSE, only copy if the directory does not exist in the current directory}
 \item{line_nums}{Logical. Include line numbering in the document}
 
 \item{line_nums_mod}{Numerical. Which modulo line numbers to label, 2 = every second line, etc.}
+
+\item{lot_lof}{Include list of tables and list of figures in the document? Logical.
+(implemented only for ResDocs and TechReports)}
+
+\item{draft_watermark}{If \code{TRUE} show a DRAFT watermark on all pages of the output document}
 
 \item{which_sty}{Name of the style file to modify}
 }

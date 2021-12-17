@@ -2,4 +2,11 @@
 
 Optional for regular Science Responses, and mandatory for Stock Status Updates as these must include the citation for the peer-reviewed Science Advisory Report.
 
+<!-- If including references: -->
+\noindent
+\vspace{-2em}
+\setlength{\parindent}{-0.2in}
+\setlength{\leftskip}{0.2in}
+\setlength{\parskip}{8pt}
+
 \clearpage

@@ -8,31 +8,64 @@
 #'   should be created.
 #' @param toc_depth A positive integer.
 #' @param highlight Syntax highlighting style. Supported styles include
-#'   "default", "tango", "pygments", "kate", "monochrome", "espresso",
-#'   "zenburn", and "haddock". Pass `NULL` to prevent syntax highlighting.
-#' @param latex_engine LaTeX engine.
+#'  "tango", "pygments", "kate", "monochrome", "espresso",
+#'  "zenburn", and "haddock". If not in this list of styles, the directory in which
+#'  the build process was called will be searched for the given theme file. You can
+#'  copy one from the csasdown library install on your machine and modify as necessary.
+#'  Find them by looking here:
+#'  file.path(.libPaths(), "csasdown", "themes")
+#'  Pass `NULL` to prevent syntax highlighting (uses 'monochrome' theme) for slightly
+#'  different text format but no highlighting
+#' @param latex_engine LaTeX engine to render with. 'pdflatex' or 'xelatex'
 #' @param french Logical for French (vs. English).
-#' @param prepub Logical for whether this is a prepublication version
+#' @param prepub Logical for whether this is a pre-publication version
 #'  (currently not implemented for ResDocs)
+#' @param draft_watermark If `TRUE` show a DRAFT watermark on all pages of the output document
+#' @param include_section_nums If `TRUE` include the section and subsection numbers in the body titles.
+#' The table of contents will still show the numbers.
 #' @param copy_sty Copy the .sty files every time? Set to `FALSE` to "freeze" the
 #'   .sty file if you need to edit it.
 #' @param line_nums Include line numbers in the document? Logical.
 #' @param line_nums_mod Numerical. Which modulo line numbers to label, 2 = every second line, etc.
+#' @param lot_lof Include list of tables and list of figures in the document? Logical.
+#'  (implemented only for ResDocs and TechReports)
 #' @param pandoc_args Any other arguments to pandoc.
 #' @param ... other arguments to [bookdown::pdf_book()].
 #' @return A modified `pdf_document` based on the CSAS LaTeX template.
 #' @import bookdown
+#' @importFrom here here
 #' @rdname csas_pdf
 #' @examples
 #' \dontrun{
 #' output:csasdown::resdoc_pdf
 #' }
-resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
-                       latex_engine = "pdflatex", french = FALSE,
-                       prepub = FALSE, copy_sty = TRUE,
-                       line_nums = FALSE, line_nums_mod = 1,
+resdoc_pdf <- function(toc = TRUE,
+                       toc_depth = 3,
+                       highlight = "tango",
+                       latex_engine = "pdflatex",
+                       french = FALSE,
+                       prepub = FALSE,
+                       copy_sty = TRUE,
+                       line_nums = FALSE,
+                       line_nums_mod = 1,
+                       lot_lof = FALSE,
+                       draft_watermark = FALSE,
+                       include_section_nums = TRUE,
                        pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
                        ...) {
+
+  themes <- c("pygments", "tango", "espresso", "zenburn", "kate", "monochrome", "breezedark", "haddock")
+
+  if(is.null(highlight)){
+    highlight = "monochrome"
+  }
+
+  if((!highlight %in% themes) && !file.exists(here(highlight))){
+    stop("in YAML, `csasdown:resdco_pdf: highlight` must be one of ", paste(themes, collapse = ", "),
+         "\nor a filename for a custom latex theme file.",
+         "\nSee pandoc documentation, --highlight-style argument.", call. = FALSE)
+  }
+
   if (french) {
     file <- system.file("csas-tex", "res-doc-french.tex", package = "csasdown")
   } else {
@@ -43,20 +76,25 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
     template = file,
     toc = toc,
     toc_depth = toc_depth,
-    highlight = highlight,
     keep_tex = TRUE,
     pandoc_args = pandoc_args,
     latex_engine = latex_engine,
     ...
   )
+  tmp_hl <- grep("--highlight-style", base$pandoc$args)
+  base$pandoc$args <- base$pandoc$args[-c(tmp_hl[1], tmp_hl[1] + 1)]
 
-  if(!class(line_nums_mod) %in% c("integer", "numeric")){
+  if (!class(line_nums_mod) %in% c("integer", "numeric")) {
     stop("line_nums_mod must be a numeric or integer value.", call. = FALSE)
   }
-  update_csasstyle(copy = copy_sty,
-                   line_nums = line_nums,
-                   line_nums_mod = line_nums_mod,
-                   which_sty = ifelse(french, "res-doc-french.sty", "res-doc.sty"))
+  update_csasstyle(
+    copy = copy_sty,
+    line_nums = line_nums,
+    line_nums_mod = line_nums_mod,
+    draft_watermark = draft_watermark,
+    lot_lof = lot_lof,
+    which_sty = ifelse(french, "res-doc-french.sty", "res-doc.sty")
+  )
 
   # Mostly copied from knitr::render_sweave
   base$knitr$opts_chunk$comment <- NA
@@ -68,6 +106,8 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
       x = x,
       french = french,
       prepub = prepub,
+      highlight = highlight,
+      include_section_nums = include_section_nums,
       include_abstract = TRUE,
       join_abstract = TRUE
     )
@@ -90,7 +130,7 @@ resdoc_pdf <- function(toc = TRUE, toc_depth = 3, highlight = "default",
 #' @export
 #' @return A Word Document based on the CSAS Res Doc template.
 resdoc_word <- function(french = FALSE, ...) {
-  file <- if (french) "RES2016-fra.docx" else "RES2016-eng-content-only.docx"
+  file <- if (french) "RES2021-fra-content.docx" else "RES2021-eng-content.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
   )
@@ -106,8 +146,23 @@ resdoc_word <- function(french = FALSE, ...) {
 sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
                    copy_sty = TRUE,
                    line_nums = FALSE, line_nums_mod = 1,
+                   draft_watermark = FALSE,
+                   highlight = "tango",
                    pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
                    ...) {
+
+  themes <- c("pygments", "tango", "espresso", "zenburn", "kate", "monochrome", "breezedark", "haddock")
+
+  if(is.null(highlight)){
+    highlight = "monochrome"
+  }
+
+  if((!highlight %in% themes) && !file.exists(here(highlight))){
+    stop("in YAML, `csasdown:resdco_pdf: highlight` must be one of ", paste(themes, collapse = ", "),
+         "\nor a filename for a custom latex theme file.",
+         "\nSee pandoc documentation, --highlight-style argument.", call. = FALSE)
+  }
+
   if (french) {
     file <- system.file("csas-tex", "sr-french.tex", package = "csasdown")
   } else {
@@ -121,10 +176,16 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
     latex_engine = latex_engine,
     ...
   )
-  update_csasstyle(copy = copy_sty,
-                   line_nums = line_nums,
-                   line_nums_mod = line_nums_mod,
-                   which_sty = ifelse(french, "sr-french.sty", "sr.sty"))
+  tmp_hl <- grep("--highlight-style", base$pandoc$args)
+  base$pandoc$args <- base$pandoc$args[-c(tmp_hl[1], tmp_hl[1] + 1)]
+
+  update_csasstyle(
+    copy = copy_sty,
+    line_nums = line_nums,
+    line_nums_mod = line_nums_mod,
+    draft_watermark = draft_watermark,
+    which_sty = ifelse(french, "sr-french.sty", "sr.sty")
+  )
 
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
@@ -134,6 +195,7 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
       x = x,
       french = french,
       prepub = prepub,
+      highlight = highlight,
       include_abstract = FALSE,
       join_abstract = FALSE
     )
@@ -146,7 +208,7 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
 #' @export
 #' @rdname csas_docx
 sr_word <- function(french = FALSE, ...) {
-  file <- if (french) "SRR-RS2016-fra.docx" else "SRR-RS2016-eng.docx"
+  file <- if (french) "SRR-RS2021-fra.docx" else "SRR-RS2021-eng.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
   )
@@ -172,7 +234,23 @@ techreport_word <- function(french = FALSE, ...) {
 techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
                            copy_sty = TRUE,
                            line_nums = FALSE, line_nums_mod = 1,
+                           lot_lof = FALSE,
+                           draft_watermark = FALSE,
+                           highlight = "tango",
                            pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"), ...) {
+
+  themes <- c("pygments", "tango", "espresso", "zenburn", "kate", "monochrome", "breezedark", "haddock")
+
+  if(is.null(highlight)){
+    highlight = "monochrome"
+  }
+
+  if((!highlight %in% themes) && !file.exists(here(highlight))){
+    stop("in YAML, `csasdown:resdco_pdf: highlight` must be one of ", paste(themes, collapse = ", "),
+         "\nor a filename for a custom latex theme file.",
+         "\nSee pandoc documentation, --highlight-style argument.", call. = FALSE)
+  }
+
   if (french) {
     file <- system.file("csas-tex", "tech-report-french.tex", package = "csasdown")
   } else {
@@ -186,6 +264,8 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
     latex_engine = latex_engine,
     ...
   )
+  tmp_hl <- grep("--highlight-style", base$pandoc$args)
+  base$pandoc$args <- base$pandoc$args[-c(tmp_hl[1], tmp_hl[1] + 1)]
 
   cover_file_pdf <- if (french) "tech-report-cover-french.pdf" else "tech-report-cover.pdf"
   cover_file_docx <- if (french) "tech-report-cover-french.docx" else "tech-report-cover.docx"
@@ -196,10 +276,14 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
     file.copy(cover_docx, ".", overwrite = FALSE)
     file.copy(cover_pdf, ".", overwrite = FALSE)
   }
-  update_csasstyle(copy = copy_sty,
-                   line_nums = line_nums,
-                   line_nums_mod = line_nums_mod,
-                   which_sty = ifelse(french, "tech-report-french.sty", "tech-report.sty"))
+  update_csasstyle(
+    copy = copy_sty,
+    line_nums = line_nums,
+    line_nums_mod = line_nums_mod,
+    lot_lof = lot_lof,
+    draft_watermark = draft_watermark,
+    which_sty = ifelse(french, "tech-report-french.sty", "tech-report.sty")
+  )
 
   base$knitr$opts_chunk$comment <- NA
   old_opt <- getOption("bookdown.post.latex")
@@ -207,6 +291,7 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
     fix_envs(
       x = x,
       french = french,
+      highlight = highlight,
       join_abstract = FALSE
     )
   })
@@ -222,27 +307,84 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
 #' @param line_nums Logical. Include line numbering in the document
 #' @param line_nums_mod Numerical. Which modulo line numbers to label, 2 = every second line, etc.
 #' @param which_sty Name of the style file to modify
+#' @param lot_lof Include list of tables and list of figures in the document? Logical.
+#'  (implemented only for ResDocs and TechReports)
+#' @param draft_watermark If `TRUE` show a DRAFT watermark on all pages of the output document
 #'
+#' @importFrom utils tail
 #' @return Nothing
-update_csasstyle <- function(copy = TRUE, line_nums = TRUE, line_nums_mod = 1, which_sty = "res-doc.sty") {
+update_csasstyle <- function(copy = TRUE,
+                             line_nums = TRUE,
+                             line_nums_mod = 1,
+                             lot_lof = FALSE,
+                             draft_watermark = FALSE,
+                             which_sty = "res-doc.sty") {
+
   fn <- system.file("csas-style", package = "csasdown")
-  if (copy || (!dir.exists("csas-style") && !copy)) {
+  if(!copy && line_nums){
+    stop("You have set copy_sty to FALSE and line_nums to TRUE in the index.Rmd YAML header. ",
+         "The permanent style file cannot be modified as needed to include line numbering. ",
+         "Either set copy_sty to TRUE or line_nums to FALSE to build.",
+         call. = FALSE)
+  }
+  if(!copy && lot_lof){
+    stop("You have set copy_sty to FALSE and lot_lof to TRUE in the index.Rmd YAML header. ",
+         "The permanent style file cannot be modified as needed to include the lists of tables and figures. ",
+         "Either set copy_sty to TRUE or lot_lof to FALSE to build.",
+         call. = FALSE)
+  }
+  if(!copy && draft_watermark){
+    stop("You have set copy_sty to FALSE and draft_watermark to TRUE in the index.Rmd YAML header. ",
+         "The permanent style file cannot be modified as needed to include the DRAFT watermark. ",
+         "Either set copy_sty to TRUE or draft_watermark to FALSE to build.",
+         call. = FALSE)
+  }
+
+  if (copy || !dir.exists("csas-style")) {
     dir.create("csas-style", showWarnings = FALSE)
     ignore <- file.copy(fn, ".", overwrite = TRUE, recursive = TRUE)
-  }
-  if(line_nums){
-    csas_style <- readLines(here::here("csas-style", which_sty))
-    if(length(grep("res-doc", which_sty))){
-      frontmatter_loc <- grep("frontmatter\\{", csas_style)
-      beg_of_file <- csas_style[1:(frontmatter_loc - 1)]
-      end_of_file <- csas_style[frontmatter_loc:length(csas_style)]
-      modulo <- paste0("\\modulolinenumbers[", line_nums_mod, "]")
-      csas_style <- c(beg_of_file, "\\linenumbers", modulo, end_of_file)
-      writeLines(csas_style, here::here("csas-style", which_sty))
-    }else{
-      modulo <- paste0("\\modulolinenumbers[", line_nums_mod, "]")
-      csas_style <- c(csas_style, "\\linenumbers", modulo)
-      writeLines(csas_style, here::here("csas-style", which_sty))
+    if(line_nums || lot_lof || draft_watermark){
+      csas_style <- readLines(file.path("csas-style", which_sty))
+    }
+    if (line_nums) {
+      if (grepl("res-doc", which_sty)) {
+        frontmatter_loc <- grep("frontmatter\\{", csas_style)
+        beg_of_file <- csas_style[seq(1, (frontmatter_loc - 1))]
+        end_of_file <- csas_style[seq(frontmatter_loc, length(csas_style))]
+        modulo <- paste0("\\modulolinenumbers[", line_nums_mod, "]")
+        csas_style <- c(beg_of_file, "\\linenumbers", modulo, end_of_file)
+        writeLines(csas_style, file.path("csas-style", which_sty))
+      } else {
+        modulo <- paste0("\\modulolinenumbers[", line_nums_mod, "]")
+        csas_style <- c(csas_style, "\\linenumbers", modulo)
+        writeLines(csas_style, file.path("csas-style", which_sty))
+      }
+    }
+    if (lot_lof) {
+      if (grepl("res-doc", which_sty) | grepl("tech-report", which_sty)) {
+        pagenumbering_loc <- grep("pagenumbering\\{arabic", csas_style)
+        beg_of_file <- csas_style[seq(1, (pagenumbering_loc - 1))]
+        end_of_file <- csas_style[seq(pagenumbering_loc, length(csas_style))]
+        lot <- "\\listoftables"
+        cp <- "\\clearpage"
+        lof <- "\\listoffigures"
+        csas_style <- c(beg_of_file, lot, cp, lof, cp, end_of_file)
+        writeLines(csas_style, file.path("csas-style", which_sty))
+      } else {
+        warning("`lot_lof` is only implemented for Res Docs and TechReports.", call. = FALSE)
+      }
+    }
+    if(draft_watermark){
+      last_usepackage_ind <- tail(grep("usepackage", csas_style), 1)
+      beg_of_file <- csas_style[seq(1, last_usepackage_ind)]
+      end_of_file <- csas_style[seq(last_usepackage_ind + 1, length(csas_style))]
+      draft_watermark_include <- "\\usepackage{draftwatermark}"
+      if(last_usepackage_ind == length(csas_style)){
+        csas_style <- c(beg_of_file, draft_watermark_include)
+      }else{
+        csas_style <- c(beg_of_file, draft_watermark_include, end_of_file)
+      }
+      writeLines(csas_style, file.path("csas-style", which_sty))
     }
   }
 }
@@ -251,7 +393,9 @@ fix_envs <- function(x,
                      include_abstract = TRUE,
                      join_abstract = TRUE,
                      french = FALSE,
-                     prepub = FALSE) {
+                     prepub = FALSE,
+                     highlight = "tango",
+                     include_section_nums = TRUE) {
 
 
   # fix equations:
@@ -366,6 +510,7 @@ fix_envs <- function(x,
 
   # Non-breaking spaces:
   x <- gsub(" \\\\ref\\{", "~\\\\ref\\{", x)
+  x <- gsub(" :", "~:", x) # French
 
   # ----------------------------------------------------------------------
   # Add tooltips so that figures have alternative text for read-out-loud
@@ -402,7 +547,7 @@ fix_envs <- function(x,
   # ----------------------------------------------------------------------
 
   regexs <- c(
-    "^\\\\CHAPTER\\*\\{R\\p{L}F\\p{L}RENCES", # French or English
+    "^\\\\CHAPTER\\*\\{R\\p{L}F\\p{L}RENCES", # English or French
     "^\\\\SECTION{SOURCES DE RENSEIGNEMENTS}",
     "^\\\\SECTION{SOURCES OF INFORMATION}"
   )
@@ -419,7 +564,7 @@ fix_envs <- function(x,
       references_end <- length(x) - 1
       x <- c(
         x[seq(1, references_insertion_line - 1)],
-        #"\\phantomsection",
+        # "\\phantomsection",
         x[references_insertion_line],
         "% This manually sets the header for this unnumbered chapter.",
         # "\\markboth{References}{References}",
@@ -435,12 +580,21 @@ fix_envs <- function(x,
         x[length(x)]
       )
       # Modify References from starred chapter to regular chapter so that it is numbered
-      starred_references_line <- grep("\\\\section\\*\\{REFERENCES\\}\\\\label\\{references\\}\\}", x)
-      x[starred_references_line] <- gsub("\\*", "", x[starred_references_line])
-      # Remove the add contents line which was used to add the unnumbered section before
-      add_toc_contents_line <- grep("\\\\addcontentsline\\{toc\\}\\{section\\}\\{REFERENCES\\}", x)
-      x[add_toc_contents_line] <- ""
-    } else {
+      if (french) {
+        starred_references_line <- grep("\\\\section\\*\\{REFERENCES}\\\\label\\{references\\}\\}", x)
+        x[starred_references_line] <- "\\section{R\u00c9F\u00c9RENCES CIT\u00c9ES}\\label{ruxe9fuxe9rences-cituxe9es}}"
+        # Remove the add contents line which was used to add the unnumbered section before
+        # stringi::stri_escape_unicode("RÉFÉRENCES CITÉE") # can't use UTF-8 in packages:
+        add_toc_contents_line <- grep("\\\\addcontentsline\\{toc\\}\\{section\\}\\{REFERENCES}", x)
+        x[add_toc_contents_line] <- ""
+      } else {
+        starred_references_line <- grep("\\\\section\\*\\{REFERENCES\\}\\\\label\\{references\\}\\}", x)
+        x[starred_references_line] <- gsub("\\*", "", x[starred_references_line])
+        # Remove the add contents line which was used to add the unnumbered section before
+        add_toc_contents_line <- grep("\\\\addcontentsline\\{toc\\}\\{section\\}\\{REFERENCES\\}", x)
+        x[add_toc_contents_line] <- ""
+    }
+  } else {
       warning("Did not find the beginning of the LaTeX bibliography.", call. = FALSE)
     }
   }
@@ -493,13 +647,13 @@ fix_envs <- function(x,
     if (french) {
       # Edit french citation
       cite_head_fr <- grep(
-        pattern = "La pr\\\\\'\\{e\\}sente publication doit \\\\\\^\\{e\\}tre cit\\\\\'\\{e\\}e comme suit:",
+        pattern = "La pr\\\\\'\\{e\\}sente publication doit \\\\\\^\\{e\\}tre cit\\\\\'\\{e\\}e comme suit~:",
         x = x
       )
       if (length(cite_head_fr) == 0) stop("Can't find French citation header")
-      x[cite_head_fr] <- "Cite comme ceci (jusqu'\u00E0 la publication):"
+      x[cite_head_fr] <- "Cite comme ceci (jusqu'\u00E0 la publication)~:"
       cite_loc_fr <- grep(
-        pattern = "\\\\citeFr\\{\\\\rdYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
+        pattern = "\\\\citeFr\\{\\\\rdWorkDoneYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
       )
       if (length(cite_loc_fr) == 0) stop("Can't find French citation")
       x[cite_loc_fr] <- "\\citeFr{Sous presse}"
@@ -511,7 +665,7 @@ fix_envs <- function(x,
       if (length(cite_head_eng) == 0) stop("Can't find English citation header")
       x[cite_head_eng] <- ""
       cite_loc_eng <- grep(
-        pattern = "\\\\citeEng\\{\\\\rdYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
+        pattern = "\\\\citeEng\\{\\\\rdWorkDoneYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
       )
       if (length(cite_loc_eng) == 0) stop("Can't find English citation")
       x[cite_loc_eng] <- ""
@@ -524,19 +678,19 @@ fix_envs <- function(x,
       if (length(cite_head_eng) == 0) stop("Can't find English citation header")
       x[cite_head_eng] <- "Correct citation (until published):"
       cite_loc_eng <- grep(
-        pattern = "\\\\citeEng\\{\\\\rdYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
+        pattern = "\\\\citeEng\\{\\\\rdWorkDoneYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
       )
       if (length(cite_loc_eng) == 0) stop("Can't find English citation")
       x[cite_loc_eng] <- "\\citeEng{In press}"
       # Nuke french citation
       cite_head_fr <- grep(
-        pattern = "\\\\emph\\{Aussi disponible en fran\\\\c\\{c\\}ais:\\}",
+        pattern = "\\\\emph\\{Aussi disponible en fran\\\\c\\{c\\}ais~:\\}",
         x = x
       )
       if (length(cite_head_fr) == 0) stop("Can't find French citation header")
       x[cite_head_fr] <- ""
       cite_loc_fr <- grep(
-        pattern = "\\\\citeFr\\{\\\\rdYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
+        pattern = "\\\\citeFr\\{\\\\rdWorkDoneYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
       )
       if (length(cite_loc_fr) == 0) stop("Can't find French citation")
       x[cite_loc_fr] <- ""
@@ -546,6 +700,205 @@ fix_envs <- function(x,
   # Fix Res. Doc. 2013/092: -> Res. Doc. 2013/092.
   x <- gsub("Res\\. Doc\\. ([0-9]{4}/[0-9]{2,}):", "Res. Doc. \\1.", x)
   x <- gsub("MPO\\. Doc\\. de rech ([0-9]{4}/[0-9]{2,}):", "MPO. Doc. de rech \\1.", x)
+
+  # Fix Pandoc/LaTeX bug as of 2021-04-07 where
+  # \leavevmode\vadjust pre{\hypertarget{ref-edwards2013}{}}%
+  # gets created instead of
+  # \leavevmode{\hypertarget{ref-edwards2013}{}}%
+  # and creates error
+  # ! You can't use `\vadjust' in vertical mode.
+  #    \leavevmode\vadjust
+  # pre{\hypertarget{ref-edwards2013}{}}%
+  x <- gsub("\\\\vadjust pre", "", x)
+
+  # Enable reference linking to subsections of appendices
+  x <- add_appendix_subsection_refs(x)
+
+  if(!include_section_nums){
+    document_start_ind <- grep("^\\\\documentclass", x)
+    pre_start <- x[1:document_start_ind]
+    post_start <- x[(document_start_ind + 1):length(x)]
+    inp_lines <- c("\\makeatletter",
+                   "\\def\\@seccntformat#1{",
+                   "  \\expandafter\\ifx\\csname c@#1\\endcsname\\c@section\\else",
+                   "  \\expandafter\\ifx\\csname c@#1\\endcsname\\c@subsection\\else",
+                   "  \\expandafter\\ifx\\csname c@#1\\endcsname\\c@subsubsection\\else",
+                   "  \\csname the#1\\endcsname\\quad",
+                   "  \\fi\\fi\\fi}",
+                   "\\makeatother")
+    x <- c(pre_start, inp_lines, post_start)
+  }
+
+  # Add the latex chunk for code highlighting
+  theme_ind <- grep("^% Add theme here$", x)
+  if(length(theme_ind)){
+    themes <- c("pygments", "tango", "espresso", "zenburn", "kate", "monochrome", "breezedark", "haddock")
+    pre_theme <- x[1:(theme_ind - 1)]
+    post_theme <- x[(theme_ind + 1):length(x)]
+    if(highlight %in% themes){
+      theme_latex <- readLines(system.file("themes", paste0(highlight, ".latex"), package = "csasdown"))
+    }else{
+      theme_latex <- readLines(here(highlight))
+    }
+    x <- c(pre_theme, theme_latex, post_theme)
+  }
+
+  x
+}
+
+#' Fix the appendix subsections so they can be referenced properly in text
+#'
+#' @param x A vector of lines of the TEX file
+#'
+#' @return Modified TEX lines (a vector of lines of the TEX file)
+add_appendix_subsection_refs <- function(x){
+
+  # Need a new counter for each appendix
+  star_chap_inds <- grep("^\\\\starredchapter\\{", x)
+  # If there are Appendices (Resdoc and SR only, the techreport has a totally different TEX structure)
+  if(length(star_chap_inds)){
+    counters <- paste0("app_counter_", seq_along(star_chap_inds))
+    pre_starred_x <- x[1:(star_chap_inds[1] - 3)]
+    appendix_chunks <- list()
+    for(i in seq_along(star_chap_inds)){
+      if(i == length(star_chap_inds)){
+        appendix_chunks[[i]] <- x[(star_chap_inds[i] - 2):length(x)]
+      }else{
+        appendix_chunks[[i]] <- x[(star_chap_inds[i] - 2):(star_chap_inds[i + 1] - 3)]
+      }
+    }
+    # At this point the TEX file is broken into several chunks, `pre_starred_x` which
+    # is everything before the appendices, and N chunks in the list `appendix_chunks`,
+    # one element for each appendix
+
+    # Apply mods to the appendix chunks
+    for(h in seq_along(appendix_chunks)){
+      appsection_inds <- grep("^\\\\appsection\\{", appendix_chunks[[h]])
+      if(length(appsection_inds)){
+        # Strip appendix header away and call function on the rest
+        app_chunk <- appendix_chunks[[h]]
+        app_header <- app_chunk[1:(appsection_inds[1] - 2)]
+        app_chunk <- app_chunk[(appsection_inds[1] - 1):length(app_chunk)]
+        app_chunk_inds <- grep("^\\\\appsection\\{", app_chunk)
+        # Now, break each into section chunks
+        sec_chunks <- list()
+        sec_header <- list()
+        for(i in seq_along(app_chunk_inds)){
+          if(i == length(app_chunk_inds)){
+            sec_chunks[[i]] <- app_chunk[(app_chunk_inds[i] - 1):length(app_chunk)]
+          }else{
+            sec_chunks[[i]] <- app_chunk[(app_chunk_inds[i] - 1):(app_chunk_inds[i + 1] - 2)]
+          }
+          # Check for a label and allow missing label
+          if(!length(grep("^\\\\hypertarget\\{", sec_chunks[[i]][1]))){
+            # An auto-generated label was not added (using manually-added label) so switching the
+            # label and appsection is necessary
+            tmp_label <- sec_chunks[[i]][1]
+            tmp_section <- sec_chunks[[i]][2]
+            sec_chunks[[i]][1] <- tmp_section
+            sec_chunks[[i]][2] <- tmp_label
+          }
+
+          # Iterate through each section chunk and create a list for the subsection chunks
+          subsection_inds <- grep("^\\\\subsection\\{", sec_chunks[[i]])
+          if(length(subsection_inds)){
+            sec_chunk <- sec_chunks[[i]]
+            sec_header[[i]] <- sec_chunk[1:(subsection_inds[1] - 2)]
+            sec_chunk <- sec_chunk[(subsection_inds[1] - 1):length(sec_chunk)]
+            sec_chunk_inds <- grep("^\\\\subsection\\{", sec_chunk)
+            subsec_chunks <- list()
+            subsec_header <- list()
+            for(j in seq_along(sec_chunk_inds)){
+              if(j == length(sec_chunk_inds)){
+                subsec_chunks[[j]] <- sec_chunk[(sec_chunk_inds[j] - 1):length(sec_chunk)]
+              }else{
+                subsec_chunks[[j]] <- sec_chunk[(sec_chunk_inds[j] - 1):(sec_chunk_inds[j + 1] - 2)]
+              }
+              if(!length(grep("^\\\\hypertarget\\{", subsec_chunks[[j]][1]))){
+                # An auto-generated label was not added (using manually-added label) so switching the
+                # label and subsection is necessary
+                tmp_label <- subsec_chunks[[j]][1]
+                tmp_subsection <- subsec_chunks[[j]][2]
+                subsec_chunks[[j]][1] <- tmp_subsection
+                subsec_chunks[[j]][2] <- tmp_label
+              }
+              # Iterate through each section chunk and create a list for the subsection chunks
+              subsubsection_inds <- grep("^\\\\subsubsection\\{", subsec_chunks[[j]])
+              if(length(subsubsection_inds)){
+                subsec_chunk <- subsec_chunks[[j]]
+                subsec_header[[j]] <- subsec_chunk[1:(subsubsection_inds[1] - 2)]
+                subsec_chunk <- subsec_chunk[(subsubsection_inds[1] - 1):length(subsec_chunk)]
+                subsec_chunk_inds <- grep("^\\\\subsubsection\\{", subsec_chunk)
+                subsubsec_chunks <- list()
+                for(k in seq_along(subsec_chunk_inds)){
+                  if(k == length(subsec_chunk_inds)){
+                    subsubsec_chunks[[k]] <- subsec_chunk[(subsec_chunk_inds[k] - 1):length(subsec_chunk)]
+                  }else{
+                    subsubsec_chunks[[k]] <- subsec_chunk[(subsec_chunk_inds[k] - 1):(subsec_chunk_inds[k + 1] - 2)]
+                  }
+                  if(!length(grep("^\\\\hypertarget\\{", subsubsec_chunks[[k]][1]))){
+                    # An auto-generated label was not added (using manually-added label) so switching the
+                    # label and subsection is necessary
+                    tmp_sublabel <- subsubsec_chunks[[k]][1]
+                    tmp_subsubsection <- subsubsec_chunks[[k]][2]
+                    subsubsec_chunks[[k]][1] <- tmp_subsubsection
+                    subsubsec_chunks[[k]][2] <- tmp_sublabel
+                  }
+                }
+                subsubsec_chunks <- unlist(subsubsec_chunks)
+                counter_lines <- c(paste0("\\newcounter{appendix_",
+                                          h,
+                                          "_appsection_",
+                                          i,
+                                          "_subsection_",
+                                          j,
+                                          "_counter}"),
+                                   paste0("\\refstepcounter{appendix_",
+                                          h,
+                                          "_appsection_",
+                                          i,
+                                          "_subsection_",
+                                          j,
+                                          "_counter}"))
+                subsubsec_chunks <- c(counter_lines, subsubsec_chunks)
+                names(subsubsec_chunks) <- NULL
+                subsec_chunks[[j]] <- c(subsec_header[[j]], subsubsec_chunks)
+              }
+            }
+            subsec_chunks <- unlist(subsec_chunks)
+            counter_lines <- c(paste0("\\newcounter{appendix_",
+                                      h,
+                                      "_appsection_",
+                                      i,
+                                      "_counter}"),
+                               paste0("\\refstepcounter{appendix_",
+                                      h,
+                                      "_appsection_",
+                                      i,
+                                      "_counter}"))
+            subsec_chunks <- c(counter_lines, subsec_chunks)
+            names(subsec_chunks) <- NULL
+            sec_chunks[[i]] <- c(sec_header[[i]], subsec_chunks)
+          }
+        }
+        sec_chunks <- unlist(sec_chunks)
+        sec_header <- NULL
+        counter_lines <- c(paste0("\\newcounter{appendix_",
+                                  h,
+                                  "_counter}"),
+                           paste0("\\refstepcounter{appendix_",
+                                  h,
+                                  "_counter}"))
+        sec_chunks <- c(counter_lines, sec_chunks)
+        names(sec_chunks) <- NULL
+        appendix_chunks[[h]] <- c(app_header, sec_chunks)
+      }
+    }
+    appendix_chunks <- unlist(appendix_chunks)
+    names(appendix_chunks) <- NULL
+    x <- c(pre_starred_x, appendix_chunks)
+
+  }
   x
 }
 
@@ -565,7 +918,7 @@ inject_refstepcounters <- function(x) {
 
 #' Add a Res Doc titlepage to a docx file
 #'
-#' Add a Res Doc titlepage. Must hand edit `templates/RES2016-eng-titlepage.docx`
+#' Add a Res Doc titlepage. Must hand edit `templates/RES2021-eng-titlepage.docx`
 #' to have your desired title and authors etc.
 #'
 #' @param titlepage Filename
@@ -573,10 +926,30 @@ inject_refstepcounters <- function(x) {
 #'
 #' @return A merged .docx
 #' @export
-add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2016-eng-titlepage.docx",
+add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2021-eng-titlepage.docx",
                                       resdoc = "_book/resdoc.docx") {
   title_doc <- officer::read_docx(titlepage)
   x <- officer::body_add_docx(title_doc, resdoc, pos = "before")
+  print(x, target = resdoc)
+}
+
+
+#' Add front matter to Res Doc docx file
+#'
+#' Add title page and table of contents to a Res Doc. Must hand edit
+#' `templates/RES2021-eng-frontmatter.docx`to have your desired title and authors etc.
+#'
+#' @param frontmatter  Path to title page file included with resdoc template
+#' @param resdoc       Path to content generated using resdoc_word
+#'
+#' @return A merged .docx
+#' @export
+add_resdoc_docx_frontmatter <- function(frontmatter = "templates/RES2021-eng-frontmatter.docx",
+                                        resdoc = "_book/resdoc.docx") {
+  frontmatter_doc <- officer::read_docx(frontmatter)
+  x <- officer::body_add_docx(frontmatter_doc, resdoc, pos = "before")
+  x <- officer::cursor_reach(x, keyword = "TABLE OF CONTENTS")
+  x <- officer::body_add_toc(x)
   print(x, target = resdoc)
 }
 
@@ -644,14 +1017,14 @@ check_yaml <- function(type = "resdoc") {
 get_contact_info <- function(region = "National Capital Region", isFr = FALSE) {
   # Region name (English and French), email, phone, and address
   dat <- tibble::tribble(
-    ~Region, ~RegionFr, ~Email, ~Phone, ~Address,
-    "Central and Arctic Region", "R\u00E9gion du Centre et de l'Arctique", "xcna-csa-cas@dfo-mpo.gc.ca", "(204) 983-5232", "501 University Cres.\\\\\\\\Winnipeg, MB, R3T 2N6",
-    "Gulf Region", "R\u00E9gion du Golfe", "DFO.GLFCSA-CASGOLFE.MPO@dfo-mpo.gc.ca", "(506) 851-2022", "343 Universit\u00E9 Ave.\\\\\\\\Moncton, NB, E1C 9B6",
-    "Maritimes Region", "R\u00E9gion des Maritimes", "XMARMRAP@dfo-mpo.gc.ca", "(902) 426-3246", "1 Challenger Dr.\\\\\\\\Dartmouth, NS, B2Y 4A2",
-    "National Capital Region", "R\u00E9gion de la capitale nationale", "csas-sccs@dfo-mpo.gc.ca", "(613) 990-0194", "200 Kent St.\\\\\\\\Ottawa, ON, K1A 0E6",
-    "Newfoundland and Labrador Region", "R\u00E9gion de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca", "(709) 772-8892", "P.O. Box 5667\\\\\\\\St. John's, NL, A1C 5X1",
-    "Pacific Region", "R\u00E9gion du Pacifique", "csap@dfo-mpo.gc.ca", "(250) 756-7208", "3190 Hammond Bay Rd.\\\\\\\\Nanaimo, BC, V9T 6N7",
-    "Quebec Region", "R\u00E9gion du Qu\u00E9bec", "bras@dfo-mpo.gc.ca", "(418) 775-0825", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli, QC, G5H 3Z4"
+    ~Region, ~RegionFr, ~Email, ~Phone, ~Address, ~AddressFr,
+    "Central and Arctic Region", "R\u00E9gion du Centre et de l'Arctique", "xcna-csa-cas@dfo-mpo.gc.ca", "(204) 983-5232", "501 University Cres.\\\\\\\\Winnipeg, MB, R3T 2N6", "501 University Cres.\\\\\\\\Winnipeg, Man., R3T 2N6",
+    "Gulf Region", "R\u00E9gion du Golfe", "DFO.GLFCSA-CASGOLFE.MPO@dfo-mpo.gc.ca", "(506) 851-2022", "343 Universit\u00E9 Ave.\\\\\\\\Moncton, NB, E1C 9B6", "343 Universit\u00E9 Ave.\\\\\\\\Moncton, N.-B., E1C 9B6",
+    "Maritimes Region", "R\u00E9gion des Maritimes", "XMARMRAP@dfo-mpo.gc.ca", "(902) 426-3246", "1 Challenger Dr.\\\\\\\\Dartmouth, NS, B2Y 4A2", "1 Challenger Dr.\\\\\\\\Dartmouth, N.-E., B2Y 4A2",
+    "National Capital Region", "R\u00E9gion de la capitale nationale", "csas-sccs@dfo-mpo.gc.ca", "(613) 990-0194", "200 Kent St.\\\\\\\\Ottawa, ON, K1A 0E6", "200 Kent St.\\\\\\\\Ottawa, Ont., K1A 0E6",
+    "Newfoundland and Labrador Region", "R\u00E9gion de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca", "(709) 772-8892", "P.O. Box 5667\\\\\\\\St. John's, NL, A1C 5X1", "P.O. Box 5667\\\\\\\\St. John's, T.-N.-L., A1C 5X1",
+    "Pacific Region", "R\u00E9gion du Pacifique", "csap@dfo-mpo.gc.ca", "(250) 756-7208", "3190 Hammond Bay Rd.\\\\\\\\Nanaimo, BC, V9T 6N7", "3190 Hammond Bay Rd.\\\\\\\\Nanaimo, C.-B., V9T 6N7",
+    "Quebec Region", "R\u00E9gion du Qu\u00E9bec", "bras@dfo-mpo.gc.ca", "(418) 775-0825", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli, QC, G5H 3Z4", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli, Qc, G5H 3Z4"
   )
   # If french
   if (isFr) {
@@ -672,7 +1045,10 @@ get_contact_info <- function(region = "National Capital Region", isFr = FALSE) {
     # Get regional contact info
     email <- dat$Email[ind]
     phone <- dat$Phone[ind]
-    address <- dat$Address[ind]
+    if (!isFr)
+      address <- dat$Address[ind]
+    else
+      address <- dat$AddressFr[ind]
   } # End if region detected
   return(list(email = email, phone = phone, address = address))
 } # End get_contact_info
@@ -704,7 +1080,7 @@ get_contact_info <- function(region = "National Capital Region", isFr = FALSE) {
 create_tempdir_for_latex <- function(type = NULL,
                                      where = "r",
                                      tmp_dir = NULL,
-                                     root_dir = here::here()) {
+                                     root_dir = here()) {
   stopifnot(type == "resdoc" ||
     type == "sr" ||
     type == "techreport")

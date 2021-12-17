@@ -1,12 +1,11 @@
-context("Test the resdoc document generation and create_tempdir_for_latex()")
-
 testing_path <- file.path(tempdir(), "resdoc")
+unlink(testing_path, recursive = TRUE, force = TRUE)
 dir.create(testing_path, showWarnings = FALSE)
 setwd(testing_path)
 unlink("index", recursive = TRUE, force = TRUE)
 suppressMessages(csasdown::draft(
   system.file("rmarkdown", "templates", "resdoc", package = "csasdown"),
-  create_dir = TRUE,
+  create_dir = FALSE,
   edit = FALSE
 ))
 files <- file.path(testing_path, "index", dir("index"))
@@ -62,31 +61,16 @@ test_that("bookdown::render_book generates the PDF of the French resdoc", {
   expect_true(file.exists(file.path(testing_path, "_book", "resdoc.pdf")))
 })
 
-# Second, changing the french YAML option in index.Rmd
-x <- readLines("index.Rmd")
-x[grep("french:", x)] <- gsub("false", "true", x[grep("french:", x)])
-writeLines(x, con = "index.Rmd")
-file.remove(file.path(testing_path, "_book", "resdoc.pdf"))
-
-expect_warning({
-  bookdown::render_book("index.Rmd",
-    csasdown::resdoc_pdf(),
-    envir = globalenv()
-  )
-})
-
-test_that("bookdown::render_book generates the PDF of the French resdoc", {
-  expect_true(file.exists(file.path(testing_path, "_book", "resdoc.pdf")))
-})
-
 # ----------------------------------------------------
 # Creation and copying of test files to a temporary directory
 
+unlink(testing_path, recursive = TRUE, force = TRUE)
+dir.create(testing_path, showWarnings = FALSE)
 setwd(testing_path)
 unlink("index", recursive = TRUE, force = TRUE)
 suppressMessages(csasdown::draft(
   system.file("rmarkdown", "templates", "resdoc", package = "csasdown"),
-  create_dir = TRUE,
+  create_dir = FALSE,
   edit = FALSE
 ))
 
@@ -134,3 +118,5 @@ tmp_dir <- create_tempdir_for_latex("resdoc",
   root_dir = getwd()
 )
 expect_true(file.exists(file.path(tmp_dir, "resdoc.tex")))
+
+unlink(testing_path, recursive = TRUE, force = TRUE)

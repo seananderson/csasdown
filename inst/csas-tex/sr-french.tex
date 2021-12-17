@@ -18,6 +18,12 @@ $header-includes$
 % English title
 \newcommand{\rdTitleFr}{$title_other$}
 
+% Make the PDF bookmark title uppercase
+\ExplSyntaxOn
+\cs_set_eq:NN\textupper\text_uppercase:n
+\ExplSyntaxOff
+\newcommand{\rdTitleFrUpper}{\textupper{\rdTitleFr{}}}
+
 % Title short
 \newcommand{\rdTitleShort}{$title_short$}
 % End of title short
@@ -48,6 +54,9 @@ $header-includes$
 % Region
 \newcommand{\rdRegion}{$region$}
 
+\newcommand{\rdISBN}{$isbn$}
+\newcommand{\rdCatNo}{$cat_no$}
+
 %%%% End of title page commands %%%%%
 
 % commands and environments needed by pandoc snippets
@@ -58,45 +67,14 @@ $header-includes$
 \usepackage{color}
 \usepackage{fancyvrb}
 
+% for \textdegree in No Cat...
+\usepackage{siunitx}
+\usepackage{textcomp}
+
 % From default template:
 \newcommand{\VerbBar}{|}
 \newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{248,248,248}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\BuiltInTok}[1]{#1}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
-\newcommand{\ExtensionTok}[1]{#1}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ImportTok}[1]{#1}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{#1}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+% Add theme here
 
 \newcommand{\lt}{\ensuremath <}
 \newcommand{\gt}{\ensuremath >}
@@ -118,7 +96,7 @@ $endif$
 
 \begin{document}
 
-\bookmark[dest=PageOne]{\rdTitle{}}
+\bookmark[dest=PageOne]{\rdTitleFrUpper{}}
 
 \renewcommand{\tablename}{Tableau}
 
@@ -136,11 +114,13 @@ Centre des avis scientifiques\\
 P\^{e}ches et Oc\'{e}ans Canada\\
 AddressPlaceholder\\
 \vspace{0.2cm}
-T\'{e}l\'{e}phone: PhonePlaceholder\\
-Courriel: EmailPlaceholder\\
-Addresse internet: \link{http://www.dfo-mpo.gc.ca/csas-sccs/}{www.dfo-mpo.gc.ca/csas-sccs/}\\
+T\'{e}l\'{e}phone : PhonePlaceholder\\
+Courriel : EmailPlaceholder\\
+Adresse internet : \link{http://www.dfo-mpo.gc.ca/csas-sccs/}{www.dfo-mpo.gc.ca/csas-sccs/}\\
 \vspace{0.2cm}
 ISSN 1919-3815\\
+ISBN~\rdISBN{} \hspace{5mm} N\textsuperscript{o} cat.~\rdCatNo{}\\
+\vspace{0.2cm}
 \copyright{} Sa Majest\'{e} la Reine du chef du Canada, \rdWorkDoneYear{}\\
 \vspace{0.2cm}
 \includegraphics[scale=0.96]{\locRepo/images/recycle.png}

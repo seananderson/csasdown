@@ -1,5 +1,10 @@
 # csasdown
 
+# csasdown 0.0.10.9000
+
+* Add ISBN and Cat number to Res Docs (new mandatory fields)
+* Add `gsub(" :", "~:", x)` to catch dangling `:` in French
+
 # csasdown 0.0.8.9001
 
 * Started recording NEWS.md

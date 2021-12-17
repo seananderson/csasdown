@@ -1,11 +1,26 @@
 %% res-doc.sty - Unoffocial LaTeX style file for Canadian
 %%  Science Advisory Secretariat Research Documents.
+\usepackage[french]{babel}
+% https://tex.stackexchange.com/a/325436
+\frenchbsetup{SmallCapsFigTabCaptions=false}
+
+%% Move the footer position flush to the left margin (default is indented a bit)
+\usepackage[flushmargin, bottom]{footmisc}
 
 \usepackage{tabularx}
+\usepackage[all]{nowidow}
 
 %% Use the resDoc.bst file for bibliography style.
 \usepackage{natbib}
 %% ------------------------------------------------------------------------------
+%% add PDF metadata
+\AtBeginDocument{%
+  \hypersetup{%
+    pdftitle={\rdTitle{}},%
+    pdfauthor={\rdAuth{}},%
+    pdfkeywords={Pêches et Océans Canada; Secrétariat canadien de consultation scientifique; Document de recherche},
+  }%
+}
 
 %% ------------------------------------------------------------------------------
 %% Load hyperlink package and set up link colors
@@ -45,6 +60,8 @@
             right=1in]
            {geometry}
 %% ------------------------------------------------------------------------------
+%% Add space between the bottom of the text and the footnoterule (line)
+\addtolength{\skip\footins}{10pt}
 
 %% ------------------------------------------------------------------------------
 %% To add in headers and footers
@@ -83,6 +100,8 @@
 \setlength{\cftbeforesubsubsecskip}{5pt}
 %% Remove space between the Table of contents title and it's content.
 \setlength\cftaftertoctitleskip{6pt}
+\makeatletter
+\renewcommand{\@tocrmarg}{5em}
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
@@ -159,7 +178,7 @@
 
 \renewcommand{\subsection}{\@startsection
 {subsection}{2}{0mm}
-{-3.25ex plus -1ex minus  -.2ex}{1.5ex plus .2ex}
+{-2.1ex plus -1ex minus  -.2ex}{1.5ex plus .2ex}
 %% {1ex}{0.1ex plus -2ex}
 {\normalfont\bf\MakeUppercase}}
 
@@ -307,11 +326,15 @@
   \addcontentsline{toc}{section}{R\'ESUM\'E}\nonumsection*{R\'ESUM\'E}
 }
 
+%% ------------------------------------------------------------------------------
+%% To add headers and footers to landscape pages
+\usepackage{everypage}
+
 %% Make a landscape page properly, with the page numbers and bars rotated to
 %%  be along the long side for ease of reading in a PDF viewer.
 \newenvironment{landscapepage}[1]{
   \newgeometry{hmargin=1in,vmargin=1in}
-  \thispagestyle{csaplscape}
+\pagestyle{empty} % to clear portrait header and footer from page
   \begin{landscape}
     \centering
     #1
@@ -322,57 +345,24 @@
 }
 
 \makeatother
-%% ------------------------------------------------------------------------------
+%% Creates a header and footer on the long page sides on landscape pages
+\AddEverypageHook{\ifdim\textwidth=\textheight
+  \fancyhf{}\fancyfoot{}
+\begin{textblock}{0.05}(0.925,0.5)
+{\rotatebox{90}{\sffamily\selectfont\small\thepage}}\end{textblock}
+ \begin{textblock}{1}(0.1,0.0909)
+{\rotatebox{90}{\rule{9in}{0.25pt}}}\end{textblock}
+  \begin{textblock}{1}(0.9,0.0909)
+  {\rotatebox{90}{\rule{9in}{0.25pt}}}\end{textblock}
+\fi}
 
-%% ------------------------------------------------------------------------------
 %% For landscape pages in CSAS documents
-% \usepackage{pdflscape}
-\usepackage{lscape}
+\usepackage{pdflscape} % rotates landscape pages
 \usepackage[absolute]{textpos}
 \setlength{\TPHorizModule}
   {8.5in}
 \setlength{\TPVertModule}
   {11.0in}
-\fancypagestyle{csaplscape}{
-  %% The argument is the left footer text
-  %% clear all header and footer fields
-  \fancyhf{}
-  \fancyfoot{}
-  %% Make the footers appear in landscape mode
-  %% The 25pt in the first line adjusts the height (in landscape mode)
-  %%  and the 90 rotates the footer name. The \footskip+0.0 makes it align
-  %%  with the footer bar, like the pages in portrait mode do.
-  %% Left footer:
-  %% \fancyfoot[L]{\makebox[\textwidth+25pt][r]{
-  %%    \smash{\raisebox{\dimexpr\footskip+0.0\textheight}{\rotatebox{90}{\fishname}}}}}
-  %% Right footer - uncomment and change DRAFT to whatever the value for the right
-  %%  footer is and the 1.3 to fit it. This is a hack, no time to figure it out.
-  %% \fancyfoot[R]{\makebox[\textwidth+25pt][r]{
-  %%    \smash{\raisebox{\dimexpr\footskip+1.3\textheight}{\rotatebox{90}{DRAFT}}}}}
-  \begin{textblock}
-    {1}(0.1,0.0909)
-    {\rotatebox{90}
-      {\rule{9in}{0.25pt}}
-    }
-  \end{textblock}
-  \begin{textblock}
-    {1}(0.9,0.0909)
-    {\rotatebox{90}
-      {\rule{9in}{0.25pt}}
-    }
-  \end{textblock}
-  \begin{textblock}
-    {0.05}(0.925,0.5)
-    {\rotatebox{90}
-      {\thepage}
-    }
-  \end{textblock}
-  %% Get rid of lines along sides of landscape page
-  \renewcommand{\headrulewidth}
-    {0pt}
-  \renewcommand{\footrulewidth}
-    {0pt}
-}
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
@@ -661,10 +651,11 @@ Ottawa ON K1A 0E6\\
 
 \vspace{-1mm}
 \textcopyright\ Sa Majesté la Reine du chef du Canada, \rdYear{}\\
-ISSN 2292-4272
+ISSN 2292-4272\\
+ISBN~\rdISBN{} \hspace{5mm} N$^{\circ}$ cat.~\rdCatNo
 \end{center}
 
-\vspace{-0.2mm}
+\vspace{-0.1mm}
 
 \textbf{La présente publication doit être citée comme suit :}\\
 \vspace{2mm}
