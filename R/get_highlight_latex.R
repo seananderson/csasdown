@@ -103,7 +103,7 @@ parse_pandoc_highlight_theme <- function(json = NULL,
 #' if `NULL`, `Sys.getenv("RSTUDIO_PANDOC")` will be used to attempt to provide the path
 #'
 #' @return A vector of lines of latex code representing the highlight-style for pandoc
-#' @impolrtFrom grDevices col2rgb
+#' @importFrom grDevices col2rgb
 #' @export
 gen_latex_highlight_code <- function(theme = c("pygments",
                                                "tango",
