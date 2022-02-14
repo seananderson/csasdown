@@ -119,11 +119,10 @@
 %% ------------------------------------------------------------------------------
 %% For ragged right and bottom margins (yes, ugly, but that's the rules, which
 %%  of course exist because right justified in Word always looks so bad)
-\RequirePackage{ragged2e}
+\RequirePackage[document]{ragged2e}
 \RequirePackage{microtype}
 % Default is 50 (lots of hyphenation); bigger values penalize hyphenation more; make it huge to completely avoid them;
-% 1200 is my guess at a reasonable compromise:
-\hyphenpenalty=1200 % https://tex.stackexchange.com/questions/291685/minimize-hyphenations-with-ragged2e
+\hyphenpenalty=10000 % https://tex.stackexchange.com/questions/291685/minimize-hyphenations-with-ragged2e
 \RaggedRight
 \raggedbottom
 %% ------------------------------------------------------------------------------
@@ -502,6 +501,8 @@
 % For uppercase title
 \usepackage{textcase}
 
+%% Needed for \ExplSyntaxOn in commit 796975d3 that fixed Issue #105
+\usepackage{xparse}
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
@@ -639,7 +640,7 @@ DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.
 \newcommand{\citeFr}[1]{
 \hangindent=0.6cm
 \emph{MPO. \rdWorkDoneYear{}. \rdTitleFr{}.
-Secr.\ can.\ de consult.\ sci.\ du MPO. R\'{e}p.\ des Sci.\
+Secr.\ can.\ des avis sci.\ du MPO. R\'{e}p.\ des Sci.\
 #1.}}
 
 \newenvironment{CSLReferences}[3] % #1 hanging-ident, #2 entry spacing

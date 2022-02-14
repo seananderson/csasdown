@@ -123,11 +123,10 @@
 %% ------------------------------------------------------------------------------
 %% For ragged right and bottom margins (yes, ugly, but that's the rules, which
 %%  of course exist because right justified in Word always looks so bad)
-\RequirePackage{ragged2e}
+\RequirePackage[document]{ragged2e}
 \RequirePackage{microtype}
 % Default is 50 (lots of hyphenation); bigger values penalize hyphenation more; make it huge to completely avoid them;
-% 1200 is my guess at a reasonable compromise:
-\hyphenpenalty=1200 % https://tex.stackexchange.com/questions/291685/minimize-hyphenations-with-ragged2e
+\hyphenpenalty=10000 % https://tex.stackexchange.com/questions/291685/minimize-hyphenations-with-ragged2e
 \RaggedRight
 \raggedbottom
 %% ------------------------------------------------------------------------------
@@ -432,6 +431,7 @@
   labelsep*=0.01in,  % Space betw. numbers and text (note * is req'd)
   leftmargin=!,      % No space betw. margin of list and following lines
   itemindent=0pt,    % Hanging indentation (after first line)
+  label={$\bullet$}, % as of 2022-01-06 French turns this to --- and English has small dot, so set it manually
   itemsep=0pt        % Vertical space between list items
 }
 %\setitemize{nosep}   % This needs to be here for itemsep above to be recognized

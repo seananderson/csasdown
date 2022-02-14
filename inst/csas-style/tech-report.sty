@@ -181,11 +181,10 @@
 \subsubsectionfont{\small\raggedright\noindent}  % Subsubsection formatting
 
 % Yes, ugly, but that's the rules (Or is it? Might not be required)
-\RequirePackage{ragged2e}
+\RequirePackage[document]{ragged2e}
 \RequirePackage{microtype}
 % Default is 50 (lots of hyphenation); bigger values penalize hyphenation more; make it huge to completely avoid them;
-% 1200 is my guess at a reasonable compromise:
-\hyphenpenalty=1200 % https://tex.stackexchange.com/questions/291685/minimize-hyphenations-with-ragged2e
+\hyphenpenalty=10000 % https://tex.stackexchange.com/questions/291685/minimize-hyphenations-with-ragged2e
 \RaggedRight
 %\raggedright  % Ragged right
 %\raggedbottom  % Ragged bottom
