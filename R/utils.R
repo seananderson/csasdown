@@ -422,7 +422,6 @@ fix_envs <- function(x,
       pattern = "AddressPlaceholder", replacement = contact_info$address,
       x = x
     )
-    x <- sub(pattern = "PhonePlaceholder", replacement = contact_info$phone, x = x)
     x <- sub(
       pattern = "EmailPlaceholder",
       replacement = paste0(
@@ -1004,10 +1003,10 @@ check_yaml <- function(type = "resdoc") {
   }
 }
 
-#' Return regional CSAS email address, phone number, and mailing address for
-#' the last page in the section "This report is available from the." Return
-#' contactinformation for the national CSAS office if regional information is
-#' not available (with a warning).
+#' Return regional CSAS email address and mailing address for the last page in
+#' the section "This report is available from the." Return contactinformation
+#' for the national CSAS office if regional information is not available (with a
+#' warning).
 #'
 #' @param region Region in which the document is published; character vector.
 #' (i.e., Pacific). Default is "National Capital Region."
@@ -1015,19 +1014,18 @@ check_yaml <- function(type = "resdoc") {
 #'
 #' @export
 #'
-#' @return Email address, phone number, and mailing address as list of character
-#' vectors.
+#' @return Email address and mailing address as list of character vectors.
 get_contact_info <- function(region = "National Capital Region", isFr = FALSE) {
-  # Region name (English and French), email, phone, and address
+  # Region name (English and French), email, and address (English and French)
   dat <- tibble::tribble(
-    ~Region, ~RegionFr, ~Email, ~Phone, ~Address, ~AddressFr,
-    "Central and Arctic Region", "R\u00E9gion du Centre et de l'Arctique", "xcna-csa-cas@dfo-mpo.gc.ca", "(204) 983-5232", "501 University Cres.\\\\\\\\Winnipeg, MB, R3T 2N6", "501 University Cres.\\\\\\\\Winnipeg, Man., R3T 2N6",
-    "Gulf Region", "R\u00E9gion du Golfe", "DFO.GLFCSA-CASGOLFE.MPO@dfo-mpo.gc.ca", "(506) 851-2022", "343 Universit\u00E9 Ave.\\\\\\\\Moncton, NB, E1C 9B6", "343 Universit\u00E9 Ave.\\\\\\\\Moncton, N.-B., E1C 9B6",
-    "Maritimes Region", "R\u00E9gion des Maritimes", "XMARMRAP@dfo-mpo.gc.ca", "(902) 426-3246", "1 Challenger Dr.\\\\\\\\Dartmouth, NS, B2Y 4A2", "1 Challenger Dr.\\\\\\\\Dartmouth, N.-E., B2Y 4A2",
-    "National Capital Region", "R\u00E9gion de la capitale nationale", "csas-sccs@dfo-mpo.gc.ca", "(613) 990-0194", "200 Kent St.\\\\\\\\Ottawa, ON, K1A 0E6", "200 Kent St.\\\\\\\\Ottawa, Ont., K1A 0E6",
-    "Newfoundland and Labrador Region", "R\u00E9gion de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca", "(709) 772-8892", "P.O. Box 5667\\\\\\\\St. John's, NL, A1C 5X1", "P.O. Box 5667\\\\\\\\St. John's, T.-N.-L., A1C 5X1",
-    "Pacific Region", "R\u00E9gion du Pacifique", "csap@dfo-mpo.gc.ca", "(250) 756-7208", "3190 Hammond Bay Rd.\\\\\\\\Nanaimo, BC, V9T 6N7", "3190 Hammond Bay Rd.\\\\\\\\Nanaimo, C.-B., V9T 6N7",
-    "Quebec Region", "R\u00E9gion du Qu\u00E9bec", "bras@dfo-mpo.gc.ca", "(418) 775-0825", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli, QC, G5H 3Z4", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli, Qc, G5H 3Z4"
+    ~Region, ~RegionFr, ~Email, ~Address, ~AddressFr,
+    "Central and Arctic Region", "R\u00E9gion du Centre et de l'Arctique", "xcna-csa-cas@dfo-mpo.gc.ca", "501 University Cres.\\\\\\\\Winnipeg, MB, R3T 2N6", "501 University Cres.\\\\\\\\Winnipeg (Man.) R3T 2N6",
+    "Gulf Region", "R\u00E9gion du Golfe", "DFO.GLFCSA-CASGOLFE.MPO@dfo-mpo.gc.ca", "343 Universit\u00E9 Ave.\\\\\\\\Moncton, NB, E1C 9B6", "343 Universit\u00E9 Ave.\\\\\\\\Moncton (N.-B.) E1C 9B6",
+    "Maritimes Region", "R\u00E9gion des Maritimes", "XMARMRAP@dfo-mpo.gc.ca", "1 Challenger Dr.\\\\\\\\Dartmouth, NS, B2Y 4A2", "1 Challenger Dr.\\\\\\\\Dartmouth (N.-E.) B2Y 4A2",
+    "National Capital Region", "R\u00E9gion de la capitale nationale", "csas-sccs@dfo-mpo.gc.ca", "200 Kent St.\\\\\\\\Ottawa, ON, K1A 0E6", "200 Kent St.\\\\\\\\Ottawa (Ont.) K1A 0E6",
+    "Newfoundland and Labrador Region", "R\u00E9gion de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca", "P.O. Box 5667\\\\\\\\St. John's, NL, A1C 5X1", "P.O. Box 5667\\\\\\\\St. John's (T.-N.-L.) A1C 5X1",
+    "Pacific Region", "R\u00E9gion du Pacifique", "csap@dfo-mpo.gc.ca", "3190 Hammond Bay Rd.\\\\\\\\Nanaimo, BC, V9T 6N7", "3190 Hammond Bay Rd.\\\\\\\\Nanaimo (C.-B.) V9T 6N7",
+    "Quebec Region", "R\u00E9gion du Qu\u00E9bec", "bras@dfo-mpo.gc.ca", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli, QC, G5H 3Z4", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli (Qc) G5H 3Z4"
   )
   # If french
   if (isFr) {
@@ -1041,19 +1039,17 @@ get_contact_info <- function(region = "National Capital Region", isFr = FALSE) {
   if (length(ind) == 0) {
     # Use national contact info
     email <- dat$Email[dat$Region == "National Capital Region"]
-    phone <- dat$Phone[dat$Region == "National Capital Region"]
     address <- dat$Address[dat$Region == "National Capital Region"]
     warning("Region not detected; use national CSAS contact info")
   } else { # End if no region, otherwise get regional contact info
     # Get regional contact info
     email <- dat$Email[ind]
-    phone <- dat$Phone[ind]
     if (!isFr)
       address <- dat$Address[ind]
     else
       address <- dat$AddressFr[ind]
   } # End if region detected
-  return(list(email = email, phone = phone, address = address))
+  return(list(email = email, address = address))
 } # End get_contact_info
 
 #' Creates a temporary directory for compiling the latex file with latex commands for a csasdown type

@@ -2,10 +2,10 @@
 % Please edit documentation in R/utils.R
 \name{get_contact_info}
 \alias{get_contact_info}
-\title{Return regional CSAS email address, phone number, and mailing address for
-the last page in the section "This report is available from the." Return
-contactinformation for the national CSAS office if regional information is
-not available (with a warning).}
+\title{Return regional CSAS email address and mailing address for the last page in
+the section "This report is available from the." Return contactinformation
+for the national CSAS office if regional information is not available (with a
+warning).}
 \usage{
 get_contact_info(region = "National Capital Region", isFr = FALSE)
 }
@@ -16,12 +16,11 @@ get_contact_info(region = "National Capital Region", isFr = FALSE)
 \item{isFr}{Logical (default FALSE). Is the report in French or not?}
 }
 \value{
-Email address, phone number, and mailing address as list of character
-vectors.
+Email address and mailing address as list of character vectors.
 }
 \description{
-Return regional CSAS email address, phone number, and mailing address for
-the last page in the section "This report is available from the." Return
-contactinformation for the national CSAS office if regional information is
-not available (with a warning).
+Return regional CSAS email address and mailing address for the last page in
+the section "This report is available from the." Return contactinformation
+for the national CSAS office if regional information is not available (with a
+warning).
 }
