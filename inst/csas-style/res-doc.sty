@@ -232,9 +232,9 @@
 \newcommand\Main{
   %% To number the main document sections, tables, etc.
   %%  as 1.1, 1.2, etc.
-  \renewcommand{\thesection}{\arabic{section}}
-  \renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
-  \renewcommand{\thesubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+  \renewcommand{\thesection}{\arabic{section}.}
+  \renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}.}
+  \renewcommand{\thesubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}.}
   \renewcommand{\thetable}{\arabic{table}}
   \renewcommand{\thefigure}{\arabic{figure}}
   \renewcommand{\theequation}{\arabic{equation}}
@@ -247,9 +247,9 @@
   \appendix
   %% Always start a new page for appendices
   \newpage
-  \renewcommand{\thesection}{\thechapter.\arabic{section}}
-  \renewcommand{\thesubsection}{\thechapter.\arabic{section}.\arabic{subsection}}
-  \renewcommand{\thesubsubsection}{\thechapter.\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+  \renewcommand{\thesection}{\thechapter.\arabic{section}.}
+  \renewcommand{\thesubsection}{\thechapter.\arabic{section}.\arabic{subsection}.}
+  \renewcommand{\thesubsubsection}{\thechapter.\arabic{section}.\arabic{subsection}.\arabic{subsubsection}.}
   \renewcommand{\thetable}{\thechapter.\arabic{table}}
   \renewcommand{\thefigure}{\thechapter.\arabic{figure}}
   \renewcommand{\theequation}{\thechapter.\arabic{equation}}
