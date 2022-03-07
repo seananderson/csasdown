@@ -1,6 +1,9 @@
 %% res-doc.sty - Unoffocial LaTeX style file for Canadian
 %%  Science Advisory Secretariat Research Documents.
 
+
+
+
 %% Move the footer position flush to the left margin (default is indented a bit)
 \usepackage[flushmargin, bottom]{footmisc}
 
@@ -100,7 +103,6 @@
 \setlength\cftaftertoctitleskip{6pt}
 \makeatletter
 \renewcommand{\@tocrmarg}{5em}
-
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
@@ -261,8 +263,8 @@
   \renewcommand{\section}{\appsection}
 }
 
-%% Changes the name of the bibliography to REFERENCES.
-\renewcommand{\bibname}{REFERENCES}
+%% Changes the name of the bibliography
+\renewcommand{\bibname}{REFERENCES CITED}
 %% To make REFERENCES a section and then number it
 \renewcommand{\bibsection}{\section{\bibname}}
 
@@ -365,8 +367,6 @@
 
 %% ------------------------------------------------------------------------------
 %% Defines the header and footer rules for a CSAS paper.
-\renewcommand\headrule{\hrule width1.0\textwidth}
-\renewcommand\footrule{\hrule width1.0\textwidth}
 \pagestyle{fancy}
 \renewcommand{\footrulewidth}{0.4pt}
 \renewcommand{\headrulewidth}{0.4pt}
@@ -615,7 +615,6 @@
 
 \vspace{-0.9mm}
 
-% \vspace{-4.0mm}
 \parbox{9cm}{\rdMonth{} \rdYear{}}%
 \begin{minipage}[t]{7.48cm}
 \flushright

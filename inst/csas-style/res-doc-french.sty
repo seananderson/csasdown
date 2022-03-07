@@ -10,6 +10,7 @@
 \usepackage{tabularx}
 \usepackage[all]{nowidow}
 
+%% ------------------------------------------------------------------------------
 %% Use the resDoc.bst file for bibliography style.
 \usepackage{natbib}
 %% ------------------------------------------------------------------------------
@@ -21,7 +22,6 @@
     pdfkeywords={Pêches et Océans Canada; Secrétariat canadien des avis scientifiques (SCAS); Document de recherche},
   }%
 }
-
 %% ------------------------------------------------------------------------------
 %% Load hyperlink package and set up link colors
 \usepackage[breaklinks=true,
@@ -58,6 +58,7 @@
             bottom=1in,
             left=1in,
             right=1in]
+            %showframe] % Show the frames outlining all the parts of the page
            {geometry}
 %% ------------------------------------------------------------------------------
 %% Add space between the bottom of the text and the footnoterule (line)
@@ -207,7 +208,7 @@
   \pagenumbering{roman}
   %% TOC is required by CSAS to be on page iii.
   \setcounter{page}{3}
-  \renewcommand{\contentsname}{\bf \large \vspace{-20mm} TABLE DES MATI\`ERES}
+  \renewcommand{\contentsname}{\bf \large \vspace{-20mm} TABLEAU DES MATI\`ERES}
   \addtocontents{toc}{\protect\thispagestyle{fancy}}
   \begin{center}
     \tableofcontents
@@ -262,8 +263,8 @@
   \renewcommand{\section}{\appsection}
 }
 
-%% Changes the name of the bibliography to REFERENCES.
-\renewcommand{\bibname}{REFERENCES}
+%% Changes the name of the bibliography
+\renewcommand{\bibname}{RÉFÉRENCES CITÉES}
 %% To make REFERENCES a section and then number it
 \renewcommand{\bibsection}{\section{\bibname}}
 
@@ -507,6 +508,8 @@
 \newcommand*{\@mylink}[2]{\href{#1}{\uline{#2}}\endgroup}
 \makeatother
 
+% Included so that the kableExtra::linebreak function can be used
+\usepackage{makecell}
 
 %% Allows the french abstract to be pasted in with special characters intact
 %% Make sure maindoc.rnw is saved in utf8 encoding.
@@ -611,7 +614,6 @@
 \hrule
 
 \vspace{-0.9mm}
-
 
 \parbox{9cm}{\rdMonth{} \rdYear{}}%
 \begin{minipage}[t]{7.48cm}
