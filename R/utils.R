@@ -109,7 +109,8 @@ resdoc_pdf <- function(toc = TRUE,
       highlight = highlight,
       include_section_nums = include_section_nums,
       include_abstract = TRUE,
-      join_abstract = TRUE
+      join_abstract = TRUE,
+      fix_ref_section_name =TRUE
     )
   })
   on.exit(options(bookdown.post.late = old_opt))
@@ -395,8 +396,8 @@ fix_envs <- function(x,
                      french = FALSE,
                      prepub = FALSE,
                      highlight = "tango",
-                     include_section_nums = TRUE) {
-
+                     include_section_nums = TRUE,
+                     fix_ref_section_name = FALSE) {
 
   # fix equations:
   x <- gsub("^\\\\\\[$", "\\\\begin{equation}", x)
@@ -716,6 +717,17 @@ fix_envs <- function(x,
   # Enable reference linking to subsections of appendices
   x <- add_appendix_subsection_refs(x)
 
+  # Fix References section name for English ResDocs
+  if(fix_ref_section_name && !french){
+    ref_ind <- grep("\\{REFERENCES", x)
+    if(!length(ref_ind)){
+      stop("REFERENCES section header not found in the document. Make sure you ",
+           "haven't commented out that section in _bookdown.yml or changed the header name",
+           call. = FALSE)
+    }
+    x[ref_ind] <- gsub("REFERENCES", ifelse(french, "RÉFÉRENCES CITÉES", "REFERENCES CITED"), x[ref_ind])
+  }
+
   if(!include_section_nums){
     document_start_ind <- grep("^\\\\documentclass", x)
     pre_start <- x[1:document_start_ind]
@@ -900,17 +912,6 @@ add_appendix_subsection_refs <- function(x){
     names(appendix_chunks) <- NULL
     x <- c(pre_starred_x, appendix_chunks)
 
-  }
-
-  # Fix for References section name for English
-  if(!french){
-    ref_ind <- grep("\\{REFERENCES", x)
-    if(!length(ref_ind)){
-      stop("REFERENCES section header not found in the document. Make sure you ",
-           "haven't commented out that section in _bookdown.yml or changed the header name",
-           call. = FALSE)
-    }
-    x[ref_ind] <- gsub("REFERENCES", ifelse(french, "RÉFÉRENCES CITÉES", "REFERENCES CITED"), x[ref_ind])
   }
   x
 }
