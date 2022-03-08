@@ -1,6 +1,6 @@
 %% res-doc.sty - Unoffocial LaTeX style file for Canadian
 %%  Science Advisory Secretariat Research Documents.
-
+\usepackage[english]{babel}
 
 
 
@@ -263,10 +263,8 @@
   \renewcommand{\section}{\appsection}
 }
 
-%% Changes the name of the bibliography
-\renewcommand{\bibname}{REFERENCES CITED}
-%% To make REFERENCES a section and then number it
-\renewcommand{\bibsection}{\section{\bibname}}
+% Make the references section an actual section instead of a chapter and number it
+\renewcommand{\bibsection}{\section{\refname}}
 
 %% Makes figures stick to the top of the page. i.e. if there is a single figure
 %%  on a page, it will be placed in the center. This forces it to stick

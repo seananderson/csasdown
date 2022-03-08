@@ -901,6 +901,17 @@ add_appendix_subsection_refs <- function(x){
     x <- c(pre_starred_x, appendix_chunks)
 
   }
+
+  # Fix for References section name for English
+  if(!french){
+    ref_ind <- grep("\\{REFERENCES", x)
+    if(!length(ref_ind)){
+      stop("REFERENCES section header not found in the document. Make sure you ",
+           "haven't commented out that section in _bookdown.yml or changed the header name",
+           call. = FALSE)
+    }
+    x[ref_ind] <- gsub("REFERENCES", ifelse(french, "RÉFÉRENCES CITÉES", "REFERENCES CITED"), x[ref_ind])
+  }
   x
 }
 
