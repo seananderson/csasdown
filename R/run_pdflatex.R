@@ -12,6 +12,7 @@
 #'
 #' @return
 #' The PDF in the `_book` folder should be updated.
+#' @importFrom tinytex latexmk pdflatex
 #' @export
 #'
 #' @examples
@@ -20,23 +21,32 @@
 #' run_pdflatex()
 #' }
 run_pdflatex <- function(extra_pdflatex = 1, ...) {
-  dir_file <- list.files("_book", pattern = "*.tex", full.names = TRUE)[[1]]
-  file <- list.files("_book", pattern = "*.tex", full.names = FALSE)[[1]]
-  if (file.exists(file) || file.exists(gsub("\\.tex", "\\.pdf", file))) {
-    stop("The file '", file,
-      "' (or its PDF version) already exists\nin the main report folder.",
-      " Delete it before running this function.",
-      call. = FALSE
-    )
+
+  book_tex_file <- list.files("_book", pattern = "tex", full.names = TRUE)
+  if(length(book_tex_file)){
+    book_tex_file <- book_tex_file[[1]]
   }
-  file.copy(dir_file, ".", overwrite = FALSE)
-  tinytex::latexmk(file, clean = FALSE, ...)
+  book_pdf_file <- list.files("_book", pattern = "pdf", full.names = TRUE)
+  if(length(book_pdf_file)){
+    book_pdf_file <- book_pdf_file[[1]]
+    if (file.exists(book_pdf_file)) {
+      stop("The file '", book_pdf_file, "' exists. ",
+           "Delete it before running this function.",
+           call. = FALSE
+      )
+    }
+  }
+  tex_file <- list.files("_book", pattern = "tex", full.names = FALSE)[[1]]
+  if (file.exists(book_tex_file)) {
+    file.copy(book_tex_file, ".", overwrite = FALSE)
+  }
+  latexmk(tex_file, clean = FALSE, ...)
   # The point of this function is that latexmk sometimes misses a run:
   for (i in seq_len(extra_pdflatex - 1)) {
-    tinytex::pdflatex(file, clean = FALSE)
+    pdflatex(tex_file, clean = FALSE)
   }
-  tinytex::pdflatex(file, clean = TRUE)
-  file.copy(gsub("\\.tex", "\\.pdf", file), "_book", overwrite = TRUE)
-  file.remove(file)
-  file.remove(gsub("\\.tex", "\\.pdf", file))
+  pdflatex(tex_file, clean = TRUE)
+  file.copy(gsub("\\.tex", "\\.pdf", tex_file), "_book", overwrite = TRUE)
+  file.remove(tex_file)
+  file.remove(gsub("\\.tex", "\\.pdf", tex_file))
 }

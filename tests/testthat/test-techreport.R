@@ -1,15 +1,17 @@
-testing_path <- file.path(tempdir(), "techreport")
+temp_path <- tempdir()
+testing_path <- file.path(temp_path, "techreport")
+
+# ----------------------------------------------------
+# Creation and copying of test files to a temporary directory
+
 unlink(testing_path, recursive = TRUE, force = TRUE)
 dir.create(testing_path, showWarnings = FALSE)
 setwd(testing_path)
-unlink("index", recursive = TRUE, force = TRUE)
-suppressMessages(csasdown::draft(
+csasdown::draft(
   system.file("rmarkdown", "templates", "techreport", package = "csasdown"),
   create_dir = FALSE,
   edit = FALSE
-))
-files <- file.path(testing_path, "index", dir("index"))
-invisible(file.copy(files, testing_path, recursive = TRUE))
+)
 
 # ----------------------------------------------------
 # Render the PDF techreport
@@ -20,6 +22,7 @@ expect_warning({
   )
 })
 
+unlink("_book/techreport.pdf", force = TRUE, recursive = TRUE)
 test_that("run_pdflatex() works", {
   expect_warning(run_pdflatex())
 })
@@ -40,7 +43,7 @@ test_that("bookdown::render_book generates the .docx of the techreport", {
 })
 
 # ----------------------------------------------------
-# Check that French versions build
+# Check that French version builds
 options(french = TRUE)
 expect_warning({
   bookdown::render_book("index.Rmd",
@@ -55,25 +58,6 @@ test_that("bookdown::render_book generates the PDF of the French techreport", {
 
 # ----------------------------------------------------
 # Creation and copying of test files to a temporary directory
-
-unlink(testing_path, recursive = TRUE, force = TRUE)
-dir.create(testing_path, showWarnings = FALSE)
-
-dir.create(testing_path, showWarnings = FALSE)
-setwd(testing_path)
-suppressMessages(csasdown::draft(
-  system.file("rmarkdown", "templates", "techreport", package = "csasdown"),
-  create_dir = FALSE,
-  edit = FALSE
-))
-
-options(french = FALSE)
-suppressWarnings(bookdown::render_book("index.Rmd",
-  csasdown::techreport_pdf(),
-  envir = globalenv()
-))
-files <- file.path(testing_path, "index", dir("index"))
-invisible(file.copy(files, testing_path, recursive = TRUE))
 
 tmp_dir <- create_tempdir_for_latex("techreport",
   "b",
@@ -139,7 +123,6 @@ expect_error(create_tempdir_for_latex("techreport",
   tmp_dir = file.path(testing_path, "test"),
   root_dir = getwd()
 ))
-
 
 unlink(file.path(testing_path, "techreport.tex"), force = TRUE)
 expect_error(create_tempdir_for_latex("techreport",
