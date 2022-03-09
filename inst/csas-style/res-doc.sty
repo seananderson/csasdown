@@ -79,30 +79,30 @@
 %% ------------------------------------------------------------------------------
 %% Table of Contents
 \usepackage{tocloft}
+\makeatletter
 %% Set dot spacing size in TOC for each section
-\renewcommand{\cftchapdotsep}{1}
-\renewcommand{\cftsecdotsep}{1}
-\renewcommand{\cftsubsecdotsep}{1}
-\renewcommand{\cftsubsubsecdotsep}{1}
+\renewcommand{\cftchapdotsep}{4.5}
+% Set spacing between numbers and headings
+\renewcommand{\l@section}{\@dottedtocline{1}{1em}{1em}}
+\renewcommand{\l@subsection}{\@dottedtocline{2}{2em}{2em}}
+%% Set vertical spacing between entries in TOC
+\setlength{\cftbeforechapskip}{1pt}
+\setlength{\cftbeforesecskip}{5pt}
+\setlength{\cftbeforesubsecskip}{5pt}
+\setlength{\cftbeforesubsubsecskip}{5pt}
 %% Enable dots for chapters in the TOC
 \renewcommand{\cftchapleader}{\cftdotfill{\cftchapdotsep}}
 %% Un-bold the chapter text in the TOC
 \renewcommand{\cftchapfont}{\mdseries}
 %% Un-bold the chapter page numbers in the TOC
 \renewcommand{\cftchappagefont}{\mdseries}
-%% Make the chapter entries the same indentation as the sections
+%% Make the appendix (chapter) entries the same indentation as the sections
 %%  (entry, indent, numWidth)
-%% See the tocloft documentation to get these values
-\cftsetindents{chapter}{1.5em}{2.3em}
-%% Set vertical spacing between entries in TOC
-\setlength{\cftbeforechapskip}{5pt}
-\setlength{\cftbeforesecskip}{5pt}
-\setlength{\cftbeforesubsecskip}{5pt}
-\setlength{\cftbeforesubsubsecskip}{5pt}
+\cftsetindents{chapter}{1em}{1em}
 %% Remove space between the Table of contents title and it's content.
 \setlength\cftaftertoctitleskip{6pt}
-\makeatletter
 \renewcommand{\@tocrmarg}{5em}
+\makeatother
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
