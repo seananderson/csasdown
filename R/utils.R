@@ -82,7 +82,7 @@ resdoc_pdf <- function(toc = TRUE,
     file <- system.file("csas-tex", "res-doc.tex", package = "csasdown")
   }
 
-  base <- bookdown::pdf_book(
+  base <- pdf_book(
     template = file,
     toc = toc,
     toc_depth = toc_depth,
@@ -180,7 +180,7 @@ sr_pdf <- function(latex_engine = "pdflatex",
     file <- system.file("csas-tex", "sr.tex", package = "csasdown")
   }
 
-  base <- bookdown::pdf_book(
+  base <- pdf_book(
     template = file,
     keep_tex = TRUE,
     pandoc_args = pandoc_args,
@@ -268,7 +268,7 @@ techreport_pdf <- function(latex_engine = "pdflatex",
     file <- system.file("csas-tex", "tech-report.tex", package = "csasdown")
   }
 
-  base <- bookdown::pdf_book(
+  base <- pdf_book(
     template = file,
     keep_tex = TRUE,
     pandoc_args = pandoc_args,
@@ -614,7 +614,6 @@ fix_envs <- function(x,
         starred_references_line <- grep("\\\\section\\*\\{REFERENCES}\\\\label\\{references\\}\\}", x)
         x[starred_references_line] <- "\\section{R\u00c9F\u00c9RENCES CIT\u00c9ES}\\label{ruxe9fuxe9rences-cituxe9es}}"
         # Remove the add contents line which was used to add the unnumbered section before
-        # stringi::stri_escape_unicode("RÉFÉRENCES CITÉE") # can't use UTF-8 in packages:
         add_toc_contents_line <- grep("\\\\addcontentsline\\{toc\\}\\{section\\}\\{REFERENCES}", x)
         x[add_toc_contents_line] <- ""
       } else {
@@ -969,14 +968,14 @@ inject_refstepcounters <- function(x) {
 #' @param resdoc Filename
 #'
 #' @return A merged .docx
+#' @importFrom officer read_docx body_add_docx cursor_reach body_add_toc
 #' @export
 add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2021-eng-titlepage.docx",
                                       resdoc = "_book/resdoc.docx") {
-  title_doc <- officer::read_docx(titlepage)
-  x <- officer::body_add_docx(title_doc, resdoc, pos = "before")
+  title_doc <- read_docx(titlepage)
+  x <- body_add_docx(title_doc, resdoc, pos = "before")
   print(x, target = resdoc)
 }
-
 
 #' Add front matter to Res Doc docx file
 #'
@@ -990,10 +989,10 @@ add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2021-eng-titlepa
 #' @export
 add_resdoc_docx_frontmatter <- function(frontmatter = "templates/RES2021-eng-frontmatter.docx",
                                         resdoc = "_book/resdoc.docx") {
-  frontmatter_doc <- officer::read_docx(frontmatter)
-  x <- officer::body_add_docx(frontmatter_doc, resdoc, pos = "before")
-  x <- officer::cursor_reach(x, keyword = "TABLE OF CONTENTS")
-  x <- officer::body_add_toc(x)
+  frontmatter_doc <- read_docx(frontmatter)
+  x <- body_add_docx(frontmatter_doc, resdoc, pos = "before")
+  x <- cursor_reach(x, keyword = "TABLE OF CONTENTS")
+  x <- body_add_toc(x)
   print(x, target = resdoc)
 }
 
@@ -1008,8 +1007,8 @@ add_resdoc_docx_frontmatter <- function(frontmatter = "templates/RES2021-eng-fro
 #' @export
 add_techreport_docx_titlepage <- function(titlepage = ifelse(fr(), "templates/tech-report-cover-fra.docx", "templates/tech-report-cover-eng.docx"),
                                           doc = "_book/techreport.docx") {
-  title_doc <- officer::read_docx(titlepage)
-  x <- officer::body_add_docx(title_doc, doc, pos = "before")
+  title_doc <- read_docx(titlepage)
+  x <- body_add_docx(title_doc, doc, pos = "before")
   print(x, target = doc)
 }
 
@@ -1027,14 +1026,15 @@ is_windows <- function() {
 #' @param type Type of document. Currently this is only implemented for research
 #'   documents.
 #'
+#' @importFrom rmarkdown yaml_front_matter
 #' @export
 check_yaml <- function(type = "resdoc") {
-  x_skeleton <- names(rmarkdown::yaml_front_matter(
+  x_skeleton <- names(yaml_front_matter(
     system.file("rmarkdown", "templates", "resdoc", "skeleton", "skeleton.Rmd",
       package = "csasdown"
     )
   ))
-  x_index <- names(rmarkdown::yaml_front_matter("index.Rmd"))
+  x_index <- names(yaml_front_matter("index.Rmd"))
   .diff <- setdiff(x_skeleton, x_index)
   if (length(.diff) > 0L) {
     stop("Your `index.Rmd` file is missing: ", paste(.diff, collapse = ", "), ".")

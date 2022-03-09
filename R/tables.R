@@ -163,6 +163,7 @@ csas_table <- function(x,
 #' @param line See kableExtra:::pdfTable_add_header_above()
 #' @param line_sep See kableExtra:::pdfTable_add_header_above()
 #'
+#' @importFrom kableExtra magic_mirror
 #' @return See kableExtra:::pdfTable_add_header_above()
 add_extra_header <- function(kable_input,
                              header = NULL,
@@ -179,7 +180,7 @@ add_extra_header <- function(kable_input,
                              escape,
                              line = TRUE,
                              line_sep = 3) {
-  table_info <- kableExtra::magic_mirror(kable_input)
+  table_info <- magic_mirror(kable_input)
   header <- kableExtra:::standardize_header_input(header)
   if (length(table_info$colnames) != nrow(header)) {
     stop("The number of extra headers supplied is not the same as the number of columns in the table", call. = FALSE)
