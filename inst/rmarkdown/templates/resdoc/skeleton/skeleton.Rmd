@@ -110,14 +110,14 @@ options(kableExtra.latex.load_packages = FALSE)
 #  the line in the YAML header above to `french: true`
 meta <- rmarkdown::metadata$output
 if (length(grep("pdf", names(meta)))) {
-  french <- meta$`csasdown::resdoc_pdf`$french
+  options(french = meta$`csasdown::resdoc_pdf`$french)
   prepub <- meta$`csasdown::resdoc_pdf`$prepub
 } else if (length(grep("word", names(meta)))) {
-  french <- meta$`csasdown::resdoc_word`$french
+  options(french = meta$`csasdown::resdoc_word`$french)
   prepub <- meta$`csasdown::resdoc_word`$prepub
 }
 csl <- "csl/csas.csl"
-if (french) {
+if (getOption("french")) {
   csl <- "csl/csas-french.csl"
   options(OutDec = ",")
 }

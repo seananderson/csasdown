@@ -5,18 +5,15 @@
 \title{Add a titlepage to a Tech report docx file}
 \usage{
 add_techreport_docx_titlepage(
-  titlepage = ifelse(french, "templates/tech-report-cover-fra.docx",
+  titlepage = ifelse(fr(), "templates/tech-report-cover-fra.docx",
     "templates/tech-report-cover-eng.docx"),
-  doc = "_book/techreport.docx",
-  french = FALSE
+  doc = "_book/techreport.docx"
 )
 }
 \arguments{
 \item{titlepage}{Filename}
 
 \item{doc}{Filename}
-
-\item{french}{Logical. If TRUE, Add the French title page}
 }
 \value{
 A merged .docx

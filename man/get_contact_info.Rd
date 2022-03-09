@@ -7,13 +7,11 @@ the section "This report is available from the." Return contact information
 for the national CSAS office if regional information is not available (with a
 warning).}
 \usage{
-get_contact_info(region = "National Capital Region", isFr = FALSE)
+get_contact_info(region = "National Capital Region")
 }
 \arguments{
 \item{region}{Region in which the document is published; character vector.
 (i.e., Pacific). Default is "National Capital Region."}
-
-\item{isFr}{Logical (default FALSE). Is the report in French or not?}
 }
 \value{
 Email address and mailing address as list of character vectors.

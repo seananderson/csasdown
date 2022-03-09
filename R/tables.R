@@ -64,6 +64,11 @@ csas_table <- function(x,
                        ex_line = TRUE,
                        ex_line_sep = 3,
                        ...) {
+
+  # Language format list
+  dec_format <- list(decimal.mark = ifelse(fr(), ",", "."),
+                     big.mark = ifelse(fr(), " ", ","))
+
   if (!is.null(col_names)) {
     # Check for newlines in column headers and convert to proper latex linebreaks
     # See 'Insert linebreak in table' section in the following
@@ -80,6 +85,7 @@ csas_table <- function(x,
       longtable = longtable,
       col.names = col_names,
       escape = escape,
+      format.args = dec_format,
       ...
     )
     suppressWarnings(k <- kable_styling(k, font_size = font_size))
@@ -91,6 +97,7 @@ csas_table <- function(x,
       linesep = linesep,
       longtable = longtable,
       escape = escape,
+      format.args = dec_format,
       ...
     )
     suppressWarnings(k <- kable_styling(k, font_size = font_size))

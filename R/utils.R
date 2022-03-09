@@ -1,3 +1,15 @@
+#' Wrapper for [getOption()] with the default set to FALSE
+#'
+#' @description Used to retrieve `TRUE` or `FALSE` for whether
+#' or not to render the document in French
+#'
+#' @return The french option value. If the french option is `NULL`,
+#' `FALSE` will be returned
+#' @export
+fr <- function(){
+  getOption("french", default = FALSE)
+}
+
 #' Creates an R Markdown PDF with CSAS formatting
 #'
 #' This is a function called in output in the YAML of the driver Rmd file
@@ -17,7 +29,6 @@
 #'  Pass `NULL` to prevent syntax highlighting (uses 'monochrome' theme) for slightly
 #'  different text format but no highlighting
 #' @param latex_engine LaTeX engine to render with. 'pdflatex' or 'xelatex'
-#' @param french Logical for French (vs. English).
 #' @param prepub Logical for whether this is a pre-publication version
 #'  (currently not implemented for ResDocs)
 #' @param draft_watermark If `TRUE` show a DRAFT watermark on all pages of the output document
@@ -43,7 +54,6 @@ resdoc_pdf <- function(toc = TRUE,
                        toc_depth = 3,
                        highlight = "tango",
                        latex_engine = "pdflatex",
-                       french = FALSE,
                        prepub = FALSE,
                        copy_sty = TRUE,
                        line_nums = FALSE,
@@ -66,7 +76,7 @@ resdoc_pdf <- function(toc = TRUE,
          "\nSee pandoc documentation, --highlight-style argument.", call. = FALSE)
   }
 
-  if (french) {
+  if (fr()) {
     file <- system.file("csas-tex", "res-doc-french.tex", package = "csasdown")
   } else {
     file <- system.file("csas-tex", "res-doc.tex", package = "csasdown")
@@ -93,7 +103,7 @@ resdoc_pdf <- function(toc = TRUE,
     line_nums_mod = line_nums_mod,
     draft_watermark = draft_watermark,
     lot_lof = lot_lof,
-    which_sty = ifelse(french, "res-doc-french.sty", "res-doc.sty")
+    which_sty = ifelse(fr(), "res-doc-french.sty", "res-doc.sty")
   )
 
   # Mostly copied from knitr::render_sweave
@@ -104,7 +114,6 @@ resdoc_pdf <- function(toc = TRUE,
   options(bookdown.post.latex = function(x) {
     fix_envs(
       x = x,
-      french = french,
       prepub = prepub,
       highlight = highlight,
       include_section_nums = include_section_nums,
@@ -124,14 +133,13 @@ resdoc_pdf <- function(toc = TRUE,
 #' to specify the creation of a Microsoft Word version of the Research
 #' Document or Science Response.
 #'
-#' @param french Logical for French (vs. English).
 #' @param ... other arguments to [bookdown::word_document2()]
 #' @import bookdown
 #' @rdname csas_docx
 #' @export
 #' @return A Word Document based on the CSAS Res Doc template.
-resdoc_word <- function(french = FALSE, ...) {
-  file <- if (french) "RES2021-fra-content.docx" else "RES2021-eng-content.docx"
+resdoc_word <- function(...) {
+  file <- if (fr()) "RES2021-fra-content.docx" else "RES2021-eng-content.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
   )
@@ -144,9 +152,11 @@ resdoc_word <- function(french = FALSE, ...) {
 
 #' @export
 #' @rdname csas_pdf
-sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
+sr_pdf <- function(latex_engine = "pdflatex",
+                   prepub = FALSE,
                    copy_sty = TRUE,
-                   line_nums = FALSE, line_nums_mod = 1,
+                   line_nums = FALSE,
+                   line_nums_mod = 1,
                    draft_watermark = FALSE,
                    highlight = "tango",
                    pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
@@ -164,7 +174,7 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
          "\nSee pandoc documentation, --highlight-style argument.", call. = FALSE)
   }
 
-  if (french) {
+  if (fr()) {
     file <- system.file("csas-tex", "sr-french.tex", package = "csasdown")
   } else {
     file <- system.file("csas-tex", "sr.tex", package = "csasdown")
@@ -185,7 +195,7 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
     line_nums = line_nums,
     line_nums_mod = line_nums_mod,
     draft_watermark = draft_watermark,
-    which_sty = ifelse(french, "sr-french.sty", "sr.sty")
+    which_sty = ifelse(fr(), "sr-french.sty", "sr.sty")
   )
 
   base$knitr$opts_chunk$comment <- NA
@@ -194,7 +204,6 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
   options(bookdown.post.latex = function(x) {
     fix_envs(
       x = x,
-      french = french,
       prepub = prepub,
       highlight = highlight,
       include_abstract = FALSE,
@@ -208,8 +217,8 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
 
 #' @export
 #' @rdname csas_docx
-sr_word <- function(french = FALSE, ...) {
-  file <- if (french) "SRR-RS2021-fra.docx" else "SRR-RS2021-eng.docx"
+sr_word <- function(...) {
+  file <- if (fr()) "SRR-RS2021-fra.docx" else "SRR-RS2021-eng.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
   )
@@ -220,7 +229,7 @@ sr_word <- function(french = FALSE, ...) {
 
 #' @export
 #' @rdname csas_docx
-techreport_word <- function(french = FALSE, ...) {
+techreport_word <- function(...) {
   file <- "tech-report.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
@@ -232,9 +241,10 @@ techreport_word <- function(french = FALSE, ...) {
 
 #' @export
 #' @rdname csas_pdf
-techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
+techreport_pdf <- function(latex_engine = "pdflatex",
                            copy_sty = TRUE,
-                           line_nums = FALSE, line_nums_mod = 1,
+                           line_nums = FALSE,
+                           line_nums_mod = 1,
                            lot_lof = FALSE,
                            draft_watermark = FALSE,
                            highlight = "tango",
@@ -252,7 +262,7 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
          "\nSee pandoc documentation, --highlight-style argument.", call. = FALSE)
   }
 
-  if (french) {
+  if (fr()) {
     file <- system.file("csas-tex", "tech-report-french.tex", package = "csasdown")
   } else {
     file <- system.file("csas-tex", "tech-report.tex", package = "csasdown")
@@ -268,8 +278,8 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
   tmp_hl <- grep("--highlight-style", base$pandoc$args)
   base$pandoc$args <- base$pandoc$args[-c(tmp_hl[1], tmp_hl[1] + 1)]
 
-  cover_file_pdf <- if (french) "tech-report-cover-french.pdf" else "tech-report-cover.pdf"
-  cover_file_docx <- if (french) "tech-report-cover-french.docx" else "tech-report-cover.docx"
+  cover_file_pdf <- if (fr()) "tech-report-cover-french.pdf" else "tech-report-cover.pdf"
+  cover_file_docx <- if (fr()) "tech-report-cover-french.docx" else "tech-report-cover.docx"
   if (!file.exists(cover_file_pdf)) {
     cover_docx <- system.file("rmarkdown", "templates", "techreport", "skeleton", cover_file_docx, package = "csasdown")
     cover_pdf <- system.file("rmarkdown", "templates", "techreport", "skeleton", cover_file_pdf, package = "csasdown")
@@ -283,7 +293,7 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
     line_nums_mod = line_nums_mod,
     lot_lof = lot_lof,
     draft_watermark = draft_watermark,
-    which_sty = ifelse(french, "tech-report-french.sty", "tech-report.sty")
+    which_sty = ifelse(fr(), "tech-report-french.sty", "tech-report.sty")
   )
 
   base$knitr$opts_chunk$comment <- NA
@@ -291,7 +301,6 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
   options(bookdown.post.latex = function(x) {
     fix_envs(
       x = x,
-      french = french,
       highlight = highlight,
       join_abstract = FALSE
     )
@@ -393,7 +402,6 @@ update_csasstyle <- function(copy = TRUE,
 fix_envs <- function(x,
                      include_abstract = TRUE,
                      join_abstract = TRUE,
-                     french = FALSE,
                      prepub = FALSE,
                      highlight = "tango",
                      include_section_nums = TRUE,
@@ -420,7 +428,7 @@ fix_envs <- function(x,
     )[[1]]
     region <- region_supplied <- region_vec[2]
     region_def_ind <- grep(pat, x)
-    if(french){
+    if(fr()){
       # If the author supplied an English region name for a French doc, convert it
       eng_match <- grep(region_supplied, region_info$Region)
       if(length(eng_match)){
@@ -439,7 +447,7 @@ fix_envs <- function(x,
         }
       }
     }
-    contact_info <- get_contact_info(region = region, isFr = french)
+    contact_info <- get_contact_info(region = region)
     # Insert contact info
     x <- sub(
       pattern = "AddressPlaceholder", replacement = contact_info$address,
@@ -501,7 +509,7 @@ fix_envs <- function(x,
 
   for (i in seq(appendix_line + 1, length(x))) {
     x[i] <- gsub("\\\\section\\{", "\\\\appsection\\{", x[i])
-    if (!french) {
+    if (!fr()) {
       x[i] <- gsub(
         "\\\\chapter\\{",
         "\\\\starredchapter\\{APPENDIX~\\\\thechapter. ", x[i]
@@ -602,7 +610,7 @@ fix_envs <- function(x,
         x[length(x)]
       )
       # Modify References from starred chapter to regular chapter so that it is numbered
-      if (french) {
+      if (fr()) {
         starred_references_line <- grep("\\\\section\\*\\{REFERENCES}\\\\label\\{references\\}\\}", x)
         x[starred_references_line] <- "\\section{R\u00c9F\u00c9RENCES CIT\u00c9ES}\\label{ruxe9fuxe9rences-cituxe9es}}"
         # Remove the add contents line which was used to add the unnumbered section before
@@ -644,7 +652,7 @@ fix_envs <- function(x,
   # Implement "Approved pre-publication" version (science response)
   if (prepub) {
     # Text to add
-    addText <- ifelse(french, " -- PR\u00C9-PUBLICATION APPROUV\u00C9E}",
+    addText <- ifelse(fr(), " -- PR\u00C9-PUBLICATION APPROUV\u00C9E}",
       " -- APPROVED PRE-PUBLICATION}"
     )
     # 1. Modify header first page (report number)
@@ -666,7 +674,7 @@ fix_envs <- function(x,
     st_text_new <- paste0(st_text_clean, addText)
     x[st_loc_1] <- st_text_new
     # 3. Modify citation (2 things)
-    if (french) {
+    if (fr()) {
       # Edit french citation
       cite_head_fr <- grep(
         pattern = "La pr\\\\\'\\{e\\}sente publication doit \\\\\\^\\{e\\}tre cit\\\\\'\\{e\\}e comme suit~:",
@@ -740,14 +748,14 @@ fix_envs <- function(x,
   x <- add_appendix_subsection_refs(x)
 
   # Fix References section name for English ResDocs
-  if(fix_ref_section_name && !french){
+  if(fix_ref_section_name && !fr()){
     ref_ind <- grep("\\{REFERENCES", x)
     if(!length(ref_ind)){
       stop("REFERENCES section header not found in the document. Make sure you ",
            "haven't commented out that section in _bookdown.yml or changed the header name",
            call. = FALSE)
     }
-    x[ref_ind] <- gsub("REFERENCES", ifelse(french, "RÉFÉRENCES CITÉES", "REFERENCES CITED"), x[ref_ind])
+    x[ref_ind] <- gsub("REFERENCES", ifelse(fr(), "RÉFÉRENCES CITÉES", "REFERENCES CITED"), x[ref_ind])
   }
 
   if(!include_section_nums){
@@ -995,13 +1003,11 @@ add_resdoc_docx_frontmatter <- function(frontmatter = "templates/RES2021-eng-fro
 #'
 #' @param titlepage Filename
 #' @param doc Filename
-#' @param french Logical. If TRUE, Add the French title page
 #'
 #' @return A merged .docx
 #' @export
-add_techreport_docx_titlepage <- function(titlepage = ifelse(french, "templates/tech-report-cover-fra.docx", "templates/tech-report-cover-eng.docx"),
-                                          doc = "_book/techreport.docx",
-                                          french = FALSE) {
+add_techreport_docx_titlepage <- function(titlepage = ifelse(fr(), "templates/tech-report-cover-fra.docx", "templates/tech-report-cover-eng.docx"),
+                                          doc = "_book/techreport.docx") {
   title_doc <- officer::read_docx(titlepage)
   x <- officer::body_add_docx(title_doc, doc, pos = "before")
   print(x, target = doc)
@@ -1044,14 +1050,13 @@ check_yaml <- function(type = "resdoc") {
 #'
 #' @param region Region in which the document is published; character vector.
 #' (i.e., Pacific). Default is "National Capital Region."
-#' @param isFr Logical (default FALSE). Is the report in French or not?
 #'
 #' @export
 #'
 #' @return Email address and mailing address as list of character vectors.
-get_contact_info <- function(region = "National Capital Region", isFr = FALSE) {
+get_contact_info <- function(region = "National Capital Region") {
 
-  if (isFr) {
+  if (fr()) {
     # Get index for region (row)
     ind <- which(region_info$RegionFr == region)
     if(!length(ind)){
@@ -1070,7 +1075,7 @@ get_contact_info <- function(region = "National Capital Region", isFr = FALSE) {
   if (length(ind) == 0) {
     default_region <- "National Capital Region"
     email <- region_info$Email[region_info$Region == default_region]
-    if(isFr){
+    if(fr()){
       address <- region_info$AddressFr[region_info$Region == default_region]
     }else{
       address <- region_info$Address[region_info$Region == default_region]
@@ -1079,7 +1084,7 @@ get_contact_info <- function(region = "National Capital Region", isFr = FALSE) {
   } else {
     # Get regional contact info
     email <- region_info$Email[ind]
-    if (isFr)
+    if (fr())
       address <- region_info$AddressFr[ind]
     else
       address <- region_info$Address[ind]
