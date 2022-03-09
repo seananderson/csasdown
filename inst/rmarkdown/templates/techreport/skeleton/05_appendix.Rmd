@@ -17,14 +17,14 @@ Figures and tables will now be prepended with the appendix letter:
 
 (ref:test1-french) French goes here
 
-```{r test1, fig.cap=ifelse(french, "(ref:test1-french)", "(ref:test1)")}
+```{r test1, fig.cap=ifelse(fr(), "(ref:test1-french)", "(ref:test1)")}
 plot(1)
 ```
 
 ```{r test2, results='asis'}
 csasdown::csas_table(data.frame(x = c("a", "a", "b"),
                                 y = c(1, 2, 3)),
-                     caption = ifelse(french,
+                     caption = ifelse(fr(),
                                       "French goes here",
                                       "English verion of the test2 table caption"))
 ```
@@ -50,21 +50,20 @@ The label `#app:` in the appendix section headers tell `csasdown` to start a new
 
 `# THE SECOND APPENDIX, FOR FUN {#app:second-appendix}`
 
-
 To illustrate the new labeling of appendices, here are a table and figure:
 
 (ref:test1b) English version of the test1b figure caption
 
 (ref:test1b-french) French goes here
 
-```{r test1b, fig.cap=ifelse(french, "(ref:test1b-french)", "(ref:test1b)")}
+```{r test1b, fig.cap=ifelse(fr(), "(ref:test1b-french)", "(ref:test1b)")}
 plot(1)
 ```
 
 ```{r test2b, results='asis'}
 csasdown::csas_table(data.frame(x = c("a", "a", "b"),
                                 y = c(1, 2, 3)),
-                     caption = ifelse(french,
+                     caption = ifelse(fr(),
                                       "French goes here",
                                       "English verion of the test2b table caption"))
 ```

@@ -117,7 +117,13 @@ if (length(grep("pdf", names(meta)))) {
   prepub <- meta$`csasdown::resdoc_word`$prepub
 }
 csl <- "csl/csas.csl"
-if (getOption("french")) {
+fr_toggle <- getOption("french")
+if (is.null(fr_toggle)) {
+  stop("french toggle was not set up correctly in YAML header in index.Rmd. ",
+       "It must be true or false",
+       call. = FALSE)
+}
+if (fr_toggle) {
   csl <- "csl/csas-french.csl"
   options(OutDec = ",")
 }
@@ -126,6 +132,7 @@ if (getOption("french")) {
 library(dplyr)
 library(readr)
 library(tibble)
+library(rosettafish)
 library(csasdown)
 ```
 

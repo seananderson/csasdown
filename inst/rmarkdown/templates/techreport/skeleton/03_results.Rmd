@@ -8,7 +8,7 @@ Here's another plot for fun:
 
 (ref:batman-french) Homme chauve-souris!
 
-```{r batman, fig.cap=ifelse(french, "(ref:batman-french)", "(ref:batman)")}
+```{r batman, fig.cap=ifelse(fr(), "(ref:batman-french)", "(ref:batman)")}
 #' Call the Batman
 #'
 #' https://charlotte-ngs.github.io/BatmanPlot/BatmanPlotPost.html

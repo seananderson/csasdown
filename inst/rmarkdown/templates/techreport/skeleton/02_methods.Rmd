@@ -23,7 +23,7 @@ Here is a simple figure plotted in a `knitr` code chunk. Look at the code (`02_m
 
 (ref:testfig-french) French caption would go here once you've had it translated.
 
-```{r testfig, fig.pos="H", fig.cap = ifelse(french, "(ref:testfig-french)", "(ref:testfig)")}
+```{r testfig, fig.pos="H", fig.cap = ifelse(fr(), "(ref:testfig-french)", "(ref:testfig)")}
 plot(cars)
 ```
 
@@ -35,14 +35,12 @@ d <- structure(list(
   `Value 1` = c(1.12, 2.32, 3.67), 
   `Value 2` = c(31.9, 2.8, 112.2)), 
   row.names = c(NA, -3L), class = "data.frame")
-if(french){
-  names(d) <- c(rosettafish::en2fr("Year"),
-                 paste0(rosettafish::en2fr("Value"), 1),
-                 paste0(rosettafish::en2fr("Value"), 2))
-}
+  names(d) <- c(en2fr("Year"),
+                 paste0(en2fr("Value"), 1),
+                 paste0(en2fr("Value"), 2))
 csasdown::csas_table(d,
   align = c("c", "r", "r"),
-  caption = ifelse(french,
+  caption = ifelse(fr(),
                    "French goes here",
                    "Test table (data is d) with a caption will be numbered automatically."))
 ```
@@ -53,14 +51,12 @@ d1 <- tribble(
    2018,       1.12,       31.9,
    2019,       2.32,        2.8,
    2020,       3.67,      112.2)
-if(french){
-  names(d1) <- c(rosettafish::en2fr("Year"),
-                 paste0(rosettafish::en2fr("Value"), 1),
-                 paste0(rosettafish::en2fr("Value"), 2))
-}
+names(d1) <- c(en2fr("Year"),
+               paste0(en2fr("Value"), 1),
+               paste0(en2fr("Value"), 2))
 csasdown::csas_table(d1,
   align = c("c", "r", "r"),
-  caption = ifelse(french,
+  caption = ifelse(fr(),
                    "French goes here",
                    "Test table (data is d1) with a caption will be numbered automatically."))
 ```
@@ -100,7 +96,7 @@ read_csv(file.path("data", "multirow.csv")) %>%
   csas_table(format = "latex",
              escape = FALSE,
              font_size = 11,
-             caption = ifelse(french,
+             caption = ifelse(fr(),
                               "French goes here",
                               "Goals and performance metrics")) %>%
   kableExtra::row_spec(1, extra_latex_after = "\\cmidrule(l){2-2}") %>% 

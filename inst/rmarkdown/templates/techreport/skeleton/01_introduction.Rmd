@@ -58,7 +58,7 @@ refs_tab <- tribble(
 
 csasdown::csas_table(refs_tab,
   align = c("r", "r"),
-  caption = ifelse(french,
+  caption = ifelse(fr(),
                    "French goes here",
                    "Reference types and their Rmarkdown reference codes."))
 ```

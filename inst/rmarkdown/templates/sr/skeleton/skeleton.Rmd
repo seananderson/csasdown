@@ -104,14 +104,20 @@ options(kableExtra.latex.load_packages = FALSE)
 #  the line in the YAML header above to `french: true`
 meta <- rmarkdown::metadata$output
 if (length(grep("pdf", names(meta)))) {
-  french <- meta$`csasdown::sr_pdf`$french
+  options(french = meta$`csasdown::sr_pdf`$french)
   prepub <- meta$`csasdown::sr_pdf`$prepub
 } else if (length(grep("word", names(meta)))) {
-  french <- meta$`csasdown::sr_word`$french
+  options(french = meta$`csasdown::sr_word`$french)
   prepub <- meta$`csasdown::sr_word`$prepub
 }
 csl <- "csl/csas.csl"
-if (french) {
+fr_toggle <- getOption("french")
+if (is.null(fr_toggle)) {
+  stop("french toggle was not set up correctly in YAML header in index.Rmd. ",
+       "It must be true or false",
+       call. = FALSE)
+}
+if (fr_toggle) {
   csl <- "csl/csas-french.csl"
   options(OutDec = ",")
 }
@@ -120,6 +126,7 @@ if (french) {
 library(dplyr)
 library(readr)
 library(tibble)
+library(rosettafish)
 library(csasdown)
 ```
 
