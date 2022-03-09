@@ -4,7 +4,15 @@ Mandatory section and title.
 
 ## Note on this section
 
-The context section must give the readers a clear idea of the issue being addressed and of the history of how the need for this process came about (e.g., the rationale for using the Science Response Process in this specific case).
+<!-- An example of how to include text based on the language. The two chunks below shows how switching the toggle in the YAML header for french allows inclusion/rejection of a paragraph. -->
+
+```{r para-chap01-1-en, eval=!fr(), results = 'asis'}
+cat("The context section must give the readers a clear idea of the issue being addressed and of the history of how the need for this process came about (e.g., the rationale for using the Science Response Process in this specific case).")
+```
+```{r para-chap01-1-fr, eval=fr(), results = 'asis'}
+cat("(This is where you would place the French translation of the paragraph) The context section must give the readers a clear idea of the issue being addressed and of the history of how the need for this process came about (e.g., the rationale for using the Science Response Process in this specific case).")
+```
+
 It should include the formal request/question from the client, the response deadline, as well as a short summary of the conclusion (one or two sentences).
 
 The rationale for the approach taken to answer the request can be described (e.g., specific scientific questions that were addressed).

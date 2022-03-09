@@ -1,6 +1,14 @@
 # INTRODUCTION
 
-Welcome to the R Markdown CSAS template. This template is based on (and in many places copied directly from) the huskydown R package, the thesisdown R package, and the CSAS LaTeX template. Hopefully it will provide a nicer interface for those that have never used TeX or LaTeX before. Using R Markdown will also allow you to easily keep track of your analyses in R chunks of code, with the resulting plots and output included as well. The hope is this R Markdown template gets you in the habit of doing reproducible research, which benefits you long-term as a researcher, but also will greatly help anyone that is trying to reproduce or build onto your results down the road.
+<!-- An example of how to include text based on the language. The two chunks below shows how switching the toggle in the YAML header for french allows inclusion/rejection of a paragraph. -->
+
+```{r para-chap01-1-en, eval=!fr(), results = 'asis'}
+cat("Welcome to the R Markdown CSAS template. This template is based on (and in many places copied directly from) the huskydown R package, the thesisdown R package, and the CSAS LaTeX template. Hopefully it will provide a nicer interface for those that have never used TeX or LaTeX before. Using R Markdown will also allow you to easily keep track of your analyses in R chunks of code, with the resulting plots and output included as well. The hope is this R Markdown template gets you in the habit of doing reproducible research, which benefits you long-term as a researcher, but also will greatly help anyone that is trying to reproduce or build onto your results down the road.")
+```
+
+```{r para-chap01-1-fr, eval=fr(), results = 'asis'}
+cat("(This is where you would place the French translation of the paragraph) Welcome to the R Markdown CSAS template. This template is based on (and in many places copied directly from) the huskydown R package, the thesisdown R package, and the CSAS LaTeX template. Hopefully it will provide a nicer interface for those that have never used TeX or LaTeX before. Using R Markdown will also allow you to easily keep track of your analyses in R chunks of code, with the resulting plots and output included as well. The hope is this R Markdown template gets you in the habit of doing reproducible research, which benefits you long-term as a researcher, but also will greatly help anyone that is trying to reproduce or build onto your results down the road.")
+```
 
 Hopefully, you won't have much of a learning period to go through and you will reap the benefits of a nicely formatted CSAS Res Doc. The use of LaTeX in combination with Markdown is more consistent than the output of a word processor, much less prone to corruption or crashing, and the resulting file is smaller than a Word file. After working with Markdown and R together for a few weeks, we are confident this will be your reporting style of choice going forward.
 
