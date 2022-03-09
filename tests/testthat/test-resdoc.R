@@ -64,27 +64,17 @@ test_that("bookdown::render_book generates the PDF of the French resdoc", {
 # ----------------------------------------------------
 # Creation and copying of test files to a temporary directory
 
-unlink(testing_path, recursive = TRUE, force = TRUE)
-dir.create(testing_path, showWarnings = FALSE)
-setwd(testing_path)
-unlink("index", recursive = TRUE, force = TRUE)
-suppressMessages(csasdown::draft(
-  system.file("rmarkdown", "templates", "resdoc", package = "csasdown"),
-  create_dir = FALSE,
-  edit = FALSE
-))
+bookdown::render_book("index.Rmd",
+                      csasdown::resdoc_pdf(),
+                      envir = globalenv())
 
-suppressWarnings(bookdown::render_book("index.Rmd",
-  csasdown::resdoc_pdf(),
-  envir = globalenv()
-))
 files <- file.path(testing_path, "index", dir("index"))
 invisible(file.copy(files, testing_path, recursive = TRUE))
 
 tmp_dir <- create_tempdir_for_latex("resdoc",
-  "b",
-  tmp_dir = file.path(testing_path, "test"),
-  root_dir = getwd()
+                                    "b",
+                                    tmp_dir = file.path(testing_path, "test"),
+                                    root_dir = getwd()
 )
 tmp_csas_dir <- file.path(tmp_dir, "csas-style")
 
@@ -105,18 +95,19 @@ expect_true(file.exists(file.path(tmp_dir, "resdoc.tex")))
 # to a user-assigned directory
 file.copy(file.path("_book", "resdoc.tex"), "resdoc.tex")
 tmp_dir <- create_tempdir_for_latex("resdoc",
-  "r",
-  tmp_dir = file.path(testing_path, "test"),
-  root_dir = getwd()
+                                    "r",
+                                    tmp_dir = file.path(testing_path, "test"),
+                                    root_dir = getwd()
 )
 expect_true(file.exists(file.path(testing_path, "test", "resdoc.tex")))
 
 # Test correct application of system-created directory
 tmp_dir <- create_tempdir_for_latex("resdoc",
-  "r",
-  tmp_dir = NULL,
-  root_dir = getwd()
+                                    "r",
+                                    tmp_dir = NULL,
+                                    root_dir = getwd()
 )
 expect_true(file.exists(file.path(tmp_dir, "resdoc.tex")))
 
 unlink(testing_path, recursive = TRUE, force = TRUE)
+

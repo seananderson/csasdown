@@ -3,7 +3,7 @@
 \name{get_contact_info}
 \alias{get_contact_info}
 \title{Return regional CSAS email address and mailing address for the last page in
-the section "This report is available from the." Return contactinformation
+the section "This report is available from the." Return contact information
 for the national CSAS office if regional information is not available (with a
 warning).}
 \usage{
@@ -20,7 +20,7 @@ Email address and mailing address as list of character vectors.
 }
 \description{
 Return regional CSAS email address and mailing address for the last page in
-the section "This report is available from the." Return contactinformation
+the section "This report is available from the." Return contact information
 for the national CSAS office if regional information is not available (with a
 warning).
 }
