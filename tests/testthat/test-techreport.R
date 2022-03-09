@@ -41,7 +41,7 @@ test_that("bookdown::render_book generates the .docx of the techreport", {
 
 # ----------------------------------------------------
 # Check that French versions build
-# First, using the french argument of techreport_pdf()
+options(french = TRUE)
 expect_warning({
   bookdown::render_book("index.Rmd",
     csasdown::techreport_pdf(french = TRUE),
@@ -67,8 +67,9 @@ suppressMessages(csasdown::draft(
   edit = FALSE
 ))
 
+options(french = FALSE)
 suppressWarnings(bookdown::render_book("index.Rmd",
-  csasdown::techreport_pdf(french = FALSE),
+  csasdown::techreport_pdf(),
   envir = globalenv()
 ))
 files <- file.path(testing_path, "index", dir("index"))

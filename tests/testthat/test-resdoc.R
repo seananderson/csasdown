@@ -49,10 +49,10 @@ expect_message(check_yaml(), "contains all")
 
 # ----------------------------------------------------
 # Check that French versions build
-# First, using the french argument of resdoc_pdf()
+options(french = TRUE)
 expect_warning({
   bookdown::render_book("index.Rmd",
-    csasdown::resdoc_pdf(french = TRUE),
+    csasdown::resdoc_pdf(),
     envir = globalenv()
   )
 })
@@ -64,6 +64,7 @@ test_that("bookdown::render_book generates the PDF of the French resdoc", {
 # ----------------------------------------------------
 # Creation and copying of test files to a temporary directory
 
+options(french = FALSE)
 bookdown::render_book("index.Rmd",
                       csasdown::resdoc_pdf(),
                       envir = globalenv())

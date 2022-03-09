@@ -37,10 +37,10 @@ test_that("bookdown::render_book generates the .docx of the sr", {
 
 # ----------------------------------------------------
 # Check that French versions build
-# First, using the french argument of sr_pdf()
+options(french = TRUE)
 expect_warning({
   bookdown::render_book("index.Rmd",
-    csasdown::sr_pdf(french = TRUE),
+    csasdown::sr_pdf(),
     envir = globalenv()
   )
 })
@@ -55,6 +55,7 @@ unlink(testing_path, recursive = TRUE, force = TRUE)
 dir.create(testing_path, showWarnings = FALSE)
 setwd(testing_path)
 
+options(french = FALSE)
 suppressMessages(csasdown::draft(
   system.file("rmarkdown", "templates", "sr", package = "csasdown"),
   create_dir = FALSE,
