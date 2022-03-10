@@ -1,6 +1,6 @@
 # Docker compilation for csasdown
 
-Open an Ubuntu session (WSL2) and navigate to the docker directories where the `Dockerfile` resides.
+Open a command line and navigate to the docker directories where the `Dockerfile` resides.
 
 1. Compile a `cgrandin/admb` image and push to `cgrandin/admb`. The necessary files are located at [https://github.com/pbs-assess/gfiscam/tree/wsl2/docker]
 
