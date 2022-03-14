@@ -610,19 +610,24 @@ fix_envs <- function(x,
         x[length(x)]
       )
       # Modify References from starred chapter to regular chapter so that it is numbered
-      if (fr()) {
-        starred_references_line <- grep("\\\\section\\*\\{REFERENCES}\\\\label\\{references\\}\\}", x)
-        x[starred_references_line] <- "\\section{R\u00c9F\u00c9RENCES CIT\u00c9ES}\\label{ruxe9fuxe9rences-cituxe9es}}"
-        # Remove the add contents line which was used to add the unnumbered section before
-        add_toc_contents_line <- grep("\\\\addcontentsline\\{toc\\}\\{section\\}\\{REFERENCES}", x)
-        x[add_toc_contents_line] <- ""
-      } else {
-        starred_references_line <- grep("\\\\section\\*\\{REFERENCES\\}\\\\label\\{references\\}\\}", x)
+      starred_references_line <- grep("\\\\section\\*\\{REFERENCES\\}\\\\label\\{references\\}\\}", x)
+      if(length(starred_references_line)){
         x[starred_references_line] <- gsub("\\*", "", x[starred_references_line])
         # Remove the add contents line which was used to add the unnumbered section before
         add_toc_contents_line <- grep("\\\\addcontentsline\\{toc\\}\\{section\\}\\{REFERENCES\\}", x)
         x[add_toc_contents_line] <- ""
-    }
+      }
+      # Modify References section name here
+      if(fix_ref_section_name){
+        ref_ind <- grep("\\{REFERENCES", x)
+        if(!length(ref_ind)){
+          stop("REFERENCES section header not found in the document. Make sure you ",
+               "haven't commented out that section in _bookdown.yml or changed the header name",
+               call. = FALSE)
+        }
+        x[ref_ind] <- gsub("REFERENCES", ifelse(fr(), "RÉFÉRENCES CITÉES", "REFERENCES CITED"), x[ref_ind])
+      }
+
   } else {
       warning("Did not find the beginning of the LaTeX bibliography.", call. = FALSE)
     }
@@ -745,17 +750,6 @@ fix_envs <- function(x,
 
   # Enable reference linking to subsections of appendices
   x <- add_appendix_subsection_refs(x)
-
-  # Fix References section name for English ResDocs
-  if(fix_ref_section_name && !fr()){
-    ref_ind <- grep("\\{REFERENCES", x)
-    if(!length(ref_ind)){
-      stop("REFERENCES section header not found in the document. Make sure you ",
-           "haven't commented out that section in _bookdown.yml or changed the header name",
-           call. = FALSE)
-    }
-    x[ref_ind] <- gsub("REFERENCES", ifelse(fr(), "RÉFÉRENCES CITÉES", "REFERENCES CITED"), x[ref_ind])
-  }
 
   if(!include_section_nums){
     document_start_ind <- grep("^\\\\documentclass", x)
