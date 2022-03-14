@@ -20,5 +20,40 @@ which is a list of lists of named key-value pairs, where each list represents a 
 as defined in the grammar above
 }
 \description{
+Assumed Grammar of the JSON theme file based on output of:
+\verb{pandoc --print-highlight-style breezedark > my_style.theme}
+\itemize{
+\item \code{hexval} is a six-digit quoted string representing a hex
+color in this format: \code{"#ffffff"} or null if not included
+\item \code{logicalval} is true or false
+\verb{\{4spc\}} means 4 spaces
+}
 
+Grammar:\preformatted{\{
+\{4spc\}"text-color": hexval,
+\{4spc\}"background-color": hexval,
+\{4spc\}"line-number-color": hexval
+\{4spc\}"text-styles": \{
+\{8spc\}"Attribute1_Name": \{
+\{12spc\}"text-color": hexval,
+\{12spc\}"background-color": hexval,
+\{12spc\}"bold": logicalval,
+\{12spc\}"italic": logicalval,
+\{12spc\}"underline": logicalval
+\{8spc\}\},
+...
+\{4spc\}"text-color": hexval,
+\{4spc\}"background-color": hexval,
+\{4spc\}"line-number-color": hexval
+\{4spc\}"text-styles": \{
+\{8spc\}"AttributeN_Name": \{
+\{12spc\}"text-color": hexval,
+\{12spc\}"background-color": hexval,
+\{12spc\}"bold": logicalval,
+\{12spc\}"italic": logicalval,
+\{12spc\}"underline": logicalval
+\{8spc\}\}
+\{4spc\}\}
+\}
+}
 }
