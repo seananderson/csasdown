@@ -5,7 +5,6 @@
 #' in the column must be in this range
 #'
 #' @return A vector of column names, or NULL if no year columns were found
-#' @importFrom dplyr %>%
 #' @export
 year_cols <- function(df, year_range = 1800:4000){
 
@@ -21,7 +20,7 @@ year_cols <- function(df, year_range = 1800:4000){
   })
   # Remove all NULLs from the list and make the list a character vector
   col_is_year[sapply(col_is_year, is.null)] <- NULL
-  col_is_year <- col_is_year %>% map_chr(~{.x})
+  col_is_year <- map_chr(col_is_year, ~{.x})
   if(!length(col_is_year)){
     return(NULL)
   }
