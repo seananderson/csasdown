@@ -34,6 +34,9 @@
 #' @param cols_no_format A vector of names of numeric columns to not apply `big.mark`
 #' and `decimal.mark` to. The function will attempt to detect year columns by default
 #' and not apply formatting to those, but this argument, if present, will be added to those
+#' @param cols_to_format A vector of the names of columns to format in case they are left
+#' unformatted by the year detection algorithm. As long as the columns are numeric,
+#' (`is.numeric() == TRUE`), formatting will be applied to these columns
 #'
 #' @importFrom knitr kable
 #' @importFrom kableExtra row_spec kable_styling landscape linebreak
@@ -68,13 +71,14 @@ csas_table <- function(x,
                        ex_line = TRUE,
                        ex_line_sep = 3,
                        cols_no_format = NULL,
+                       cols_to_format = NULL,
                        ...) {
 
   # Language format list
   dec_format <- list(decimal.mark = ifelse(fr(), ",", "."),
                      big.mark = ifelse(fr(), " ", ","))
 
-  # Check to make sure the names supplied are actually in the data frame
+  # Check to make sure the names supplied by cols_no_format are actually in the data frame
   names_exist <- map_lgl(cols_no_format, ~{
     .x %in% names(x)
   })
@@ -82,8 +86,17 @@ csas_table <- function(x,
     stop("One or more of the columns supplied in `cols_no_format` are not in the data frame.",
          "The column(s) are:\n", paste(cols_no_format[!names_exist], collapse = ", "))
   }
+  # Check to make sure the names supplied by cols_to_format are actually in the data frame
+  names_exist <- map_lgl(cols_to_format, ~{
+    .x %in% names(x)
+  })
+  if(!all(names_exist)){
+    stop("One or more of the columns supplied in `cols_to_format` are not in the data frame.",
+         "The column(s) are:\n", paste(cols_to_format[!names_exist], collapse = ", "))
+  }
 
   year_col_names <- unique(c(year_cols(x), cols_no_format))
+  year_col_names <- setdiff(year_col_names, cols_to_format)
 
   if(!is.null(year_col_names)){
     # Apply type change to the year columns from numeric to character

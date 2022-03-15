@@ -32,6 +32,7 @@ csas_table(
   ex_line = TRUE,
   ex_line_sep = 3,
   cols_no_format = NULL,
+  cols_to_format = NULL,
   ...
 )
 }
@@ -92,6 +93,10 @@ csas_table(
 \item{cols_no_format}{A vector of names of numeric columns to not apply \code{big.mark}
 and \code{decimal.mark} to. The function will attempt to detect year columns by default
 and not apply formatting to those, but this argument, if present, will be added to those}
+
+\item{cols_to_format}{A vector of the names of columns to format in case they are left
+unformatted by the year detection algorithm. As long as the columns are numeric,
+(\code{is.numeric() == TRUE}), formatting will be applied to these columns}
 
 \item{...}{Other arguments passed to \code{\link[knitr:kable]{knitr::kable()}} and kableExtra:::pdfTable_add_header_above()}
 }

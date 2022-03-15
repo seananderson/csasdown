@@ -22,6 +22,10 @@ test_that("Non-existent columns requested in cols_no_format for csas_table()", {
   expect_error(x <- csasdown::csas_table(df1, format = "latex", cols_no_format = c("x", "y")))
 })
 
+test_that("Non-existent columns requested in cols_to_format for csas_table()", {
+  expect_error(x <- csasdown::csas_table(df1, format = "latex", cols_to_format = "x"))
+})
+
 test_that("csas_table() detects 0 year columns correctly", {
   x <- csasdown::csas_table(df1, format = "latex")
   expect_true(length(grep("1,000.000", x)) == TRUE)
@@ -125,4 +129,104 @@ test_that(paste0("csas_table() detects 2 year columns correctly makes exception 
   expect_true(!length(grep("40,001", x)))
   expect_true(length(grep("40050", x)) == TRUE)
   expect_true(!length(grep("40,050", x)))
+})
+
+test_that(paste0("csas_table() detects 2 year columns correctly includes ",
+                 "formatting for column(s) supplied in cols_to_format"), {
+                   x <- csasdown::csas_table(df4, format = "latex", cols_no_format = "d", cols_to_format = "d")
+                   expect_true(length(grep("1901", x)) == TRUE)
+                   expect_true(!length(grep("1,901", x)))
+                   expect_true(length(grep("1950", x)) == TRUE)
+                   expect_true(!length(grep("1,950", x)))
+
+                   expect_true(length(grep("2001", x)) == TRUE)
+                   expect_true(!length(grep("2,001", x)))
+                   expect_true(length(grep("2050", x)) == TRUE)
+                   expect_true(!length(grep("2,050", x)))
+
+                   expect_true(length(grep("1,000.000", x)) == TRUE)
+                   expect_true(!length(grep("1000.000", x)))
+                   expect_true(length(grep("1,001.000", x)) == TRUE)
+                   expect_true(!length(grep("1001.000", x)))
+
+                   expect_true(length(grep("40,001", x)) == TRUE)
+                   expect_true(!length(grep("40001", x)))
+                   expect_true(length(grep("40,050", x)) == TRUE)
+                   expect_true(!length(grep("40050", x)))
+})
+
+test_that(paste0("csas_table() detects 2 year columns correctly includes ",
+                 "formatting for column(s) supplied in cols_to_format, changes one of the year columns"), {
+                   x <- csasdown::csas_table(df4, format = "latex", cols_to_format = "a")
+                   expect_true(length(grep("1901", x)) == TRUE)
+                   expect_true(!length(grep("1,901", x)))
+                   expect_true(length(grep("1950", x)) == TRUE)
+                   expect_true(!length(grep("1,950", x)))
+
+                   expect_true(length(grep("2,001", x)) == TRUE)
+                   expect_true(!length(grep("2001", x)))
+                   expect_true(length(grep("2,050", x)) == TRUE)
+                   expect_true(!length(grep("2050", x)))
+
+                   expect_true(length(grep("1,000.000", x)) == TRUE)
+                   expect_true(!length(grep("1000.000", x)))
+                   expect_true(length(grep("1,001.000", x)) == TRUE)
+                   expect_true(!length(grep("1001.000", x)))
+
+                   expect_true(length(grep("40,001", x)) == TRUE)
+                   expect_true(!length(grep("40001", x)))
+                   expect_true(length(grep("40,050", x)) == TRUE)
+                   expect_true(!length(grep("40050", x)))
+})
+
+test_that(paste0("csas_table() detects 2 year columns correctly includes ",
+                 "formatting for column(s) supplied in cols_to_format, changes two of the year columns"), {
+                   x <- csasdown::csas_table(df4, format = "latex", cols_to_format = c("a", "c"))
+                   expect_true(length(grep("1,901", x)) == TRUE)
+                   expect_true(!length(grep("1901", x)))
+                   expect_true(length(grep("1,950", x)) == TRUE)
+                   expect_true(!length(grep("1950", x)))
+
+                   expect_true(length(grep("2,001", x)) == TRUE)
+                   expect_true(!length(grep("2001", x)))
+                   expect_true(length(grep("2,050", x)) == TRUE)
+                   expect_true(!length(grep("2050", x)))
+
+                   expect_true(length(grep("1,000.000", x)) == TRUE)
+                   expect_true(!length(grep("1000.000", x)))
+                   expect_true(length(grep("1,001.000", x)) == TRUE)
+                   expect_true(!length(grep("1001.000", x)))
+
+                   expect_true(length(grep("40,001", x)) == TRUE)
+                   expect_true(!length(grep("40001", x)))
+                   expect_true(length(grep("40,050", x)) == TRUE)
+                   expect_true(!length(grep("40050", x)))
+})
+
+test_that(paste0("csas_table() detects 2 year columns correctly includes ",
+                 "formatting for column(s) supplied in both cols_no_format and ",
+                 "cols_to_format, changes all columns"), {
+                   x <- csasdown::csas_table(df4,
+                                             format = "latex",
+                                             cols_no_format = "d",
+                                             cols_to_format = c("a", "c"))
+                   expect_true(length(grep("1,901", x)) == TRUE)
+                   expect_true(!length(grep("1901", x)))
+                   expect_true(length(grep("1,950", x)) == TRUE)
+                   expect_true(!length(grep("1950", x)))
+
+                   expect_true(length(grep("2,001", x)) == TRUE)
+                   expect_true(!length(grep("2001", x)))
+                   expect_true(length(grep("2,050", x)) == TRUE)
+                   expect_true(!length(grep("2050", x)))
+
+                   expect_true(length(grep("1,000.000", x)) == TRUE)
+                   expect_true(!length(grep("1000.000", x)))
+                   expect_true(length(grep("1,001.000", x)) == TRUE)
+                   expect_true(!length(grep("1001.000", x)))
+
+                   expect_true(length(grep("40001", x)) == TRUE)
+                   expect_true(!length(grep("40,001", x)))
+                   expect_true(length(grep("40050", x)) == TRUE)
+                   expect_true(!length(grep("40,050", x)))
 })
