@@ -145,7 +145,7 @@ Another good idea is to take a look at the dataset in table form.  With this dat
 
 A simple and effective way to see the entire structure in one call is to use the `glimpse()` command like this:
 ```{r glimpse_flights, echo = TRUE}
-glimpse(flights, width = 80)
+glimpse(flights)
 ```
 
 While not required, it is highly recommended you use the `dplyr` package to manipulate and summarize your data set as needed.  It uses a syntax that is easy to understand using chaining operations.  Below I've created a few examples of using `dplyr` to get information about the Portland flights in 2014.  You will also see the use of the `ggplot2` package, which produces beautiful, high-quality academic visuals.

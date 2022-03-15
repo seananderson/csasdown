@@ -102,6 +102,8 @@ opts_chunk$set(
 )
 options(xtable.comment = FALSE)
 options(kableExtra.latex.load_packages = FALSE)
+# Stop chunk output (echo) running into the margins
+options(width = 80)
 ```
 
 ```{r load-libraries, cache=FALSE}
