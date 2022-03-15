@@ -57,6 +57,7 @@ Imports:
     kableExtra,
     knitr,
     officer,
+    purrr,
     readr,
     rmarkdown,
     rosettafish,

@@ -1,3 +1,33 @@
+#' Guess at which columns are year columns based on the range and type
+#'
+#' @param df A data frame with column names
+#' @param year_range RThe range to use for year column acceptance. All values
+#' in the column must be in this range
+#'
+#' @return A vector of column names, or NULL if no year columns were found
+#' @export
+year_cols <- function(df, year_range = 1800:4000){
+
+  col_is_year <- map2(df, names(df), ~{
+    if(is.numeric(.x)){
+      # Check that all values are in the year range and that they are integers
+      # even if the type has not been set to integer, i.e. `is.integer(.x)` fails
+      if(all(.x %in% year_range) && all(sapply(.x, `%%`, 1) == 0)){
+        .y
+      }
+    }
+  })
+  # Remove all NULLs from the list
+  col_is_year[sapply(col_is_year, is.null)] <- NULL
+  col_is_year <- col_is_year %>% map_chr(~{.x})
+  if(!length(col_is_year)){
+    return(NULL)
+  }
+  names(col_is_year) <- NULL
+  col_is_year
+}
+
+
 #' Wrapper for [getOption()] with the default set to FALSE
 #'
 #' @description Used to retrieve `TRUE` or `FALSE` for whether
