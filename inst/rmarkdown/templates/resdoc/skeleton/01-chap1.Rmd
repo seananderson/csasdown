@@ -212,6 +212,6 @@ flights %>%
 
 - _R Markdown_ Reference Guide - <https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf>
 
-- Introduction to `dplyr` - <https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html>
+- Introduction to `dplyr` - <https://cran.rstudio.com/web/packages/dplyr/vignettes/dplyr.html>
 
-- `ggplot2` Documentation - <http://docs.ggplot2.org/current/>
+- `ggplot2` Documentation - <https://ggplot2.tidyverse.org/reference/>
