@@ -5,6 +5,7 @@
 #' in the column must be in this range
 #'
 #' @return A vector of column names, or NULL if no year columns were found
+#' @importFrom dplyr %>%
 #' @export
 year_cols <- function(df, year_range = 1800:4000){
 
