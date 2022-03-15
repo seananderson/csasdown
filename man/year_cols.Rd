@@ -2,19 +2,19 @@
 % Please edit documentation in R/utils.R
 \name{year_cols}
 \alias{year_cols}
-\title{Guess at which columns are year columns based on the range and type}
+\title{Detect which columns are year columns based on the range and type}
 \usage{
 year_cols(df, year_range = 1800:4000)
 }
 \arguments{
 \item{df}{A data frame with column names}
 
-\item{year_range}{RThe range to use for year column acceptance. All values
+\item{year_range}{The range to use for year column acceptance. All values
 in the column must be in this range}
 }
 \value{
 A vector of column names, or NULL if no year columns were found
 }
 \description{
-Guess at which columns are year columns based on the range and type
+Detect which columns are year columns based on the range and type
 }
