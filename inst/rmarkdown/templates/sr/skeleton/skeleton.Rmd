@@ -101,8 +101,8 @@ options(kableExtra.latex.load_packages = FALSE)
 ```{r load-libraries, cache=FALSE}
 meta <- rmarkdown::metadata$output
 if (is.null(meta)) {
-  # This knitr chunk was run in R without running bookdown::render_book("index.Rmd")
-  # so the rmarkdown::meta data is not populated
+  # This knitr chunk has been run in R without running bookdown::render_book("index.Rmd")
+  # so rmarkdown::metadata$output is not populated
   options(french = FALSE)
 } else {
   if (length(grep("pdf", names(meta)))) {
