@@ -99,16 +99,19 @@ options(kableExtra.latex.load_packages = FALSE)
 ```
 
 ```{r load-libraries, cache=FALSE}
-# `french` and `prepub` variables are extracted from the YAML headers above and
-#  are used throughout the document. To make the document all in french, change
-#  the line in the YAML header above to `french: true`
 meta <- rmarkdown::metadata$output
-if (length(grep("pdf", names(meta)))) {
-  options(french = meta$`csasdown::sr_pdf`$french)
-  prepub <- meta$`csasdown::sr_pdf`$prepub
-} else if (length(grep("word", names(meta)))) {
-  options(french = meta$`csasdown::sr_word`$french)
-  prepub <- meta$`csasdown::sr_word`$prepub
+if (is.null(meta)) {
+  # This knitr chunk was run in R without running bookdown::render_book("index.Rmd")
+  # so the rmarkdown::meta data is not populated
+  options(french = FALSE)
+} else {
+  if (length(grep("pdf", names(meta)))) {
+    options(french = meta$`csasdown::sr_pdf`$french)
+    prepub <- meta$`csasdown::sr_pdf`$prepub
+  } else if (length(grep("word", names(meta)))) {
+    options(french = meta$`csasdown::sr_word`$french)
+    prepub <- meta$`csasdown::sr_word`$prepub
+  }
 }
 csl <- "csl/csas.csl"
 fr_toggle <- getOption("french")
