@@ -94,8 +94,14 @@ opts_chunk$set(
   fig.align = fig_align,
   fig.pos = fig_pos
 )
-options(xtable.comment = FALSE)
-options(kableExtra.latex.load_packages = FALSE)
+options(# Prevent xtable from adding a timestamp comment to the table code it produces
+        xtable.comment = FALSE,
+        # Don't allow kableExtra to load packages, we add them manually in csasdown
+        kableExtra.latex.load_packages = FALSE,
+        # Stop chunk output (echo) running into the margins
+        width = 80,
+        # Don't use scientific notation (stops tables from showing 1.2e3, etc.)
+        scipen = 999)
 ```
 
 ```{r load-libraries, cache=FALSE}
@@ -114,13 +120,12 @@ if (is.null(meta)) {
   }
 }
 csl <- "csl/csas.csl"
-fr_toggle <- getOption("french")
-if (is.null(fr_toggle)) {
-  stop("french toggle was not set up correctly in YAML header in index.Rmd. ",
+if (is.null(getOption("french"))) {
+  stop("`french` was not set up correctly in YAML header in index.Rmd. ",
        "It must be true or false",
        call. = FALSE)
 }
-if (fr_toggle) {
+if (getOption("french")) {
   csl <- "csl/csas-french.csl"
   options(OutDec = ",")
 }
