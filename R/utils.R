@@ -496,7 +496,7 @@ fix_envs <- function(x,
   ## Change csas-style to use the sty file found in csasdown repo
   g <- grep("csas-style", x)
 
-  ## Find beginning and end of the abstract text is it is not a Science Response document
+  ## Find beginning and end of the abstract text if it is not a Science Response document
   if (include_abstract) {
     abs_beg <- grep("begin_abstract_csasdown", x)
     abs_end <- grep("end_abstract_csasdown", x)

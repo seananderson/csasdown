@@ -4,6 +4,7 @@
 
 
 
+
 %% Move the footer position flush to the left margin (default is indented a bit)
 \usepackage[flushmargin, bottom]{footmisc}
 
@@ -310,20 +311,6 @@
   \addcontentsline{toc}{section}{ABSTRACT}\nonumsection*{ABSTRACT}
 }
 
-%% Make French abstract have entry in the table of contents
-\newcommand{\frenchabstract}[1]{
-  \clearpage
-  %% Make spacing between top of page and heading less.
-  \vspace*{-30\p@}
-  \phantomsection
-  \begin{center}
-    \Large \textbf{#1}
-  \end{center}
-  \vspace{-6mm}
-  %% Add the appendix name to the table of contents.
-  \addcontentsline{toc}{section}{R\'ESUM\'E}\nonumsection*{R\'ESUM\'E}
-}
-
 %% ------------------------------------------------------------------------------
 %% To add headers and footers to landscape pages
 \usepackage{everypage}
@@ -377,6 +364,19 @@
   \renewcommand{\footrulewidth}{0.4pt}
   \renewcommand{\headrulewidth}{0.4pt}
 }
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% Allows a box to be drawn around paragraphs with verbatim text (listing)
+%% Used for tagging paragraphs that need translation
+\usepackage{listings}
+\lstset{
+basicstyle=\small\ttfamily,
+columns=flexible,
+breaklines=true
+}
+
+\newsavebox{\userinput}
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
@@ -469,6 +469,9 @@
 %% Provides \ifthenelse and \isempty
 \usepackage{xifthen}
 \usepackage{color, colortbl}
+\makeatletter
+\def\zz{\edef\zzz{\pdfliteral{\current@color}}}%pdftex version
+\makeatother
 %% For dashed lines in tables
 \usepackage{arydshln}
 %% So paragraphs will have a blank line between them

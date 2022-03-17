@@ -1,40 +1,78 @@
-# INTRODUCTION
-
 <!-- An example of how to include text based on the language. The two chunks below shows how switching the toggle in the YAML header for french allows inclusion/rejection of a paragraph. -->
 
-```{r para-chap01-1-en, eval=!fr(), results = 'asis'}
-cat("Welcome to the R Markdown CSAS template. This template is based on (and in many places copied directly from) the huskydown R package, the thesisdown R package, and the CSAS LaTeX template. Hopefully it will provide a nicer interface for those that have never used TeX or LaTeX before. Using R Markdown will also allow you to easily keep track of your analyses in R chunks of code, with the resulting plots and output included as well. The hope is this R Markdown template gets you in the habit of doing reproducible research, which benefits you long-term as a researcher, but also will greatly help anyone that is trying to reproduce or build onto your results down the road.")
+```{r chap01-para-1-en, eval = !fr(), results = 'asis'}
+cat("# INTRODUCTION
+
+Welcome to the R Markdown CSAS template. This template is based on (and in many places copied directly from) the huskydown R package, the thesisdown R package, and the CSAS LaTeX template. Hopefully it will provide a nicer interface for those that have never used TeX or LaTeX before. Using R Markdown will also allow you to easily keep track of your analyses in R chunks of code, with the resulting plots and output included as well. The hope is this R Markdown template gets you in the habit of doing reproducible research, which benefits you long-term as a researcher, but also will greatly help anyone that is trying to reproduce or build onto your results down the road.")
+```
+```{r chap01-para-1-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
+cat("# INTRODUCTION
+
+Bienvenue au modèle R Markdown CSAS. Ce modèle est basé sur (et en de nombreux endroits copié directement de) le paquet R huskydown, le paquet R thesisdown et le modèle LaTeX du SCCS. Nous espérons qu'il fournira une interface plus agréable pour ceux qui n'ont jamais utilisé TeX ou LaTeX auparavant. L'utilisation de R Markdown vous permettra également de garder facilement la trace de vos analyses dans des morceaux de code R, avec les graphiques et les résultats qui en résultent inclus également. Nous espérons que ce modèle R Markdown vous permettra de prendre l'habitude de mener des recherches reproductibles, ce qui sera bénéfique à long terme pour vous en tant que chercheur, mais aussi pour tous ceux qui tenteront de reproduire ou d'exploiter vos résultats par la suite.
+
+Traduit avec www.DeepL.com/Translator (version gratuite)
+
+")
 ```
 
-```{r para-chap01-1-fr, eval=fr(), results = 'asis'}
-cat("(This is where you would place the French translation of the paragraph) Welcome to the R Markdown CSAS template. This template is based on (and in many places copied directly from) the huskydown R package, the thesisdown R package, and the CSAS LaTeX template. Hopefully it will provide a nicer interface for those that have never used TeX or LaTeX before. Using R Markdown will also allow you to easily keep track of your analyses in R chunks of code, with the resulting plots and output included as well. The hope is this R Markdown template gets you in the habit of doing reproducible research, which benefits you long-term as a researcher, but also will greatly help anyone that is trying to reproduce or build onto your results down the road.")
+```{r chap01-para-2-en, eval = !fr(), results = 'asis'}
+cat("Hopefully, you won't have much of a learning period to go through and you will reap the benefits of a nicely formatted CSAS Res Doc. The use of LaTeX in combination with Markdown is more consistent than the output of a word processor, much less prone to corruption or crashing, and the resulting file is smaller than a Word file. After working with Markdown and R together for a few weeks, we are confident this will be your reporting style of choice going forward.")
 ```
-
-Hopefully, you won't have much of a learning period to go through and you will reap the benefits of a nicely formatted CSAS Res Doc. The use of LaTeX in combination with Markdown is more consistent than the output of a word processor, much less prone to corruption or crashing, and the resulting file is smaller than a Word file. After working with Markdown and R together for a few weeks, we are confident this will be your reporting style of choice going forward.
+```{r chap01-para-2-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+cat("Hopefully, you won't have much of a learning period to go through and you will reap the benefits of a nicely formatted CSAS Res Doc. The use of LaTeX in combination with Markdown is more consistent than the output of a word processor, much less prone to corruption or crashing, and the resulting file is smaller than a Word file. After working with Markdown and R together for a few weeks, we are confident this will be your reporting style of choice going forward.")
+```
 
 <!--  If you're still on the fence about using R Markdown, check out the resource for newbies available at <https://ismayc.github.io/rbasics-book/>.-->
 
-## WHY USE IT?
+```{r chap01-para-3-en, eval = !fr(), results = 'asis'}
+cat("## WHY USE IT?
 
-R Markdown creates a simple and straightforward way to interface with the beauty of LaTeX.  Packages have been written in R to work directly with LaTeX to produce nicely formatting tables and paragraphs. In addition to creating a user friendly interface to LaTeX, R Markdown also allows you to read in your data, to analyze it and to visualize it using R functions, and also to provide the documentation and commentary on the results of your project.  Further, it allows for R results to be passed inline to the commentary of your results.  You'll see more on this later.
+R Markdown creates a simple and straightforward way to interface with the beauty of LaTeX.  Packages have been written in R to work directly with LaTeX to produce nicely formatting tables and paragraphs. In addition to creating a user friendly interface to LaTeX, R Markdown also allows you to read in your data, to analyze it and to visualize it using R functions, and also to provide the documentation and commentary on the results of your project.  Further, it allows for R results to be passed inline to the commentary of your results.  You'll see more on this later.")
+```
+```{r chap01-para-3-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
+cat("## POURQUOI L'UTILISER ?
+
+R Markdown crée un moyen simple et direct de s'interfacer avec la beauté de LaTeX.  Des paquets ont été écrits en R pour travailler directement avec LaTeX et produire des tableaux et des paragraphes joliment mis en forme. En plus de créer une interface conviviale avec LaTeX, R Markdown vous permet également de lire vos données, de les analyser et de les visualiser à l'aide de fonctions R, ainsi que de fournir la documentation et les commentaires sur les résultats de votre projet.  En outre, il permet de passer les résultats R en ligne dans le commentaire de vos résultats.  Vous en saurez plus à ce sujet plus tard.")
+```
 
 <!--  Having your code and commentary all together in one place has a plethora of benefits! -->
 
-## WHO SHOULD USE IT?
+```{r chap01-para-4-en, eval = !fr(), results = 'asis'}
+cat("## WHO SHOULD USE IT?
 
-Anyone who needs to use data analysis, math, tables, a lot of figures, complex cross-references, or who just cares about the final appearance of their document should use R Markdown. Of particular use should be anyone in the sciences, but the user-friendly nature of Markdown and its ability to keep track of and easily include figures, automatically generate a table of contents, index, references, table of figures, etc. should make it of great benefit to nearly anyone writing a CSAS Res Doc.
+Anyone who needs to use data analysis, math, tables, a lot of figures, complex cross-references, or who just cares about the final appearance of their document should use R Markdown. Of particular use should be anyone in the sciences, but the user-friendly nature of Markdown and its ability to keep track of and easily include figures, automatically generate a table of contents, index, references, table of figures, etc. should make it of great benefit to nearly anyone writing a CSAS Res Doc.")
+```
+```{r chap01-para-4-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
+cat("## QUI DEVRAIT L'UTILISER?
+
+Toute personne qui a besoin d'utiliser l'analyse de données, les mathématiques, les tableaux, un grand nombre de figures, des références croisées complexes, ou qui se soucie simplement de l'apparence finale de son document devrait utiliser R Markdown. Les personnes travaillant dans le domaine des sciences devraient être particulièrement intéressées, mais la nature conviviale de Markdown et sa capacité à garder la trace des figures et à les inclure facilement, à générer automatiquement une table des matières, un index, des références, une table des figures, etc. devrait être très utile à presque tous ceux qui rédigent un document de recherche du SCCS.")
+```
 
 <!--
 The {#rmd-basics} text after the chapter declaration will allow us to link throughout the document back to the beginning of Chapter 1.  These labels will automatically be generated (if not specified) by changing the spaces to hyphens and capital letters to lowercase.  Look for the reference to this label at the beginning of Chapter 2.
 -->
 
-# R MARKDOWN BASICS {#rmd-basics}
 
-Here is a brief introduction into using _R Markdown_. _Markdown_ is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. _R Markdown_ provides the flexibility of _Markdown_ with the implementation of **R** input and output.  For more details on using _R Markdown_ see <http://rmarkdown.rstudio.com>.
+```{r chap01-para-5-en, eval = !fr(), results = 'asis'}
+cat("# R MARKDOWN BASICS {#rmd-basics}
 
-Be careful with your spacing in _Markdown_ documents.  While whitespace largely is ignored, it does at times give _Markdown_ signals as to how to proceed.  As a habit, try to keep everything left aligned whenever possible, especially as you type a new paragraph.  In other words, there is no need to indent basic text in the Rmd document (in fact, it might cause your text to do funny things if you do).
+Here is a brief introduction into using _R Markdown_. _Markdown_ is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. _R Markdown_ provides the flexibility of _Markdown_ with the implementation of **R** input and output.  For more details on using _R Markdown_ see <http://rmarkdown.rstudio.com>.")
+```
+```{r chap01-para-5-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
+cat("# LES BASES DU R MARKDOWN {#rmd-basics}
 
-## LISTS
+Voici une brève introduction à l'utilisation de _R Markdown_. _Markdown_ est une syntaxe de formatage simple pour la création de documents HTML, PDF et MS Word. _R Markdown_ offre la flexibilité de _Markdown_ avec l'implémentation de **R** en entrée et en sortie.  Pour plus de détails sur l'utilisation de _R Markdown_, voir <http://rmarkdown.rstudio.com>.")
+```
+
+```{r chap01-para-6-en, eval = !fr(), results = 'asis'}
+cat("Be careful with your spacing in _Markdown_ documents.  While whitespace largely is ignored, it does at times give _Markdown_ signals as to how to proceed.  As a habit, try to keep everything left aligned whenever possible, especially as you type a new paragraph.  In other words, there is no need to indent basic text in the Rmd document (in fact, it might cause your text to do funny things if you do).")
+```
+```{r chap01-para-6-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+cat("Be careful with your spacing in _Markdown_ documents.  While whitespace largely is ignored, it does at times give _Markdown_ signals as to how to proceed.  As a habit, try to keep everything left aligned whenever possible, especially as you type a new paragraph.  In other words, there is no need to indent basic text in the Rmd document (in fact, it might cause your text to do funny things if you do).")
+```
+
+```{r chap01-para-7-en, eval = !fr(), results = 'asis'}
+cat("## LISTS
 
 CSAS allows ordered lists:
 
@@ -61,9 +99,41 @@ To create sublists, just indent the values a bit (at least three spaces) and mak
       i. Item 3biv
       i. Item 3bv
          1. Item 3bv1
-         1. Item 3bv2
+         1. Item 3bv2")
+```
+```{r chap01-para-7-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+cat("## LISTS
 
-## LINE BREAKS
+CSAS allows ordered lists:
+
+1. Item 1
+4. Item 2
+
+and bulleted lists:
+
+- Item 1
+- Item 2
+
+Notice in the ordered list that I intentionally mislabeled Item 2 as number 4.  _Markdown_ automatically figures this out!  You can put any numbers in the list and it will create the list.  Check it out below.
+
+To create sublists, just indent the values a bit (at least three spaces) and make sure there are no newlines between the items. (Here's one case where indentation is key!)
+
+1. Item 1
+1. Item 2
+1. Item 3
+   a. Item 3a
+   a. Item 3b
+      i. Item 3bi
+      i. Item 3bii
+      i. Item 3biii
+      i. Item 3biv
+      i. Item 3bv
+         1. Item 3bv1
+         1. Item 3bv2")
+```
+
+```{r chap01-para-8-en, eval = !fr(), results = 'asis'}
+cat("## LINE BREAKS
 
 Make sure to add white space between lines if you'd like to start a new paragraph.  Look at what happens below in the outputted document if you don't:
 
@@ -74,83 +144,185 @@ This should be a new paragraph.
 
 Here is the first sentence.  Here is another sentence.  Here is the last sentence to end the paragraph.
 
-This should be a new paragraph.
+This should be a new paragraph.")
+```
+```{r chap01-para-8-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
+cat("## COUPURES DE LIGNE
 
-## R CHUNKS
+Veillez à ajouter des espaces blancs entre les lignes si vous souhaitez commencer un nouveau paragraphe.  Regardez ce qui se passe ci-dessous dans le document édité si vous ne le faites pas :
 
-When you click the **Knit** button above a document will be generated that includes both content as well as the output of any embedded **R** code chunks within the document. You can embed an **R** code chunk like this (`cars` is a built-in **R** dataset):
+Voici la première phrase.  Voici une autre phrase.  Voici la dernière phrase pour terminer le paragraphe.
+Ceci devrait être un nouveau paragraphe.
+
+*Maintenant pour la manière correcte:*
+
+Voici la première phrase.  Voici une autre phrase.  Voici la dernière phrase pour terminer le paragraphe.
+
+Ceci devrait être un nouveau paragraphe.")
+```
+
+```{r chap01-para-9-en, eval = !fr(), results = 'asis'}
+cat("## R CHUNKS
+
+When you click the **Knit** button above a document will be generated that includes both content as well as the output of any embedded **R** code chunks within the document. You can embed an **R** code chunk like this (`cars` is a built-in **R** dataset):")
+```
+```{r chap01-para-9-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+cat("## R CHUNKS
+
+When you click the **Knit** button above a document will be generated that includes both content as well as the output of any embedded **R** code chunks within the document. You can embed an **R** code chunk like this (`cars` is a built-in **R** dataset):")
+```
 
 ```{r cars}
 summary(cars)
 ```
 
-## INLINE CODE
+```{r chap01-para-10-en, eval = !fr(), results = 'asis'}
+cat("## INLINE CODE
 
-If you'd like to put the results of your analysis directly into your discussion, add inline code like this:
+If you'd like to put the results of your analysis directly into your discussion, add inline code like this:")
+```
+```{r chap01-para-10-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
+cat("## CODE NLINE
+
+Si vous souhaitez intégrer les résultats de votre analyse directement dans votre discussion, ajoutez un code en ligne comme celui-ci:")
+```
 
 > The `cos` of $2 \pi$ is `r cos(2*pi)`.
 
-Another example would be the direct calculation of the standard deviation:
+```{r chap01-para-11-en, eval = !fr(), results = 'asis'}
+cat("Another example would be the direct calculation of the standard deviation:")
+```
+```{r chap01-para-11-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+cat("Another example would be the direct calculation of the standard deviation:")
+```
 
 > The standard deviation of `speed` in `cars` is `r sd(cars$speed)`.
 
-One last neat feature is the use of the `ifelse` conditional statement which can be used to output text depending on the result of an **R** calculation:
+```{r chap01-para-12-en, eval = !fr(), results = 'asis'}
+cat("One last neat feature is the use of the `ifelse` conditional statement which can be used to output text depending on the result of an **R** calculation:")
+```
+```{r chap01-para-12-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+cat("One last neat feature is the use of the `ifelse` conditional statement which can be used to output text depending on the result of an **R** calculation:")
+```
 
 > `r ifelse(sd(cars$speed) < 6, "The standard deviation is less than 6.", "The standard deviation is equal to or greater than 6.")`
 
-Note the use of `>` here, which signifies a quotation environment that will be indented.
+```{r chap01-para-13-en, eval = !fr(), results = 'asis'}
+cat("Note the use of `>` here, which signifies a quotation environment that will be indented.
 
-As you see with `$2 \pi$` above, mathematics can be added by surrounding the mathematical text with dollar signs.  More examples of this are in [Mathematics and Science] if you uncomment the code in [Math].
+As you see with `$2 \\pi$` above, mathematics can be added by surrounding the mathematical text with dollar signs.  More examples of this are in [Mathematics and Science] if you uncomment the code in [Math].")
+```
+```{r chap01-para-13-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+cat("Note the use of `>` here, which signifies a quotation environment that will be indented.
 
-## INCLUDING PLOTS
+As you see with `$2 \\pi$` above, mathematics can be added by surrounding the mathematical text with dollar signs.  More examples of this are in [Mathematics and Science] if you uncomment the code in [Math].")
+```
 
-You can also embed plots.  For example, here is a way to use the base **R** graphics package to produce a plot using the built-in `pressure` dataset:
+```{r chap01-para-14-en, eval = !fr(), results = 'asis'}
+cat("## INCLUDING PLOTS
+
+You can also embed plots.  For example, here is a way to use the base **R** graphics package to produce a plot using the built-in `pressure` dataset:")
+```
+```{r chap01-para-14-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
+cat("## Y COMPRIS LES PARCELLES
+    
+Vous pouvez également intégrer des graphiques.  Par exemple, voici une façon d'utiliser le paquet graphique **R** de base pour produire un graphique en utilisant le jeu de données intégré `pressure`:")
+```
 
 ```{r pressure, echo=FALSE, cache=TRUE}
 plot(pressure)
 ```
 
-Note that the `echo=FALSE` parameter was added to the code chunk to prevent printing of the **R** code that generated the plot.  There are plenty of other ways to add chunk options.  More information is available at <http://yihui.name/knitr/options/>.
+```{r chap01-para-15-en, eval = !fr(), results = 'asis'}
+cat("Note that the `echo=FALSE` parameter was added to the code chunk to prevent printing of the **R** code that generated the plot.  There are plenty of other ways to add chunk options.  More information is available at <http://yihui.name/knitr/options/>.
 
-Another useful chunk option is the setting of `cache=TRUE` as you see here.  If document rendering becomes time consuming due to long computations or plots that are expensive to generate you can use knitr caching to improve performance.  Later in this file, you'll see a way to reference plots created in **R** or external figures.
+Another useful chunk option is the setting of `cache=TRUE` as you see here.  If document rendering becomes time consuming due to long computations or plots that are expensive to generate you can use knitr caching to improve performance.  Later in this file, you'll see a way to reference plots created in **R** or external figures.")
+```
+```{r chap01-para-15-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+cat("Note that the `echo=FALSE` parameter was added to the code chunk to prevent printing of the **R** code that generated the plot.  There are plenty of other ways to add chunk options.  More information is available at <http://yihui.name/knitr/options/>.
 
-## LOADING AND EXPLORING DATA
+Another useful chunk option is the setting of `cache=TRUE` as you see here.  If document rendering becomes time consuming due to long computations or plots that are expensive to generate you can use knitr caching to improve performance.  Later in this file, you'll see a way to reference plots created in **R** or external figures.")
+```
+
+```{r chap01-para-16-en, eval = !fr(), results = 'asis'}
+cat("## LOADING AND EXPLORING DATA
 
 Included in this template is a file called `flights.csv`.  This file includes a subset of the larger dataset of information about all flights that departed from Seattle and Portland in 2014.  More information about this dataset and its **R** package is available at <http://github.com/ismayc/pnwflights14>.  This subset includes only Portland flights and only rows that were complete with no missing values.  Merges were also done with the `airports` and `airlines` data sets in the `pnwflights14` package to get more descriptive airport and airline names.
 
-\  
+\\
 
-We can load in this data set using the following command (`read_csv()` is from the package `readr`):
+We can load in this data set using the following command (`read_csv()` is from the package `readr`):")
+```
+```{r chap01-para-16-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+cat("## LOADING AND EXPLORING DATA
+
+Included in this template is a file called `flights.csv`.  This file includes a subset of the larger dataset of information about all flights that departed from Seattle and Portland in 2014.  More information about this dataset and its **R** package is available at <http://github.com/ismayc/pnwflights14>.  This subset includes only Portland flights and only rows that were complete with no missing values.  Merges were also done with the `airports` and `airlines` data sets in the `pnwflights14` package to get more descriptive airport and airline names.
+
+\\
+
+We can load in this data set using the following command (`read_csv()` is from the package `readr`):")
+```
+
 ```{r load_data, echo=TRUE}
 flights <- read_csv(file.path("data", "flights.csv"))
 ```  
 
-\  
+```{r chap01-para-17-en, eval = !fr(), results = 'asis'}
+cat("\\
 
 *Before we continue, note that to insert extra blank lines in text as we did above and below, we need to have a line with a backslash followed by two spaces. Look carefully at those lines in the code editor.*
 
-\  
+\\  
 
 All your tabular data should be in `.csv` files and placed in the `data` directory. The function `here::here()` should always be used when loading data into the project because it will prepend the full root directory of the project onto the directories and files inside the call. This gives consistent file structure access across multiple machines and platforms.
 
-The data is now stored in the data frame called `flights` in **R**.  To get a better feel for the variables included in this dataset we can use a variety of functions.  Here we can see the dimensions (rows by columns) and also the names of the columns.
+The data is now stored in the data frame called `flights` in **R**.  To get a better feel for the variables included in this dataset we can use a variety of functions.  Here we can see the dimensions (rows by columns) and also the names of the columns.")
+```
+```{r chap01-para-17-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+cat("\\
+
+*Before we continue, note that to insert extra blank lines in text as we did above and below, we need to have a line with a backslash followed by two spaces. Look carefully at those lines in the code editor.*
+
+\\  
+
+All your tabular data should be in `.csv` files and placed in the `data` directory. The function `here::here()` should always be used when loading data into the project because it will prepend the full root directory of the project onto the directories and files inside the call. This gives consistent file structure access across multiple machines and platforms.
+
+The data is now stored in the data frame called `flights` in **R**.  To get a better feel for the variables included in this dataset we can use a variety of functions.  Here we can see the dimensions (rows by columns) and also the names of the columns.")
+```
+
 
 ```{r str}
 dim(flights)
 names(flights)
 ```
-\  
+```{r chap01-para-18-en, eval = !fr(), results = 'asis'}
+cat("\\  
 
 Another good idea is to take a look at the dataset in table form.  With this dataset having more than 50,000 rows, we won't explicitly show the results of the command here.  I recommend you enter the command into the Console **_after_** you have run the **R** chunks above to load the data into **R**. To do that, you can use the command `View(flights)`.
 
-A simple and effective way to see the entire structure in one call is to use the `glimpse()` command like this:
+A simple and effective way to see the entire structure in one call is to use the `glimpse()` command like this:")
+```
+```{r chap01-para-18-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+cat("\\  
+
+Another good idea is to take a look at the dataset in table form.  With this dataset having more than 50,000 rows, we won't explicitly show the results of the command here.  I recommend you enter the command into the Console **_after_** you have run the **R** chunks above to load the data into **R**. To do that, you can use the command `View(flights)`.
+
+A simple and effective way to see the entire structure in one call is to use the `glimpse()` command like this:")
+```
 ```{r glimpse_flights, echo = TRUE}
 glimpse(flights)
 ```
 
-While not required, it is highly recommended you use the `dplyr` package to manipulate and summarize your data set as needed.  It uses a syntax that is easy to understand using chaining operations.  Below I've created a few examples of using `dplyr` to get information about the Portland flights in 2014.  You will also see the use of the `ggplot2` package, which produces beautiful, high-quality academic visuals.
+```{r chap01-para-19-en, eval = !fr(), results = 'asis'}
+cat("While not required, it is highly recommended you use the `dplyr` package to manipulate and summarize your data set as needed.  It uses a syntax that is easy to understand using chaining operations.  Below I've created a few examples of using `dplyr` to get information about the Portland flights in 2014.  You will also see the use of the `ggplot2` package, which produces beautiful, high-quality academic visuals.
 
-We begin by checking to ensure that needed packages are installed and then we load them into our current working environment:
+We begin by checking to ensure that needed packages are installed and then we load them into our current working environment:")
+```
+```{r chap01-para-19-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
+cat("Bien que cela ne soit pas obligatoire, il est fortement recommandé d'utiliser le paquet `dplyr` pour manipuler et résumer votre ensemble de données selon vos besoins.  Il utilise une syntaxe facile à comprendre en utilisant des opérations de chaînage.  J'ai créé ci-dessous quelques exemples d'utilisation de `dplyr` pour obtenir des informations sur les vols de Portland en 2014.  Vous verrez également l'utilisation du paquet `ggplot2`, qui produit de beaux visuels académiques de haute qualité.
+
+Nous commençons par vérifier que les paquets nécessaires sont installés, puis nous les chargeons dans notre environnement de travail actuel :")
+```
 
 ```{r load_pkgs, message=FALSE, echo=TRUE}
 # List of packages required for this analysis
@@ -168,11 +340,20 @@ library(csasdown)
 
 \clearpage
 
-The example we show here does the following:
+```{r chap01-para-20-en, eval = !fr(), results = 'asis'}
+cat("The example we show here does the following:
 
 - Selects only the `carrier_name` and `arr_delay` from the `flights` dataset and then assigns this subset to a new variable called `flights2`.
 
-- Using `flights2`, we determine the largest arrival delay for each of the carriers.
+- Using `flights2`, we determine the largest arrival delay for each of the carriers.")
+```
+```{r chap01-para-20-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+cat("The example we show here does the following:
+
+- Selects only the `carrier_name` and `arr_delay` from the `flights` dataset and then assigns this subset to a new variable called `flights2`.
+
+- Using `flights2`, we determine the largest arrival delay for each of the carriers.")
+```
 
 ```{r max_delays}
 library(dplyr)
@@ -183,11 +364,18 @@ max_delays <- flights2 %>%
   summarize(max_arr_delay = max(arr_delay, na.rm = TRUE))
 ```
 
-A useful function in the `knitr` package for making nice tables in _R Markdown_ is called `kable`.  It is much easier to use than manually entering values into a table by copying and pasting values into Excel or LaTeX.  This again goes to show how nice reproducible documents can be! (Note the use of `results="asis"`, which will produce the table instead of the code to create the table.)  The `caption.short` argument is used to include a shorter title to appear in the List of Tables.
+```{r chap01-para-21-en, eval = !fr(), results = 'asis'}
+cat("A useful function in the `knitr` package for making nice tables in _R Markdown_ is called `kable`.  It is much easier to use than manually entering values into a table by copying and pasting values into Excel or LaTeX.  This again goes to show how nice reproducible documents can be! (Note the use of `results = 'asis'`, which will produce the table instead of the code to create the table.)  The `caption.short` argument is used to include a shorter title to appear in the List of Tables.
 
-Within CSAS you should use the function `csasdown::csas_table()` instead. It just calls the function `kable()`, but it adds some default argument values that will make the tables render correctly in both LaTeX and in Word documents.
+Within CSAS you should use the function `csasdown::csas_table()` instead. It just calls the function `kable()`, but it adds some default argument values that will make the tables render correctly in both LaTeX and in Word documents.")
+```
+```{r chap01-para-21-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+cat("A useful function in the `knitr` package for making nice tables in _R Markdown_ is called `kable`.  It is much easier to use than manually entering values into a table by copying and pasting values into Excel or LaTeX.  This again goes to show how nice reproducible documents can be! (Note the use of `results = 'asis'`, which will produce the table instead of the code to create the table.)  The `caption.short` argument is used to include a shorter title to appear in the List of Tables.
 
-```{r maxdelays, results="asis"}
+Within CSAS you should use the function `csasdown::csas_table()` instead. It just calls the function `kable()`, but it adds some default argument values that will make the tables render correctly in both LaTeX and in Word documents.")
+```
+
+```{r maxdelays, results = 'asis'}
 library(knitr)
 csas_table(max_delays,
   col.names = c("Airline", "Max Arrival Delay"),
@@ -195,9 +383,16 @@ csas_table(max_delays,
 )
 ```
 
-The last two options make the table a little easier-to-read.
+```{r chap01-para-22-en, eval = !fr(), results = 'asis'}
+cat("The last two options make the table a little easier-to-read.
 
-Let's make a plot of the data:
+Let's make a plot of the data:")
+```
+```{r chap01-para-22-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
+cat("Les deux dernières options rendent le tableau un peu plus facile à lire.
+
+Faisons un graphique des données :")
+```
 
 ```{r march3plot, fig.height=3, fig.width=6, fig.cap="My caption."}
 library(ggplot2)
@@ -206,7 +401,12 @@ flights %>%
   geom_point()
 ```
 
-## ADDITIONAL RESOURCES
+```{r chap01-para-23-en, eval = !fr(), results = 'asis'}
+cat("## ADDITIONAL RESOURCES")
+```
+```{r chap01-para-23-fr, eval = !fr(), results = 'asis', needs_trans = FALSE}
+cat("## RESSOURCES SUPPLÉMENTAIRES")
+```
 
 - _Markdown_ Cheatsheet - <https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet>
 
