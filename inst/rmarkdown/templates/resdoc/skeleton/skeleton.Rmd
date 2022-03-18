@@ -146,21 +146,21 @@ if (getOption("french")) {
 # This hook simplifies document translation for the author.
 # When building in French, it draws a box around paragraphs contained in chunks
 #  which have the option `needs_trans = TRUE`. It also labels
-#  the box with a 'Needs translation' tag in red.
+#  the box with a 'Needs translation' tag in red and the chunk label in blue.
 # You need to change the `needs_trans` option to `FALSE` for a chunk once you
 #  have inserted the translated text into it. You will get a utf-8 error if
 #  you leave it as `TRUE` and there is French in the chunk.
-#  This assumes you are translating from English to French.
+#  This function assumes you are translating from English to French.
 #  If you wrote your document in French and want to translate to English,
 #  put a ! before `getOption("french")` below and add the `need_trans`
 #  chunk options to your English paragraph chunks instead of the French ones.
 #  
 #  IMPORTANT NOTES
-#  - You must use double backslashes in the chunks encapsulated by the 'cat()'
-#  function. So anywhere you would normally use a single backslash, use double.
-#  Examples are \@ref() becomes \\@ref(), \pi becomes \\pi
+#  - You must use double backslashes in all paragraph chunks, so anywhere you
+#    would normally use a single backslash, use two backslashes.
+#    Examples are \@ref() which needs to be \\@ref() and \pi which must now be \\pi.
 #  - French latex places a space before the colon by default so if you need a colon
-#  with no space before it, use \\hc .
+#    with no space before it, use \\hc .
 knit_hooks$set(needs_trans = function(before, options){
   if(getOption("french") && options$needs_trans){
     if (before){

@@ -1,4 +1,20 @@
-<!-- An example of how to include text based on the language. The two chunks below shows how switching the toggle in the YAML header for french allows inclusion/rejection of a paragraph. -->
+<!--
+Here is an example of how to include text based on the language. The two chunks below shows how switching the toggle in the YAML header for french allows inclusion/rejection of a paragraph.
+
+The eval chunk option is set to `TRUE` if the YAML header has been set for `french` and `FALSE` if set for English.
+The `needs_trans` chunk option is passed via a knitr hook found in index.Rmd and tells that function
+to create some markup for the paragraph showing that it still needs translation. Once the French translation is
+added, `needs_trans` must be set to `FALSE` to make csasdown apply regular document typesetting to the
+paragraph.
+
+If `needs_trans` is `TRUE`, a reference is placed inside the French chunk which just prints out the contents
+of the English chunk.
+When the French translation is added, that reference must be removed. See the paragraph that follow this
+one for an example. It looks like this: <<chap01-para-2-en>>
+
+If you keep this structure from the beginning while writing your document, it will be very easy to add the
+French at the end. Don't add any French until you have gone through peer review and made all final changes.
+-->
 
 ```{r chap01-para-1-en, eval = !fr(), results = 'asis'}
 cat("# INTRODUCTION
