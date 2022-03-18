@@ -54,27 +54,12 @@ catize <- function(str, verbose = FALSE){
   noquote(out)
 }
 
-#' Redefines the `[base::cat()]` function so there is no separator
+#' Wrapper for the `[base::cat()]` function so there is no separator
 #'
 #' @inheritParams base::cat
 #' @export
-b <- function (...,
-               file = "",
-               sep = "",
-               fill = FALSE,
-               labels = NULL,
-               append = FALSE) {
-  if (is.character(file))
-    if (file == "")
-      file <- stdout()
-  else if (startsWith(file, "|")) {
-    file <- pipe(substring(file, 2L), "w")
-    on.exit(close(file))
-  } else {
-    file <- file(file, ifelse(append, "a", "w"))
-    on.exit(close(file))
-  }
-  .Internal(cat(list(...), file, sep, fill, labels, append))
+b <- function (...) {
+  cat(..., sep = "")
 }
 
 #' Detect which columns are year columns based on the range and type
