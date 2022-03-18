@@ -45,7 +45,7 @@ Table: (\#tab:inher) Correlation of Inheritance Factors for Parents and Child
 cat("We can also create a link to the table by doing the following: Table \\@ref(tab:inher).  If you go back to [Loading and exploring data] and look at the `kable` table, we can create a reference to this max delays table too: Table \\@ref(tab:maxdelays). The addition of the `(\\#tab:inher)` option to the end of the table caption allows us to then make a reference to Table `\\@ref(tab:label)`. Note that this reference could appear anywhere throughout the document after the table has appeared.")
 ```
 ```{r chap03-para-2-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
-cat("We can also create a link to the table by doing the following: Table \\@ref(tab:inher).  If you go back to [Loading and exploring data] and look at the `kable` table, we can create a reference to this max delays table too: Table \\@ref(tab:maxdelays). The addition of the `(\\#tab:inher)` option to the end of the table caption allows us to then make a reference to Table `\\@ref(tab:label)`. Note that this reference could appear anywhere throughout the document after the table has appeared.")
+<<chap03-para-2-en>>
 ```
 
 \clearpage
@@ -77,9 +77,7 @@ cat("## FIGURES
 If your report has a lot of figures, _R Markdown_ might behave better for you than that other word processor. One perk is that it will automatically number the figures accordingly in each chapter. You'll also be able to create a label for each figure, add a caption, and then reference the figure in a way similar to what we saw with tables earlier.  If you label your figures, you can move the figures around and _R Markdown_ will automatically adjust the numbering for you.  No need for you to remember!  So that you don't have to get too far into LaTeX to do this, a couple R functions have been created for you to assist.  You'll see their use below.")
 ```
 ```{r chap03-para-3-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
-cat("## FIGURES
-
-If your report has a lot of figures, _R Markdown_ might behave better for you than that other word processor. One perk is that it will automatically number the figures accordingly in each chapter. You'll also be able to create a label for each figure, add a caption, and then reference the figure in a way similar to what we saw with tables earlier.  If you label your figures, you can move the figures around and _R Markdown_ will automatically adjust the numbering for you.  No need for you to remember!  So that you don't have to get too far into LaTeX to do this, a couple R functions have been created for you to assist.  You'll see their use below.")
+<<chap03-para-3-en>>
 ```
 
 <!--
@@ -92,7 +90,7 @@ If you need a graphic or tabular material to be part of the text, you can just p
 cat("In the R chunk below, we will load in a picture stored as `uw.png` in our main directory.  We then give it the caption of 'UW logo', the label of 'uwlogo', and specify that this is a figure.  Make note of the different R chunk options that are given in the R Markdown file (not shown in the knitted document).")
 ```
 ```{r chap03-para-4-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
-cat("In the R chunk below, we will load in a picture stored as `uw.png` in our main directory.  We then give it the caption of 'UW logo', the label of 'uwlogo', and specify that this is a figure.  Make note of the different R chunk options that are given in the R Markdown file (not shown in the knitted document).")
+<<chap03-para-4-en>>
 ```
 
 ```{r example-fig, fig.cap="My caption"}
@@ -114,7 +112,7 @@ cat("Voici une référence à la figure : Figure \\@ref(fig:example-fig).  Notez
 cat("Below we will investigate how to save the output of an R plot and label it in a way similar to that done above.  Recall the `flights` dataset from Section \\@ref(rmd-basics).  (Note that we've shown a different way to reference a section here.)  We will next explore a bar graph with the mean flight departure delays by airline from Portland for 2014.  Note also the use of the `scale` parameter which is discussed on the next page.")
 ```
 ```{r chap03-para-6-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
-cat("Below we will investigate how to save the output of an R plot and label it in a way similar to that done above.  Recall the `flights` dataset from Section \\@ref(rmd-basics).  (Note that we've shown a different way to reference a section here.)  We will next explore a bar graph with the mean flight departure delays by airline from Portland for 2014.  Note also the use of the `scale` parameter which is discussed on the next page.")
+<<chap03-para-6-en>>
 ```
 
 ```{r delaysboxplot, warnings=FALSE, messages=FALSE, fig.cap="Mean Delays by Airline", fig.width=6}
@@ -130,9 +128,7 @@ cat("Here is a reference to this image: Figure \\@ref(fig:delaysboxplot).
 A table linking these carrier codes to airline names is available at: <https://github.com/ismayc/pnwflights14/blob/master/data/airlines.csv>.")
 ```
 ```{r chap03-para-7-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
-cat("Here is a reference to this image: Figure \\@ref(fig:delaysboxplot).
-
-A table linking these carrier codes to airline names is available at: <https://github.com/ismayc/pnwflights14/blob/master/data/airlines.csv>.")
+<<chap03-para-7-en>>
 ```
 
 \clearpage
@@ -170,7 +166,7 @@ cat("R Markdown utilise pandoc (<http://pandoc.org/>) pour construire ses biblio
 cat("For more information about BibTeX and bibliographies, see (<http://web.reed.edu/cis/help/latex/index.html>). There are three pages on this topic:  _bibtex_ (which talks about using BibTeX, at <http://web.reed.edu/cis/help/latex/bibtex.html>), _bibtexstyles_ (about how to find and use the bibliography style that best suits your needs, at <http://web.reed.edu/cis/help/latex/bibtexstyles.html>) and _bibman_ (which covers how to make and maintain a bibliography by hand, without BibTeX, at <http://web.reed.edu/cis/help/latex/bibman.html>). The last page will not be useful unless you have only a few sources.")
 ```
 ```{r chap03-para-11-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
-cat("For more information about BibTeX and bibliographies, see (<http://web.reed.edu/cis/help/latex/index.html>). There are three pages on this topic:  _bibtex_ (which talks about using BibTeX, at <http://web.reed.edu/cis/help/latex/bibtex.html>), _bibtexstyles_ (about how to find and use the bibliography style that best suits your needs, at <http://web.reed.edu/cis/help/latex/bibtexstyles.html>) and _bibman_ (which covers how to make and maintain a bibliography by hand, without BibTeX, at <http://web.reed.edu/cis/help/latex/bibman.html>). The last page will not be useful unless you have only a few sources.")
+<<chap03-para-11-en>>
 ```
 
 ```{r chap03-para-12-en, eval = !fr(), results = 'asis'}
