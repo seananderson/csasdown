@@ -1,3 +1,82 @@
+#' Reformat the supplied string so that inline code chunks
+#' are replaced with the format used in commands such as [cat()]
+#' and [paste()] which is a series of comma-separated strings
+#' and R objects. Use this function to reformat strings from
+#' rmarkdown to something that can be copy/pasted into a
+#' b("") command inside a knitr chunk.
+#'
+#' @param str The string containing inline knitr-style R code
+#' (backtick-enclosed)
+#'
+#' @return A non-quoted (see [noquote()] string) which can be
+#' enclosed with double-quotes and copy/pasted into a [cat()]
+#' or [paste()] command
+#'
+#' @importFrom stringr str_split str_extract_all
+#' @export
+catize <- function(str, verbose = FALSE){
+
+  # pattern is the knitr regexp, see $md section,
+  # ..$ inline.code: chr "`r[ #]([^`]+)\\s*`" line here:
+  # https://rdrr.io/cran/knitr/man/knit_patterns.html
+  # if(str == ""){
+  #   return(str)
+  # }
+  pattern <- "`r[ #][^`]+\\s*`"
+  txt <- str_split(str, pattern)[[1]]
+  code <- str_extract_all(str, pattern)[[1]]
+  if(verbose){
+    message("txt:")
+    print(txt)
+    message("code:")
+    print(code)
+    cat("\n")
+  }
+  if(!length(code)){
+    return(str)
+  }
+  if(length(txt) != length(code) + 1){
+    stop("The string did not split up correctly when splitting on backtick-surrounded inline R code")
+  }
+  # Extract R code(s)
+  code <- gsub("^`r ", "", code)
+  code <- gsub("`$", "", code)
+  if(length(txt) == 2 && txt[1] == "" && txt[2] == ""){
+    return(code)
+  }
+  # Paste the string back together
+  out <- map2(txt[-length(txt)], code, ~{
+    paste0(.x, '", ', .y, ', "')
+  })
+  out <- map_chr(out, ~{.x})
+  out <- paste(out, collapse = "")
+  out <- paste0(out, txt[length(txt)])
+  noquote(out)
+}
+
+#' Redefines the `[base::cat()]` function so there is no separator
+#'
+#' @inheritParams base::cat
+#' @export
+b <- function (...,
+               file = "",
+               sep = "",
+               fill = FALSE,
+               labels = NULL,
+               append = FALSE) {
+  if (is.character(file))
+    if (file == "")
+      file <- stdout()
+  else if (startsWith(file, "|")) {
+    file <- pipe(substring(file, 2L), "w")
+    on.exit(close(file))
+  } else {
+    file <- file(file, ifelse(append, "a", "w"))
+    on.exit(close(file))
+  }
+  .Internal(cat(list(...), file, sep, fill, labels, append))
+}
+
 #' Detect which columns are year columns based on the range and type
 #'
 #' @param df A data frame with column names
