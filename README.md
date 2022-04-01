@@ -82,6 +82,7 @@ Look on your GitHub repository and you should see all the new files there. Your 
 DFO. 2021. Stock status update with application of management procedures for
 Pacific Herring (*Clupea pallasii*) in British Columbia:
 Status in 2021 and forecast for 2022.
+DFO Can. Sci. Advis. Sec. Sci. Resp. 2021/039.
 [[English](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_039-eng.html)]
 [[French](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_039-fra.html)]
 [[GitHub](https://github.com/pbs-assess/herringsr)]
