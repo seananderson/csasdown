@@ -1,12 +1,10 @@
 # Sources of information
 
-Optional for regular Science Responses, and mandatory for Stock Status Updates as these must include the citation for the peer-reviewed Science Advisory Report.
+<!-- This is an optional section -->
 
-<!-- If including references: -->
-\noindent
-\vspace{-2em}
-\setlength{\parindent}{-0.2in}
-\setlength{\leftskip}{0.2in}
-\setlength{\parskip}{8pt}
+<div id="refs"></div>
 
-\clearpage
+<!-- Required for proper indentation in following sections -->
+\setlength{\parindent}{0in} 
+\setlength{\leftskip}{0in} 
+\setlength{\parskip}{4pt}

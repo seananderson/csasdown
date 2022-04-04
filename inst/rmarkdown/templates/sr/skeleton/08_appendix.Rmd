@@ -1,0 +1,5 @@
+# Appendix
+
+This is an optional section.
+If present, the appendix comes between
+"Sources of information" and "This reports is available from the."
