@@ -13,3 +13,4 @@
 ^index$
 ^screenshots
 ^\.github$
+^data-raw$

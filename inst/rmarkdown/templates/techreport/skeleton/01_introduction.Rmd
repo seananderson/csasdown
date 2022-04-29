@@ -1,6 +1,14 @@
 # Introduction {#sec:introduction}
 
-Welcome to report generation using `csasdown`. Included in this example document are many useful bits of information on how to write a reproducible report document using  the `csasdown` package, which is based on [Rmarkdown](https://rmarkdown.rstudio.com/) and [Bookdown](https://bookdown.org/). The information given in this example document should be used with all three `csasdown` document types: Research Document (`resdoc`), Science Response (`sr`), and Technical Report (`techreport`).
+<!-- An example of how to include text based on the language. The two chunks below shows how switching the toggle in the YAML header for french allows inclusion/rejection of a paragraph. -->
+
+```{r para-chap01-1-en, eval=!fr(), results = 'asis'}
+cat("Welcome to report generation using `csasdown`. Included in this example document are many useful bits of information on how to write a reproducible report document using  the `csasdown` package, which is based on [Rmarkdown](https://rmarkdown.rstudio.com/) and [Bookdown](https://bookdown.org/). The information given in this example document should be used with all three `csasdown` document types: Research Document (`resdoc`), Science Response (`sr`), and Technical Report (`techreport`).")
+```
+
+```{r para-chap01-1-fr, eval=fr(), results = 'asis'}
+cat("(This is where you would place the French translation of the paragraph) Welcome to report generation using `csasdown`. Included in this example document are many useful bits of information on how to write a reproducible report document using  the `csasdown` package, which is based on [Rmarkdown](https://rmarkdown.rstudio.com/) and [Bookdown](https://bookdown.org/). The information given in this example document should be used with all three `csasdown` document types: Research Document (`resdoc`), Science Response (`sr`), and Technical Report (`techreport`).")
+```
 
 If you get stuck on anything, read the `csasdown` [README](https://github.com/pbs-assess/csasdown/blob/master/README.md) carefully and all the [Wiki pages](https://github.com/pbs-assess/csasdown/wiki). There are many tips and tricks located in those pages. 
 
@@ -58,7 +66,7 @@ refs_tab <- tribble(
 
 csasdown::csas_table(refs_tab,
   align = c("r", "r"),
-  caption = ifelse(french,
+  caption = ifelse(fr(),
                    "French goes here",
                    "Reference types and their Rmarkdown reference codes."))
 ```

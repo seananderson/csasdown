@@ -1,3 +1,130 @@
+#' Reformat string to convert inline code to cat-like strings
+#'
+#' @description
+#' Reformat the supplied string so that inline code chunks
+#' are replaced with the format used in commands such as [cat()]
+#' and [paste()] which is a series of comma-separated strings
+#' and R objects. Use this function to reformat strings from
+#' rmarkdown to something that can be copy/pasted into a
+#' [b()] command inside a knitr chunk.
+#'
+#' This is used primarily to convert sections of code that have been written
+#' in rmarkdown into simple strings with r code embedded between quoted,
+#' comma-separated strings. Here is a simple example:
+#' Original rmarkdown string:
+#'
+#' The date is `` `r Sys.Date()` `` today
+#'
+#' Modified cat-like string:
+#'
+#' The date is ", Sys.Date(), " today
+#'
+#' @param str The string containing inline knitr-style R code
+#' (backtick-enclosed)
+#' @param verbose Shows two vectors extracted from the input text, which are
+#' used to build the new string:
+#' 1) the text chunks between the R code chunks
+#' 2) the R code chunks between the text chunks
+#'
+#' @return A non-quoted (see [noquote()] string) which can be
+#' enclosed with double-quotes and copy/pasted into a [cat()]
+#' or [paste()] command
+#'
+#' @importFrom stringr str_split str_extract_all
+#' @export
+#' @note
+catize <- function(str, verbose = FALSE){
+
+  # `pattern` is the official knitr regexp, see $md section,
+  # ..$ inline.code: chr "`r[ #]([^`]+)\\s*`" line here:
+  # https://rdrr.io/cran/knitr/man/knit_patterns.html
+  pattern <- "`r[ #][^`]+\\s*`"
+  txt <- str_split(str, pattern)[[1]]
+  code <- str_extract_all(str, pattern)[[1]]
+  if(verbose){
+    message("txt:")
+    print(txt)
+    message("code:")
+    print(code)
+    cat("\n")
+  }
+  if(!length(code)){
+    return(str)
+  }
+  if(length(txt) != length(code) + 1){
+    stop("The string did not split up correctly when splitting on ",
+         "backtick-surrounded inline R code",
+         call. = FALSE)
+  }
+  # Extract R code(s)
+  code <- gsub("^`r ", "", code)
+  code <- gsub("`$", "", code)
+  if(length(txt) == 2 && txt[1] == "" && txt[2] == ""){
+    return(code)
+  }
+  # Paste the string back together
+  out <- map2(txt[-length(txt)], code, ~{
+    paste0(.x, '", ', .y, ', "')
+  })
+  out <- map_chr(out, ~{.x})
+  out <- paste(out, collapse = "")
+  out <- paste0(out, txt[length(txt)])
+  noquote(out)
+}
+
+#' Wrapper for the [cat()] function so there is no separator
+#'
+#' @inheritParams base::cat
+#' @export
+b <- function (...) {
+  cat(..., sep = "")
+}
+
+#' Detect which columns are year columns based on the range and type
+#'
+#' @param df A data frame with column names
+#' @param year_range The range to use for year column acceptance. All values
+#' in the column must be in this range
+#'
+#' @return A vector of column names, or NULL if no year columns were found
+#' @export
+year_cols <- function(df, year_range = 1800:4000){
+
+  col_is_year <- map2(df, names(df), ~{
+    if(is.numeric(.x)){
+      # Check that all values are in the year range and that they are integers
+      # even if the type has not been set to integer, i.e. `is.integer(.x)` is FALSE
+      # but `is.numeric(.x)` is TRUE.
+      if(all(.x %in% year_range) && all(sapply(.x, `%%`, 1) == 0)){
+        .y
+      }
+    }
+  })
+  # Remove all NULLs from the list and make the list a character vector
+  col_is_year[sapply(col_is_year, is.null)] <- NULL
+  col_is_year <- map_chr(col_is_year, ~{.x})
+  if(!length(col_is_year)){
+    return(NULL)
+  }
+  # Remove names because testing is easier to code, and they are the same
+  # as the values anyway
+  names(col_is_year) <- NULL
+  col_is_year
+}
+
+#' Return value of the 'french' option in the current environment
+#'
+#' @description
+#' Used to retrieve `TRUE` or `FALSE` for whether
+#' or not to render the document in French
+#'
+#' @return The french option value. If the french option is `NULL`,
+#' `FALSE` will be returned
+#' @export
+fr <- function(){
+  getOption("french", default = FALSE)
+}
+
 #' Creates an R Markdown PDF with CSAS formatting
 #'
 #' This is a function called in output in the YAML of the driver Rmd file
@@ -17,7 +144,6 @@
 #'  Pass `NULL` to prevent syntax highlighting (uses 'monochrome' theme) for slightly
 #'  different text format but no highlighting
 #' @param latex_engine LaTeX engine to render with. 'pdflatex' or 'xelatex'
-#' @param french Logical for French (vs. English).
 #' @param prepub Logical for whether this is a pre-publication version
 #'  (currently not implemented for ResDocs)
 #' @param draft_watermark If `TRUE` show a DRAFT watermark on all pages of the output document
@@ -43,7 +169,6 @@ resdoc_pdf <- function(toc = TRUE,
                        toc_depth = 3,
                        highlight = "tango",
                        latex_engine = "pdflatex",
-                       french = FALSE,
                        prepub = FALSE,
                        copy_sty = TRUE,
                        line_nums = FALSE,
@@ -66,13 +191,13 @@ resdoc_pdf <- function(toc = TRUE,
          "\nSee pandoc documentation, --highlight-style argument.", call. = FALSE)
   }
 
-  if (french) {
+  if (fr()) {
     file <- system.file("csas-tex", "res-doc-french.tex", package = "csasdown")
   } else {
     file <- system.file("csas-tex", "res-doc.tex", package = "csasdown")
   }
 
-  base <- bookdown::pdf_book(
+  base <- pdf_book(
     template = file,
     toc = toc,
     toc_depth = toc_depth,
@@ -93,7 +218,7 @@ resdoc_pdf <- function(toc = TRUE,
     line_nums_mod = line_nums_mod,
     draft_watermark = draft_watermark,
     lot_lof = lot_lof,
-    which_sty = ifelse(french, "res-doc-french.sty", "res-doc.sty")
+    which_sty = ifelse(fr(), "res-doc-french.sty", "res-doc.sty")
   )
 
   # Mostly copied from knitr::render_sweave
@@ -104,12 +229,12 @@ resdoc_pdf <- function(toc = TRUE,
   options(bookdown.post.latex = function(x) {
     fix_envs(
       x = x,
-      french = french,
       prepub = prepub,
       highlight = highlight,
       include_section_nums = include_section_nums,
       include_abstract = TRUE,
-      join_abstract = TRUE
+      join_abstract = TRUE,
+      fix_ref_section_name =TRUE
     )
   })
   on.exit(options(bookdown.post.late = old_opt))
@@ -123,14 +248,13 @@ resdoc_pdf <- function(toc = TRUE,
 #' to specify the creation of a Microsoft Word version of the Research
 #' Document or Science Response.
 #'
-#' @param french Logical for French (vs. English).
 #' @param ... other arguments to [bookdown::word_document2()]
 #' @import bookdown
 #' @rdname csas_docx
 #' @export
 #' @return A Word Document based on the CSAS Res Doc template.
-resdoc_word <- function(french = FALSE, ...) {
-  file <- if (french) "RES2021-fra-content.docx" else "RES2021-eng-content.docx"
+resdoc_word <- function(...) {
+  file <- if (fr()) "RES2021-fra-content.docx" else "RES2021-eng-content.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
   )
@@ -143,9 +267,11 @@ resdoc_word <- function(french = FALSE, ...) {
 
 #' @export
 #' @rdname csas_pdf
-sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
+sr_pdf <- function(latex_engine = "pdflatex",
+                   prepub = FALSE,
                    copy_sty = TRUE,
-                   line_nums = FALSE, line_nums_mod = 1,
+                   line_nums = FALSE,
+                   line_nums_mod = 1,
                    draft_watermark = FALSE,
                    highlight = "tango",
                    pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
@@ -163,13 +289,13 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
          "\nSee pandoc documentation, --highlight-style argument.", call. = FALSE)
   }
 
-  if (french) {
+  if (fr()) {
     file <- system.file("csas-tex", "sr-french.tex", package = "csasdown")
   } else {
     file <- system.file("csas-tex", "sr.tex", package = "csasdown")
   }
 
-  base <- bookdown::pdf_book(
+  base <- pdf_book(
     template = file,
     keep_tex = TRUE,
     pandoc_args = pandoc_args,
@@ -184,7 +310,7 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
     line_nums = line_nums,
     line_nums_mod = line_nums_mod,
     draft_watermark = draft_watermark,
-    which_sty = ifelse(french, "sr-french.sty", "sr.sty")
+    which_sty = ifelse(fr(), "sr-french.sty", "sr.sty")
   )
 
   base$knitr$opts_chunk$comment <- NA
@@ -193,7 +319,6 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
   options(bookdown.post.latex = function(x) {
     fix_envs(
       x = x,
-      french = french,
       prepub = prepub,
       highlight = highlight,
       include_abstract = FALSE,
@@ -207,8 +332,8 @@ sr_pdf <- function(latex_engine = "pdflatex", french = FALSE, prepub = FALSE,
 
 #' @export
 #' @rdname csas_docx
-sr_word <- function(french = FALSE, ...) {
-  file <- if (french) "SRR-RS2021-fra.docx" else "SRR-RS2021-eng.docx"
+sr_word <- function(...) {
+  file <- if (fr()) "SRR-RS2021-fra.docx" else "SRR-RS2021-eng.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
   )
@@ -219,7 +344,7 @@ sr_word <- function(french = FALSE, ...) {
 
 #' @export
 #' @rdname csas_docx
-techreport_word <- function(french = FALSE, ...) {
+techreport_word <- function(...) {
   file <- "tech-report.docx"
   base <- word_document2(...,
     reference_docx = system.file("csas-docx", file, package = "csasdown")
@@ -231,9 +356,10 @@ techreport_word <- function(french = FALSE, ...) {
 
 #' @export
 #' @rdname csas_pdf
-techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
+techreport_pdf <- function(latex_engine = "pdflatex",
                            copy_sty = TRUE,
-                           line_nums = FALSE, line_nums_mod = 1,
+                           line_nums = FALSE,
+                           line_nums_mod = 1,
                            lot_lof = FALSE,
                            draft_watermark = FALSE,
                            highlight = "tango",
@@ -251,13 +377,13 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
          "\nSee pandoc documentation, --highlight-style argument.", call. = FALSE)
   }
 
-  if (french) {
+  if (fr()) {
     file <- system.file("csas-tex", "tech-report-french.tex", package = "csasdown")
   } else {
     file <- system.file("csas-tex", "tech-report.tex", package = "csasdown")
   }
 
-  base <- bookdown::pdf_book(
+  base <- pdf_book(
     template = file,
     keep_tex = TRUE,
     pandoc_args = pandoc_args,
@@ -267,8 +393,8 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
   tmp_hl <- grep("--highlight-style", base$pandoc$args)
   base$pandoc$args <- base$pandoc$args[-c(tmp_hl[1], tmp_hl[1] + 1)]
 
-  cover_file_pdf <- if (french) "tech-report-cover-french.pdf" else "tech-report-cover.pdf"
-  cover_file_docx <- if (french) "tech-report-cover-french.docx" else "tech-report-cover.docx"
+  cover_file_pdf <- if (fr()) "tech-report-cover-french.pdf" else "tech-report-cover.pdf"
+  cover_file_docx <- if (fr()) "tech-report-cover-french.docx" else "tech-report-cover.docx"
   if (!file.exists(cover_file_pdf)) {
     cover_docx <- system.file("rmarkdown", "templates", "techreport", "skeleton", cover_file_docx, package = "csasdown")
     cover_pdf <- system.file("rmarkdown", "templates", "techreport", "skeleton", cover_file_pdf, package = "csasdown")
@@ -282,7 +408,7 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
     line_nums_mod = line_nums_mod,
     lot_lof = lot_lof,
     draft_watermark = draft_watermark,
-    which_sty = ifelse(french, "tech-report-french.sty", "tech-report.sty")
+    which_sty = ifelse(fr(), "tech-report-french.sty", "tech-report.sty")
   )
 
   base$knitr$opts_chunk$comment <- NA
@@ -290,7 +416,6 @@ techreport_pdf <- function(french = FALSE, latex_engine = "pdflatex",
   options(bookdown.post.latex = function(x) {
     fix_envs(
       x = x,
-      french = french,
       highlight = highlight,
       join_abstract = FALSE
     )
@@ -392,11 +517,10 @@ update_csasstyle <- function(copy = TRUE,
 fix_envs <- function(x,
                      include_abstract = TRUE,
                      join_abstract = TRUE,
-                     french = FALSE,
                      prepub = FALSE,
                      highlight = "tango",
-                     include_section_nums = TRUE) {
-
+                     include_section_nums = TRUE,
+                     fix_ref_section_name = FALSE) {
 
   # fix equations:
   x <- gsub("^\\\\\\[$", "\\\\begin{equation}", x)
@@ -406,23 +530,44 @@ fix_envs <- function(x,
 
   # Get region line
   region_line <- grep(pattern = "% Region", x) + 1
-  # If region is specified (currently only SRs)
+  # If region is specified
   if (length(region_line) > 0) {
     # Get region name and contact info
-    region <- regmatches(
+    pat <- "\\\\rdRegion\\}\\{(.*?)\\}+$"
+    region_vec <- regmatches(
       x = x[region_line],
       m = regexec(
-        pattern = "\\\\rdRegion\\}\\{(.*?)\\}+$",
+        pattern = pat,
         text = x[region_line]
       )
-    )[[1]][2]
-    contact_info <- get_contact_info(region = region, isFr = french)
+    )[[1]]
+    region <- region_supplied <- region_vec[2]
+    region_def_ind <- grep(pat, x)
+    if(fr()){
+      # If the author supplied an English region name for a French doc, convert it
+      eng_match <- grep(region_supplied, region_info$Region)
+      if(length(eng_match)){
+        region <- region_info[eng_match, ]$RegionFr
+        if(length(region_def_ind)){
+          x[region_def_ind] <- gsub(region_supplied, region, x[region_def_ind])
+        }
+      }
+    }else{
+      # If the author supplied an French region name for a English doc, convert it
+      fr_match <- grep(region_supplied, region_info$RegionFr)
+      if(length(fr_match)){
+        region <- region_info[fr_match, ]$Region
+        if(length(region_def_ind)){
+          x[region_def_ind] <- gsub(region_supplied, region, x[region_def_ind])
+        }
+      }
+    }
+    contact_info <- get_contact_info(region = region)
     # Insert contact info
     x <- sub(
       pattern = "AddressPlaceholder", replacement = contact_info$address,
       x = x
     )
-    x <- sub(pattern = "PhonePlaceholder", replacement = contact_info$phone, x = x)
     x <- sub(
       pattern = "EmailPlaceholder",
       replacement = paste0(
@@ -434,7 +579,7 @@ fix_envs <- function(x,
   ## Change csas-style to use the sty file found in csasdown repo
   g <- grep("csas-style", x)
 
-  ## Find beginning and end of the abstract text is it is not a Science Response document
+  ## Find beginning and end of the abstract text if it is not a Science Response document
   if (include_abstract) {
     abs_beg <- grep("begin_abstract_csasdown", x)
     abs_end <- grep("end_abstract_csasdown", x)
@@ -479,7 +624,7 @@ fix_envs <- function(x,
 
   for (i in seq(appendix_line + 1, length(x))) {
     x[i] <- gsub("\\\\section\\{", "\\\\appsection\\{", x[i])
-    if (!french) {
+    if (!fr()) {
       x[i] <- gsub(
         "\\\\chapter\\{",
         "\\\\starredchapter\\{APPENDIX~\\\\thechapter. ", x[i]
@@ -580,20 +725,24 @@ fix_envs <- function(x,
         x[length(x)]
       )
       # Modify References from starred chapter to regular chapter so that it is numbered
-      if (french) {
-        starred_references_line <- grep("\\\\section\\*\\{REFERENCES}\\\\label\\{references\\}\\}", x)
-        x[starred_references_line] <- "\\section{R\u00c9F\u00c9RENCES CIT\u00c9ES}\\label{ruxe9fuxe9rences-cituxe9es}}"
-        # Remove the add contents line which was used to add the unnumbered section before
-        # stringi::stri_escape_unicode("RÉFÉRENCES CITÉE") # can't use UTF-8 in packages:
-        add_toc_contents_line <- grep("\\\\addcontentsline\\{toc\\}\\{section\\}\\{REFERENCES}", x)
-        x[add_toc_contents_line] <- ""
-      } else {
-        starred_references_line <- grep("\\\\section\\*\\{REFERENCES\\}\\\\label\\{references\\}\\}", x)
+      starred_references_line <- grep("\\\\section\\*\\{REFERENCES\\}\\\\label\\{references\\}\\}", x)
+      if(length(starred_references_line)){
         x[starred_references_line] <- gsub("\\*", "", x[starred_references_line])
         # Remove the add contents line which was used to add the unnumbered section before
         add_toc_contents_line <- grep("\\\\addcontentsline\\{toc\\}\\{section\\}\\{REFERENCES\\}", x)
         x[add_toc_contents_line] <- ""
-    }
+      }
+      # Modify References section name here
+      if(fix_ref_section_name){
+        ref_ind <- grep("\\{REFERENCES", x)
+        if(!length(ref_ind)){
+          stop("REFERENCES section header not found in the document. Make sure you ",
+               "haven't commented out that section in _bookdown.yml or changed the header name",
+               call. = FALSE)
+        }
+        x[ref_ind] <- gsub("REFERENCES", ifelse(fr(), "RÉFÉRENCES CITÉES", "REFERENCES CITED"), x[ref_ind])
+      }
+
   } else {
       warning("Did not find the beginning of the LaTeX bibliography.", call. = FALSE)
     }
@@ -622,7 +771,7 @@ fix_envs <- function(x,
   # Implement "Approved pre-publication" version (science response)
   if (prepub) {
     # Text to add
-    addText <- ifelse(french, " -- PR\u00C9-PUBLICATION APPROUV\u00C9E}",
+    addText <- ifelse(fr(), " -- PR\u00C9-PUBLICATION APPROUV\u00C9E}",
       " -- APPROVED PRE-PUBLICATION}"
     )
     # 1. Modify header first page (report number)
@@ -644,7 +793,7 @@ fix_envs <- function(x,
     st_text_new <- paste0(st_text_clean, addText)
     x[st_loc_1] <- st_text_new
     # 3. Modify citation (2 things)
-    if (french) {
+    if (fr()) {
       # Edit french citation
       cite_head_fr <- grep(
         pattern = "La pr\\\\\'\\{e\\}sente publication doit \\\\\\^\\{e\\}tre cit\\\\\'\\{e\\}e comme suit~:",
@@ -928,14 +1077,14 @@ inject_refstepcounters <- function(x) {
 #' @param resdoc Filename
 #'
 #' @return A merged .docx
+#' @importFrom officer read_docx body_add_docx cursor_reach body_add_toc
 #' @export
 add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2021-eng-titlepage.docx",
                                       resdoc = "_book/resdoc.docx") {
-  title_doc <- officer::read_docx(titlepage)
-  x <- officer::body_add_docx(title_doc, resdoc, pos = "before")
+  title_doc <- read_docx(titlepage)
+  x <- body_add_docx(title_doc, resdoc, pos = "before")
   print(x, target = resdoc)
 }
-
 
 #' Add front matter to Res Doc docx file
 #'
@@ -949,10 +1098,10 @@ add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2021-eng-titlepa
 #' @export
 add_resdoc_docx_frontmatter <- function(frontmatter = "templates/RES2021-eng-frontmatter.docx",
                                         resdoc = "_book/resdoc.docx") {
-  frontmatter_doc <- officer::read_docx(frontmatter)
-  x <- officer::body_add_docx(frontmatter_doc, resdoc, pos = "before")
-  x <- officer::cursor_reach(x, keyword = "TABLE OF CONTENTS")
-  x <- officer::body_add_toc(x)
+  frontmatter_doc <- read_docx(frontmatter)
+  x <- body_add_docx(frontmatter_doc, resdoc, pos = "before")
+  x <- cursor_reach(x, keyword = "TABLE OF CONTENTS")
+  x <- body_add_toc(x)
   print(x, target = resdoc)
 }
 
@@ -962,15 +1111,13 @@ add_resdoc_docx_frontmatter <- function(frontmatter = "templates/RES2021-eng-fro
 #'
 #' @param titlepage Filename
 #' @param doc Filename
-#' @param french Logical. If TRUE, Add the French title page
 #'
 #' @return A merged .docx
 #' @export
-add_techreport_docx_titlepage <- function(titlepage = ifelse(french, "templates/tech-report-cover-fra.docx", "templates/tech-report-cover-eng.docx"),
-                                          doc = "_book/techreport.docx",
-                                          french = FALSE) {
-  title_doc <- officer::read_docx(titlepage)
-  x <- officer::body_add_docx(title_doc, doc, pos = "before")
+add_techreport_docx_titlepage <- function(titlepage = ifelse(fr(), "templates/tech-report-cover-fra.docx", "templates/tech-report-cover-eng.docx"),
+                                          doc = "_book/techreport.docx") {
+  title_doc <- read_docx(titlepage)
+  x <- body_add_docx(title_doc, doc, pos = "before")
   print(x, target = doc)
 }
 
@@ -988,14 +1135,15 @@ is_windows <- function() {
 #' @param type Type of document. Currently this is only implemented for research
 #'   documents.
 #'
+#' @importFrom rmarkdown yaml_front_matter
 #' @export
 check_yaml <- function(type = "resdoc") {
-  x_skeleton <- names(rmarkdown::yaml_front_matter(
+  x_skeleton <- names(yaml_front_matter(
     system.file("rmarkdown", "templates", "resdoc", "skeleton", "skeleton.Rmd",
       package = "csasdown"
     )
   ))
-  x_index <- names(rmarkdown::yaml_front_matter("index.Rmd"))
+  x_index <- names(yaml_front_matter("index.Rmd"))
   .diff <- setdiff(x_skeleton, x_index)
   if (length(.diff) > 0L) {
     stop("Your `index.Rmd` file is missing: ", paste(.diff, collapse = ", "), ".")
@@ -1004,57 +1152,54 @@ check_yaml <- function(type = "resdoc") {
   }
 }
 
-#' Return regional CSAS email address, phone number, and mailing address for
-#' the last page in the section "This report is available from the." Return
-#' contactinformation for the national CSAS office if regional information is
-#' not available (with a warning).
+#' Return regional CSAS email address and mailing address for the last page in
+#' the section "This report is available from the." Return contact information
+#' for the national CSAS office if regional information is not available (with a
+#' warning).
 #'
 #' @param region Region in which the document is published; character vector.
 #' (i.e., Pacific). Default is "National Capital Region."
-#' @param isFr Logical (default FALSE). Is the report in French or not?
 #'
 #' @export
 #'
-#' @return Email address, phone number, and mailing address as list of character
-#' vectors.
-get_contact_info <- function(region = "National Capital Region", isFr = FALSE) {
-  # Region name (English and French), email, phone, and address
-  dat <- tibble::tribble(
-    ~Region, ~RegionFr, ~Email, ~Phone, ~Address, ~AddressFr,
-    "Central and Arctic Region", "R\u00E9gion du Centre et de l'Arctique", "xcna-csa-cas@dfo-mpo.gc.ca", "(204) 983-5232", "501 University Cres.\\\\\\\\Winnipeg, MB, R3T 2N6", "501 University Cres.\\\\\\\\Winnipeg, Man., R3T 2N6",
-    "Gulf Region", "R\u00E9gion du Golfe", "DFO.GLFCSA-CASGOLFE.MPO@dfo-mpo.gc.ca", "(506) 851-2022", "343 Universit\u00E9 Ave.\\\\\\\\Moncton, NB, E1C 9B6", "343 Universit\u00E9 Ave.\\\\\\\\Moncton, N.-B., E1C 9B6",
-    "Maritimes Region", "R\u00E9gion des Maritimes", "XMARMRAP@dfo-mpo.gc.ca", "(902) 426-3246", "1 Challenger Dr.\\\\\\\\Dartmouth, NS, B2Y 4A2", "1 Challenger Dr.\\\\\\\\Dartmouth, N.-E., B2Y 4A2",
-    "National Capital Region", "R\u00E9gion de la capitale nationale", "csas-sccs@dfo-mpo.gc.ca", "(613) 990-0194", "200 Kent St.\\\\\\\\Ottawa, ON, K1A 0E6", "200 Kent St.\\\\\\\\Ottawa, Ont., K1A 0E6",
-    "Newfoundland and Labrador Region", "R\u00E9gion de Terre-Neuve et Labrador", "DFONLCentreforScienceAdvice@dfo-mpo.gc.ca", "(709) 772-8892", "P.O. Box 5667\\\\\\\\St. John's, NL, A1C 5X1", "P.O. Box 5667\\\\\\\\St. John's, T.-N.-L., A1C 5X1",
-    "Pacific Region", "R\u00E9gion du Pacifique", "csap@dfo-mpo.gc.ca", "(250) 756-7208", "3190 Hammond Bay Rd.\\\\\\\\Nanaimo, BC, V9T 6N7", "3190 Hammond Bay Rd.\\\\\\\\Nanaimo, C.-B., V9T 6N7",
-    "Quebec Region", "R\u00E9gion du Qu\u00E9bec", "bras@dfo-mpo.gc.ca", "(418) 775-0825", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli, QC, G5H 3Z4", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli, Qc, G5H 3Z4"
-  )
-  # If french
-  if (isFr) {
+#' @return Email address and mailing address as list of character vectors.
+get_contact_info <- function(region = "National Capital Region") {
+
+  if (fr()) {
     # Get index for region (row)
-    ind <- which(dat$RegionFr == region)
-  } else { # End if french, otherwise
+    ind <- which(region_info$RegionFr == region)
+    if(!length(ind)){
+      # Maybe the author used English for the region name
+      ind <- which(region_info$Region == region)
+    }
+  } else {
     # Get index for region (row)
-    ind <- which(dat$Region == region)
-  } # End if not french
-  # If region not detected
+    ind <- which(region_info$Region == region)
+    if(!length(ind)){
+      # Maybe the author used French for the region name
+      ind <- which(region_info$RegionFr == region)
+    }
+  }
+  # If region not detected, use national contact info
   if (length(ind) == 0) {
-    # Use national contact info
-    email <- dat$Email[dat$Region == "National Capital Region"]
-    phone <- dat$Phone[dat$Region == "National Capital Region"]
-    address <- dat$Address[dat$Region == "National Capital Region"]
-    warning("Region not detected; use national CSAS contact info")
-  } else { # End if no region, otherwise get regional contact info
+    default_region <- "National Capital Region"
+    email <- region_info$Email[region_info$Region == default_region]
+    if(fr()){
+      address <- region_info$AddressFr[region_info$Region == default_region]
+    }else{
+      address <- region_info$Address[region_info$Region == default_region]
+    }
+    warning("Region not detected; using national CSAS contact info")
+  } else {
     # Get regional contact info
-    email <- dat$Email[ind]
-    phone <- dat$Phone[ind]
-    if (!isFr)
-      address <- dat$Address[ind]
+    email <- region_info$Email[ind]
+    if (fr())
+      address <- region_info$AddressFr[ind]
     else
-      address <- dat$AddressFr[ind]
-  } # End if region detected
-  return(list(email = email, phone = phone, address = address))
-} # End get_contact_info
+      address <- region_info$Address[ind]
+  }
+  list(email = email, address = address)
+}
 
 #' Creates a temporary directory for compiling the latex file with latex commands for a csasdown type
 #'

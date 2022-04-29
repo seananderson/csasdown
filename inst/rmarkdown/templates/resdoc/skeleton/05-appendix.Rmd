@@ -5,142 +5,90 @@ After that, all subsequent sections will be turned into appendices. -->
 
 `r if(!knitr:::is_latex_output()) '# (APPENDIX) Appendix {-}'`
 
-# THE FIRST APPENDIX {#app:a}
+```{r appendix01-para-1-en, eval = !fr(), results = 'asis'}
+cat("# THE FIRST APPENDIX {#app:a}
 
-Content here.
+The appendices here are simple examples showing how to set up sections, subsections, and sub-subsections withing the appendices. References are also shown here, but can be placed anywhere in the document.
 
-## a-1 {#app:a-1}
+## The first section in this appendix {#app:a-1}
 
-Content here.
+Here is some text, and a reference to this appendix, Appendix \\@ref(app:a).
+Here is a reference to the second appendix, Appendix \\@ref(app:b).
 
-### a-1-1 {#app:a-1-1}
+### The first subsection {#app:a-1-1}
 
-Content here.
+Some more text, and a reference to the parent of this subsection, Section \\@ref(app:a-1)
 
-#### a-1-1-1 {#app:a-1-1-1}
+#### The first sub-subsection {#app:a-1-1-1}
 
-Content here.
+Some more text, and a reference to the parent of this sub-subsection, Subsection \\@ref(app:a-1)
 
-#### a-1-1-2 {#app:a-1-1-2}
+#### The second sub-subsection {#app:a-1-1-2}
 
-Content here.
+Some more text, and a reference to the parent of this sub-subsection, Subsection \\@ref(app:a-1-1)
 
-### a-1-2 {#app:a-1-2}
+### The second subsection {#app:a-1-2}
 
-Content here.
+Some more text, and a reference to the parent of this subsection, Section \\@ref(app:a-1)
 
+## The second section in this appendix {#app:a-2}
 
-## a-2 {#app:a-2}
+More content here...
 
-Content here.
+## The third section in this appendix {#app:a-3}
 
-### a-2-1 {#app:a-2-1}
+More content here...")
+```
+```{r appendix01-para-1-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
+cat("# LE PREMIER APPENDICE {#app:a}
+    
+Les annexes sont des exemples simples montrant comment créer des sections, des sous-sections et des sous-sous-sections dans les annexes. Les références sont également indiquées ici, mais peuvent être placées n'importe où dans le document.
 
-Content here.
+## La première section de cette annexe {#app:a-1}
 
-#### a-2-1-1 {#app:a-2-1-1}
+Voici du texte, et une référence à cette annexe, Appendix \\@ref(app:a).
+Voici une référence à la deuxième annexe, l'annexe \\@ref(app:b).
 
-Content here.
+### La première sous-section {#app:a-1-1}
 
-#### a-2-1-2 {#app:a-2-1-2}
+Un peu plus de texte, et une référence au parent de cette sous-sous-section, la Sous-section \\@ref(app:a-1)
 
-Content here.
+#### La première sous-sous-section {#app:a-1-1-1}
 
-#### a-2-1-3 {#app:a-2-1-3}
+Un peu plus de texte, et une référence au parent de cette sous-sous-section, la Sous-section \\@ref(app:a-1-1)
 
-Content here.
+#### La deuxième sous-sous-section {#app:a-1-1-2}
 
-### a-2-2 {#app:a-2-2}
+Un peu plus de texte, et une référence au parent de cette sous-sous-section, la Sous-section \\@ref(app:a-1-1)
 
-Content here.
+### La deuxième sous-section {#app:a-1-2}
 
-#### a-2-2-1 {#app:a-2-2-1}
+Un peu plus de texte, et une référence au parent de cette sous-section, la section \\@ref(app:a-1)
 
-Content here.
+## La deuxième section de cette annexe {#app:a-2}
 
-#### a-2-2-2 {#app:a-2-2-2}
+Plus de contenu ici...
 
-Content here.
+## La troisième section de cette annexe {#app:a-3}
 
+Plus de contenu ici...")
+```
 
-## a-3 {#app:a-3}
+```{r appendix02-para-1-en, eval = !fr(), results = 'asis'}
+cat("# THE SECOND APPENDIX {#app:b}
 
-Content here.
+More content here...
 
-### a-3-1 {#app:a-3-1}
+## The first section of the second appendix {#app:b-1}
 
-Content here.
+More content here...")
+```
+```{r appendix02-para-1-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
+cat("# LA DEUXIÈME ANNEXE {#app:b}
+    
+Plus de contenu ici...
 
-### a-3-2 {#app:a-3-2}
+## La première section du deuxième appendice {#app:b-1}
 
-Content here.
-
-### a-3-3 {#app:a-3-3}
-
-Content here.
-
-### a-3-4 {#app:a-3-4}
-
-Content here.
-
-
-
-# THE SECOND APPENDIX, FOR FUN {#app:b}
-
-More content.
-
-## b-1 {#app:b-1}
-
-Content here.
-
-
-## b-2 {#app:b-2}
-
-Content here.
-
-
-
-# THE THIRD APPENDIX, FOR JOY AND PAIN {#app:c}
-
-More content.
-
-## c-1 {#app:c-1}
-
-Content here.
-
-
-## c-2 {#app:c-2}
-
-Content here.
-
-
-## c-3 {#app:c-3}
-
-Content here.
-
-
-## c-4 {#app:c-4}
-
-Content here.
-
-### c-4-1 {#app:c-4-1}
-
-Content here.
-
-### c-4-2 {#app:c-4-2}
-
-Content here.
-
-#### c-4-2-1 {#app:c-4-2-1}
-
-Content here.
-
-### c-4-3 {#app:c-4-3}
-
-Content here.
-
-
-
-# THE FOURTH APPENDIX, BECAUSE WHY NOT {#app:d}
-
-More content.
+Plus de contenu ici...")
+```

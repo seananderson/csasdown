@@ -1,14 +1,16 @@
 #' Read in pandoc theme file code as a vector of lines of code
 #' and parse it to create a list of theme tokens
 #'
-#' @description Assumed Grammar of the JSON theme file based on output of:
-#' pandoc --print-highlight-style breezedark > my_style.theme
-#' - hexval is a six-digit quoted string representing a hex
-#'   color in this format: "#ffffff" or null if not included
-#' - logicalval is true or false
-#' {4spc} means 4 spaces
+#' @description
+#' Assumed Grammar of the JSON theme file based on output of:
+#' `pandoc --print-highlight-style breezedark > my_style.theme`
+#' - `hexval` is a six-digit quoted string representing a hex
+#'   color in this format: `"#ffffff"` or null if not included
+#' - `logicalval` is true or false
+#' `{4spc}` means 4 spaces
 #'
 #' Grammar:
+#' ```
 #' {
 #' {4spc}"text-color": hexval,
 #' {4spc}"background-color": hexval,
@@ -35,6 +37,7 @@
 #' {8spc}}
 #' {4spc}}
 #' }
+#' ```
 #'
 #' @param json JSON code as a vector of lines of code extracted using a system call like this:
 #' pandoc --print-highlight-style breezedark

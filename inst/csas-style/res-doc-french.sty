@@ -3,6 +3,7 @@
 \usepackage[french]{babel}
 % https://tex.stackexchange.com/a/325436
 \frenchbsetup{SmallCapsFigTabCaptions=false}
+\edef\hc{\string:} % \hc prints a normal colon
 
 %% Move the footer position flush to the left margin (default is indented a bit)
 \usepackage[flushmargin, bottom]{footmisc}
@@ -10,6 +11,7 @@
 \usepackage{tabularx}
 \usepackage[all]{nowidow}
 
+%% ------------------------------------------------------------------------------
 %% Use the resDoc.bst file for bibliography style.
 \usepackage{natbib}
 %% ------------------------------------------------------------------------------
@@ -18,10 +20,9 @@
   \hypersetup{%
     pdftitle={\rdTitle{}},%
     pdfauthor={\rdAuth{}},%
-    pdfkeywords={Pêches et Océans Canada; Secrétariat canadien de consultation scientifique; Document de recherche},
+    pdfkeywords={Pêches et Océans Canada; Secrétariat canadien des avis scientifiques (SCAS); Document de recherche},
   }%
 }
-
 %% ------------------------------------------------------------------------------
 %% Load hyperlink package and set up link colors
 \usepackage[breaklinks=true,
@@ -58,6 +59,7 @@
             bottom=1in,
             left=1in,
             right=1in]
+            %showframe] % Show the frames outlining all the parts of the page
            {geometry}
 %% ------------------------------------------------------------------------------
 %% Add space between the bottom of the text and the footnoterule (line)
@@ -78,30 +80,30 @@
 %% ------------------------------------------------------------------------------
 %% Table of Contents
 \usepackage{tocloft}
+\makeatletter
 %% Set dot spacing size in TOC for each section
-\renewcommand{\cftchapdotsep}{1}
-\renewcommand{\cftsecdotsep}{1}
-\renewcommand{\cftsubsecdotsep}{1}
-\renewcommand{\cftsubsubsecdotsep}{1}
+\renewcommand{\cftchapdotsep}{4.5}
+% Set spacing between numbers and headings
+\renewcommand{\l@section}{\@dottedtocline{1}{1em}{1em}}
+\renewcommand{\l@subsection}{\@dottedtocline{2}{2em}{2em}}
+%% Set vertical spacing between entries in TOC
+\setlength{\cftbeforechapskip}{1pt}
+\setlength{\cftbeforesecskip}{5pt}
+\setlength{\cftbeforesubsecskip}{5pt}
+\setlength{\cftbeforesubsubsecskip}{5pt}
 %% Enable dots for chapters in the TOC
 \renewcommand{\cftchapleader}{\cftdotfill{\cftchapdotsep}}
 %% Un-bold the chapter text in the TOC
 \renewcommand{\cftchapfont}{\mdseries}
 %% Un-bold the chapter page numbers in the TOC
 \renewcommand{\cftchappagefont}{\mdseries}
-%% Make the chapter entries the same indentation as the sections
+%% Make the appendix (chapter) entries the same indentation as the sections
 %%  (entry, indent, numWidth)
-%% See the tocloft documentation to get these values
-\cftsetindents{chapter}{1.5em}{2.3em}
-%% Set vertical spacing between entries in TOC
-\setlength{\cftbeforechapskip}{5pt}
-\setlength{\cftbeforesecskip}{5pt}
-\setlength{\cftbeforesubsecskip}{5pt}
-\setlength{\cftbeforesubsubsecskip}{5pt}
+\cftsetindents{chapter}{1em}{1em}
 %% Remove space between the Table of contents title and it's content.
 \setlength\cftaftertoctitleskip{6pt}
-\makeatletter
 \renewcommand{\@tocrmarg}{5em}
+\makeatother
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
@@ -207,7 +209,7 @@
   \pagenumbering{roman}
   %% TOC is required by CSAS to be on page iii.
   \setcounter{page}{3}
-  \renewcommand{\contentsname}{\bf \large \vspace{-20mm} TABLE DES MATI\`ERES}
+  \renewcommand{\contentsname}{\bf \large \vspace{-20mm} TABLEAU DES MATI\`ERES}
   \addtocontents{toc}{\protect\thispagestyle{fancy}}
   \begin{center}
     \tableofcontents
@@ -233,9 +235,9 @@
 \newcommand\Main{
   %% To number the main document sections, tables, etc.
   %%  as 1.1, 1.2, etc.
-  \renewcommand{\thesection}{\arabic{section}}
-  \renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
-  \renewcommand{\thesubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+  \renewcommand{\thesection}{\arabic{section}.}
+  \renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}.}
+  \renewcommand{\thesubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}.}
   \renewcommand{\thetable}{\arabic{table}}
   \renewcommand{\thefigure}{\arabic{figure}}
   \renewcommand{\theequation}{\arabic{equation}}
@@ -248,9 +250,9 @@
   \appendix
   %% Always start a new page for appendices
   \newpage
-  \renewcommand{\thesection}{\thechapter.\arabic{section}}
-  \renewcommand{\thesubsection}{\thechapter.\arabic{section}.\arabic{subsection}}
-  \renewcommand{\thesubsubsection}{\thechapter.\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+  \renewcommand{\thesection}{\thechapter.\arabic{section}.}
+  \renewcommand{\thesubsection}{\thechapter.\arabic{section}.\arabic{subsection}.}
+  \renewcommand{\thesubsubsection}{\thechapter.\arabic{section}.\arabic{subsection}.\arabic{subsubsection}.}
   \renewcommand{\thetable}{\thechapter.\arabic{table}}
   \renewcommand{\thefigure}{\thechapter.\arabic{figure}}
   \renewcommand{\theequation}{\thechapter.\arabic{equation}}
@@ -262,10 +264,8 @@
   \renewcommand{\section}{\appsection}
 }
 
-%% Changes the name of the bibliography to REFERENCES.
-\renewcommand{\bibname}{REFERENCES}
-%% To make REFERENCES a section and then number it
-\renewcommand{\bibsection}{\section{\bibname}}
+% Make the references section an actual section instead of a chapter and number it
+\renewcommand{\bibsection}{\section{\refname}}
 
 %% Makes figures stick to the top of the page. i.e. if there is a single figure
 %%  on a page, it will be placed in the center. This forces it to stick
@@ -301,26 +301,12 @@
   \addcontentsline{toc}{chapter}{#1}\chapter*{#1}
 }
 
-%% Make English abstract have entry in the table of contents
+%% Make French abstract have entry in the table of contents
 \newcommand{\abstract}{
   \clearpage
   %% Make spacing between top of page and heading less.
   \vspace*{-40\p@}
   \phantomsection
-  %% Add the appendix name to the table of contents.
-  \addcontentsline{toc}{section}{RÉSUMÉ}\nonumsection*{RÉSUMÉ}
-}
-
-%% Make French abstract have entry in the table of contents
-\newcommand{\frenchabstract}[1]{
-  \clearpage
-  %% Make spacing between top of page and heading less.
-  \vspace*{-30\p@}
-  \phantomsection
-  \begin{center}
-    \Large \textbf{#1}
-  \end{center}
-  \vspace{-6mm}
   %% Add the appendix name to the table of contents.
   \addcontentsline{toc}{section}{R\'ESUM\'E}\nonumsection*{R\'ESUM\'E}
 }
@@ -347,12 +333,12 @@
 %% Creates a header and footer on the long page sides on landscape pages
 \AddEverypageHook{\ifdim\textwidth=\textheight
   \fancyhf{}\fancyfoot{}
-\begin{textblock}{0.05}(0.925,0.5)
-{\rotatebox{90}{\sffamily\selectfont\small\thepage}}\end{textblock}
- \begin{textblock}{1}(0.1,0.0909)
-{\rotatebox{90}{\rule{9in}{0.25pt}}}\end{textblock}
+ \begin{textblock}{0.05}(0.925,0.5)
+ {\rotatebox{90}{\sffamily\selectfont\small\thepage}}\end{textblock}
+  \begin{textblock}{1}(0.1,0.0909)
+  \end{textblock}
   \begin{textblock}{1}(0.9,0.0909)
-  {\rotatebox{90}{\rule{9in}{0.25pt}}}\end{textblock}
+  \end{textblock}
 \fi}
 
 %% For landscape pages in CSAS documents
@@ -378,6 +364,19 @@
   \renewcommand{\footrulewidth}{0.4pt}
   \renewcommand{\headrulewidth}{0.4pt}
 }
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% Allows a box to be drawn around paragraphs with verbatim text (listing)
+%% Used for tagging paragraphs that need translation
+\usepackage{listings}
+\lstset{
+basicstyle=\small\ttfamily,
+columns=flexible,
+breaklines=true
+}
+
+\newsavebox{\userinput}
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
@@ -507,6 +506,8 @@
 \newcommand*{\@mylink}[2]{\href{#1}{\uline{#2}}\endgroup}
 \makeatother
 
+% Included so that the kableExtra::linebreak function can be used
+\usepackage{makecell}
 
 %% Allows the french abstract to be pasted in with special characters intact
 %% Make sure maindoc.rnw is saved in utf8 encoding.
@@ -579,7 +580,7 @@
 
 \vspace{1.5mm}
 
-\textbf{Secrétariat canadien de consultation scientifique (SCCS)}
+\textbf{Secrétariat canadien des avis scientifiques (SCAS)}
 
 \vspace{0.4mm}
 
@@ -612,7 +613,6 @@
 
 \vspace{-0.9mm}
 
-
 \parbox{9cm}{\rdMonth{} \rdYear{}}%
 \begin{minipage}[t]{7.48cm}
 \flushright
@@ -638,7 +638,7 @@ La présente série documente les fondements scientifiques des évaluations des 
 \textbf{Publié par:\\}
 \vspace{1.9mm}
 Pêches et Océans Canada\\
-Secrétariat canadien de consultation scientifique\\
+Secrétariat canadien des avis scientifiques\\
 200, rue Kent\\
 Ottawa ON K1A 0E6\\
 \vspace{0.17cm}
@@ -662,11 +662,11 @@ ISBN~\rdISBN{} \hspace{5mm} N$^{\circ}$ cat.~\rdCatNo
 \hangindent=0.6cm \rdAuthRev{}
 \rdYear{}.
 \rdTitle{}.
-Secr.\ can.\ de\ consult.\ sci.\ du\ MPO.\ Doc.\ de\ rech. \rdYear{}/\rdNumber{}.
+Secr.\ can.\ des\ avis\ sci.\ du\ MPO.\ Doc.\ de\ rech. \rdYear{}/\rdNumber{}.
 \pageref{TRlastRoman}{} + \pageref{LastPage}~p.
 
 \vspace{0.2mm}
-\textbf{Also available in English:}\\
+\textbf{\emph{Also available in English:}}\\
 \vspace{2mm}
 \hangindent=0.6cm \emph{\citationOtherLanguage{}}\\
 

@@ -1,5 +1,9 @@
 %% res-doc.sty - Unoffocial LaTeX style file for Canadian
 %%  Science Advisory Secretariat Research Documents.
+\usepackage[english]{babel}
+
+
+
 
 %% Move the footer position flush to the left margin (default is indented a bit)
 \usepackage[flushmargin, bottom]{footmisc}
@@ -76,31 +80,30 @@
 %% ------------------------------------------------------------------------------
 %% Table of Contents
 \usepackage{tocloft}
+\makeatletter
 %% Set dot spacing size in TOC for each section
-\renewcommand{\cftchapdotsep}{1}
-\renewcommand{\cftsecdotsep}{1}
-\renewcommand{\cftsubsecdotsep}{1}
-\renewcommand{\cftsubsubsecdotsep}{1}
+\renewcommand{\cftchapdotsep}{4.5}
+% Set spacing between numbers and headings
+\renewcommand{\l@section}{\@dottedtocline{1}{1em}{1em}}
+\renewcommand{\l@subsection}{\@dottedtocline{2}{2em}{2em}}
+%% Set vertical spacing between entries in TOC
+\setlength{\cftbeforechapskip}{1pt}
+\setlength{\cftbeforesecskip}{5pt}
+\setlength{\cftbeforesubsecskip}{5pt}
+\setlength{\cftbeforesubsubsecskip}{5pt}
 %% Enable dots for chapters in the TOC
 \renewcommand{\cftchapleader}{\cftdotfill{\cftchapdotsep}}
 %% Un-bold the chapter text in the TOC
 \renewcommand{\cftchapfont}{\mdseries}
 %% Un-bold the chapter page numbers in the TOC
 \renewcommand{\cftchappagefont}{\mdseries}
-%% Make the chapter entries the same indentation as the sections
+%% Make the appendix (chapter) entries the same indentation as the sections
 %%  (entry, indent, numWidth)
-%% See the tocloft documentation to get these values
-\cftsetindents{chapter}{1.5em}{2.3em}
-%% Set vertical spacing between entries in TOC
-\setlength{\cftbeforechapskip}{5pt}
-\setlength{\cftbeforesecskip}{5pt}
-\setlength{\cftbeforesubsecskip}{5pt}
-\setlength{\cftbeforesubsubsecskip}{5pt}
+\cftsetindents{chapter}{1em}{1em}
 %% Remove space between the Table of contents title and it's content.
 \setlength\cftaftertoctitleskip{6pt}
-\makeatletter
 \renewcommand{\@tocrmarg}{5em}
-
+\makeatother
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
@@ -232,9 +235,9 @@
 \newcommand\Main{
   %% To number the main document sections, tables, etc.
   %%  as 1.1, 1.2, etc.
-  \renewcommand{\thesection}{\arabic{section}}
-  \renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
-  \renewcommand{\thesubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+  \renewcommand{\thesection}{\arabic{section}.}
+  \renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}.}
+  \renewcommand{\thesubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}.}
   \renewcommand{\thetable}{\arabic{table}}
   \renewcommand{\thefigure}{\arabic{figure}}
   \renewcommand{\theequation}{\arabic{equation}}
@@ -247,9 +250,9 @@
   \appendix
   %% Always start a new page for appendices
   \newpage
-  \renewcommand{\thesection}{\thechapter.\arabic{section}}
-  \renewcommand{\thesubsection}{\thechapter.\arabic{section}.\arabic{subsection}}
-  \renewcommand{\thesubsubsection}{\thechapter.\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+  \renewcommand{\thesection}{\thechapter.\arabic{section}.}
+  \renewcommand{\thesubsection}{\thechapter.\arabic{section}.\arabic{subsection}.}
+  \renewcommand{\thesubsubsection}{\thechapter.\arabic{section}.\arabic{subsection}.\arabic{subsubsection}.}
   \renewcommand{\thetable}{\thechapter.\arabic{table}}
   \renewcommand{\thefigure}{\thechapter.\arabic{figure}}
   \renewcommand{\theequation}{\thechapter.\arabic{equation}}
@@ -261,10 +264,8 @@
   \renewcommand{\section}{\appsection}
 }
 
-%% Changes the name of the bibliography to REFERENCES.
-\renewcommand{\bibname}{REFERENCES}
-%% To make REFERENCES a section and then number it
-\renewcommand{\bibsection}{\section{\bibname}}
+% Make the references section an actual section instead of a chapter and number it
+\renewcommand{\bibsection}{\section{\refname}}
 
 %% Makes figures stick to the top of the page. i.e. if there is a single figure
 %%  on a page, it will be placed in the center. This forces it to stick
@@ -310,20 +311,6 @@
   \addcontentsline{toc}{section}{ABSTRACT}\nonumsection*{ABSTRACT}
 }
 
-%% Make French abstract have entry in the table of contents
-\newcommand{\frenchabstract}[1]{
-  \clearpage
-  %% Make spacing between top of page and heading less.
-  \vspace*{-30\p@}
-  \phantomsection
-  \begin{center}
-    \Large \textbf{#1}
-  \end{center}
-  \vspace{-6mm}
-  %% Add the appendix name to the table of contents.
-  \addcontentsline{toc}{section}{R\'ESUM\'E}\nonumsection*{R\'ESUM\'E}
-}
-
 %% ------------------------------------------------------------------------------
 %% To add headers and footers to landscape pages
 \usepackage{everypage}
@@ -346,12 +333,12 @@
 %% Creates a header and footer on the long page sides on landscape pages
 \AddEverypageHook{\ifdim\textwidth=\textheight
   \fancyhf{}\fancyfoot{}
-\begin{textblock}{0.05}(0.925,0.5)
-{\rotatebox{90}{\sffamily\selectfont\small\thepage}}\end{textblock}
- \begin{textblock}{1}(0.1,0.0909)
-{\rotatebox{90}{\rule{9in}{0.25pt}}}\end{textblock}
+ \begin{textblock}{0.05}(0.925,0.5)
+ {\rotatebox{90}{\sffamily\selectfont\small\thepage}}\end{textblock}
+  \begin{textblock}{1}(0.1,0.0909)
+  \end{textblock}
   \begin{textblock}{1}(0.9,0.0909)
-  {\rotatebox{90}{\rule{9in}{0.25pt}}}\end{textblock}
+  \end{textblock}
 \fi}
 
 %% For landscape pages in CSAS documents
@@ -365,8 +352,6 @@
 
 %% ------------------------------------------------------------------------------
 %% Defines the header and footer rules for a CSAS paper.
-\renewcommand\headrule{\hrule width1.0\textwidth}
-\renewcommand\footrule{\hrule width1.0\textwidth}
 \pagestyle{fancy}
 \renewcommand{\footrulewidth}{0.4pt}
 \renewcommand{\headrulewidth}{0.4pt}
@@ -379,6 +364,19 @@
   \renewcommand{\footrulewidth}{0.4pt}
   \renewcommand{\headrulewidth}{0.4pt}
 }
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% Allows a box to be drawn around paragraphs with verbatim text (listing)
+%% Used for tagging paragraphs that need translation
+\usepackage{listings}
+\lstset{
+basicstyle=\small\ttfamily,
+columns=flexible,
+breaklines=true
+}
+
+\newsavebox{\userinput}
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
@@ -615,7 +613,6 @@
 
 \vspace{-0.9mm}
 
-% \vspace{-4.0mm}
 \parbox{9cm}{\rdMonth{} \rdYear{}}%
 \begin{minipage}[t]{7.48cm}
 \flushright
@@ -655,7 +652,7 @@ Ottawa ON K1A 0E6\\
 \vspace{-1mm}
 \textcopyright\ Her Majesty the Queen in Right of Canada, \rdYear{}\\
 ISSN 1919-5044\\
-ISBN~\rdISBN{} \hspace{5mm} Cat~No.~\rdCatNo
+ISBN~\rdISBN{} \hspace{5mm} Cat.~No.~\rdCatNo
 \end{center}
 
 \vspace{-0.1mm}
@@ -669,7 +666,7 @@ DFO Can.\ Sci.\ Advis.\ Sec.\ Res.\ Doc. \rdYear{}/\rdNumber{}.
 \pageref{TRlastRoman}{} + \pageref{LastPage}~p.
 
 \vspace{0.2mm}
-\textbf{Aussi disponible en fran\c cais :}\\
+\textbf{\emph{Aussi disponible en fran\c cais :}}\\
 \vspace{2mm}
 \hangindent=0.6cm \emph{\citationOtherLanguage{}}\\
 

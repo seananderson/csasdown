@@ -78,6 +78,15 @@ Look on your GitHub repository and you should see all the new files there. Your 
 8. Need to make an English *and* French version? csasdown has support for both. Also see csasdown's sister package [rosettafish](https://github.com/pbs-assess/rosettafish).
 
 ## Publications prepared using csasdown
+
+DFO. 2021. Stock status update with application of management procedures for
+Pacific Herring (*Clupea pallasii*) in British Columbia:
+Status in 2021 and forecast for 2022.
+DFO Can. Sci. Advis. Sec. Sci. Resp. 2021/039.
+[[English](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_039-eng.html)]
+[[French](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2021/2021_039-fra.html)]
+[[GitHub](https://github.com/pbs-assess/herringsr)]
+
 Asselin, N.C., Hanson, J.M., Ricard, D. and Rondeau, A. 2021. Methods and summary data 
 from the Northumberland Strait multi-species bottom trawl survey, 1999 to 2018. 
 Can. Tech. Rep. Fish. Aquat. Sci. 3432: v + 118 p. 
@@ -111,6 +120,8 @@ Nephin, J., Jeffery, S., Thiess, M., Archer, S., Murdock, I., Boschen-Rose, J., 
 2020. Methods and results from remotely operated vehicle (ROV) survey PAC2017-030:
 Exploring high and low current areas in the Salish Sea. Can. Tech. Rep. Fish. Aquat. Sci.
 3405: vi + 39 p. [[English](http://www.publications.gc.ca/site/eng/9.891774/publication.html)]
+
+Jackson, J.W., Head, E.J.H., Beazley, L.I. and Cogswell, A.T. 2021. Oceanographic monitoring of the Gully MPA – A synopsis of data collected by the Atlantic Zone Monitoring Program. Can. Tech. Rep. Hydrogr. Ocean Sci. 337: xiv + 87 p. [[English](https://waves-vagues.dfo-mpo.gc.ca/Library/41014984.pdf)] [[GitHub Repository]](https://github.com/AtlanticR/reproducible-gully-report)
 
 Obradovich, S.G., Hansen, S.C., Zhang, Z., MacNeill, S., Nichol, L.M., Rooper, C.N., St. Germain,
 C., Curtis, D.L., Waddell, B.J., and Barton, L.L. 2020. Pre-COSEWIC review of DFO

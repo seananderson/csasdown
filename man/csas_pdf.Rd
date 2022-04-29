@@ -11,7 +11,6 @@ resdoc_pdf(
   toc_depth = 3,
   highlight = "tango",
   latex_engine = "pdflatex",
-  french = FALSE,
   prepub = FALSE,
   copy_sty = TRUE,
   line_nums = FALSE,
@@ -26,7 +25,6 @@ resdoc_pdf(
 
 sr_pdf(
   latex_engine = "pdflatex",
-  french = FALSE,
   prepub = FALSE,
   copy_sty = TRUE,
   line_nums = FALSE,
@@ -39,7 +37,6 @@ sr_pdf(
 )
 
 techreport_pdf(
-  french = FALSE,
   latex_engine = "pdflatex",
   copy_sty = TRUE,
   line_nums = FALSE,
@@ -69,8 +66,6 @@ Pass \code{NULL} to prevent syntax highlighting (uses 'monochrome' theme) for sl
 different text format but no highlighting}
 
 \item{latex_engine}{LaTeX engine to render with. 'pdflatex' or 'xelatex'}
-
-\item{french}{Logical for French (vs. English).}
 
 \item{prepub}{Logical for whether this is a pre-publication version
 (currently not implemented for ResDocs)}

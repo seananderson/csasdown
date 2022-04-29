@@ -31,9 +31,16 @@
 #' @param ex_escape See `escape` in kableExtra:::pdfTable_add_header_above()
 #' @param ex_line See `line` in kableExtra:::pdfTable_add_header_above()
 #' @param ex_line_sep See `line_sep` in kableExtra:::pdfTable_add_header_above()
+#' @param cols_no_format A vector of names of numeric columns to not apply `big.mark`
+#' and `decimal.mark` to. The function will attempt to detect year columns by default
+#' and not apply formatting to those, but this argument, if present, will be added to those
+#' @param cols_to_format A vector of the names of columns to format in case they are left
+#' unformatted by the year detection algorithm. As long as the columns are numeric,
+#' (`is.numeric() == TRUE`), formatting will be applied to these columns
 #'
 #' @importFrom knitr kable
 #' @importFrom kableExtra row_spec kable_styling landscape linebreak
+#' @importFrom purrr map map2 map_chr map_lgl map_df
 #' @examples
 #' csas_table(head(iris))
 #' @export
@@ -63,35 +70,72 @@ csas_table <- function(x,
                        ex_escape = TRUE,
                        ex_line = TRUE,
                        ex_line_sep = 3,
+                       cols_no_format = NULL,
+                       cols_to_format = NULL,
                        ...) {
+
+  # Language format list
+  dec_format <- list(decimal.mark = ifelse(fr(), ",", "."),
+                     big.mark = ifelse(fr(), " ", ","))
+
+  # Check to make sure the names supplied by cols_no_format are actually in the data frame
+  names_exist <- map_lgl(cols_no_format, ~{
+    .x %in% names(x)
+  })
+  if(!all(names_exist)){
+    stop("One or more of the columns supplied in `cols_no_format` are not in the data frame.",
+         "The column(s) are:\n", paste(cols_no_format[!names_exist], collapse = ", "))
+  }
+  # Check to make sure the names supplied by cols_to_format are actually in the data frame
+  names_exist <- map_lgl(cols_to_format, ~{
+    .x %in% names(x)
+  })
+  if(!all(names_exist)){
+    stop("One or more of the columns supplied in `cols_to_format` are not in the data frame.",
+         "The column(s) are:\n", paste(cols_to_format[!names_exist], collapse = ", "))
+  }
+
+  year_col_names <- unique(c(year_cols(x), cols_no_format))
+  year_col_names <- setdiff(year_col_names, cols_to_format)
+
+  if(!is.null(year_col_names)){
+    # Apply type change to the year columns from numeric to character
+    # so that formatting is not applied to the year cols
+    j <- map_lgl(names(x), ~{
+      .x %in% year_col_names
+    })
+    x[j] <- map_df(x[j], ~{
+      .x <- as.character(.x)
+    })
+  }
   if (!is.null(col_names)) {
     # Check for newlines in column headers and convert to proper latex linebreaks
     # See 'Insert linebreak in table' section in the following
     # http://haozhu233.github.io/kableExtra/best_practice_for_newline_in_latex_table.pdf
     if (length(grep("\n", col_names))) {
-      ## Only use kableExtra if there are newlines
+      # Only use kableExtra if there are newlines
       col_names <- linebreak(col_names, align = col_names_align)
     }
-    k <- kable(
-      x = x,
-      format = format,
-      booktabs = booktabs,
-      linesep = linesep,
-      longtable = longtable,
-      col.names = col_names,
-      escape = escape,
-      ...
+    k <- kable(x = x,
+               format = format,
+               booktabs = booktabs,
+               linesep = linesep,
+               longtable = longtable,
+               col.names = col_names,
+               escape = escape,
+               format.args = dec_format,
+               ...
     )
     suppressWarnings(k <- kable_styling(k, font_size = font_size))
   } else {
-    k <- kable(
-      x = x,
-      format = format,
-      booktabs = booktabs,
-      linesep = linesep,
-      longtable = longtable,
-      escape = escape,
-      ...
+    k <- kable(x = x,
+               format = format,
+               booktabs = booktabs,
+               linesep = linesep,
+               longtable = longtable,
+               escape = escape,
+               format.args = dec_format,
+               ...
     )
     suppressWarnings(k <- kable_styling(k, font_size = font_size))
   }
@@ -156,6 +200,7 @@ csas_table <- function(x,
 #' @param line See kableExtra:::pdfTable_add_header_above()
 #' @param line_sep See kableExtra:::pdfTable_add_header_above()
 #'
+#' @importFrom kableExtra magic_mirror
 #' @return See kableExtra:::pdfTable_add_header_above()
 add_extra_header <- function(kable_input,
                              header = NULL,
@@ -172,7 +217,7 @@ add_extra_header <- function(kable_input,
                              escape,
                              line = TRUE,
                              line_sep = 3) {
-  table_info <- kableExtra::magic_mirror(kable_input)
+  table_info <- magic_mirror(kable_input)
   header <- kableExtra:::standardize_header_input(header)
   if (length(table_info$colnames) != nrow(header)) {
     stop("The number of extra headers supplied is not the same as the number of columns in the table", call. = FALSE)

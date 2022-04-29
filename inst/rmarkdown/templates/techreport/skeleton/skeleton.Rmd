@@ -97,24 +97,38 @@ opts_chunk$set(
   fig.align = fig_align,
   fig.pos = fig_pos
 )
-options(xtable.comment = FALSE)
-options(kableExtra.latex.load_packages = FALSE)
+options(# Prevent xtable from adding a timestamp comment to the table code it produces
+        xtable.comment = FALSE,
+        # Don't allow kableExtra to load packages, we add them manually in csasdown
+        kableExtra.latex.load_packages = FALSE,
+        # Stop chunk output (echo) running into the margins
+        width = 80,
+        # Don't use scientific notation (stops tables from showing 1.2e3, etc.)
+        scipen = 999)
 ```
 
 ```{r load-libraries, cache=FALSE}
-# `french` and `prepub` variables are extracted from the YAML headers above and
-#  are used throughout the document. To make the document all in french, change
-#  the line in the YAML header above to `french: true`
 meta <- rmarkdown::metadata$output
-if (length(grep("pdf", names(meta)))) {
-  french <- meta$`csasdown::techreport_pdf`$french
-  prepub <- meta$`csasdown::techreport_pdf`$prepub
-} else if (length(grep("word", names(meta)))) {
-  french <- meta$`csasdown::techreport_word`$french
-  prepub <- meta$`csasdown::techreport_word`$prepub
+if (is.null(meta)) {
+  # This knitr chunk has been run in R without running bookdown::render_book("index.Rmd")
+  # so rmarkdown::metadata$output is not populated
+  options(french = FALSE)
+} else {
+  if (length(grep("pdf", names(meta)))) {
+    options(french = meta$`csasdown::techreport_pdf`$french)
+    prepub <- meta$`csasdown::techreport_pdf`$prepub
+  } else if (length(grep("word", names(meta)))) {
+    options(french = meta$`csasdown::techreport_word`$french)
+    prepub <- meta$`csasdown::techreport_word`$prepub
+  }
 }
 csl <- "csl/csas.csl"
-if (french) {
+if (is.null(getOption("french"))) {
+  stop("`french` was not set up correctly in YAML header in index.Rmd. ",
+       "It must be true or false",
+       call. = FALSE)
+}
+if (getOption("french")) {
   csl <- "csl/csas-french.csl"
   options(OutDec = ",")
 }
@@ -123,8 +137,8 @@ if (french) {
 library(dplyr)
 library(ggplot2)
 library(readr)
-library(rosettafish)
 library(tibble)
+library(rosettafish)
 library(csasdown)
 ```
 

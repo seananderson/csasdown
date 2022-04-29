@@ -82,12 +82,13 @@ $header-includes$
 %Required by pandoc 2.8
 %Copied from https://github.com/rstudio/rmarkdown/issues/1649
 $if(csl-refs)$
-\newlength{\cslhangindent}
-\setlength{\cslhangindent}{1.5em}
-\newenvironment{cslreferences}%
-  {$if(csl-hanging-indent)$\setlength{\parindent}{0pt}%
-  \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces$endif$}%
-  {\par}
+  \newlength{\cslhangindent}
+  \setlength{\cslhangindent}{1.5em}
+  \newenvironment{cslreferences}{
+  $if(csl-hanging-indent)$
+    \everypar{\setlength{\hangindent}{\cslhangindent}}
+  $endif$}%
+ {\par}
 $endif$
 
 \DeclareGraphicsExtensions{.png,.pdf}
@@ -109,7 +110,6 @@ Centre for Science Advice (CSA)\\
 Fisheries and Oceans Canada\\
 AddressPlaceholder\\
 \vspace{0.2cm}
-Telephone: PhonePlaceholder\\
 E-mail: EmailPlaceholder\\
 Internet address: \link{http://www.dfo-mpo.gc.ca/csas-sccs/}{www.dfo-mpo.gc.ca/csas-sccs/}\\
 \vspace{0.2cm}

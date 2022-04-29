@@ -6,15 +6,13 @@
 \alias{techreport_word}
 \title{Creates an R Markdown Word CSAS-formatted document}
 \usage{
-resdoc_word(french = FALSE, ...)
+resdoc_word(...)
 
-sr_word(french = FALSE, ...)
+sr_word(...)
 
-techreport_word(french = FALSE, ...)
+techreport_word(...)
 }
 \arguments{
-\item{french}{Logical for French (vs. English).}
-
 \item{...}{other arguments to \code{\link[bookdown:html_document2]{bookdown::word_document2()}}}
 }
 \value{
