@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{b}
 \alias{b}
-\title{Wrapper for the \verb{[base::cat()]} function so there is no separator}
+\title{Wrapper for the \code{\link[=cat]{cat()}} function so there is no separator}
 \usage{
 b(...)
 }
@@ -11,5 +11,5 @@ b(...)
     allowed).}
 }
 \description{
-Wrapper for the \verb{[base::cat()]} function so there is no separator
+Wrapper for the \code{\link[=cat]{cat()}} function so there is no separator
 }

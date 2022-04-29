@@ -2,18 +2,20 @@
 % Please edit documentation in R/utils.R
 \name{catize}
 \alias{catize}
-\title{Reformat the supplied string so that inline code chunks
-are replaced with the format used in commands such as \code{\link[=cat]{cat()}}
-and \code{\link[=paste]{paste()}} which is a series of comma-separated strings
-and R objects. Use this function to reformat strings from
-rmarkdown to something that can be copy/pasted into a
-b("") command inside a knitr chunk.}
+\title{Reformat string to convert inline code to cat-like strings}
 \usage{
 catize(str, verbose = FALSE)
 }
 \arguments{
 \item{str}{The string containing inline knitr-style R code
 (backtick-enclosed)}
+
+\item{verbose}{Shows two vectors extracted from the input text, which are
+used to build the new string:
+\enumerate{
+\item the text chunks between the R code chunks
+\item the R code chunks between the text chunks
+}}
 }
 \value{
 A non-quoted (see \code{\link[=noquote]{noquote()}} string) which can be
@@ -26,5 +28,19 @@ are replaced with the format used in commands such as \code{\link[=cat]{cat()}}
 and \code{\link[=paste]{paste()}} which is a series of comma-separated strings
 and R objects. Use this function to reformat strings from
 rmarkdown to something that can be copy/pasted into a
-b("") command inside a knitr chunk.
+\code{\link[=b]{b()}} command inside a knitr chunk.
+
+This is used primarily to convert sections of code that have been written
+in rmarkdown into simple strings with r code embedded between quoted,
+comma-separated strings. Here is a simple example:
+Original rmarkdown string:
+
+The date is \code{`r Sys.Date()`} today
+
+Modified cat-like string:
+
+The date is ", Sys.Date(), " today
+}
+\note{
+
 }

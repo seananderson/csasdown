@@ -1,12 +1,30 @@
+#' Reformat string to convert inline code to cat-like strings
+#'
+#' @description
 #' Reformat the supplied string so that inline code chunks
 #' are replaced with the format used in commands such as [cat()]
 #' and [paste()] which is a series of comma-separated strings
 #' and R objects. Use this function to reformat strings from
 #' rmarkdown to something that can be copy/pasted into a
-#' b("") command inside a knitr chunk.
+#' [b()] command inside a knitr chunk.
+#'
+#' This is used primarily to convert sections of code that have been written
+#' in rmarkdown into simple strings with r code embedded between quoted,
+#' comma-separated strings. Here is a simple example:
+#' Original rmarkdown string:
+#'
+#' The date is `` `r Sys.Date()` `` today
+#'
+#' Modified cat-like string:
+#'
+#' The date is ", Sys.Date(), " today
 #'
 #' @param str The string containing inline knitr-style R code
 #' (backtick-enclosed)
+#' @param verbose Shows two vectors extracted from the input text, which are
+#' used to build the new string:
+#' 1) the text chunks between the R code chunks
+#' 2) the R code chunks between the text chunks
 #'
 #' @return A non-quoted (see [noquote()] string) which can be
 #' enclosed with double-quotes and copy/pasted into a [cat()]
@@ -14,14 +32,12 @@
 #'
 #' @importFrom stringr str_split str_extract_all
 #' @export
+#' @note
 catize <- function(str, verbose = FALSE){
 
-  # pattern is the knitr regexp, see $md section,
+  # `pattern` is the official knitr regexp, see $md section,
   # ..$ inline.code: chr "`r[ #]([^`]+)\\s*`" line here:
   # https://rdrr.io/cran/knitr/man/knit_patterns.html
-  # if(str == ""){
-  #   return(str)
-  # }
   pattern <- "`r[ #][^`]+\\s*`"
   txt <- str_split(str, pattern)[[1]]
   code <- str_extract_all(str, pattern)[[1]]
@@ -36,7 +52,9 @@ catize <- function(str, verbose = FALSE){
     return(str)
   }
   if(length(txt) != length(code) + 1){
-    stop("The string did not split up correctly when splitting on backtick-surrounded inline R code")
+    stop("The string did not split up correctly when splitting on ",
+         "backtick-surrounded inline R code",
+         call. = FALSE)
   }
   # Extract R code(s)
   code <- gsub("^`r ", "", code)
@@ -54,7 +72,7 @@ catize <- function(str, verbose = FALSE){
   noquote(out)
 }
 
-#' Wrapper for the `[base::cat()]` function so there is no separator
+#' Wrapper for the [cat()] function so there is no separator
 #'
 #' @inheritParams base::cat
 #' @export
@@ -94,9 +112,10 @@ year_cols <- function(df, year_range = 1800:4000){
   col_is_year
 }
 
-#' Wrapper for [getOption()] with the default set to FALSE
+#' Return value of the 'french' option in the current environment
 #'
-#' @description Used to retrieve `TRUE` or `FALSE` for whether
+#' @description
+#' Used to retrieve `TRUE` or `FALSE` for whether
 #' or not to render the document in French
 #'
 #' @return The french option value. If the french option is `NULL`,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{fr}
 \alias{fr}
-\title{Wrapper for \code{\link[=getOption]{getOption()}} with the default set to FALSE}
+\title{Return value of the 'french' option in the current environment}
 \usage{
 fr()
 }
