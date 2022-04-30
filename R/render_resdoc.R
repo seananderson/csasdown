@@ -57,7 +57,6 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
            call. = FALSE)
     }
     rmd <- readLines(.x)
-    xxx <- rmd
     cat_inds <- grep("cat\\(.*", rmd)
     # Match ending parens
     map(cat_inds, ~{
