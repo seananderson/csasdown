@@ -23,7 +23,7 @@ enclosed with double-quotes and copy/pasted into a \code{\link[=cat]{cat()}}
 or \code{\link[=paste]{paste()}} command
 }
 \description{
-Reformat the supplied string so that inline code chunks
+Reformats the supplied string so that inline code chunks
 are replaced with the format used in commands such as \code{\link[=cat]{cat()}}
 and \code{\link[=paste]{paste()}} which is a series of comma-separated strings
 and R objects. Use this function to reformat strings from
@@ -40,6 +40,11 @@ The date is \code{`r Sys.Date()`} today
 Modified cat-like string:
 
 The date is ", Sys.Date(), " today
+
+\strong{This is not meant to be used in an Rmd file. You must convert your
+rmarkdown paragraphs by running them one at a time through this function
+outside your document build, and pasting the contents into a call to \code{\link[=b]{b()}}
+inside your Rmd file.}
 }
 \note{
 

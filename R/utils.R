@@ -1,7 +1,7 @@
 #' Reformat string to convert inline code to cat-like strings
 #'
 #' @description
-#' Reformat the supplied string so that inline code chunks
+#' Reformats the supplied string so that inline code chunks
 #' are replaced with the format used in commands such as [cat()]
 #' and [paste()] which is a series of comma-separated strings
 #' and R objects. Use this function to reformat strings from
@@ -18,6 +18,11 @@
 #' Modified cat-like string:
 #'
 #' The date is ", Sys.Date(), " today
+#'
+#' **This is not meant to be used in an Rmd file. You must convert your
+#' rmarkdown paragraphs by running them one at a time through this function
+#' outside your document build, and pasting the contents into a call to [b()]
+#' inside your Rmd file.**
 #'
 #' @param str The string containing inline knitr-style R code
 #' (backtick-enclosed)
