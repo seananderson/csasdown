@@ -3,7 +3,6 @@
 export(add_resdoc_docx_frontmatter)
 export(add_resdoc_docx_titlepage)
 export(add_techreport_docx_titlepage)
-export(b)
 export(catize)
 export(check_yaml)
 export(create_tempdir_for_latex)

@@ -47,6 +47,8 @@ to extract these inline code chunks. The main Rmd file, typically index.Rmd
 is not modified at all (it is not parsed).
 
 Any single-backslash escaped things in rmarkdown such as \verb{$\\pi$}, or
-\verb{$\\alpha$} or similar must be double-backslashed inside the cat() command
-or an error will be thrown.
+\verb{$\\alpha$} or similar will be converted to double-backslashed inside
+of the temporary Rmd files to avoid an error from the \code{\link[=cat]{cat()}} function.
+
+You can use either single or double quotes to surround the text passed to \code{\link[=cat]{cat()}}
 }

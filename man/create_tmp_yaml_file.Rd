@@ -2,7 +2,7 @@
 % Please edit documentation in R/render_resdoc.R
 \name{create_tmp_yaml_file}
 \alias{create_tmp_yaml_file}
-\title{Create a copy of the YAML file with temporary Rmd File names}
+\title{Create a copy of a bookdown YAML file containing modified Rmd File names}
 \usage{
 create_tmp_yaml_file(yaml_fn = "_bookdown.yml", book_fn = "index.Rmd")
 }
@@ -10,11 +10,31 @@ create_tmp_yaml_file(yaml_fn = "_bookdown.yml", book_fn = "index.Rmd")
 \item{yaml_fn}{The YAML file name}
 
 \item{book_fn}{The Rmd file containing the YAML code used for rendering.
+This name will not be modified in the new YAML file
 The default is 'index.Rmd' for \code{\link[bookdown:render_book]{bookdown::render_book()}}}
 }
 \value{
 The name of the temporary YAML file created
 }
 \description{
-Create a copy of the YAML file with temporary Rmd File names
+Creates a copy of a bookdown YAML file with "tmp_" prepended to the name.
+Inside the new file, all listed Rmd files except \code{book_fn} will have their
+names prepended with "tmp_".
+It is required that all filenames appear on their own line in the file.
+}
+\details{
+The file must have an entry like this:
+rmd_files: \link[="index.Rmd",
+            "01-chap1.Rmd"]{"index.Rmd", "01-chap1.Rmd"}
+#"02-chap2.Rmd",
+#"03-chap3.Rmd",
+#"04-references.Rmd",
+#"05-appendix.Rmd"]
+This will appear in the new file as:
+rmd_files: \link[="index.Rmd",
+            "tmp_01-chap1.Rmd"]{"index.Rmd", "tmp_01-chap1.Rmd"}
+
+The file must also have a line like this before the above list, which is
+used as an index for where to insert the modified file list after:
+book_filename: "resdoc"
 }
