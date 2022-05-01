@@ -72,6 +72,21 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
           # because of escaping and because we are inside a cat() layer so it is a double-
           # double situation
           trmd <- gsub("\\\\", "\\\\\\\\", trmd)
+          # Convert empty lines into the code necessary to render them as such in the
+          # final document (two lines of 8 backslashed per single empty line)
+          newline_inds <- grep("^$", trmd)
+          if(length(newline_inds)){
+            rmd_1 <- rmd[1:(.x - 1)]
+            rmd_2 <- rmd[(i + 1):length(rmd)]
+            trmd[newline_inds] <- "\\\\\\\\"
+            x <- numeric(length(trmd) + length(newline_inds))
+            ind <- newline_inds + order(newline_inds)
+            x[ind] <- "\\\\\\\\"
+            x[-ind] <- trmd
+            trmd <- x
+            browser()
+            rmd <- c(rmd_1, trmd, rmd_2)
+          }
           # If single quotes were used to surround the text in [cat()], make them double
           # so that they match the quotes used to make the embedded code parts
           if(substr(trmd[1], 1, 1) == "'"){
