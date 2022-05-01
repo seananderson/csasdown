@@ -116,13 +116,16 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
 #'
 #' @details
 #' The file must have an entry like this:
-#' rmd_files: ["index.Rmd",
-#'             "01-chap1.Rmd"]
-#'            #"02-chap2.Rmd",
-#'            #"03-chap3.Rmd",
-#'            #"04-references.Rmd",
-#'            #"05-appendix.Rmd"]
-#' In the above example, the vector returned will be:
+#'
+#' `` rmd_files: ["index.Rmd", ``
+#' ``             "01-chap1.Rmd"] ``
+#' ``            #"02-chap2.Rmd", ``
+#' ``            #"03-chap3.Rmd", ``
+#' ``            #"04-references.Rmd", ``
+#' ``            #"05-appendix.Rmd"] ``
+#'
+#' In this case, the vector returned will be:
+#'
 #' c("index.Rmd", "01-chap1.Rmd")
 #'
 #' @param yaml_fn The YAML file name
@@ -157,15 +160,18 @@ rmd_filenames_from_yaml <- function(yaml_fn = "_bookdown.yml"){
 #'
 #' @details
 #' The file must have an entry like this:
-#' rmd_files: ["index.Rmd",
-#'             "01-chap1.Rmd"]
-#'            #"02-chap2.Rmd",
-#'            #"03-chap3.Rmd",
-#'            #"04-references.Rmd",
-#'            #"05-appendix.Rmd"]
+#'
+#' `` rmd_files: ["index.Rmd", ``
+#' ``             "01-chap1.Rmd"] ``
+#' ``            #"02-chap2.Rmd", ``
+#' ``            #"03-chap3.Rmd", ``
+#' ``            #"04-references.Rmd", ``
+#' ``            #"05-appendix.Rmd"] ``
+#'
 #' This will appear in the new file as:
-#' rmd_files: ["index.Rmd",
-#'             "tmp_01-chap1.Rmd"]
+#'
+#' `` rmd_files: ["index.Rmd", ``
+#' ``             "tmp_01-chap1.Rmd"] ``
 #'
 #' The file must also have a line like this before the above list, which is
 #' used as an index for where to insert the modified file list after:

@@ -24,15 +24,18 @@ It is required that all filenames appear on their own line in the file.
 }
 \details{
 The file must have an entry like this:
-rmd_files: \link[="index.Rmd",
-            "01-chap1.Rmd"]{"index.Rmd", "01-chap1.Rmd"}
-#"02-chap2.Rmd",
-#"03-chap3.Rmd",
-#"04-references.Rmd",
-#"05-appendix.Rmd"]
+
+\verb{rmd_files: ["index.Rmd",}
+\verb{            "01-chap1.Rmd"]}
+\verb{           #"02-chap2.Rmd",}
+\verb{           #"03-chap3.Rmd",}
+\verb{           #"04-references.Rmd",}
+\verb{           #"05-appendix.Rmd"]}
+
 This will appear in the new file as:
-rmd_files: \link[="index.Rmd",
-            "tmp_01-chap1.Rmd"]{"index.Rmd", "tmp_01-chap1.Rmd"}
+
+\verb{rmd_files: ["index.Rmd",}
+\verb{            "tmp_01-chap1.Rmd"]}
 
 The file must also have a line like this before the above list, which is
 used as an index for where to insert the modified file list after:
