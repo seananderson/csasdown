@@ -2,7 +2,7 @@ str0 <- "Test without r code"
 str1 <- "`r 1 + 1` Test with r code first only"
 str2 <- "Test with r code last only `r 2 * 3`"
 str3 <- "`r 1 + 1` Test with r code first and last only `r 2 * 3`"
-str4 <- "`r only_r_code`"
+str4 <- "`r 1`"
 str5 <- "complex `r map(x, ~{.x / (.x ^ 2) })` r code example from directory: `r here()`."
 str6 <- "`r code_1``r code_2`"
 
@@ -20,7 +20,7 @@ test_that("csasdown::catize() function works", {
   expect_equal(as.character(i1), "\", 1 + 1, \" Test with r code first only")
   expect_equal(as.character(i2), "Test with r code last only \", 2 * 3, \"")
   expect_equal(as.character(i3), "\", 1 + 1, \" Test with r code first and last only \", 2 * 3, \"")
-  expect_equal(as.character(i4), "only_r_code")
+  expect_equal(as.character(i4), "\",  1 ,\"")
   expect_equal(as.character(i5), "complex \", map(x, ~{.x / (.x ^ 2) }), \" r code example from directory: \", here(), \".")
   expect_equal(as.character(i6), "\", code_1, \"\", code_2, \"")
   expect_equal(i7, "")

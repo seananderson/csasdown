@@ -133,6 +133,7 @@ if (is.null(meta)) {
   }
 }
 csl <- "csl/csas.csl"
+options(OutDec = ".")
 if (is.null(getOption("french"))) {
   stop("`french` was not set up correctly in YAML header in index.Rmd. ",
        "It must be true or false",
@@ -156,9 +157,11 @@ if (getOption("french")) {
 #  chunk options to your English paragraph chunks instead of the French ones.
 #  
 #  IMPORTANT NOTES
-#  - You must use double backslashes in all paragraph chunks, so anywhere you
-#    would normally use a single backslash, use two backslashes.
-#    Examples are \@ref() which needs to be \\@ref() and \pi which must now be \\pi.
+#  - Use `csasdown::render_resdoc()` to render the document. This runs a
+#    pre-processing step which ensures any inline R chunks
+#    `r print("Like this one")` are taken care of correctly and that all
+#    backslash variables (eg. \pi, \alpha, \@ref, \cite) are all processed
+#    correctly.
 #  - French latex places a space before the colon by default so if you need a colon
 #    with no space before it, use \\hc .
 knit_hooks$set(needs_trans = function(before, options){

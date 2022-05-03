@@ -120,6 +120,7 @@ if (is.null(meta)) {
   }
 }
 csl <- "csl/csas.csl"
+options(OutDec = ".")
 if (is.null(getOption("french"))) {
   stop("`french` was not set up correctly in YAML header in index.Rmd. ",
        "It must be true or false",
