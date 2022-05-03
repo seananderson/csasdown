@@ -79,6 +79,13 @@ Look on your GitHub repository and you should see all the new files there. Your 
 
 ## Publications prepared using csasdown
 
+McMillan, C.J., Keppel, E.A., Spaven, L.D. and Doniol-Valcroze, T. 2022. Preliminary report on
+the seasonal abundance and distribution of cetaceans in the southern Salish Sea in response
+to TMX Recommendations 5 and 6 (Year 1). Can. Tech. Rep. Fish. Aquat. Sci. 3474: vi + 33 p. [[English](https://waves-vagues.dfo-mpo.gc.ca/Library/4105149x.pdf)]
+
+DFO. 2022. A data synopsis for British Columbia groundfish: 2021 data update.
+DFO Can. Sci. Advis. Sec. Sci. Resp. 2022/XX. In press.
+
 DFO. 2021. Stock status update with application of management procedures for
 Pacific Herring (*Clupea pallasii*) in British Columbia:
 Status in 2021 and forecast for 2022.
@@ -146,10 +153,10 @@ Haggarty, D.R., Huynh, Q.C., Forrest, R.E., Anderson, S.C., Bresch, M.J., Keppel
 Evaluation of potential rebuilding strategies for Inside Yelloweye Rockﬁsh (*Sebastes ruberrimus*) in British Columbia. DFO Can. Sci. Advis. Sec. Res. Doc. Accepted at Regional Peer Review meeting in June 2020. v + 135 p.
 [[GitHub repository](https://github.com/pbs-assess/yelloweye-inside)]
 
-Anderson, S.C., Forrest, R.E., Huynh, Q.C., Keppel, E.A. In press. A management procedure
+Anderson, S.C., Forrest, R.E., Huynh, Q.C., Keppel, E.A. 2021. A management procedure
 framework for groundﬁsh in British Columbia. DFO Can. Sci. Advis. Sec. Res. Doc. 
-Accepted at Regional Peer Review meeting in June 2020. v + 133 p.
-[[GitHub repository](https://github.com/pbs-assess/gfmp)]
+2021/007.
+[[GitHub repository](https://github.com/pbs-assess/gfmp)] [[English](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2021/2021_007-eng.html)] [[French](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2021/2021_007-fra.html)]
 
 DFO. 2020. Stock status update with application of management procedures for Pacific Herring
 (*Clupea pallasii*) in British Columbia: Status in 2019 and forecast for 2020. DFO Can. Sci.
