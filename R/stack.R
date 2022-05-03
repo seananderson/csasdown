@@ -3,6 +3,7 @@
 #' @param stack A 'stack' (character vector). Set to `NULL` for an empty stack
 #' @param val The value to push to the stack
 #'
+#' @export
 #' @return The stack with the new value on the top
 stk_push <- function(stack, val){
   c(stack, val)
