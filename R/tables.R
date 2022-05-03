@@ -139,8 +139,14 @@ csas_table <- function(x,
     )
     suppressWarnings(k <- kable_styling(k, font_size = font_size))
   }
+
   if (bold_header) {
-    suppressWarnings(k <- row_spec(k, 0, bold = TRUE))
+    if(format == "latex"){
+     warning("Bold headers not supported for the 'latex' format.\n",
+             "You must bold them manually by pasting latex macros aroud them.")
+    }else{
+      suppressWarnings(k <- row_spec(k, 0, bold = TRUE))
+    }
   }
   if (repeat_header) {
     suppressWarnings(
