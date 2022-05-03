@@ -7,7 +7,6 @@ After that, all subsequent sections will be turned into appendices. -->
 
 ```{r appendix01-para-1-en, eval = !fr(), results = 'asis'}
 cat("# THE FIRST APPENDIX {#app:a}
-
 The appendices here are simple examples showing how to set up sections, subsections, and sub-subsections withing the appendices. References are also shown here, but can be placed anywhere in the document.
 
 ## The first section in this appendix {#app:a-1}
@@ -41,7 +40,6 @@ More content here...")
 ```
 ```{r appendix01-para-1-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
 cat("# LE PREMIER APPENDICE {#app:a}
-    
 Les annexes sont des exemples simples montrant comment créer des sections, des sous-sections et des sous-sous-sections dans les annexes. Les références sont également indiquées ici, mais peuvent être placées n'importe où dans le document.
 
 ## La première section de cette annexe {#app:a-1}
@@ -76,7 +74,6 @@ Plus de contenu ici...")
 
 ```{r appendix02-para-1-en, eval = !fr(), results = 'asis'}
 cat("# THE SECOND APPENDIX {#app:b}
-
 More content here...
 
 ## The first section of the second appendix {#app:b-1}
@@ -85,7 +82,6 @@ More content here...")
 ```
 ```{r appendix02-para-1-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
 cat("# LA DEUXIÈME ANNEXE {#app:b}
-    
 Plus de contenu ici...
 
 ## La première section du deuxième appendice {#app:b-1}
