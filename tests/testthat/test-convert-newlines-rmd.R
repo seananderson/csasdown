@@ -1,7 +1,7 @@
-test_that("convert_newlines_rmd works", {
+test_that("csasdown::convert_newlines_rmd works", {
   str <- c("")
   str_mod <- c("\\n", "")
-  expect_identical(convert_newlines_rmd(str), str_mod)
+  expect_identical(csasdown::convert_newlines_rmd(str), str_mod)
 
 
   str <- c("Hello world",
@@ -13,7 +13,7 @@ test_that("convert_newlines_rmd works", {
                "\\\\",
                "",
                "Welcome!")
-  expect_identical(convert_newlines_rmd(str), str_mod)
+  expect_identical(csasdown::convert_newlines_rmd(str), str_mod)
 
   str <- c("#Section header",
            "",
@@ -37,7 +37,7 @@ test_that("convert_newlines_rmd works", {
                "\\\\",
                "",
                "#Section header 2")
-  expect_identical(convert_newlines_rmd(str), str_mod)
+  expect_identical(csasdown::convert_newlines_rmd(str), str_mod)
 
   str <- c("",
            "",
@@ -53,5 +53,5 @@ test_that("convert_newlines_rmd works", {
                "\\n",
                "\\\\",
                "")
-  expect_identical(convert_newlines_rmd(str), str_mod)
+  expect_identical(csasdown::convert_newlines_rmd(str), str_mod)
 })
