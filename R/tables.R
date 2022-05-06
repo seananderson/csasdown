@@ -201,9 +201,15 @@ csas_table <- function(x,
     }
     k_lines_pre <- k_lines[1:j]
     k_lines_post <- k_lines[(j + 1):length(k_lines)]
-    new_line_latex <- paste0("\\\\  \\hline \\multicolumn{",
-                             ncol(x),
-                             "}{l}{\\textit{Continued on next page ...}}")
+    if(getOption("french", default = FALSE)){
+      new_line_latex <- paste0("\\\\  \\hline \\multicolumn{",
+                               ncol(x),
+                               "}{l}{\\textit{Suite à la page suivante ...}}")
+    }else{
+      new_line_latex <- paste0("\\\\  \\hline \\multicolumn{",
+                               ncol(x),
+                               "}{l}{\\textit{Continued on next page ...}}")
+    }
     k_lines <- c(k_lines_pre, new_line_latex, k_lines_post)
 
     # Add Continued from previous page...
@@ -215,9 +221,15 @@ csas_table <- function(x,
     }
     k_lines_pre <- k_lines[1:j]
     k_lines_post <- k_lines[(j + 1):length(k_lines)]
-    new_line_latex <- paste0("\\multicolumn{",
-                             ncol(x),
-                             "}{l}{\\textit{... Continued from previous page}} \\\\ \\hline")
+    if(getOption("french", default = FALSE)){
+      new_line_latex <- paste0("\\multicolumn{",
+                               ncol(x),
+                               "}{l}{\\textit{... Suite de la page précédente}} \\\\ \\hline")
+    }else{
+      new_line_latex <- paste0("\\multicolumn{",
+                               ncol(x),
+                               "}{l}{\\textit{... Continued from previous page}} \\\\ \\hline")
+    }
     k_lines <- c(k_lines_pre, new_line_latex, k_lines_post)
 
     k_lines_str <- paste(k_lines, collapse = " ")
