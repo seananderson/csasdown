@@ -139,8 +139,14 @@ csas_table <- function(x,
     )
     suppressWarnings(k <- kable_styling(k, font_size = font_size))
   }
+
   if (bold_header) {
-    suppressWarnings(k <- row_spec(k, 0, bold = TRUE))
+    if(format == "latex"){
+     warning("Bold headers not supported for the 'latex' format.\n",
+             "You must bold them manually by pasting latex macros aroud them.")
+    }else{
+      suppressWarnings(k <- row_spec(k, 0, bold = TRUE))
+    }
   }
   if (repeat_header) {
     suppressWarnings(
@@ -160,7 +166,9 @@ csas_table <- function(x,
   if (!is.null(extra_header)) {
     kable_format <- attr(k, "format")
     if (kable_format != "latex") {
-      stop("Adding an extra header is only supported for latex builds.", call. = FALSE)
+      stop("Adding an extra header is only supported for latex tables ",
+           "(format = 'latex').",
+           call. = FALSE)
     }
     k <- add_extra_header(k,
       header = extra_header,
@@ -178,6 +186,55 @@ csas_table <- function(x,
       ex_line,
       ex_line_sep
     )
+  }
+  # Insert "Continued on last page for latex
+  if(format == "latex"){
+
+    k_lines <- strsplit(k, "\n")[[1]]
+
+    # Add Continued on next page...
+    j <- grep("endhead", k_lines)
+    if(length(j) > 1){
+      warning("'endhead' found more than once in the table latex, cannot add ",
+              "'Continued on next page... text to table")
+      return(k)
+    }
+    k_lines_pre <- k_lines[1:j]
+    k_lines_post <- k_lines[(j + 1):length(k_lines)]
+    if(getOption("french", default = FALSE)){
+      new_line_latex <- paste0("\\\\  \\hline \\multicolumn{",
+                               ncol(x),
+                               "}{l}{\\textit{Suite à la page suivante ...}}")
+    }else{
+      new_line_latex <- paste0("\\\\  \\hline \\multicolumn{",
+                               ncol(x),
+                               "}{l}{\\textit{Continued on next page ...}}")
+    }
+    k_lines <- c(k_lines_pre, new_line_latex, k_lines_post)
+
+    # Add Continued from previous page...
+    j <- grep("endfirsthead", k_lines)
+    if(length(j) > 1){
+      warning("'endfirsthead' found more than once in the table latex, cannot add ",
+              "'Continued from previous page... text to table")
+      return(k)
+    }
+    k_lines_pre <- k_lines[1:j]
+    k_lines_post <- k_lines[(j + 1):length(k_lines)]
+    if(getOption("french", default = FALSE)){
+      new_line_latex <- paste0("\\multicolumn{",
+                               ncol(x),
+                               "}{l}{\\textit{... Suite de la page précédente}} \\\\ \\hline")
+    }else{
+      new_line_latex <- paste0("\\multicolumn{",
+                               ncol(x),
+                               "}{l}{\\textit{... Continued from previous page}} \\\\ \\hline")
+    }
+    k_lines <- c(k_lines_pre, new_line_latex, k_lines_post)
+
+    k_lines_str <- paste(k_lines, collapse = " ")
+    attributes(k_lines_str) <- attributes(k)
+    k <- k_lines_str
   }
   k
 }
