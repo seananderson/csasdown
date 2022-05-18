@@ -149,3 +149,5 @@ csasdown::csas_table(widelong_df,
 ```
 \end{landscapepage}
 \clearpage
+
+It is often useful to group certain rows of a table that share the same information. This can be achieved using the `kableExtra::collapse_rows` and `kableExtra::group_rows` and `kableExtra::pack_rows`.
