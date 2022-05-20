@@ -213,7 +213,7 @@ cat("One last neat feature is the use of the `ifelse` conditional statement whic
 ```{r chap01-para-13-en, eval = !fr(), results = 'asis'}
 cat("Note the use of `>` here, which signifies a quotation environment that will be indented.
 
-As you see with `$2 \\pi$` above, mathematics can be added by surrounding the mathematical text with dollar signs.  More examples of this are in [Mathematics and Science] if you uncomment the code in [Math].")
+As you see with `$2 \pi$` above, mathematics can be added by surrounding the mathematical text with dollar signs.  More examples of this are in [Mathematics and Science] if you uncomment the code in [Math].")
 ```
 ```{r chap01-para-13-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
 <<chap01-para-13-en>>
@@ -345,9 +345,12 @@ Within CSAS you should use the function `csasdown::csas_table()` instead. It jus
 ```{r maxdelays, results = 'asis'}
 library(knitr)
 csas_table(max_delays,
-  col.names = c("Airline", "Max Arrival Delay"),
-  caption = "Maximum Delays by Airline"
-)
+           col.names = `if`(fr(),
+                            c("Compagnie aérienne", "Délai maximal d'arrivée"),
+                            c("Airline", "Max Arrival Delay")),
+           caption = `if`(fr(),
+                          "Retards maximums par compagnie aérienne",
+                          "Maximum Delays by Airline"))
 ```
 
 ```{r chap01-para-22-en, eval = !fr(), results = 'asis'}
@@ -361,7 +364,11 @@ cat("Les deux dernières options rendent le tableau un peu plus facile à lire.
 Faisons un graphique des données :")
 ```
 
-```{r march3plot, fig.height=3, fig.width=6, fig.cap="My caption."}
+(ref:fig-march3plot-en) My caption.
+
+(ref:fig-march3plot-fr) Ma légende.
+
+```{r march3plot, fig.height=3, fig.width=6, fig.cap = ifelse(fr(), "(ref:fig-march3plot-fr)", "(ref:fig-march3plot-en)")}
 library(ggplot2)
 flights %>%
   ggplot(aes(x = dep_time, y = arr_delay)) +

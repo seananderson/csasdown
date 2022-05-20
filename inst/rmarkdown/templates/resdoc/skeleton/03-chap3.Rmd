@@ -18,6 +18,8 @@ La façon la plus simple de présenter des tableaux dans votre rapport est de st
 En plus des tables qui peuvent être générées automatiquement à partir d'un cadre de données dans R que vous avez vu dans [R Markdown Basics] en utilisant la fonction `kable`, vous pouvez également créer des tables en utilisant pandoc. (Plus d'informations sont disponibles sur <http://pandoc.org/README.html#tables>.) Cela peut être utile si vous n'avez pas de valeurs spécifiquement stockées dans R, mais que vous souhaitez les afficher sous forme de tableau.  Vous trouverez ci-dessous un exemple.  Faites bien attention à l'alignement dans le tableau et aux tirets pour créer les lignes et les colonnes. En général, nous ne recommandons pas cette approche consistant à taper le tableau directement dans votre document R Markdown.")
 ```
 
+```{r chap03-static-table-header-en, eval = !fr(), results = 'asis'}
+cat("
 ----------------------------------------------------------------------------------
   Factors                    Correlation between Parents & Child      Inherited
 ------------------------- ----------------------------------------- --------------
@@ -32,6 +34,27 @@ En plus des tables qui peuvent être générées automatiquement à partir d'un 
   Occupational Prestige                     0.21                        Slight
 ------------------------- ----------------------------------------- --------------
 Table: (\#tab:inher) Correlation of Inheritance Factors for Parents and Child 
+")
+```
+
+```{r chap03-static-table-header-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
+cat("
+----------------------------------------------------------------------------------
+  Facteurs                 Corrélation entre les parents et l'enfant    Héritage
+------------------------- ------------------------------------------- ------------
+  Éducation                                -0,49                          Oui
+  
+  Statut socio-économique                   0,28                         Léger   
+  
+  Revenu                                    0,08                          Non
+  
+  Taille de la famille                      0,18                         Léger
+  
+  Prestige professionnel                    0,21                         Léger
+------------------------- ----------------------------------------- --------------
+Tableau : (\#tab:inher) Corrélation des facteurs d'héritage pour les parents et l'enfant
+")
+```
 
 \clearpage
 
@@ -39,7 +62,7 @@ Table: (\#tab:inher) Correlation of Inheritance Factors for Parents and Child
   Floats are things like tables and figures. -->
 
 ```{r chap03-para-2-en, eval = !fr(), results = 'asis'}
-cat("We can also create a link to the table by doing the following: Table \\@ref(tab:inher).  If you go back to [Loading and exploring data] and look at the `kable` table, we can create a reference to this max delays table too: Table \\@ref(tab:maxdelays). The addition of the `(\\#tab:inher)` option to the end of the table caption allows us to then make a reference to Table `\\@ref(tab:label)`. Note that this reference could appear anywhere throughout the document after the table has appeared.")
+cat("We can also create a link to the table by doing the following: Table \@ref(tab:inher).  If you go back to [Loading and exploring data] and look at the `kable` table, we can create a reference to this max delays table too: Table \@ref(tab:maxdelays). The addition of the `(\#tab:inher)` option to the end of the table caption allows us to then make a reference to Table `\@ref(tab:label)`. Note that this reference could appear anywhere throughout the document after the table has appeared.")
 ```
 ```{r chap03-para-2-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
 <<chap03-para-2-en>>
@@ -60,8 +83,10 @@ widelong_df <- data.frame(cbind(yrs, widelong))
 # In landscape tables, you can change the font size if the table
 # is too large and overlaps the header and footer lines.
 csasdown::csas_table(widelong_df,
-                     col.names = c("Year", as.character(ages)),
-                     caption = "A long and wide landscape table",
+                     col.names = c(en2fr("Year"), as.character(ages)),
+                     caption = `if`(fr(),
+                                    "Une table de paysage longue et large",
+                                    "A long and wide landscape table"),
                      format = "latex",
                      font_size = 8)
 ```
@@ -88,16 +113,19 @@ cat("In the R chunk below, we will load in a picture stored as `uw.png` in our m
 ```{r chap03-para-4-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
 <<chap03-para-4-en>>
 ```
+(ref:fig-example-fig-en) My caption.
 
-```{r example-fig, fig.cap="My caption"}
-plot(1:10)
+(ref:fig-example-fig-fr) Ma légende.
+
+```{r example-fig, fig.cap = ifelse(fr(), "(ref:fig-example-fig-fr)", "(ref:fig-example-fig-en)")}
+plot(1:10, xlab = en2fr("Index"), ylab = en2fr("Index"))
 ```
 
 ```{r chap03-para-5-en, eval = !fr(), results = 'asis'}
-cat("Here is a reference to the figure: Figure \\@ref(fig:example-fig).  Note the use of the `fig:` code here.  By naming the R chunk that contains the figure, we can then reference that figure later as done in the first sentence here.  We can also specify the caption for the figure via the R chunk option `fig.cap`.")
+cat("Here is a reference to the figure: Figure \@ref(fig:example-fig).  Note the use of the `fig:` code here.  By naming the R chunk that contains the figure, we can then reference that figure later as done in the first sentence here.  We can also specify the caption for the figure via the R chunk option `fig.cap`.")
 ```
 ```{r chap03-para-5-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
-cat("Voici une référence à la figure : Figure \\@ref(fig:example-fig).  Notez l'utilisation du code `fig:` ici.  En nommant le chunk R qui contient la figure, nous pouvons ensuite faire référence à cette figure plus tard, comme cela est fait dans la première phrase ici.  Nous pouvons également spécifier la légende de la figure grâce à l'option `fig.cap` du chunk R.")
+cat("Voici une référence à la figure : Figure \@ref(fig:example-fig).  Notez l'utilisation du code `fig:` ici.  En nommant le chunk R qui contient la figure, nous pouvons ensuite faire référence à cette figure plus tard, comme cela est fait dans la première phrase ici.  Nous pouvons également spécifier la légende de la figure grâce à l'option `fig.cap` du chunk R.")
 ```
 
 \clearpage 
@@ -105,21 +133,27 @@ cat("Voici une référence à la figure : Figure \\@ref(fig:example-fig).  Notez
 <!-- starts a new page and stops trying to place floats such as tables and figures -->
 
 ```{r chap03-para-6-en, eval = !fr(), results = 'asis'}
-cat("Below we will investigate how to save the output of an R plot and label it in a way similar to that done above.  Recall the `flights` dataset from Section \\@ref(rmd-basics).  (Note that we've shown a different way to reference a section here.)  We will next explore a bar graph with the mean flight departure delays by airline from Portland for 2014.  Note also the use of the `scale` parameter which is discussed on the next page.")
+cat("Below we will investigate how to save the output of an R plot and label it in a way similar to that done above.  Recall the `flights` dataset from Section \@ref(rmd-basics).  (Note that we've shown a different way to reference a section here.)  We will next explore a bar graph with the mean flight departure delays by airline from Portland for 2014.  Note also the use of the `scale` parameter which is discussed on the next page.")
 ```
 ```{r chap03-para-6-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
 <<chap03-para-6-en>>
 ```
 
-```{r delaysboxplot, warnings=FALSE, messages=FALSE, fig.cap="Mean Delays by Airline", fig.width=6}
+(ref:fig-delaysboxplot-en) Mean delays by airline.
+
+(ref:fig-delaysboxplot-fr) Retards moyens par compagnie aérienne.
+
+```{r delaysboxplot, warnings = FALSE, messages = FALSE, fig.width = 6, fig.cap = ifelse(fr(), "(ref:fig-delaysboxplot-fr)", "(ref:fig-delaysboxplot-en)")}
 flights %>% group_by(carrier) %>%
   summarize(mean_dep_delay = mean(dep_delay)) %>%
   ggplot(aes(x = carrier, y = mean_dep_delay)) +
-  geom_bar(position = "identity", stat = "identity", fill = "red")
+  geom_bar(position = "identity", stat = "identity", fill = "red") + 
+  ylab(`if`(fr(), "Retard moyen au départ", "Mean departure delay")) + 
+  xlab(`if`(fr(), "Transporteur", "Carrier"))
 ```
 
 ```{r chap03-para-7-en, eval = !fr(), results = 'asis'}
-cat("Here is a reference to this image: Figure \\@ref(fig:delaysboxplot).
+cat("Here is a reference to this image: Figure \@ref(fig:delaysboxplot).
 
 A table linking these carrier codes to airline names is available at: <https://github.com/ismayc/pnwflights14/blob/master/data/airlines.csv>.")
 ```

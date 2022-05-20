@@ -12,6 +12,7 @@ address: |
   \smallskip
   ^2^Far, far away\
      Another Galaxy
+# Must have french_address: if producing a French document or no address will appear
 french_address: |
   ^1^Station biologique du Pacifique\
      Pêches et Océans Canada, 3190 Hammond Bay Road\
