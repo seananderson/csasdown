@@ -658,7 +658,9 @@ fix_envs <- function(x,
                "haven't commented out that section in _bookdown.yml or changed the header name",
                call. = FALSE)
         }
-        x[ref_ind] <- gsub("REFERENCES", ifelse(fr(), "RÉFÉRENCES CITÉES", "REFERENCES CITED"), x[ref_ind])
+        x[ref_ind] <- gsub("REFERENCES", ifelse(fr(),
+                                                "R\u00c9F\u00c9RENCES CIT\u00c9ES",
+                                                "REFERENCES CITED"), x[ref_ind])
       }
 
   } else {

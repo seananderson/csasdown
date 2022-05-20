@@ -15,7 +15,7 @@
 #' @param col_names_align As defined in [kableExtra::linebreak()].
 #' @param escape As defined by [kableExtra::kable_styling()].
 #' @param hold_position force the table placement to be where the code is called
-#'   (don't let latex position the table where it wants)
+#' (don't let latex position the table where it wants)
 #' @param extra_header character vector of extra headers to be placed above the headers
 #' @param ... Other arguments passed to [knitr::kable()] and kableExtra:::pdfTable_add_header_above()
 #' @param ex_bold See `bold` in kableExtra:::pdfTable_add_header_above()
@@ -204,7 +204,7 @@ csas_table <- function(x,
     if(getOption("french", default = FALSE)){
       new_line_latex <- paste0("\\\\  \\hline \\multicolumn{",
                                ncol(x),
-                               "}{l}{\\textit{Suite à la page suivante ...}}")
+                               "}{l}{\\textit{Suite \u00e0 la page suivante ...}}")
     }else{
       new_line_latex <- paste0("\\\\  \\hline \\multicolumn{",
                                ncol(x),
@@ -224,7 +224,7 @@ csas_table <- function(x,
     if(getOption("french", default = FALSE)){
       new_line_latex <- paste0("\\multicolumn{",
                                ncol(x),
-                               "}{l}{\\textit{... Suite de la page précédente}} \\\\ \\hline")
+                               "}{l}{\\textit{... Suite de la page pr\u00e9c\u00e9dente}} \\\\ \\hline")
     }else{
       new_line_latex <- paste0("\\multicolumn{",
                                ncol(x),
