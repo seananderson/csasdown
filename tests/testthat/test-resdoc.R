@@ -13,21 +13,17 @@ invisible(file.copy(files, testing_path, recursive = TRUE))
 
 # ----------------------------------------------------
 # Render the PDF resdoc
-expect_warning({
-  csasdown::render_resdoc(csasdown::resdoc_pdf(),
-                          envir = globalenv()))
-})
-
 test_that("bookdown::render_book generates the PDF of the resdoc", {
+  expect_warning(csasdown::render_resdoc(output_format = csasdown::resdoc_pdf(),
+                                         envir = globalenv()))
   expect_true(file.exists(file.path(testing_path, "_book", "resdoc.pdf")))
 })
 
 # ----------------------------------------------------
 # Render the Word resdoc
-suppressWarnings(csasdown::render_resdoc(csasdown::resdoc_word(),
-                                         envir = globalenv()))
-
 test_that("bookdown::render_book generates the .docx of the resdoc", {
+  suppressWarnings(csasdown::render_resdoc(output_format = csasdown::resdoc_word(),
+                                           envir = globalenv()))
   expect_true(file.exists(file.path(testing_path, "_book", "resdoc.docx")))
 })
 
@@ -47,7 +43,7 @@ expect_message(check_yaml(), "contains all")
 # Check that French versions build
 options(french = TRUE)
 expect_warning({
-  csasdown::render_resdoc(csasdown::resdoc_word(),
+  csasdown::render_resdoc(output_format = csasdown::resdoc_word(),
                           envir = globalenv())
 })
 
@@ -59,7 +55,7 @@ test_that("bookdown::render_book generates the PDF of the French resdoc", {
 # Creation and copying of test files to a temporary directory
 
 options(french = FALSE)
-csasdown::render_resdoc(csasdown::resdoc_word(),
+csasdown::render_resdoc(output_format = csasdown::resdoc_word(),
                         envir = globalenv())
 
 files <- file.path(testing_path, "index", dir("index"))
