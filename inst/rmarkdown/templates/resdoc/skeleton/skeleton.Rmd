@@ -1,5 +1,6 @@
 ---
 title: "Title Here (*Latin Species Name*)"
+french_title: "Titre ici (*Nom latin de l'espèce*)"
 author: |
   First. M. Last^1^ and
   Alex B. Smith^2^
@@ -11,10 +12,19 @@ address: |
   \smallskip
   ^2^Far, far away\
      Another Galaxy
+french_address: |
+  ^1^Station biologique du Pacifique\
+     Pêches et Océans Canada, 3190 Hammond Bay Road\
+     Nanaimo, Colombie-Britannique, V9T 6N7, Canada\
+  \smallskip
+  ^2^Loin, très loin\
+     Une autre galaxie
 month: "Month"
+french_month: "Mois"
 year: 2019
 report_number: nnn
 region: "Pacific Region"
+french_region: "Région Pacifique"
 isbn: "978-0-660-38322-4"
 cat_no: "Fs70-6/2021-012E-PDF"
 citation_other_language: "Last, F.M. et Smith, A.B. Title Here (*Latin Species Name*). DFO Secr. can. des avis sci. du MPO. Doc. de rech 2019/nnn. iv + 13 p."
@@ -118,18 +128,19 @@ options(# Prevent xtable from adding a timestamp comment to the table code it pr
 ```
 
 ```{r load-libraries, cache=FALSE}
-meta <- rmarkdown::metadata$output
-if (is.null(meta)) {
+meta <- rmarkdown::metadata
+meta_out <- rmarkdown::metadata$output
+if (is.null(meta_out)) {
   # This knitr chunk has been run in R without running bookdown::render_book("index.Rmd")
   # so rmarkdown::metadata$output is not populated
   options(french = FALSE)
 } else {
-  if (length(grep("pdf", names(meta)))) {
-    options(french = meta$`csasdown::resdoc_pdf`$french)
-    prepub <- meta$`csasdown::resdoc_pdf`$prepub
-  } else if (length(grep("word", names(meta)))) {
-    options(french = meta$`csasdown::resdoc_word`$french)
-    prepub <- meta$`csasdown::resdoc_word`$prepub
+  if (length(grep("pdf", names(meta_out)))) {
+    options(french = meta_out$`csasdown::resdoc_pdf`$french)
+    prepub <- meta_out$`csasdown::resdoc_pdf`$prepub
+  } else if (length(grep("word", names(meta_out)))) {
+    options(french = meta_out$`csasdown::resdoc_word`$french)
+    prepub <- meta_out$`csasdown::resdoc_word`$prepub
   }
 }
 csl <- "csl/csas.csl"
@@ -194,5 +205,8 @@ library(csasdown)
 ```
 
 ---
+title: `r ifelse(fr(), meta$french_title, meta$title)`
+month: `r ifelse(fr(), meta$french_month, meta$month)`
+region: `r ifelse(fr(), meta$french_region, meta$region)`
 csl: `r csl`    
 ---
