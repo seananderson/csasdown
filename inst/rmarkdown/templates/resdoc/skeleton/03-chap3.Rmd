@@ -176,7 +176,7 @@ Vous pourriez vouloir mettre une note de bas de page. ^[texte de la note de bas 
 cat("## BIBLIOGRAPHIES
 Of course you will need to cite things, and you will probably accumulate an armful of sources. There are a variety of tools available for creating a bibliography database (stored with the .bib extension).  In addition to BibTeX suggested below, you may want to consider using the free and easy-to-use tool called Zotero. Some Zotero documentation is at <http://libguides.reed.edu/citation/zotero>.  In addition, a tutorial is available from Middlebury College at <http://sites.middlebury.edu/zoteromiddlebury/>.")
 ```
-```{r chap03-para-9-fr, eval = !fr(), results = 'asis', needs_trans = FALSE}
+```{r chap03-para-9-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
 cat("## BIBLIOGRAPHIES
 Bien sûr, vous aurez besoin de citer des choses, et vous accumulerez probablement une foule de sources. Il existe une variété d'outils permettant de créer une base de données bibliographique (stockée avec l'extension .bib).  En plus de BibTeX suggéré ci-dessous, vous pouvez envisager d'utiliser l'outil gratuit et facile à utiliser appelé Zotero. Une partie de la documentation de Zotero se trouve sur <http://libguides.reed.edu/citation/zotero>.  En outre, un tutoriel est disponible auprès du Middlebury College à l'adresse <http://sites.middlebury.edu/zoteromiddlebury/>.")
 ```
