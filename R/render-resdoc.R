@@ -35,6 +35,7 @@
 #' The default is 'index.Rmd' for [bookdown::render_book()]
 #' @param keep_files If `TRUE`, keep the temporary files created (Rmd files
 #' and YAML file)
+#' @param ... Additional arguments to pass to [bookdown::render_book()]
 #'
 #' @return Nothing
 #' @importFrom purrr prepend imap_chr imap
@@ -42,7 +43,8 @@
 #' @export
 render_resdoc <- function(yaml_fn = "_bookdown.yml",
                           book_fn = "index.Rmd",
-                          keep_files = FALSE){
+                          keep_files = FALSE,
+                          ...){
 
   tmp_yaml_fn <- create_tmp_yaml_file(yaml_fn, book_fn)
 
@@ -125,7 +127,7 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
     writeLines(out_rmd, tmp_fn)
     tmp_fn
   })
-  render_book(book_fn, config_file = tmp_yaml_fn)
+  render_book(book_fn, config_file = tmp_yaml_fn, ...)
   if(!keep_files){
     map(tmp_rmd_files, ~{
       unlink(.x, force = TRUE)

@@ -25,6 +25,8 @@ The default is 'index.Rmd' for \code{\link[bookdown:render_book]{bookdown::rende
 
 \item{keep_files}{If \code{TRUE}, keep the temporary files created (Rmd files
 and YAML file)}
+
+\item{...}{Additional arguments to pass to \code{\link[bookdown:render_book]{bookdown::render_book()}}}
 }
 \value{
 Nothing
