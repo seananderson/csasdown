@@ -13,25 +13,17 @@ invisible(file.copy(files, testing_path, recursive = TRUE))
 
 # ----------------------------------------------------
 # Render the PDF resdoc
-expect_warning({
-  bookdown::render_book("index.Rmd",
-                        csasdown::resdoc_pdf(),
-                        envir = globalenv()
-  )
-})
-
 test_that("bookdown::render_book generates the PDF of the resdoc", {
+  expect_warning(csasdown::render_resdoc(output_format = csasdown::resdoc_pdf(),
+                                         envir = globalenv()))
   expect_true(file.exists(file.path(testing_path, "_book", "resdoc.pdf")))
 })
 
 # ----------------------------------------------------
 # Render the Word resdoc
-suppressWarnings(bookdown::render_book("index.Rmd",
-                                       csasdown::resdoc_word(),
-                                       envir = globalenv()
-))
-
 test_that("bookdown::render_book generates the .docx of the resdoc", {
+  suppressWarnings(csasdown::render_resdoc(output_format = csasdown::resdoc_word(),
+                                           envir = globalenv()))
   expect_true(file.exists(file.path(testing_path, "_book", "resdoc.docx")))
 })
 
@@ -49,12 +41,10 @@ expect_message(check_yaml(), "contains all")
 
 # ----------------------------------------------------
 # Check that French versions build
-# First, using the french argument of resdoc_pdf()
+options(french = TRUE)
 expect_warning({
-  bookdown::render_book("index.Rmd",
-                        csasdown::resdoc_pdf(french = TRUE),
-                        envir = globalenv()
-  )
+  csasdown::render_resdoc(output_format = csasdown::resdoc_word(),
+                          envir = globalenv())
 })
 
 test_that("bookdown::render_book generates the PDF of the French resdoc", {
@@ -64,20 +54,10 @@ test_that("bookdown::render_book generates the PDF of the French resdoc", {
 # ----------------------------------------------------
 # Creation and copying of test files to a temporary directory
 
-unlink(testing_path, recursive = TRUE, force = TRUE)
-dir.create(testing_path, showWarnings = FALSE)
-setwd(testing_path)
-unlink("index", recursive = TRUE, force = TRUE)
-suppressMessages(csasdown::draft(
-  system.file("rmarkdown", "templates", "resdoc", package = "csasdown"),
-  create_dir = FALSE,
-  edit = FALSE
-))
+options(french = FALSE)
+csasdown::render_resdoc(output_format = csasdown::resdoc_word(),
+                        envir = globalenv())
 
-suppressWarnings(bookdown::render_book("index.Rmd",
-                                       csasdown::resdoc_pdf(),
-                                       envir = globalenv()
-))
 files <- file.path(testing_path, "index", dir("index"))
 invisible(file.copy(files, testing_path, recursive = TRUE))
 

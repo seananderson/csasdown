@@ -24,9 +24,9 @@ draft <- function(type = c("resdoc", "sr", "techreport"),
                   ...) {
   if (!grepl("\\/rmarkdown\\/templates", type)) { # so it also works with unit testing
     # type <- match.arg(type)
-    if (!type %in% c("resdoc", "sr", "techreport")) {
-      # Travis issue:
-      warning("`type` should be one of 'resdoc', 'sr', or 'techreport'.", call. = FALSE)
+    if (!type %in% c("resdoc", "resdoc-b", "sr", "techreport")) {
+      warning("`type` should be one of 'resdoc', 'resdoc-b', sr', or 'techreport'.",
+              call. = FALSE)
     }
     package <- "csasdown"
   } else {
