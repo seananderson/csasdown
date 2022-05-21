@@ -1,0 +1,13 @@
+```{r chap02-para-1-en, eval = !fr(), results = 'asis'}
+cat("# MATHEMATICS {#math-sci}
+You can include most valid TeX math and it will render in all formats:")
+```
+```{r chap02-para-1-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
+cat("# MATHÉMATIQUES  {#math-sci}
+Vous pouvez inclure la plupart des mathématiques TeX valides et le rendu sera assuré dans tous les formats :")
+```
+
+\begin{equation}
+  1 + 1 = 2
+  (\#eq:reaction)
+\end{equation}

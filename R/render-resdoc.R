@@ -62,6 +62,8 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
            call. = FALSE)
     }
     rmd <- readLines(.x)
+    rmd <- inject_rmd_files(rmd)
+
     cat_inds <- grep("cat\\(.*", rmd)
     blank_inds <- NULL
 
