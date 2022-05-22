@@ -2,24 +2,28 @@
 % Please edit documentation in R/convert-newlines-rmd.R
 \name{convert_newlines_rmd}
 \alias{convert_newlines_rmd}
-\title{Fix newlines in text that is from inside \code{\link[=cat]{cat()}} in an Rmd document}
+\title{Remove all the constraints in Rmd involving newlines}
 \usage{
 convert_newlines_rmd(text_chunk)
 }
 \arguments{
-\item{text_chunk}{A vector of strings, one line of Rmarkdown per
-element}
+\item{text_chunk}{A vector of strings, one line of Rmarkdown per element}
 }
 \value{
 A modified vector of strings
 }
 \description{
-A vector of lines of text strings made up of Rmarkdown code, 1 line per
-vector element will contain some newlines which are represented in the
-vector as empty strings (""). These are replaced in a somewhat complex
-way so that the worry of how newlines in Rmarkdown works is removed.
-This allows for 'What you see is what you get' code in the text strings.
+Rmarkdown code requires several different entries to render newlines
+in a final document. These are frustrating because the algorithm
+is not clear on what you need for which case. For example, header lines
+(lines starting with #) do not need a newline, but if you want 'N' blank
+lines between the header and next text, you need 'N lines containing
+only \\, without any empty lines following.
+For other text, you need N + 1 lines containing only \\ with an empty line
+following, before the next text occurs. List elements must not have newlines
+between them.
+This allows for 'What you see is what you get' code in your Rmarkdown code.
 }
 \examples{
-convert_newlines_rmd(c("hello world", "", "", "Welcome!"))
+convert_newlines_rmd(c("#header", "hello world", "", "", "1. A list", "  a. Sublist"))
 }
