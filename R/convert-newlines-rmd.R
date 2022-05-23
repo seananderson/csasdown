@@ -34,17 +34,31 @@ convert_newlines_rmd <- function(text_chunk){
     is_lst_elem <- contains_text &&
       substr(trimws(text_chunk[i]), 2, 2) == "." ||
       substr(trimws(text_chunk[i]), 1, 1) == "-"
+    is_tbl_elem <- contains_text &&
+      substr(trimws(text_chunk[i]), 1, 5) == "-----"
+    next_is_tbl_elem <- contains_text &&
+      substr(trimws(text_chunk[i + 1]), 1, 5) == "-----"
+    next_next_is_tbl_elem <- contains_text &&
+      substr(trimws(text_chunk[i + 2]), 1, 5) == "-----"
+    if(is.na(next_next_is_tbl_elem)){
+      next_next_is_tbl_elem <- FALSE
+    }
+
     if(contains_text){
-      new_tc <- c(new_tc, text_chunk[i])
+        new_tc <- c(new_tc, text_chunk[i])
     }
     if(i != length(text_chunk)){
       next_contains_text <- text_chunk[i + 1] != ""
       next_is_lst_elem <- next_contains_text &&
                           substr(trimws(text_chunk[i + 1]), 2, 2) == "." ||
                           substr(trimws(text_chunk[i + 1]), 1, 1) == "-"
+
       if(contains_text &&
          next_contains_text &&
          !is_header &&
+         !is_tbl_elem &&
+         !next_is_tbl_elem &&
+         !next_next_is_tbl_elem &&
          (!is_lst_elem || (is_lst_elem && !next_is_lst_elem))){
         new_tc <- c(new_tc, "\\\\", "")
       }else if(is_header){
@@ -56,6 +70,47 @@ convert_newlines_rmd <- function(text_chunk){
             next_contains_text <- text_chunk[i + 1] != ""
           }
           new_tc <- c(new_tc, rep("\\\\", cnt))
+        }
+      }else if(is_tbl_elem){
+        # Two kids of manual tables:
+        # 1. Has a beginning and end row of dashes, and a row of dashes after
+        #    the table header. All these are directly beside the text. The
+        #    table text not directly beside the top and bottom lines must have
+        #    a blank line between them
+        # 2. Has a single dashed line, after the table header. This line must
+        #    have text above and below directly, no newlines. the table rows
+        #    must be right next to each other, no blank lines between them
+        is_type_1 <- text_chunk[i - 1] == "" ||
+                     text_chunk[i - 1] == "\"" ||
+                     text_chunk[i - 1] == "'"
+
+        is_type_2 <- text_chunk[i - 1] != ""
+
+        if(is_type_1){
+          if(text_chunk[i + 1] != "" &&
+             substr(trimws(text_chunk[i + 2]), 1, 5) == "-----"){
+            # Add header surrounded by dashes lines
+            new_tc <- c(new_tc, text_chunk[(i + 1):(i + 2)])
+            i <- i + 3
+            while(substr(trimws(text_chunk[i]), 1, 5) != "-----"){
+              # Add table row
+              new_tc <- c(new_tc, text_chunk[i])
+              i <- i + 1
+            }
+            new_tc <- c(new_tc, text_chunk[i])
+          }else{
+            stop("Malformed table found: ",
+                 paste(text_chunk[i:(i + 2)], collapse = "\n"),
+                 call. = FALSE)
+          }
+        }else if(is_type_2){
+          i <- i + 1
+          while(text_chunk[i] != ""){
+            # Add table row
+            new_tc <- c(new_tc, text_chunk[i])
+            i <- i + 1
+          }
+          new_tc <- c(new_tc, text_chunk[i])
         }
       }else{
         cnt <- 0
