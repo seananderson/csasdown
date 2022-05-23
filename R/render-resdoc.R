@@ -129,9 +129,27 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
     # the backslashes
     out_rmd <- gsub("\\\\\\\\\\\\\\\\@ref", "\\\\\\\\@ref", out_rmd)
 
+    # If any chunks do not have a blank line between them, make it so
+    # The lack of blank line between them messes up the typesetting in a bad
+    # way in some cases
+    bt_inds <- grep("```", out_rmd)
+    spaced_out_rmd <- NULL
+    i <- 1
+    while(i < length(out_rmd)){
+      if(substr(trimws(out_rmd[i]), 1, 3) == "```" &&
+         substr(trimws(out_rmd[i + 1]), 1, 3) == "```"){
+        spaced_out_rmd <- c(spaced_out_rmd, out_rmd[i], "", out_rmd[i + 1])
+        i <- i + 2
+      }else{
+        spaced_out_rmd <- c(spaced_out_rmd, out_rmd[i])
+        i <- i + 1
+      }
+    }
+    spaced_out_rmd <- c(spaced_out_rmd, out_rmd[i])
+
     tmp_fn <- paste0("tmp-", .x)
     unlink(tmp_fn, force = TRUE)
-    writeLines(out_rmd, tmp_fn)
+    writeLines(spaced_out_rmd, tmp_fn)
     tmp_fn
   })
 
