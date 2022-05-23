@@ -118,96 +118,11 @@ opts_chunk$set(
   fig.align = fig_align,
   fig.pos = fig_pos
 )
-options(# Prevent xtable from adding a timestamp comment to the table code it produces
-        xtable.comment = FALSE,
-        # Don't allow kableExtra to load packages, we add them manually in csasdown
-        kableExtra.latex.load_packages = FALSE,
-        # Stop chunk output (echo) running into the margins
-        width = 80,
-        # Don't use scientific notation (stops tables from showing 1.2e3, etc.)
-        scipen = 999)
 ```
 
-```{r load-libraries, cache=FALSE}
-meta <- rmarkdown::metadata
-meta_out <- rmarkdown::metadata$output
-if (is.null(meta_out)) {
-  # This knitr chunk has been run in R without running bookdown::render_book("index.Rmd")
-  # so rmarkdown::metadata$output is not populated
-  options(french = FALSE)
-} else {
-  if (length(grep("pdf", names(meta_out)))) {
-    options(french = meta_out$`csasdown::resdoc_pdf`$french)
-    prepub <- meta_out$`csasdown::resdoc_pdf`$prepub
-  } else if (length(grep("word", names(meta_out)))) {
-    options(french = meta_out$`csasdown::resdoc_word`$french)
-    prepub <- meta_out$`csasdown::resdoc_word`$prepub
-  }
-}
-csl <- "csl/csas.csl"
-options(OutDec = ".")
-if (is.null(getOption("french"))) {
-  stop("`french` was not set up correctly in YAML header in index.Rmd. ",
-       "It must be true or false",
-       call. = FALSE)
-}
-if (getOption("french")) {
-  csl <- "csl/csas-french.csl"
-  options(OutDec = ",")
-}
-
-# This hook simplifies document translation for the author.
-# When building in French, it draws a box around paragraphs contained in chunks
-#  which have the option `needs_trans = TRUE`. It also labels
-#  the box with a 'Needs translation' tag in red and the chunk label in blue.
-# You need to change the `needs_trans` option to `FALSE` for a chunk once you
-#  have inserted the translated text into it. You will get a utf-8 error if
-#  you leave it as `TRUE` and there is French in the chunk.
-#  This function assumes you are translating from English to French.
-#  If you wrote your document in French and want to translate to English,
-#  put a ! before `getOption("french")` below and add the `need_trans`
-#  chunk options to your English paragraph chunks instead of the French ones.
-#  
-#  IMPORTANT NOTES
-#  - Use `csasdown::render_resdoc()` to render the document. This runs a
-#    pre-processing step which ensures any inline R chunks
-#    `r print("Like this one")` are taken care of correctly and that all
-#    backslash variables (eg. \pi, \alpha, \@ref, \cite) are all processed
-#    correctly.
-#  - French latex places a space before the colon by default so if you need a colon
-#    with no space before it, use \\hc .
-knit_hooks$set(needs_trans = function(before, options){
-  if(getOption("french") && options$needs_trans){
-    if (before){
-      paste0("\\
-       \\begin{lrbox}{\\userinput}
-       \\begin{minipage}{\\dimexpr\\linewidth-2\\fboxsep-2\\fboxrule}
-       \\textcolor{red}{\\textbf{Needs translation - \\textcolor{blue}{knitr chunk: ", options$label, "}}}
-       \\begin{lstlisting}
-      ")
-    } else {
-      "
-       \\end{lstlisting}
-       \\end{minipage}
-       \\end{lrbox}
-       \\noindent
-       \\fbox{\\usebox{\\userinput}}
-      "
-    }
-  }
-})
-
-# add other packages here:
-library(dplyr)
-library(readr)
-library(tibble)
+```{r load-libraries, echo = FALSE, cache = FALSE, message = FALSE, results = 'hide', warning = FALSE}
+# add other packages you might need here
+library(tidyverse)
 library(rosettafish)
 library(csasdown)
 ```
-
----
-title: `r ifelse(fr(), meta$french_title, meta$title)`
-month: `r ifelse(fr(), meta$french_month, meta$month)`
-region: `r ifelse(fr(), meta$french_region, meta$region)`
-csl: `r csl`    
----

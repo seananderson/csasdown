@@ -1,9 +1,14 @@
-#' Render a resdoc with inline R code inside [cat()] commands
+#' Render a resdoc with bilingual features
 #'
 #' @description
-#' Renders a resdoc using the [bookdown::render_book()] method but includes a
-#' pre-processing step to convert anything inside [cat()] calls to cat-like
-#' strings instead of rmarkdown strings. This means that any inline R code
+#' Render a resdoc with bilingual features. Renders a resdoc using the
+#' [bookdown::render_book()] method but includes a
+#' pre-processing step to do two things:
+#' 1. Inject 'index.Rmd' with special code to allow bilingual features to
+#'    be used
+#' 2. Convert anything inside [cat()] calls to cat-like
+#'    strings instead of rmarkdown strings.
+#' This means that any inline R code
 #' included with backticks, eg: `` `r Sys.time()` `` will be replaced with
 #' a quoted, comma separated string (see [catize()]). This allows the [cat()]
 #' function inside a code chunk to contain backtick-quoted R expressions exactly
@@ -31,8 +36,6 @@
 #'
 #' @param yaml_fn The YAML file name. The default is '_bookdown.yml' for
 #' [bookdown::render_book()]
-#' @param book_fn The Rmd file containing the YAML code used for rendering.
-#' The default is 'index.Rmd' for [bookdown::render_book()]
 #' @param keep_files If `TRUE`, keep the temporary files created (Rmd files and
 #' YAML file)
 #' @param ... Additional arguments passed to [bookdown::render_book()]
@@ -42,11 +45,11 @@
 #' @importFrom stringr str_count
 #' @export
 render_resdoc <- function(yaml_fn = "_bookdown.yml",
-                          book_fn = "index.Rmd",
                           keep_files = FALSE,
                           ...){
 
-  tmp_yaml_fn <- create_tmp_yaml_file(yaml_fn, book_fn)
+  tmp_yaml_fn <- create_tmp_yaml_file(yaml_fn)
+  book_fn <- get_book_filename(yaml_fn)
 
   book <- readLines(book_fn)
   fn_process <- rmd_filenames_from_yaml(yaml_fn)
@@ -54,6 +57,7 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
     stop("No uncommented Rmd files were found in the YAML file ", yaml_fn,
          call. = FALSE)
   }
+
   # Remove the book_fn from the vector if it is there
   fn_process <- fn_process[fn_process != book_fn]
   tmp_rmd_files <- map(fn_process, ~{
@@ -125,11 +129,19 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
     # the backslashes
     out_rmd <- gsub("\\\\\\\\\\\\\\\\@ref", "\\\\\\\\@ref", out_rmd)
 
-    tmp_fn <- paste0("tmp_", .x)
+    tmp_fn <- paste0("tmp-", .x)
+    unlink(tmp_fn, force = TRUE)
     writeLines(out_rmd, tmp_fn)
     tmp_fn
   })
-  render_book(book_fn, config_file = tmp_yaml_fn, ...)
+
+  # Modify index.Rmd (actually tmp-index.Rmd)
+  tmp_book_fn <- get_book_filename(tmp_yaml_fn)
+  unlink(tmp_book_fn, force = TRUE)
+  file.copy(book_fn, tmp_book_fn)
+  inject_bilingual_code(tmp_book_fn)
+
+  render_book(tmp_book_fn, config_file = tmp_yaml_fn, ...)
   if(!keep_files){
     map(tmp_rmd_files, ~{
       unlink(.x, force = TRUE)

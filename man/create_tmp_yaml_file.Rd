@@ -4,22 +4,18 @@
 \alias{create_tmp_yaml_file}
 \title{Create a copy of a bookdown YAML file containing modified Rmd File names}
 \usage{
-create_tmp_yaml_file(yaml_fn = "_bookdown.yml", book_fn = "index.Rmd")
+create_tmp_yaml_file(yaml_fn = "_bookdown.yml")
 }
 \arguments{
-\item{yaml_fn}{The YAML file name}
-
-\item{book_fn}{The Rmd file containing the YAML code used for rendering.
-This name will not be modified in the new YAML file
-The default is 'index.Rmd' for \code{\link[bookdown:render_book]{bookdown::render_book()}}}
+\item{yaml_fn}{The \link{bookdown} YAML file name, by default is "_bookdown.yml"}
 }
 \value{
 The name of the temporary YAML file created
 }
 \description{
 Creates a copy of a bookdown YAML file with "tmp_" prepended to the name.
-Inside the new file, all listed Rmd files except \code{book_fn} will have their
-names prepended with "tmp_".
+Inside the new file, all listed Rmd files will have their names prepended
+with "tmp_".
 It is required that all filenames appear on their own line in the file.
 }
 \details{

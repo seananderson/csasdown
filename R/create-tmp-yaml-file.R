@@ -2,8 +2,8 @@
 #'
 #' @description
 #' Creates a copy of a bookdown YAML file with "tmp_" prepended to the name.
-#' Inside the new file, all listed Rmd files except `book_fn` will have their
-#' names prepended with "tmp_".
+#' Inside the new file, all listed Rmd files will have their names prepended
+#' with "tmp_".
 #' It is required that all filenames appear on their own line in the file.
 #'
 #' @details
@@ -25,14 +25,11 @@
 #' used as an index for where to insert the modified file list after:
 #' book_filename: "resdoc"
 #'
-#' @param yaml_fn The YAML file name
-#' @param book_fn The Rmd file containing the YAML code used for rendering.
-#' This name will not be modified in the new YAML file
-#' The default is 'index.Rmd' for [bookdown::render_book()]
+#' @param yaml_fn The [bookdown] YAML file name, by default is "_bookdown.yml"
 #'
 #' @return The name of the temporary YAML file created
-create_tmp_yaml_file <- function(yaml_fn = "_bookdown.yml",
-                                 book_fn = "index.Rmd"){
+create_tmp_yaml_file <- function(yaml_fn = "_bookdown.yml"){
+
   if(!file.exists(yaml_fn)){
     stop("The YAML file ", yaml_fn, " does not exist", call. = FALSE)
   }
@@ -44,29 +41,56 @@ create_tmp_yaml_file <- function(yaml_fn = "_bookdown.yml",
   yaml <- trimws(yaml)
   # Remove commented lines and extra surrounding quotes
   yaml <- noquote(yaml[!grepl("^#", yaml)])
-  # Filter out the filenames
-  yaml <- gsub(".*?([a-zA-Z0-9_\\-]+\\.Rmd).*$", "\\1", yaml)
-  # Remove book_fn as it is not modified
-  yaml <- yaml[yaml != book_fn]
-  rmd_inds <- grep("Rmd|rmd", yaml)
-  if(length(rmd_inds)){
-    yaml[rmd_inds] <- imap_chr(rmd_inds, ~{
-      if(.y == length(rmd_inds)){
-        paste0('"', "tmp_", yaml[.x], '"]')
-      }else{
-        paste0('"', "tmp_", yaml[.x], '",')
-      }
-    })
-    yaml <- prepend(yaml, paste0("rmd_files: [", '"', "index.Rmd", '",'), before = rmd_inds[1])
-  }else{
-    book_fn_ind <- grep("book_filename", yaml)
-    if(!length(book_fn_ind)){
-      stop("No 'book_filename' field found in the YAML file ", yaml_fn,
-           call. = FALSE)
-    }
-    yaml <- append(yaml, paste0("rmd_files: [", '"', "index.Rmd", '"]'), after = book_fn_ind)
+
+  # Store indices where the open square bracket is
+  brac_open_ind <- grep("^rmd_files: \\[", yaml)
+  if(!length(brac_open_ind)){
+    stop("`rmd_files: [` not found in ", yaml_fn, ". ",
+         "It must appear at the beginning of a line",
+         call. = FALSE)
   }
-  tmp_fn <- paste0("tmp_", yaml_fn)
+  if(length(brac_open_ind) > 1){
+    stop("More than one `rmd_files: [` found in ", yaml_fn, call. = FALSE)
+  }
+  if(brac_open_ind > 1){
+    pre_rmd_fns <- yaml[1:(brac_open_ind - 1)]
+  }else{
+    pre_rmd_fns <- NULL
+  }
+
+  # Store indices where the close square bracket is
+  brac_close_ind <- grep("\\]$", yaml)
+  if(!length(brac_close_ind)){
+    stop("`]` not found in ", yaml_fn, ". ",
+         "It must appear at the end of a line",
+         call. = FALSE)
+  }
+  # Choose first `]` index. This will be the non-greedy match
+  brac_close_ind <- brac_close_ind[1]
+  if(brac_close_ind < length(yaml)){
+    post_rmd_fns <- yaml[(brac_close_ind + 1):length(yaml)]
+  }else{
+    post_rmd_fns <- NULL
+  }
+  # Extract all Rmd filenames
+  rmd_fns <- unlist(str_extract_all(yaml, "[a-zA-Z0-9_\\-]+\\.(R|r)md"))
+
+  if(!length(rmd_fns)){
+    stop("No .Rmd filenames found in ", yaml_fn,
+         call. = FALSE)
+  }
+  rmd_fns <- imap_chr(rmd_fns, ~{
+    if(.y == 1){
+      paste0('rmd_files: ["', "tmp-", .x, '",')
+    }else if(.y == length(rmd_fns)){
+      paste0('            "', "tmp-", .x, '"]')
+    }else{
+      paste0('            "', "tmp-", .x, '",')
+    }
+  })
+
+  yaml <- c(pre_rmd_fns, rmd_fns, post_rmd_fns)
+  tmp_fn <- paste0("tmp", yaml_fn)
   writeLines(yaml, tmp_fn)
   tmp_fn
 }

@@ -2,21 +2,13 @@
 % Please edit documentation in R/render-resdoc.R
 \name{render_resdoc}
 \alias{render_resdoc}
-\title{Render a resdoc with inline R code inside \code{\link[=cat]{cat()}} commands}
+\title{Render a resdoc with bilingual features}
 \usage{
-render_resdoc(
-  yaml_fn = "_bookdown.yml",
-  book_fn = "index.Rmd",
-  keep_files = FALSE,
-  ...
-)
+render_resdoc(yaml_fn = "_bookdown.yml", keep_files = FALSE, ...)
 }
 \arguments{
 \item{yaml_fn}{The YAML file name. The default is '_bookdown.yml' for
 \code{\link[bookdown:render_book]{bookdown::render_book()}}}
-
-\item{book_fn}{The Rmd file containing the YAML code used for rendering.
-The default is 'index.Rmd' for \code{\link[bookdown:render_book]{bookdown::render_book()}}}
 
 \item{keep_files}{If \code{TRUE}, keep the temporary files created (Rmd files and
 YAML file)}
@@ -27,13 +19,20 @@ YAML file)}
 Nothing
 }
 \description{
-Renders a resdoc using the \code{\link[bookdown:render_book]{bookdown::render_book()}} method but includes a
-pre-processing step to convert anything inside \code{\link[=cat]{cat()}} calls to cat-like
-strings instead of rmarkdown strings. This means that any inline R code
+Render a resdoc with bilingual features. Renders a resdoc using the
+\code{\link[bookdown:render_book]{bookdown::render_book()}} method but includes a
+pre-processing step to do two things:
+\enumerate{
+\item Inject 'index.Rmd' with special code to allow bilingual features to
+be used
+\item Convert anything inside \code{\link[=cat]{cat()}} calls to cat-like
+strings instead of rmarkdown strings.
+This means that any inline R code
 included with backticks, eg: \code{`r Sys.time()`} will be replaced with
 a quoted, comma separated string (see \code{\link[=catize]{catize()}}). This allows the \code{\link[=cat]{cat()}}
 function inside a code chunk to contain backtick-quoted R expressions exactly
 like what knitr processes inline.
+}
 }
 \details{
 This is a convenience function so users can place \code{\link[=cat]{cat()}} around
