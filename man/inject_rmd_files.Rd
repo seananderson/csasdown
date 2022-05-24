@@ -2,7 +2,7 @@
 % Please edit documentation in R/inject-rmd-files.R
 \name{inject_rmd_files}
 \alias{inject_rmd_files}
-\title{Inject verbatim text from Rmd files into Rmd code verbatim}
+\title{Inject verbatim text from Rmd files into Rmd code}
 \usage{
 inject_rmd_files(rmd)
 }
@@ -13,7 +13,7 @@ inject_rmd_files(rmd)
 A vector of character strings representing an Rmd file
 }
 \description{
-Inject verbatim text from Rmd files into Rmd code verbatim wrapped in
+Inject verbatim text from Rmd files into Rmd code wrapped in
 \code{\link[=cat]{cat()}} so that the bilingual features of csasdown can be used properly
 but the author can write paragraphs or sections in pure Rmarkdown
 }

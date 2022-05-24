@@ -48,28 +48,44 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
                           keep_files = FALSE,
                           ...){
 
-  tmp_yaml_fn <- create_tmp_yaml_file(yaml_fn)
-  book_fn <- get_book_filename(yaml_fn)
 
+  # Create the temporary YAML and Rmd files and store their names
+  tmp_yaml_rmd_fns <- create_tmp_yaml_rmd_files(yaml_fn)
+  tmp_yaml_fn <- tmp_yaml_rmd_fns[[1]]
+  tmp_rmd_fns <- tmp_yaml_rmd_fns[[2]]
+
+  book_fn <- get_book_filename(tmp_yaml_fn)
   book <- readLines(book_fn)
-  fn_process <- rmd_filenames_from_yaml(yaml_fn)
-  if(!length(fn_process)){
+  if(!length(tmp_rmd_fns)){
     stop("No uncommented Rmd files were found in the YAML file ", yaml_fn,
          call. = FALSE)
   }
+  # Process all Rmd files except for the `book_fn` (index.Rmd)
+  fn_process <- tmp_rmd_fns[tmp_rmd_fns != book_fn]
 
-  # Remove the book_fn from the vector if it is there
-  fn_process <- fn_process[fn_process != book_fn]
+  # Copy mirrored code chunks as real code into the chunks where they are mirrored:
+  # e.g replace instances of <<char-01-para-06-chunk>> with code from that actual
+  # chunk. Overwrite the tmp files with these modified chunks in them
+  copy_mirror_chunks(fn_process)
+
   tmp_rmd_files <- map(fn_process, ~{
     if(!file.exists(.x)){
       stop("The file ", .x, " does not exist. Check the YAML file entry ", yaml_fn,
            call. = FALSE)
     }
     rmd <- readLines(.x)
+
     rmd <- inject_rmd_files(rmd)
 
+    # Find `needs_trans = TRUE` chunks. Those will not have newlines converted
+    nt_inds <- grep("needs_trans\ *=\ *TRUE", rmd)
     cat_inds <- grep("cat\\(.*", rmd)
-    blank_inds <- NULL
+    if(!all((nt_inds + 1) %in% cat_inds)){
+      stop("Not all chunks in the file ", .x, " with `needs_trans = TRUE` have ",
+           "`cat(` immediately following. This is a requirement",
+           call. = FALSE)
+    }
+    cat_inds <- cat_inds[!(cat_inds %in% (nt_inds + 1))]
 
     # Match ending parens
     chunk_end_inds <- NULL
@@ -147,16 +163,13 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
     }
     spaced_out_rmd <- c(spaced_out_rmd, out_rmd[i])
 
-    tmp_fn <- paste0("tmp-", .x)
-    unlink(tmp_fn, force = TRUE)
-    writeLines(spaced_out_rmd, tmp_fn)
-    tmp_fn
+    unlink(.x, force = TRUE)
+    writeLines(spaced_out_rmd, .x)
+    .x
   })
 
   # Modify index.Rmd (actually tmp-index.Rmd)
   tmp_book_fn <- get_book_filename(tmp_yaml_fn)
-  unlink(tmp_book_fn, force = TRUE)
-  file.copy(book_fn, tmp_book_fn)
   inject_bilingual_code(tmp_book_fn)
 
   render_book(tmp_book_fn, config_file = tmp_yaml_fn, ...)

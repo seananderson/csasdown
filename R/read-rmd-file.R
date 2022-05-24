@@ -1,7 +1,9 @@
 #' Read in am Rmd file and return it
 #'
 #' @description
-#' Read in am Rmd file and return it verbatim, with a newline added at the end
+#' Read in am Rmd file and return it verbatim, with a newline added at the end.
+#' Remove lines with only spaces in them, if they exist at the end of a file,
+#' they cause an "incomplete final line" warning from Rmarkdown.
 #'
 #' @details
 #' This allows the author to write pure Rmarkdown in a file, and have it read
@@ -22,6 +24,7 @@ read_rmd_file <- function(fn){
          call. = FALSE)
   }
   lines <- readLines(fn)
+  lines <- gsub("^\ +$", "", lines)
   lines[1] <- paste0("cat(\"", lines[1])
   if(lines[length(lines)] == ""){
     lines[length(lines) + 1] <- "\")"

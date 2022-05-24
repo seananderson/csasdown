@@ -1,7 +1,7 @@
-#' Inject verbatim text from Rmd files into Rmd code verbatim
+#' Inject verbatim text from Rmd files into Rmd code
 #'
 #' @description
-#' Inject verbatim text from Rmd files into Rmd code verbatim wrapped in
+#' Inject verbatim text from Rmd files into Rmd code wrapped in
 #' [cat()] so that the bilingual features of csasdown can be used properly
 #' but the author can write paragraphs or sections in pure Rmarkdown
 #'

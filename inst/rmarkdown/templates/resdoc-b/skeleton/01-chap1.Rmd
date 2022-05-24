@@ -23,7 +23,7 @@ If `needs_trans` is `TRUE`, a reference is placed inside the French chunk
 which just prints out the contents of the English chunk.
 When the French translation is added, that reference must be removed. See the
 paragraph that follow this one for an example. It looks like this:
-<<chap01-para-2-en>>
+<<some chunk label here>>
 
 If you keep this structure from the beginning while writing your document, it
 will be very easy to add the French at the end. Don't add any French until you
