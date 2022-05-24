@@ -87,7 +87,63 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
     }
     cat_inds <- cat_inds[!(cat_inds %in% (nt_inds + 1))]
 
-    # Match ending parens
+    # Deal with needs-trans chunks
+    nt_inds <- nt_inds + 1
+    chunk_end_inds <- NULL
+    nt_chunks <- imap(nt_inds, ~{
+      if(.y == length(nt_inds)){
+        text_chunk <- parse_cat_text(rmd[.x:length(rmd)])
+      }else{
+        text_chunk <- parse_cat_text(rmd[.x:(nt_inds[.y + 1] - 1)])
+      }
+      chunk_end_inds <<- c(chunk_end_inds, .x + length(text_chunk) - 1)
+      # Convert any single backslashes to double. All the extra ones are needed here
+      # because of escaping and because we are inside a cat() layer so it is a double-
+      # double situation
+      text_chunk <- gsub("\\\\", "\\\\\\\\", text_chunk)
+      # If single quotes were used to surround the text in [cat()], make them double
+      # so that they match the quotes used to make the embedded code parts
+      if(substr(text_chunk[1], 1, 1) == "'"){
+        substr(text_chunk[1], 1, 1) <- "\""
+      }
+      if(substr(text_chunk[length(text_chunk)],
+                nchar(text_chunk[length(text_chunk)]),
+                nchar(text_chunk[length(text_chunk)])) == "'"){
+        substr(text_chunk[length(text_chunk)],
+               nchar(text_chunk[length(text_chunk)]),
+               nchar(text_chunk[length(text_chunk)])) <- "\""
+      }
+
+      text_chunk <- map_chr(text_chunk, ~{
+        catize(.x)
+      })
+      text_chunk[1] <- paste0("cat(", text_chunk[1])
+      text_chunk[length(text_chunk)] <- paste0(text_chunk[length(text_chunk)], ")")
+      text_chunk
+    })
+    if(length(nt_chunks)){
+      out_rmd <- NULL
+      out_rmd <- rmd[1:(nt_inds[1] - 1)]
+      # extract chunks not part of chunks with `needs_trans = TRUE`
+      nt_start_inds <- nt_inds[-1]
+      nt_start_inds <- c(nt_start_inds, length(rmd))
+      nonnt_chunks <- imap(seq_along(nt_start_inds), ~{
+        end <- ifelse(.x == length(nt_start_inds),
+                      nt_start_inds[.x],
+                      (nt_start_inds[.x] - 1))
+        rmd[(chunk_end_inds[.x] + 1):end]
+      })
+      # Interlace the two, nt_chunks and nonnt_chunks
+      map(seq_along(nt_chunks), ~{
+        out_rmd <<- c(out_rmd, nt_chunks[[.x]], nonnt_chunks[[.x]])
+      })
+    }else{
+      out_rmd <- rmd
+    }
+    rmd <- out_rmd
+
+    # Deal with non-needs_trans chunks, the same way as we dealt with the
+    # need_trans chunks
     chunk_end_inds <- NULL
     cat_chunks <- imap(cat_inds, ~{
       if(.y == length(cat_inds)){
