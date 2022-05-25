@@ -16,9 +16,10 @@ A list of two elements, 1) The corrected part of the chunk and
 }
 \description{
 Convert blank lines in Rmd code to WYSIWYG newlines. The provided chunk
-will start with a blank line and#' possibly more. The series of blank
-lines will be converted into a mini-chunk, which will be areturned
-as the first element of a two-element list, the second of which is the
+will start with a blank line and possibly more or return NULL as the
+converted chunk, and the whole \code{chunk} as the rest. The series of blank
+lines will be converted into a mini-chunk, which will be returned
+as the first element of a two-element list, the second element is the
 rest of the Rmd.
 }
 \examples{

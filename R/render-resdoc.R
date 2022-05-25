@@ -156,7 +156,44 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
       # because of escaping and because we are inside a cat() layer so it is a double-
       # double situation
       text_chunk <- gsub("\\\\", "\\\\\\\\", text_chunk)
-      text_chunk <- convert_newlines_rmd(text_chunk)
+      if(!(length(text_chunk) == 1 && text_chunk[1] == "\"\"")){
+        # There will be a leading quote and ending quote, but they may not be on
+        # their own line. Remove them and keep track if they shared a line with other
+        # values.
+        if(text_chunk[1] == "\""){
+          beg_quo_val <- "\""
+          text_chunk <- text_chunk[-1]
+        }
+        if(text_chunk[length(text_chunk)] == "\""){
+          end_quo_val <- "\""
+          text_chunk <- text_chunk[-length(text_chunk)]
+        }
+        if(length(grep("^\".+$", text_chunk[1]))){
+          beg_quo_val <- text_chunk[1]
+          text_chunk[1] <- gsub("\"(.*)", "\\1", text_chunk[1])
+        }
+        if(length(grep("^.+\"$", text_chunk[length(text_chunk)]))){
+          end_quo_val <- text_chunk[length(text_chunk)]
+          text_chunk[length(text_chunk)] <- gsub("(.*)\"", "\\1", text_chunk[length(text_chunk)])
+        }
+
+        text_chunk <- convert_newlines_rmd(text_chunk)
+
+        if(beg_quo_val == "\""){
+          text_chunk <- c(beg_quo_val, text_chunk)
+        }else{
+          text_chunk <- c(beg_quo_val, text_chunk[-1])
+        }
+        if(end_quo_val == "\""){
+          text_chunk <- c(text_chunk, end_quo_val)
+        }else{
+          if(length(grep(text_chunk[length(text_chunk)], end_quo_val))){
+            text_chunk <- c(text_chunk[-length(text_chunk)], end_quo_val)
+          }else{
+            text_chunk <- c(text_chunk, end_quo_val)
+          }
+        }
+      }
       # If single quotes were used to surround the text in [cat()], make them double
       # so that they match the quotes used to make the embedded code parts
       if(substr(text_chunk[1], 1, 1) == "'"){

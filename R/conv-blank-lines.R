@@ -3,9 +3,10 @@
 #'
 #' @description
 #' Convert blank lines in Rmd code to WYSIWYG newlines. The provided chunk
-#' will start with a blank line and#' possibly more. The series of blank
-#' lines will be converted into a mini-chunk, which will be areturned
-#' as the first element of a two-element list, the second of which is the
+#' will start with a blank line and possibly more or return NULL as the
+#' converted chunk, and the whole `chunk` as the rest. The series of blank
+#' lines will be converted into a mini-chunk, which will be returned
+#' as the first element of a two-element list, the second element is the
 #' rest of the Rmd.
 #'
 #' @param chunk The Rmd chunk to process
@@ -31,19 +32,23 @@ conv_blank_lines <- function(chunk){
   }
 
   if(length(chunk) == 1){
-    return(list(c("\\\\", "\\\\", ""), NULL))
+    return(list(c("\\\\", ""), NULL))
   }
 
   next_is_blank <- chunk[2] == ""
-
   i <- 1
   new_chunk <- "\\\\"
-  while(next_is_blank){
+  while(next_is_blank && i < length(chunk)){
     i <- i + 1
     new_chunk <- c(new_chunk, "\\\\")
     next_is_blank <- chunk[i + 1] == ""
   }
   new_chunk <- c(new_chunk, "")
+  if(i == length(chunk)){
+    the_rest <- NULL
+  }else{
+    the_rest <- chunk[(i + 1):length(chunk)]
+  }
 
-  list(new_chunk, chunk[(i + 1):length(chunk)])
+  list(new_chunk, the_rest)
 }

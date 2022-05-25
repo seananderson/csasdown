@@ -2,36 +2,31 @@ test_that("Conversion of blank lines in Rmd works correctly", {
 
   chunk <- NULL
   tmp <- conv_blank_lines(chunk)
-  blank_line_chunk <- tmp[[1]]
-  the_rest <- tmp[[2]]
-  expect_null(blank_line_chunk)
-  expect_null(the_rest)
+  expect_null(tmp[[1]])
+  expect_null(tmp[[2]])
 
   chunk <- c("")
   tmp <- conv_blank_lines(chunk)
-  blank_line_chunk <- tmp[[1]]
-  the_rest <- tmp[[2]]
-  expect_identical(blank_line_chunk, c("\\\\", "\\\\", ""))
-  expect_null(the_rest)
+  expect_identical(tmp[[1]], c("\\\\", ""))
+  expect_null(tmp[[2]])
+
+  chunk <- c("", "", "", "", "")
+  tmp <- conv_blank_lines(chunk)
+  expect_identical(tmp[[1]], c("\\\\", "\\\\", "\\\\", "\\\\", "\\\\", ""))
+  expect_null(tmp[[2]])
 
   chunk <- c("asd", "", "", "")
   tmp <- conv_blank_lines(chunk)
-  blank_line_chunk <- tmp[[1]]
-  the_rest <- tmp[[2]]
-  expect_null(blank_line_chunk)
-  expect_identical(the_rest, chunk)
+  expect_null(tmp[[1]])
+  expect_identical(tmp[[2]], chunk)
 
   chunk <- c("", "Some text..", "More Rmd text")
   tmp <- conv_blank_lines(chunk)
-  blank_line_chunk <- tmp[[1]]
-  the_rest <- tmp[[2]]
-  expect_identical(blank_line_chunk, c("\\\\", ""))
-  expect_identical(the_rest, c("Some text..", "More Rmd text"))
+  expect_identical(tmp[[1]], c("\\\\", ""))
+  expect_identical(tmp[[2]], c("Some text..", "More Rmd text"))
 
   chunk <- c("", "", "", "Some text..", "More Rmd text")
   tmp <- conv_blank_lines(chunk)
-  blank_line_chunk <- tmp[[1]]
-  the_rest <- tmp[[2]]
-  expect_identical(blank_line_chunk, c("\\\\", "\\\\", "\\\\", ""))
-  expect_identical(the_rest, c("Some text..", "More Rmd text"))
+  expect_identical(tmp[[1]], c("\\\\", "\\\\", "\\\\", ""))
+  expect_identical(tmp[[2]], c("Some text..", "More Rmd text"))
 })
