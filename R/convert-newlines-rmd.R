@@ -45,11 +45,24 @@ convert_newlines_rmd <- function(text_chunk){
   }
 
   is_lst_line <- substr(trimws(text_chunk[1]), 2, 2) == "." ||
-                 substr(trimws(text_chunk[1]), 1, 1) == "-"
+                 substr(trimws(text_chunk[1]), 1, 1) == "-" &&
+                 substr(trimws(text_chunk[1]), 1, 5) != "-----"
   if(is_lst_line){
     tmp <- conv_list_lines(text_chunk)
     new_tc <- c(new_tc, tmp[[1]], convert_newlines_rmd(tmp[[2]]))
   }
 
+  pat <- "[a-zA-Z0-9_\\-]+"
+  if(length(text_chunk) >= 3){
+    is_type_1 <- substr(trimws(text_chunk[1]), 1, 5) == "-----" &&
+      length(grep(pat, trimws(text_chunk[2])))
+    is_type_2 <- length(grep(pat, trimws(text_chunk[1]))) &&
+      substr(trimws(text_chunk[2]), 1, 5) == "-----"
+    if(is_type_1 || is_type_2){
+      tmp <- conv_table_lines(text_chunk)
+      new_tc <- c(new_tc, tmp[[1]], convert_newlines_rmd(tmp[[2]]))
+    }
+
+  }
   new_tc
 }

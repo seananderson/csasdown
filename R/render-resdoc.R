@@ -161,39 +161,43 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
         # their own line. Remove them and keep track if they shared a line with other
         # values.
         if(text_chunk[1] == "\""){
-          beg_quo_val <- "\""
           text_chunk <- text_chunk[-1]
+          # Toggle to paste the quote to the beginning of the first element
+          # If FALSE, add a new element to the beginning of the vector with
+          # the quote character only after calling convert_newlines_rmd()
+          paste_beg <- FALSE
         }
         if(text_chunk[length(text_chunk)] == "\""){
-          end_quo_val <- "\""
           text_chunk <- text_chunk[-length(text_chunk)]
+          # Toggle to paste the quote to the end of the last element
+          # If FALSE, add a new element to the end of the vector with
+          # the quote character only after calling convert_newlines_rmd()
+          paste_end <- FALSE
         }
         if(length(grep("^\".+$", text_chunk[1]))){
-          beg_quo_val <- text_chunk[1]
           text_chunk[1] <- gsub("\"(.*)", "\\1", text_chunk[1])
+          paste_beg <- TRUE
         }
         if(length(grep("^.+\"$", text_chunk[length(text_chunk)]))){
-          end_quo_val <- text_chunk[length(text_chunk)]
           text_chunk[length(text_chunk)] <- gsub("(.*)\"", "\\1", text_chunk[length(text_chunk)])
+          paste_end <- TRUE
         }
 
         text_chunk <- convert_newlines_rmd(text_chunk)
 
-        if(beg_quo_val == "\""){
-          text_chunk <- c(beg_quo_val, text_chunk)
+
+        if(paste_beg){
+          text_chunk[1] <- paste0("\"", text_chunk[1])
         }else{
-          text_chunk <- c(beg_quo_val, text_chunk[-1])
+          text_chunk <- c("\"", text_chunk)
         }
-        if(end_quo_val == "\""){
-          text_chunk <- c(text_chunk, end_quo_val)
+        if(paste_end){
+          text_chunk[length(text_chunk)] <- paste0(text_chunk[length(text_chunk)], "\"")
         }else{
-          if(length(grep(text_chunk[length(text_chunk)], end_quo_val))){
-            text_chunk <- c(text_chunk[-length(text_chunk)], end_quo_val)
-          }else{
-            text_chunk <- c(text_chunk, end_quo_val)
-          }
+          text_chunk <- c(text_chunk, "\"")
         }
       }
+
       # If single quotes were used to surround the text in [cat()], make them double
       # so that they match the quotes used to make the embedded code parts
       if(substr(text_chunk[1], 1, 1) == "'"){
