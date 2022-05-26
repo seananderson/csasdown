@@ -1,4 +1,4 @@
-test_that("Conversion of list lines in Rmd works correctly", {
+test_that("Conversion of table lines in Rmd works correctly", {
 
   chunk <- NULL
   tmp <- conv_table_lines(chunk)
@@ -27,7 +27,7 @@ test_that("Conversion of list lines in Rmd works correctly", {
 
 })
 
-test_that("Conversion of list lines in Rmd works correctly (type 1 table)", {
+test_that("Conversion of table lines in Rmd works correctly (type 1 table)", {
 
   chunk <- c("-----", "asd", "-----", "xyz", "-----")
   tmp <- conv_table_lines(chunk)
@@ -60,7 +60,7 @@ test_that("Conversion of list lines in Rmd works correctly (type 1 table)", {
 
 })
 
-test_that("Conversion of list lines in Rmd works correctly (type 2 table)", {
+test_that("Conversion of table lines in Rmd works correctly (type 2 table)", {
 
   chunk <- c("asd", "-----", "xyz")
   tmp <- conv_table_lines(chunk)
