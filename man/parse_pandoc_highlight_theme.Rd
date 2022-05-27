@@ -29,7 +29,9 @@ color in this format: \code{"#ffffff"} or null if not included
 \verb{\{4spc\}} means 4 spaces
 }
 
-Grammar:\preformatted{\{
+Grammar:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{\{
 \{4spc\}"text-color": hexval,
 \{4spc\}"background-color": hexval,
 \{4spc\}"line-number-color": hexval
@@ -55,5 +57,5 @@ Grammar:\preformatted{\{
 \{8spc\}\}
 \{4spc\}\}
 \}
-}
+}\if{html}{\out{</div>}}
 }
