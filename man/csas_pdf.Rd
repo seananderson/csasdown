@@ -30,6 +30,7 @@ sr_pdf(
   line_nums = FALSE,
   line_nums_mod = 1,
   draft_watermark = FALSE,
+  french = FALSE,
   highlight = "tango",
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),

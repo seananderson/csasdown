@@ -191,10 +191,14 @@ sr_pdf <- function(latex_engine = "pdflatex",
                    line_nums = FALSE,
                    line_nums_mod = 1,
                    draft_watermark = FALSE,
+                   french = FALSE,
                    highlight = "tango",
                    pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
                    ...) {
 
+  fr <- function() { # hack for now
+    french
+  }
   themes <- c("pygments", "tango", "espresso", "zenburn", "kate", "monochrome", "breezedark", "haddock")
 
   if(is.null(highlight)){
