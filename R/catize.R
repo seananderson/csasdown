@@ -35,6 +35,7 @@
 #' or [paste()] command
 #'
 #' @importFrom stringr str_split str_extract_all
+#' @importFrom knitr all_patterns
 #' @export
 catize <- function(str, verbose = FALSE){
 
@@ -42,6 +43,7 @@ catize <- function(str, verbose = FALSE){
   # ..$ inline.code: chr "`r[ #]([^`]+)\\s*`" line here:
   # https://rdrr.io/cran/knitr/man/knit_patterns.html
   pattern <- "`r[ #][^`]+\\s*`"
+  #pattern <- all_patterns$md$inline.code
   txt <- str_split(str, pattern)[[1]]
   code <- str_extract_all(str, pattern)[[1]]
   if(verbose){

@@ -44,9 +44,10 @@ convert_newlines_rmd <- function(text_chunk){
     new_tc <- c(new_tc, tmp[[1]], convert_newlines_rmd(tmp[[2]]))
   }
 
-  is_lst_line <- substr(trimws(text_chunk[1]), 2, 2) == "." ||
-                 substr(trimws(text_chunk[1]), 1, 1) == "-" &&
-                 substr(trimws(text_chunk[1]), 1, 5) != "-----"
+  is_lst_line <- substr(trimws(text_chunk[1]), 2, 3) == ". " ||
+                 substr(trimws(text_chunk[1]), 1, 2) == "* " ||
+                 substr(trimws(text_chunk[1]), 1, 2) == "+ " ||
+                 substr(trimws(text_chunk[1]), 1, 2) == "- "
   if(is_lst_line){
     tmp <- conv_list_lines(text_chunk)
     new_tc <- c(new_tc, tmp[[1]], convert_newlines_rmd(tmp[[2]]))
@@ -64,5 +65,17 @@ convert_newlines_rmd <- function(text_chunk){
     }
 
   }
+
+  # Regular text paragraphs
+  if(length(text_chunk) > 0 &&
+     !is_blank_line &&
+     !is_header_line &&
+     !is_lst_line &&
+     !is_type_1 &&
+     !is_type_2){
+    tmp <- conv_paragraph_lines(text_chunk)
+    new_tc <- c(new_tc, tmp[[1]], convert_newlines_rmd(tmp[[2]]))
+  }
+
   new_tc
 }

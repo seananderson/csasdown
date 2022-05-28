@@ -58,62 +58,108 @@ conv_table_lines <- function(chunk){
 
   end_tbl <- FALSE
   if(is_type_1){
-    new_chunk <- c(chunk[1:3])
-    i <- 4
+    new_chunk <- chunk[1:3]
+    i <- 3
     while(!end_tbl && i < length(chunk)){
+      i <- i + 1
       end_tbl <- substr(trimws(chunk[i]), 1, 5) == "-----"
       if(end_tbl){
-        new_chunk <- c(new_chunk[-length(new_chunk)], chunk[i])
+        new_chunk[length(new_chunk)] <- chunk[i]
+      }else if(length(grep(pat, trimws(chunk[i])))){
+        new_chunk <- c(new_chunk, chunk[i], "")
       }
-      if(length(grep(pat, trimws(chunk[i])))){
-          new_chunk <- c(new_chunk, chunk[i], "")
-      }
-      i <- i + 1
     }
     if(!end_tbl){
       # Table had no ending row of dashes, so it isn't a table
       return(list(NULL, chunk))
     }
   }else if(is_type_2){
-    new_chunk <- c(chunk[1:3])
+    new_chunk <- chunk[1:3]
     i <- 3
-    while(!end_tbl && i < length(chunk)){
-      i <- i + 1
+    if(length(chunk) == 3){
+      new_chunk <- c(new_chunk, "\\\\", "")
+      return(list(new_chunk, NULL))
+    }
+    end_tbl_ind <- 3
+
+    i <- i + 1
+    while(chunk[i] != "" && i <= length(chunk)){
       new_chunk <- c(new_chunk, chunk[i])
-      end_tbl <- chunk[i] == ""
+      i <- i + 1
     }
-    if(!end_tbl){
-      # Table had no ending row of dashes, so add a blank line to make it
-      # have an end
-      new_chunk <- c(new_chunk, "")
+    i <- i - 1
+
+    if(i == length(chunk)){
+      new_chunk <- c(new_chunk, "\\\\", "")
+      return(list(new_chunk, NULL))
     }
   }
 
-  # Check for optional Table label (line(s) of text followed by a blank line)
-  # Same algorithm for both types of table
+  # ---------------------------------------------------------------------------
+  # At this point, the end of the table has been found and i is it's index.
+  # - For a type 1 table, this is on the last "--------" line, which could be
+  # at the end of the chunk.
+  # - For a type 2 table, this is on the last text line which could be
+  # at the end of the chunk.
+  # Remove the end-of chunk possibilities here, leaving further parsing for
+  # labels for after
+  if(i == length(chunk)){
+    new_chunk <- c(new_chunk, "\\\\", "")
+    return(list(new_chunk, NULL))
+  }
+
+  # Store the index where the table ends
   end_of_tbl <- i
-  tbl_has_label <- FALSE
   # Find start of label if it exists
-  while(chunk[i] == "" && i < length(chunk) && !tbl_has_label){
+  i <- i + 1
+  while(!length(grep("^Table:.*$", chunk[i])) &&
+        i < length(chunk)){
     i <- i + 1
-    if(length(grep("^Table:\\s+.+$", chunk[i]))){
-      tbl_has_label <- TRUE
-    }else if(i + 1 <= length(chunk) &&
-             length(grep("^Table:\\s*$", chunk[i])) &&
-             length(grep(pat, chunk[i + 1]))){
-      tbl_has_label <- TRUE
+  }
+
+  if(i == length(chunk)){
+    # Check to see if last element is a label
+    if(length(grep("^Table:\\s*.+$", chunk[i]))){
+      if(is_type_1){
+        new_chunk <- c(new_chunk, chunk[i], "\\\\", "")
+      }else if(is_type_2){
+        new_chunk <- c(new_chunk, "", chunk[i], "\\\\", "")
+      }
+      return(list(new_chunk, NULL))
     }
+    # No label was found
+    new_chunk <- c(new_chunk, "\\\\", "")
+    return(list(new_chunk, chunk[(end_of_tbl + 1):length(chunk)]))
   }
 
-  while(chunk[i] != "" && i <= length(chunk)){
-    new_chunk <- c(new_chunk, chunk[i])
+  start_of_label <- i
+  # -- Check for number of spaces before (0-3) should be here --
+  i <- i + 1
+  if(length(grep("^Table: *[a-zA-Z0-9]+", chunk[start_of_label])) && chunk[i] == ""){
+    # The label is only Table: with no content and the following line has no
+    # content, so there is no label
+    return(list(new_chunk, chunk[(end_of_tbl + 1):length(chunk)]))
+  }
+
+  # There is a label and there is a caption, read in lines until the caption
+  # is read in fully
+  i <- start_of_label
+  while(chunk[i] != "" && i < length(chunk)){
+    #new_chunk <- c(new_chunk, chunk[i])
     i <- i + 1
   }
+  end_of_label <- ifelse(chunk[i] == "", i - 1, i)
 
-  if(i >= length(chunk)){
+  if(is_type_1){
+    new_chunk <- c(new_chunk, chunk[start_of_label:end_of_label])
+  }else if(is_type_2){
+    new_chunk <- c(new_chunk, "", chunk[start_of_label:end_of_label])
+  }
+
+  new_chunk <- c(new_chunk, "\\\\", "")
+  if(i == length(chunk)){
     return(list(new_chunk, NULL))
   }else{
     return(list(new_chunk, chunk[i:length(chunk)]))
   }
-
 }

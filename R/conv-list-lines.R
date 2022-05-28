@@ -27,8 +27,10 @@ conv_list_lines <- function(chunk){
     return(list(NULL, NULL))
   }
 
-  is_lst_line <- substr(trimws(chunk[1]), 2, 2) == "." ||
-                 substr(trimws(chunk[1]), 1, 1) == "-"
+  is_lst_line <- substr(trimws(chunk[1]), 2, 3) == ". " ||
+                 substr(trimws(chunk[1]), 1, 2) == "* " ||
+                 substr(trimws(chunk[1]), 1, 2) == "+ " ||
+                 substr(trimws(chunk[1]), 1, 2) == "- "
   if(!is_lst_line){
     return(list(NULL, chunk))
   }
@@ -42,8 +44,10 @@ conv_list_lines <- function(chunk){
   i <- 1
   while(is_lst && i < length(chunk)){
     i <- i + 1
-    is_lst <- substr(trimws(chunk[i]), 2, 2) == "." ||
-              substr(trimws(chunk[i]), 1, 1) == "-"
+    is_lst <- substr(trimws(chunk[i]), 2, 3) == ". " ||
+              substr(trimws(chunk[i]), 1, 2) == "* " ||
+              substr(trimws(chunk[i]), 1, 2) == "+ " ||
+              substr(trimws(chunk[i]), 1, 2) == "- "
     if(is_lst){
       new_chunk <- c(new_chunk, chunk[i])
     }
