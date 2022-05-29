@@ -36,42 +36,69 @@ conv_table_lines <- function(chunk){
     return(list(NULL, NULL))
   }
 
-  # A type 2 table must be at least three lines
-  if(length(chunk) < 3){
-    return(list(NULL, chunk))
-  }
+  # `text_pat` matches any sequence of zero or more whitespace characters,
+  # followed by 1 or more non-whitespace characters, followed by zero or
+  # more whitespace characters all repeating
+  # `dash_pat` matches any sequence of zero or more whitespace characters,
+  # followed by 1 or more dashes, followed by zero or more whitespace
+  # characters all repeating
+  text_pat <- "^(\\s*\\S+\\s*)+$"
+  dash_pat <- "^(\\s*-+\\s*)+$"
+  t1 <- trimws(chunk[1])
+  t2 <- trimws(chunk[2])
+  t3 <- trimws(chunk[3])
 
-  # Pattern just means "has some text"
-  pat <- "[a-zA-Z0-9_\\-\\s]+"
   # Type 1 OR type 2
-  is_type_1 <- substr(trimws(chunk[1]), 1, 5) == "-----" &&
-               length(grep(pat, trimws(chunk[2]))) &&
-               substr(trimws(chunk[3]), 1, 5) == "-----"
+  is_type_1 <- length(grep(dash_pat, t1)) &&
+               length(grep(text_pat, t2)) &&
+               length(grep(dash_pat, t3))
 
-  is_type_2 <- length(grep(pat, trimws(chunk[1]))) &&
-               substr(trimws(chunk[2]), 1, 5) == "-----" &&
-               length(grep(pat, trimws(chunk[3])))
+  is_type_2 <- length(grep(text_pat, t1)) &&
+               length(grep(dash_pat, t2)) &&
+               length(grep(text_pat, t3))
 
   if(!is_type_1 && !is_type_2){
     return(list(NULL, chunk))
   }
 
+  # A type 1 table must be at least 5 lines and a type 2 table must be at
+  # least three lines
+  if(is_type_1 && length(chunk) < 5){
+    return(list(NULL, chunk))
+  }
+  if(is_type_2 && length(chunk) < 3){
+    return(list(NULL, chunk))
+  }
+
   end_tbl <- FALSE
+  end_tbl_ind <- NULL
   if(is_type_1){
     new_chunk <- chunk[1:3]
-    i <- 3
-    while(!end_tbl && i < length(chunk)){
-      i <- i + 1
-      end_tbl <- substr(trimws(chunk[i]), 1, 5) == "-----"
+    i <- 4
+    repeat{
+      tn <- trimws(chunk[i])
+      end_tbl <- length(grep(dash_pat, tn))
       if(end_tbl){
-        new_chunk[length(new_chunk)] <- chunk[i]
-      }else if(length(grep(pat, trimws(chunk[i])))){
+        end_tbl_ind <- i
+        # Remove previous row's extra blank line while adding ending row
+        # of dashes
+        new_chunk <- c(new_chunk[-length(new_chunk)], chunk[i])
+        break
+      }
+
+      if(chunk[i] != ""){
         new_chunk <- c(new_chunk, chunk[i], "")
       }
+      if(i == length(chunk)){
+        break
+      }
+      i <- i + 1
     }
-    if(!end_tbl){
-      # Table had no ending row of dashes, so it isn't a table
-      return(list(NULL, chunk))
+    if(!end_tbl && i == length(chunk)){
+      stop("A table is missing the final row of dashes:\n\n",
+           paste(chunk, collapse = "\n"),
+           "\n\n",
+           call. = FALSE)
     }
   }else if(is_type_2){
     new_chunk <- chunk[1:3]
@@ -93,6 +120,7 @@ conv_table_lines <- function(chunk){
       new_chunk <- c(new_chunk, "\\\\", "")
       return(list(new_chunk, NULL))
     }
+
   }
 
   # ---------------------------------------------------------------------------
@@ -101,65 +129,100 @@ conv_table_lines <- function(chunk){
   # at the end of the chunk.
   # - For a type 2 table, this is on the last text line which could be
   # at the end of the chunk.
-  # Remove the end-of chunk possibilities here, leaving further parsing for
-  # labels for after
+  # Add correct newlines for the type orf table and return if at the end of
+  # the chunk.
   if(i == length(chunk)){
     new_chunk <- c(new_chunk, "\\\\", "")
     return(list(new_chunk, NULL))
   }
 
+  # Not at end of chunk, need to search for labels
   # Store the index where the table ends
-  end_of_tbl <- i
-  # Find start of label if it exists
+  end_tbl_ind <- i
+  # Find start of label if it exists and if table has a caption label
+  # (Table: Caption here)
   i <- i + 1
-  while(!length(grep("^Table:.*$", chunk[i])) &&
-        i < length(chunk)){
-    i <- i + 1
-  }
-
-  if(i == length(chunk)){
-    # Check to see if last element is a label
-    if(length(grep("^Table:\\s*.+$", chunk[i]))){
-      if(is_type_1){
-        new_chunk <- c(new_chunk, chunk[i], "\\\\", "")
-      }else if(is_type_2){
-        new_chunk <- c(new_chunk, "", chunk[i], "\\\\", "")
-      }
-      return(list(new_chunk, NULL))
+  has_label <- FALSE
+  start_label_ind <- NULL
+  # `lbl_def_pat` matches any sequence of zero or more whitespace characters,
+  # followed by 1 or more dashes, followed by zero or more whitespace characters,
+  # preceded by "Table:" and stands for 'Label defined'
+  # `lbl_undef_pat` matches any sequence of zero or more whitespace characters,
+  # preceded by "Table:" and stands for 'Label undefined '
+  lbl_def_pat <- "^Table:(\\s*\\S+\\s*)+$"
+  lbl_undef_pat <- "^Table:\\s*$"
+  repeat{
+    if(length(grep(lbl_def_pat , chunk[i]))){
+      has_label <- TRUE
+      start_label_ind <- i
+      break
     }
-    # No label was found
-    new_chunk <- c(new_chunk, "\\\\", "")
-    return(list(new_chunk, chunk[(end_of_tbl + 1):length(chunk)]))
-  }
-
-  start_of_label <- i
-  # -- Check for number of spaces before (0-3) should be here --
-  i <- i + 1
-  if(length(grep("^Table: *[a-zA-Z0-9]+", chunk[start_of_label])) && chunk[i] == ""){
-    # The label is only Table: with no content and the following line has no
-    # content, so there is no label
-    return(list(new_chunk, chunk[(end_of_tbl + 1):length(chunk)]))
-  }
-
-  # There is a label and there is a caption, read in lines until the caption
-  # is read in fully
-  i <- start_of_label
-  while(chunk[i] != "" && i < length(chunk)){
-    #new_chunk <- c(new_chunk, chunk[i])
+    if(length(grep(lbl_undef_pat , chunk[i])) &&
+       length(grep(text_pat, chunk[i + 1]))){
+      has_label <- TRUE
+      start_label_ind <- i
+      break
+    }
+    # If a non-caption text line is found, stop
+    if(length(grep(text_pat, chunk[i]))){
+      break
+    }
+    if(i == length(chunk)){
+      break
+    }
     i <- i + 1
   }
-  end_of_label <- ifelse(chunk[i] == "", i - 1, i)
 
-  if(is_type_1){
-    new_chunk <- c(new_chunk, chunk[start_of_label:end_of_label])
-  }else if(is_type_2){
-    new_chunk <- c(new_chunk, "", chunk[start_of_label:end_of_label])
-  }
-
-  new_chunk <- c(new_chunk, "\\\\", "")
-  if(i == length(chunk)){
-    return(list(new_chunk, NULL))
+  if(has_label){
+    # Add in lines between the end of table and the beginning of label
+    # to new_chunk
+    if(end_tbl_ind + 1 < start_label_ind - 1){
+      new_chunk <- c(new_chunk, chunk[(end_tbl_ind + 1):(start_label_ind - 1)])
+    }
   }else{
-    return(list(new_chunk, chunk[i:length(chunk)]))
+    # Add lines after the table, before the next text to new_chunk and
+    # return that as the table part and 'the rest' of the chunk
+    if(i == length(chunk)){
+      new_chunk <- c(new_chunk, chunk[(end_tbl_ind + 1):length(chunk)])
+      return(list(new_chunk, NULL))
+    }else{
+      new_chunk <- c(new_chunk, "")
+      chunk <- chunk[(end_tbl_ind + 1):length(chunk)]
+      # Used to make the number of newlines in the PDF doc match exactly what is
+      # in the input code
+      if(chunk[1] == ""){
+        chunk <- chunk[-1]
+      }
+      return(list(new_chunk, chunk))
+    }
   }
+
+  # Table has a label at the end of the chunk
+  if(start_label_ind == length(chunk)){
+    new_chunk <- c(new_chunk, chunk[i], "")
+    return(list(new_chunk, NULL))
+  }
+  # Table has a label, find the end of the label
+  i <- start_label_ind + 1
+  repeat{
+    if(chunk[i] == ""){
+      end_label_ind <- i - 1
+      break
+    }
+    if(i == length(chunk)){
+      end_label_ind <- i
+      break
+    }
+    i <- i + 1
+  }
+
+  new_chunk <- c(new_chunk, chunk[start_label_ind:end_label_ind])
+  new_chunk <- c(new_chunk, "")
+  chunk <- chunk[(end_label_ind + 1):length(chunk)]
+  # Used to make the number of newlines in the PDF doc match exactly what is
+  # in the input code
+  if(chunk[1] == ""){
+    chunk <- chunk[-1]
+  }
+  return(list(new_chunk, chunk))
 }

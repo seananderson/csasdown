@@ -8,10 +8,7 @@ export(check_yaml)
 export(conv_blank_lines)
 export(conv_header_lines)
 export(conv_list_lines)
-<<<<<<< HEAD
-=======
 export(conv_paragraph_lines)
->>>>>>> ab6b2d5 (All paragraph type parsing and testing)
 export(conv_table_lines)
 export(convert_newlines_rmd)
 export(copy_mirror_chunks)

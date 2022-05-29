@@ -45,16 +45,16 @@ conv_paragraph_lines <- function(chunk){
     return(list(NULL, chunk))
   }
 
-  if(length(chunk) >= 1 &&
-     nchar(chunk[1]) >= 5 &&
-     substr(trimws(chunk[1]), 1, 5) == "-----"){
-    return(list(NULL, chunk))
-  }
-
-  if(length(chunk) >= 2 &&
-     nchar(chunk[2]) >= 5 &&
-     substr(trimws(chunk[2]), 1, 5) == "-----"){
-    return(list(NULL, chunk))
+  # `dash_pat` matches any sequence of zero or more whitespace characters,
+  # followed by 1 or more dashes, followed by zero or more whitespace
+  # characters all repeating
+  dash_pat <- "^(\\s*-+\\s*)+$"
+  if(length(grep(dash_pat, trimws(chunk[1]))) ||
+     length(grep(dash_pat, trimws(chunk[2])))){
+    stop("A table appears to have been started but not finished:\n\n",
+         paste(chunk, collapse = "\n"),
+         "\n\n",
+         call. = FALSE)
   }
 
   if(length(chunk) == 1){
