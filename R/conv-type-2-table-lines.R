@@ -175,6 +175,9 @@ conv_type_2_table_lines <- function(chunk){
           break
         }
         i <-  i + 1
+        if(chunk[i] == ""){
+          break
+        }
       }
       break
     }
@@ -208,6 +211,9 @@ conv_type_2_table_lines <- function(chunk){
           break
         }
         i <-  i + 1
+        if(chunk[i] == ""){
+          break
+        }
       }
       break
     }
@@ -222,7 +228,6 @@ conv_type_2_table_lines <- function(chunk){
   }
 
   if(has_label){
-    tbl_chunk <- c(tbl_chunk, "")
     if(end_lbl_ind == length(chunk)){
       ret_chunk <- NULL
     }else{
@@ -230,13 +235,17 @@ conv_type_2_table_lines <- function(chunk){
       if(ret_chunk[1] == ""){
         ret_chunk <- ret_chunk[-1]
       }
-      return(list(tbl_chunk, ret_chunk))
+      tbl_chunk <- c(tbl_chunk, "")
     }
+    tbl_chunk <- c(tbl_chunk, "")
   }else{
     if(end_tbl_ind == length(chunk)){
       ret_chunk <- NULL
     }else{
       ret_chunk <- chunk[(end_tbl_ind + 1):length(chunk)]
+      if(ret_chunk[1] == ""){
+        ret_chunk <- ret_chunk[-1]
+      }
     }
   }
 

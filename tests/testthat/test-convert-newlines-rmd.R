@@ -1,8 +1,9 @@
 test_that("csasdown::convert_newlines_rmd works", {
   str <- c("")
-  str_mod <- c("")
-  expect_identical(csasdown::convert_newlines_rmd(str), str_mod)
-
+  str_mod <- c("\\\\", "")
+  ret <- csasdown::convert_newlines_rmd(str)
+  expect_identical(ret, str_mod)
+  # ---------------------------------------------------------------------------
   str <- c("Hello world",
            "",
            "",
@@ -13,8 +14,9 @@ test_that("csasdown::convert_newlines_rmd works", {
                "\\\\",
                "",
                "Welcome!")
-  expect_identical(csasdown::convert_newlines_rmd(str), str_mod)
-
+  ret <- csasdown::convert_newlines_rmd(str)
+  expect_identical(ret, str_mod)
+  # ---------------------------------------------------------------------------
   str <- c("#Section header",
            "",
            "Lorem ipsum dolor sit amet. Est magnam tenetur ut internos ",
@@ -26,13 +28,8 @@ test_that("csasdown::convert_newlines_rmd works", {
            "",
            "#Section header 2")
   str_mod <- c("#Section header",
-               "\\\\",
                "Lorem ipsum dolor sit amet. Est magnam tenetur ut internos ",
-               "\\\\",
-               "",
                "internos aut similique vitae. In sapiente molestias ut aperiam ",
-               "\\\\",
-               "",
                "autem ut galisum dignissimos.",
                "\\\\",
                "\\\\",
@@ -41,8 +38,9 @@ test_that("csasdown::convert_newlines_rmd works", {
                "\\\\",
                "",
                "#Section header 2")
-  expect_identical(csasdown::convert_newlines_rmd(str), str_mod)
-
+  ret <- csasdown::convert_newlines_rmd(str)
+  expect_identical(ret, str_mod)
+  # ---------------------------------------------------------------------------
   str <- c("",
            "",
            "",
@@ -57,10 +55,10 @@ test_that("csasdown::convert_newlines_rmd works", {
                "\\\\",
                "\\\\",
                "\\\\",
-               "",
                "")
-  expect_identical(csasdown::convert_newlines_rmd(str), str_mod)
-
+  ret <- csasdown::convert_newlines_rmd(str)
+  expect_identical(ret, str_mod)
+  # ---------------------------------------------------------------------------
   str <- c("xx",
            "",
            "",
@@ -79,8 +77,9 @@ test_that("csasdown::convert_newlines_rmd works", {
                "\\\\",
                "",
                "yy")
-  expect_identical(csasdown::convert_newlines_rmd(str), str_mod)
-
+  ret <- csasdown::convert_newlines_rmd(str)
+  expect_identical(ret, str_mod)
+  # ---------------------------------------------------------------------------
   str <- c("",
            "Creating a list",
            "1. Item 1",
@@ -92,20 +91,149 @@ test_that("csasdown::convert_newlines_rmd works", {
            "3. Item 3.",
            "",
            "End of list")
-  str_mode <- c("Creating a list",
-                "\\\\",
-                "",
-                "1. Item 1",
-                "2. Item 2",
-                "   a. Item 2a",
-                "   b. Item 2b",
-                "      i. Item 2bi"
-                "\\\\",
-                ""
-                "      ii. Item 2bii",
-                "\\\\",
-                "",
-                "3. Item 3.",
-                "\\\\"
-                "\\\\" )
+  str_mod <- c("\\\\",
+               "",
+               "Creating a list",
+               "1. Item 1",
+               "2. Item 2",
+               "   a. Item 2a",
+               "   b. Item 2b",
+               "      i. Item 2bi",
+               "      ii. Item 2bii",
+               "3. Item 3.",
+               "\\\\",
+               "\\\\",
+               "",
+               "End of list")
+  ret <- csasdown::convert_newlines_rmd(str)
+  expect_identical(ret, str_mod)
+  # ---------------------------------------------------------------------------
+  str <- c("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Bibendum ut tristique et egestas quis ipsum suspendisse. Mollis aliquam ut porttitor leo a. Sit amet cursus sit amet. Suspendisse ultrices gravida dictum fusce ut placerat orci nulla. Viverra ipsum nunc aliquet bibendum. Sem et tortor consequat id porta nibh. Sed odio morbi quis commodo. Sed egestas egestas fringilla phasellus faucibus scelerisque eleifend. Senectus et netus et malesuada fames ac turpis egestas integer. Augue eget arcu dictum varius duis at consectetur lorem. Semper risus in hendrerit gravida rutrum. Et sollicitudin ac orci phasellus egestas tellus rutrum tellus. Nisi vitae suscipit tellus mauris a diam maecenas sed enim. Magnis dis parturient montes nascetur ridiculus mus mauris vitae. Est ultricies integer quis auctor.",
+           "",
+           "",
+           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
+           "tempor incididunt ut labore et dolore magna aliqua. Bibendum ut",
+           "tristique et egestas quis ipsum suspendisse. Mollis aliquam ut porttitor",
+           "leo a. Sit amet cursus sit amet. Suspendisse ultrices gravida dictum fusce",
+           "ut placerat orci nulla. Viverra ipsum nunc aliquet bibendum. Sem et",
+           "tortor consequat id porta nibh. Sed odio morbi quis commodo. Sed egestas",
+           "egestas fringilla phasellus faucibus scelerisque eleifend. Senectus et netus",
+           "et malesuada fames ac turpis egestas integer. Augue eget arcu dictum",
+           "varius duis at consectetur lorem. Semper risus in hendrerit gravida",
+           "rutrum. Et sollicitudin ac orci phasellus egestas tellus rutrum tellus. Nisi",
+           "vitae suscipit tellus mauris a diam maecenas sed enim. Magnis dis",
+           "parturient montes nascetur ridiculus mus mauris vitae. Est ultricies",
+           "integer quis auctor.",
+           "",
+           "",
+           "   parameter           value",
+           "---------------- -----------------",
+           "       a                 5",
+           "       b                 8",
+           "       c                 9",
+           "",
+           "----------------------------------------------------------------------------------",
+           "  Factors                    Correlation between Parents & Child      Inherited",
+           "------------------------- ----------------------------------------- --------------",
+           "  Education                                -0.49                         Yes",
+           "",
+           "",
+           "",
+           "Socio-Economic Status                     0.28                        Slight",
+           "",
+           "Income                                    0.08                          No",
+           "",
+           "Family Size                               0.18                        Slight",
+           "",
+           "Occupational Prestige                     0.21                        Slight",
+           "------------------------- ----------------------------------------- --------------",
+           "   Table: Correlation of Inheritance Factors for Parents and Child")
+
+  str_mod <- c("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Bibendum ut tristique et egestas quis ipsum suspendisse. Mollis aliquam ut porttitor leo a. Sit amet cursus sit amet. Suspendisse ultrices gravida dictum fusce ut placerat orci nulla. Viverra ipsum nunc aliquet bibendum. Sem et tortor consequat id porta nibh. Sed odio morbi quis commodo. Sed egestas egestas fringilla phasellus faucibus scelerisque eleifend. Senectus et netus et malesuada fames ac turpis egestas integer. Augue eget arcu dictum varius duis at consectetur lorem. Semper risus in hendrerit gravida rutrum. Et sollicitudin ac orci phasellus egestas tellus rutrum tellus. Nisi vitae suscipit tellus mauris a diam maecenas sed enim. Magnis dis parturient montes nascetur ridiculus mus mauris vitae. Est ultricies integer quis auctor.",
+               "\\\\",
+               "\\\\",
+               "\\\\",
+               "",
+               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
+               "tempor incididunt ut labore et dolore magna aliqua. Bibendum ut",
+               "tristique et egestas quis ipsum suspendisse. Mollis aliquam ut porttitor",
+               "leo a. Sit amet cursus sit amet. Suspendisse ultrices gravida dictum fusce",
+               "ut placerat orci nulla. Viverra ipsum nunc aliquet bibendum. Sem et",
+               "tortor consequat id porta nibh. Sed odio morbi quis commodo. Sed egestas",
+               "egestas fringilla phasellus faucibus scelerisque eleifend. Senectus et netus",
+               "et malesuada fames ac turpis egestas integer. Augue eget arcu dictum",
+               "varius duis at consectetur lorem. Semper risus in hendrerit gravida",
+               "rutrum. Et sollicitudin ac orci phasellus egestas tellus rutrum tellus. Nisi",
+               "vitae suscipit tellus mauris a diam maecenas sed enim. Magnis dis",
+               "parturient montes nascetur ridiculus mus mauris vitae. Est ultricies",
+               "integer quis auctor.",
+               "\\\\",
+               "\\\\",
+               "\\\\",
+               "",
+               "   parameter           value",
+               "---------------- -----------------",
+               "       a                 5",
+               "       b                 8",
+               "       c                 9",
+               "",
+               "----------------------------------------------------------------------------------",
+               "  Factors                    Correlation between Parents & Child      Inherited",
+               "------------------------- ----------------------------------------- --------------",
+               "  Education                                -0.49                         Yes",
+               "",
+               "Socio-Economic Status                     0.28                        Slight",
+               "",
+               "Income                                    0.08                          No",
+               "",
+               "Family Size                               0.18                        Slight",
+               "",
+               "Occupational Prestige                     0.21                        Slight",
+               "------------------------- ----------------------------------------- --------------",
+               "",
+               "   Table: Correlation of Inheritance Factors for Parents and Child",
+               "")
+
+  ret <- csasdown::convert_newlines_rmd(str)
+  expect_identical(ret, str_mod)
+  # ---------------------------------------------------------------------------
+  str <- c("-----",
+           "  a",
+           "-----",
+           "  b",
+           "-----",
+           "",
+           "other text",
+           "",
+           "-----",
+           "  x",
+           "-----",
+           "  y",
+           "",
+           "",
+           "",
+           "-----",
+           "Table: 2nd Caption")
+
+  str_mod <- c("-----",
+               "  a",
+               "-----",
+               "  b",
+               "-----",
+               "",
+               "other text",
+               "\\\\",
+               "\\\\",
+               "",
+               "-----",
+               "  x",
+               "-----",
+               "  y",
+               "-----",
+               "",
+               "Table: 2nd Caption",
+               "")
+  ret <- csasdown::convert_newlines_rmd(str)
+  expect_identical(ret, str_mod)
+
 })

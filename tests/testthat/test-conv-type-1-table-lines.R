@@ -42,7 +42,7 @@ test_that("Conversion of type 1 table lines in Rmd works correctly", {
   tmp <- conv_type_1_table_lines(chunk)
   expect_identical(tmp[[1]], c("-----", "xyz", "-----", "abc", "", "efg",
                                "-----", ""))
-  expect_identical(tmp[[2]], c("", "", "Non-caption text"))
+  expect_identical(tmp[[2]], c("", "Non-caption text"))
   # ---------------------------------------------------------------------------
   chunk <- c("-----", "asd", "-----", "", "", "", "xyz", "", "", "" ,"-----",
              "Table: (\\#tab:text) Test label ")
@@ -55,7 +55,7 @@ test_that("Conversion of type 1 table lines in Rmd works correctly", {
              "No caption text", "", "Table: (\\#tab:text) Test label ")
   tmp <- conv_type_1_table_lines(chunk)
   expect_identical(tmp[[1]], c("-----", "asd", "-----", "xyz", "-----", ""))
-  expect_identical(tmp[[2]], c("", "", "No caption text", "",
+  expect_identical(tmp[[2]], c("", "No caption text", "",
                                "Table: (\\#tab:text) Test label "))
   # ---------------------------------------------------------------------------
   chunk <- c("-----", "asd", "-----", "", "", "", "xyz", "", "", "" ,"-----",
@@ -92,7 +92,15 @@ test_that("Conversion of type 1 table lines in Rmd works correctly", {
              "", "", "", "non-caption text")
   tmp <- conv_type_1_table_lines(chunk)
   expect_identical(tmp[[1]], c("-----", "asd", "-----", "xyz", "-----", ""))
-  expect_identical(tmp[[2]], c("", "", "", "non-caption text"))
+  expect_identical(tmp[[2]], c("", "", "non-caption text"))
+  # ---------------------------------------------------------------------------
+  chunk <- c("-----", "asd", "-----", "xyz", "-----", "", "Table:",
+             "- 2nd line ", "         - third line", "", "")
+  tmp <- conv_type_1_table_lines(chunk)
+  expect_identical(tmp[[1]], c("-----","asd", "-----", "xyz", "-----", "",
+                               "Table:", "- 2nd line ",
+                               "         - third line", "", ""))
+  expect_identical(tmp[[2]], "")
   # ---------------------------------------------------------------------------
   chunk <- c("----------- -----------",
              " fgdfgdgfd    assadsd  ",
@@ -135,7 +143,7 @@ test_that("Conversion of type 1 table lines in Rmd works correctly", {
                                "----------- -----------",
                                "",
                                "Table: (\\#tab:text) Test label.",
-                               ""))
+                               "", ""))
   expect_identical(tmp[[2]], c("", "Two lines."))
 
 })
