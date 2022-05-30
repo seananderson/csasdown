@@ -33,6 +33,12 @@ test_that("Conversion of type 2 table lines in Rmd works correctly", {
   expect_identical(tmp[[1]], c("asd", "-----", "dfg", ""))
   expect_identical(tmp[[2]], c("", "", "xyz", "", "", ""))
   # ---------------------------------------------------------------------------
+  chunk <- c("xyz", "-----", "abc", "efg", "", "Non-caption text", "",
+             "Table:", "xxx")
+  tmp <- conv_type_2_table_lines(chunk)
+  expect_identical(tmp[[1]], c("xyz", "-----", "abc", "efg", ""))
+  expect_identical(tmp[[2]], c("", "Non-caption text", "", "Table:", "xxx"))
+  # ---------------------------------------------------------------------------
   chunk <- c("xyz", "-----", "abc", "", "efg", "-----", "", "",
              "Non-caption text")
   tmp <- conv_type_2_table_lines(chunk)

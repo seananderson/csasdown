@@ -149,6 +149,7 @@ conv_type_1_table_lines <- function(chunk){
   # preceded by "Table:" and stands for 'Label undefined '
   lbl_def_pat <- "^Table:(\\s*\\S+\\s*)+$"
   lbl_undef_pat <- "^Table:\\s*$"
+  all_blanks_so_far <- TRUE
   repeat{
     # If the caption def looks like this:
     # Table: A caption is here.
@@ -211,6 +212,10 @@ conv_type_1_table_lines <- function(chunk){
       break
     }
     if(i == length(chunk)){
+      break
+    }
+    all_blanks_so_far <- all_blanks_so_far && chunk[i] == ""
+    if(!all_blanks_so_far){
       break
     }
     i <- i + 1

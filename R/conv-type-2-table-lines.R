@@ -148,6 +148,7 @@ conv_type_2_table_lines <- function(chunk){
   # preceded by "Table:" and stands for 'Label undefined '
   lbl_def_pat <- "^Table:(\\s*\\S+\\s*)+$"
   lbl_undef_pat <- "^Table:\\s*$"
+  all_blanks_so_far <- TRUE
   repeat{
     # If the caption def looks like this:
     # Table: A caption is here.
@@ -199,6 +200,7 @@ conv_type_2_table_lines <- function(chunk){
       start_label_ind <- i
       tbl_chunk <- c(tbl_chunk, chunk[i])
       i <- i + 1
+      # Table: line found, read them all in
       while(length(grep(text_pat , trimws(chunk[i])) && i < length(chunk))){
         tbl_chunk <- c(tbl_chunk, chunk[i])
         end_lbl_ind <- i
@@ -210,6 +212,10 @@ conv_type_2_table_lines <- function(chunk){
       break
     }
     if(i == length(chunk)){
+      break
+    }
+    all_blanks_so_far <- all_blanks_so_far && chunk[i] == ""
+    if(!all_blanks_so_far){
       break
     }
     i <- i + 1
