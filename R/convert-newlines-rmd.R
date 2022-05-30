@@ -83,10 +83,10 @@ convert_newlines_rmd <- function(text_chunk){
       tmp <- conv_type_1_table_lines(text_chunk)
       new_tc <- c(new_tc, tmp[[1]], convert_newlines_rmd(tmp[[2]]))
     }
-    # if(is_type_2){
-    #   tmp <- conv_type_2_table_lines(text_chunk)
-    #   new_tc <- c(new_tc, tmp[[1]], convert_newlines_rmd(tmp[[2]]))
-    # }
+    if(is_type_2){
+      tmp <- conv_type_2_table_lines(text_chunk)
+      new_tc <- c(new_tc, tmp[[1]], convert_newlines_rmd(tmp[[2]]))
+    }
   }
 
   # Regular text paragraphs

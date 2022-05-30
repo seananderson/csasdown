@@ -1,36 +1,30 @@
-#' Convert an Rmarkdown type 1 table into a simplified form with WYSIWYG
+#' Convert an Rmarkdown type 2 table into a simplified form with WYSIWYG
 #' newlines
 #'
 #' @description
-#' Convert an Rmarkdown type 1 table into a simplified form with WYSIWYG
+#' Convert an Rmarkdown type 2 table into a simplified form with WYSIWYG
 #' newlines. If there is no table detected, NULL will be returned as the
 #' converted chunk, or an error will be thrown depending on the situation.
 #'
 #' @details
-#' A type 1 table is defined as a manually-entered Rmarkdown table with a
-#' minimum of five lines with this format:
-#' #----- ----- -----
+#' A type 2 table is defined as a manually-entered Rmarkdown table with a
+#' minimum of three lines with this format:
 #' #  a     b     c
 #' #----- ----- -----
 #' # abc   def   ghi
-#' #----- ----- -----
 #'
 #' There is no whitespace in between any of these lines. The first text row is
 #' the column headers for the table and the second text row is the table data.
-#' The second row can be multiple rows separated by an arbitrary number of
-#' blank lines, but there cannot be blank lines before the table data or after.
+#' The second row can be multiple rows which must not be separated by blank
+#' lines. They all must be together without whitespace in between.
 #' Here is an example with three table data rows in acceptable format, along
 #' with the optional table caption text which must start with 'Table:'
-#' #----- ----- -----
 #' #  a     b     c
 #' #----- ----- -----
 #' # abc   def   ghi
-#'
 #' # jkl   mno   pqr
-#'
-#'
 #' # stu   vwx   yza
-#' #----- ----- -----
+#'
 #' #Table: Table caption (0 or more blank lines between table and this caption)
 #' #A second line of table caption here (no blank lines in between)
 #'
@@ -43,19 +37,18 @@
 #'
 #' @examples
 #' library(csasdown)
-#' chunk <- c("---------- -----------", "  Parameter   Value",
-#'            "---------- -----------", "     x          1.0",
-#'            "     y          2.2", "---------- -----------")
-#' tmp <- conv_type_1_table_lines(chunk)
+#' chunk <- c("  Parameter   Value", "---------- -----------",
+#'            "     x          1.0", "     y          2.2")
+#' tmp <- conv_type_2_table_lines(chunk)
 #' the_rest <- tmp[[2]]
-conv_type_1_table_lines <- function(chunk){
+conv_type_2_table_lines <- function(chunk){
 
   if(is.null(chunk)){
     return(list(NULL, NULL))
   }
 
-  if(length(chunk) < 5){
-    stop("A type 1 table must have at least 5 lines. Input table is:\n\n",
+  if(length(chunk) < 3){
+    stop("A type 2 table must have at least 3 lines. Input table is:\n\n",
          paste(chunk, collapse = "\n"),
          "\n\n",
          call. = FALSE)
@@ -74,18 +67,18 @@ conv_type_1_table_lines <- function(chunk){
   t3 <- trimws(chunk[3])
 
   # Confirm type 1 table
-  is_type_1 <- length(grep(dash_pat, t1)) &&
-               length(grep(text_pat, t2)) &&
-               length(grep(dash_pat, t3))
+  is_type_2 <- length(grep(text_pat, t1)) &&
+               length(grep(dash_pat, t2)) &&
+               length(grep(text_pat, t3))
 
-  if(!is_type_1){
-    stop("The following table is not a type 1 table based on the first three ",
+  if(!is_type_2){
+    stop("The following table is not a type 2 table based on the first three ",
          "rows:\n\n", paste(chunk, collapse = "\n"),
          "\n\n",
          "They must start with:\n",
-         "- a row of dashes\n",
          "- a row of text representing headers\n",
-         "- a row of dashes.",
+         "- a row of dashes\n",
+         "- a row of text representing row 1 of table data\n",
          call. = FALSE)
   }
 
@@ -95,23 +88,28 @@ conv_type_1_table_lines <- function(chunk){
   end_lbl_ind <- NULL
   # Add the first three rows as they have been checked already
   tbl_chunk <- chunk[1:3]
+  end_tbl <- FALSE
   i <- 4
   repeat{
     tn <- trimws(chunk[i])
-    end_tbl <- length(grep(dash_pat, tn))
-    if(end_tbl){
-      end_tbl_ind <- i
-      # Remove previous row's extra blank line while adding ending row
-      # of dashes
-      tbl_chunk <- c(tbl_chunk[-length(tbl_chunk)], chunk[i])
+    if(i == 4 && chunk[i] == ""){
+      end_tbl <- TRUE
+      end_tbl_ind <- 3
       break
-    }
-
-    if(chunk[i] != ""){
-      tbl_chunk <- c(tbl_chunk, chunk[i], "")
     }
     if(i == length(chunk)){
+      tbl_chunk <- c(tbl_chunk, chunk[i])
+      end_tbl <- TRUE
+      end_tbl_ind <- i
       break
+    }
+    end_tbl <- chunk[i + 1] == ""
+    if(end_tbl){
+      tbl_chunk <- c(tbl_chunk, chunk[i])
+      end_tbl_ind <- i
+      break
+    }else{
+      tbl_chunk <- c(tbl_chunk, chunk[i])
     }
     i <- i + 1
   }

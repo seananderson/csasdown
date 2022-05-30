@@ -13,8 +13,6 @@
 #' @return A list of two elements, 1) The corrected part of the chunk and
 #' 2) the rest of the chunk starting with the line after the last blank line
 #' @export
-#'
-#' @examples
 conv_paragraph_lines <- function(chunk){
 
   if(is.null(chunk)){

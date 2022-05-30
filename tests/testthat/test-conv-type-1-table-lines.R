@@ -107,6 +107,6 @@ test_that("Conversion of type 1 table lines in Rmd works correctly", {
                                "",
                                "Table: (\\#tab:text) Test label.",
                                ""))
-  expect_identical(tmp[[2]], c("", "", "Two lines."))
+  expect_identical(tmp[[2]], c("", "Two lines."))
 
 })

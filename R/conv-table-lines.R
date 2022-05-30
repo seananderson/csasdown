@@ -21,15 +21,6 @@
 #' @return A list of two elements, 1) The corrected part of the chunk and
 #' 2) the rest of the chunk starting with the line after the last list line
 #' @export
-#'
-#' @examples
-#' library(csasdown)
-#' chunk <- c("---------- -----------", "  Parameter   Value,
-#'            "---------- -----------", "     x          1.0",
-#'            "---------- -----------", "     y          2.2")
-#' tmp <- conv_table_lines(chunk)
-#' table_line_chunk <- tmp[[1]]
-#' the_rest <- tmp[[2]]
 conv_table_lines <- function(chunk){
 
   if(is.null(chunk)){
