@@ -89,6 +89,9 @@ conv_type_2_table_lines <- function(chunk){
   # Add the first three rows as they have been checked already
   tbl_chunk <- chunk[1:3]
   end_tbl <- FALSE
+  if(length(chunk) == 3){
+    return(list(c(chunk, ""), NULL))
+  }
   i <- 4
   repeat{
     tn <- trimws(chunk[i])
@@ -116,9 +119,9 @@ conv_type_2_table_lines <- function(chunk){
 
   if(end_tbl){
     # Basic table without a table caption string included
-    tbl_chunk <- c(tbl_chunk, "")
     if(end_tbl_ind == length(chunk)){
       ret_chunk <- NULL
+      tbl_chunk <- c(tbl_chunk, "")
       return(list(tbl_chunk, ret_chunk))
     }
   }else{
@@ -127,14 +130,12 @@ conv_type_2_table_lines <- function(chunk){
          "\n\n",
          call. = FALSE)
   }
+  tbl_chunk <- c(tbl_chunk, "")
 
   # ---------------------------------------------------------------------------
-  # At this point, the end of the table has been found and i is it's index.
-  # - For a type 1 table, this is on the last "--------" line, which could be
-  # at the end of the chunk. There are one or more lines past the end of the
-  # table which need to be searched for a table caption label
+  # At this point, the end of the table has been found and its index is
+  # `end_tbl_ind`
 
-  end_tbl_ind <- i
   # Find start of label if it exists and if table has a caption label
   # (Table: Caption here)
   i <- i + 1
@@ -151,10 +152,22 @@ conv_type_2_table_lines <- function(chunk){
     # If the caption def looks like this:
     # Table: A caption is here.
     # More caption here.
-    if(length(grep(lbl_def_pat , chunk[i]))){
+    if(length(grep(lbl_def_pat , trimws(chunk[i])))){
+      n_lead_spaces <- nchar(gsub("^(\\s*).*$", "\\1", chunk[i]))
+      if(n_lead_spaces > 3){
+        # Rmarkdown specs say a table caption line must be indented 3 or less
+        # spaces. If more, it is just a regular text line
+        warning("A line that looks like a table caption was found but it is ",
+                "indented ", n_lead_spaces, " spaces. The Rmarkdown ",
+                "specification says it must be 3 or less:\n\n",
+                chunk[i],
+                "\n\n",
+                call. = FALSE)
+        return(list(tbl_chunk, chunk[(end_tbl_ind + 1):length(chunk)]))
+      }
       has_label <- TRUE
       start_label_ind <- i
-      while(length(grep(text_pat , chunk[i]))){
+      while(length(grep(text_pat , trimws(chunk[i])))){
         tbl_chunk <- c(tbl_chunk, chunk[i])
         end_lbl_ind <- i
         if(i == length(chunk)){
@@ -168,13 +181,25 @@ conv_type_2_table_lines <- function(chunk){
     # Table:
     # A caption is here.
     # More caption here.
-    if(length(grep(lbl_undef_pat , chunk[i])) &&
-       length(grep(text_pat, chunk[i + 1]))){
+    if(length(grep(lbl_undef_pat , trimws(chunk[i]))) &&
+       length(grep(text_pat, trimws(chunk[i + 1])))){
+      n_lead_spaces <- nchar(gsub("^(\\s*).*$", "\\1", chunk[i]))
+      if(n_lead_spaces > 3){
+        # Rmarkdown specs say a table caption line must be indented 3 or less
+        # spaces. If more, it is just a regular text line
+        warning("A line that looks like a table caption was found but it is ",
+                "indented ", n_lead_spaces, " spaces. The Rmarkdown ",
+                "specification says it must be 3 or less:\n\n",
+                chunk[i],
+                "\n\n",
+                call. = FALSE)
+        return(list(tbl_chunk, chunk[(end_tbl_ind + 1):length(chunk)]))
+      }
       has_label <- TRUE
       start_label_ind <- i
       tbl_chunk <- c(tbl_chunk, chunk[i])
       i <- i + 1
-      while(length(grep(text_pat , chunk[i])) && i < length(chunk)){
+      while(length(grep(text_pat , trimws(chunk[i])) && i < length(chunk))){
         tbl_chunk <- c(tbl_chunk, chunk[i])
         end_lbl_ind <- i
         if(i == length(chunk)){
@@ -191,17 +216,16 @@ conv_type_2_table_lines <- function(chunk){
   }
 
   if(has_label){
+    tbl_chunk <- c(tbl_chunk, "")
     if(end_lbl_ind == length(chunk)){
       ret_chunk <- NULL
     }else{
       ret_chunk <- chunk[(end_lbl_ind + 1):length(chunk)]
-      tbl_chunk <- c(tbl_chunk, "")
       if(ret_chunk[1] == ""){
         ret_chunk <- ret_chunk[-1]
       }
       return(list(tbl_chunk, ret_chunk))
     }
-    tbl_chunk <- c(tbl_chunk, "")
   }else{
     if(end_tbl_ind == length(chunk)){
       ret_chunk <- NULL

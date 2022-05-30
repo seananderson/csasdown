@@ -60,6 +60,28 @@ test_that("Conversion of type 1 table lines in Rmd works correctly", {
   expect_null(tmp[[2]])
   # ---------------------------------------------------------------------------
   chunk <- c("-----", "asd", "-----", "", "", "", "xyz", "", "", "" ,"-----",
+             "    Table: (\\#tab:text) Test label.", "Two lines.")
+  expect_warning(tmp <- conv_type_1_table_lines(chunk))
+  expect_identical(tmp[[1]], c("-----", "asd", "-----", "xyz", "-----", ""))
+  expect_identical(tmp[[2]], c("    Table: (\\#tab:text) Test label.",
+                   "Two lines."))
+  # ---------------------------------------------------------------------------
+  chunk <- c("-----", "asd", "-----", "", "", "", "xyz", "", "", "" ,"-----",
+             "    Table:", "(\\#tab:text) Test label.")
+  expect_warning(tmp <- conv_type_1_table_lines(chunk))
+  expect_identical(tmp[[1]], c("-----", "asd", "-----", "xyz", "-----", ""))
+  expect_identical(tmp[[2]], c("    Table:", "(\\#tab:text) Test label."))
+  # ---------------------------------------------------------------------------
+  chunk <- c("-----", "asd", "-----", "", "", "", "xyz", "", "", "" ,"-----",
+             "  Table:", "          (\\#tab:text) Test label.")
+  tmp <- conv_type_1_table_lines(chunk)
+  expect_identical(tmp[[1]], c("-----", "asd", "-----", "xyz", "-----", "",
+                               "  Table:",
+                               "          (\\#tab:text) Test label.", ""))
+
+  expect_null(tmp[[2]])
+  # ---------------------------------------------------------------------------
+  chunk <- c("-----", "asd", "-----", "", "", "", "xyz", "", "", "" ,"-----",
              "", "", "", "non-caption text")
   tmp <- conv_type_1_table_lines(chunk)
   expect_identical(tmp[[1]], c("-----", "asd", "-----", "xyz", "-----", ""))

@@ -153,10 +153,22 @@ conv_type_1_table_lines <- function(chunk){
     # If the caption def looks like this:
     # Table: A caption is here.
     # More caption here.
-    if(length(grep(lbl_def_pat , chunk[i]))){
+    if(length(grep(lbl_def_pat , trimws(chunk[i])))){
+      n_lead_spaces <- nchar(gsub("^(\\s*).*$", "\\1", chunk[i]))
+      if(n_lead_spaces > 3){
+        # Rmarkdown specs say a table caption line must be indented 3 or less
+        # spaces. If more, it is just a regular text line
+        warning("A line that looks like a table caption was found but it is ",
+                "indented ", n_lead_spaces, " spaces. The Rmarkdown ",
+                "specification says it must be 3 or less:\n\n",
+                chunk[i],
+                "\n\n",
+                call. = FALSE)
+        return(list(tbl_chunk, chunk[(end_tbl_ind + 1):length(chunk)]))
+      }
       has_label <- TRUE
       start_label_ind <- i
-      while(length(grep(text_pat , chunk[i]))){
+      while(length(grep(text_pat , trimws(chunk[i])))){
         tbl_chunk <- c(tbl_chunk, chunk[i])
         end_lbl_ind <- i
         if(i == length(chunk)){
@@ -170,13 +182,25 @@ conv_type_1_table_lines <- function(chunk){
     # Table:
     # A caption is here.
     # More caption here.
-    if(length(grep(lbl_undef_pat , chunk[i])) &&
-       length(grep(text_pat, chunk[i + 1]))){
+    if(length(grep(lbl_undef_pat , trimws(chunk[i]))) &&
+       length(grep(text_pat, trimws(chunk[i + 1])))){
+      n_lead_spaces <- nchar(gsub("^(\\s*).*$", "\\1", chunk[i]))
+      if(n_lead_spaces > 3){
+        # Rmarkdown specs say a table caption line must be indented 3 or less
+        # spaces. If more, it is just a regular text line
+        warning("A line that looks like a table caption was found but it is ",
+                "indented ", n_lead_spaces, " spaces. The Rmarkdown ",
+                "specification says it must be 3 or less:\n\n",
+                chunk[i],
+                "\n\n",
+                call. = FALSE)
+        return(list(tbl_chunk, chunk[(end_tbl_ind + 1):length(chunk)]))
+      }
       has_label <- TRUE
       start_label_ind <- i
       tbl_chunk <- c(tbl_chunk, chunk[i])
       i <- i + 1
-      while(length(grep(text_pat , chunk[i])) && i < length(chunk)){
+      while(length(grep(text_pat , trimws(chunk[i])) && i < length(chunk))){
         tbl_chunk <- c(tbl_chunk, chunk[i])
         end_lbl_ind <- i
         if(i == length(chunk)){
