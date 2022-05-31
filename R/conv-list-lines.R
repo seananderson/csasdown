@@ -52,10 +52,9 @@ conv_list_lines <- function(chunk){
       new_chunk <- c(new_chunk, chunk[i])
     }
   }
-
   new_chunk <- c(new_chunk, "\\\\")
   if(i == length(chunk)){
-    new_chunk <- c(new_chunk, "\\\\")
+    #new_chunk <- c(new_chunk, "\\\\")
     the_rest <- NULL
   }else{
     the_rest <- chunk[i:length(chunk)]

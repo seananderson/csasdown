@@ -82,7 +82,6 @@ Toute personne qui a besoin d'utiliser l'analyse de données, les mathématiques
 The {#rmd-basics} text after the chapter declaration will allow us to link throughout the document back to the beginning of Chapter 1.  These labels will automatically be generated (if not specified) by changing the spaces to hyphens and capital letters to lowercase.  Look for the reference to this label at the beginning of Chapter 2.
 -->
 
-
 ```{r chap01-para-5-en, eval = !fr(), results = 'asis'}
 cat("# R MARKDOWN BASICS {#rmd-basics}
 Here is a brief introduction into using _R Markdown_. _Markdown_ is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. _R Markdown_ provides the flexibility of _Markdown_ with the implementation of **R** input and output.  For more details on using _R Markdown_ see <http://rmarkdown.rstudio.com>.")
@@ -95,38 +94,17 @@ Voici une brève introduction à l'utilisation de _R Markdown_. _Markdown_ est u
 ```{r chap01-para-6-en, eval = !fr(), results = 'asis'}
 cat("Be careful with your spacing in _Markdown_ documents.  While whitespace largely is ignored, it does at times give _Markdown_ signals as to how to proceed.  As a habit, try to keep everything left aligned whenever possible, especially as you type a new paragraph.  In other words, there is no need to indent basic text in the Rmd document (in fact, it might cause your text to do funny things if you do).")
 ```
+
 ```{r chap01-para-6-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+# This syntax means copy the exact contents from the chunk 'chap01-para-6-en'
+# above into this chunk. This is a better than cutting and pasting the chunk
+# contents in here manually. This should only appear in chunks with the 
+# 'needs_trans = TRUE' option set in the knitr chunk header, as this one has
 <<chap01-para-6-en>>
 ```
 
 ```{r chap01-para-7-en, eval = !fr(), results = 'asis'}
-cat("## LISTS
-CSAS allows ordered lists:
-
-1. Item 1
-4. Item 2
-
-and bulleted lists:
-
-- Item 1
-- Item 2
-
-Notice in the ordered list that I intentionally mislabeled Item 2 as number 4.  _Markdown_ automatically figures this out!  You can put any numbers in the list and it will create the list.  Check it out below.
-
-To create sublists, just indent the values a bit (at least three spaces) and make sure there are no newlines between the items. (Here's one case where indentation is key!)
-
-1. Item 1
-1. Item 2
-1. Item 3
-   a. Item 3a
-   a. Item 3b
-      i. Item 3bi
-      i. Item 3bii
-      i. Item 3biii
-      i. Item 3biv
-      i. Item 3bv
-         1. Item 3bv1
-         1. Item 3bv2")
+rmd_file("intro-list")
 ```
 ```{r chap01-para-7-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
 <<chap01-para-7-en>>
@@ -175,7 +153,7 @@ summary(cars)
 cat("## INLINE CODE
 If you'd like to put the results of your analysis directly into your discussion, add inline code like this:
 
-> The `cos` of $2 pi$ is `r cos(2*pi)`.
+> The `cos` of $2 \pi$ is `r cos(2*pi)`.
 
 ")
 ```
@@ -183,7 +161,7 @@ If you'd like to put the results of your analysis directly into your discussion,
 cat("## CODE NLINE
 Si vous souhaitez intégrer les résultats de votre analyse directement dans votre discussion, ajoutez un code en ligne comme celui-ci:
 
-> Le `cos` de $2 pi$ est `r cos(2*pi)`.
+> Le `cos` de $2 \pi$ est `r cos(2*pi)`.
 
 ")
 ```
@@ -328,7 +306,7 @@ cat("The example we show here does the following:
 library(dplyr)
 flights2 <- flights %>%
   select(carrier_name, arr_delay)
-max_delays <- flights2 %>%
+  max_delays <- flights2 %>%
   group_by(carrier_name) %>%
   summarize(max_arr_delay = max(arr_delay, na.rm = TRUE))
 ```

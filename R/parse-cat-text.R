@@ -31,7 +31,9 @@
 parse_cat_text <- function(str_vec, verbose = FALSE){
 
   if(!length(grep("^cat\\(.*", str_vec[1]))){
-    stop("The first element of `str_vec` must start with 'cat('",
+    stop("The code chunks that contain `cat()` can only contain `cat()`. ",
+         "This is because the `cat()` function is used only to contain ",
+         "Rmarkdown text in this project",
          call. = FALSE)
   }
   str_vec[1] <- gsub("^cat\\(", "", str_vec[1])
