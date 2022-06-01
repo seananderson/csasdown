@@ -1,0 +1,14 @@
+----------------------------------------------------------------------------------
+  Factors                    Correlation between Parents & Child      Inherited
+------------------------- ----------------------------------------- --------------
+  Education                                -0.49                         Yes
+
+Socio-Economic Status                     0.28                        Slight
+
+Income                                    0.08                          No
+
+Family Size                               0.18                        Slight
+
+Occupational Prestige                     0.21                        Slight
+------------------------- ----------------------------------------- --------------
+  Table: (\#tab:inher) Correlation of Inheritance Factors for Parents and Child

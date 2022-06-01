@@ -27,80 +27,68 @@ remove_comments_from_chunks <- function(rmd){
   code_chunks <- map2(start_inds, end_inds, ~{
     rmd[.x:.y]
   })
-  # Process code chunks here (remove comment lines)
-  code_chunks <- map(code_chunks, ~{
-    gr <- grep("^#.*$", trimws(.x))
-    if(length(gr)){
-      .x[-gr]
+  # Process code chunks here (remove comment lines). Unfortunately,
+  # if an Rmarkdown header is inside a `cat()` statement, starting on its own
+  # line, it will appear exactly the same as a comment inside the code chunk.
+  # To fix this, look for a `cat()` statement inside the code chunk, and
+  # while inside that, ignore any lines that start with #
+  com_pat <- "^#.*$"
+  code_chunks <- map(code_chunks, function(chunk = .x){
+
+    cat_ind <- grep("cat\\(.*", chunk)
+    if(length(cat_ind)){
+      if(length(cat_ind) > 1){
+        stop("Can only have one `cat()` call inside a code chunk:\n\n",
+             paste(chunk, collapse = "\n"),
+             "\n\n",
+             call. = FALSE)
+      }
+      # Get the indices of the chunk which are inside the `cat()` call
+      k <- parse_cat_text(chunk[cat_ind:length(chunk)], ret_inds = TRUE)
+      k <- cat_ind + k - 1
+      # Need to loop through the lines of the chunk
+      new_chunk <- NULL
+      i <- 1
+      repeat{
+        if(i %in% k){
+          new_chunk <- c(new_chunk, chunk[i])
+        }else{
+          gr <- grep(com_pat, trimws(chunk[i]))
+          if(!length(gr)){
+            new_chunk <- c(new_chunk, chunk[i])
+          }
+        }
+        if(i == length(chunk)){
+          break
+        }
+        i <- i + 1
+      }
+      return(new_chunk)
     }else{
-      .x
+      gr <- grep(com_pat, trimws(chunk))
+      if(length(gr)){
+        return(chunk[-gr])
+      }else{
+        return(chunk)
+      }
     }
   })
 
-  if(length(start_inds) == 1){
-    if(start_inds == 1 && end_inds == length(rmd)){
-      # Only one code chunk, taking up all of rmd
-      out_rmd <- code_chunks[[1]]
-    }else if(start_inds != 1 && end_inds == length(rmd)){
-      # Some text before the code chunk
-      out_rmd <- c(rmd[1:(start_inds - 1)], code_chunks[[1]])
-    }else if(start_inds == 1 && end_inds != length(rmd)){
-      # Some text after the code chunk
-      out_rmd <- c(code_chunks[[1]], rmd[(end_inds + 1):length(rmd)])
-    }else{
-      # There is text both before and after the chunk
-      out_rmd <- c(rmd[1:(start_inds - 1)],
-                   code_chunks[[1]],
-                   rmd[(end_inds + 1):length(rmd)])
-    }
-  }else if(length(start_inds) > 1){
-    # Interleave chunks back together correctly (the hard part)
-    out_rmd <- NULL
-    code_first <- FALSE
-    imap(start_inds, ~{
-      if(start_inds[.y] == 1 && .y == 1){
-        # It goes code chunk, text chunk, code chunk, etc
-        out_rmd <<- code_chunks[[1]]
-        if(start_inds[2] - end_inds[1] > 1){
-          # If code chunks are right after each other with no lines in betweem,
-          # don't do this bit
-          out_rmd <<- c(out_rmd, rmd[(end_inds[1] + 1):(start_inds[2] - 1)])
-        }
-        code_first <<- TRUE
-      }else if(.y == 1){
-        # It goes text chunk, code chunk, text chunk, etc
-        out_rmd <<- c(rmd[1:(start_inds[1] - 1)], code_chunks[[1]])
-        code_first <<- FALSE
-      }
-
-      if(.y > 1){
-        if(code_first){
-          out_rmd <<- c(out_rmd,
-                        code_chunks[[.y]])
-
-          if(.y == length(start_inds) && end_inds[length(end_inds)] > length(rmd)){
-            # One more text chunk needs to be added to the end
-            #if(start_inds[.y] - end_inds[.y - 1] > 1){
-              # If code chunks are right after each other with no lines in between,
-              # don't do this bit
-              out_rmd <<- c(out_rmd,
-                          rmd[(end_inds[.y] + 1):(start_inds[.y + 1] - 1)])
-            #}
-          }
-        }else{
-          if(start_inds[.y] - end_inds[.y - 1] > 1){
-            out_rmd <<- c(out_rmd,
-                          rmd[(end_inds[.y - 1] + 1):(start_inds[.y] - 1)])
-          }
-          out_rmd <<- c(out_rmd, code_chunks[[.y]])
-          if(.y == length(start_inds) && end_inds[length(end_inds)] < length(rmd)){
-            # One more text chunk needs to be added to the end
-            out_rmd <<- c(out_rmd,
-                          rmd[(end_inds[.y] + 1):length(rmd)])
-          }
-        }
-      }
-    })
+  out_rmd <- NULL
+  if(start_inds[1] > 1){
+    out_rmd <- c(out_rmd, rmd[1:(start_inds[1] - 1)])
   }
+  imap(start_inds, ~{
+    out_rmd <<- c(out_rmd, code_chunks[[.y]])
+     if(.y < length(start_inds)){
+        if(start_inds[.y + 1] - end_inds[.y] > 1){
+          out_rmd <<- c(out_rmd, rmd[(end_inds[.y] + 1):(start_inds[.y + 1] - 1)])
+      }
+    }
+  })
+  if(end_inds[length(end_inds)] < length(rmd)){
+    out_rmd <- c(out_rmd, rmd[(end_inds[length(end_inds)] + 1):length(rmd)])
+  }
+
   out_rmd
 }

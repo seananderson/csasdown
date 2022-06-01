@@ -36,6 +36,16 @@ conv_blank_lines <- function(chunk){
   }
 
   next_is_blank <- chunk[2] == ""
+  if(!next_is_blank){
+    next_is_lst_line <- substr(trimws(chunk[2]), 2, 3) == ". " ||
+                        substr(trimws(chunk[2]), 1, 2) == "* " ||
+                        substr(trimws(chunk[2]), 1, 2) == "+ " ||
+                        substr(trimws(chunk[2]), 1, 2) == "- "
+    is_header_line <- grepl("^#+", chunk[2])
+    if(!next_is_lst_line && !is_header_line){
+      return(list("\\\\", chunk[2:length(chunk)]))
+    }
+  }
   i <- 1
   new_chunk <- "\\\\"
   while(next_is_blank && i < length(chunk)){

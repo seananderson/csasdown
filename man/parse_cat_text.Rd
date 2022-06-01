@@ -5,10 +5,14 @@
 \title{Parse a string to ensure correct parentheses matching and find the end
 of a \code{\link[=cat]{cat()}} call}
 \usage{
-parse_cat_text(str_vec, verbose = FALSE)
+parse_cat_text(str_vec, ret_inds = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{str_vec}{A vector of strings which starts with a 'cat('}
+
+\item{ret_inds}{Logical. If \code{TRUE}, return the indices of the input
+vector instead of the actual values. If \code{FALSE}, return the values
+(default behaviour)}
 
 \item{verbose}{Show details about what was matched and pushed to or
 popped off the stack}
