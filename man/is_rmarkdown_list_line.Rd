@@ -7,7 +7,7 @@
 is_rmarkdown_list_line(lines)
 }
 \arguments{
-\item{line}{The vector of character strings to check}
+\item{lines}{The vector of character strings to check}
 }
 \value{
 A logical vector representing whether or not the lines are

@@ -1,3 +1,34 @@
+#' Checks to see if character strings are Rmarkdown header lines
+#'
+#' @param lines The vector of character strings to check
+#'
+#' @details
+#' A header line must be indented less than 4 spaces and start with a #
+#' followed by one or more spaces, and the n text
+#'
+#' @return A logical vector representing whether or not the lines are
+#' Rmarkdown header lines
+#' @export
+is_rmarkdown_header_line <- function(lines){
+  if(is.null(lines)){
+    return(NULL)
+  }
+  if(any(is.na(lines))){
+    stop("An NA is present in the vector of strings:\n\n",
+         paste(lines, collapse = "\n"),
+         "\n\n",
+         call. = FALSE)
+  }
+
+  map_lgl(lines, ~{
+    leading_spaces <- nchar(gsub("^(\\s*)#+.*$", "\\1", .x))
+    if(leading_spaces > 3){
+      return(FALSE)
+    }
+    grepl("^#+\\s+.*$", trimws(.x))
+  })
+}
+
 #' Checks to see if character strings represent the start of a Rmarkdown tables
 #'
 #' @param lines_lst A list of character strings vectors of length 3
@@ -59,7 +90,7 @@ is_rmarkdown_table_line <- function(lines_lst){
 
 #' Checks to see if character strings are Rmarkdown list lines
 #'
-#' @param line The vector of character strings to check
+#' @param lines The vector of character strings to check
 #'
 #' @return A logical vector representing whether or not the lines are
 #' Rmarkdown list lines

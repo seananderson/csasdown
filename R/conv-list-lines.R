@@ -57,10 +57,15 @@ conv_list_lines <- function(chunk){
   num_blank_lines <- i - start_blank_ind
   if(num_blank_lines > 0){
     # Insert blank lines
-    new_chunk <- c(new_chunk, rep("\\\\", num_blank_lines), "")
+    if(i == length(chunk)){
+      new_chunk <- c(new_chunk, rep("\\\\", num_blank_lines + 2), "")
+    }else{
+      new_chunk <- c(new_chunk, rep("\\\\", num_blank_lines + 1), "")
+    }
+  }else{
+    new_chunk <- c(new_chunk, "\\\\", "")
   }
 
-  new_chunk <- c(new_chunk, "\\\\", "")
   if(i == length(chunk)){
     the_rest <- NULL
   }else{

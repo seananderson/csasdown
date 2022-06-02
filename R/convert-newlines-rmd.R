@@ -20,16 +20,16 @@
 #' convert_newlines_rmd(c("#header", "hello world", "", "", "1. A list", "  a. Sublist"))
 convert_newlines_rmd <- function(text_chunk){
 
-  # Strip all lines with just spaces and nothing else. Rstudio tends to add
-  # spaces when you press 'Enter' in text in a [cat()] function call.
-  # Also, sometimes a space can halt everything because you can't see it
-
   if(is.null(text_chunk)){
     return(NULL)
   }
+  # Strip all lines with just spaces and nothing else. Rstudio automatically
+  # indents several spaces to the start of lines when you press 'Enter' and it
+  # is common to ignore those when editing
   text_chunk <- map_chr(text_chunk, ~{
     `if`(grepl("^\\s+$", .x), "", .x)
   })
+
   new_tc <- NULL
 
   is_blank_line <- text_chunk[1] == ""
@@ -38,7 +38,7 @@ convert_newlines_rmd <- function(text_chunk){
     new_tc <- c(new_tc, tmp[[1]], convert_newlines_rmd(tmp[[2]]))
   }
 
-  is_header_line <- grepl("^#+", text_chunk[1])
+  is_header_line <- is_rmarkdown_header_line(text_chunk[1])
   if(is_header_line){
     tmp <- conv_header_lines(text_chunk)
     new_tc <- c(new_tc, tmp[[1]], convert_newlines_rmd(tmp[[2]]))

@@ -59,9 +59,15 @@ conv_header_lines <- function(chunk){
     the_rest <- NULL
   }else{
     if(chunk[last_header_match + 1] == ""){
-      last_header_match <- last_header_match + 1
+      if(last_header_match + 2 <= length(chunk)){
+        the_rest <- chunk[(last_header_match + 2):length(chunk)]
+      }else{
+        the_rest <- chunk[(last_header_match + 1):length(chunk)]
+      }
+    }else{
+      the_rest <- chunk[(last_header_match + 1):length(chunk)]
+
     }
-    the_rest <- chunk[(last_header_match + 1):length(chunk)]
   }
 
   list(new_chunk, the_rest)
