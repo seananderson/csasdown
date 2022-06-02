@@ -54,11 +54,11 @@ conv_blank_lines <- function(chunk){
     next_is_blank <- chunk[i + 1] == ""
   }
   new_chunk <- c(new_chunk, "")
+
   if(i == length(chunk)){
     the_rest <- NULL
   }else{
     the_rest <- chunk[(i + 1):length(chunk)]
   }
-
   list(new_chunk, the_rest)
 }

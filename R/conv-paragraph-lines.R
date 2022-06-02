@@ -19,55 +19,49 @@ conv_paragraph_lines <- function(chunk){
     return(list(NULL, NULL))
   }
 
-  if(chunk[1] == ""){
-    return(list(NULL, chunk))
-  }
-
-  if(length(chunk) >= 1 &&
-     nchar(chunk[1]) >= 2 &&
-     substr(trimws(chunk[1]), 1, 2) == "# "){
-    return(list(NULL, chunk))
-  }
-
-  if(length(chunk) >= 2 &&
-     nchar(chunk[1]) >= 2 &&
-     (substr(trimws(chunk[1]), 1, 2) == "* " ||
-      substr(trimws(chunk[1]), 1, 2) == "+ " ||
-      substr(trimws(chunk[1]), 1, 2) == "- ")){
-    return(list(NULL, chunk))
-  }
-
-  if(length(chunk) >= 1 &&
-     nchar(chunk[1]) >= 3 &&
-           substr(trimws(chunk[1]), 2, 3) == ". "){
-    return(list(NULL, chunk))
-  }
-
-  # `dash_pat` matches any sequence of zero or more whitespace characters,
-  # followed by 1 or more dashes, followed by zero or more whitespace
-  # characters all repeating
-  dash_pat <- "^(\\s*-+\\s*)+$"
-  if(length(grep(dash_pat, trimws(chunk[1]))) ||
-     length(grep(dash_pat, trimws(chunk[2])))){
-    stop("A table appears to have been started but not finished:\n\n",
-         paste(chunk, collapse = "\n"),
-         "\n\n",
-         call. = FALSE)
-  }
-
   if(length(chunk) == 1){
     return(list(chunk[1], NULL))
+  }
+
+  # If there is no blank line after the first line, must make sure the next
+  # line is not the start of something else
+  next_is_table <- FALSE
+  if(length(chunk) >= 3){
+    text_pat <- "^(\\s*\\S+\\s*)+$"
+    dash_pat <- "^(\\s*-+\\s*)+$"
+    t1 <- trimws(chunk[1])
+    t2 <- trimws(chunk[2])
+    t3 <- trimws(chunk[3])
+    is_type_1 <- FALSE
+    is_type_2 <- FALSE
+    is_type_1 <- length(grep(dash_pat, t1)) &&
+      length(grep(text_pat, t2)) &&
+      length(grep(dash_pat, t3))
+    is_type_2 <- length(grep(text_pat, t1)) &&
+      length(grep(dash_pat, t2)) &&
+      length(grep(text_pat, t3))
+    next_is_table <- is_type_1 || is_type_2
+  }
+  next_is_header <- length(grep("^#+", trimws(chunk[2])))
+  next_line <- chunk[2]
+  next_is_lst_line <- substr(trimws(chunk[2]), 2, 3) == ". " ||
+    substr(trimws(chunk[2]), 1, 2) == "* " ||
+    substr(trimws(chunk[2]), 1, 2) == "+ " ||
+    substr(trimws(chunk[2]), 1, 2) == "- "
+  if(next_is_lst_line || next_is_header || next_is_table){
+    new_chunk <- c(chunk[1], "\\\\", "")
+    return(list(new_chunk, chunk[2:length(chunk)]))
   }
 
   next_is_blank <- FALSE
   new_chunk <- NULL
   i <- 1
-
   while(!next_is_blank && i < length(chunk)){
     new_chunk <- c(new_chunk, chunk[i])
     i <- i + 1
     next_is_blank <- chunk[i] == ""
   }
+
   new_chunk <- c(new_chunk, "\\\\")
 
   if(i == length(chunk)){

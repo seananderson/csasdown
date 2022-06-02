@@ -27,10 +27,8 @@ conv_list_lines <- function(chunk){
     return(list(NULL, NULL))
   }
 
-  is_lst_line <- substr(trimws(chunk[1]), 2, 3) == ". " ||
-                 substr(trimws(chunk[1]), 1, 2) == "* " ||
-                 substr(trimws(chunk[1]), 1, 2) == "+ " ||
-                 substr(trimws(chunk[1]), 1, 2) == "- "
+  is_lst_line <- is_rmarkdown_list_line(chunk[1])
+
   if(!is_lst_line){
     return(list(NULL, chunk))
   }
@@ -44,17 +42,26 @@ conv_list_lines <- function(chunk){
   i <- 1
   while(is_lst && i < length(chunk)){
     i <- i + 1
-    is_lst <- substr(trimws(chunk[i]), 2, 3) == ". " ||
-              substr(trimws(chunk[i]), 1, 2) == "* " ||
-              substr(trimws(chunk[i]), 1, 2) == "+ " ||
-              substr(trimws(chunk[i]), 1, 2) == "- "
+    is_lst <- is_rmarkdown_list_line(chunk[i])
     if(is_lst){
       new_chunk <- c(new_chunk, chunk[i])
     }
   }
-  new_chunk <- c(new_chunk, "\\\\")
+  # i is the line after the end of the list
+  # Must process blank lines after lists here instead of letting
+  # conv_blank_lines() do it
+  start_blank_ind <- i
+  while(chunk[i] == "" && i < length(chunk)){
+    i <- i + 1
+  }
+  num_blank_lines <- i - start_blank_ind
+  if(num_blank_lines > 0){
+    # Insert blank lines
+    new_chunk <- c(new_chunk, rep("\\\\", num_blank_lines), "")
+  }
+
+  new_chunk <- c(new_chunk, "\\\\", "")
   if(i == length(chunk)){
-    #new_chunk <- c(new_chunk, "\\\\")
     the_rest <- NULL
   }else{
     the_rest <- chunk[i:length(chunk)]
@@ -62,3 +69,4 @@ conv_list_lines <- function(chunk){
 
   list(new_chunk, the_rest)
 }
+

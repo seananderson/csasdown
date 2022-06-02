@@ -44,46 +44,23 @@ convert_newlines_rmd <- function(text_chunk){
     new_tc <- c(new_tc, tmp[[1]], convert_newlines_rmd(tmp[[2]]))
   }
 
-  is_lst_line <- substr(trimws(text_chunk[1]), 2, 3) == ". " ||
-                 substr(trimws(text_chunk[1]), 1, 2) == "* " ||
-                 substr(trimws(text_chunk[1]), 1, 2) == "+ " ||
-                 substr(trimws(text_chunk[1]), 1, 2) == "- "
+  is_lst_line <- is_rmarkdown_list_line(text_chunk[1])
   if(is_lst_line){
     tmp <- conv_list_lines(text_chunk)
     new_tc <- c(new_tc, tmp[[1]], convert_newlines_rmd(tmp[[2]]))
   }
 
-  # `text_pat` matches any sequence of zero or more whitespace characters, followed
-  # by 1 or more non-whitespace characters, followed by zero or more whitespace
-  # characters
-  # `dash_pat` matches any sequence of zero or more whitespace characters, followed
-  # by 1 or more dashes, followed by zero or more whitespace characters
-  text_pat <- "^(\\s*\\S+\\s*)+$"
-  dash_pat <- "^(\\s*-+\\s*)+$"
-  t1 <- trimws(text_chunk[1])
-  t2 <- trimws(text_chunk[2])
-  t3 <- trimws(text_chunk[3])
-  is_type_1 <- FALSE
-  is_type_2 <- FALSE
+  is_table_line <- FALSE
   if(length(text_chunk) >= 3){
-    is_type_1 <- length(grep(dash_pat, t1)) &&
-                 length(grep(text_pat, t2)) &&
-                 length(grep(dash_pat, t3))
-    is_type_2 <- length(grep(text_pat, t1)) &&
-                 length(grep(dash_pat, t2)) &&
-                 length(grep(text_pat, t3))
-    if(is_type_1 && is_type_2){
-      stop("Both regular expressions matches indicating the table is both ",
-           "type 1 and type 2 which cannot be true. See regex patterns ",
-           " 'text_pat' and 'dash_pat' in 'convert-newlines-rmd.R and ",
-           "conv-table-lines.R",
-           call. = FALSE)
+    type <- is_rmarkdown_table_line(text_chunk[1:3])
+    if(type == "type1" || type == "type2"){
+      is_table_line <- TRUE
     }
-    if(is_type_1){
+    if(type == "type1"){
       tmp <- conv_type_1_table_lines(text_chunk)
       new_tc <- c(new_tc, tmp[[1]], convert_newlines_rmd(tmp[[2]]))
     }
-    if(is_type_2){
+    if(type == "type2"){
       tmp <- conv_type_2_table_lines(text_chunk)
       new_tc <- c(new_tc, tmp[[1]], convert_newlines_rmd(tmp[[2]]))
     }
@@ -94,8 +71,7 @@ convert_newlines_rmd <- function(text_chunk){
      !is_blank_line &&
      !is_header_line &&
      !is_lst_line &&
-     !is_type_1 &&
-     !is_type_2){
+     !is_table_line){
     tmp <- conv_paragraph_lines(text_chunk)
     new_tc <- c(new_tc, tmp[[1]], convert_newlines_rmd(tmp[[2]]))
   }
