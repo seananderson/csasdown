@@ -8,8 +8,7 @@ newlines}
 conv_type_2_table_lines(chunk)
 }
 \arguments{
-\item{chunk}{A vector of character strings, representing the Rmarkdown chunk
-to process. Each element is a line of Rmarkdown text}
+\item{chunk}{A vector of character strings representing lines for RMD code}
 }
 \value{
 A list of two elements, which are the modified type 1 table and the

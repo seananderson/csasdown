@@ -28,8 +28,7 @@
 #' #Table: Table caption (0 or more blank lines between table and this caption)
 #' #A second line of table caption here (no blank lines in between)
 #'
-#' @param chunk A vector of character strings, representing the Rmarkdown chunk
-#' to process. Each element is a line of Rmarkdown text
+#' @param chunk A vector of character strings representing lines for RMD code
 #'
 #' @return A list of two elements, which are the modified type 1 table and the
 #' rest of the chunk starting with the line after the end of the table

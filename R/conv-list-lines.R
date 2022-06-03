@@ -9,7 +9,7 @@
 #' as the first element of a two-element list, the second element is the
 #' rest of the Rmd.
 #'
-#' @param chunk The Rmd chunk to process
+#' @param chunk A vector of character strings representing lines for RMD code
 #'
 #' @return A list of two elements, 1) The corrected part of the chunk and
 #' 2) the rest of the chunk starting with the line after the last list line
@@ -48,24 +48,44 @@ conv_list_lines <- function(chunk){
     }
   }
   # i is the line after the end of the list
-  # Must process blank lines after lists here instead of letting
+  # Process blank lines after lists here instead of letting
   # conv_blank_lines() do it
   start_blank_ind <- i
   while(chunk[i] == "" && i < length(chunk)){
     i <- i + 1
   }
   num_blank_lines <- i - start_blank_ind
-  if(num_blank_lines > 0){
-    # Insert blank lines
-    if(i == length(chunk)){
-      new_chunk <- c(new_chunk, rep("\\\\", num_blank_lines + 2), "")
-    }else{
-      new_chunk <- c(new_chunk, rep("\\\\", num_blank_lines + 1), "")
-    }
-  }else{
-    new_chunk <- c(new_chunk, "\\\\", "")
-  }
 
+  if(is_rmarkdown_header_line(chunk[i])){
+    # Ignore single blank line and start the header
+    if(num_blank_lines == 1){
+      new_chunk <- c(new_chunk, "\\\\", "")
+      if(i == length(chunk)){
+        return(list(new_chunk, chunk[i]))
+      }else{
+        the_rest <- chunk[i:length(chunk)]
+        return(list(new_chunk, the_rest))
+      }
+    }
+    if(i == length(chunk)){
+      new_chunk <- c(new_chunk, rep("\\\\", num_blank_lines + 1), "")
+    }else{
+      new_chunk <- c(new_chunk, rep("\\\\", num_blank_lines), "")
+    }
+    the_rest <- chunk[i:length(chunk)]
+    return(list(new_chunk, the_rest))
+  }else{
+    if(num_blank_lines > 0){
+      # Insert blank lines
+      if(i == length(chunk)){
+        new_chunk <- c(new_chunk, rep("\\\\", num_blank_lines + 2), "")
+      }else{
+        new_chunk <- c(new_chunk, rep("\\\\", num_blank_lines + 1), "")
+      }
+    }else{
+      new_chunk <- c(new_chunk, "\\\\", "")
+    }
+  }
   if(i == length(chunk)){
     the_rest <- NULL
   }else{

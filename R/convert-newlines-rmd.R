@@ -10,7 +10,7 @@
 #' For other text, you need N + 1 lines containing only \\ with an empty line
 #' following, before the next text occurs. List elements must not have newlines
 #' between them.
-#' This allows for 'What you see is what you get' code in your Rmarkdown code.
+#' This allows for 'What you see is what you get' in your Rmarkdown code.
 #'
 #' @param text_chunk A vector of strings, one line of Rmarkdown per element
 #'

@@ -8,7 +8,7 @@
 conv_blank_lines(chunk)
 }
 \arguments{
-\item{chunk}{The Rmd chunk to process}
+\item{chunk}{A vector of character strings representing lines for RMD code}
 }
 \value{
 A list of two elements, 1) The corrected part of the chunk and
