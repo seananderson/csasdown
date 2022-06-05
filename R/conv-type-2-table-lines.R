@@ -53,23 +53,13 @@ conv_type_2_table_lines <- function(chunk){
          call. = FALSE)
   }
 
-  # `text_pat` matches any sequence of zero or more whitespace characters,
-  # followed by 1 or more non-whitespace characters, followed by zero or
-  # more whitespace characters all repeating
+  # ---------------------------------------------------------------------------
   # `dash_pat` matches any sequence of zero or more whitespace characters,
-  # followed by 1 or more dashes, followed by zero or more whitespace
-  # characters all repeating
-  text_pat <- "^(\\s*\\S+\\s*)+$"
+  #  followed by 1 or more dashes, followed by zero or more whitespace
+  #  characters
   dash_pat <- "^(\\s*-+\\s*)+$"
-  t1 <- trimws(chunk[1])
-  t2 <- trimws(chunk[2])
-  t3 <- trimws(chunk[3])
-
-  # Confirm type 1 table
-  is_type_2 <- length(grep(text_pat, t1)) &&
-               length(grep(dash_pat, t2)) &&
-               length(grep(text_pat, t3))
-
+  is_table <- is_rmarkdown_table_line(chunk[1:3])
+  is_type_2 <- is_table == "type2"
   if(!is_type_2){
     stop("The following table is not a type 2 table based on the first three ",
          "rows:\n\n", paste(chunk, collapse = "\n"),
@@ -77,7 +67,7 @@ conv_type_2_table_lines <- function(chunk){
          "They must start with:\n",
          "- a row of text representing headers\n",
          "- a row of dashes\n",
-         "- a row of text representing row 1 of table data\n",
+         "- a row of text representing a row of table data.",
          call. = FALSE)
   }
 
@@ -87,166 +77,72 @@ conv_type_2_table_lines <- function(chunk){
   end_lbl_ind <- NULL
   # Add the first three rows as they have been checked already
   tbl_chunk <- chunk[1:3]
-  end_tbl <- FALSE
   if(length(chunk) == 3){
-    return(list(c(chunk, ""), NULL))
+    tbl_chunk <- c(chunk, "")
+    return(list(tbl_chunk, NULL))
   }
   i <- 4
   repeat{
     tn <- trimws(chunk[i])
-    if(i == 4 && chunk[i] == ""){
-      end_tbl <- TRUE
-      end_tbl_ind <- 3
+    if(chunk[i] == "" ||
+       is_rmarkdown_list_line(chunk[i]) ||
+       is_rmarkdown_header_line(chunk[i]) ||
+       grepl("^Table:.*$", tn)){
+      end_tbl_ind <- i - 1
       break
     }
+    tbl_chunk <- c(tbl_chunk, chunk[i])
     if(i == length(chunk)){
-      tbl_chunk <- c(tbl_chunk, chunk[i])
-      end_tbl <- TRUE
-      end_tbl_ind <- i
-      break
-    }
-    end_tbl <- chunk[i + 1] == ""
-    if(end_tbl){
-      tbl_chunk <- c(tbl_chunk, chunk[i])
-      end_tbl_ind <- i
-      break
-    }else{
-      tbl_chunk <- c(tbl_chunk, chunk[i])
+      tbl_chunk <- c(tbl_chunk, chunk[i], "")
+      return(list(tbl_chunk, NULL))
     }
     i <- i + 1
   }
 
-  if(end_tbl){
-    # Basic table without a table caption string included
-    if(end_tbl_ind == length(chunk)){
-      ret_chunk <- NULL
-      tbl_chunk <- c(tbl_chunk, "")
-      return(list(tbl_chunk, ret_chunk))
-    }
-  }else{
-    stop("A table appears to have been started but not finished:\n\n",
-         paste(chunk, collapse = "\n"),
-         "\n\n",
-         call. = FALSE)
-  }
-  tbl_chunk <- c(tbl_chunk, "")
+  # Add label if it exists
+  lbl <- extract_rmd_table_label(chunk[(end_tbl_ind + 1):length(chunk)])
+  tbl_chunk <- c(tbl_chunk, lbl[[1]])
+  post_chunk <- lbl[[2]]
 
-  # ---------------------------------------------------------------------------
-  # At this point, the end of the table has been found and its index is
-  # `end_tbl_ind`
-
-  # Find start of label if it exists and if table has a caption label
-  # (Table: Caption here)
-  i <- i + 1
-  has_label <- FALSE
-  start_label_ind <- NULL
-  # `lbl_def_pat` matches any sequence of zero or more whitespace characters,
-  # followed by 1 or more dashes, followed by zero or more whitespace characters,
-  # preceded by "Table:" and stands for 'Label defined'
-  # `lbl_undef_pat` matches any sequence of zero or more whitespace characters,
-  # preceded by "Table:" and stands for 'Label undefined '
-  lbl_def_pat <- "^Table:(\\s*\\S+\\s*)+$"
-  lbl_undef_pat <- "^Table:\\s*$"
-  all_blanks_so_far <- TRUE
-  repeat{
-    # If the caption def looks like this:
-    # Table: A caption is here.
-    # More caption here.
-    if(length(grep(lbl_def_pat , trimws(chunk[i])))){
-      n_lead_spaces <- nchar(gsub("^(\\s*).*$", "\\1", chunk[i]))
-      if(n_lead_spaces > 3){
-        # Rmarkdown specs say a table caption line must be indented 3 or less
-        # spaces. If more, it is just a regular text line
-        warning("A line that looks like a table caption was found but it is ",
-                "indented ", n_lead_spaces, " spaces. The Rmarkdown ",
-                "specification says it must be 3 or less:\n\n",
-                chunk[i],
-                "\n\n",
-                call. = FALSE)
-        return(list(tbl_chunk, chunk[(end_tbl_ind + 1):length(chunk)]))
-      }
-      has_label <- TRUE
-      start_label_ind <- i
-      while(length(grep(text_pat , trimws(chunk[i])))){
-        tbl_chunk <- c(tbl_chunk, chunk[i])
-        end_lbl_ind <- i
-        if(i == length(chunk)){
-          break
-        }
-        i <-  i + 1
-        if(chunk[i] == ""){
-          break
-        }
-      }
-      break
-    }
-    # If the caption def looks like this:
-    # Table:
-    # A caption is here.
-    # More caption here.
-    if(length(grep(lbl_undef_pat , trimws(chunk[i]))) &&
-       length(grep(text_pat, trimws(chunk[i + 1])))){
-      n_lead_spaces <- nchar(gsub("^(\\s*).*$", "\\1", chunk[i]))
-      if(n_lead_spaces > 3){
-        # Rmarkdown specs say a table caption line must be indented 3 or less
-        # spaces. If more, it is just a regular text line
-        warning("A line that looks like a table caption was found but it is ",
-                "indented ", n_lead_spaces, " spaces. The Rmarkdown ",
-                "specification says it must be 3 or less:\n\n",
-                chunk[i],
-                "\n\n",
-                call. = FALSE)
-        return(list(tbl_chunk, chunk[(end_tbl_ind + 1):length(chunk)]))
-      }
-      has_label <- TRUE
-      start_label_ind <- i
-      tbl_chunk <- c(tbl_chunk, chunk[i])
-      i <- i + 1
-      # Table: line found, read them all in
-      while(length(grep(text_pat , trimws(chunk[i])) && i < length(chunk))){
-        tbl_chunk <- c(tbl_chunk, chunk[i])
-        end_lbl_ind <- i
-        if(i == length(chunk)){
-          break
-        }
-        i <-  i + 1
-        if(chunk[i] == ""){
-          break
-        }
-      }
-      break
-    }
-    if(i == length(chunk)){
-      break
-    }
-    all_blanks_so_far <- all_blanks_so_far && chunk[i] == ""
-    if(!all_blanks_so_far){
-      break
-    }
-    i <- i + 1
-  }
-
-  if(has_label){
-    if(end_lbl_ind == length(chunk)){
-      ret_chunk <- NULL
-    }else{
-      ret_chunk <- chunk[(end_lbl_ind + 1):length(chunk)]
-      if(ret_chunk[1] == ""){
-        ret_chunk <- ret_chunk[-1]
-      }
-      tbl_chunk <- c(tbl_chunk, "")
-    }
+  # Add the post-table trailing whitespace
+  if(is.null(post_chunk)){
     tbl_chunk <- c(tbl_chunk, "")
-  }else{
-    if(end_tbl_ind == length(chunk)){
-      ret_chunk <- NULL
-    }else{
-      ret_chunk <- chunk[(end_tbl_ind + 1):length(chunk)]
-      if(ret_chunk[1] == ""){
-        ret_chunk <- ret_chunk[-1]
-      }
-    }
+    return(list(tbl_chunk, NULL))
   }
 
-  return(list(tbl_chunk, ret_chunk))
+  if(post_chunk[1] != ""){
+    tbl_chunk <- c(tbl_chunk, "")
+    return(list(tbl_chunk, post_chunk))
+  }
+  start_blank_ind <- 1
+  end_blank_ind <- 1
+  i <- 1
+  repeat{
+    if(i == length(post_chunk)){
+      if(post_chunk[i] == ""){
+        end_blank_ind <- i
+        break
+      }
+      break
+    }
+    if(post_chunk[i] != ""){
+      break
+    }
+    end_blank_ind <- i
+    i <- i + 1
+  }
+
+  num_blank_lines <- end_blank_ind - start_blank_ind + 1
+  if(num_blank_lines == 1){
+    # Way too special syntax required to have only a single line
+    # This took forever to figure out.
+    tbl_chunk <- c(tbl_chunk, "" ,"\\\\ \\\\", "")
+  }else{
+    tbl_chunk <- c(tbl_chunk, "", rep("\\\\", num_blank_lines - 1), "")
+  }
+  if(end_blank_ind == length(post_chunk)){
+    return(list(tbl_chunk, NULL))
+  }
+  the_rest <- post_chunk[(end_blank_ind + 1):length(post_chunk)]
+  return(list(tbl_chunk, the_rest))
 }
