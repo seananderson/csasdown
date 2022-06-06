@@ -76,7 +76,6 @@ conv_header_lines <- function(chunk){
 
   post_chunk <- chunk[(last_header_match + 1):length(chunk)]
   # Add the post-table trailing whitespace
-
   if(post_chunk[1] != ""){
     new_chunk <- c(new_chunk, "")
     return(list(new_chunk, post_chunk))

@@ -19,44 +19,99 @@ conv_paragraph_lines <- function(chunk){
     return(list(NULL, NULL))
   }
 
-  if(length(chunk) == 1){
-    return(list(chunk[1], NULL))
+  if(chunk[1] == "" ||
+     is_rmarkdown_list_line(chunk[1]) ||
+     is_rmarkdown_header_line(chunk[1])){
+    return(list(NULL, chunk))
   }
 
-  # If there is no blank line after the first line, must make sure the next
-  # line is not the start of something else
+  if(length(chunk) == 1){
+    new_chunk <- c(chunk[1], "", "\\\\", "")
+    return(list(new_chunk, NULL))
+  }
+
   next_line <- chunk[2]
   next_is_table <- FALSE
   is_table_line <- FALSE
   if(length(chunk) >= 3){
     type <- is_rmarkdown_table_line(chunk[1:3])
-    if(type == "type1" || type == "type2"){
+    if(type != "false"){
       is_table_line <- TRUE
     }
   }
   next_is_header <- is_rmarkdown_header_line(next_line)
   next_is_lst_line <- is_rmarkdown_list_line(next_line)
-  if(next_is_lst_line || next_is_header || next_is_table){
+  if(next_is_lst_line ||
+     next_is_header ||
+     next_is_table){
     new_chunk <- c(chunk[1], "\\\\", "")
     return(list(new_chunk, chunk[2:length(chunk)]))
   }
 
-  next_is_blank <- FALSE
+  next_is_text <- TRUE
   new_chunk <- NULL
   i <- 1
-  while(!next_is_blank && i < length(chunk)){
-    new_chunk <- c(new_chunk, chunk[i])
+
+  repeat{
+    if(i == length(chunk)){
+      if(chunk[i] == "" ||
+         is_rmarkdown_header_line(chunk[i]) ||
+         is_rmarkdown_list_line(chunk[i])){
+          return(list(new_chunk, chunk[i]))
+      }else{
+        new_chunk <- c(new_chunk, chunk[i], "\\\\", "")
+        return(list(new_chunk, NULL))
+      }
+    }
+    if(chunk[i] == "" ||
+       is_rmarkdown_header_line(chunk[i]) ||
+       is_rmarkdown_list_line(chunk[i])){
+      break
+    }else{
+      new_chunk <- c(new_chunk, chunk[i], "\\\\", "")
+    }
     i <- i + 1
-    next_is_blank <- chunk[i] == ""
+  }
+  # Remove last additional newlines
+  if(!is.null(new_chunk)){
+    new_chunk <- new_chunk[-c((length(new_chunk) - 1):length(new_chunk))]
+  }
+  last_text_match <- i - 1
+
+  post_chunk <- chunk[(last_text_match + 1):length(chunk)]
+  # Add the post-paragraph trailing whitespace
+  if(post_chunk[1] != ""){
+    new_chunk <- c(new_chunk, "")
+    return(list(new_chunk, post_chunk))
+  }
+  start_blank_ind <- 1
+  end_blank_ind <- 1
+  i <- 1
+  repeat{
+    if(i == length(post_chunk)){
+      if(post_chunk[i] == ""){
+        end_blank_ind <- i
+        break
+      }
+      break
+    }
+    if(post_chunk[i] != ""){
+      break
+    }
+    end_blank_ind <- i
+    i <- i + 1
   }
 
-  new_chunk <- c(new_chunk, "\\\\")
-
-  if(i == length(chunk)){
-    the_rest <- NULL
+  num_blank_lines <- end_blank_ind - start_blank_ind + 1
+  if(num_blank_lines == 1){
+    new_chunk <- c(new_chunk, "" ,"\\\\ \\\\", "")
   }else{
-    the_rest <- chunk[i:length(chunk)]
+    new_chunk <- c(new_chunk, "", rep("\\\\", num_blank_lines - 1), "")
   }
+  if(end_blank_ind == length(post_chunk)){
+    return(list(new_chunk, NULL))
+  }
+  the_rest <- post_chunk[(end_blank_ind + 1):length(post_chunk)]
 
-  list(new_chunk, the_rest)
+  return(list(new_chunk, the_rest))
 }
