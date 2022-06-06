@@ -20,10 +20,17 @@ test_that("Conversion of type 2 table lines in Rmd works correctly", {
   expect_null(tmp[[2]])
 
   # ---------------------------------------------------------------------------
+  chunk <- c("asd", "-----", "xyz", "Table: This is a table caption")
+  tmp <- conv_type_2_table_lines(chunk)
+  expect_identical(tmp[[1]], c("asd", "-----", "xyz", "",
+                               "Table: This is a table caption", ""))
+  expect_null(tmp[[2]])
+
+  # ---------------------------------------------------------------------------
   chunk <- c("asd", "-----", "xyz", "", "",
              "Table: This is a table caption")
   tmp <- conv_type_2_table_lines(chunk)
-  expect_identical(tmp[[1]], c("asd", "-----", "xyz",
+  expect_identical(tmp[[1]], c("asd", "-----", "xyz", "",
                                "Table: This is a table caption", ""))
   expect_null(tmp[[2]])
 
@@ -57,7 +64,7 @@ test_that("Conversion of type 2 table lines in Rmd works correctly", {
   # ---------------------------------------------------------------------------
   chunk <- c("asd", "-----", "xyz", "", "", "Table: (\\#tab:text) Test label")
   tmp <- conv_type_2_table_lines(chunk)
-  expect_identical(tmp[[1]], c("asd", "-----", "xyz",
+  expect_identical(tmp[[1]], c("asd", "-----", "xyz", "",
                                "Table: (\\#tab:text) Test label", ""))
   expect_null(tmp[[2]])
 
@@ -65,7 +72,7 @@ test_that("Conversion of type 2 table lines in Rmd works correctly", {
   chunk <- c("asd", "-----", "xyz", "", "Table: (\\#tab:text) Test label.",
              "Two lines.")
   tmp <- conv_type_2_table_lines(chunk)
-  expect_identical(tmp[[1]], c("asd", "-----", "xyz",
+  expect_identical(tmp[[1]], c("asd", "-----", "xyz", "",
                                "Table: (\\#tab:text) Test label.",
                                "Two lines.", ""))
   expect_null(tmp[[2]])
@@ -90,7 +97,7 @@ test_that("Conversion of type 2 table lines in Rmd works correctly", {
   chunk <- c("asd", "-----", "xyz", "", "", "",
              "  Table:", "          (\\#tab:text) Test label.")
   tmp <- conv_type_2_table_lines(chunk)
-  expect_identical(tmp[[1]], c("asd", "-----", "xyz",
+  expect_identical(tmp[[1]], c("asd", "-----", "xyz", "",
                                "  Table:",
                                "          (\\#tab:text) Test label.", ""))
   expect_null(tmp[[2]])
@@ -106,7 +113,7 @@ test_that("Conversion of type 2 table lines in Rmd works correctly", {
   # ---------------------------------------------------------------------------
   chunk <- c("asd", "-----", "xyz", "", "Table: 1st line ", "", "")
   tmp <- conv_type_2_table_lines(chunk)
-  expect_identical(tmp[[1]], c("asd", "-----", "xyz", "Table: 1st line ",
+  expect_identical(tmp[[1]], c("asd", "-----", "xyz", "", "Table: 1st line ",
                                "", "\\\\", ""))
   expect_null(tmp[[2]])
 
@@ -114,7 +121,7 @@ test_that("Conversion of type 2 table lines in Rmd works correctly", {
   chunk <- c("asd", "-----", "xyz", "", "Table:", "- 2nd line ",
              "         - third line", "", "")
   tmp <- conv_type_2_table_lines(chunk)
-  expect_identical(tmp[[1]], c("asd", "-----", "xyz", "Table:",
+  expect_identical(tmp[[1]], c("asd", "-----", "xyz", "", "Table:",
                                "- 2nd line ",""))
   expect_identical(tmp[[2]], c("         - third line", "", ""))
 
@@ -130,6 +137,7 @@ test_that("Conversion of type 2 table lines in Rmd works correctly", {
                                "----------- -----------",
                                " gfbbggfbf    ffvvfvf  ",
                                " hgnhhnhnf    oiuoiuo  ",
+                               "",
                                "Table: (\\#tab:text) Test label.",
                                "Two lines.",
                                ""))
@@ -147,6 +155,7 @@ test_that("Conversion of type 2 table lines in Rmd works correctly", {
                                "----------- -----------",
                                " gfbbggfbf    ffvvfvf  ",
                                " hgnhhnhnf    oiuoiuo  ",
+                               "",
                                "Table: (\\#tab:text) Test label.",
                                "", "\\\\", ""))
   expect_identical(tmp[[2]], "Two lines.")
@@ -162,6 +171,7 @@ test_that("Conversion of type 2 table lines in Rmd works correctly", {
                                "----------- -----------",
                                " gfbbggfbf    ffvvfvf  ",
                                " hgnhhnhnf    oiuoiuo  ",
+                               "",
                                "Table: Caption",
                                "", "\\\\ \\\\", ""))
   expect_null(tmp[[2]])

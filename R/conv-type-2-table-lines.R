@@ -101,6 +101,9 @@ conv_type_2_table_lines <- function(chunk){
 
   # Add label if it exists
   lbl <- extract_rmd_table_label(chunk[(end_tbl_ind + 1):length(chunk)])
+  if(!is.null(lbl[[1]]) && lbl[[1]][1] != ""){
+    lbl[[1]] <- c("", lbl[[1]])
+  }
   tbl_chunk <- c(tbl_chunk, lbl[[1]])
   post_chunk <- lbl[[2]]
 
