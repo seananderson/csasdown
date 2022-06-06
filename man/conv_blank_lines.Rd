@@ -15,17 +15,17 @@ A list of two elements, 1) The corrected part of the chunk and
 2) the rest of the chunk starting with the line after the last blank line
 }
 \description{
-Convert blank lines in Rmd code to WYSIWYG newlines. The provided chunk
-will start with a blank line and possibly more or return NULL as the
-converted chunk, and the whole \code{chunk} as the rest. The series of blank
-lines will be converted into a mini-chunk, which will be returned
-as the first element of a two-element list, the second element is the
-rest of the Rmd.
+Convert (leading) blank lines in Rmd code to WYSIWYG newlines.
+The provided chunk will start with a blank line and possibly more or return
+\code{NULL} as the converted chunk, and the whole \code{chunk} as the rest. The series
+of blank lines will be converted into a mini-chunk, which will be returned
+as the first element of a two-element list, the second element is the rest
+of the Rmd.
 }
-\examples{
-library(csasdown)
-chunk <- c("", "", "", "Some text..", "More Rmd text")
-tmp <- conv_blank_lines(chunk)
-blank_line_chunk <- tmp[[1]]
-the_rest <- tmp[[2]]
+\details{
+This function should only be used for Rmd code where there are leading blank
+lines. The other functions (\code{\link[=conv_list_lines]{conv_list_lines()}}, \code{\link[=conv_header_lines]{conv_header_lines()}},
+\code{\link[=conv_type_1_table_lines]{conv_type_1_table_lines()}}, \code{\link[=conv_type_2_table_lines]{conv_type_2_table_lines()}}, and
+\code{\link[=conv_paragraph_lines]{conv_paragraph_lines()}} deal with all the blank lines that follow those
+pieces of rmarkdown code.
 }
