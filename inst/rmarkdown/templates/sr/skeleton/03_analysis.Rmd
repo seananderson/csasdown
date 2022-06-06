@@ -1,4 +1,5 @@
-# Analysis and response
+# Analysis and Response
+<!-- This level of header should be title case in English -->
 
 Mandatory section, title may vary.
 
