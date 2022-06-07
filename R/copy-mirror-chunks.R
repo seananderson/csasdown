@@ -24,7 +24,25 @@ copy_mirror_chunks <- function(rmd_files){
   # Replace chunk mirrors with code
   modded_files <- map(rmd_files, function(fn = .x){
     txt <- readLines(fn)
-    mirror_inds <- grep("<<[a-zA-Z0-9_\\-]+>>", txt)
+    cat_inds <- grep("cat\\(.*", txt)
+    if(length(cat_inds)){
+      # Have to make sure mirror code line is not inside a  `cat()` call
+      txt_mirror_cat_inds <- map(cat_inds, ~{
+        chunk <- txt[.x:length(txt)]
+        inds <- parse_cat_text(chunk, ret_inds = TRUE) + .x - 1
+        if(length(inds)){
+          cat_chunk <- txt[inds]
+          cat_mirror_inds <- grep("<<[a-zA-Z0-9_\\-]+>>", cat_chunk)
+          txt_cat_mirror_inds <- cat_mirror_inds + .x - 1
+          return(txt_cat_mirror_inds)
+        }
+        NULL
+      }) %>% unlist
+    }
+    all_mirror_inds <- grep("<<[a-zA-Z0-9_\\-]+>>", txt)
+    mirror_inds <- all_mirror_inds[!all_mirror_inds %in% txt_mirror_cat_inds]
+    #mirror_inds <- grep("<<[a-zA-Z0-9_\\-]+>>", txt)
+
     if(!length(mirror_inds)){
       return(NULL)
     }
@@ -34,6 +52,7 @@ copy_mirror_chunks <- function(rmd_files){
       # Search for the mirrored chunks in txt (the file)
       pat <- paste0("<<", chunk_name, ">>")
       file_mirror_inds <- grep(pat, txt)
+      file_mirror_inds <- file_mirror_inds[!file_mirror_inds %in% txt_mirror_cat_inds]
 
       # Search for the code for this mirrored chunk in huge_rmd
       pat <- paste0(chunk_name, ",")
