@@ -34,8 +34,7 @@ remove_comments_from_chunks <- function(rmd){
   # while inside that, ignore any lines that start with #
   com_pat <- "^#.*$"
   code_chunks <- map(code_chunks, function(chunk = .x){
-
-    cat_ind <- grep("cat\\(.*", chunk)
+    cat_ind <- grep("^cat\\(.*", trimws(chunk))
     if(length(cat_ind)){
       if(length(cat_ind) > 1){
         stop("Can only have one `cat()` call inside a code chunk:\n\n",

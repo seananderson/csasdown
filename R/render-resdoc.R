@@ -83,7 +83,7 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
 
     # Find `needs_trans = TRUE` chunks. Those will not have newlines converted
     nt_inds <- grep("needs_trans\ *=\ *TRUE", rmd)
-    cat_inds <- grep("cat\\(.*", rmd)
+    cat_inds <- grep("^cat\\(.*", trimws(rmd))
     if(!all((nt_inds + 1) %in% cat_inds)){
       stop("Not all chunks in the file ", .x, " with `needs_trans = TRUE` have ",
            "`cat(` immediately following. This is a requirement",
