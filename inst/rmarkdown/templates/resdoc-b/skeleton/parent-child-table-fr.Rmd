@@ -11,4 +11,4 @@
   
   Prestige professionnel                    0,21                         Léger
 ------------------------- ----------------------------------------- --------------
-Tableau : (\#tab:inher) Corrélation des facteurs d'héritage pour les parents et l'enfant
+Table: (\#tab:inher) Corrélation des facteurs d'héritage pour les parents et l'enfant
