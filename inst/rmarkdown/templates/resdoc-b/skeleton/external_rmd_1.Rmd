@@ -1,0 +1,17 @@
+Here is an example of a list written in the external file:
+1. Item 1
+1. Item 2
+1. Item 3
+   a. Item 3a
+      i. Item 3ai
+   b. Item 3b
+1. Item 4
+
+And another type:
+
+- Item 1
+   - Item 1a
+- Item 2
+- Item 3
+   - Item 3a
+- Item 4
