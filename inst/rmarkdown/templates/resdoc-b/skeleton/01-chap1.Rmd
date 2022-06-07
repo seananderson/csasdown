@@ -1,107 +1,85 @@
-<!--
-Here is an example of how to include text based on the language. The two
-chunks below show how switching the toggle in the YAML header for french
-allows inclusion/rejection of a paragraph.
-
-The fr() function reports what the french option in the YAML header in
-index.Rmd is set to. Here is what that looks like:
-
-output:
- csasdown::resdoc_pdf:
-   french: false
-
-The eval chunk option below is automatically set to `TRUE` if the YAML header
-has been set for French and `FALSE` if set for English.
-
-The `needs_trans` chunk option in the second chunk is passed via a knitr hook
-found in index.Rmd and tells that function to create some special markup for the
-paragraph showing that it still needs translation. Once the French translation
-is added, `needs_trans` must be set to `FALSE` to make csasdown apply regular
-document typesetting to the paragraph.
-
-If `needs_trans` is `TRUE`, a reference is placed inside the French chunk
-which just prints out the contents of the English chunk.
-When the French translation is added, that reference must be removed. See the
-paragraph that follow this one for an example. It looks like this:
-<<some chunk label here>>
-
-If you keep this structure from the beginning while writing your document, it
-will be very easy to add the French at the end. Don't add any French until you
-have gone through peer review and made all final changes.
--->
-
 ```{r chap01-para-1-en, eval = !fr(), results = 'asis'}
 cat("# INTRODUCTION
-Welcome to the R Markdown CSAS template. This template is based on (and in many places copied directly from) the huskydown R package, the thesisdown R package, and the CSAS LaTeX template. Hopefully it will provide a nicer interface for those that have never used TeX or LaTeX before. Using R Markdown will also allow you to easily keep track of your analyses in R chunks of code, with the resulting plots and output included as well. The hope is this R Markdown template gets you in the habit of doing reproducible research, which benefits you long-term as a researcher, but also will greatly help anyone that is trying to reproduce or build onto your results down the road.")
-```
-```{r chap01-para-1-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
-cat("# INTRODUCTION
-Bienvenue au modèle R Markdown CSAS. Ce modèle est basé sur (et en de nombreux endroits copié directement de) le paquet R huskydown, le paquet R thesisdown et le modèle LaTeX du SCCS. Nous espérons qu'il fournira une interface plus agréable pour ceux qui n'ont jamais utilisé TeX ou LaTeX auparavant. L'utilisation de R Markdown vous permettra également de garder facilement la trace de vos analyses dans des morceaux de code R, avec les graphiques et les résultats qui en résultent inclus également. Nous espérons que ce modèle R Markdown vous permettra de prendre l'habitude de mener des recherches reproductibles, ce qui sera bénéfique à long terme pour vous en tant que chercheur, mais aussi pour tous ceux qui tenteront de reproduire ou d'exploiter vos résultats par la suite.
+Welcome to the R Markdown **bilingual** research document template. This example can be loaded into your working directory with `csasdown::draft('resdoc-b')` and rendered into a PDF with `csasdown::render_resdoc()`. This document assumes yoiu have gone through the **resdoc** example document, and leaves out some of the introductory text found there.
 
-Traduit avec www.DeepL.com/Translator (version gratuite)
+The difference between this document and the one produced with the `csasdown::draft('resdoc')`
+example is that this one makes use of extra tools to more easily produce a bilingual document. This also includes an enhanced custom version of Rmarkdown which produces PDF output exactly as written in the Rmarkdown code. Standard Rmarkdown has multiple methods of including newlines, with less than ideal results in most cases. This enhanced version provides *What You See Is What You Get*, known as *WYSIWYG* in computing lexicon. This reduces a lot of trial-and-error when trying to organize your text.")
+```
+```{r chap01-para-1-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+<<chap01-para-1-en>>
+```
+```{r chap01-para-2-en, eval = !fr(), results = 'asis'}
+cat("## English and French code chunks
+The first thing you will notice is that the RMarkdown code is found inside `cat()` function calls in this version. That is needed so that the Rmarkdown code can be placed inside knitr code chunks. A hidden knitr *hook* will then easily switch chunks on or off depending on which language you are compiling the document for.
+    
+Each paragraph or section of text is located in its own unique chunk, with an *-en* ending. Each chunk also has a French chunk with the same name but having an *-fr* ending instead of *-en*. For example, this chunk is *chap01-para-2-en* and its French counterpart is *chap01-para-2-fr*.
+
+Before translation, which typically happens at the very end of writing and after review meetings, the French chunks should hold **mirror code** to its English counterpart chunk, and have its **needs_trans** chunk option equal to **TRUE**.
+
+Mirror code is just a single line of code that looks like this: `<<chap01-para-2-en>>`. The chunk name is insde and points to the English counterpart chunk. Look in the source to this document (*01-chap1.Rmd*) to see how the French chunk containing `<<chap01-para-2-en>>` is set up.")
+```
+```{r chap01-para-2-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+<<chap01-para-2-en>>
+```
+
+
+```{r chap01-para-3-en, eval = !fr(), results = 'asis'}
+cat("## Compiling the document
+To compile this document, run this code: `csasdown::render_resdoc()`. This will produce a PDF. To see what the output of the preprocessor is (the *extra tools* mentioned above), compile the document like this: `csasdown::render_resdoc(keep_files = TRUE)`. This will leave modified files behind, all of which start with *tmp-* and correspond to the files you have included in your project.
+
+Some details of the code that are complex and not important to you are located in these files. For example the French knitr hook code is located near the end of *tmp-index.Rmd*.
+
+The Rmarkdown code that is produced by the preprocessor can be seen in the temporary files. For eaxmple, in *tmp-01-chap01.Rmd*, you can see how newlines are actually coded to make them *WYSIWYG*- compliant.
+
+Sometimes it is useful to look at these files, although you shouldn't need to on a regular basis.")
+```
+```{r chap01-para-3-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+<<chap01-para-3-en>>
+```
+```{r chap01-para-4-en, eval = !fr(), results = 'asis'}
+cat("## External RMarkdown files
+It may be nicer to write your RMarkdown inside an actual RMarkdown file instead of a `cat()` call so your editor or IDE can apply its syntax highlighting, making your code easier to follow while writing it.
+
+RMarkdown files can be imported (injected) using the syntax found in the chunk **chap01-para-5-en**.
+It is simply replacing the entire `cat()` call with `rmd_file('external_file')` where *external_file* is the name of your Rmarkdown file with or without the *.Rmd* extension.
+
+Unlimited comments can be placed in chunks with mirror code lines and in these *rmd_files()* chunks,
+but no other code can be included.
+
+The following list and table were injected from files.
 
 ")
 ```
-
-```{r chap01-para-2-en, eval = !fr(), results = 'asis'}
-cat("Hopefully, you won't have much of a learning period to go through and you will reap the benefits of a nicely formatted CSAS Res Doc. The use of LaTeX in combination with Markdown is more consistent than the output of a word processor, much less prone to corruption or crashing, and the resulting file is smaller than a Word file. After working with Markdown and R together for a few weeks, we are confident this will be your reporting style of choice going forward.
-    
-The date and time this document was rendered is `r as.character(Sys.time())`. The document was rendered using a `r Sys.info()['sysname']` machine.")
+```{r chap01-para-4-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+# Comments can be placed here
+# More comments can be placed here
+# More comments can be placed here
+<<chap01-para-4-en>>
+# More comments can be placed here
+# More comments can be placed here
+# More comments can be placed here
 ```
-```{r chap01-para-2-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
-cat("Avec un peu de chance, vous n'aurez pas à passer par une période d'apprentissage et vous récolterez les avantages d'un CSAS Res Doc joliment formaté. L'utilisation de LaTeX en combinaison avec Markdown est plus cohérente que la sortie d'un traitement de texte, beaucoup moins sujette à la corruption ou au plantage, et le fichier résultant est plus petit qu'un fichier Word. Après avoir travaillé avec Markdown et R ensemble pendant quelques semaines, nous sommes convaincus que ce sera votre style de rapport de choix à l'avenir.
-    
-La date et l'heure auxquelles ce document a été rendu sont `r as.character(Sys.time())`. Le document a été rendu en utilisant une machine `r Sys.info()['sysname']`.
-
-Traduit avec www.DeepL.com/Translator (version gratuite)")
-```
-
-<!--  If you're still on the fence about using R Markdown, check out the resource for newbies available at <https://ismayc.github.io/rbasics-book/>.-->
-
-```{r chap01-para-3-en, eval = !fr(), results = 'asis'}
-cat("## WHY USE IT?
-R Markdown creates a simple and straightforward way to interface with the beauty of LaTeX.  Packages have been written in R to work directly with LaTeX to produce nicely formatting tables and paragraphs. In addition to creating a user friendly interface to LaTeX, R Markdown also allows you to read in your data, to analyze it and to visualize it using R functions, and also to provide the documentation and commentary on the results of your project.  Further, it allows for R results to be passed inline to the commentary of your results.  You'll see more on this later.")
-```
-```{r chap01-para-3-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
-cat("## POURQUOI L'UTILISER ?
-R Markdown crée un moyen simple et direct de s'interfacer avec la beauté de LaTeX.  Des paquets ont été écrits en R pour travailler directement avec LaTeX et produire des tableaux et des paragraphes joliment mis en forme. En plus de créer une interface conviviale avec LaTeX, R Markdown vous permet également de lire vos données, de les analyser et de les visualiser à l'aide de fonctions R, ainsi que de fournir la documentation et les commentaires sur les résultats de votre projet.  En outre, il permet de passer les résultats R en ligne dans le commentaire de vos résultats.  Vous en saurez plus à ce sujet plus tard.")
-```
-
-<!--  Having your code and commentary all together in one place has a plethora of benefits! -->
-
-```{r chap01-para-4-en, eval = !fr(), results = 'asis'}
-cat("## WHO SHOULD USE IT?
-Anyone who needs to use data analysis, math, tables, a lot of figures, complex cross-references, or who just cares about the final appearance of their document should use R Markdown. Of particular use should be anyone in the sciences, but the user-friendly nature of Markdown and its ability to keep track of and easily include figures, automatically generate a table of contents, index, references, table of figures, etc. should make it of great benefit to nearly anyone writing a CSAS Res Doc.")
-```
-```{r chap01-para-4-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
-cat("## QUI DEVRAIT L'UTILISER?
-Toute personne qui a besoin d'utiliser l'analyse de données, les mathématiques, les tableaux, un grand nombre de figures, des références croisées complexes, ou qui se soucie simplement de l'apparence finale de son document devrait utiliser R Markdown. Les personnes travaillant dans le domaine des sciences devraient être particulièrement intéressées, mais la nature conviviale de Markdown et sa capacité à garder la trace des figures et à les inclure facilement, à générer automatiquement une table des matières, un index, des références, une table des figures, etc. devrait être très utile à presque tous ceux qui rédigent un document de recherche du SCCS.")
-```
-
-<!--
-The {#rmd-basics} text after the chapter declaration will allow us to link throughout the document back to the beginning of Chapter 1.  These labels will automatically be generated (if not specified) by changing the spaces to hyphens and capital letters to lowercase.  Look for the reference to this label at the beginning of Chapter 2.
--->
-
 ```{r chap01-para-5-en, eval = !fr(), results = 'asis'}
-cat("# R MARKDOWN BASICS {#rmd-basics}
-Here is a brief introduction into using _R Markdown_. _Markdown_ is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. _R Markdown_ provides the flexibility of _Markdown_ with the implementation of **R** input and output.  For more details on using _R Markdown_ see <http://rmarkdown.rstudio.com>.")
+# Comments can be placed in these chunks that load Rmd files, but nothing else
+# More comments can be placed here
+rmd_file("external_rmd_1")
+# More comments can be placed here
+# More comments can be placed here
+# More comments can be placed here
 ```
-```{r chap01-para-5-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
-cat("# LES BASES DU R MARKDOWN {#rmd-basics}
-Voici une brève introduction à l'utilisation de _R Markdown_. _Markdown_ est une syntaxe de formatage simple pour la création de documents HTML, PDF et MS Word. _R Markdown_ offre la flexibilité de _Markdown_ avec l'implémentation de **R** en entrée et en sortie.  Pour plus de détails sur l'utilisation de _R Markdown_, voir <http://rmarkdown.rstudio.com>.")
+```{r chap01-para-5-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+<<chap01-para-5-en>>
 ```
-
 ```{r chap01-para-6-en, eval = !fr(), results = 'asis'}
-cat("Be careful with your spacing in _Markdown_ documents.  While whitespace largely is ignored, it does at times give _Markdown_ signals as to how to proceed.  As a habit, try to keep everything left aligned whenever possible, especially as you type a new paragraph.  In other words, there is no need to indent basic text in the Rmd document (in fact, it might cause your text to do funny things if you do).")
+rmd_file("parent-child-table-en.Rmd")
+```
+```{r chap01-para-6-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
+rmd_file("parent-child-table-fr.Rmd")
 ```
 
-```{r chap01-para-6-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
-# This syntax means copy the exact contents from the chunk 'chap01-para-6-en'
-# above into this chunk. This is a better than cutting and pasting the chunk
-# contents in here manually. This should only appear in chunks with the 
-# 'needs_trans = TRUE' option set in the knitr chunk header, as this one has
-<<chap01-para-6-en>>
-```
+
+
+
 
 ```{r chap01-para-7-en, eval = !fr(), results = 'asis'}
 rmd_file("intro-list")
@@ -215,8 +193,12 @@ cat("Note that the `echo=FALSE` parameter was added to the code chunk to prevent
 
 Another useful chunk option is the setting of `cache=TRUE` as you see here.  If document rendering becomes time consuming due to long computations or plots that are expensive to generate you can use knitr caching to improve performance.  Later in this file, you'll see a way to reference plots created in **R** or external figures.")
 ```
-```{r chap01-para-15-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
-<<chap01-para-15-en>>
+```{r chap01-para-15-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
+cat("Notez que le paramètre `echo=FALSE` a été ajouté au chunk de code pour empêcher l'impression du code **R** qui a généré le tracé.  Il existe de nombreuses autres façons d'ajouter des options au chunk.  Plus d'informations sont disponibles sur <http://yihui.name/knitr/options/>.
+
+Une autre option de chunk utile est le réglage de `cache=TRUE` comme vous le voyez ici.  Si le rendu des documents devient long à cause de longs calculs ou de tracés coûteux à générer, vous pouvez utiliser la mise en cache de knitr pour améliorer les performances.  Plus tard dans ce fichier, vous verrez un moyen de référencer des tracés créés dans **R** ou des figures externes.
+
+Traduit avec www.DeepL.com/Translator (version gratuite)")
 ```
 
 ```{r chap01-para-16-en, eval = !fr(), results = 'asis'}
@@ -250,9 +232,7 @@ dim(flights)
 names(flights)
 ```
 ```{r chap01-para-18-en, eval = !fr(), results = 'asis'}
-cat("  
-
-Another good idea is to take a look at the dataset in table form.  With this dataset having more than 50,000 rows, we won't explicitly show the results of the command here.  I recommend you enter the command into the Console **_after_** you have run the **R** chunks above to load the data into **R**. To do that, you can use the command `View(flights)`.
+cat("Another good idea is to take a look at the dataset in table form.  With this dataset having more than 50,000 rows, we won't explicitly show the results of the command here.  I recommend you enter the command into the Console **_after_** you have run the **R** chunks above to load the data into **R**. To do that, you can use the command `View(flights)`.
 
 A simple and effective way to see the entire structure in one call is to use the `glimpse()` command like this:")
 ```
