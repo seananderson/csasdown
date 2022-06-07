@@ -8,16 +8,17 @@
 #' The two caption possibilities are of the forms:
 #' 1. Table: Caption text
 #'    Optional text..
-#'    More optional text ...
+#'    More optional text..
 #'    ...
 #' 2. Table: -Any amount of whitespace-
+#'    Caption text..
 #'    Optional text..
-#'    More optional text ...
+#'    More optional text..
 #'    ...
 #' @param chunk A vector of character strings representing lines for RMD code
 #'
 #' @return A list of length two. The elements are:
-#' 1. A vector representing the lines of the label chunk or `NULL` if non found
+#' 1. A vector representing the lines of the label chunk or `NULL` if none found
 #' 2. A vector representing the remainder of the chunk after the label or
 #'    `NULL` if the label reached to the end of the chunk
 #' @export

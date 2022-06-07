@@ -12,7 +12,7 @@ extract_rmd_table_label(chunk)
 \value{
 A list of length two. The elements are:
 \enumerate{
-\item A vector representing the lines of the label chunk or \code{NULL} if non found
+\item A vector representing the lines of the label chunk or \code{NULL} if none found
 \item A vector representing the remainder of the chunk after the label or
 \code{NULL} if the label reached to the end of the chunk
 }
@@ -26,11 +26,12 @@ The two caption possibilities are of the forms:
 \enumerate{
 \item Table: Caption text
 Optional text..
-More optional text ...
+More optional text..
 ...
 \item Table: -Any amount of whitespace-
+Caption text..
 Optional text..
-More optional text ...
+More optional text..
 ...
 }
 }
