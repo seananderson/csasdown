@@ -26,59 +26,27 @@ conv_paragraph_lines <- function(chunk){
   }
 
   if(length(chunk) == 1){
-    new_chunk <- c(chunk[1], "", "\\\\", "")
-    return(list(new_chunk, NULL))
+    return(list(chunk[1], NULL))
   }
 
-  next_line <- chunk[2]
-  next_is_table <- FALSE
-  is_table_line <- FALSE
-  if(length(chunk) >= 3){
-    type <- is_rmarkdown_table_line(chunk[1:3])
-    if(type != "false"){
-      is_table_line <- TRUE
-    }
-  }
-  next_is_header <- is_rmarkdown_header_line(next_line)
-  next_is_lst_line <- is_rmarkdown_list_line(next_line)
-  if(next_is_lst_line ||
-     next_is_header ||
-     next_is_table){
-    new_chunk <- c(chunk[1], "\\\\", "")
-    return(list(new_chunk, chunk[2:length(chunk)]))
-  }
-
-  next_is_text <- TRUE
-  new_chunk <- NULL
   i <- 1
-
+  start_text_ind <- 1
+  end_text_ind <- 1
   repeat{
-    if(i == length(chunk)){
-      if(chunk[i] == "" ||
-         is_rmarkdown_header_line(chunk[i]) ||
-         is_rmarkdown_list_line(chunk[i])){
-          return(list(new_chunk, chunk[i]))
-      }else{
-        new_chunk <- c(new_chunk, chunk[i], "\\\\", "")
-        return(list(new_chunk, NULL))
-      }
-    }
     if(chunk[i] == "" ||
-       is_rmarkdown_header_line(chunk[i]) ||
-       is_rmarkdown_list_line(chunk[i])){
+       is_rmarkdown_list_line(chunk[i]) ||
+       is_rmarkdown_header_line(chunk[i])){
+      i <- i - 1
       break
-    }else{
-      new_chunk <- c(new_chunk, chunk[i], "\\\\", "")
     }
+    if(i == length(chunk)){
+      break
+    }
+    end_text_ind <- i
     i <- i + 1
   }
-  # Remove last additional newlines
-  if(!is.null(new_chunk)){
-    new_chunk <- new_chunk[-c((length(new_chunk) - 1):length(new_chunk))]
-  }
-  last_text_match <- i - 1
-
-  post_chunk <- chunk[(last_text_match + 1):length(chunk)]
+  new_chunk <- chunk[start_text_ind:end_text_ind]
+  post_chunk <- chunk[(end_text_ind + 1):length(chunk)]
   # Add the post-paragraph trailing whitespace
   if(post_chunk[1] != ""){
     new_chunk <- c(new_chunk, "")
