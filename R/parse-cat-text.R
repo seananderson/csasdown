@@ -37,10 +37,10 @@ parse_cat_text <- function(str_vec, ret_inds = FALSE, verbose = FALSE){
     stop("The first line of `str_vec` must start with `cat(`")
   }
   str_vec[1] <- gsub("^cat\\(", "", str_vec[1])
-  if(length(grep("^\"" , str_vec[1]))){
+  if(length(grep("^\"", str_vec[1]))){
     # `cat()` text is surrounded by double quotes
     quote_type <- "\""
-  }else if(length(grep("^'" , str_vec[1]))){
+  }else if(length(grep("^'", str_vec[1]))){
     # `cat()` text is surrounded by single quotes
     quote_type <- "'"
   }else{
