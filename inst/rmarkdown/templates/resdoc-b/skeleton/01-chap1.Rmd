@@ -2,36 +2,34 @@
 cat("# INTRODUCTION
 Welcome to the R Markdown **bilingual** research document template. This example can be loaded into your working directory with `csasdown::draft('resdoc-b')` and rendered into a PDF with `csasdown::render_resdoc()`. This document assumes yoiu have gone through the **resdoc** example document, and leaves out some of the introductory text found there.
 
-The difference between this document and the one produced with the `csasdown::draft('resdoc')`
-example is that this one makes use of extra tools to more easily produce a bilingual document. This also includes an enhanced custom version of Rmarkdown which produces PDF output exactly as written in the Rmarkdown code. Standard Rmarkdown has multiple methods of including newlines, with less than ideal results in most cases. This enhanced version provides *What You See Is What You Get*, known as *WYSIWYG* in computing lexicon. This reduces a lot of trial-and-error when trying to organize your text.")
+The difference between this document and the one produced with the `csasdown::draft('resdoc')` example is that this one makes use of a new preprocessor and a knitr hook to more easily produce a bilingual document. The preprocessor includes an enhanced custom version of Rmarkdown which produces PDF output exactly as written in the Rmarkdown code. Standard Rmarkdown has multiple methods of including newlines, with less than ideal results in most cases. This enhanced version provides *What You See Is What You Get*, known as *WYSIWYG* in computing lexicon. This means that newlines will appear in the output document *exactly* as you wrote them in the Rmarkdown code. This reduces a lot of trial-and-error or writing-and-compiling when trying to organize your text.")
 ```
 ```{r chap01-para-1-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
 <<chap01-para-1-en>>
 ```
 ```{r chap01-para-2-en, eval = !fr(), results = 'asis'}
-cat("## English and French code chunks
+cat("# Compilation details
+## English and French code chunks
 The first thing you will notice is that the RMarkdown code is found inside `cat()` function calls in this version. That is needed so that the Rmarkdown code can be placed inside knitr code chunks. A hidden knitr *hook* will then easily switch chunks on or off depending on which language you are compiling the document for.
     
 Each paragraph or section of text is located in its own unique chunk, with an *-en* ending. Each chunk also has a French chunk with the same name but having an *-fr* ending instead of *-en*. For example, this chunk is *chap01-para-2-en* and its French counterpart is *chap01-para-2-fr*.
 
-Before translation, which typically happens at the very end of writing and after review meetings, the French chunks should hold **mirror code** to its English counterpart chunk, and have its **needs_trans** chunk option equal to **TRUE**.
+Before translation, which typically happens at the very end of writing and after review meetings, the French chunks should hold **mirror code** to its English counterpart chunk, and have its **needs_trans** chunk option equal to **TRUE**. After translation, the mirror code line should be replaced with a `cat()` call holding the translated text and the **needs_trans** chunk option must be set to **FALSE**. If you forget to change the **needs_trans** chunk option to **FALSE** you will get UTF-8 errors for that chunk.
 
-Mirror code is just a single line of code that looks like this: `<<chap01-para-2-en>>`. The chunk name is insde and points to the English counterpart chunk. Look in the source to this document (*01-chap1.Rmd*) to see how the French chunk containing `<<chap01-para-2-en>>` is set up.")
+Mirror code is just a single line of code that looks like this: `<<chap01-para-2-en>>`. The chunk name is inside the double-angle-brackets and points to the English counterpart chunk. Look in the source to this document (*01-chap1.Rmd*) to see how the French chunk containing `<<chap01-para-2-en>>` is set up.")
 ```
 ```{r chap01-para-2-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
 <<chap01-para-2-en>>
 ```
-
-
 ```{r chap01-para-3-en, eval = !fr(), results = 'asis'}
 cat("## Compiling the document
-To compile this document, run this code: `csasdown::render_resdoc()`. This will produce a PDF. To see what the output of the preprocessor is (the *extra tools* mentioned above), compile the document like this: `csasdown::render_resdoc(keep_files = TRUE)`. This will leave modified files behind, all of which start with *tmp-* and correspond to the files you have included in your project.
+To compile this document, run this code: `csasdown::render_resdoc()`. This will produce a PDF. To see what the output of the preprocessor looks like (what bookdown actually uses to create the document) compile the document like this: `csasdown::render_resdoc(keep_files = TRUE)`. This will leave modified files behind, all of which start with *tmp-* and correspond to the files you have included in your project.
 
 Some details of the code that are complex and not important to you are located in these files. For example the French knitr hook code is located near the end of *tmp-index.Rmd*.
 
 The Rmarkdown code that is produced by the preprocessor can be seen in the temporary files. For eaxmple, in *tmp-01-chap01.Rmd*, you can see how newlines are actually coded to make them *WYSIWYG*- compliant.
 
-Sometimes it is useful to look at these files, although you shouldn't need to on a regular basis.")
+Sometimes it is useful to look at these files, since they are the ones actually used by bookdown for compilation, although you shouldn't need to on a regular basis.")
 ```
 ```{r chap01-para-3-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
 <<chap01-para-3-en>>
@@ -41,12 +39,11 @@ cat("## External RMarkdown files
 It may be nicer to write your RMarkdown inside an actual RMarkdown file instead of a `cat()` call so your editor or IDE can apply its syntax highlighting, making your code easier to follow while writing it.
 
 RMarkdown files can be imported (injected) using the syntax found in the chunk **chap01-para-5-en**.
-It is simply replacing the entire `cat()` call with `rmd_file('external_file')` where *external_file* is the name of your Rmarkdown file with or without the *.Rmd* extension.
+It is simply replacing the entire `cat()` call with `rmd_file('external_file')` where *external_file* is the name of your Rmarkdown file with or without the *.Rmd* extension. Note that triple-backtick code chunks are not allowed in these external RMarkdown files, as it would render the English/French chunk system useless and break the document.
 
-Unlimited comments can be placed in chunks with mirror code lines and in these *rmd_files()* chunks,
-but no other code can be included.
+Unlimited comments can be placed in chunks with mirror code lines and in these *rmd_files()* chunks, but no other code can be included.
 
-The following list and table were injected from files.
+The following list and table were injected from two files called *external_rmd_1.Rmd* and *parent-child-table-en.Rmd*.
 
 ")
 ```
@@ -71,36 +68,35 @@ rmd_file("external_rmd_1")
 <<chap01-para-5-en>>
 ```
 ```{r chap01-para-6-en, eval = !fr(), results = 'asis'}
-rmd_file("parent-child-table-en.Rmd")
+rmd_file("parent-child-table-en")
 ```
 ```{r chap01-para-6-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
-rmd_file("parent-child-table-fr.Rmd")
+rmd_file("parent-child-table-fr")
 ```
-
-
-
-
-
 ```{r chap01-para-7-en, eval = !fr(), results = 'asis'}
-rmd_file("intro-list")
+cat("## Inline R code inside `cat()` calls
+Inline R code can be used in just the same way as in regular RMarkdown.
+
+For example we can find the name of a random car in the `mtcars` dataset using the code:
+`` `r sample(rownames(mtcars), 1)` `` which results in:
+`r sample(rownames(mtcars), 1)`
+
+or get the date and time this document was built:
+`` `r format(Sys.time(), '%A, %B %d, %Y %H:%M:%S')` `` which results in:
+`r format(Sys.time(), '%A, %B %d, %Y %H:%M:%S')`.")
 ```
 ```{r chap01-para-7-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
 <<chap01-para-7-en>>
 ```
 
+
+
+
 ```{r chap01-para-8-en, eval = !fr(), results = 'asis'}
-cat("## LINE BREAKS
-Make sure to add white space between lines if you'd like to start a new paragraph.  Look at what happens below in the outputted document if you don't:
-
-Here is the first sentence.  Here is another sentence.  Here is the last sentence to end the paragraph.
-This should be a new paragraph.
-
-*Now for the correct way:*
-
-Here is the first sentence.  Here is another sentence.  Here is the last sentence to end the paragraph.
-
-This should be a new paragraph.")
+cat("## Inline R code inside cat()
+Inline R code can be used in just the same way as in regular RMarkdown. For example we can find the name of a random car in the `mtcars` dataset: `r sample(rownames(mtcars), 1)` or get the date and time this document was built: `r as.character(Sys.time())`.")
 ```
+
 ```{r chap01-para-8-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
 cat("## COUPURES DE LIGNE
 Veillez à ajouter des espaces blancs entre les lignes si vous souhaitez commencer un nouveau paragraphe.  Regardez ce qui se passe ci-dessous dans le document édité si vous ne le faites pas :
