@@ -46,6 +46,14 @@ conv_paragraph_lines <- function(chunk){
     i <- i + 1
   }
   new_chunk <- chunk[start_text_ind:end_text_ind]
+  # Interleave blank lines between the text lines
+  new_chunk <- imap(new_chunk, ~{
+    if(.y == length(new_chunk)){
+      return(.x)
+    }
+    c(.x, "\\\\", "")
+  }) %>%
+    unlist
   post_chunk <- chunk[(end_text_ind + 1):length(chunk)]
   # Add the post-paragraph trailing whitespace
   if(post_chunk[1] != ""){
