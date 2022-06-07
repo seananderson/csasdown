@@ -74,8 +74,11 @@ copy_mirror_chunks <- function(rmd_files){
         k <- k + 1
       }
       # chunk is the code chunk we will be inserting in place of mirror calls
-      chunk <- huge_rmd[src_start:(k - 1)]
-      txt <<- inject_vec_in_vec(txt, chunk, file_mirror_inds)
+      if(src_start < k){
+        # There was code in the chunk
+        chunk <- huge_rmd[src_start:(k - 1)]
+        txt <<- inject_vec_in_vec(txt, chunk, file_mirror_inds)
+      }
     })
     unlink(fn, force = TRUE)
     writeLines(txt, fn)
