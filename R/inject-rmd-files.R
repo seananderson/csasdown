@@ -12,9 +12,9 @@
 inject_rmd_files <- function(rmd){
 
   # Single or double quotes around filename
-  rmd_file_inds <- grep("^ *rmd_file\\([\"|\'].*[\"|\']\\) *$", rmd)
+  rmd_file_inds <- grep("^rmd_file\\([\"|\'].*[\"|\']\\)$", trimws(rmd))
   nms <- trimws(rmd[rmd_file_inds])
-  rmd_file_names <- gsub("rmd_file\\([\"|\'](.*)[\"|\']\\)", "\\1", nms)
+  rmd_file_names <- gsub("^rmd_file\\([\"|\'](.*)[\"|\']\\)$", "\\1", nms)
   rmd_file_names <- trimws(rmd_file_names)
 
   rmd_code <- map(rmd_file_names, ~{
