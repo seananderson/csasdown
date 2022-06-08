@@ -19,41 +19,11 @@ En plus des tables qui peuvent être générées automatiquement à partir d'un 
 ```
 
 ```{r chap03-static-table-header-en, eval = !fr(), results = 'asis'}
-cat("
-----------------------------------------------------------------------------------
-  Factors                    Correlation between Parents & Child      Inherited
-------------------------- ----------------------------------------- --------------
-  Education                                -0.49                         Yes
-  
-  Socio-Economic Status                     0.28                        Slight   
-  
-  Income                                    0.08                          No
-  
-  Family Size                               0.18                        Slight
-  
-  Occupational Prestige                     0.21                        Slight
-------------------------- ----------------------------------------- --------------
-Table: (\#tab:inher) Correlation of Inheritance Factors for Parents and Child 
-")
+rmd_file("parent-child-table-en")
 ```
 
 ```{r chap03-static-table-header-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
-cat("
-----------------------------------------------------------------------------------
-  Facteurs                 Corrélation entre les parents et l'enfant    Héritage
-------------------------- ------------------------------------------- ------------
-  Éducation                                -0,49                          Oui
-  
-  Statut socio-économique                   0,28                         Léger   
-  
-  Revenu                                    0,08                          Non
-  
-  Taille de la famille                      0,18                         Léger
-  
-  Prestige professionnel                    0,21                         Léger
-------------------------- ----------------------------------------- --------------
-Tableau : (\#tab:inher) Corrélation des facteurs d'héritage pour les parents et l'enfant
-")
+rmd_file("parent-child-table-fr")
 ```
 
 \clearpage

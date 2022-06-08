@@ -1,0 +1,27 @@
+## LISTS
+CSAS allows ordered lists:
+
+  1. Item 1
+4. Item 2
+
+and bulleted lists:
+
+  - Item 1
+- Item 2
+
+Notice in the ordered list that I intentionally mislabeled Item 2 as number 4.  _Markdown_ automatically figures this out! You can put any numbers in the list and it will create the list. Check it out below.
+
+To create sublists, just indent the values a bit (at least three spaces) and make sure there are no newlines between the items. (Here's one case where indentation is key!)
+
+1. Item 1
+1. Item 2
+1. Item 3
+   a. Item 3a
+   a. Item 3b
+      i. Item 3bi
+      i. Item 3bii
+      i. Item 3biii
+      i. Item 3biv
+      i. Item 3bv
+         1. Item 3bv1
+         1. Item 3bv2

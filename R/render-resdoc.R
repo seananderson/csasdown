@@ -63,26 +63,47 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
   # Process all Rmd files except for the `book_fn` (index.Rmd)
   fn_process <- tmp_rmd_fns[tmp_rmd_fns != book_fn]
 
-  # Copy mirrored code chunks as real code into the chunks where they are mirrored:
-  # e.g replace instances of <<char-01-para-06-chunk>> with code from that actual
-  # chunk. Overwrite the tmp files with these modified chunks in them
+  # Copy mirrored code chunks as real code into the chunks where they are
+  # mirrored:
+  # e.g replace instances of <<char-01-para-06-chunk>> with code from that
+  # actual chunk. Overwrite the tmp files with these modified chunks in them
   copy_mirror_chunks(fn_process)
 
   tmp_rmd_files <- map(fn_process, ~{
     if(!file.exists(.x)){
-      stop("The file ", .x, " does not exist. Check the YAML file entry ", yaml_fn,
+      stop("The file ", .x, " does not exist. Check the YAML file entry ",
+           yaml_fn,
            call. = FALSE)
     }
     rmd <- readLines(.x)
-
     rmd <- inject_rmd_files(rmd)
+    rmd <- remove_comments_from_chunks(rmd)
 
     # Find `needs_trans = TRUE` chunks. Those will not have newlines converted
     nt_inds <- grep("needs_trans\ *=\ *TRUE", rmd)
-    cat_inds <- grep("cat\\(.*", rmd)
+    cat_inds <- grep("^cat\\(.*", trimws(rmd))
+
     if(!all((nt_inds + 1) %in% cat_inds)){
-      stop("Not all chunks in the file ", .x, " with `needs_trans = TRUE` have ",
-           "`cat(` immediately following. This is a requirement",
+      # Name the chunks which are missing cat()
+      bad_chunk_names <- map(nt_inds, ~{
+        x <- .x + 1
+        if(!x %in% cat_inds){
+          # Extract chunk name
+          chunk_head <- gsub(knitr::all_patterns$md$chunk.begin, "\\1", rmd[.x])
+          pat <- "r\\s*(\\s*\\S+\\s*)+?\\s*,\\s*.*$"
+          chunk_name <- gsub(pat, "\\1", chunk_head)
+          return(chunk_name)
+        }
+        NULL
+      })
+      bad_chunk_names <- bad_chunk_names[lengths(bad_chunk_names) > 0]
+      message("Not all chunks in the file ", .x, " with `needs_trans = TRUE` have ",
+              "`cat(` immediately following. If the chunks mirror other chunks, ",
+              "make sure that the mirrored chunk has a `cat()` call in it.\n")
+      message("The chunk name(s) missing `cat()` are:\n\n",
+              paste(bad_chunk_names, collapse = "\n"),
+              "\n")
+      stop("Chunks missing `cat()`",
            call. = FALSE)
     }
     cat_inds <- cat_inds[!(cat_inds %in% (nt_inds + 1))]
@@ -184,7 +205,6 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
         }
 
         text_chunk <- convert_newlines_rmd(text_chunk)
-
 
         if(paste_beg){
           text_chunk[1] <- paste0("\"", text_chunk[1])

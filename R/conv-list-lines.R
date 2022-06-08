@@ -9,7 +9,7 @@
 #' as the first element of a two-element list, the second element is the
 #' rest of the Rmd.
 #'
-#' @param chunk The Rmd chunk to process
+#' @param chunk A vector of character strings representing lines for RMD code
 #'
 #' @return A list of two elements, 1) The corrected part of the chunk and
 #' 2) the rest of the chunk starting with the line after the last list line
@@ -27,8 +27,8 @@ conv_list_lines <- function(chunk){
     return(list(NULL, NULL))
   }
 
-  is_lst_line <- substr(trimws(chunk[1]), 2, 2) == "." ||
-                 substr(trimws(chunk[1]), 1, 1) == "-"
+  is_lst_line <- is_rmarkdown_list_line(chunk[1])
+
   if(!is_lst_line){
     return(list(NULL, chunk))
   }
@@ -42,16 +42,51 @@ conv_list_lines <- function(chunk){
   i <- 1
   while(is_lst && i < length(chunk)){
     i <- i + 1
-    is_lst <- substr(trimws(chunk[i]), 2, 2) == "." ||
-              substr(trimws(chunk[i]), 1, 1) == "-"
+    is_lst <- is_rmarkdown_list_line(chunk[i])
     if(is_lst){
       new_chunk <- c(new_chunk, chunk[i])
     }
   }
+  # i is the line after the end of the list
+  # Process blank lines after lists here instead of letting
+  # conv_blank_lines() do it
+  start_blank_ind <- i
+  while(chunk[i] == "" && i < length(chunk)){
+    i <- i + 1
+  }
+  num_blank_lines <- i - start_blank_ind
 
-  new_chunk <- c(new_chunk, "\\\\")
+  if(is_rmarkdown_header_line(chunk[i])){
+    # Ignore single blank line and start the header
+    if(num_blank_lines == 1){
+      new_chunk <- c(new_chunk, "\\\\", "")
+      if(i == length(chunk)){
+        return(list(new_chunk, chunk[i]))
+      }else{
+        the_rest <- chunk[i:length(chunk)]
+        return(list(new_chunk, the_rest))
+      }
+    }
+    if(i == length(chunk)){
+      new_chunk <- c(new_chunk, rep("\\\\", num_blank_lines + 1), "")
+    }else{
+      new_chunk <- c(new_chunk, rep("\\\\", num_blank_lines), "")
+    }
+    the_rest <- chunk[i:length(chunk)]
+    return(list(new_chunk, the_rest))
+  }else{
+    if(num_blank_lines > 0){
+      # Insert blank lines
+      if(i == length(chunk)){
+        new_chunk <- c(new_chunk, rep("\\\\", num_blank_lines + 2), "")
+      }else{
+        new_chunk <- c(new_chunk, rep("\\\\", num_blank_lines + 1), "")
+      }
+    }else{
+      new_chunk <- c(new_chunk, "\\\\", "")
+    }
+  }
   if(i == length(chunk)){
-    new_chunk <- c(new_chunk, "\\\\")
     the_rest <- NULL
   }else{
     the_rest <- chunk[i:length(chunk)]
@@ -59,3 +94,4 @@ conv_list_lines <- function(chunk){
 
   list(new_chunk, the_rest)
 }
+

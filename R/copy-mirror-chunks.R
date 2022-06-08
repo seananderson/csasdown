@@ -21,10 +21,30 @@ copy_mirror_chunks <- function(rmd_files){
     readLines(.x)
   }))
 
+  get_mirror_not_in_cat_inds <- function(txt, regex = "<<[a-zA-Z0-9_\\-]+>>"){
+    cat_inds <- grep("^cat\\(.*", trimws(txt))
+    if(length(cat_inds)){
+      # Have to make sure mirror code line is not inside a  `cat()` call
+      mirror_in_cat_inds <- map(cat_inds, ~{
+        chunk <- txt[.x:length(txt)]
+        inds <- parse_cat_text(chunk, ret_inds = TRUE) + .x - 1
+        if(length(inds)){
+          cat_chunk <- txt[inds]
+          cat_mirror_inds <- grep(regex, cat_chunk)
+          txt_cat_mirror_inds <- cat_mirror_inds + .x - 1
+          return(txt_cat_mirror_inds)
+        }
+        NULL
+      }) %>% unlist
+    }
+    all_mirror_inds <- grep(regex, txt)
+    all_mirror_inds[!all_mirror_inds %in% mirror_in_cat_inds]
+  }
   # Replace chunk mirrors with code
   modded_files <- map(rmd_files, function(fn = .x){
     txt <- readLines(fn)
-    mirror_inds <- grep("<<[a-zA-Z0-9_\\-]+>>", txt)
+    mirror_inds <- get_mirror_not_in_cat_inds(txt)
+
     if(!length(mirror_inds)){
       return(NULL)
     }
@@ -33,7 +53,7 @@ copy_mirror_chunks <- function(rmd_files){
 
       # Search for the mirrored chunks in txt (the file)
       pat <- paste0("<<", chunk_name, ">>")
-      file_mirror_inds <- grep(pat, txt)
+      file_mirror_inds <- get_mirror_not_in_cat_inds(txt, pat)
 
       # Search for the code for this mirrored chunk in huge_rmd
       pat <- paste0(chunk_name, ",")
@@ -54,8 +74,11 @@ copy_mirror_chunks <- function(rmd_files){
         k <- k + 1
       }
       # chunk is the code chunk we will be inserting in place of mirror calls
-      chunk <- huge_rmd[src_start:(k - 1)]
-      txt <<- inject_vec_in_vec(txt, chunk, file_mirror_inds)
+      if(src_start < k){
+        # There was code in the chunk
+        chunk <- huge_rmd[src_start:(k - 1)]
+        txt <<- inject_vec_in_vec(txt, chunk, file_mirror_inds)
+      }
     })
     unlink(fn, force = TRUE)
     writeLines(txt, fn)

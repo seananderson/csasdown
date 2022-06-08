@@ -2,25 +2,25 @@
 #' (WYSIWYG = What You See Is What You Get)
 #'
 #' @description
-#' Convert blank lines in Rmd code to WYSIWYG newlines. The provided chunk
-#' will start with a blank line and possibly more or return NULL as the
-#' converted chunk, and the whole `chunk` as the rest. The series of blank
-#' lines will be converted into a mini-chunk, which will be returned
-#' as the first element of a two-element list, the second element is the
-#' rest of the Rmd.
+#' Convert (leading) blank lines in Rmd code to WYSIWYG newlines.
+#' The provided chunk will start with a blank line and possibly more or return
+#' `NULL` as the converted chunk, and the whole `chunk` as the rest. The series
+#' of blank lines will be converted into a mini-chunk, which will be returned
+#' as the first element of a two-element list, the second element is the rest
+#' of the Rmd.
 #'
-#' @param chunk The Rmd chunk to process
+#' @details
+#' This function should only be used for Rmd code where there are leading blank
+#' lines. The other functions ([conv_list_lines()], [conv_header_lines()],
+#' [conv_type_1_table_lines()], [conv_type_2_table_lines()], and
+#' [conv_paragraph_lines()] deal with all the blank lines that follow those
+#' pieces of rmarkdown code.
+#'
+#' @param chunk A vector of character strings representing lines for RMD code
 #'
 #' @return A list of two elements, 1) The corrected part of the chunk and
 #' 2) the rest of the chunk starting with the line after the last blank line
 #' @export
-#'
-#' @examples
-#' library(csasdown)
-#' chunk <- c("", "", "", "Some text..", "More Rmd text")
-#' tmp <- conv_blank_lines(chunk)
-#' blank_line_chunk <- tmp[[1]]
-#' the_rest <- tmp[[2]]
 conv_blank_lines <- function(chunk){
 
   if(is.null(chunk)){
@@ -31,24 +31,30 @@ conv_blank_lines <- function(chunk){
     return(list(NULL, chunk))
   }
 
-  if(length(chunk) == 1){
-    return(list(c("\\\\", ""), NULL))
-  }
-
-  next_is_blank <- chunk[2] == ""
+  blank_count <- 0
   i <- 1
-  new_chunk <- "\\\\"
-  while(next_is_blank && i < length(chunk)){
+  is_blank <- chunk[i] == ""
+  repeat{
+    if(chunk[i] == ""){
+      blank_count <- blank_count + 1
+    }else{
+      i <- i - 1
+      break
+    }
+    if(i == length(chunk)){
+      break
+    }
     i <- i + 1
-    new_chunk <- c(new_chunk, "\\\\")
-    next_is_blank <- chunk[i + 1] == ""
   }
-  new_chunk <- c(new_chunk, "")
-  if(i == length(chunk)){
-    the_rest <- NULL
+  if(blank_count == 1){
+    new_chunk <- c("", "\\\\ \\\\", "")
   }else{
-    the_rest <- chunk[(i + 1):length(chunk)]
+    new_chunk <- c(rep("\\\\", blank_count), "")
   }
 
-  list(new_chunk, the_rest)
+  if(i == length(chunk)){
+    return(list(new_chunk, NULL))
+  }else{
+    return(list(new_chunk, chunk[(i + 1):length(chunk)]))
+  }
 }

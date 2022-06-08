@@ -12,7 +12,7 @@ test_that("Conversion of list lines in Rmd works correctly", {
 
   chunk <- c("1. Item 1", "2. Item 2", "  a. Item 2a", "  b. Item 2b", "3. Item 3")
   tmp <- conv_list_lines(chunk)
-  expect_identical(tmp[[1]], c(chunk, "\\\\", "\\\\"))
+  expect_identical(tmp[[1]], c(chunk, "\\\\"))
   expect_null(tmp[[2]])
 
   chunk <- c("1. Item 1", "", "2. Item 2", "  a. Item 2a", "  b. Item 2b", "3. Item 3")

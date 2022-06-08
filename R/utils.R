@@ -1,3 +1,118 @@
+#' Checks to see if character strings are Rmarkdown header lines
+#'
+#' @param lines The vector of character strings to check
+#'
+#' @details
+#' A header line must be indented less than 4 spaces and start with a #
+#' followed by one or more spaces, and the n text
+#'
+#' @return A logical vector representing whether or not the lines are
+#' Rmarkdown header lines
+#' @export
+is_rmarkdown_header_line <- function(lines){
+  if(is.null(lines)){
+    return(NULL)
+  }
+  if(any(is.na(lines))){
+    stop("An NA is present in the vector of strings:\n\n",
+         paste(lines, collapse = "\n"),
+         "\n\n",
+         call. = FALSE)
+  }
+
+  map_lgl(lines, ~{
+    leading_spaces <- nchar(gsub("^(\\s*)#+.*$", "\\1", .x))
+    if(leading_spaces > 3){
+      return(FALSE)
+    }
+    grepl("^#+\\s+.*$", trimws(.x))
+  })
+}
+
+#' Checks to see if character strings represent the start of a Rmarkdown tables
+#'
+#' @param lines_lst A list of character strings vectors of length 3
+#'
+#' @details
+#' Three lines from the beginning of the table are required to determine if a
+#' table is possibly valid
+#'
+#' @return A character vector representing which Rmarkdown table type each
+#' element in `lines_lst` is
+#' @export
+is_rmarkdown_table_line <- function(lines_lst){
+
+  if(is.null(lines_lst)){
+    return(NULL)
+  }
+  if(!is.list(lines_lst)){
+    lines_lst <- list(lines_lst)
+  }
+  if(any(is.na(lines_lst))){
+    stop("An NA is present in the vector of strings:\n\n",
+         paste(lines_lst, collapse = "\n"),
+         "\n\n",
+         call. = FALSE)
+  }
+  # `text_pat` matches any sequence of zero or more whitespace characters, followed
+  # by 1 or more non-whitespace characters, followed by zero or more whitespace
+  # characters
+  # `dash_pat` matches any sequence of zero or more whitespace characters, followed
+  # by 1 or more dashes, followed by zero or more whitespace characters
+  text_pat <- "^(\\s*\\S+\\s*)+$"
+  dash_pat <- "^(\\s*-+\\s*)+$"
+
+  map_chr(lines_lst, ~{
+    if(length(.x) < 3){
+      stop("You passed a vector of less than three lines. Three lines are ",
+           "required to determine if it is an Rmarkdown table or not:\n\n",
+           paste(.x, collapse = "\n"),
+           call. = FALSE)
+    }
+    t1 <- trimws(.x[1])
+    t2 <- trimws(.x[2])
+    t3 <- trimws(.x[3])
+    is_type_1 <- length(grep(dash_pat, t1)) &&
+                 length(grep(text_pat, t2)) &&
+                 length(grep(dash_pat, t3))
+    is_type_2 <- length(grep(text_pat, t1)) &&
+                 length(grep(dash_pat, t2)) &&
+                 length(grep(text_pat, t3))
+    if(is_type_1){
+      return("type1")
+    }
+    if(is_type_2){
+      return("type2")
+    }
+    "false"
+  })
+}
+
+#' Checks to see if character strings are Rmarkdown list lines
+#'
+#' @param lines The vector of character strings to check
+#'
+#' @return A logical vector representing whether or not the lines are
+#' Rmarkdown list lines
+#' @export
+is_rmarkdown_list_line <- function(lines){
+  if(is.null(lines)){
+    return(NULL)
+  }
+  if(any(is.na(lines))){
+    stop("An NA is present in the vector of strings:\n\n",
+         paste(lines, collapse = "\n"),
+         "\n\n",
+         call. = FALSE)
+  }
+  map_lgl(lines, ~{
+    substr(trimws(.x), 2, 3) == ". " ||
+    substr(trimws(.x), 1, 2) == "* " ||
+    substr(trimws(.x), 1, 2) == "+ " ||
+    substr(trimws(.x), 1, 2) == "- "
+  })
+}
+
 #' Detect which columns are year columns based on the range and type
 #'
 #' @param df A data frame with column names
@@ -191,10 +306,14 @@ sr_pdf <- function(latex_engine = "pdflatex",
                    line_nums = FALSE,
                    line_nums_mod = 1,
                    draft_watermark = FALSE,
+                   french = FALSE,
                    highlight = "tango",
                    pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
                    ...) {
 
+  fr <- function() { # hack for now
+    french
+  }
   themes <- c("pygments", "tango", "espresso", "zenburn", "kate", "monochrome", "breezedark", "haddock")
 
   if(is.null(highlight)){

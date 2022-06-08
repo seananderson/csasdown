@@ -1,0 +1,14 @@
+----------------------------------------------------------------------------------
+  Facteurs                 Corrélation entre les parents et l'enfant    Héritage
+------------------------- ------------------------------------------- ------------
+  Éducation                                -0,49                          Oui
+  
+  Statut socio-économique                   0,28                         Léger   
+  
+  Revenu                                    0,08                          Non
+  
+  Taille de la famille                      0,18                         Léger
+  
+  Prestige professionnel                    0,21                         Léger
+------------------------- ----------------------------------------- --------------
+Table: (\#tab:inher) Corrélation des facteurs d'héritage pour les parents et l'enfant

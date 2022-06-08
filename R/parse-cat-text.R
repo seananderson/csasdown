@@ -19,6 +19,9 @@
 #' to [cat()] in the string.
 #'
 #' @param str_vec A vector of strings which starts with a 'cat('
+#' @param ret_inds Logical. If `TRUE`, return the indices of the input
+#' vector instead of the actual values. If `FALSE`, return the values
+#' (default behaviour)
 #' @param verbose Show details about what was matched and pushed to or
 #' popped off the stack
 #'
@@ -28,17 +31,16 @@
 #'
 #' @importFrom crayon cyan red
 #' @export
-parse_cat_text <- function(str_vec, verbose = FALSE){
+parse_cat_text <- function(str_vec, ret_inds = FALSE, verbose = FALSE){
 
   if(!length(grep("^cat\\(.*", str_vec[1]))){
-    stop("The first element of `str_vec` must start with 'cat('",
-         call. = FALSE)
+    stop("The first line of `str_vec` must start with `cat(`")
   }
   str_vec[1] <- gsub("^cat\\(", "", str_vec[1])
-  if(length(grep("^\"" , str_vec[1]))){
+  if(length(grep("^\"", str_vec[1]))){
     # `cat()` text is surrounded by double quotes
     quote_type <- "\""
-  }else if(length(grep("^'" , str_vec[1]))){
+  }else if(length(grep("^'", str_vec[1]))){
     # `cat()` text is surrounded by single quotes
     quote_type <- "'"
   }else{
@@ -119,6 +121,9 @@ parse_cat_text <- function(str_vec, verbose = FALSE){
           str_vec[.y] <- substr(str_vec[.y], 1, char_pos - 1)
           # This is the total return chunk
           out_chunk <- str_vec[1:.y]
+          if(ret_inds){
+            return(1:.y)
+          }
           matched <- TRUE
           break
         }

@@ -12,13 +12,25 @@
 inject_rmd_files <- function(rmd){
 
   # Single or double quotes around filename
-  rmd_file_inds <- grep("^ *rmd_file\\([\"|\'].*[\"|\']\\) *$", rmd)
+  rmd_file_inds <- grep("^rmd_file\\([\"|\'].*[\"|\']\\)$", trimws(rmd))
   nms <- trimws(rmd[rmd_file_inds])
-  rmd_file_names <- gsub("rmd_file\\([\"|\'](.*)[\"|\']\\)", "\\1", nms)
+  rmd_file_names <- gsub("^rmd_file\\([\"|\'](.*)[\"|\']\\)$", "\\1", nms)
   rmd_file_names <- trimws(rmd_file_names)
 
   rmd_code <- map(rmd_file_names, ~{
-    read_rmd_file(.x)
+    rmd <- read_rmd_file(.x)
+    # Check the rmd code to make sure there are no triple-tick code chunks in it
+    backtick_inds <- grep("^```", trimws(rmd))
+    if(length(backtick_inds)){
+      message("Triple-backtick code chunk found in file '", basename(.x),
+              ".Rmd' on line(s) ",
+              paste(backtick_inds, collapse = ", "))
+      stop("Triple-backtick code chunks are not allowed in external RMD ",
+           "files which have been injected using `rmd_files()`. It ",
+           "defeats the purpose of using the bilingual code chunk system",
+           call. = FALSE)
+    }
+    rmd
   })
 
   if(!length(rmd_file_inds)){
