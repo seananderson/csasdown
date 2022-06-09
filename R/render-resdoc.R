@@ -67,6 +67,7 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
   # mirrored:
   # e.g replace instances of <<char-01-para-06-chunk>> with code from that
   # actual chunk. Overwrite the tmp files with these modified chunks in them
+
   copy_mirror_chunks(fn_process)
 
   tmp_rmd_files <- map(fn_process, ~{
@@ -79,69 +80,71 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
     rmd <- inject_rmd_files(rmd)
     rmd <- remove_comments_from_chunks(rmd)
 
+    cat_inds <- grep("^cat\\(.*", trimws(rmd))
     # Find `needs_trans = TRUE` chunks. Those will not have newlines converted
     nt_inds <- grep("needs_trans\ *=\ *TRUE", rmd)
-    cat_inds <- grep("^cat\\(.*", trimws(rmd))
+    nt_chunks <- NULL
+    if(length(nt_inds)){
+      if(!all((nt_inds + 1) %in% cat_inds)){
+        # Name the chunks which are missing `cat()`
+        bad_chunk_names <- map(nt_inds, ~{
+          x <- .x + 1
+          if(!x %in% cat_inds){
+            # Extract chunk name
+            chunk_head <- gsub(knitr::all_patterns$md$chunk.begin, "\\1", rmd[.x])
+            pat <- "r\\s*(\\s*\\S+\\s*)+?\\s*,\\s*.*$"
+            chunk_name <- gsub(pat, "\\1", chunk_head)
+            return(chunk_name)
+          }
+          NULL
+        })
+        bad_chunk_names <- bad_chunk_names[lengths(bad_chunk_names) > 0]
+        message("Not all chunks in the file ", .x, " with `needs_trans = TRUE` have ",
+                "`cat(` immediately following. If the chunks mirror other chunks, ",
+                "make sure that the mirrored chunk has a `cat()` call in it.\n")
+        message("The chunk name(s) missing `cat()` are:\n\n",
+                paste(bad_chunk_names, collapse = "\n"),
+                "\n")
+        stop("Chunks missing `cat()`",
+             call. = FALSE)
+      }
+      cat_inds <- cat_inds[!(cat_inds %in% (nt_inds + 1))]
 
-    if(!all((nt_inds + 1) %in% cat_inds)){
-      # Name the chunks which are missing cat()
-      bad_chunk_names <- map(nt_inds, ~{
-        x <- .x + 1
-        if(!x %in% cat_inds){
-          # Extract chunk name
-          chunk_head <- gsub(knitr::all_patterns$md$chunk.begin, "\\1", rmd[.x])
-          pat <- "r\\s*(\\s*\\S+\\s*)+?\\s*,\\s*.*$"
-          chunk_name <- gsub(pat, "\\1", chunk_head)
-          return(chunk_name)
+      # Deal with needs-trans chunks
+      nt_inds <- nt_inds + 1
+      chunk_end_inds <- NULL
+      nt_chunks <- imap(nt_inds, ~{
+        if(.y == length(nt_inds)){
+          text_chunk <- parse_cat_text(rmd[.x:length(rmd)])
+        }else{
+          text_chunk <- parse_cat_text(rmd[.x:(nt_inds[.y + 1] - 1)])
         }
-        NULL
+        chunk_end_inds <<- c(chunk_end_inds, .x + length(text_chunk) - 1)
+        # Convert any single backslashes to double. All the extra ones are needed here
+        # because of escaping and because we are inside a cat() layer so it is a double-
+        # double situation
+        text_chunk <- gsub("\\\\", "\\\\\\\\", text_chunk)
+        # If single quotes were used to surround the text in [cat()], make them double
+        # so that they match the quotes used to make the embedded code parts
+        if(substr(text_chunk[1], 1, 1) == "'"){
+          substr(text_chunk[1], 1, 1) <- "\""
+        }
+        if(substr(text_chunk[length(text_chunk)],
+                  nchar(text_chunk[length(text_chunk)]),
+                  nchar(text_chunk[length(text_chunk)])) == "'"){
+          substr(text_chunk[length(text_chunk)],
+                 nchar(text_chunk[length(text_chunk)]),
+                 nchar(text_chunk[length(text_chunk)])) <- "\""
+        }
+
+        text_chunk <- map_chr(text_chunk, ~{
+          catize(.x)
+        })
+        text_chunk[1] <- paste0("cat(", text_chunk[1])
+        text_chunk[length(text_chunk)] <- paste0(text_chunk[length(text_chunk)], ")")
+        text_chunk
       })
-      bad_chunk_names <- bad_chunk_names[lengths(bad_chunk_names) > 0]
-      message("Not all chunks in the file ", .x, " with `needs_trans = TRUE` have ",
-              "`cat(` immediately following. If the chunks mirror other chunks, ",
-              "make sure that the mirrored chunk has a `cat()` call in it.\n")
-      message("The chunk name(s) missing `cat()` are:\n\n",
-              paste(bad_chunk_names, collapse = "\n"),
-              "\n")
-      stop("Chunks missing `cat()`",
-           call. = FALSE)
     }
-    cat_inds <- cat_inds[!(cat_inds %in% (nt_inds + 1))]
-
-    # Deal with needs-trans chunks
-    nt_inds <- nt_inds + 1
-    chunk_end_inds <- NULL
-    nt_chunks <- imap(nt_inds, ~{
-      if(.y == length(nt_inds)){
-        text_chunk <- parse_cat_text(rmd[.x:length(rmd)])
-      }else{
-        text_chunk <- parse_cat_text(rmd[.x:(nt_inds[.y + 1] - 1)])
-      }
-      chunk_end_inds <<- c(chunk_end_inds, .x + length(text_chunk) - 1)
-      # Convert any single backslashes to double. All the extra ones are needed here
-      # because of escaping and because we are inside a cat() layer so it is a double-
-      # double situation
-      text_chunk <- gsub("\\\\", "\\\\\\\\", text_chunk)
-      # If single quotes were used to surround the text in [cat()], make them double
-      # so that they match the quotes used to make the embedded code parts
-      if(substr(text_chunk[1], 1, 1) == "'"){
-        substr(text_chunk[1], 1, 1) <- "\""
-      }
-      if(substr(text_chunk[length(text_chunk)],
-                nchar(text_chunk[length(text_chunk)]),
-                nchar(text_chunk[length(text_chunk)])) == "'"){
-        substr(text_chunk[length(text_chunk)],
-               nchar(text_chunk[length(text_chunk)]),
-               nchar(text_chunk[length(text_chunk)])) <- "\""
-      }
-
-      text_chunk <- map_chr(text_chunk, ~{
-        catize(.x)
-      })
-      text_chunk[1] <- paste0("cat(", text_chunk[1])
-      text_chunk[length(text_chunk)] <- paste0(text_chunk[length(text_chunk)], ")")
-      text_chunk
-    })
     if(length(nt_chunks)){
       out_rmd <- NULL
       out_rmd <- rmd[1:(nt_inds[1] - 1)]
@@ -166,78 +169,83 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
     # Deal with non-needs_trans chunks, the same way as we dealt with the
     # need_trans chunks
     chunk_end_inds <- NULL
-    cat_chunks <- imap(cat_inds, ~{
-      if(.y == length(cat_inds)){
-        text_chunk <- parse_cat_text(rmd[.x:length(rmd)])
-      }else{
-        text_chunk <- parse_cat_text(rmd[.x:(cat_inds[.y + 1] - 1)])
-      }
-      chunk_end_inds <<- c(chunk_end_inds, .x + length(text_chunk) - 1)
-      # Convert any single backslashes to double. All the extra ones are needed here
-      # because of escaping and because we are inside a cat() layer so it is a double-
-      # double situation
-      text_chunk <- gsub("\\\\", "\\\\\\\\", text_chunk)
-      if(!(length(text_chunk) == 1 && text_chunk[1] == "\"\"")){
-        # There will be a leading quote and ending quote, but they may not be on
-        # their own line. Remove them and keep track if they shared a line with other
-        # values.
-        if(text_chunk[1] == "\""){
-          text_chunk <- text_chunk[-1]
-          # Toggle to paste the quote to the beginning of the first element
-          # If FALSE, add a new element to the beginning of the vector with
-          # the quote character only after calling convert_newlines_rmd()
-          paste_beg <- FALSE
-        }
-        if(text_chunk[length(text_chunk)] == "\""){
-          text_chunk <- text_chunk[-length(text_chunk)]
-          # Toggle to paste the quote to the end of the last element
-          # If FALSE, add a new element to the end of the vector with
-          # the quote character only after calling convert_newlines_rmd()
-          paste_end <- FALSE
-        }
-        if(length(grep("^\".+$", text_chunk[1]))){
-          text_chunk[1] <- gsub("\"(.*)", "\\1", text_chunk[1])
-          paste_beg <- TRUE
-        }
-        if(length(grep("^.+\"$", text_chunk[length(text_chunk)]))){
-          text_chunk[length(text_chunk)] <- gsub("(.*)\"", "\\1", text_chunk[length(text_chunk)])
-          paste_end <- TRUE
-        }
+    cat_chunks <- NULL
 
-        text_chunk <- convert_newlines_rmd(text_chunk)
-
-        if(paste_beg){
-          text_chunk[1] <- paste0("\"", text_chunk[1])
+    if(length(cat_inds)){
+      cat_chunks <- imap(cat_inds, ~{
+        if(.y == length(cat_inds)){
+          text_chunk <- parse_cat_text(rmd[.x:length(rmd)])
         }else{
-          text_chunk <- c("\"", text_chunk)
+          text_chunk <- parse_cat_text(rmd[.x:(cat_inds[.y + 1] - 1)])
         }
-        if(paste_end){
-          text_chunk[length(text_chunk)] <- paste0(text_chunk[length(text_chunk)], "\"")
-        }else{
-          text_chunk <- c(text_chunk, "\"")
+        chunk_end_inds <<- c(chunk_end_inds, .x + length(text_chunk) - 1)
+        # Convert any single backslashes to double. All the extra ones are needed here
+        # because of escaping and because we are inside a cat() layer so it is a double-
+        # double situation
+        text_chunk <- gsub("\\\\", "\\\\\\\\", text_chunk)
+        if(!(length(text_chunk) == 1 && text_chunk[1] == "\"\"")){
+          # There will be a leading quote and ending quote, but they may not be on
+          # their own line. Remove them and keep track if they shared a line with other
+          # values.
+          if(text_chunk[1] == "\""){
+            text_chunk <- text_chunk[-1]
+            # Toggle to paste the quote to the beginning of the first element
+            # If FALSE, add a new element to the beginning of the vector with
+            # the quote character only after calling convert_newlines_rmd()
+            paste_beg <- FALSE
+          }
+          if(text_chunk[length(text_chunk)] == "\""){
+            text_chunk <- text_chunk[-length(text_chunk)]
+            # Toggle to paste the quote to the end of the last element
+            # If FALSE, add a new element to the end of the vector with
+            # the quote character only after calling convert_newlines_rmd()
+            paste_end <- FALSE
+          }
+          if(length(grep("^\".+$", text_chunk[1]))){
+            text_chunk[1] <- gsub("\"(.*)", "\\1", text_chunk[1])
+            paste_beg <- TRUE
+          }
+          if(length(grep("^.+\"$", text_chunk[length(text_chunk)]))){
+            text_chunk[length(text_chunk)] <- gsub("(.*)\"", "\\1", text_chunk[length(text_chunk)])
+            paste_end <- TRUE
+          }
+
+          text_chunk <- convert_newlines_rmd(text_chunk)
+
+          if(paste_beg){
+            text_chunk[1] <- paste0("\"", text_chunk[1])
+          }else{
+            text_chunk <- c("\"", text_chunk)
+          }
+          if(paste_end){
+            text_chunk[length(text_chunk)] <- paste0(text_chunk[length(text_chunk)], "\"")
+          }else{
+            text_chunk <- c(text_chunk, "\"")
+          }
         }
-      }
 
-      # If single quotes were used to surround the text in [cat()], make them double
-      # so that they match the quotes used to make the embedded code parts
-      if(substr(text_chunk[1], 1, 1) == "'"){
-        substr(text_chunk[1], 1, 1) <- "\""
-      }
-      if(substr(text_chunk[length(text_chunk)],
-                nchar(text_chunk[length(text_chunk)]),
-                nchar(text_chunk[length(text_chunk)])) == "'"){
-        substr(text_chunk[length(text_chunk)],
-               nchar(text_chunk[length(text_chunk)]),
-               nchar(text_chunk[length(text_chunk)])) <- "\""
-      }
+        # If single quotes were used to surround the text in [cat()], make them double
+        # so that they match the quotes used to make the embedded code parts
+        if(substr(text_chunk[1], 1, 1) == "'"){
+          substr(text_chunk[1], 1, 1) <- "\""
+        }
+        if(substr(text_chunk[length(text_chunk)],
+                  nchar(text_chunk[length(text_chunk)]),
+                  nchar(text_chunk[length(text_chunk)])) == "'"){
+          substr(text_chunk[length(text_chunk)],
+                 nchar(text_chunk[length(text_chunk)]),
+                 nchar(text_chunk[length(text_chunk)])) <- "\""
+        }
 
-      text_chunk <- map_chr(text_chunk, ~{
-        catize(.x)
+        text_chunk <- map_chr(text_chunk, ~{
+          catize(.x)
+        })
+        text_chunk[1] <- paste0("cat(", text_chunk[1])
+        text_chunk[length(text_chunk)] <- paste0(text_chunk[length(text_chunk)], ")")
+        text_chunk
       })
-      text_chunk[1] <- paste0("cat(", text_chunk[1])
-      text_chunk[length(text_chunk)] <- paste0(text_chunk[length(text_chunk)], ")")
-      text_chunk
-    })
+    }
+
     if(length(cat_chunks)){
       out_rmd <- NULL
       out_rmd <- rmd[1:(cat_inds[1] - 1)]
@@ -258,28 +266,33 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
       out_rmd <- rmd
     }
 
-    # Make references work, they were modified above in the code that changes
-    # the backslashes
-    out_rmd <- gsub("\\\\\\\\\\\\\\\\@ref", "\\\\\\\\@ref", out_rmd)
+    if(length(out_rmd)){
+      # Make references work, they were modified above in the code that changes
+      # the backslashes
+      out_rmd <- gsub("\\\\\\\\\\\\\\\\@ref", "\\\\\\\\@ref", out_rmd)
 
-    # If any chunks do not have a blank line between them, make it so
-    # The lack of blank line between them messes up the typesetting in a bad
-    # way in some cases
-    bt_inds <- grep("```", out_rmd)
-    spaced_out_rmd <- NULL
-    i <- 1
-    while(i < length(out_rmd)){
-      if(substr(trimws(out_rmd[i]), 1, 3) == "```" &&
-         substr(trimws(out_rmd[i + 1]), 1, 3) == "```"){
-        spaced_out_rmd <- c(spaced_out_rmd, out_rmd[i], "", out_rmd[i + 1])
-        i <- i + 2
-      }else{
-        spaced_out_rmd <- c(spaced_out_rmd, out_rmd[i])
-        i <- i + 1
+      # If any chunks do not have a blank line between them, make it so
+      # The lack of blank line between them messes up the typesetting in a bad
+      # way in some cases
+      bt_inds <- grep("```", out_rmd)
+      spaced_out_rmd <- NULL
+      i <- 1
+      while(i < length(out_rmd)){
+        if(substr(trimws(out_rmd[i]), 1, 3) == "```" &&
+           substr(trimws(out_rmd[i + 1]), 1, 3) == "```"){
+          spaced_out_rmd <- c(spaced_out_rmd, out_rmd[i], "", out_rmd[i + 1])
+          i <- i + 2
+        }else{
+          spaced_out_rmd <- c(spaced_out_rmd, out_rmd[i])
+          i <- i + 1
+        }
       }
+      if(i <= length(out_rmd)){
+        spaced_out_rmd <- c(spaced_out_rmd, out_rmd[i])
+      }
+    }else{
+      spaced_out_rmd <- ""
     }
-    spaced_out_rmd <- c(spaced_out_rmd, out_rmd[i])
-
     unlink(.x, force = TRUE)
     writeLines(spaced_out_rmd, .x)
     .x

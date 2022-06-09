@@ -100,6 +100,7 @@ extract_rmd_table_label <- function(chunk){
               call. = FALSE)
       return(list(NULL, chunk))
     }
+    text_follows <- FALSE
     repeat{
       # While there are successive lines of text, make them part of the label
       end_lbl_ind <- i
@@ -108,19 +109,29 @@ extract_rmd_table_label <- function(chunk){
       }
       i <- i + 1
       if(chunk[i] == "" ||
-         is_rmarkdown_list_line(chunk[i]) ||
-         is_rmarkdown_header_line(chunk[i])){
+         is_rmd_list_line(chunk[i]) ||
+         is_rmd_header_line(chunk[i])){
+        if(chunk[i] != ""){
+          text_follows <- TRUE
+        }
         break
       }
       if(i + 2 <= length(chunk) &&
-         is_rmarkdown_table_line(chunk[i:(i + 2)]) != "false"){
+         is_rmd_table_line(chunk[i:length(chunk)]) != "false"){
+        if(chunk[i] != ""){
+          text_follows <- TRUE
+        }
         break
       }
     }
     if(end_lbl_ind == length(chunk)){
       return(list(chunk[start_lbl_ind:end_lbl_ind], NULL))
     }
-    return(list(chunk[start_lbl_ind:end_lbl_ind],
+    lbl_chunk <- chunk[start_lbl_ind:end_lbl_ind]
+    if(text_follows){
+      lbl_chunk <- c(lbl_chunk, "")
+    }
+    return(list(lbl_chunk,
                 chunk[(end_lbl_ind + 1):length(chunk)]))
   }
 
@@ -151,6 +162,7 @@ extract_rmd_table_label <- function(chunk){
               call. = FALSE)
       return(list(NULL, chunk))
     }
+    text_follows <- FALSE
     repeat{
       # While there are successive lines of text, make them part of the label
       end_lbl_ind <- i
@@ -159,19 +171,29 @@ extract_rmd_table_label <- function(chunk){
       }
       i <- i + 1
       if(chunk[i] == "" ||
-         is_rmarkdown_list_line(chunk[i]) ||
-         is_rmarkdown_header_line(chunk[i])){
+         is_rmd_list_line(chunk[i]) ||
+         is_rmd_header_line(chunk[i])){
+        if(chunk[i] != ""){
+          text_follows <- TRUE
+        }
         break
       }
       if(i + 2 < length(chunk) &&
-         is_rmarkdown_table_line(chunk[i:(i + 2)]) != "false"){
+         is_rmd_table_line(chunk[i:length(chunk)]) != "false"){
+        if(chunk[i] != ""){
+          text_follows <- TRUE
+        }
         break
       }
     }
     if(end_lbl_ind == length(chunk)){
       return(list(chunk[start_lbl_ind:end_lbl_ind], NULL))
     }
-    return(list(chunk[start_lbl_ind:end_lbl_ind],
+    lbl_chunk <- chunk[start_lbl_ind:end_lbl_ind]
+    if(text_follows){
+      lbl_chunk <- c(lbl_chunk, "")
+    }
+    return(list(lbl_chunk,
                 chunk[(end_lbl_ind + 1):length(chunk)]))
   }
 }

@@ -1,11 +1,14 @@
 ```{r chap01-para-1-en, eval = !fr(), results = 'asis'}
 cat("# INTRODUCTION
-Welcome to the R Markdown **bilingual** research document template. This example can be loaded into your working directory with `csasdown::draft('resdoc-b')` and rendered into a PDF with `csasdown::render_resdoc()`. This document assumes yoiu have gone through the **resdoc** example document, and leaves out some of the introductory text found there.
+Welcome to the R Markdown **bilingual** research document template. This example can be loaded into your working directory with `csasdown::draft('resdoc-b')` and rendered into a PDF with `csasdown::render_resdoc()`. This document assumes you have gone through the **resdoc** example document, and leaves out some of the introductory text found there.
 
 The difference between this document and the one produced with the `csasdown::draft('resdoc')` example is that this one makes use of a new preprocessor and a knitr hook to more easily produce a bilingual document. The preprocessor includes an enhanced custom version of Rmarkdown which produces PDF output exactly as written in the Rmarkdown code. Standard Rmarkdown has multiple methods of including newlines, with less than ideal results in most cases. This enhanced version provides *What You See Is What You Get*, known as *WYSIWYG* in computing lexicon. This means that newlines will appear in the output document *exactly* as you wrote them in the Rmarkdown code. This reduces a lot of trial-and-error or writing-and-compiling when trying to organize your text.")
 ```
-```{r chap01-para-1-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
-<<chap01-para-1-en>>
+```{r chap01-para-1-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
+cat("# INTRODUCTION
+Bienvenue au modèle de document de recherche R Markdown **bilingue**. Cet exemple peut être chargé dans votre répertoire de travail avec `csasdown::draft('resdoc-b')` et rendu en PDF avec `csasdown::render_resdoc()`. Ce document suppose que vous avez parcouru le document d'exemple **resdoc**, et laisse de côté une partie du texte d'introduction qui s'y trouve.
+
+La différence entre ce document et celui produit avec l'exemple `csasdown::draft('resdoc')` est que celui-ci utilise un nouveau préprocesseur et un hook knitr pour produire plus facilement un document bilingue. Le préprocesseur comprend une version personnalisée améliorée de Rmarkdown qui produit une sortie PDF exactement comme écrit dans le code Rmarkdown. La version standard de Rmarkdown dispose de plusieurs méthodes pour inclure les nouvelles lignes, avec des résultats moins qu'idéaux dans la plupart des cas. Cette version améliorée fournit *What You See Is What You Get*, connu sous le nom de *WYSIWYG* dans le lexique informatique. Cela signifie que les nouvelles lignes apparaîtront dans le document de sortie *exactement* comme vous les avez écrites dans le code Rmarkdown. Cela réduit les essais et les erreurs ou l'écriture et la compilation lorsque vous essayez d'organiser votre texte.")
 ```
 ```{r chap01-para-2-en, eval = !fr(), results = 'asis'}
 cat("# Compilation details
@@ -88,258 +91,30 @@ or get the date and time this document was built:
 ```{r chap01-para-7-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
 <<chap01-para-7-en>>
 ```
-
-
-
-
 ```{r chap01-para-8-en, eval = !fr(), results = 'asis'}
-cat("## Inline R code inside cat()
-Inline R code can be used in just the same way as in regular RMarkdown. For example we can find the name of a random car in the `mtcars` dataset: `r sample(rownames(mtcars), 1)` or get the date and time this document was built: `r as.character(Sys.time())`.")
+cat("# Document layout
+## English and French are both included
+The **resdoc** example document requires manual changes to the abstract text, document title, and author's addresses. The **resdoc-b** style includes these for both languages. Look at *index.Rmd* in the YAML header at the beginning of the file. There are entries for:
+
+- month, french_month
+- region, french_region
+- address, french_address
+- title, french_title
+- abstract, french_abstract
+
+This means less manual intervention when changing from compiling the document in English to building it in French.
+")
 ```
-
-```{r chap01-para-8-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
-cat("## COUPURES DE LIGNE
-Veillez à ajouter des espaces blancs entre les lignes si vous souhaitez commencer un nouveau paragraphe.  Regardez ce qui se passe ci-dessous dans le document édité si vous ne le faites pas :
-
-Voici la première phrase.  Voici une autre phrase.  Voici la dernière phrase pour terminer le paragraphe.
-Ceci devrait être un nouveau paragraphe.
-
-*Maintenant pour la manière correcte:*
-
-Voici la première phrase.  Voici une autre phrase.  Voici la dernière phrase pour terminer le paragraphe.
-
-Ceci devrait être un nouveau paragraphe.")
+```{r chap01-para-8-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+<<chap01-para-8-en>>
 ```
-
 ```{r chap01-para-9-en, eval = !fr(), results = 'asis'}
-cat("## R CHUNKS
-When you click the **Knit** button above a document will be generated that includes both content as well as the output of any embedded **R** code chunks within the document. You can embed an **R** code chunk like this (`cars` is a built-in **R** dataset):")
+cat("")
 ```
 ```{r chap01-para-9-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
 <<chap01-para-9-en>>
 ```
 
-```{r cars}
-summary(cars)
-```
-
-```{r chap01-para-10-en, eval = !fr(), results = 'asis'}
-cat("## INLINE CODE
-If you'd like to put the results of your analysis directly into your discussion, add inline code like this:
-
-> The `cos` of $2 \pi$ is `r cos(2*pi)`.
-
-")
-```
-```{r chap01-para-10-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
-cat("## CODE NLINE
-Si vous souhaitez intégrer les résultats de votre analyse directement dans votre discussion, ajoutez un code en ligne comme celui-ci:
-
-> Le `cos` de $2 \pi$ est `r cos(2*pi)`.
-
-")
-```
-
-```{r chap01-para-11-en, eval = !fr(), results = 'asis'}
-cat("Another example would be the direct calculation of the standard deviation:
-    
-> The standard deviation of `speed` in `cars` is `r sd(cars$speed)`.
-
-")
-```
-```{r chap01-para-11-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
-<<chap01-para-11-en>>
-```
-
-```{r chap01-para-12-en, eval = !fr(), results = 'asis'}
-cat("One last neat feature is the use of the `ifelse` conditional statement which can be used to output text depending on the result of an **R** calculation:
-    
-> `r ifelse(sd(cars$speed) < 6, 'The standard deviation is less than 6.', 'The standard deviation is equal to or greater than 6.')`
-
-")
-```
-```{r chap01-para-12-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
-<<chap01-para-12-en>>
-```
-
-```{r chap01-para-13-en, eval = !fr(), results = 'asis'}
-cat("Note the use of `>` here, which signifies a quotation environment that will be indented.
-
-As you see with `$2 \pi$` above, mathematics can be added by surrounding the mathematical text with dollar signs.  More examples of this are in [Mathematics and Science] if you uncomment the code in [Math].")
-```
-```{r chap01-para-13-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
-<<chap01-para-13-en>>
-```
-
-```{r chap01-para-14-en, eval = !fr(), results = 'asis'}
-cat("## INCLUDING PLOTS
-You can also embed plots.  For example, here is a way to use the base **R** graphics package to produce a plot using the built-in `pressure` dataset:")
-```
-```{r chap01-para-14-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
-cat("## Y COMPRIS LES PARCELLES
-Vous pouvez également intégrer des graphiques.  Par exemple, voici une façon d'utiliser le paquet graphique **R** de base pour produire un graphique en utilisant le jeu de données intégré `pressure`:")
-```
-
-```{r pressure, echo=FALSE, cache=TRUE}
-plot(pressure)
-```
-
-```{r chap01-para-15-en, eval = !fr(), results = 'asis'}
-cat("Note that the `echo=FALSE` parameter was added to the code chunk to prevent printing of the **R** code that generated the plot.  There are plenty of other ways to add chunk options.  More information is available at <http://yihui.name/knitr/options/>.
-
-Another useful chunk option is the setting of `cache=TRUE` as you see here.  If document rendering becomes time consuming due to long computations or plots that are expensive to generate you can use knitr caching to improve performance.  Later in this file, you'll see a way to reference plots created in **R** or external figures.")
-```
-```{r chap01-para-15-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
-cat("Notez que le paramètre `echo=FALSE` a été ajouté au chunk de code pour empêcher l'impression du code **R** qui a généré le tracé.  Il existe de nombreuses autres façons d'ajouter des options au chunk.  Plus d'informations sont disponibles sur <http://yihui.name/knitr/options/>.
-
-Une autre option de chunk utile est le réglage de `cache=TRUE` comme vous le voyez ici.  Si le rendu des documents devient long à cause de longs calculs ou de tracés coûteux à générer, vous pouvez utiliser la mise en cache de knitr pour améliorer les performances.  Plus tard dans ce fichier, vous verrez un moyen de référencer des tracés créés dans **R** ou des figures externes.
-
-Traduit avec www.DeepL.com/Translator (version gratuite)")
-```
-
-```{r chap01-para-16-en, eval = !fr(), results = 'asis'}
-cat("## LOADING AND EXPLORING DATA
-Included in this template is a file called `flights.csv`.  This file includes a subset of the larger dataset of information about all flights that departed from Seattle and Portland in 2014.  More information about this dataset and its **R** package is available at <http://github.com/ismayc/pnwflights14>.  This subset includes only Portland flights and only rows that were complete with no missing values.  Merges were also done with the `airports` and `airlines` data sets in the `pnwflights14` package to get more descriptive airport and airline names.
-
-We can load in this data set using the following command (`read_csv()` is from the package `readr`):")
-```
-```{r chap01-para-16-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
-<<chap01-para-16-en>>
-```
-
-```{r load_data, echo=TRUE}
-flights <- read_csv(file.path("data", "flights.csv"))
-```  
-
-```{r chap01-para-17-en, eval = !fr(), results = 'asis'}
-cat("
-
-All your tabular data should be in `.csv` files and placed in the `data` directory. The function `here::here()` should always be used when loading data into the project because it will prepend the full root directory of the project onto the directories and files inside the call. This gives consistent file structure access across multiple machines and platforms.
-
-The data is now stored in the data frame called `flights` in **R**.  To get a better feel for the variables included in this dataset we can use a variety of functions.  Here we can see the dimensions (rows by columns) and also the names of the columns.")
-```
-```{r chap01-para-17-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
-<<chap01-para-17-en>>
-```
 
 
-```{r str}
-dim(flights)
-names(flights)
-```
-```{r chap01-para-18-en, eval = !fr(), results = 'asis'}
-cat("Another good idea is to take a look at the dataset in table form.  With this dataset having more than 50,000 rows, we won't explicitly show the results of the command here.  I recommend you enter the command into the Console **_after_** you have run the **R** chunks above to load the data into **R**. To do that, you can use the command `View(flights)`.
 
-A simple and effective way to see the entire structure in one call is to use the `glimpse()` command like this:")
-```
-```{r chap01-para-18-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
-<<chap01-para-18-en>>
-```
-
-```{r glimpse_flights, echo = TRUE}
-glimpse(flights)
-```
-
-```{r chap01-para-19-en, eval = !fr(), results = 'asis'}
-cat("While not required, it is highly recommended you use the `dplyr` package to manipulate and summarize your data set as needed.  It uses a syntax that is easy to understand using chaining operations.  Below I've created a few examples of using `dplyr` to get information about the Portland flights in 2014.  You will also see the use of the `ggplot2` package, which produces beautiful, high-quality academic visuals.
-
-We begin by checking to ensure that needed packages are installed and then we load them into our current working environment:")
-```
-```{r chap01-para-19-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
-cat("Bien que cela ne soit pas obligatoire, il est fortement recommandé d'utiliser le paquet `dplyr` pour manipuler et résumer votre ensemble de données selon vos besoins.  Il utilise une syntaxe facile à comprendre en utilisant des opérations de chaînage.  J'ai créé ci-dessous quelques exemples d'utilisation de `dplyr` pour obtenir des informations sur les vols de Portland en 2014.  Vous verrez également l'utilisation du paquet `ggplot2`, qui produit de beaux visuels académiques de haute qualité.
-
-Nous commençons par vérifier que les paquets nécessaires sont installés, puis nous les chargeons dans notre environnement de travail actuel :")
-```
-
-```{r load_pkgs, message=FALSE, echo=TRUE}
-# List of packages required for this analysis
-pkg <- c("dplyr", "ggplot2", "knitr", "bookdown", "devtools")
-# Check if packages are not installed and assign the
-# names of the packages not installed to the variable new.pkg
-new.pkg <- pkg[!(pkg %in% installed.packages())]
-# If there are any packages in the list that aren't installed,
-# install them
-if (length(new.pkg)) {
-  install.packages(new.pkg, repos = "http://cran.rstudio.com")
-}
-library(csasdown)
-```
-
-\clearpage
-
-```{r chap01-para-20-en, eval = !fr(), results = 'asis'}
-cat("The example we show here does the following:
-
-- Selects only the `carrier_name` and `arr_delay` from the `flights` dataset and then assigns this subset to a new variable called `flights2`.
-
-- Using `flights2`, we determine the largest arrival delay for each of the carriers.")
-```
-```{r chap01-para-20-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
-<<chap01-para-20-en>>
-```
-
-```{r max_delays}
-library(dplyr)
-flights2 <- flights %>%
-  select(carrier_name, arr_delay)
-  max_delays <- flights2 %>%
-  group_by(carrier_name) %>%
-  summarize(max_arr_delay = max(arr_delay, na.rm = TRUE))
-```
-
-```{r chap01-para-21-en, eval = !fr(), results = 'asis'}
-cat("A useful function in the `knitr` package for making nice tables in _R Markdown_ is called `kable`.  It is much easier to use than manually entering values into a table by copying and pasting values into Excel or LaTeX.  This again goes to show how nice reproducible documents can be! (Note the use of `results = 'asis'`, which will produce the table instead of the code to create the table.)  The `caption.short` argument is used to include a shorter title to appear in the List of Tables.
-
-Within CSAS you should use the function `csasdown::csas_table()` instead. It just calls the function `kable()`, but it adds some default argument values that will make the tables render correctly in both LaTeX and in Word documents.")
-```
-```{r chap01-para-21-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
-<<chap01-para-21-en>>
-```
-
-```{r maxdelays, results = 'asis'}
-library(knitr)
-csas_table(max_delays,
-           col.names = `if`(fr(),
-                            c("Compagnie aérienne", "Délai maximal d'arrivée"),
-                            c("Airline", "Max Arrival Delay")),
-           caption = `if`(fr(),
-                          "Retards maximums par compagnie aérienne",
-                          "Maximum Delays by Airline"))
-```
-
-```{r chap01-para-22-en, eval = !fr(), results = 'asis'}
-cat("The last two options make the table a little easier-to-read.
-
-Let's make a plot of the data:")
-```
-```{r chap01-para-22-fr, eval = fr(), results = 'asis', needs_trans = FALSE}
-cat("Les deux dernières options rendent le tableau un peu plus facile à lire.
-
-Faisons un graphique des données :")
-```
-
-(ref:fig-march3plot-en) My caption.
-
-(ref:fig-march3plot-fr) Ma légende.
-
-```{r march3plot, fig.height=3, fig.width=6, fig.cap = ifelse(fr(), "(ref:fig-march3plot-fr)", "(ref:fig-march3plot-en)")}
-library(ggplot2)
-flights %>%
-  ggplot(aes(x = dep_time, y = arr_delay)) +
-  geom_point()
-```
-
-```{r chap01-para-23-en, eval = !fr(), results = 'asis'}
-cat("## ADDITIONAL RESOURCES")
-```
-```{r chap01-para-23-fr, eval = !fr(), results = 'asis', needs_trans = FALSE}
-cat("## RESSOURCES SUPPLÉMENTAIRES")
-```
-
-- _Markdown_ Cheatsheet - <https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet>
-
-- _R Markdown_ Reference Guide - <https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf>
-
-- Introduction to `dplyr` - <https://cran.rstudio.com/web/packages/dplyr/vignettes/dplyr.html>
-
-- `ggplot2` Documentation - <https://ggplot2.tidyverse.org/reference/>

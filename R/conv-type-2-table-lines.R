@@ -57,12 +57,10 @@ conv_type_2_table_lines <- function(chunk){
   # `dash_pat` matches any sequence of zero or more whitespace characters,
   #  followed by 1 or more dashes, followed by zero or more whitespace
   #  characters
-  dash_pat <- "^(\\s*-+\\s*)+$"
-  is_table <- is_rmarkdown_table_line(chunk[1:3])
-  is_type_2 <- is_table == "type2"
-  if(!is_type_2){
+  if(is_rmd_table_line(chunk) != "type2"){
     stop("The following table is not a type 2 table based on the first three ",
-         "rows:\n\n", paste(chunk, collapse = "\n"),
+         "rows:\n\n",
+         paste(chunk, collapse = "\n"),
          "\n\n",
          "They must start with:\n",
          "- a row of text representing headers\n",
@@ -85,8 +83,8 @@ conv_type_2_table_lines <- function(chunk){
   repeat{
     tn <- trimws(chunk[i])
     if(chunk[i] == "" ||
-       is_rmarkdown_list_line(chunk[i]) ||
-       is_rmarkdown_header_line(chunk[i]) ||
+       is_rmd_list_line(chunk[i]) ||
+       is_rmd_header_line(chunk[i]) ||
        grepl("^Table:.*$", tn)){
       end_tbl_ind <- i - 1
       break
@@ -98,54 +96,17 @@ conv_type_2_table_lines <- function(chunk){
     }
     i <- i + 1
   }
-
   # Add label if it exists
   lbl <- extract_rmd_table_label(chunk[(end_tbl_ind + 1):length(chunk)])
-  if(!is.null(lbl[[1]]) && lbl[[1]][1] != ""){
-    lbl[[1]] <- c("", lbl[[1]])
+  if(!is.null(lbl[[1]])){
+    # put a space between the table contents and the caption label
+    tbl_chunk <- c(tbl_chunk, "")
   }
+  # if(!is.null(lbl[[1]]) && lbl[[1]][1] != ""){
+  #   lbl[[1]] <- c("", lbl[[1]])
+  # }
   tbl_chunk <- c(tbl_chunk, lbl[[1]])
   post_chunk <- lbl[[2]]
 
-  # Add the post-table trailing whitespace
-  if(is.null(post_chunk)){
-    tbl_chunk <- c(tbl_chunk, "")
-    return(list(tbl_chunk, NULL))
-  }
-
-  if(post_chunk[1] != ""){
-    tbl_chunk <- c(tbl_chunk, "")
-    return(list(tbl_chunk, post_chunk))
-  }
-  start_blank_ind <- 1
-  end_blank_ind <- 1
-  i <- 1
-  repeat{
-    if(i == length(post_chunk)){
-      if(post_chunk[i] == ""){
-        end_blank_ind <- i
-        break
-      }
-      break
-    }
-    if(post_chunk[i] != ""){
-      break
-    }
-    end_blank_ind <- i
-    i <- i + 1
-  }
-
-  num_blank_lines <- end_blank_ind - start_blank_ind + 1
-  if(num_blank_lines == 1){
-    # Way too special syntax required to have only a single line
-    # This took forever to figure out.
-    tbl_chunk <- c(tbl_chunk, "" ,"\\\\ \\\\", "")
-  }else{
-    tbl_chunk <- c(tbl_chunk, "", rep("\\\\", num_blank_lines - 1), "")
-  }
-  if(end_blank_ind == length(post_chunk)){
-    return(list(tbl_chunk, NULL))
-  }
-  the_rest <- post_chunk[(end_blank_ind + 1):length(post_chunk)]
-  return(list(tbl_chunk, the_rest))
+  list(tbl_chunk, post_chunk)
 }

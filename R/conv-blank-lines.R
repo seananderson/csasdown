@@ -33,11 +33,10 @@ conv_blank_lines <- function(chunk){
 
   blank_count <- 0
   i <- 1
-  is_blank <- chunk[i] == ""
   repeat{
-    if(chunk[i] == ""){
-      blank_count <- blank_count + 1
-    }else{
+    curr_is_blank <- chunk[i] == ""
+    blank_count <- `if`(curr_is_blank, blank_count + 1, blank_count)
+    if(!curr_is_blank){
       i <- i - 1
       break
     }
@@ -46,15 +45,10 @@ conv_blank_lines <- function(chunk){
     }
     i <- i + 1
   }
-  if(blank_count == 1){
-    new_chunk <- c("", "\\\\ \\\\", "")
-  }else{
-    new_chunk <- c(rep("\\\\", blank_count), "")
-  }
-
+  new_chunk <- rmd_nlines(blank_count)
   if(i == length(chunk)){
-    return(list(new_chunk, NULL))
+    list(new_chunk, NULL)
   }else{
-    return(list(new_chunk, chunk[(i + 1):length(chunk)]))
+    list(new_chunk, chunk[(i + 1):length(chunk)])
   }
 }

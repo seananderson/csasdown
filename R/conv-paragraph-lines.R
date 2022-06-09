@@ -20,8 +20,8 @@ conv_paragraph_lines <- function(chunk){
   }
 
   if(chunk[1] == "" ||
-     is_rmarkdown_list_line(chunk[1]) ||
-     is_rmarkdown_header_line(chunk[1])){
+     is_rmd_list_line(chunk[1]) ||
+     is_rmd_header_line(chunk[1])){
     return(list(NULL, chunk))
   }
 
@@ -34,8 +34,8 @@ conv_paragraph_lines <- function(chunk){
   end_text_ind <- 1
   repeat{
     if(chunk[i] == "" ||
-       is_rmarkdown_list_line(chunk[i]) ||
-       is_rmarkdown_header_line(chunk[i])){
+       is_rmd_list_line(chunk[i]) ||
+       is_rmd_header_line(chunk[i])){
       i <- i - 1
       break
     }

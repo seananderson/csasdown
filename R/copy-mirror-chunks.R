@@ -38,6 +38,9 @@ copy_mirror_chunks <- function(rmd_files){
       }) %>% unlist
     }
     all_mirror_inds <- grep(regex, txt)
+    if(!length(all_mirror_inds)){
+      return(NULL)
+    }
     all_mirror_inds[!all_mirror_inds %in% mirror_in_cat_inds]
   }
   # Replace chunk mirrors with code
@@ -54,7 +57,9 @@ copy_mirror_chunks <- function(rmd_files){
       # Search for the mirrored chunks in txt (the file)
       pat <- paste0("<<", chunk_name, ">>")
       file_mirror_inds <- get_mirror_not_in_cat_inds(txt, pat)
-
+      if(!length(file_mirror_inds)){
+        return(NULL)
+      }
       # Search for the code for this mirrored chunk in huge_rmd
       pat <- paste0(chunk_name, ",")
       k <- grep(pat, huge_rmd)

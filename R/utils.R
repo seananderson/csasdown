@@ -1,3 +1,92 @@
+#' Supply the Rmarkdown newline code for a given number of newlines
+#'
+#' @param num_blank_lines A single value for the number of newlines,
+#' or actual blank lines required
+#'
+#' @return A character vector containing the sequence of code necessary
+#' to create the number of newlines required
+#' @export
+rmd_nlines <- function(num_blank_lines){
+  if(is.null(num_blank_lines)){
+    stop("`num_blank_lines` must not be `NULL`")
+  }
+  if(num_blank_lines < 0){
+    stop("`num_blank_lines` must be zero or greater")
+  }
+  if(num_blank_lines == 0){
+    return("")
+  }
+  if(num_blank_lines == 1){
+    return(c("", "\\\\ \\\\", ""))
+  }
+  if(num_blank_lines > 1){
+    return(c("", rep("\\\\", num_blank_lines - 1), ""))
+  }
+}
+
+#' Checks to see if character strings are Rmarkdown header lines
+#'
+#' @description
+#' Checks to see if character strings are Rmarkdown header lines which are
+#' text with at least one character, possibly containing whitespace. In other
+#' words, typical paragraph or sentence text with punctuation.
+#'
+#' @details
+#' The one thing that is not a text line is a header line (Starts with a #
+#' followed by a space)
+#'
+#' @param lines The vector of character strings to check
+#'
+#' @return A logical vector representing whether or not the lines are
+#' Rmarkdown header lines, which are normal text
+#' @export
+is_rmd_text_line <- function(lines){
+  if(is.null(lines)){
+    return(NULL)
+  }
+  if(any(is.na(lines))){
+    stop("An NA is present in the vector of strings:\n\n",
+         paste(lines, collapse = "\n"),
+         "\n\n",
+         call. = FALSE)
+  }
+
+  map_lgl(lines, ~{
+    (!is_rmd_header_line(.x) &&
+      grepl("^(\\s*\\S+\\s*)+$", trimws(.x))) ||
+      .x == ""
+  })
+}
+
+#' Checks to see if character strings are dashed lines
+#'
+#' @description
+#' Checks to see if character strings are dashed lines of any length
+#' (including one)
+#'
+#' @param lines The vector of character strings to check
+#'
+#' @return A logical vector representing whether or not the lines are
+#' dashed lines
+#' @export
+is_rmd_dashed_line <- function(lines){
+
+  if(is.null(lines)){
+    return(NULL)
+  }
+  if(any(is.na(lines))){
+    stop("An NA is present in the vector of strings:\n\n",
+         paste(lines, collapse = "\n"),
+         "\n\n",
+         call. = FALSE)
+  }
+
+  map_lgl(lines, ~{
+    grepl("^(\\s*-+\\s*)+$", trimws(.x))
+  })
+
+}
+
 #' Checks to see if character strings are Rmarkdown header lines
 #'
 #' @param lines The vector of character strings to check
@@ -9,7 +98,7 @@
 #' @return A logical vector representing whether or not the lines are
 #' Rmarkdown header lines
 #' @export
-is_rmarkdown_header_line <- function(lines){
+is_rmd_header_line <- function(lines){
   if(is.null(lines)){
     return(NULL)
   }
@@ -29,9 +118,36 @@ is_rmarkdown_header_line <- function(lines){
   })
 }
 
-#' Checks to see if character strings represent the start of a Rmarkdown tables
+#' Checks to see if character strings are Rmarkdown list lines
 #'
-#' @param lines_lst A list of character strings vectors of length 3
+#' @param lines The vector of character strings to check
+#'
+#' @return A logical vector representing whether or not the lines are
+#' Rmarkdown list lines
+#' @export
+is_rmd_list_line <- function(lines){
+  if(is.null(lines)){
+    return(NULL)
+  }
+  if(any(is.na(lines))){
+    stop("An NA is present in the vector of strings:\n\n",
+         paste(lines, collapse = "\n"),
+         "\n\n",
+         call. = FALSE)
+  }
+  map_lgl(lines, ~{
+    substr(trimws(.x), 2, 3) == ". " ||
+      substr(trimws(.x), 1, 2) == "* " ||
+      substr(trimws(.x), 1, 2) == "+ " ||
+      substr(trimws(.x), 1, 2) == "- "
+  })
+}
+
+#' Checks to see if character strings represent the start of a Rmarkdown
+#' tables
+#'
+#' @param lines_lst A list of character strings vectors of at least length 5
+#' for a type 1 table and 3 for a type 2 table
 #'
 #' @details
 #' Three lines from the beginning of the table are required to determine if a
@@ -40,7 +156,7 @@ is_rmarkdown_header_line <- function(lines){
 #' @return A character vector representing which Rmarkdown table type each
 #' element in `lines_lst` is
 #' @export
-is_rmarkdown_table_line <- function(lines_lst){
+is_rmd_table_line <- function(lines_lst){
 
   if(is.null(lines_lst)){
     return(NULL)
@@ -54,62 +170,36 @@ is_rmarkdown_table_line <- function(lines_lst){
          "\n\n",
          call. = FALSE)
   }
-  # `text_pat` matches any sequence of zero or more whitespace characters, followed
-  # by 1 or more non-whitespace characters, followed by zero or more whitespace
-  # characters
-  # `dash_pat` matches any sequence of zero or more whitespace characters, followed
-  # by 1 or more dashes, followed by zero or more whitespace characters
-  text_pat <- "^(\\s*\\S+\\s*)+$"
-  dash_pat <- "^(\\s*-+\\s*)+$"
 
   map_chr(lines_lst, ~{
-    if(length(.x) < 3){
-      stop("You passed a vector of less than three lines. Three lines are ",
-           "required to determine if it is an Rmarkdown table or not:\n\n",
-           paste(.x, collapse = "\n"),
-           call. = FALSE)
+    is_type_1 <- FALSE
+    is_type_2 <- FALSE
+    if(length(.x) >= 5){
+      is_type_1 <- is_rmd_dashed_line(.x[1]) &&
+                   is_rmd_text_line(.x[2]) &&
+                   !is_rmd_header_line(.x[2]) &&
+                   !is_rmd_list_line(.x[2]) &&
+                   is_rmd_dashed_line(.x[3]) &&
+                   is_rmd_text_line(.x[4]) &&
+                   !is_rmd_header_line(.x[4]) &&
+                   !is_rmd_list_line(.x[4])
     }
-    t1 <- trimws(.x[1])
-    t2 <- trimws(.x[2])
-    t3 <- trimws(.x[3])
-    is_type_1 <- length(grep(dash_pat, t1)) &&
-                 length(grep(text_pat, t2)) &&
-                 length(grep(dash_pat, t3))
-    is_type_2 <- length(grep(text_pat, t1)) &&
-                 length(grep(dash_pat, t2)) &&
-                 length(grep(text_pat, t3))
+    if(length(.x) >= 3){
+      is_type_2 <- is_rmd_text_line(.x[1]) &&
+                   !is_rmd_header_line(.x[1]) &&
+                   !is_rmd_list_line(.x[1]) &&
+                   is_rmd_dashed_line(.x[2]) &&
+                   is_rmd_text_line(.x[3]) &&
+                   !is_rmd_header_line(.x[3]) &&
+                   !is_rmd_list_line(.x[3])
+    }
     if(is_type_1){
-      return("type1")
+      "type1"
+    }else if(is_type_2){
+      "type2"
+    }else{
+      "false"
     }
-    if(is_type_2){
-      return("type2")
-    }
-    "false"
-  })
-}
-
-#' Checks to see if character strings are Rmarkdown list lines
-#'
-#' @param lines The vector of character strings to check
-#'
-#' @return A logical vector representing whether or not the lines are
-#' Rmarkdown list lines
-#' @export
-is_rmarkdown_list_line <- function(lines){
-  if(is.null(lines)){
-    return(NULL)
-  }
-  if(any(is.na(lines))){
-    stop("An NA is present in the vector of strings:\n\n",
-         paste(lines, collapse = "\n"),
-         "\n\n",
-         call. = FALSE)
-  }
-  map_lgl(lines, ~{
-    substr(trimws(.x), 2, 3) == ". " ||
-    substr(trimws(.x), 1, 2) == "* " ||
-    substr(trimws(.x), 1, 2) == "+ " ||
-    substr(trimws(.x), 1, 2) == "- "
   })
 }
 

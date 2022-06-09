@@ -70,28 +70,33 @@ test_that("extract_rmd_table_label() works", {
 
   # ---------------------------------------------------------------------------
   j <- c("", "", "    Table: Caption")
-  ret <- extract_rmd_table_label(j)
-  expect_identical(ret, list(NULL, j))
+  expect_warning(ret <- extract_rmd_table_label(j))
+  expect_null(ret[[1]])
+  expect_identical(ret[[2]], j)
 
   # ---------------------------------------------------------------------------
   j <- c("", "", "Table: Caption", "1. Item 1")
   ret <- extract_rmd_table_label(j)
-  expect_identical(ret, list("Table: Caption", "1. Item 1"))
+  expect_identical(ret[[1]], c("Table: Caption", ""))
+  expect_identical(ret[[2]], "1. Item 1")
 
   # ---------------------------------------------------------------------------
   j <- c("", "", "Table: Caption", "1. Item 1", "2. Item 2")
   ret <- extract_rmd_table_label(j)
-  expect_identical(ret, list("Table: Caption", c("1. Item 1", "2. Item 2")))
+  expect_identical(ret[[1]], c("Table: Caption", ""))
+  expect_identical(ret[[2]], c("1. Item 1", "2. Item 2"))
 
   # ---------------------------------------------------------------------------
   j <- c("", "", "Table: Caption", "# Header 1")
   ret <- extract_rmd_table_label(j)
-  expect_identical(ret, list("Table: Caption", "# Header 1"))
+  expect_identical(ret[[1]], c("Table: Caption", ""))
+  expect_identical(ret[[2]], "# Header 1")
 
   # ---------------------------------------------------------------------------
   j <- c("", "", "Table: Caption", "# Header 1", "# Header 2")
   ret <- extract_rmd_table_label(j)
-  expect_identical(ret, list("Table: Caption", c("# Header 1", "# Header 2")))
+  expect_identical(ret[[1]], c("Table: Caption", ""))
+  expect_identical(ret[[2]], c("# Header 1", "# Header 2"))
 
   # ---------------------------------------------------------------------------
   j <- c("", "", "Table: Caption", "-----", "Table header")
@@ -103,14 +108,14 @@ test_that("extract_rmd_table_label() works", {
   # ---------------------------------------------------------------------------
   j <- c("", "", "Table: Caption", "-----", "Table header", "-----")
   ret <- extract_rmd_table_label(j)
-  expect_identical(ret, list("Table: Caption",
-                             c("-----", "Table header", "-----")))
-
+  expect_identical(ret[[1]], c("Table: Caption", "-----", "Table header",
+                               "-----"))
+  expect_null(ret[[2]])
   # ---------------------------------------------------------------------------
   j <- c("", "", "Table: Caption", "Table header", "-----", "Content")
   ret <- extract_rmd_table_label(j)
-  expect_identical(ret, list("Table: Caption",
-                             c("Table header", "-----", "Content")))
+  expect_identical(ret[[1]], c("Table: Caption", ""))
+  expect_identical(ret[[2]], c("Table header", "-----", "Content"))
 
   # ---------------------------------------------------------------------------
   j <- c("", "", "Table: Caption", "")
@@ -149,7 +154,7 @@ test_that("extract_rmd_table_label() works", {
   # ---------------------------------------------------------------------------
 
   j <- c("", "", "    Table:", "Caption")
-  ret <- extract_rmd_table_label(j)
+  expect_warning(ret <- extract_rmd_table_label(j))
   expect_identical(ret, list(NULL, j))
   # ---------------------------------------------------------------------------
 
@@ -167,4 +172,31 @@ test_that("extract_rmd_table_label() works", {
                                "Yet another caption line"),
                              c("", "Generic text")))
 
+  # ---------------------------------------------------------------------------
+  j <- c("Table: Caption", "Another caption line", "",
+         "1. Item", "2. Item")
+  ret <- extract_rmd_table_label(j)
+  expect_identical(ret[[1]], c("Table: Caption", "Another caption line"))
+  expect_identical(ret[[2]], c("", "1. Item", "2. Item"))
+
+  # ---------------------------------------------------------------------------
+  j <- c("Table: Caption", "Another caption line",
+         "1. Item", "2. Item")
+  ret <- extract_rmd_table_label(j)
+  expect_identical(ret[[1]], c("Table: Caption", "Another caption line", ""))
+  expect_identical(ret[[2]], c("1. Item", "2. Item"))
+
+  # ---------------------------------------------------------------------------
+  j <- c("Table:", "Caption", "Another caption line", "",
+         "1. Item", "2. Item")
+  ret <- extract_rmd_table_label(j)
+  expect_identical(ret[[1]], c("Table:", "Caption", "Another caption line"))
+  expect_identical(ret[[2]], c("", "1. Item", "2. Item"))
+
+  # ---------------------------------------------------------------------------
+  j <- c("Table:", "Caption", "Another caption line",
+         "1. Item", "2. Item")
+  ret <- extract_rmd_table_label(j)
+  expect_identical(ret[[1]], c("Table:", "Caption", "Another caption line", ""))
+  expect_identical(ret[[2]], c("1. Item", "2. Item"))
 })

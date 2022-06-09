@@ -27,7 +27,7 @@ conv_header_lines <- function(chunk){
     return(list(NULL, NULL))
   }
 
-  if(!is_rmarkdown_header_line(chunk[1])){
+  if(!is_rmd_header_line(chunk[1])){
     return(list(NULL, chunk))
   }
 
@@ -35,80 +35,41 @@ conv_header_lines <- function(chunk){
     return(list(chunk[1], NULL))
   }
 
-  new_chunk <- chunk[1]
-  is_header <- TRUE
+  new_chunk <- NULL
   last_header_match <- 1
   i <- 1
-  blanks_detected <- NULL
-  blank_iter <- 1
-  blanks_detected[blank_iter] <- FALSE
-  while(is_header && i < length(chunk)){
-    i <- i + 1
-    is_blank <- chunk[i] == ""
-    blanks_detected[blank_iter] <- is_blank
-    blank_iter <- blank_iter + 1
-    while(is_blank && i < length(chunk)){
-      i <- i + 1
-      is_blank <- chunk[i] == ""
-    }
-    is_header <- is_rmarkdown_header_line(chunk[i])
-    if(!is_header){
-      break
-    }
-    last_header_match <- i
-    new_chunk <- c(new_chunk, chunk[i])
-  }
-
-  if(!is_header){
-    blanks_detected <- blanks_detected[-length(blanks_detected)]
-  }
-  if(any(blanks_detected)){
-    warning("All blank lines between header lines are ignored:\n\n",
-            paste(chunk, collapse = "\n"),
-            "\n\n",
-            call. = FALSE)
-  }
-
-  if(last_header_match == length(chunk)){
-    the_rest <- NULL
-    return(list(new_chunk, the_rest))
-  }
-
-  post_chunk <- chunk[(last_header_match + 1):length(chunk)]
-  # Add the post-table trailing whitespace
-  if(post_chunk[1] != ""){
-    new_chunk <- c(new_chunk, "")
-    return(list(new_chunk, post_chunk))
-  }
-  start_blank_ind <- 1
-  end_blank_ind <- 1
-  i <- 1
   repeat{
-    if(i == length(post_chunk)){
-      if(post_chunk[i] == ""){
-        end_blank_ind <- i
-        break
+    curr_is_header <- is_rmd_header_line(chunk[i])
+    if(curr_is_header){
+      new_chunk <- c(new_chunk, chunk[i])
+      last_header_match <- i
+    }else if(chunk[i] == ""){
+      # Special case - ignore blank lines between headers
+      repeat{
+        curr_is_blank <- chunk[i] == ""
+        if(!curr_is_blank){
+          i <- i - 1
+          break
+        }
+        if(i == length(chunk)){
+          break
+        }
+        i <- i + 1
       }
+    }else{
+      # It's the start of a list or table header
       break
     }
-    if(post_chunk[i] != ""){
+    if(i == length(chunk)){
       break
     }
-    end_blank_ind <- i
     i <- i + 1
   }
 
-  num_blank_lines <- end_blank_ind - start_blank_ind + 1
-  if(num_blank_lines == 1){
-    # Way too special syntax required to have only a single line
-    # This took forever to figure out.
-    new_chunk <- c(new_chunk, "" ,"\\\\ \\\\", "")
+  new_chunk <- c(new_chunk, "")
+  if(last_header_match == length(chunk)){
+    list(new_chunk, NULL)
   }else{
-    new_chunk <- c(new_chunk, "", rep("\\\\", num_blank_lines - 1), "")
+    list(new_chunk, chunk[(last_header_match + 1):length(chunk)])
   }
-  if(end_blank_ind == length(post_chunk)){
-    return(list(new_chunk, NULL))
-  }
-  the_rest <- post_chunk[(end_blank_ind + 1):length(post_chunk)]
-  return(list(new_chunk, the_rest))
 }

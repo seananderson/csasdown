@@ -4,10 +4,14 @@
 \alias{convert_newlines_rmd}
 \title{Remove all the constraints in Rmd involving newlines}
 \usage{
-convert_newlines_rmd(text_chunk)
+convert_newlines_rmd(chunk, strip_blank_lines = TRUE)
 }
 \arguments{
-\item{text_chunk}{A vector of strings, one line of Rmarkdown per element}
+\item{chunk}{A vector of strings, one line of Rmarkdown per element}
+
+\item{strip_blank_lines}{Strip all lines composed of whitespace.
+Rstudio automatically indents several spaces to the start of lines when you
+press 'Enter' and it is common to ignore those when editing}
 }
 \value{
 A modified vector of strings
@@ -23,7 +27,4 @@ For other text, you need N + 1 lines containing only \\ with an empty line
 following, before the next text occurs. List elements must not have newlines
 between them.
 This allows for 'What you see is what you get' in your Rmarkdown code.
-}
-\examples{
-convert_newlines_rmd(c("#header", "hello world", "", "", "1. A list", "  a. Sublist"))
 }
