@@ -55,7 +55,11 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
   tmp_rmd_fns <- tmp_yaml_rmd_fns[[2]]
 
   book_fn <- get_book_filename(tmp_yaml_fn)
+  # Find out what language is set to and set the option 'french' here
+  # so that it works on the first compilation in a workspace
+  set_language_option(book_fn)
   book <- readLines(book_fn)
+
   if(!length(tmp_rmd_fns)){
     stop("No uncommented Rmd files were found in the YAML file ", yaml_fn,
          call. = FALSE)

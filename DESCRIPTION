@@ -57,6 +57,7 @@ Imports:
     ggplot2,
     kableExtra,
     knitr,
+    magrittr,
     officer,
     purrr,
     readr,

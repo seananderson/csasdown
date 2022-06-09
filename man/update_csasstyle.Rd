@@ -10,6 +10,7 @@ update_csasstyle(
   line_nums = TRUE,
   line_nums_mod = 1,
   lot_lof = FALSE,
+  french = FALSE,
   draft_watermark = FALSE,
   which_sty = "res-doc.sty"
 )

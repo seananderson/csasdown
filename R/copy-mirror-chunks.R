@@ -10,6 +10,8 @@
 #'
 #' @return A vector of character strings representing the lines in an
 #' Rmd file but with the mirrored calls replaced with code
+#'
+#' @importFrom magrittr %>%
 #' @export
 copy_mirror_chunks <- function(rmd_files){
 
