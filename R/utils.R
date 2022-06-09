@@ -202,6 +202,7 @@ resdoc_pdf <- function(toc = TRUE,
                        toc_depth = 3,
                        highlight = "tango",
                        latex_engine = "pdflatex",
+                       french = FALSE,
                        prepub = FALSE,
                        copy_sty = TRUE,
                        line_nums = FALSE,
@@ -211,6 +212,10 @@ resdoc_pdf <- function(toc = TRUE,
                        include_section_nums = TRUE,
                        pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"),
                        ...) {
+
+  fr <- function() { # hack for now
+    french
+  }
 
   themes <- c("pygments", "tango", "espresso", "zenburn", "kate", "monochrome", "breezedark", "haddock")
 
@@ -395,12 +400,17 @@ techreport_word <- function(...) {
 #' @rdname csas_pdf
 techreport_pdf <- function(latex_engine = "pdflatex",
                            copy_sty = TRUE,
+                           french = FALSE,
                            line_nums = FALSE,
                            line_nums_mod = 1,
                            lot_lof = FALSE,
                            draft_watermark = FALSE,
                            highlight = "tango",
                            pandoc_args = c("--top-level-division=chapter", "--wrap=none", "--default-image-extension=png"), ...) {
+
+  fr <- function() { # hack for now
+    french
+  }
 
   themes <- c("pygments", "tango", "espresso", "zenburn", "kate", "monochrome", "breezedark", "haddock")
 

@@ -11,6 +11,7 @@ resdoc_pdf(
   toc_depth = 3,
   highlight = "tango",
   latex_engine = "pdflatex",
+  french = FALSE,
   prepub = FALSE,
   copy_sty = TRUE,
   line_nums = FALSE,
@@ -40,6 +41,7 @@ sr_pdf(
 techreport_pdf(
   latex_engine = "pdflatex",
   copy_sty = TRUE,
+  french = FALSE,
   line_nums = FALSE,
   line_nums_mod = 1,
   lot_lof = FALSE,
