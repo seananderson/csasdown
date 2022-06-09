@@ -256,6 +256,7 @@ resdoc_pdf <- function(toc = TRUE,
     line_nums_mod = line_nums_mod,
     draft_watermark = draft_watermark,
     lot_lof = lot_lof,
+    french = fr(),
     which_sty = ifelse(fr(), "res-doc-french.sty", "res-doc.sty")
   )
 
@@ -272,6 +273,7 @@ resdoc_pdf <- function(toc = TRUE,
       include_section_nums = include_section_nums,
       include_abstract = TRUE,
       join_abstract = TRUE,
+      french = fr(),
       fix_ref_section_name =TRUE
     )
   })
@@ -352,6 +354,7 @@ sr_pdf <- function(latex_engine = "pdflatex",
     line_nums = line_nums,
     line_nums_mod = line_nums_mod,
     draft_watermark = draft_watermark,
+    french = fr(),
     which_sty = ifelse(fr(), "sr-french.sty", "sr.sty")
   )
 
@@ -364,6 +367,7 @@ sr_pdf <- function(latex_engine = "pdflatex",
       prepub = prepub,
       highlight = highlight,
       include_abstract = FALSE,
+      french = fr(),
       join_abstract = FALSE
     )
   })
@@ -455,6 +459,7 @@ techreport_pdf <- function(latex_engine = "pdflatex",
     line_nums_mod = line_nums_mod,
     lot_lof = lot_lof,
     draft_watermark = draft_watermark,
+    french = fr(),
     which_sty = ifelse(fr(), "tech-report-french.sty", "tech-report.sty")
   )
 
@@ -464,6 +469,7 @@ techreport_pdf <- function(latex_engine = "pdflatex",
     fix_envs(
       x = x,
       highlight = highlight,
+      french = fr(),
       join_abstract = FALSE
     )
   })
@@ -489,8 +495,13 @@ update_csasstyle <- function(copy = TRUE,
                              line_nums = TRUE,
                              line_nums_mod = 1,
                              lot_lof = FALSE,
+                             french = FALSE,
                              draft_watermark = FALSE,
                              which_sty = "res-doc.sty") {
+
+  fr <- function() { # hack for now
+    french
+  }
 
   fn <- system.file("csas-style", package = "csasdown")
   if(!copy && line_nums){
@@ -566,8 +577,13 @@ fix_envs <- function(x,
                      join_abstract = TRUE,
                      prepub = FALSE,
                      highlight = "tango",
+                     french = FALSE,
                      include_section_nums = TRUE,
                      fix_ref_section_name = FALSE) {
+
+  fr <- function() { # hack for now
+    french
+  }
 
   # fix equations:
   x <- gsub("^\\\\\\[$", "\\\\begin{equation}", x)
