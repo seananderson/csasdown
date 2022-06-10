@@ -49,7 +49,9 @@ type:
   sr
 # ------------
 # End of options to set
-knit: bookdown::render_book
+knit: (function(input, ...) {
+        csasdown::render("_bookdown.yml")
+      })
 site: bookdown::bookdown_site
 link-citations: true
 bibliography: bib/refs.bib

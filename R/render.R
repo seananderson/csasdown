@@ -73,10 +73,12 @@ render <- function(yaml_fn = "_bookdown.yml",
          call. = FALSE)
   }
   if(length(doc_ind) > 1){
-    stop("Document type defined more than once in file '", book_fn, "'\n",
-         "A line like 'csasdown::resdoc_pdf:' is multiply defined",
+    warning("Document type defined more than once in file '", book_fn, "'\n",
+         "A line like 'csasdown::resdoc_pdf:' is multiply defined.\n",
+         "Using the first instance.",
          call. = FALSE)
   }
+  doc_ind <- doc_ind[1]
   doc_type <- gsub("csasdown::(\\S+):", "\\1", trimws(book[doc_ind]))
   if(!validate_index_file(book_fn, doc_type)){
     stop("File '", book_fn, "' failed YAML tag validation")
