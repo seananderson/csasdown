@@ -58,6 +58,7 @@ input_data_table <- function(tab,
   names(tab) <- en2fr(names(tab))
   csas_table(tab,
              format = "latex",
+             bold_header = FALSE,
              caption = cap,
              ...)
 }
@@ -83,6 +84,7 @@ input_data_table <- function(tab,
 
   csas_table(tab,
              format = "latex",
+             bold_header = FALSE,
              caption = cap,
              font_size = 10,
              ...)

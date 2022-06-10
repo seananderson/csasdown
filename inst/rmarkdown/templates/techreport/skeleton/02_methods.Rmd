@@ -96,6 +96,7 @@ read_csv(file.path("data", "multirow.csv")) %>%
   csas_table(format = "latex",
              escape = FALSE,
              font_size = 11,
+             bold_header = FALSE,
              caption = ifelse(fr(),
                               "French goes here",
                               "Goals and performance metrics")) %>%
@@ -145,6 +146,7 @@ csasdown::csas_table(widelong_df,
   col.names = c("Year", as.character(ages)),
   caption = "A long and wide table",
   format = "latex",
+  bold_header = FALSE,
   font_size = 8)
 ```
 \end{landscapepage}

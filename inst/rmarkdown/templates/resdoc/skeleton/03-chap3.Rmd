@@ -50,6 +50,7 @@ csasdown::csas_table(widelong_df,
                      col.names = c("Year", as.character(ages)),
                      caption = "A long and wide landscape table",
                      format = "latex",
+                     bold_header = FALSE,
                      font_size = 8)
 ```
 \end{landscapepage}
