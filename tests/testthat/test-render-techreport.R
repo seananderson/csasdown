@@ -15,12 +15,7 @@ csasdown::draft(
 
 # ----------------------------------------------------
 # Render the PDF techreport
-expect_warning({
-  bookdown::render_book("index.Rmd",
-    csasdown::techreport_pdf(),
-    envir = globalenv()
-  )
-})
+expect_warning({csasdown::render(doc_type = "pdf")})
 
 unlink("_book/techreport.pdf", force = TRUE, recursive = TRUE)
 test_that("run_pdflatex() works", {
@@ -33,37 +28,42 @@ test_that("bookdown::render_book generates the PDF of the techreport", {
 
 # ----------------------------------------------------
 # Render a Word techreport
-suppressWarnings(bookdown::render_book("index.Rmd",
-  csasdown::techreport_word(),
-  envir = globalenv()
-))
+expect_warning({csasdown::render(doc_type = "word")})
 
 test_that("bookdown::render_book generates the .docx of the techreport", {
   expect_true(file.exists(file.path(testing_path, "_book", "techreport.docx")))
 })
 
 # ----------------------------------------------------
-# Check that French version builds
+# Render the French PDF techreport
 options(french = TRUE)
-expect_warning({
-  bookdown::render_book("index.Rmd",
-    csasdown::techreport_pdf(french = TRUE),
-    envir = globalenv()
-  )
+expect_warning({csasdown::render(doc_type = "pdf")})
+
+unlink("_book/techreport.pdf", force = TRUE, recursive = TRUE)
+test_that("run_pdflatex() works", {
+  expect_warning(run_pdflatex())
 })
 
-test_that("bookdown::render_book generates the PDF of the French techreport", {
+test_that("bookdown::render_book generates the PDF of the techreport", {
   expect_true(file.exists(file.path(testing_path, "_book", "techreport.pdf")))
+})
+
+# ----------------------------------------------------
+# Render a French Word techreport
+expect_warning({csasdown::render(doc_type = "word")})
+
+test_that("bookdown::render_book generates the .docx of the techreport", {
+  expect_true(file.exists(file.path(testing_path, "_book", "techreport.docx")))
 })
 
 # ----------------------------------------------------
 # Creation and copying of test files to a temporary directory
 
 tmp_dir <- create_tempdir_for_latex("techreport",
-  "b",
-  tmp_dir = file.path(testing_path, "test"),
-  root_dir = getwd()
-)
+                                    "b",
+                                    tmp_dir = file.path(testing_path, "test"),
+                                    root_dir = getwd())
+
 tmp_csas_dir <- file.path(tmp_dir, "csas-style")
 
 expect_true(file.exists(file.path(tmp_csas_dir, "res-doc.sty")))
@@ -82,53 +82,48 @@ expect_true(file.exists(file.path(tmp_dir, "techreport.tex")))
 # Test correct application of system-created directory
 file.copy(file.path("_book", "techreport.tex"), "techreport.tex")
 tmp_dir <- create_tempdir_for_latex("techreport",
-  "r",
-  tmp_dir = NULL,
-  root_dir = getwd()
-)
+                                    "r",
+                                    tmp_dir = NULL,
+                                    root_dir = getwd())
+
 expect_true(file.exists(file.path(tmp_dir, "techreport.tex")))
 
 # Test copying of the tex file from the root directory instead of the _book directory
 # to a user-assigned directory
 tmp_dir <- create_tempdir_for_latex("techreport",
-  "r",
-  tmp_dir = file.path(testing_path, "test"),
-  root_dir = getwd()
-)
+                                    "r",
+                                    tmp_dir = file.path(testing_path, "test"),
+                                    root_dir = getwd())
+
 expect_true(file.exists(file.path(testing_path, "test", "techreport.tex")))
 
 # ----------------------------------------------------
 # Testing of other input in latex copying function
 
 expect_error(create_tempdir_for_latex("techrepotr",
-  "b",
-  tmp_dir = file.path(testing_path, "test"),
-  root_dir = getwd()
-))
+                                      "b",
+                                      tmp_dir = file.path(testing_path, "test"),
+                                      root_dir = getwd()))
 
 expect_error(create_tempdir_for_latex("techreport",
-  "s",
-  tmp_dir = file.path(testing_path, "test"),
-  root_dir = getwd()
-))
+                                      "s",
+                                      tmp_dir = file.path(testing_path, "test"),
+                                      root_dir = getwd()))
 
 expect_error(create_tempdir_for_latex(NULL,
-  "b",
-  tmp_dir = file.path(testing_path, "test"),
-  root_dir = getwd()
-))
+                                      "b",
+                                      tmp_dir = file.path(testing_path, "test"),
+                                      root_dir = getwd()))
 
 expect_error(create_tempdir_for_latex("techreport",
-  NULL,
-  tmp_dir = file.path(testing_path, "test"),
-  root_dir = getwd()
-))
+                                      NULL,
+                                      tmp_dir = file.path(testing_path, "test"),
+                                      root_dir = getwd()))
 
 unlink(file.path(testing_path, "techreport.tex"), force = TRUE)
 expect_error(create_tempdir_for_latex("techreport",
-  "r",
-  tmp_dir = file.path(testing_path, "test"),
-  root_dir = getwd()
-))
+                                      "r",
+                                      tmp_dir = file.path(testing_path, "test"),
+                                      root_dir = getwd()))
 
 unlink(testing_path, recursive = TRUE, force = TRUE)
