@@ -16,24 +16,29 @@ set_language_option <- function(fn = "index.Rmd"){
     stop("File '", fn, "' does not exist",
          call. = FALSE)
   }
-  rmd <- readLines(fn)
-  ind <- grep("french:", rmd)
-  if(!length(rmd)){
+
+  trim_rmd <- trimws(readLines(fn))
+  pat <- "^french:\\s*(true|false)\\s*$"
+  french_ind <- grep(pat, trim_rmd)
+
+  if(!length(trim_rmd)){
     warning("No 'french:' entry was found in the file ", fn,
             ". Setting options(french) to FALSE")
+    options(french = FALSE)
   }
-  if(length(ind) > 1){
-    warning("More than one 'french:' entry was foun in the file ", fn,
+  if(length(french_ind) > 1){
+    warning("More than one 'french:' entry was found in the file ", fn,
             ". Setting options(french) to FALSE")
+    options(french = FALSE)
   }
-  val <- gsub(".*french:\\s*(true|false)", "\\1", rmd[ind])
+  val <- gsub(pat, "\\1", trim_rmd[french_ind])
   if(val == "true"){
     options(french = TRUE)
   }else if(val == "false"){
     options(french = FALSE)
   }else{
-    warning("YAML option 'french' found but is something other than 'true' ",
-            "or 'false'. Setting options(french) to FALSE")
-    options(french = FALSE)
+    stop("Problem with regular expression in `set_language_option()`,\n",
+         "could not extract true/false for 'french:'",
+         call. = FALSE)
   }
 }
