@@ -4,10 +4,10 @@ test_that("is_rmd_table_line() works", {
   expect_identical(k, NULL)
   # ---------------------------------------------------------------------------
 
-  expect_error(is_rmd_table_line(""))
+  expect_identical(is_rmd_table_line(""), "false")
   # ---------------------------------------------------------------------------
 
-  expect_error(is_rmd_table_line(c("", "")))
+  expect_identical(is_rmd_table_line(c("", "")), "false")
   # ---------------------------------------------------------------------------
 
   j <- c("", "", NA)
@@ -22,7 +22,7 @@ test_that("is_rmd_table_line() works", {
 
   j <- c("-----", "ABCDE", "-----")
   k <- is_rmd_table_line(j)
-  expect_identical(k, "type1")
+  expect_identical(k, "false")
   # ---------------------------------------------------------------------------
 
   j <- c("ABCDE", "-----", "EFGHI")
@@ -33,7 +33,7 @@ test_that("is_rmd_table_line() works", {
   j <- list(c("-----", "ABCDE", "-----"),
             c("ABCDE", "-----", "EFGHI"))
   k <- is_rmd_table_line(j)
-  expect_identical(k, c("type1", "type2"))
+  expect_identical(k, c("false", "type2"))
   # ---------------------------------------------------------------------------
 
   j <- list(c("-----", "ABCDE", "-----"), NA)
@@ -45,11 +45,11 @@ test_that("is_rmd_table_line() works", {
   # ---------------------------------------------------------------------------
 
   j <- list(c("-----", "ABCDE", "-----"), NULL)
-  expect_error(is_rmd_table_line(j))
+  expect_identical(is_rmd_table_line(j), c("false", "false"))
   # ---------------------------------------------------------------------------
 
   j <- list(NULL, NULL)
-  expect_error(is_rmd_table_line(j))
+  expect_identical(is_rmd_table_line(j), c("false", "false"))
 
   # ---------------------------------------------------------------------------
   j <- c("-----", "ABCDE", "EFGHI")

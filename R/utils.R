@@ -53,8 +53,7 @@ is_rmd_text_line <- function(lines){
 
   map_lgl(lines, ~{
     (!is_rmd_header_line(.x) &&
-      grepl("^(\\s*\\S+\\s*)+$", trimws(.x))) ||
-      .x == ""
+      grepl("^(\\s*\\S+\\s*)+$", trimws(.x)))
   })
 }
 

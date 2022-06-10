@@ -14,7 +14,7 @@ test_that("conv_paragraph_lines() works", {
 
   chunk <- c("Text line")
   tmp <- conv_paragraph_lines(chunk)
-  expect_identical(tmp[[1]], c("Text line", "", "\\\\", ""))
+  expect_identical(tmp[[1]], c("Text line"))
   expect_null(tmp[[2]])
   # ---------------------------------------------------------------------------
 
@@ -45,7 +45,7 @@ test_that("conv_paragraph_lines() works", {
   chunk <- c("Text line", "continues on the second line")
   tmp <- conv_paragraph_lines(chunk)
   expect_identical(tmp[[1]], c("Text line", "\\\\", "",
-                               "continues on the second line", "\\\\", ""))
+                               "continues on the second line"))
   expect_null(tmp[[2]])
   # ---------------------------------------------------------------------------
 
@@ -53,22 +53,21 @@ test_that("conv_paragraph_lines() works", {
   tmp <- conv_paragraph_lines(chunk)
   expect_identical(tmp[[1]], c("Text line", "\\\\", "",
                                "continues on the second line", "\\\\", "",
-                               "and the third", "\\\\", ""))
+                               "and the third"))
   expect_null(tmp[[2]])
   # ---------------------------------------------------------------------------
 
   chunk <- c("Text line", "continues on the second line", "", "and the third")
   tmp <- conv_paragraph_lines(chunk)
   expect_identical(tmp[[1]], c("Text line", "\\\\", "",
-                               "continues on the second line", "", "\\\\ \\\\",
-                               ""))
-  expect_identical(tmp[[2]], "and the third")
+                               "continues on the second line"))
+  expect_identical(tmp[[2]], c("", "and the third"))
   # ---------------------------------------------------------------------------
 
   chunk <- c("Text line", "", "", "", "continues on the second line")
   tmp <- conv_paragraph_lines(chunk)
-  expect_identical(tmp[[1]], c("Text line", "", "\\\\", "\\\\", ""))
-  expect_identical(tmp[[2]], "continues on the second line")
+  expect_identical(tmp[[1]], c("Text line"))
+  expect_identical(tmp[[2]], c("", "", "", "continues on the second line"))
   # ---------------------------------------------------------------------------
 
 

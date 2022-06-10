@@ -80,4 +80,4 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
 SystemRequirements: pandoc (>= 1.18) - http://pandoc.org
 Config/testthat/parallel: true
-Config/testthat/edition: 3
+Config/testthat/edition: 2

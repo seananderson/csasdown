@@ -82,7 +82,7 @@ conv_type_1_table_lines <- function(chunk){
   }
   # Add the first 4 rows as they have been checked already in
   # `is_rmd_table_line()`
-  tbl_chunk <- chunk[1:4]
+  tbl_chunk <- c(chunk[1:4], "")
   i <- 5
   repeat{
     end_tbl <- is_rmd_dashed_line(chunk[i])
@@ -106,7 +106,6 @@ conv_type_1_table_lines <- function(chunk){
     }
     i <- i + 1
   }
-
   if(end_tbl){
     # Basic table without a table caption string included
     if(end_tbl_ind == length(chunk)){
