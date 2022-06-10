@@ -4,7 +4,12 @@
 \alias{render}
 \title{Render a csasdown document with bilingual features}
 \usage{
-render(yaml_fn = "_bookdown.yml", keep_files = FALSE, ...)
+render(
+  yaml_fn = "_bookdown.yml",
+  keep_files = FALSE,
+  doc_type = c("pdf", "word"),
+  ...
+)
 }
 \arguments{
 \item{yaml_fn}{The YAML file name. The default is '_bookdown.yml' for
@@ -12,6 +17,8 @@ render(yaml_fn = "_bookdown.yml", keep_files = FALSE, ...)
 
 \item{keep_files}{If \code{TRUE}, keep the temporary files created (Rmd files and
 YAML file)}
+
+\item{doc_type}{The type of document to render. Either 'pdf' or 'word'}
 
 \item{...}{Additional arguments passed to \code{\link[bookdown:render_book]{bookdown::render_book()}}}
 }
