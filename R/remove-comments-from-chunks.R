@@ -16,6 +16,7 @@ remove_comments_from_chunks <- function(rmd){
   pat_code_end <- "^[\t >]*```\\s*$"
   start_inds <- grep(pat_code_begin, rmd)
   end_inds <- grep(pat_code_end, rmd)
+
   if(length(start_inds) != length(!end_inds)){
     stop("The number of knitr starting code chunk header lines does not ",
          "equal the number of ending code chunk lines (triple backtick-lines)",
