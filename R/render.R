@@ -66,7 +66,8 @@ render <- function(yaml_fn = "_bookdown.yml",
   }
 
   # Get CSAS document type
-  doc_ind <- grep("csasdown::", book)
+  doc_type_pat <- "^csasdown::(\\S+):\\s*$"
+  doc_ind <- grep(doc_type_pat, trimws(book))
   if(!length(doc_ind)){
     stop("Document type not found in file '", book_fn, "'\n",
          "A line'csasdown::resdoc_pdf:' was not found",
@@ -77,9 +78,9 @@ render <- function(yaml_fn = "_bookdown.yml",
          "A line like 'csasdown::resdoc_pdf:' is multiply defined.\n",
          "Using the first instance.",
          call. = FALSE)
+    doc_ind <- doc_ind[1]
   }
-  doc_ind <- doc_ind[1]
-  doc_type <- gsub("csasdown::(\\S+):", "\\1", trimws(book[doc_ind]))
+  doc_type <- gsub(doc_type_pat, "\\1", trimws(book[doc_ind]))
   if(!validate_index_file(book_fn, doc_type)){
     stop("File '", book_fn, "' failed YAML tag validation")
   }
