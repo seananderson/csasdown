@@ -1,7 +1,7 @@
 ---
 title: "Title Here (*Latin Species Name*)"
 french_title: Titre ici (*Nom latin de l'espèce*)
-year: 20XX
+year: 2022
 report_number: nnn
 author: |
   First. M. Last^1^ and
