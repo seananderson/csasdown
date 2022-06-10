@@ -10,7 +10,10 @@ remove_comments_from_chunks <- function(rmd){
 
   # Extract the knitr code chunks
   pat_code_begin <- all_patterns$md$chunk.begin
-  pat_code_end <- all_patterns$md$chunk.end
+  # The following pat code matched chunks with four backticks, which are
+  # verbatim code chunks and not meant to be processed
+  # pat_code_end <- all_patterns$md$chunk.end
+  pat_code_end <- "^[\t >]*```\\s*$"
   start_inds <- grep(pat_code_begin, rmd)
   end_inds <- grep(pat_code_end, rmd)
   if(length(start_inds) != length(!end_inds)){

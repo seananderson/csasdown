@@ -4,7 +4,7 @@
 \alias{inject_bilingual_code}
 \title{Inject complex code that make bilingual features in a resdoc-b possible}
 \usage{
-inject_bilingual_code(fn = "index.Rmd")
+inject_bilingual_code(fn = "index.Rmd", doc_type)
 }
 \arguments{
 \item{fn}{Typically the working copy of this file:

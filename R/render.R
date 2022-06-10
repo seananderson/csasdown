@@ -1,9 +1,9 @@
-#' Render a resdoc with bilingual features
+#' Render a csasdown document with bilingual features
 #'
 #' @description
-#' Render a resdoc with bilingual features. Renders a resdoc using the
-#' [bookdown::render_book()] method but includes a
-#' pre-processing step to do two things:
+#' Render a csasdown document with bilingual features. Renders a csasdown
+#' document (resodc, sr, techreport) using the [bookdown::render_book()]
+#' method but includes a pre-processing step to do several things:
 #' 1. Inject 'index.Rmd' with special code to allow bilingual features to
 #'    be used
 #' 2. Convert anything inside [cat()] calls to cat-like
@@ -44,9 +44,9 @@
 #' @importFrom purrr prepend imap_chr imap
 #' @importFrom stringr str_count
 #' @export
-render_resdoc <- function(yaml_fn = "_bookdown.yml",
-                          keep_files = FALSE,
-                          ...){
+render <- function(yaml_fn = "_bookdown.yml",
+                   keep_files = FALSE,
+                   ...){
 
 
   # Create the temporary YAML and Rmd files and store their names
@@ -64,6 +64,24 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
     stop("No uncommented Rmd files were found in the YAML file ", yaml_fn,
          call. = FALSE)
   }
+
+  # Get CSAS document type
+  doc_ind <- grep("csasdown::", book)
+  if(!length(doc_ind)){
+    stop("Document type not found in file '", book_fn, "'\n",
+         "A line'csasdown::resdoc_pdf:' was not found",
+         call. = FALSE)
+  }
+  if(length(doc_ind) > 1){
+    stop("Document type defined more than once in file '", book_fn, "'\n",
+         "A line like 'csasdown::resdoc_pdf:' is multiply defined",
+         call. = FALSE)
+  }
+  doc_type <- gsub("csasdown::(\\S+):", "\\1", trimws(book[doc_ind]))
+  if(!validate_index_file(book_fn, doc_type)){
+    stop("File '", book_fn, "' failed YAML tag validation")
+  }
+
   # Process all Rmd files except for the `book_fn` (index.Rmd)
   fn_process <- tmp_rmd_fns[tmp_rmd_fns != book_fn]
 
@@ -304,7 +322,8 @@ render_resdoc <- function(yaml_fn = "_bookdown.yml",
 
   # Modify index.Rmd (actually tmp-index.Rmd)
   tmp_book_fn <- get_book_filename(tmp_yaml_fn)
-  inject_bilingual_code(tmp_book_fn)
+  # doc_type defined at beginning of this function
+  inject_bilingual_code(tmp_book_fn, doc_type)
 
   render_book(tmp_book_fn, config_file = tmp_yaml_fn, ...)
   if(!keep_files){
