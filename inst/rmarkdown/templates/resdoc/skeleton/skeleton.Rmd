@@ -1,5 +1,6 @@
 ---
 title: "Title Here (*Latin Species Name*)"
+french_title: "Titre ici (*Nom latin de l'espèce*)"
 author: |
   First. M. Last^1^ and
   Alex B. Smith^2^
@@ -19,20 +20,25 @@ french_address: |
   ^2^Loin, très loin\
      Une autre galaxie
 month: "Month"
-year: 2019
+french_month: "Mois"
+year: 2022
 report_number: nnn
 region: "Pacific Region"
+french_region: "Région Pacifique"
 isbn: "978-0-660-38322-4"
 cat_no: "Fs70-6/2021-012E-PDF"
 citation_other_language: "Last, F.M. et Smith, A.B. Title Here (*Latin Species Name*). DFO Secr. can. des avis sci. du MPO. Doc. de rech 2019/nnn. iv + 13 p."
+
 abstract: |
   Here is the abstract text. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
   Start new paragraphs after a blank line and with 2 spaces indent. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
 french_abstract: |
-  Voici le texte du résumé.
+  Voici le texte du résumé. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
   
-  Commencez les nouveaux paragraphes après une ligne blanche et avec un retrait de 2 espaces.
+  Commencez les nouveaux paragraphes après une ligne blanche et avec un retrait de 2 espaces. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  
 header: "Draft working paper --- Do not cite or circulate" # or "" to omit
 output:
  csasdown::resdoc_pdf:
@@ -67,7 +73,9 @@ output:
    highlight: tango
 # ------------
 # End of options to set
-knit: bookdown::render_book
+knit: (function(input, ...) {
+        csasdown::render("_bookdown.yml")
+      })
 link-citations: true
 bibliography: bib/refs.bib
 # Any extra LaTeX code for the header:
@@ -111,35 +119,12 @@ opts_chunk$set(
   fig.align = fig_align,
   fig.pos = fig_pos
 )
-options(xtable.comment = FALSE)
-options(kableExtra.latex.load_packages = FALSE)
 ```
 
-```{r load-libraries, cache=FALSE}
-# `french` and `prepub` variables are extracted from the YAML headers above and
-#  are used throughout the document. To make the document all in french, change
-#  the line in the YAML header above to `french: true`
-meta <- rmarkdown::metadata$output
-if (length(grep("pdf", names(meta)))) {
-  french <- meta$`csasdown::resdoc_pdf`$french
-  prepub <- meta$`csasdown::resdoc_pdf`$prepub
-} else if (length(grep("word", names(meta)))) {
-  french <- meta$`csasdown::resdoc_word`$french
-  prepub <- meta$`csasdown::resdoc_word`$prepub
-}
-csl <- "csl/csas.csl"
-if (french) {
-  csl <- "csl/csas-french.csl"
-  options(OutDec = ",")
-}
-
+```{r load-libraries, echo = FALSE, cache = FALSE, message = FALSE, results = 'hide', warning = FALSE}
 # add other packages here:
 library(dplyr)
 library(readr)
 library(tibble)
 library(csasdown)
 ```
-
----
-csl: `r csl`    
----
