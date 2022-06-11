@@ -5,8 +5,8 @@
 #' knitr does this automatically but we need to do it in the pre-processing
 #' step so we can modify the newlines in the mirrored code
 #'
-#' @param rmd A vector of character strings representing the lines in an
-#' Rmd file
+#' @param rmd_files A vector of character strings representing the names
+#' of Rmd files
 #'
 #' @return A vector of character strings representing the lines in an
 #' Rmd file but with the mirrored calls replaced with code

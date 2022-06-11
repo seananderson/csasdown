@@ -7,8 +7,8 @@
 copy_mirror_chunks(rmd_files)
 }
 \arguments{
-\item{rmd}{A vector of character strings representing the lines in an
-Rmd file}
+\item{rmd_files}{A vector of character strings representing the names
+of Rmd files}
 }
 \value{
 A vector of character strings representing the lines in an
