@@ -1384,10 +1384,11 @@ create_tempdir_for_latex <- function(type = NULL,
                                      tmp_dir = NULL,
                                      root_dir = here()) {
   stopifnot(type == "resdoc" ||
-    type == "sr" ||
-    type == "techreport")
+              type == "resdoc-b" ||
+              type == "sr" ||
+              type == "techreport")
   stopifnot(where == "r" ||
-    where == "b")
+              where == "b")
 
   if (is.null(tmp_dir)) {
     tmp_dir <- tempdir()
