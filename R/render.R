@@ -95,11 +95,15 @@ render <- function(yaml_fn = "_bookdown.yml",
   # Process all Rmd files except for the `book_fn` (index.Rmd)
   fn_process <- tmp_rmd_fns[tmp_rmd_fns != book_fn]
 
+  # Remove all comments from code chunks in all files
+  remove_comments_from_chunks(fn_process)
+  # Inject the Rmd code in referenced files into the actual code in all files
+  inject_rmd_files(fn_process)
   # Copy mirrored code chunks as real code into the chunks where they are
-  # mirrored:
+  # mirrored in all files:
   # e.g replace instances of <<char-01-para-06-chunk>> with code from that
-  # actual chunk. Overwrite the tmp files with these modified chunks in them
-
+  # actual chunk. This works project wide, i.e. a chunk can mirror a chunk
+  # from a different file as long as both are in `fn_process`
   copy_mirror_chunks(fn_process)
 
   tmp_rmd_files <- map(fn_process, ~{
@@ -109,8 +113,6 @@ render <- function(yaml_fn = "_bookdown.yml",
            call. = FALSE)
     }
     rmd <- readLines(.x)
-    rmd <- inject_rmd_files(rmd)
-    rmd <- remove_comments_from_chunks(rmd)
 
     cat_inds <- grep("^cat\\(.*", trimws(rmd))
     # Find `needs_trans = TRUE` chunks. Those will not have newlines converted

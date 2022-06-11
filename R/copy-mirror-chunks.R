@@ -3,7 +3,12 @@
 #' @description
 #' Copy the mirrored chunk code into the chunk with the mirrored call.
 #' knitr does this automatically but we need to do it in the pre-processing
-#' step so we can modify the newlines in the mirrored code
+#' step so we can modify the newlines in the mirrored code.
+#'
+#' @details
+#' Search for chunks containing mirror code lines (looks like `<<chunk-name>>`),
+#' find the chunk-names and copy the code within those chunks into the chunks
+#' with the mirror code lines, replacing them.
 #'
 #' @param rmd_files A vector of character strings representing the names
 #' of Rmd files
@@ -24,7 +29,7 @@ copy_mirror_chunks <- function(rmd_files){
   }))
 
   get_mirror_not_in_cat_inds <- function(txt, regex = "<<[a-zA-Z0-9_\\-]+>>"){
-    cat_inds <- grep("^cat\\(.*", trimws(txt))
+    cat_inds <- grep("^(cat|rmd_file)\\(.*", trimws(txt))
     if(length(cat_inds)){
       # Have to make sure mirror code line is not inside a  `cat()` call
       mirror_in_cat_inds <- map(cat_inds, ~{
@@ -43,7 +48,9 @@ copy_mirror_chunks <- function(rmd_files){
     if(!length(all_mirror_inds)){
       return(NULL)
     }
-    all_mirror_inds[!all_mirror_inds %in% mirror_in_cat_inds]
+    if(length(cat_inds)){
+      all_mirror_inds[!all_mirror_inds %in% mirror_in_cat_inds]
+    }
   }
   # Replace chunk mirrors with code
   modded_files <- map(rmd_files, function(fn = .x){

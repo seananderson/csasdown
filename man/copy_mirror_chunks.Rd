@@ -17,5 +17,10 @@ Rmd file but with the mirrored calls replaced with code
 \description{
 Copy the mirrored chunk code into the chunk with the mirrored call.
 knitr does this automatically but we need to do it in the pre-processing
-step so we can modify the newlines in the mirrored code
+step so we can modify the newlines in the mirrored code.
+}
+\details{
+Search for chunks containing mirror code lines (looks like \verb{<<chunk-name>>}),
+find the chunk-names and copy the code within those chunks into the chunks
+with the mirror code lines, replacing them.
 }

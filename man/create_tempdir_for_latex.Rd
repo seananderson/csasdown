@@ -2,7 +2,8 @@
 % Please edit documentation in R/utils.R
 \name{create_tempdir_for_latex}
 \alias{create_tempdir_for_latex}
-\title{Creates a temporary directory for compiling the latex file with latex commands for a csasdown type}
+\title{Creates a temporary directory for compiling the latex file with latex
+commands for a csasdown type}
 \usage{
 create_tempdir_for_latex(
   type = NULL,
@@ -14,10 +15,12 @@ create_tempdir_for_latex(
 \arguments{
 \item{type}{The csasdown document type. See \code{\link[=draft]{draft()}}}
 
-\item{where}{Where to look for the tex file. If "r", look in root directory, if "b", look in the _book
+\item{where}{Where to look for the tex file. If "r", look in root directory,
+if "b", look in the _book
 subdirectory. Any other value will cause an error}
 
-\item{tmp_dir}{A temporary directory. If NULL, once will be created in the filesystem using \code{\link[=tempdir]{tempdir()}}}
+\item{tmp_dir}{A temporary directory. If NULL, once will be created in the
+filesystem using \code{\link[=tempdir]{tempdir()}}}
 
 \item{root_dir}{A directory where everything will be copied from}
 }
@@ -25,13 +28,15 @@ subdirectory. Any other value will cause an error}
 The temporary directory's full path
 }
 \description{
-Creates a temporary directory for compiling the latex file with latex commands for a csasdown type
+Creates a temporary directory for compiling the latex file with latex
+commands for a csasdown type
 }
 \details{
-The compiled tex file will be copied from either the root directory or the _book directory, depending
-on the value of \code{where}. The necessary directories knitr-figs-pdf, knitr-figs-word, knitr-cache-pdf, and
-knitr-cache-word will be copied recursively into the temporary directory, preserving the directory structure
-necessary for the build.
+The compiled tex file will be copied from either the root directory or the
+_book directory, depending on the value of \code{where}. The necessary
+directories 'knitr-figs-pdf', 'knitr-figs-word', 'knitr-cache-pdf', and
+'knitr-cache-word' will be copied recursively into the temporary directory,
+preserving the directory structure necessary for the build.
 }
 \examples{
 \dontrun{

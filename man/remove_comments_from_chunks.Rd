@@ -2,17 +2,19 @@
 % Please edit documentation in R/remove-comments-from-chunks.R
 \name{remove_comments_from_chunks}
 \alias{remove_comments_from_chunks}
-\title{Remove all comment lines from knitr chunks in the Rmd code}
+\title{Remove all comment lines from knitr chunks in the Rmd code for the files
+provided}
 \usage{
-remove_comments_from_chunks(rmd)
+remove_comments_from_chunks(rmd_files)
 }
 \arguments{
-\item{rmd}{A vector of character strings representing the lines in an
-Rmarkdown file}
+\item{rmd_files}{A vector of character strings representing the names
+of Rmd files}
 }
 \value{
-A modified \code{rmd} vector
+Nothing
 }
 \description{
-Remove all comment lines from knitr chunks in the Rmd code
+Remove all comment lines from knitr chunks in the Rmd code for the files
+provided
 }

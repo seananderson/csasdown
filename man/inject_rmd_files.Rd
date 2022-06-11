@@ -4,13 +4,14 @@
 \alias{inject_rmd_files}
 \title{Inject verbatim text from Rmd files into Rmd code}
 \usage{
-inject_rmd_files(rmd)
+inject_rmd_files(rmd_files)
 }
 \arguments{
-\item{rmd}{A vector of character strings representing an Rmd file}
+\item{rmd_files}{A vector of character strings representing the names
+of Rmd files}
 }
 \value{
-A vector of character strings representing an Rmd file
+Nothing
 }
 \description{
 Inject verbatim text from Rmd files into Rmd code wrapped in
