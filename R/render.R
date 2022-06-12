@@ -44,6 +44,7 @@
 #' @return Nothing
 #' @importFrom purrr prepend imap_chr imap
 #' @importFrom stringr str_count
+#' @importFrom knitr all_patterns
 #' @export
 render <- function(yaml_fn = "_bookdown.yml",
                    keep_files = FALSE,
@@ -125,7 +126,7 @@ render <- function(yaml_fn = "_bookdown.yml",
           x <- .x + 1
           if(!x %in% cat_inds){
             # Extract chunk name
-            chunk_head <- gsub(knitr::all_patterns$md$chunk.begin, "\\1", rmd[.x])
+            chunk_head <- gsub(all_patterns$md$chunk.begin, "\\1", rmd[.x])
             pat <- "r\\s*(\\s*\\S+\\s*)+?\\s*,\\s*.*$"
             chunk_name <- gsub(pat, "\\1", chunk_head)
             return(chunk_name)
