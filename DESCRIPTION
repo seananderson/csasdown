@@ -70,7 +70,8 @@ Imports:
 Suggests:
     covr,
     magick,
-    testthat
+    testthat,
+    tidyverse
 Remotes:
     pbs-assess/rosettafish
 ByteCompile: true

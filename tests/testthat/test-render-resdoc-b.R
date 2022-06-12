@@ -30,9 +30,9 @@ test_that("bookdown::render_book generates the .docx of the resdoc", {
 # Fails on macos on GitHub
 #add_resdoc_docx_titlepage()
 
-test_that("add_resdoc_docx_titlepage() generates the .docx of the resdoc", {
-  expect_true(file.exists(file.path(testing_path, "_book", "resdoc.docx")))
-})
+# test_that("add_resdoc_docx_titlepage() generates the .docx of the resdoc", {
+#   expect_true(file.exists(file.path(testing_path, "_book", "resdoc.docx")))
+# })
 
 # ----------------------------------------------------
 # Make sure all YAML options are contained in index.Rmd
