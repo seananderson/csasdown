@@ -21,19 +21,21 @@ inject_rmd_files <- function(rmd_files){
     rmd_file_names <- trimws(rmd_file_names)
     rmd_code <- map(rmd_file_names, ~{
       rmd <- read_rmd_file(.x)
-      # Check the rmd code to make sure there are no triple-tick code chunks in it
-      backtick_inds <- grep("^```\\{", trimws(rmd))
-      if(length(backtick_inds)){
-        message("Triple-backtick code chunk found in file '", basename(.x),
-                "' on line(s) ",
-                paste(backtick_inds, collapse = ", "))
-        stop("Triple-backtick code chunks are not allowed in external RMD ",
-             "files which have been injected using `rmd_files()`. It ",
-             "defeats the purpose of using the bilingual code chunk system",
-             call. = FALSE)
-      }
       # Strip any HTML comments out of the file
       rmd <- remove_html_comments(rmd, .x)
+      # Check the rmd code to make sure there are no triple-tick code chunks in it
+      backtick_inds <- grep("^```", trimws(rmd))
+      if(length(backtick_inds)){
+        message("Triple-backticks found in file '", basename(.x),
+                "' on line(s) ",
+                paste(backtick_inds, collapse = ", "))
+        stop("Triple- or Quadruple-backtick code chunks are not allowed in ",
+             "external RMD files which have been injected using ",
+             "`rmd_files()`. The code is going to be imported into a chunk ",
+             "and embedding cunks into other chunks is not possible in knitr. ",
+             "Use Markdown comments to comment it out <!-- -->",
+             call. = FALSE)
+      }
       rmd
     })
     if(!length(rmd_file_inds)){

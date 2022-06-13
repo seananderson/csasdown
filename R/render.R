@@ -141,12 +141,10 @@ render <- function(yaml_fn = "_bookdown.yml",
             chunk_head <- gsub(all_patterns$md$chunk.begin, "\\1", rmd[.x])
             pat <- "r\\s*(\\s*\\S+\\s*)+?\\s*,\\s*.*$"
             chunk_name <- gsub(pat, "\\1", chunk_head)
-            browser()
             return(chunk_name)
           }
           NULL
         })
-        browser()
         bad_chunk_names <- bad_chunk_names[lengths(bad_chunk_names) > 0]
         message("Not all chunks in the file ", .x, " with `needs_trans = TRUE` have ",
                 "`cat(` immediately following. If the chunks mirror other chunks, ",
