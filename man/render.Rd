@@ -20,7 +20,8 @@ YAML file)}
 
 \item{doc_type}{The type of document to render. Either 'pdf' or 'word'}
 
-\item{...}{Additional arguments passed to \code{\link[bookdown:render_book]{bookdown::render_book()}}}
+\item{...}{Additional arguments passed to \code{\link[bookdown:render_book]{bookdown::render_book()}} and
+\code{\link[=validate_chunk_headers]{validate_chunk_headers()}}}
 }
 \value{
 Nothing

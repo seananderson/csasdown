@@ -39,7 +39,8 @@
 #' @param keep_files If `TRUE`, keep the temporary files created (Rmd files and
 #' YAML file)
 #' @param doc_type The type of document to render. Either 'pdf' or 'word'
-#' @param ... Additional arguments passed to [bookdown::render_book()]
+#' @param ... Additional arguments passed to [bookdown::render_book()] and
+#' [validate_chunk_headers()]
 #'
 #' @return Nothing
 #' @importFrom purrr prepend imap_chr imap
@@ -96,6 +97,9 @@ render <- function(yaml_fn = "_bookdown.yml",
   # Process all Rmd files except for the `book_fn` (index.Rmd)
   fn_process <- tmp_rmd_fns[tmp_rmd_fns != book_fn]
 
+  # Make sure all chunk headers are of the correct language and have
+  # `needs_trans` chunk headers set correctly
+  validate_chunk_headers(fn_process, ...)
   # Remove all comments from code chunks in all files
   remove_comments_from_chunks(fn_process)
   # Inject the Rmd code in referenced files into the actual code in all files
@@ -117,7 +121,15 @@ render <- function(yaml_fn = "_bookdown.yml",
 
     cat_inds <- grep("^cat\\(.*", trimws(rmd))
     # Find `needs_trans = TRUE` chunks. Those will not have newlines converted
-    nt_inds <- grep("needs_trans\ *=\ *TRUE", rmd)
+    # Need to make sure they are in chunk headers and not in text
+    # (inside `cat()` calls) so have to pre-match the chunk header lines
+    # then match from those
+    chunk_head_inds <- grep(all_patterns$md$chunk.begin, rmd)
+    if(!length(chunk_head_inds)){
+      # No chunks in the file, return the file
+      return(NULL)
+    }
+    nt_inds <- chunk_head_inds[grep("needs_trans\ *=\ *TRUE", rmd[chunk_head_inds])]
     nt_chunks <- NULL
     if(length(nt_inds)){
       if(!all((nt_inds + 1) %in% cat_inds)){
@@ -129,10 +141,12 @@ render <- function(yaml_fn = "_bookdown.yml",
             chunk_head <- gsub(all_patterns$md$chunk.begin, "\\1", rmd[.x])
             pat <- "r\\s*(\\s*\\S+\\s*)+?\\s*,\\s*.*$"
             chunk_name <- gsub(pat, "\\1", chunk_head)
+            browser()
             return(chunk_name)
           }
           NULL
         })
+        browser()
         bad_chunk_names <- bad_chunk_names[lengths(bad_chunk_names) > 0]
         message("Not all chunks in the file ", .x, " with `needs_trans = TRUE` have ",
                 "`cat(` immediately following. If the chunks mirror other chunks, ",

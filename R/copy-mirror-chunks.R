@@ -91,6 +91,15 @@ copy_mirror_chunks <- function(rmd_files){
       if(src_start < k){
         # There was code in the chunk
         chunk <- huge_rmd[src_start:(k - 1)]
+        # If the code to insert is another mirror, issue error.
+        chained_mirror_pat <- "^<<(\\S+)>>$"
+        if(length(grep(chained_mirror_pat, trimws(chunk)))){
+          nm <- gsub(chained_mirror_pat, "\\1", chunk)
+          stop("A mirrored chunk has another mirror code line in it.\n",
+               "Chained mirror chunks are not supported.\n",
+               "Line ", file_mirror_inds[1] - 1, " in file '", fn, "'",
+               call. = FALSE)
+        }
         txt <<- inject_vec_in_vec(txt, chunk, file_mirror_inds)
       }
     })

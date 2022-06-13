@@ -18,6 +18,12 @@ test_that("conv_paragraph_lines() works", {
   expect_null(tmp[[2]])
   # ---------------------------------------------------------------------------
 
+  chunk <- c("Text line", "")
+  tmp <- conv_paragraph_lines(chunk)
+  expect_identical(tmp[[1]], c("Text line"))
+  expect_identical(tmp[[2]], "")
+  # ---------------------------------------------------------------------------
+
   chunk <- c("", "Text line")
   tmp <- conv_paragraph_lines(chunk)
   expect_null(tmp[[1]])

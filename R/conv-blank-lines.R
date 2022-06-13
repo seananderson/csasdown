@@ -27,6 +27,10 @@ conv_blank_lines <- function(chunk){
     return(list(NULL, NULL))
   }
 
+  if(length(chunk) == 1 && chunk[1] == ""){
+    return(list(c("", "\\\\ \\\\", ""), NULL))
+  }
+
   if(chunk[1] != ""){
     return(list(NULL, chunk))
   }
