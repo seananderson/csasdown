@@ -134,7 +134,7 @@ is_rmd_list_line <- function(lines){
          "\n\n",
          call. = FALSE)
   }
-  map_lgl(lines, ~{
+  map_lgl(lines, function(.x) {
     substr(trimws(.x), 2, 3) == ". " ||
       substr(trimws(.x), 1, 2) == "* " ||
       substr(trimws(.x), 1, 2) == "+ " ||
