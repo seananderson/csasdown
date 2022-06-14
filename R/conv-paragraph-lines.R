@@ -60,6 +60,10 @@ conv_paragraph_lines <- function(chunk){
   if(end_text_ind == length(chunk)){
     post_chunk <- NULL
   }else{
+    if(is_rmd_list_line(chunk[end_text_ind + 1]) ||
+       is_rmd_header_line(chunk[end_text_ind + 1])){
+      new_chunk <- c(new_chunk, "")
+    }
     post_chunk <- chunk[(end_text_ind + 1):length(chunk)]
   }
 
