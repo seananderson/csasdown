@@ -17,7 +17,7 @@ expect_warning({
   csasdown::render(doc_type = "pdf")
 })
 
-test_that("bookdown::render_book generates the PDF of the sr", {
+test_that("csasdown::render generates the PDF of the sr", {
   expect_true(file.exists(file.path(testing_path, "_book", "sr.pdf")))
 })
 
@@ -25,7 +25,7 @@ test_that("bookdown::render_book generates the PDF of the sr", {
 # Render the Word sr
 csasdown::render(doc_type = "word")
 
-test_that("bookdown::render_book generates the .docx of the sr", {
+test_that("csasdown::render generates the .docx of the sr", {
   expect_true(file.exists(file.path(testing_path, "_book", "sr.docx")))
 })
 
@@ -36,7 +36,7 @@ expect_warning({
   csasdown::render(doc_type = "pdf")
 })
 
-test_that("bookdown::render_book generates the PDF of the sr", {
+test_that("csasdown::render generates the PDF of the sr", {
   expect_true(file.exists(file.path(testing_path, "_book", "sr.pdf")))
 })
 
@@ -44,7 +44,7 @@ test_that("bookdown::render_book generates the PDF of the sr", {
 # Render the French Word sr
 csasdown::render(doc_type = "word")
 
-test_that("bookdown::render_book generates the .docx of the sr", {
+test_that("csasdown::render generates the .docx of the sr", {
   expect_true(file.exists(file.path(testing_path, "_book", "sr.docx")))
 })
 

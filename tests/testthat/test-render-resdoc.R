@@ -20,7 +20,7 @@ test_that("csasdown::render generates the PDF of the resdoc", {
 
 # ----------------------------------------------------
 # Render the Word resdoc
-test_that("bookdown::render_book generates the .docx of the resdoc", {
+test_that("csasdown::render generates the .docx of the resdoc", {
   expect_warning(csasdown::render(doc_type = "word"))
   expect_true(file.exists(file.path(testing_path, "_book", "resdoc.docx")))
 })
@@ -48,7 +48,7 @@ test_that("csasdown::render generates the French PDF of the resdoc", {
 
 # ----------------------------------------------------
 # Render the French Word resdoc
-test_that("bookdown::render_book generates the French .docx of the resdoc", {
+test_that("csasdown::render generates the French .docx of the resdoc", {
   suppressWarnings(csasdown::render(doc_type = "word"))
   expect_true(file.exists(file.path(testing_path, "_book", "resdoc.docx")))
 })
