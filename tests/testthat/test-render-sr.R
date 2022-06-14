@@ -13,7 +13,6 @@ invisible(file.copy(files, testing_path, recursive = TRUE))
 
 # ----------------------------------------------------
 # Render the PDF sr
-options(french = FALSE)
 expect_warning({
   csasdown::render(doc_type = "pdf")
 })
@@ -24,9 +23,9 @@ test_that("csasdown::render generates the PDF of the sr", {
 
 # ----------------------------------------------------
 # Render the Word sr
-options(french = FALSE)
+csasdown::render(doc_type = "word")
+
 test_that("csasdown::render generates the .docx of the sr", {
-  csasdown::render(doc_type = "word")
   expect_true(file.exists(file.path(testing_path, "_book", "sr.docx")))
 })
 
@@ -43,8 +42,8 @@ test_that("csasdown::render generates the PDF of the sr", {
 
 # ----------------------------------------------------
 # Render the French Word sr
-options(french = TRUE)
 csasdown::render(doc_type = "word")
+
 test_that("csasdown::render generates the .docx of the sr", {
   expect_true(file.exists(file.path(testing_path, "_book", "sr.docx")))
 })
