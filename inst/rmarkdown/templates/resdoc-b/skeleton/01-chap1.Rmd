@@ -37,7 +37,7 @@ Sometimes it is useful to look at these files, since they are the ones actually 
 If you want to manually modify the temporary files and render the document from those for debugging reasons, run this:
 `bookdown::render_book('tmp-index.Rmd', config_file = 'tmp_bookdown.yml')`
 
-Many error messages are in relation to the temporary files and state line numbers in those files, so it won't be long before you run the code to keep those files around. **Make sure to make your edits in the original files and not the temporary ones as the temporary ones are overwritten every time you re-render the document!**
+Many preprocessor error messages are in relation to the temporary files and state line numbers in those files, so it won't be long before you want to keep those files around. **Make sure to make your edits in the original files and not the temporary ones as the temporary ones are overwritten every time you re-render the document!**
 
 ## Compiling to MS Word
 When you run `csasdown::render()`, there is an argument called `doc_type` that has a default value of 'pdf' so a PDF will be rendered. To render a MS Word document, run:
@@ -139,7 +139,7 @@ Chunks that are going to be in French need another header entry, *needs_trans*. 
 
 Note that the chunk name is *chunk-001-fr* which ends in *-fr* and there is an entry of `eval = fr()` which tells it to compile this chunk when French is selected in the YAML header in *index.Rmd*. There is also an entry `needs_trans = TRUE`. `needs_trans` is required for French chunks.
 
-    If you want to remove the constraint of having chunk names with these formats you can by running `render()` like this:
+If you want to remove the constraint of having chunk names with these formats you can by running `render()` like this:
 `render(en_chunk_regex = NULL, fr_chunk_regex = NULL)`
 If you want to modify the format, you can do so by modifying the regular expressions. Let's say you want the *en-* and *fr-* to be at the start of the chunk name instead of the end. To do that you would run `render()` this way:
 `render(en_chunk_regex = '^en-\\S+$', fr_chunk_regex = '^fr-\\S+$')`
