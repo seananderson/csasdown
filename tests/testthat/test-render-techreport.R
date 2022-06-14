@@ -18,6 +18,7 @@ csasdown::draft(
 expect_warning({csasdown::render(doc_type = "pdf")})
 
 unlink("_book/techreport.pdf", force = TRUE, recursive = TRUE)
+options(french = FALSE)
 test_that("run_pdflatex() works", {
   expect_warning(run_pdflatex())
 })
@@ -28,19 +29,18 @@ test_that("csasdown::render generates the PDF of the techreport", {
 
 # ----------------------------------------------------
 # Render a Word techreport
-expect_warning({csasdown::render(doc_type = "word")})
-
+options(french = FALSE)
 test_that("csasdown::render generates the .docx of the techreport", {
+  expect_warning(csasdown::render(doc_type = "word"))
   expect_true(file.exists(file.path(testing_path, "_book", "techreport.docx")))
 })
 
 # ----------------------------------------------------
 # Render the French PDF techreport
 options(french = TRUE)
-expect_warning({csasdown::render(doc_type = "pdf")})
-
 unlink("_book/techreport.pdf", force = TRUE, recursive = TRUE)
 test_that("run_pdflatex() works", {
+  expect_warning(csasdown::render(doc_type = "pdf"))
   expect_warning(run_pdflatex())
 })
 
@@ -50,6 +50,7 @@ test_that("csasdown::render generates the PDF of the techreport", {
 
 # ----------------------------------------------------
 # Render a French Word techreport
+options(french = TRUE)
 test_that("csasdown::render generates the Word version of the techreport", {
   expect_warning(csasdown::render(doc_type = "word"))
 })
