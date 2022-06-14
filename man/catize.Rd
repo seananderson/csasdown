@@ -37,11 +37,13 @@ example of the conversion this function does.
 
 Original rmarkdown string:
 
-"The date is \code{`r as.character(Sys.Date())`} today. You are on
-a \code{`r Sys.info()["sysname"]`} machine."
+\if{html}{\out{<div class="sourceCode">}}\preformatted{"The date is `r as.character(Sys.Date())` today. You are on
+a `r Sys.info()["sysname"]` machine."
+}\if{html}{\out{</div>}}
 
 Modified cat-like string (can be passed to \code{\link[=cat]{cat()}}):
 
-"The date is ", as.character(Sys.Date()), " today. You are on a ",
-Sys.info()\link{"sysname"}, " machine."
+\if{html}{\out{<div class="sourceCode">}}\preformatted{"The date is ", as.character(Sys.Date()), " today. You are on a ",
+Sys.info()["sysname"], " machine."
+}\if{html}{\out{</div>}}
 }
