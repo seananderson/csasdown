@@ -120,10 +120,10 @@ output:
 Alternatively, if you're not using RStudio, you can run this from the R console, assuming your have set the main directory (the one with the `index.Rmd` file) as your working directory:
 
 ```r
-bookdown::render_book("index.Rmd")
+csasdown::render("index.Rmd")
 ```
 
-This method of rendering also allows you to insert `browser()` calls in your code and stop compilation to debug. It also does *not* open a preview viewer once finished, so you will have to navigate to the `_book/` directory and open it up manually.
+This method of rendering also allows you to insert `browser()` calls in your code and stop compilation to debug (but note you'll need to run `sink()` in the console if you stop mid R Markdown rendering in a `browser()`). It also does *not* open a preview viewer once finished, so you will have to navigate to the `_book/` directory and open it up manually.
 
 The rendered PDF or Word file of your report will be deposited in the `_book/` directory.
 
