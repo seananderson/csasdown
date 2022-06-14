@@ -22,14 +22,12 @@ converted chunk, or an error will be thrown depending on the situation.
 \details{
 A type 2 table is defined as a manually-entered Rmarkdown table with a
 minimum of three lines with this format:
-}
-\section{a     b     c}{
-#----- ----- -----
 
-#----- ----- -----
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{  a     b     c
+----- ----- -----
+ abc   def   ghi
+}\if{html}{\out{</div>}}
 
-\section{abc   def   ghi}{
 There is no whitespace in between any of these lines. The first text row is
 the column headers for the table and the second text row is the table data.
 The second row can be multiple rows which must not be separated by blank
@@ -37,18 +35,16 @@ lines. They all must be together without whitespace in between.
 Here is an example with three table data rows in acceptable format, along
 with the optional table caption text which must start with 'Table:'
 
+\if{html}{\out{<div class="sourceCode">}}\preformatted{  a     b     c
+----- ----- -----
+ abc   def   ghi
+ jkl   mno   pqr
+ stu   vwx   yza
 
+Table: Table caption (0 or more blank lines between table and this caption)
+A second line of table caption here (no blank lines in between)
+}\if{html}{\out{</div>}}
 }
-
-\section{jkl   mno   pqr}{
-
-}
-
-\section{stu   vwx   yza}{
-#Table: Table caption (0 or more blank lines between table and this caption)
-#A second line of table caption here (no blank lines in between)
-}
-
 \examples{
 library(csasdown)
 chunk <- c("  Parameter   Value", "---------- -----------",

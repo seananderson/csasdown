@@ -9,11 +9,13 @@
 #' @details
 #' A type 1 table is defined as a manually-entered Rmarkdown table with a
 #' minimum of five lines with this format:
-#' #----- ----- -----
-#' #  a     b     c
-#' #----- ----- -----
-#' # abc   def   ghi
-#' #----- ----- -----
+#' ```
+#' ----- ----- -----
+#'  a     b     c
+#' ----- ----- -----
+#' abc   def   ghi
+#' ----- ----- -----
+#' ```
 #'
 #' There is no whitespace in between any of these lines. The first text row is
 #' the column headers for the table and the second text row is the table data.
@@ -21,18 +23,21 @@
 #' blank lines, but there cannot be blank lines before the table data or after.
 #' Here is an example with three table data rows in acceptable format, along
 #' with the optional table caption text which must start with 'Table:'
-#' #----- ----- -----
-#' #  a     b     c
-#' #----- ----- -----
-#' # abc   def   ghi
 #'
-#' # jkl   mno   pqr
+#' ```
+#' ----- ----- -----
+#'  a     b     c
+#' ----- ----- -----
+#' abc   def   ghi
+#'
+#' jkl   mno   pqr
 #'
 #'
-#' # stu   vwx   yza
-#' #----- ----- -----
-#' #Table: Table caption (0 or more blank lines between table and this caption)
-#' #A second line of table caption here (no blank lines in between)
+#' stu   vwx   yza
+#' ----- ----- -----
+#' Table: Table caption (0 or more blank lines between table and this caption)
+#' A second line of table caption here (no blank lines in between)
+#' ```
 #'
 #' @param chunk A vector of character strings representing lines for RMD code
 #'
