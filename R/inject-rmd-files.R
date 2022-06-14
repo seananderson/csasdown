@@ -32,10 +32,13 @@ inject_rmd_files <- function(rmd_files){
         stop("Triple- or Quadruple-backtick code chunks are not allowed in ",
              "external RMD files which have been injected using ",
              "`rmd_files()`. The code is going to be imported into a chunk ",
-             "and embedding cunks into other chunks is not possible in knitr. ",
-             "Use Markdown comments to comment it out <!-- -->",
+             "and embedding chunks into other chunks is not possible in knitr. ",
+             "Delete them or use Markdown comments to comment those chunks out ",
+             "<!-- -->.",
              call. = FALSE)
       }
+      # Need to remove the NA's from the chunk that was returned from `remove_html_comments()`
+      rmd <- rmd[!is.na(rmd)]
       rmd
     })
     if(!length(rmd_file_inds)){

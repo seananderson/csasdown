@@ -2,7 +2,7 @@
 % Please edit documentation in R/remove-html-comments.R
 \name{remove_html_comments}
 \alias{remove_html_comments}
-\title{Remove HTML comments (Markdopwn comments) from a chunk of code}
+\title{Remove HTML comments (Markdown comments) from a chunk of code}
 \usage{
 remove_html_comments(chunk, fn = "unknown")
 }
@@ -13,8 +13,9 @@ remove_html_comments(chunk, fn = "unknown")
 not used or looked for in any way, all the processing is done for \code{chunk}}
 }
 \value{
-The modified vector of Rmarkdown code
+The modified vector of Rmarkdown code, which has all comments
+removed and \code{NA}'s for lines which were taken up by all comments
 }
 \description{
-Remove HTML comments (Markdopwn comments) from a chunk of code
+Remove HTML comments (Markdown comments) from a chunk of code
 }
