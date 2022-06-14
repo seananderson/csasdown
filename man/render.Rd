@@ -2,7 +2,7 @@
 % Please edit documentation in R/render.R
 \name{render}
 \alias{render}
-\title{Render a csasdown document with bilingual features}
+\title{Render any csasdown document with bilingual features}
 \usage{
 render(
   yaml_fn = "_bookdown.yml",
@@ -28,8 +28,9 @@ Nothing
 }
 \description{
 Render a csasdown document with bilingual features. Renders a csasdown
-document (resodc, sr, techreport) using the \code{\link[bookdown:render_book]{bookdown::render_book()}}
-method but includes a pre-processing step to do several things:
+document (autodetects resdoc, sr, techreport) using the
+\code{\link[bookdown:render_book]{bookdown::render_book()}} method but includes a pre-processing step to
+do several things:
 \enumerate{
 \item Inject 'index.Rmd' with special code to allow bilingual features to
 be used

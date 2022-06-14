@@ -1,9 +1,10 @@
-#' Render a csasdown document with bilingual features
+#' Render any csasdown document with bilingual features
 #'
 #' @description
 #' Render a csasdown document with bilingual features. Renders a csasdown
-#' document (resodc, sr, techreport) using the [bookdown::render_book()]
-#' method but includes a pre-processing step to do several things:
+#' document (autodetects resdoc, sr, techreport) using the
+#' [bookdown::render_book()] method but includes a pre-processing step to
+#' do several things:
 #' 1. Inject 'index.Rmd' with special code to allow bilingual features to
 #'    be used
 #' 2. Convert anything inside [cat()] calls to cat-like
