@@ -8,8 +8,10 @@ inject_bilingual_code(fn = "index.Rmd", doc_type)
 }
 \arguments{
 \item{fn}{Typically the working copy of this file:
-csasdown/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd
-which is index.Rmd by default}
+\code{csasdown/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd}
+which is \code{index.Rmd} by default}
+
+\item{doc_type}{Document type}
 }
 \value{
 Lines for the file \code{fn}, but with the code injected in the right

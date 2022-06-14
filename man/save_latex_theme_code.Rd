@@ -7,7 +7,7 @@
 save_latex_theme_code(themes = NULL)
 }
 \arguments{
-\item{theme}{If NULL, run function for all themes. If not NULL, apply to
+\item{themes}{If NULL, run function for all themes. If not NULL, apply to
 the theme(s) given.}
 }
 \description{

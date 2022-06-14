@@ -26,6 +26,8 @@ If FALSE, only copy if the directory does not exist in the current directory}
 \item{lot_lof}{Include list of tables and list of figures in the document? Logical.
 (implemented only for ResDocs and TechReports)}
 
+\item{french}{French?}
+
 \item{draft_watermark}{If \code{TRUE} show a DRAFT watermark on all pages of the output document}
 
 \item{which_sty}{Name of the style file to modify}

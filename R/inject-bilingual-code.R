@@ -7,8 +7,9 @@
 #' modified, will crash the resdoc build process.
 #'
 #' @param fn Typically the working copy of this file:
-#' csasdown/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd
-#' which is index.Rmd by default
+#' `csasdown/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd`
+#' which is `index.Rmd` by default
+#' @param doc_type Document type
 #'
 #' @return Lines for the file `fn`, but with the code injected in the right
 #' place

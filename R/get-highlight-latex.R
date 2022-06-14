@@ -253,7 +253,7 @@ gen_latex_highlight_code <- function(theme = c("pygments",
 
 #' Create latex theme files for all the pandoc highlight-styles
 #'
-#' @param theme If NULL, run function for all themes. If not NULL, apply to
+#' @param themes If NULL, run function for all themes. If not NULL, apply to
 #' the theme(s) given.
 #'
 #' @details Source this file and run this function to create all the theme

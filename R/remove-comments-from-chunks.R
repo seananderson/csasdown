@@ -9,7 +9,7 @@
 #' @importFrom knitr all_patterns
 remove_comments_from_chunks <- function(rmd_files){
 
-  modded_files <- map(rmd_files, function(fn = .x){
+  modded_files <- map(rmd_files, function(fn){
     rmd <- readLines(fn)
     # Extract the knitr code chunks
     pat_code_begin <- all_patterns$md$chunk.begin
@@ -40,7 +40,7 @@ remove_comments_from_chunks <- function(rmd_files){
     # To fix this, look for a `cat()` statement inside the code chunk, and
     # while inside that, ignore any lines that start with #
     com_pat <- "^#.*$"
-    code_chunks <- map(code_chunks, function(chunk = .x){
+    code_chunks <- map(code_chunks, function(chunk){
       cat_ind <- grep("^cat\\(.*", trimws(chunk))
       if(length(cat_ind)){
         if(length(cat_ind) > 1){

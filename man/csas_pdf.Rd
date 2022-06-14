@@ -70,6 +70,8 @@ different text format but no highlighting}
 
 \item{latex_engine}{LaTeX engine to render with. 'pdflatex' or 'xelatex'}
 
+\item{french}{French?}
+
 \item{prepub}{Logical for whether this is a pre-publication version
 (currently not implemented for ResDocs)}
 
