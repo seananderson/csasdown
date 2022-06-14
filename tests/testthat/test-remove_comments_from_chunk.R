@@ -14,7 +14,7 @@ test_that("Removing all comments from knitr chunks works", {
              "# Test comment 3",
              "```")
   writeLines(chunk, fn)
-  ret <- remove_comments_from_chunks(fn)
+  ret <- csasdown:::remove_comments_from_chunks(fn)
   actual <- readLines(fn)
   expected <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
                 "cat('Be careful with your spacing in _Markdown_ documents.",
@@ -41,7 +41,7 @@ test_that("Removing all comments from knitr chunks works", {
              "BBBBBBBBBB",
              "")
   writeLines(chunk, fn)
-  ret <- remove_comments_from_chunks(fn)
+  ret <- csasdown:::remove_comments_from_chunks(fn)
   actual <- readLines(fn)
   expected <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
                 "cat('Be careful with your spacing in _Markdown_ documents.",
@@ -72,7 +72,7 @@ test_that("Removing all comments from knitr chunks works", {
              "# Test comment 3",
              "```")
   writeLines(chunk, fn)
-  ret <- remove_comments_from_chunks(fn)
+  ret <- csasdown:::remove_comments_from_chunks(fn)
   actual <- readLines(fn)
   expected <- c("# AAAAAAAAAA",
                 "",
@@ -107,7 +107,7 @@ test_that("Removing all comments from knitr chunks works", {
              "BBBBBBBBBB",
              "")
   writeLines(chunk, fn)
-  ret <- remove_comments_from_chunks(fn)
+  ret <- csasdown:::remove_comments_from_chunks(fn)
   actual <- readLines(fn)
   expected <- c("# AAAAAAAAAA",
            "",
@@ -192,7 +192,7 @@ test_that("Removing all comments from knitr chunks works", {
              "# Test comment 3",
              "```")
   writeLines(chunk, fn)
-  ret <- remove_comments_from_chunks(fn)
+  ret <- csasdown:::remove_comments_from_chunks(fn)
   actual <- readLines(fn)
   expected <- c("# AAAAAAAAAA",
            "",
@@ -246,7 +246,7 @@ test_that("Removing all comments from knitr chunks works", {
              "CCCCCCCCCC",
              "")
   writeLines(chunk, fn)
-  ret <- remove_comments_from_chunks(fn)
+  ret <- csasdown:::remove_comments_from_chunks(fn)
   actual <- readLines(fn)
   expected <- c("# AAAAAAAAAA",
            "",
@@ -296,7 +296,7 @@ test_that("Removing all comments from knitr chunks works", {
              "# Test comment 3",
              "```")
   writeLines(chunk, fn)
-  ret <- remove_comments_from_chunks(fn)
+  ret <- csasdown:::remove_comments_from_chunks(fn)
   actual <- readLines(fn)
   expected <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
            "cat('Be careful with your spacing in _Markdown_ documents.",
