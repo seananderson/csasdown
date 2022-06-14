@@ -14,3 +14,4 @@
 ^screenshots
 ^\.github$
 ^data-raw$
+^docker

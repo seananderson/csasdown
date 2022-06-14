@@ -52,26 +52,25 @@ Depends:
 Imports:
     bookdown,
     crayon,
-    dplyr,
     here,
-    ggplot2,
     kableExtra,
     knitr,
     magrittr,
     officer,
     purrr,
-    readr,
     rmarkdown,
-    rosettafish,
     stringr,
-    tibble,
     tinytex (>= 0.28),
     utils
 Suggests:
     covr,
+    dplyr,
+    ggplot2,
     magick,
+    readr,
+    rosettafish,
     testthat,
-    tidyverse
+    tibble
 Remotes:
     pbs-assess/rosettafish
 ByteCompile: true
