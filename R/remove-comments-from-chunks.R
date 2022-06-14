@@ -31,8 +31,8 @@ remove_comments_from_chunks <- function(rmd_files){
       return(rmd)
     }
 
-    code_chunks <- map2(start_inds, end_inds, ~{
-      rmd[.x:.y]
+    code_chunks <- map2(start_inds, end_inds, function(.x, .y) {
+      rmd[seq(.x, .y)]
     })
     # Process code chunks here (remove comment lines). Unfortunately,
     # if an Rmarkdown header is inside a `cat()` statement, starting on its own

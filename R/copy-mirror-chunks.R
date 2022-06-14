@@ -24,7 +24,7 @@ copy_mirror_chunks <- function(rmd_files){
   # in one object for searching for code. So if a file has a mirror to a
   # chunk in another file in the project, it will still find the code that is
   # being referred to
-  huge_rmd <- unlist(map(rmd_files, ~{
+  huge_rmd <- unlist(map(rmd_files, function(.x) {
     readLines(.x)
   }))
 
@@ -53,7 +53,7 @@ copy_mirror_chunks <- function(rmd_files){
     }
   }
   # Replace chunk mirrors with code
-  modded_files <- map(rmd_files, function(fn = .x){
+  modded_files <- map(rmd_files, function(fn){
     txt <- readLines(fn)
     mirror_inds <- get_mirror_not_in_cat_inds(txt)
 
@@ -61,7 +61,7 @@ copy_mirror_chunks <- function(rmd_files){
       return(NULL)
     }
     chunk_names <- unique(gsub("<<([a-zA-Z0-9_\\-]+)>>", "\\1", txt[mirror_inds]))
-    map(chunk_names, function(chunk_name = .x){
+    map(chunk_names, function(chunk_name){
 
       # Search for the mirrored chunks in txt (the file)
       pat <- paste0("<<", chunk_name, ">>")

@@ -21,7 +21,7 @@ remove_html_comments <- function(chunk, fn = "unknown"){
   if(length(start_lines)){
     # Remove all comments which have the start and end on the same line
     lines_modified <- map2_chr(start_lines, num_start_per_line,
-         function(start = .x, num = .y){
+         function(start, num){
            i <- 1
            tmp <- chunk[start]
            repeat{
@@ -50,7 +50,7 @@ remove_html_comments <- function(chunk, fn = "unknown"){
   inds_single_lines <- which(comments_removed_before_ind == 1)
   start_lines <- start_lines[!start_lines %in% inds_single_lines]
   end_comment <- str_extract_all(chunk, "-->")
-  end_lines <- which(lengths(end_comment) > 0 & map_lgl(chunk, ~{!is.na(.x)}))
+  end_lines <- which(lengths(end_comment) > 0 & map_lgl(chunk, function(.x) {!is.na(.x)}))
   if(length(start_lines) != length(end_lines)){
     stop("The number of start comment characters and end comment ",
          "characters do not match for comments spanning multiple ",
@@ -75,7 +75,7 @@ remove_html_comments <- function(chunk, fn = "unknown"){
   }
 
   if(length(start_lines)){
-    comment_inds <- map2(start_lines, end_lines, function(start = .x, end = .y){
+    comment_inds <- map2(start_lines, end_lines, function(start, end){
       chunk[start] <<- gsub("(<!--.*)", "", chunk[start])
       chunk[end] <<- gsub("(.*-->)", "", chunk[end])
       if(chunk[start] == ""){

@@ -24,7 +24,7 @@ validate_chunk_headers <- function(rmd_files,
   if(!length(rmd_files)){
     return(invisible())
   }
-  errs <- map(rmd_files, function(fn = .x){
+  errs <- map(rmd_files, function(fn){
 
     if(!file.exists(fn)){
       stop("File '", fn, "' does not exist",
@@ -38,7 +38,7 @@ validate_chunk_headers <- function(rmd_files,
     }
 
     chunk_name_pat <- "^```\\s*\\{\\s*r\\s*(\\s*\\S+\\s*)+?\\s*,\\s*.*$"
-    err_lst <- map(chunk_head_inds, function(chunk_head_ind = .x){
+    err_lst <- map(chunk_head_inds, function(chunk_head_ind){
       chunk_name <- gsub(chunk_name_pat, "\\1", trimws(rmd[chunk_head_ind]))
       fr_opt <- grep("eval\\s*=\\s*fr\\(\\)\\s*[,|\\}]",
                      rmd[chunk_head_ind])

@@ -591,6 +591,7 @@ update_csasstyle <- function(copy = TRUE,
   fr <- function() { # hack for now
     french
   }
+  data("region_info")
 
   fn <- system.file("csas-style", package = "csasdown")
   if(!copy && line_nums){
