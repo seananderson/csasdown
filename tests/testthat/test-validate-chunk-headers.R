@@ -1,18 +1,18 @@
 test_that("validate_chunk_headers() works", {
 
   dr <- file.path(testthat::test_path(), "validate-chunk-headers-files")
-  expect_invisible(validate_chunk_headers(NULL))
+  expect_invisible(csasdown:::validate_chunk_headers(NULL))
   # ---------------------------------------------------------------------------
 
   rmd_file <- file.path(dr, "regex-tests-0.Rmd")
-  expect_identical(validate_chunk_headers(rmd_file),
+  expect_identical(csasdown:::validate_chunk_headers(rmd_file),
     paste0("Chunk name 'x-2-english' in ",
            "file '", file.path(dr, "regex-tests-0.Rmd"), "'\n is not of ",
            "correct format for English chunks (^\\S+-en$)"))
   # ---------------------------------------------------------------------------
 
   rmd_file <- file.path(dr, "regex-tests-3.Rmd")
-  expect_identical(validate_chunk_headers(rmd_file),
+  expect_identical(csasdown:::validate_chunk_headers(rmd_file),
     paste0("Chunk name 'x-1-english' in file '", file.path(dr,
     "regex-tests-3.Rmd"), "'\n is not of correct format for English chunks ",
     "(^\\S+-en$)"))
@@ -62,7 +62,7 @@ test_that("validate_chunk_headers() works", {
     paste0("Chunk 'y-12-en' in file '", file.path(dr, "regex-tests-2.Rmd"),
            "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"))
 
-  actual <- validate_chunk_headers(rmd_files,
+  actual <- csasdown:::validate_chunk_headers(rmd_files,
                                    en_chunk_regex = NULL,
                                    fr_chunk_regex = NULL)
   expect_identical(actual, expected)
@@ -133,7 +133,7 @@ test_that("validate_chunk_headers() works", {
     paste0("Chunk 'y-12-en' in file '", file.path(dr, "regex-tests-2.Rmd"),
            "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"))
 
-  actual <- validate_chunk_headers(rmd_files)
+  actual <- csasdown:::validate_chunk_headers(rmd_files)
   expect_identical(actual, expected)
   # ---------------------------------------------------------------------------
 
@@ -154,7 +154,7 @@ test_that("validate_chunk_headers() works", {
     paste0("Chunk 'x-6' in file '", file.path(dr,
       "regex-tests-5.Rmd"), "'\n must not include `needs_trans = TRUE` or ",
       "`needs_trans = FALSE`"))
-  actual <- validate_chunk_headers(rmd_file,
+  actual <- csasdown:::validate_chunk_headers(rmd_file,
                                    en_chunk_regex = "^en-\\S+$",
                                    fr_chunk_regex = "^fr-\\S+$")
   expect_identical(actual, expected)
