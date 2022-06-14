@@ -90,9 +90,9 @@ render <- function(yaml_fn = "_bookdown.yml",
     doc_ind <- doc_ind[1]
   }
   doc_type <- gsub(doc_type_pat, "\\1", trimws(book[doc_ind]))
-  if(!validate_index_file(book_fn, doc_type)){
-    stop("File '", book_fn, "' failed YAML tag validation")
-  }
+  # Make sure all YAML entries are present in `index.Rmd`
+  check_yaml(doc_type)
+  message("\nRendering document ...")
 
   # Process all Rmd files except for the `book_fn` (index.Rmd)
   fn_process <- tmp_rmd_fns[tmp_rmd_fns != book_fn]
