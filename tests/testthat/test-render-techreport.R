@@ -50,7 +50,7 @@ test_that("csasdown::render generates the PDF of the techreport", {
 
 # ----------------------------------------------------
 # Render a French Word techreport
-expect_warning({csasdown::render(doc_type = "word")})
+expect_warning(csasdown::render(doc_type = "word"))
 
 test_that("csasdown::render generates the .docx of the techreport", {
   expect_true(file.exists(file.path(testing_path, "_book", "techreport.docx")))
