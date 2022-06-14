@@ -1,5 +1,8 @@
 test_that("Removing all comments from knitr chunks works", {
 
+
+  dr <- file.path(testthat::test_path(), "remove-comments-from-chunk")
+  fn <- file.path(dr, "tests.Rmd")
   chunk <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
              "# Test comment",
              "#Test Comment 2",
@@ -10,15 +13,18 @@ test_that("Removing all comments from knitr chunks works", {
              "",
              "# Test comment 3",
              "```")
-  exp <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
-           "cat('Be careful with your spacing in _Markdown_ documents.",
-           "While whitespace largely is ignored, it does at",
-           "times give _Markdown_ signals as to how to proceed.  ",
-           "')",
-           "",
-           "```")
-  ret <- remove_comments_from_chunks(chunk)
-  expect_identical(ret, exp)
+  writeLines(chunk, fn)
+  ret <- remove_comments_from_chunks(fn)
+  actual <- readLines(fn)
+  expected <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
+                "cat('Be careful with your spacing in _Markdown_ documents.",
+                "While whitespace largely is ignored, it does at",
+                "times give _Markdown_ signals as to how to proceed.  ",
+                "')",
+                "",
+                "```")
+  expect_identical(actual, expected)
+
   # ---------------------------------------------------------------------------
   chunk <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
              "# Test comment",
@@ -34,19 +40,22 @@ test_that("Removing all comments from knitr chunks works", {
              "",
              "BBBBBBBBBB",
              "")
-  exp <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
-           "cat('Be careful with your spacing in _Markdown_ documents.",
-           "While whitespace largely is ignored, it does at",
-           "times give _Markdown_ signals as to how to proceed.  ",
-           "')",
-           "",
-           "```",
-           "# BBBBBBBBBB",
-           "",
-           "BBBBBBBBBB",
-           "")
-  ret <- remove_comments_from_chunks(chunk)
-  expect_identical(ret, exp)
+  writeLines(chunk, fn)
+  ret <- remove_comments_from_chunks(fn)
+  actual <- readLines(fn)
+  expected <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
+                "cat('Be careful with your spacing in _Markdown_ documents.",
+                "While whitespace largely is ignored, it does at",
+                "times give _Markdown_ signals as to how to proceed.  ",
+                "')",
+                "",
+                "```",
+                "# BBBBBBBBBB",
+                "",
+                "BBBBBBBBBB",
+                "")
+  expect_identical(actual, expected)
+
   # ---------------------------------------------------------------------------
   chunk <- c("# AAAAAAAAAA",
              "",
@@ -62,19 +71,22 @@ test_that("Removing all comments from knitr chunks works", {
              "",
              "# Test comment 3",
              "```")
-  exp <- c("# AAAAAAAAAA",
-           "",
-           "AAAAAAAAAA",
-           "",
-           "```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
-           "cat('Be careful with your spacing in _Markdown_ documents.",
-           "While whitespace largely is ignored, it does at",
-           "times give _Markdown_ signals as to how to proceed.  ",
-           "')",
-           "",
-           "```")
-  ret <- remove_comments_from_chunks(chunk)
-  expect_identical(ret, exp)
+  writeLines(chunk, fn)
+  ret <- remove_comments_from_chunks(fn)
+  actual <- readLines(fn)
+  expected <- c("# AAAAAAAAAA",
+                "",
+                "AAAAAAAAAA",
+                "",
+                "```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
+                "cat('Be careful with your spacing in _Markdown_ documents.",
+                "While whitespace largely is ignored, it does at",
+                "times give _Markdown_ signals as to how to proceed.  ",
+                "')",
+                "",
+                "```")
+  expect_identical(actual, expected)
+
   # ---------------------------------------------------------------------------
   chunk <- c("# AAAAAAAAAA",
              "",
@@ -94,7 +106,10 @@ test_that("Removing all comments from knitr chunks works", {
              "",
              "BBBBBBBBBB",
              "")
-  exp <- c("# AAAAAAAAAA",
+  writeLines(chunk, fn)
+  ret <- remove_comments_from_chunks(fn)
+  actual <- readLines(fn)
+  expected <- c("# AAAAAAAAAA",
            "",
            "AAAAAAAAAA",
            "",
@@ -109,8 +124,8 @@ test_that("Removing all comments from knitr chunks works", {
            "",
            "BBBBBBBBBB",
            "")
-  ret <- remove_comments_from_chunks(chunk)
-  expect_identical(ret, exp)
+  expect_identical(actual, expected)
+
   # ---------------------------------------------------------------------------
   chunk <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
              "# Test comment",
@@ -148,8 +163,8 @@ test_that("Removing all comments from knitr chunks works", {
            "cat('More text!')",
            "",
            "```")
-  ret <- remove_comments_from_chunks(chunk)
-  expect_identical(ret, exp)
+  expect_identical(actual, expected)
+
   # ---------------------------------------------------------------------------
   chunk <- c("# AAAAAAAAAA",
              "",
@@ -176,7 +191,10 @@ test_that("Removing all comments from knitr chunks works", {
              "",
              "# Test comment 3",
              "```")
-  exp <- c("# AAAAAAAAAA",
+  writeLines(chunk, fn)
+  ret <- remove_comments_from_chunks(fn)
+  actual <- readLines(fn)
+  expected <- c("# AAAAAAAAAA",
            "",
            "AAAAAAAAAA",
            "",
@@ -195,8 +213,8 @@ test_that("Removing all comments from knitr chunks works", {
            "cat('More text!')",
            "",
            "```")
-  ret <- remove_comments_from_chunks(chunk)
-  expect_identical(ret, exp)
+  expect_identical(actual, expected)
+
   # ---------------------------------------------------------------------------
   chunk <- c("# AAAAAAAAAA",
              "",
@@ -227,7 +245,10 @@ test_that("Removing all comments from knitr chunks works", {
              "",
              "CCCCCCCCCC",
              "")
-  exp <- c("# AAAAAAAAAA",
+  writeLines(chunk, fn)
+  ret <- remove_comments_from_chunks(fn)
+  actual <- readLines(fn)
+  expected <- c("# AAAAAAAAAA",
            "",
            "AAAAAAAAAA",
            "",
@@ -250,8 +271,8 @@ test_that("Removing all comments from knitr chunks works", {
            "",
            "CCCCCCCCCC",
            "")
-  ret <- remove_comments_from_chunks(chunk)
-  expect_identical(ret, exp)
+  expect_identical(actual, expected)
+
   # ---------------------------------------------------------------------------
   chunk <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
              "# Test comment",
@@ -274,7 +295,10 @@ test_that("Removing all comments from knitr chunks works", {
              "",
              "# Test comment 3",
              "```")
-  exp <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
+  writeLines(chunk, fn)
+  ret <- remove_comments_from_chunks(fn)
+  actual <- readLines(fn)
+  expected <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
            "cat('Be careful with your spacing in _Markdown_ documents.",
            "While whitespace largely is ignored, it does at",
            "times give _Markdown_ signals as to how to proceed.  ",
@@ -289,32 +313,6 @@ test_that("Removing all comments from knitr chunks works", {
            "cat('More text!')",
            "",
            "```")
-  ret <- remove_comments_from_chunks(chunk)
-  expect_identical(ret, exp)
-  # ---------------------------------------------------------------------------
-  chunk <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
-             "# Test comment",
-             "#Test Comment 2",
-             "cat('Be careful with your spacing in _Markdown_ documents.",
-             "While whitespace largely is ignored, it does at",
-             "times give _Markdown_ signals as to how to proceed.  ",
-             "')",
-             "",
-             "# Test comment 3",
-             "```",
-             "```{r chap01-para-7-en, eval = !fr(), results = 'asis'}",
-             "# Test comment",
-             "#Test Comment 2",
-             "cat('More text!')",
-             "",
-             "# Test comment 3",
-             "```",
-             "```{r chap01-para-8-en, eval = !fr(), results = 'asis'}",
-             "# Test comment",
-             "#Test Comment 2",
-             "cat('Even more text!')",
-             "",
-             "# Test comment 3",
-             "```")
+  expect_identical(actual, expected)
 
 })

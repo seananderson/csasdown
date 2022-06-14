@@ -78,7 +78,7 @@ test_that("conv_paragraph_lines() works", {
 
   chunk <- c("Text line", "1. Item 1", "2. Item 2")
   tmp <- conv_paragraph_lines(chunk)
-  expect_identical(tmp[[1]], c("Text line", ""))
+  expect_identical(tmp[[1]], c("Text line"))
   expect_identical(tmp[[2]], c("1. Item 1", "2. Item 2"))
   # ---------------------------------------------------------------------------
 
