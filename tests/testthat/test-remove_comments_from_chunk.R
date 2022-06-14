@@ -1,7 +1,7 @@
 test_that("Removing all comments from knitr chunks works", {
 
-
-  dr <- file.path(testthat::test_path(), "remove-comments-from-chunk")
+  # dr <- file.path(testthat::test_path(), "remove-comments-from-chunk")
+  dr <- tempdir()
   fn <- file.path(dr, "tests.Rmd")
   chunk <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
              "# Test comment",
@@ -315,8 +315,5 @@ test_that("Removing all comments from knitr chunks works", {
            "```")
   expect_identical(actual, expected)
 
+  unlink(fn, recursive = TRUE)
 })
-
-dr <- file.path(testthat::test_path(), "remove-comments-from-chunk")
-fn <- file.path(dr, "tests.Rmd")
-unlink(fn, recursive = TRUE)
