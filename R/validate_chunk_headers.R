@@ -16,6 +16,7 @@
 #' name for French chunks. Default is 'ends in -fr'
 #'
 #' @return A vector of error messages, one item for each chunk problem
+#' @keywords internal
 validate_chunk_headers <- function(rmd_files,
                                    en_chunk_regex = "^\\S+-en$",
                                    fr_chunk_regex = "^\\S+-fr$"){

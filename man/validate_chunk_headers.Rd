@@ -31,3 +31,4 @@ Check that chunks with \code{eval = fr()} or \code{eval = !fr()}, have the corre
 \code{needs_trans} setting and a correct chunk name format if \code{chunk_regex}
 is \code{TRUE}
 }
+\keyword{internal}
