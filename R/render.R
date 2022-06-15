@@ -351,7 +351,10 @@ render <- function(yaml_fn = "_bookdown.yml",
   # doc_type defined at beginning of this function
   inject_bilingual_code(tmp_book_fn, doc_type)
 
-  render_book(tmp_book_fn, config_file = tmp_yaml_fn, ...)
+  render_book(tmp_book_fn,
+              config_file = tmp_yaml_fn,
+              output_format = doc_type,
+              ...)
   if(!keep_files){
     map(tmp_rmd_files, ~{
       unlink(.x, force = TRUE)
