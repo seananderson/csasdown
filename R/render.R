@@ -39,7 +39,9 @@
 #' [bookdown::render_book()]
 #' @param keep_files If `TRUE`, keep the temporary files created (Rmd files and
 #' YAML file)
-#' @param doc_type The type of document to render. Either 'pdf' or 'word'
+#' @param doc_type The type of document to render. Either `NA`, 'pdf' or 'word'.
+#' If `NA` (the default), the doc type is assumed to be what's in the
+#' 'index.Rmd' file in the `output:` YAML tag
 #' @param ... Additional arguments passed to [bookdown::render_book()] and
 #' [validate_chunk_headers()]
 #'
@@ -50,11 +52,10 @@
 #' @export
 render <- function(yaml_fn = "_bookdown.yml",
                    keep_files = FALSE,
-                   doc_type = c("pdf", "word"),
+                   doc_type = c(NA, "pdf", "word"),
                    ...){
 
   doc_type <- match.arg(doc_type)
-  pdf_or_word <- `if`(doc_type == "pdf", "PDF", "Word")
 
   # Create the temporary YAML and Rmd files and store their names
   tmp_yaml_rmd_fns <- create_tmp_yaml_rmd_files(yaml_fn)
@@ -62,6 +63,10 @@ render <- function(yaml_fn = "_bookdown.yml",
   tmp_rmd_fns <- tmp_yaml_rmd_fns[[2]]
 
   book_fn <- get_book_filename(tmp_yaml_fn)
+  if(is.na(doc_type)){
+    doc_type <- get_doc_type(book_fn)
+  }
+  pdf_or_word <- `if`(doc_type == "pdf", "PDF", "Word")
 
   # Set the render type
   set_render_type(book_fn, doc_type)
