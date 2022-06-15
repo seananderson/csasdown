@@ -46,11 +46,10 @@
 #' rest of the chunk starting with the line after the end of the table
 #'
 #' @examples
-#' library(csasdown)
 #' chunk <- c("---------- -----------", "  Parameter   Value",
 #'            "---------- -----------", "     x          1.0",
 #'            "     y          2.2", "---------- -----------")
-#' tmp <- conv_type_1_table_lines(chunk)
+#' tmp <- csasdown:::conv_type_1_table_lines(chunk)
 #' the_rest <- tmp[[2]]
 conv_type_1_table_lines <- function(chunk){
 
