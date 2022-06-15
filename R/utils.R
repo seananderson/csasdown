@@ -1,11 +1,12 @@
 #' Supply the Rmarkdown newline code for a given number of newlines
 #'
+#' @keywords internal
+#'
 #' @param num_blank_lines A single value for the number of newlines,
 #' or actual blank lines required
 #'
 #' @return A character vector containing the sequence of code necessary
 #' to create the number of newlines required
-#' @export
 rmd_nlines <- function(num_blank_lines){
   if(is.null(num_blank_lines)){
     stop("`num_blank_lines` must not be `NULL`")
@@ -35,11 +36,12 @@ rmd_nlines <- function(num_blank_lines){
 #' The one thing that is not a text line is a header line (Starts with a #
 #' followed by a space)
 #'
+#' @keywords internal
+#'
 #' @param lines The vector of character strings to check
 #'
 #' @return A logical vector representing whether or not the lines are
 #' Rmarkdown header lines, which are normal text
-#' @export
 is_rmd_text_line <- function(lines){
   if(is.null(lines)){
     return(NULL)
@@ -63,11 +65,12 @@ is_rmd_text_line <- function(lines){
 #' Checks to see if character strings are dashed lines of any length
 #' (including one)
 #'
+#' @keywords internal
+#'
 #' @param lines The vector of character strings to check
 #'
 #' @return A logical vector representing whether or not the lines are
 #' dashed lines
-#' @export
 is_rmd_dashed_line <- function(lines){
 
   if(is.null(lines)){
@@ -90,13 +93,14 @@ is_rmd_dashed_line <- function(lines){
 #'
 #' @param lines The vector of character strings to check
 #'
+#' @keywords internal
+#'
 #' @details
 #' A header line must be indented less than 4 spaces and start with a #
 #' followed by one or more spaces, and the n text
 #'
 #' @return A logical vector representing whether or not the lines are
 #' Rmarkdown header lines
-#' @export
 is_rmd_header_line <- function(lines){
   if(is.null(lines)){
     return(NULL)
@@ -119,11 +123,12 @@ is_rmd_header_line <- function(lines){
 
 #' Checks to see if character strings are Rmarkdown list lines
 #'
+#' @keywords internal
+#'
 #' @param lines The vector of character strings to check
 #'
 #' @return A logical vector representing whether or not the lines are
 #' Rmarkdown list lines
-#' @export
 is_rmd_list_line <- function(lines){
   if(is.null(lines)){
     return(NULL)
@@ -145,6 +150,8 @@ is_rmd_list_line <- function(lines){
 #' Checks to see if character strings represent the start of a Rmarkdown
 #' tables
 #'
+#' @keywords internal
+#'
 #' @param lines_lst A list of character strings vectors of at least length 5
 #' for a type 1 table and 3 for a type 2 table
 #'
@@ -154,7 +161,6 @@ is_rmd_list_line <- function(lines){
 #'
 #' @return A character vector representing which Rmarkdown table type each
 #' element in `lines_lst` is
-#' @export
 is_rmd_table_line <- function(lines_lst){
 
   if(is.null(lines_lst)){
@@ -204,12 +210,13 @@ is_rmd_table_line <- function(lines_lst){
 
 #' Detect which columns are year columns based on the range and type
 #'
+#' @keywords internal
+#'
 #' @param df A data frame with column names
 #' @param year_range The range to use for year column acceptance. All values
 #' in the column must be in this range
 #'
 #' @return A vector of column names, or NULL if no year columns were found
-#' @export
 year_cols <- function(df, year_range = 1800:4000){
 
   col_is_year <- map2(df, names(df), ~{
@@ -569,6 +576,8 @@ techreport_pdf <- function(latex_engine = "pdflatex",
 
 #' Copy the csas-style directory from the local library location to
 #' the current directory, overwriting and edit the style file if necessary
+#'
+#' @keywords internal
 #'
 #' @param copy Logical. If TRUE, copy and overwrite if the directory already exists.
 #' If FALSE, only copy if the directory does not exist in the current directory
@@ -1056,6 +1065,8 @@ fix_envs <- function(x,
 
 #' Fix the appendix subsections so they can be referenced properly in text
 #'
+#' @keywords internal
+#'
 #' @param x A vector of lines of the TEX file
 #'
 #' @return Modified TEX lines (a vector of lines of the TEX file)
@@ -1289,8 +1300,7 @@ is_windows <- function() {
 #' version built into the currently installed version of csasdown and issue
 #' a `stop()` statement telling you what doesn't match if needed.
 #'
-#' @param type Type of document. Currently this is only implemented for research
-#'   documents.
+#' @param type Type of document
 #'
 #' @importFrom rmarkdown yaml_front_matter
 #' @export

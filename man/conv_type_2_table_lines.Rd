@@ -52,3 +52,4 @@ chunk <- c("  Parameter   Value", "---------- -----------",
 tmp <- conv_type_2_table_lines(chunk)
 the_rest <- tmp[[2]]
 }
+\keyword{internal}

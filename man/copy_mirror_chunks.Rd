@@ -24,3 +24,4 @@ Search for chunks containing mirror code lines (looks like \verb{<<chunk-name>>}
 find the chunk-names and copy the code within those chunks into the chunks
 with the mirror code lines, replacing them.
 }
+\keyword{internal}

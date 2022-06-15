@@ -29,3 +29,4 @@ tmp <- conv_header_lines(chunk)
 header_line_chunk <- tmp[[1]]
 the_rest <- tmp[[2]]
 }
+\keyword{internal}

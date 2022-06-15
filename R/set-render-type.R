@@ -1,12 +1,13 @@
 #' Set the the type of document to render by modifying the YAML tag in
 #' the index file
 #'
+#' @keywords internal
+#'
 #' @param fn The name of the YAML file, typically 'index.Rmd' for bookdown
 #' @param doc_type The type of document to set for rendering. Either 'pdf' or
 #' 'word'
 #'
 #' @return Nothing
-#' @export
 set_render_type <- function(fn = "index.Rmd",
                             doc_type = "pdf"){
 

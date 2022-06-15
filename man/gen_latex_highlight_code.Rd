@@ -22,3 +22,4 @@ A vector of lines of latex code representing the highlight-style for pandoc
 \description{
 Generate LaTeX code for pandoc highlight-style list
 }
+\keyword{internal}

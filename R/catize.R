@@ -26,6 +26,7 @@
 #' "The date is ", as.character(Sys.Date()), " today. You are on a ",
 #' Sys.info()["sysname"], " machine."
 #' ```
+#' @keywords internal
 #'
 #' @param str The string containing inline knitr-style R code
 #' (backtick-enclosed)
@@ -40,7 +41,6 @@
 #'
 #' @importFrom stringr str_split str_extract_all
 #' @importFrom knitr all_patterns
-#' @export
 catize <- function(str, verbose = FALSE){
 
   # `pattern` is the official knitr regexp, see $md section,

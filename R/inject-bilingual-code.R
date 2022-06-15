@@ -1,10 +1,12 @@
-#' Inject complex code that make bilingual features in a resdoc-b possible
+#' Inject code that make bilingual features in a csasdown document possible
 #'
 #' @description
-#' Inject complex code that make bilingual features in a resdoc-b possible.
+#' Inject code that make bilingual features in a csasdown document possible.
 #' The main goal here is to hide this from authors as it is complex knitr
 #' hook code combined with some of the YAML variable extraction code and if
 #' modified, will crash the resdoc build process.
+#'
+#' @keywords internal
 #'
 #' @param fn Typically the working copy of this file:
 #' `csasdown/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd`

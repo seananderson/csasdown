@@ -18,3 +18,4 @@ Nothing
 Remove all comment lines from knitr chunks in the Rmd code for the files
 provided
 }
+\keyword{internal}

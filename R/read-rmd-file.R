@@ -10,10 +10,11 @@
 #' into the [cat()] command in a csasdown resdoc Rmd file's code chunk. See
 #' 'resdoc-bilingual' type example doc (`csasdown::draft("resdoc-bilingual")`)
 #'
+#' @keywords internal
+#'
 #' @param fn The Rmd filename. An extension is not needed
 #'
 #' @return Verbatim text representing the file
-#' @export
 read_rmd_file <- function(fn){
 
   if(!length(grep("\\.Rmd$", fn))){

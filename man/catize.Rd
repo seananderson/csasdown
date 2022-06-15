@@ -47,3 +47,4 @@ Modified cat-like string (can be passed to \code{\link[=cat]{cat()}}):
 Sys.info()["sysname"], " machine."
 }\if{html}{\out{</div>}}
 }
+\keyword{internal}

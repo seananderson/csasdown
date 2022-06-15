@@ -28,3 +28,4 @@ following, before the next text occurs. List elements must not have newlines
 between them.
 This allows for 'What you see is what you get' in your Rmarkdown code.
 }
+\keyword{internal}

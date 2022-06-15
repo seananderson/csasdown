@@ -15,13 +15,15 @@
 #'    Optional text..
 #'    More optional text..
 #'    ...
+#'
+#' @keywords internal
+#'
 #' @param chunk A vector of character strings representing lines for RMD code
 #'
 #' @return A list of length two. The elements are:
 #' 1. A vector representing the lines of the label chunk or `NULL` if none found
 #' 2. A vector representing the remainder of the chunk after the label or
 #'    `NULL` if the label reached to the end of the chunk
-#' @export
 extract_rmd_table_label <- function(chunk){
 
   if(is.null(chunk)){

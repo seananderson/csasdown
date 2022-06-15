@@ -1,5 +1,7 @@
 #' Remove HTML comments (Markdown comments) from a chunk of code
 #'
+#' @keywords internal
+#'
 #' @param chunk A vector of character strings representing lines for RMD code
 #' @param fn Filename that to reference when writing errors only. The file is
 #' not used or looked for in any way, all the processing is done for `chunk`
@@ -8,7 +10,6 @@
 #' removed and `NA`'s for lines which were taken up by all comments
 #'
 #' @importFrom purrr map2_chr
-#' @export
 remove_html_comments <- function(chunk, fn = "unknown"){
 
   start_comment <- str_extract_all(chunk, "<!--")

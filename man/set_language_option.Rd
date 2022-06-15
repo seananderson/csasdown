@@ -22,3 +22,4 @@ accordingly in the current workspace
 If the YAML option is not found or there is some other issue, the 'french'
 option will be set to \code{FALSE}
 }
+\keyword{internal}

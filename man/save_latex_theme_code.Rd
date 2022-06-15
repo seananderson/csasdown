@@ -18,3 +18,4 @@ Source this file and run this function to create all the theme
 files for the package. Once those have been created, the package has to
 be re-installed, i.e. load_all("csasdown") will not access the new theme files.
 }
+\keyword{internal}

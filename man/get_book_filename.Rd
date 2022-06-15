@@ -19,3 +19,4 @@ Extract the book filename from the YAML file (usually index.Rmd)
 \code{book_file} is the "skeleton.Rmd" file, which is typically called
 "index.Rmd" by default in a project. It is found in the bookdown YAML file
 }
+\keyword{internal}

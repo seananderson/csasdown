@@ -27,3 +27,4 @@ a <- letters[1:10]
 b <- LETTERS[25:26]
 inject_vec_in_vec(a, b, c(2, 5, 8))
 }
+\keyword{internal}

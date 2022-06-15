@@ -5,11 +5,12 @@
 #' If the YAML option is not found or there is some other issue, the 'french'
 #' option will be set to `FALSE`
 #'
+#' @keywords internal
+#'
 #' @param fn The bookdown index filename, typically index.Rmd. This file
 #' must have a YAML option called 'french' set to either 'true' or 'false'
 #'
 #' @return Nothing
-#' @export
 set_language_option <- function(fn = "index.Rmd"){
 
   if(!file.exists(fn)){

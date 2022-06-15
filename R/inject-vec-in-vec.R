@@ -9,6 +9,8 @@
 #' @param sec_vec The vector to be inserted in one or more places
 #' @param inds The indices at which to insert the vectors
 #'
+#' @keywords internal
+#'
 #' @return A vector of strings
 #' @export
 #'

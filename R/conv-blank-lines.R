@@ -16,11 +16,12 @@
 #' [conv_paragraph_lines()] deal with all the blank lines that follow those
 #' pieces of rmarkdown code.
 #'
+#' @keywords internal
+#'
 #' @param chunk A vector of character strings representing lines for RMD code
 #'
 #' @return A list of two elements, 1) The corrected part of the chunk and
 #' 2) the rest of the chunk starting with the line after the last blank line
-#' @export
 conv_blank_lines <- function(chunk){
 
   if(is.null(chunk)){

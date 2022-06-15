@@ -21,3 +21,4 @@ lines. The series of paragraph lines will be converted into a mini-chunk,
 which will be returned as the first element of a two-element list, the
 second element is the rest of the Rmd.
 }
+\keyword{internal}

@@ -5,11 +5,12 @@
 #' [cat()] so that the bilingual features of csasdown can be used properly
 #' but the author can write paragraphs or sections in pure Rmarkdown
 #'
+#' @keywords internal
+#'
 #' @param rmd_files A vector of character strings representing the names
 #' of Rmd files
 #'
 #' @return Nothing
-#' @export
 inject_rmd_files <- function(rmd_files){
 
   modded_files <- map(rmd_files, function(fn){

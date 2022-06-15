@@ -34,6 +34,8 @@
 #' A second line of table caption here (no blank lines in between)
 #' ```
 #'
+#' @keywords internal
+#'
 #' @param chunk A vector of character strings representing lines for RMD code
 #'
 #' @return A list of two elements, which are the modified type 1 table and the

@@ -19,3 +19,4 @@ removed and \code{NA}'s for lines which were taken up by all comments
 \description{
 Remove HTML comments (Markdown comments) from a chunk of code
 }
+\keyword{internal}

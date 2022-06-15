@@ -10,6 +10,8 @@
 #' find the chunk-names and copy the code within those chunks into the chunks
 #' with the mirror code lines, replacing them.
 #'
+#' @keywords internal
+#'
 #' @param rmd_files A vector of character strings representing the names
 #' of Rmd files
 #'
@@ -17,7 +19,6 @@
 #' Rmd file but with the mirrored calls replaced with code
 #'
 #' @importFrom magrittr %>%
-#' @export
 copy_mirror_chunks <- function(rmd_files){
 
   # Make a pasted-together version of all the Rmds files so the chunks are all

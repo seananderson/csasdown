@@ -15,3 +15,4 @@ The size of the stack (zero if the stack is empty)
 \description{
 Return the size of the stack
 }
+\keyword{internal}

@@ -17,3 +17,4 @@ The stack with the new value on the top
 \description{
 Push a character to a stack
 }
+\keyword{internal}

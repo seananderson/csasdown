@@ -1,6 +1,8 @@
 #' Remove all comment lines from knitr chunks in the Rmd code for the files
 #' provided
 #'
+#' @keywords internal
+#'
 #' @param rmd_files A vector of character strings representing the names
 #' of Rmd files
 #'

@@ -20,3 +20,4 @@ Nothing
 Set the the type of document to render by modifying the YAML tag in
 the index file
 }
+\keyword{internal}

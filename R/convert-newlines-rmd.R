@@ -12,13 +12,14 @@
 #' between them.
 #' This allows for 'What you see is what you get' in your Rmarkdown code.
 #'
+#' @keywords internal
+#'
 #' @param chunk A vector of strings, one line of Rmarkdown per element
 #' @param strip_blank_lines Strip all lines composed of whitespace.
 #' Rstudio automatically indents several spaces to the start of lines when you
 #' press 'Enter' and it is common to ignore those when editing
 #'
 #' @return A modified vector of strings
-#' @export
 convert_newlines_rmd <- function(chunk,
                                  strip_blank_lines = TRUE){
 

@@ -3,12 +3,13 @@
 #' @details
 #' `book_file` is the "skeleton.Rmd" file, which is typically called
 #' "index.Rmd" by default in a project. It is found in the bookdown YAML file
-
+#'
+#' @keywords internal
+#'
 #' @param yaml_fn The YAML file name. The default is '_bookdown.yml' for
 #'
 #' @return The book filename (typically index.Rmd) for [bookdown]
 #' @importFrom stringr str_extract_all
-#' @export
 get_book_filename <- function(yaml_fn = "_bookdown.yml"){
 
   yaml <- readLines(yaml_fn)

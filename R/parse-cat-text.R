@@ -18,6 +18,8 @@
 #' Either single or double quotes can be used to surround the text passed
 #' to [cat()] in the string.
 #'
+#' @keywords internal
+#'
 #' @param str_vec A vector of strings which starts with a 'cat('
 #' @param ret_inds Logical. If `TRUE`, return the indices of the input
 #' vector instead of the actual values. If `FALSE`, return the values
@@ -30,7 +32,6 @@
 #' included in the return text
 #'
 #' @importFrom crayon cyan red
-#' @export
 parse_cat_text <- function(str_vec, ret_inds = FALSE, verbose = FALSE){
 
   if(!length(grep("^cat\\(.*", str_vec[1]))){
