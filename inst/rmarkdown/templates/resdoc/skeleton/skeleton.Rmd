@@ -74,7 +74,7 @@ output:
 # ------------
 # End of options to set
 knit: (function(input, ...) {
-        csasdown::render("_bookdown.yml")
+       csasdown::render('_bookdown.yml', doc_type = csasdown::get_doc_type())
       })
 link-citations: true
 bibliography: bib/refs.bib
