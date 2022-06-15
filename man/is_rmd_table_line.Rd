@@ -23,3 +23,4 @@ tables
 Three lines from the beginning of the table are required to determine if a
 table is possibly valid
 }
+\keyword{internal}

@@ -22,3 +22,4 @@ words, typical paragraph or sentence text with punctuation.
 The one thing that is not a text line is a header line (Starts with a #
 followed by a space)
 }
+\keyword{internal}

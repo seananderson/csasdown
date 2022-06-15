@@ -20,3 +20,4 @@ Checks to see if character strings are Rmarkdown header lines
 A header line must be indented less than 4 spaces and start with a #
 followed by one or more spaces, and the n text
 }
+\keyword{internal}

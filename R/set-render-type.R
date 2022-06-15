@@ -1,4 +1,4 @@
-#' Set the the type of document to render by modifying the YAML tag in
+#' Set the the type of document to render by modifying the YAML tags in
 #' the index file
 #'
 #' @keywords internal
@@ -15,9 +15,11 @@ set_render_type <- function(fn = "index.Rmd",
     stop("The file '", fn, "' does not exist")
   }
   rmd <- readLines(fn)
+  trim_rmd <- trimws(rmd)
 
+  # Get the document type from the `output:` YAML tag
   doc_type_pat <- "^csasdown::(\\S+):\\s*$"
-  doc_ind <- grep(doc_type_pat, trimws(rmd))
+  doc_ind <- grep(doc_type_pat, trim_rmd)
   if(!length(doc_ind)){
     stop("Document type not found in file '", fn, "'\n",
          "A line'csasdown::resdoc_pdf:' was not found",
@@ -30,6 +32,7 @@ set_render_type <- function(fn = "index.Rmd",
             call. = FALSE)
     doc_ind <- doc_ind[1]
   }
+
 
   full_doc_type <- gsub(doc_type_pat, "\\1", trimws(rmd[doc_ind]))
   old_doc_type <- gsub(".*_(\\S+)$", "\\1", full_doc_type)

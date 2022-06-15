@@ -16,3 +16,4 @@ Rmarkdown list lines
 \description{
 Checks to see if character strings are Rmarkdown list lines
 }
+\keyword{internal}

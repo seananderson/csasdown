@@ -321,7 +321,7 @@ resdoc_pdf <- function(toc = TRUE,
   }
 
   if((!highlight %in% themes) && !file.exists(here(highlight))){
-    stop("in YAML, `csasdown:resdco_pdf: highlight` must be one of ", paste(themes, collapse = ", "),
+    stop("in YAML, `csasdown:resdoc_pdf: highlight` must be one of ", paste(themes, collapse = ", "),
          "\nor a filename for a custom latex theme file.",
          "\nSee pandoc documentation, --highlight-style argument.", call. = FALSE)
   }

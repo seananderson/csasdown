@@ -18,3 +18,4 @@ A vector of column names, or NULL if no year columns were found
 \description{
 Detect which columns are year columns based on the range and type
 }
+\keyword{internal}

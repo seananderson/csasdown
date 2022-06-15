@@ -10,8 +10,7 @@ check_yaml(
 )
 }
 \arguments{
-\item{type}{Type of document. Currently this is only implemented for research
-documents.}
+\item{type}{Type of document}
 }
 \description{
 As the csasdown package is updated, sometimes new mandatory YAML options are added

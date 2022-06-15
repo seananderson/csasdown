@@ -15,3 +15,4 @@ Modified TEX lines (a vector of lines of the TEX file)
 \description{
 Fix the appendix subsections so they can be referenced properly in text
 }
+\keyword{internal}

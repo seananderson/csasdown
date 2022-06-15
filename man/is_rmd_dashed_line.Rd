@@ -17,3 +17,4 @@ dashed lines
 Checks to see if character strings are dashed lines of any length
 (including one)
 }
+\keyword{internal}

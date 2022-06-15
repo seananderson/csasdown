@@ -17,3 +17,4 @@ to create the number of newlines required
 \description{
 Supply the Rmarkdown newline code for a given number of newlines
 }
+\keyword{internal}
