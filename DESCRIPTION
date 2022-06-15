@@ -48,7 +48,7 @@ Description: Uses the 'bookdown' R package to generate CSAS
     huskydown package.
 License: MIT + file LICENSE
 Depends:
-    R (>= 3.3.0)
+    R (>= 3.6.0)
 Imports:
     bookdown,
     crayon,
@@ -60,7 +60,7 @@ Imports:
     purrr,
     rmarkdown,
     stringr,
-    tinytex (>= 0.28),
+    tinytex (>= 0.39),
     utils
 Suggests:
     covr,
