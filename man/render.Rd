@@ -7,7 +7,7 @@
 render(
   yaml_fn = "_bookdown.yml",
   keep_files = FALSE,
-  doc_type = c("pdf", "word"),
+  doc_type = c(NA, "pdf", "word"),
   ...
 )
 }
@@ -18,7 +18,9 @@ render(
 \item{keep_files}{If \code{TRUE}, keep the temporary files created (Rmd files and
 YAML file)}
 
-\item{doc_type}{The type of document to render. Either 'pdf' or 'word'}
+\item{doc_type}{The type of document to render. Either \code{NA}, 'pdf' or 'word'.
+If \code{NA} (the default), the doc type is assumed to be what's in the
+'index.Rmd' file in the \verb{output:} YAML tag}
 
 \item{...}{Additional arguments passed to \code{\link[bookdown:render_book]{bookdown::render_book()}} and
 \code{\link[=validate_chunk_headers]{validate_chunk_headers()}}}
