@@ -15,6 +15,35 @@
 
 * There is a new example document called **resdoc-b** which you can get by running `csasdown::draft("resdoc-b")` and then rendering with `csasdown::render()`. That document is built with and explains all the new features and the new `render()` function.
 
+* If you're using an old version of **index.Rmd** in your project you should modify the `knit:` YAML tag to the following:
+  ```
+  knit: (function(input, ...) {
+        csasdown::render('_bookdown.yml', doc_type = csasdown::get_doc_type())`
+        })
+  ```
+* If you're using an old version of **index.Rmd** in your project you should delete these chunks of code from it:
+  ```
+  meta <- rmarkdown::metadata$output
+  if (length(grep("pdf", names(meta)))) {
+    french <- meta$`csasdown::resdoc_pdf`$french
+    prepub <- meta$`csasdown::resdoc_pdf`$prepub
+  } else if (length(grep("word", names(meta)))) {
+    french <- meta$`csasdown::resdoc_word`$french
+    prepub <- meta$`csasdown::resdoc_word`$prepub
+  }
+  csl <- "csl/csas.csl"
+  if (french) {
+    csl <- "csl/csas-french.csl"
+    options(OutDec = ",")
+  }
+  ```
+  and
+  ```
+  ---
+  csl: `r csl`    
+  ---
+  ```
+
 # csasdown 0.0.10.9000
 
 * Reduce space above title in SRs #207
