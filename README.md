@@ -10,7 +10,9 @@
 
 csasdown is an R package that facilitates generating Canadian Science Advisory Secretariat (CSAS) documents in PDF or Word format using R Markdown and bookdown.
 
-Please check the [wiki](https://github.com/pbs-assess/csasdown/wiki) for hints and FAQs.
+Check the [NEWS](https://github.com/pbs-assess/csasdown/blob/master/NEWS.md) file for information on what has changed recently.
+
+Check the [Wiki](https://github.com/pbs-assess/csasdown/wiki) for hints and FAQs.
 
 Slides from a short workshop on csasdown: [[PDF](https://www.dropbox.com/s/7m23mh3yfhk5ah8/csasdown-slides.pdf?dl=1)].
 
@@ -39,6 +41,12 @@ remotes::install_github("pbs-assess/csasdown")
 csasdown::draft("resdoc")
 ```
 
+You can do the same for an advanced Research Document with bilingual features:
+
+```r
+csasdown::draft("resdoc-b")
+```
+
 You can do the same for a Technical Report:
 
 ```r
@@ -52,6 +60,8 @@ csasdown::draft("sr")
 ```
 
 Note that the `techreport` example contains a lot of information on getting started with R Markdown and should be the first one you render if you are new to `csasdown`. The `resdoc` example contains other examples.
+
+The `resdoc-b` contains examples and guidance on setting up chunks to hold both English and French Rmarkdown, and explanations of the features introduced in version 0.1.0 (see the [NEWS](https://github.com/pbs-assess/csasdown/blob/master/NEWS.md) file).
 
 5. Render the document right away to make sure everything works by opening the file **index.Rmd** and clicking the **knit** button in RStudio. Once completed, a preview pane showing the PDF document will appear. The location of the PDF is in the **_book** directory. See the *Rendering* section below for more information.
 
@@ -88,16 +98,23 @@ You need to edit the individual chapter R Markdown files to write your report. W
 ## Rendering
 
 ***
-**Render the document often!**
+**Rendering using the knit button**
 
-This can't be stressed enough. Every time you add something new, render the document to make sure you didn't break the build. It is much easier to find the problem when only one small known change was made since the last time it was rendered. 
-***
-
-To render your report into a PDF or Word document, open `index.Rmd` in RStudio and then click the "knit" button:
+To render your report into a PDF or Word document, open `index.Rmd` in RStudio and then click the **knit** button:
 
 <img src="screenshots/knit.png" width="400">
 
-To change the output formats between PDF and Word look at the YAML header part of `index.Rmd`  (the part between the two sets of triple dashes) and change this:
+<br>
+<br>
+
+A message will appear telling you which language and document type is being rendered.
+
+Every time you add something new, you should render the document to make sure you didn't break the build. It is much easier to find the problem when only one small known change was made since the last time it was rendered. 
+
+
+To change the output formats between PDF and Word find the following chunk of code in `index.Rmd` and change it to either `pdf` or `word`.
+
+Like this:
 
 ```
 output:
@@ -105,7 +122,7 @@ output:
    french: false
 ```
 
-to this:
+or this:
 
 ```
 output:
@@ -113,17 +130,35 @@ output:
    french: false
 ```
 
-**Notes**
-* This is also the only place you should be changing your document language.
-* Replace `resdoc_pdf` and `resdoc_word` with `sr_pdf`, `sr_word`, `techreport_pdf`, or `techreport_word` for other document types.
+To render other types of *csasdown* documents, replace `resdoc_pdf` and `resdoc_word` with `sr_pdf`, `sr_word`, `techreport_pdf`, or `techreport_word`.
 
-Alternatively, if you're not using RStudio, you can run this from the R console, assuming your have set the main directory (the one with the `index.Rmd` file) as your working directory:
+***
+**Rendering using the console**
+
+You can also render from the console if you're not using RStudio or to allow debugging of your code.
+
+To do this, you must have your working directory (see `getwd()`) be the one with the `index.Rmd` file and `_bookdown.yml` files in it.
 
 ```r
-csasdown::render("index.Rmd")
+csasdown::render()
 ```
 
-This method of rendering also allows you to insert `browser()` calls in your code and stop compilation to debug (but note you'll need to run `sink()` in the console if you stop mid R Markdown rendering in a `browser()`). It also does *not* open a preview viewer once finished, so you will have to navigate to the `_book/` directory and open it up manually.
+This method of rendering allows you to debug your code by inserting `browser()` calls which stops compilation at specific places.
+
+*Note that you'll need to run `sink()` in the console one it stops on your `browser()` calls to see any variable values.*
+
+It also does *not* open a preview viewer once finished like the knit button method does, so you will have to navigate to the `_book/` directory and open it up manually.
+
+If you want to ignore the document type found in `index.Rmd` in the `output:` tag (shown above) and select the document type from the command line you can render the document like this:
+
+```r
+csasdown::render(doc_type = "pdf")
+```
+or like this:
+
+```r
+csasdown::render(doc_type = "word")
+```
 
 The rendered PDF or Word file of your report will be deposited in the `_book/` directory.
 
@@ -149,13 +184,22 @@ The following components are ones you should edit to customize your report:
 
 This is the main configuration file for your report. It determines what `.Rmd` files are included in the output, and in what order. Arrange the order of your chapters in this file and ensure that the names match the names in your folders. If you add new `.Rmd` files, add them here. You may comment out some files while working on others by placing a `#` in front of them. This will stop compilation of those files, reducing the time to compile while working on another file.
 
+A temporary copy of this file is created when running `render()`. It is the file that is actually used in the rendering process. 
+If you want to see what it holds, render with this command: `render(keep_files = TRUE)` to keep it around after rendering.
+
 ### `index.Rmd`
 
 This file contains all the meta information that goes at the beginning of your document. You'll need to edit this to put your name on the first page, add the title of your report, etc. **The name of this file cannot be changed.**
 
+A temporary copy of this file is created when running `render()`. It is the file that is actually used in the rendering process. 
+If you want to see what it holds, render with this command: `render(keep_files = TRUE)` to keep it around after rendering.
+
 ### `01-chap1.Rmd`, `02-chap2.Rmd`, etc.
 
 These are the .Rmd files for each chapter/section of your report. Write your report in these. You can delete any or all of these and create as many of your own as you wish, but if you do you must change the **_bookdown.yml** file accordingly.
+
+Temporary copies of these file are created when running `render()`. They are the files that are actually used in the rendering process. 
+If you want to see what they hold, render with this command: `render(keep_files = TRUE)` to keep them around after rendering.
 
 ### `bib/`
 
