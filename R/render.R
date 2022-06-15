@@ -54,6 +54,7 @@ render <- function(yaml_fn = "_bookdown.yml",
                    ...){
 
   doc_type <- match.arg(doc_type)
+  pdf_or_word <- `if`(doc_type == "pdf", "PDF", "Word")
 
   # Create the temporary YAML and Rmd files and store their names
   tmp_yaml_rmd_fns <- create_tmp_yaml_rmd_files(yaml_fn)
@@ -93,7 +94,9 @@ render <- function(yaml_fn = "_bookdown.yml",
   doc_type <- gsub(doc_type_pat, "\\1", trimws(book[doc_ind]))
   # Make sure all YAML entries are present in `index.Rmd`
   check_yaml(doc_type)
-  message("\nRendering document ...")
+
+  message(paste("\nRendering", pdf_or_word, "document in",
+                `if`(fr(), "French", "English"), "..."))
 
   # Process all Rmd files except for the `book_fn` (index.Rmd)
   fn_process <- tmp_rmd_fns[tmp_rmd_fns != book_fn]
@@ -353,8 +356,8 @@ render <- function(yaml_fn = "_bookdown.yml",
 
   render_book(tmp_book_fn,
               config_file = tmp_yaml_fn,
-              output_format = doc_type,
               ...)
+
   if(!keep_files){
     map(tmp_rmd_files, ~{
       unlink(.x, force = TRUE)

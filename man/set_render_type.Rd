@@ -2,7 +2,7 @@
 % Please edit documentation in R/set-render-type.R
 \name{set_render_type}
 \alias{set_render_type}
-\title{Set the the type of document to render by modifying the YAML tag in
+\title{Set the the type of document to render by modifying the YAML tags in
 the index file}
 \usage{
 set_render_type(fn = "index.Rmd", doc_type = "pdf")
@@ -17,7 +17,7 @@ set_render_type(fn = "index.Rmd", doc_type = "pdf")
 Nothing
 }
 \description{
-Set the the type of document to render by modifying the YAML tag in
+Set the the type of document to render by modifying the YAML tags in
 the index file
 }
 \keyword{internal}
