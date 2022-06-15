@@ -14,7 +14,8 @@ invisible(file.copy(files, testing_path, recursive = TRUE))
 # ----------------------------------------------------
 # Render the PDF sr
 expect_warning({
-  csasdown::render(doc_type = "pdf")
+  csasdown:::set_render_type(doc_type = "pdf")
+  csasdown::render()
 })
 
 test_that("csasdown::render generates the PDF of the sr", {
@@ -23,7 +24,8 @@ test_that("csasdown::render generates the PDF of the sr", {
 
 # ----------------------------------------------------
 # Render the Word sr
-csasdown::render(doc_type = "word")
+csasdown:::set_render_type(doc_type = "word")
+csasdown::render()
 
 test_that("csasdown::render generates the .docx of the sr", {
   expect_true(file.exists(file.path(testing_path, "_book", "sr.docx")))
@@ -33,7 +35,8 @@ test_that("csasdown::render generates the .docx of the sr", {
 # Render the French PDF sr
 options(french = TRUE)
 expect_warning({
-  csasdown::render(doc_type = "pdf")
+  csasdown:::set_render_type(doc_type = "pdf")
+  csasdown::render()
 })
 
 test_that("csasdown::render generates the PDF of the sr", {
@@ -42,7 +45,8 @@ test_that("csasdown::render generates the PDF of the sr", {
 
 # ----------------------------------------------------
 # Render the French Word sr
-csasdown::render(doc_type = "word")
+csasdown:::set_render_type(doc_type = "word")
+csasdown::render()
 
 test_that("csasdown::render generates the .docx of the sr", {
   expect_true(file.exists(file.path(testing_path, "_book", "sr.docx")))
@@ -61,7 +65,8 @@ suppressMessages(csasdown::draft(
   edit = FALSE
 ))
 
-suppressWarnings(csasdown::render(doc_type = "pdf"))
+csasdown:::set_render_type(doc_type = "pdf")
+suppressWarnings(csasdown::render())
 
 files <- file.path(testing_path, "index", dir("index"))
 invisible(file.copy(files, testing_path, recursive = TRUE))

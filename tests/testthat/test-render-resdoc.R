@@ -14,14 +14,16 @@ invisible(file.copy(files, testing_path, recursive = TRUE, overwrite = TRUE))
 # ----------------------------------------------------
 # Render the PDF resdoc
 test_that("csasdown::render generates the PDF of the resdoc", {
-  expect_warning(csasdown::render(doc_type = "pdf"))
+  csasdown:::set_render_type(doc_type = "pdf")
+  expect_warning(csasdown::render())
   expect_true(file.exists(file.path(testing_path, "_book", "resdoc.pdf")))
 })
 
 # ----------------------------------------------------
 # Render the Word resdoc
 test_that("csasdown::render generates the .docx of the resdoc", {
-  expect_warning(csasdown::render(doc_type = "word"))
+  csasdown:::set_render_type(doc_type = "word")
+  expect_warning(csasdown::render())
   expect_true(file.exists(file.path(testing_path, "_book", "resdoc.docx")))
 })
 
@@ -42,21 +44,24 @@ expect_message(check_yaml(), "contains all")
 # Render the French PDF resdoc
 options(french = TRUE)
 test_that("csasdown::render generates the French PDF of the resdoc", {
-  expect_warning(csasdown::render(doc_type = "pdf"))
+  csasdown:::set_render_type(doc_type = "pdf")
+  expect_warning(csasdown::render())
   expect_true(file.exists(file.path(testing_path, "_book", "resdoc.pdf")))
 })
 
 # ----------------------------------------------------
 # Render the French Word resdoc
 test_that("csasdown::render generates the French .docx of the resdoc", {
-  suppressWarnings(csasdown::render(doc_type = "word"))
+  csasdown:::set_render_type(doc_type = "word")
+  suppressWarnings(csasdown::render())
   expect_true(file.exists(file.path(testing_path, "_book", "resdoc.docx")))
 })
 
 # ----------------------------------------------------
 # Creation and copying of test files to a temporary directory
 options(french = FALSE)
-suppressWarnings(csasdown::render(doc_type = "word"))
+csasdown:::set_render_type(doc_type = "word")
+suppressWarnings(csasdown::render())
 
 files <- file.path(testing_path, "index", dir("index"))
 invisible(file.copy(files, testing_path, recursive = TRUE))
