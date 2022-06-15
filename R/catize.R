@@ -41,6 +41,7 @@
 #'
 #' @importFrom stringr str_split str_extract_all
 #' @importFrom knitr all_patterns
+#' @export
 catize <- function(str, verbose = FALSE){
 
   # `pattern` is the official knitr regexp, see $md section,

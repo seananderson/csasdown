@@ -15,13 +15,6 @@
 #'
 #' @return A list of two elements, 1) The corrected part of the chunk and
 #' 2) the rest of the chunk starting with the line after the last list line
-#'
-#' @examples
-#' library(csasdown)
-#' chunk <- c("- Item 1", "- Item 2", "", "1. Item 1", "  a. Item 1a")
-#' tmp <- conv_list_lines(chunk)
-#' list_line_chunk <- tmp[[1]]
-#' the_rest <- tmp[[2]]
 conv_list_lines <- function(chunk){
 
   if(is.null(chunk)){

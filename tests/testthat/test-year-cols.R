@@ -12,10 +12,10 @@ if(fr()){
 }
 
 test_that("year_col() function works", {
-  i <- year_cols(df1)
-  j <- year_cols(df2)
-  k <- year_cols(df3)
-  l <- year_cols(df4)
+  i <- csasdown:::year_cols(df1)
+  j <- csasdown:::year_cols(df2)
+  k <- csasdown:::year_cols(df3)
+  l <- csasdown:::year_cols(df4)
   expect_equal(i, NULL)
   expect_equal(j, "a")
   expect_equal(k, c("a", "c"))
