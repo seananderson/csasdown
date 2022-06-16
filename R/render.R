@@ -56,39 +56,27 @@ render <- function(yaml_fn = "_bookdown.yml",
   tmp_yaml_fn <- tmp_yaml_rmd_fns[[1]]
   tmp_rmd_fns <- tmp_yaml_rmd_fns[[2]]
 
-  book_fn <- get_book_filename(tmp_yaml_fn)
-  doc_type <- get_doc_type(book_fn)
-  pdf_or_word <- `if`(doc_type == "pdf", "PDF", "Word")
+  index_fn <- get_index_filename(tmp_yaml_fn)
+  render_type <- get_render_type(index_fn)
+  doc_format <- gsub("^\\S+_(\\S+)$", "\\1", render_type)
+  pdf_or_word <- `if`(doc_format == "pdf", "PDF", "Word")
 
   # Set the render type
-  set_render_type(book_fn, doc_type)
+  set_render_type(index_fn, doc_format)
 
   # Find out what language is set to and set the option 'french' here
   # so that it works on the first compilation in a workspace
-  set_language_option(book_fn)
-  book <- readLines(book_fn)
+  # It sets `options(french)` to the value in the file
+  set_language_option(index_fn)
 
   if(!length(tmp_rmd_fns)){
     stop("No uncommented Rmd files were found in the YAML file ", yaml_fn,
          call. = FALSE)
   }
 
-  # Get CSAS document type
-  doc_type_pat <- "^csasdown::(\\S+):\\s*$"
-  doc_ind <- grep(doc_type_pat, trimws(book))
-  if(!length(doc_ind)){
-    stop("Document type not found in file '", book_fn, "'\n",
-         "A line'csasdown::resdoc_pdf:' was not found",
-         call. = FALSE)
-  }
-  if(length(doc_ind) > 1){
-    warning("Document type defined more than once in file '", book_fn, "'\n",
-         "A line like 'csasdown::resdoc_pdf:' is multiply defined.\n",
-         "Using the first instance.",
-         call. = FALSE)
-    doc_ind <- doc_ind[1]
-  }
-  doc_type <- gsub(doc_type_pat, "\\1", trimws(book[doc_ind]))
+  # Document type (resdoc_pdf, sr_word, etc)
+  doc_type <- get_render_type(index_fn)
+
   # Make sure all YAML entries are present in `index.Rmd`
   check_yaml(doc_type)
 
@@ -103,11 +91,11 @@ render <- function(yaml_fn = "_bookdown.yml",
     csas_doc_type <- "CSAS Document"
   }
 
-  message(paste0("\nRendering the ", csas_doc_type, " as a ", pdf_or_word, " document in ",
-                 `if`(fr(), "French", "English"), "..."))
+  message(paste0("\nRendering the ", csas_doc_type, " as a ", pdf_or_word,
+                 " document in ", `if`(fr(), "French", "English"), "..."))
 
-  # Process all Rmd files except for the `book_fn` (index.Rmd)
-  fn_process <- tmp_rmd_fns[tmp_rmd_fns != book_fn]
+  # Process all Rmd files except for the `index_fn` (index.Rmd)
+  fn_process <- tmp_rmd_fns[tmp_rmd_fns != index_fn]
 
   # Make sure all chunk headers are of the correct language and have
   # `needs_trans` chunk headers set correctly
@@ -358,11 +346,11 @@ render <- function(yaml_fn = "_bookdown.yml",
   })
 
   # Modify index.Rmd (actually tmp-index.Rmd)
-  tmp_book_fn <- get_book_filename(tmp_yaml_fn)
+  tmp_index_fn <- get_index_filename(tmp_yaml_fn)
   # doc_type defined at beginning of this function
-  inject_bilingual_code(tmp_book_fn, doc_type)
+  inject_bilingual_code(tmp_index_fn, doc_type)
 
-  render_book(tmp_book_fn,
+  render_book(tmp_index_fn,
               config_file = tmp_yaml_fn,
               ...)
 
