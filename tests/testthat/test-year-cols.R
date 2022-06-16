@@ -7,7 +7,7 @@ df3 <- data.frame(a = 2001:2050, b = seq(1000, 1001, length.out = 50), c = 1901:
 # 2 year columns, additional column with large serial numbers
 df4 <- data.frame(a = 2001:2050, b = seq(1000, 1001, length.out = 50), c = 1901:1950, d = 40001:40050)
 
-if(fr()){
+if(csasdown:::fr()){
   options(french = FALSE)
 }
 
