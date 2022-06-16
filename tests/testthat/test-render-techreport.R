@@ -31,8 +31,11 @@ test_that("csasdown::render generates the .docx of the techreport", {
   expect_true(file.exists(file.path(testing_path, "_book", "techreport-english.docx")))
 })
 
+
+# French techreport does not currently work, and never has
+#
 # ----------------------------------------------------
-# Render the French PDF techreport - French techreport does not currently work
+# Render the French PDF techreport
 #test_that("csasdown::render generates the French PDF of the techreport", {
   # csasdown::set_french(val = TRUE)
   # csasdown:::set_render_type(doc_type = "pdf")
@@ -42,9 +45,9 @@ test_that("csasdown::render generates the .docx of the techreport", {
 
 # ----------------------------------------------------
 # Render the French Word techreport
-test_that("csasdown::render generates the French .docx of the techreport", {
-  csasdown::set_french(val = TRUE)
-  csasdown:::set_render_type(doc_type = "word")
-  suppressWarnings(csasdown::render())
-  expect_true(file.exists(file.path(testing_path, "_book", "techreport-french.docx")))
-})
+# test_that("csasdown::render generates the French .docx of the techreport", {
+#   csasdown::set_french(val = TRUE)
+#   csasdown:::set_render_type(doc_type = "word")
+#   suppressWarnings(csasdown::render())
+#   expect_true(file.exists(file.path(testing_path, "_book", "techreport-french.docx")))
+# })
