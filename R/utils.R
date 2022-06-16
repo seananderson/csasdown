@@ -1408,16 +1408,13 @@ get_contact_info <- function(region = "National Capital Region") {
 #' tinytex::latexmk("resdoc.tex")
 #' setwd(root_dir)
 #' }
-create_tempdir_for_latex <- function(type = NULL,
-                                     where = "r",
+create_tempdir_for_latex <- function(type = c("resdoc", "sr", "techreport"),
+                                     where = c("r", "b"),
                                      tmp_dir = NULL,
                                      root_dir = here()) {
-  stopifnot(type == "resdoc" ||
-              type == "resdoc-b" ||
-              type == "sr" ||
-              type == "techreport")
-  stopifnot(where == "r" ||
-              where == "b")
+
+  type <- match.arg(type)
+  where <- match.arg(where)
 
   if (is.null(tmp_dir)) {
     tmp_dir <- tempdir()
