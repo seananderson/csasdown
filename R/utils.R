@@ -373,6 +373,7 @@ resdoc_pdf <- function(toc = TRUE,
       french = fr(),
       fix_ref_section_name =TRUE
     )
+
   })
   on.exit(options(bookdown.post.late = old_opt))
 
@@ -1247,7 +1248,7 @@ inject_refstepcounters <- function(x) {
 #' @importFrom officer read_docx body_add_docx cursor_reach body_add_toc
 #' @export
 add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2021-eng-titlepage.docx",
-                                      resdoc = "_book/resdoc.docx") {
+                                      resdoc = "_book/resdoc-english.docx") {
   title_doc <- read_docx(titlepage)
   x <- body_add_docx(title_doc, resdoc, pos = "before")
   print(x, target = resdoc)
@@ -1436,16 +1437,23 @@ create_tempdir_for_latex <- function(type = c("resdoc", "sr", "techreport"),
   copy_dir("knitr-figs-pdf", tmp_dir)
   copy_dir("knitr-figs-word", tmp_dir)
 
+  lang <- ifelse(fr(), "french", "english")
+
   # Copy the TEX file
-  tex_file_name <- paste0(type, ".tex")
+  tex_file_name <- paste0(type, "-", lang, ".tex")
   if (where == "b") {
     tex_file <- file.path(root_dir, "_book", tex_file_name)
   } else if (where == "r") {
     tex_file <- file.path(root_dir, tex_file_name)
   }
   if (!file.exists(tex_file)) {
-    stop(paste0(type, ".tex"), " does not exist in the ", ifelse(where == "b", "_book", "root"), " directory")
+    stop(paste0(type, ".tex"), " does not exist in the ",
+         ifelse(where == "b", "_book", "root"), " directory")
   }
-  invisible(file.copy(tex_file, tmp_dir))
+  copy_success <- file.copy(tex_file, tmp_dir)
+  if(!copy_success){
+    stop("Copy of file '",tex_file, "' to directory '", tmp_dir, "' failed.",
+         call. = FALSE)
+  }
   tmp_dir
 }

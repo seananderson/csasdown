@@ -6,7 +6,7 @@
 \usage{
 add_resdoc_docx_titlepage(
   titlepage = "templates/RES2021-eng-titlepage.docx",
-  resdoc = "_book/resdoc.docx"
+  resdoc = "_book/resdoc-english.docx"
 )
 }
 \arguments{

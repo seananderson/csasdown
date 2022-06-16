@@ -92,8 +92,19 @@ render <- function(yaml_fn = "_bookdown.yml",
   # Make sure all YAML entries are present in `index.Rmd`
   check_yaml(doc_type)
 
-  message(paste("\nRendering", pdf_or_word, "document in",
-                `if`(fr(), "French", "English"), "..."))
+  csas_doc_type <- gsub("(.*)_\\S+$", "\\1", doc_type)
+  if(csas_doc_type == "resdoc"){
+    csas_doc_type <- "Research Document"
+  }else if(csas_doc_type == "sr"){
+    csas_doc_type <- "Science Response"
+  }else if(csas_doc_type == "techreport"){
+    csas_doc_type <- "Technical Report"
+  }else{
+    csas_doc_type <- "CSAS Document"
+  }
+
+  message(paste0("\nRendering the ", csas_doc_type, " as a ", pdf_or_word, " document in ",
+                 `if`(fr(), "French", "English"), "..."))
 
   # Process all Rmd files except for the `book_fn` (index.Rmd)
   fn_process <- tmp_rmd_fns[tmp_rmd_fns != book_fn]
@@ -355,10 +366,48 @@ render <- function(yaml_fn = "_bookdown.yml",
               config_file = tmp_yaml_fn,
               ...)
 
+  # Delete the temporary files
   if(!keep_files){
     map(tmp_rmd_files, ~{
       unlink(.x, force = TRUE)
     })
     unlink(tmp_yaml_fn)
   }
+
+  # Rename the PDF, Word, and TEX files to English or French so that rendering
+  # one doesn't overwrite the other
+  csas_render_type <- get_render_type()
+
+  doc_type <- gsub("(\\S+)_\\S+$", "\\1", csas_render_type)
+  format_type <- gsub("\\S+_(\\S+)$", "\\1", csas_render_type)
+  pdf_or_docx <- ifelse(format_type == "pdf", "pdf", "docx")
+  lang <- ifelse(fr(), "french", "english")
+
+  new_doc_fn <- paste0(doc_type, "-", lang)
+  new_output_fn <- file.path("_book", paste0(new_doc_fn, ".", pdf_or_docx))
+  if(pdf_or_docx == "pdf"){
+    new_other_fn <- file.path("_book", paste0(new_doc_fn, ".tex"))
+  }else if(pdf_or_docx == "docx"){
+    new_other_fn <- file.path("_book", paste0("reference-keys-docx-", lang, ".txt"))
+  }
+  new_fns <- c(new_other_fn, new_output_fn)
+
+  old_output_fn <- file.path("_book", paste0(doc_type, ".", pdf_or_docx))
+  if(pdf_or_docx == "pdf"){
+    old_other_fn <- file.path("_book", paste0(doc_type, ".tex"))
+  }else if(pdf_or_docx == "docx"){
+    old_other_fn <- file.path("_book", "reference-keys.txt")
+  }
+  old_fns <- c(old_other_fn, old_output_fn)
+
+  unlink(new_fns, force = TRUE)
+  rename_success <- file.rename(old_fns, new_fns)
+  if(!all(rename_success)){
+    imap(rename_success, ~{
+      if(!.x){
+        warning("Could not rename the file ", old_fns[.y], " to ", new_fns[.y])
+      }
+    })
+  }
+  invisible()
 }
