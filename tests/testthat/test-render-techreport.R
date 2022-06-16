@@ -1,4 +1,5 @@
-testing_path <- file.path(tempdir(), "techreport")
+rnd_num <- as.integer(abs(rnorm(1) * 1e6))
+testing_path <- file.path(tempdir(), paste0("techreport_", rnd_num))
 unlink(testing_path, recursive = TRUE, force = TRUE)
 dir.create(testing_path, showWarnings = FALSE)
 setwd(testing_path)
@@ -31,13 +32,13 @@ test_that("csasdown::render generates the .docx of the techreport", {
 })
 
 # ----------------------------------------------------
-# Render the French PDF techreport
-test_that("csasdown::render generates the French PDF of the techreport", {
+# Render the French PDF techreport - French techreport does not currently work
+#test_that("csasdown::render generates the French PDF of the techreport", {
   # csasdown::set_french(val = TRUE)
   # csasdown:::set_render_type(doc_type = "pdf")
   # expect_warning(csasdown::render())
   # expect_true(file.exists(file.path(testing_path, "_book", "techreport-french.pdf")))
-})
+#})
 
 # ----------------------------------------------------
 # Render the French Word techreport
