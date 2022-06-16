@@ -5,7 +5,7 @@
 \title{Inject a vector of strings into another at given indices, replacing the
 elements at those indices}
 \usage{
-inject_vec_in_vec(main_vec, sec_vec, inds)
+inject_vec_in_vec(main_vec = NULL, sec_vec = NULL, inds = NULL)
 }
 \arguments{
 \item{main_vec}{The vector to insert into}
@@ -21,10 +21,7 @@ A vector of strings
 Inject a vector of strings into another at given indices, replacing the
 elements at those indices, creating a new, longer vector.
 }
-\examples{
-library(csasdown)
-a <- letters[1:10]
-b <- LETTERS[25:26]
-inject_vec_in_vec(a, b, c(2, 5, 8))
+\details{
+\code{inds} is sorted and made unique by this function prior to interleaving
 }
 \keyword{internal}
