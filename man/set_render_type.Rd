@@ -5,7 +5,7 @@
 \title{Set the the type of document to render by modifying the YAML tags in
 the index file}
 \usage{
-set_render_type(fn = "index.Rmd", doc_type = "pdf")
+set_render_type(fn = "index.Rmd", doc_type = c("pdf", "word"))
 }
 \arguments{
 \item{fn}{The name of the YAML file, typically 'index.Rmd' for bookdown}

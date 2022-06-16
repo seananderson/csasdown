@@ -17,9 +17,10 @@ set_french <- function(fn = "index.Rmd", val = TRUE){
   rmd <- readLines(fn)
   trim_rmd <- trimws(rmd)
 
-  french_ind <- grep("^french:\\s*(false|true)\\s*$", trim_rmd)
+  french_ind <- grep("^french:\\s*(\\S+)\\s*$", trim_rmd)
   if(!length(french_ind)){
-    stop("`french:` YAML tag not found in file '", fn, "'\n",
+    stop("`french:` YAML tag of incorrect format or not found in file '",
+         fn, "'\n",
          call. = FALSE)
   }
   if(length(french_ind) > 1){

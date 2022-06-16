@@ -19,3 +19,4 @@ A character string representing the render type. One of
 Get the the type of document to render by extracting from the YAML tags in
 the index file
 }
+\keyword{internal}

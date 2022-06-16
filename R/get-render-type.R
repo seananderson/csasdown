@@ -1,6 +1,7 @@
 #' Get the the type of document to render by extracting from the YAML tags in
 #' the index file
 #'
+#' @keywords internal
 #' @param fn The name of the YAML file, typically 'index.Rmd' for bookdown
 #'
 #' @return A character string representing the render type. One of

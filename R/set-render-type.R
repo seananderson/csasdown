@@ -9,7 +9,9 @@
 #'
 #' @return Nothing
 set_render_type <- function(fn = "index.Rmd",
-                            doc_type = "pdf"){
+                            doc_type = c("pdf", "word")){
+
+  doc_type <- match.arg(doc_type)
 
   full_doc_type <- get_render_type(fn)
 
