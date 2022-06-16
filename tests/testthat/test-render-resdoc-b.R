@@ -61,7 +61,7 @@ test_that("csasdown::render generates the French .docx of the resdoc", {
 # Creation and copying of test files to a temporary directory
 options(french = FALSE)
 csasdown:::set_render_type(doc_type = "word")
-suppressWarnings(csasdown::render(doc_type = "word"))
+suppressWarnings(csasdown::render())
 
 files <- file.path(testing_path, "index", dir("index"))
 invisible(file.copy(files, testing_path, recursive = TRUE))
