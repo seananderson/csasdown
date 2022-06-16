@@ -16,7 +16,7 @@ work_done_year: 20XX
 work_done_month: Month
 branch: Science Branch # French: Direction des sciences
 region: Pacific Region
-french_region: Région Pacifique
+french_region: Région du Pacifique
 isbn: "ISBN-Here"
 cat_no: "Cat-Number-Here"
 output:

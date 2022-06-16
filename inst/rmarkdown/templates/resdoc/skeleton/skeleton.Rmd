@@ -24,7 +24,7 @@ french_month: "Mois"
 year: 2022
 report_number: nnn
 region: "Pacific Region"
-french_region: "Région Pacifique"
+french_region: "Région du Pacifique"
 isbn: "978-0-660-38322-4"
 cat_no: "Fs70-6/2021-012E-PDF"
 citation_other_language: "Last, F.M. et Smith, A.B. Title Here (*Latin Species Name*). DFO Secr. can. des avis sci. du MPO. Doc. de rech 2019/nnn. iv + 13 p."

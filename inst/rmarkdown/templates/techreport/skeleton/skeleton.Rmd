@@ -8,7 +8,7 @@ author: |
   Alex B. Smith^2^
 author_list: "Last, F.M. and Smith, A.B."
 region: Pacific Region
-french_region: Région Pacifique
+french_region: Région du Pacifique
 isbn: ""
 address: |
   ^1^Pacific Biological Station\
