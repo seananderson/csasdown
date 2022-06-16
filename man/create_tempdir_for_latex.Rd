@@ -5,8 +5,8 @@
 \title{Creates a temporary directory for compiling the latex file with latex commands for a csasdown type}
 \usage{
 create_tempdir_for_latex(
-  type = NULL,
-  where = "r",
+  type = c("resdoc", "sr", "techreport"),
+  where = c("r", "b"),
   tmp_dir = NULL,
   root_dir = here()
 )
