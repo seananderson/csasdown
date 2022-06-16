@@ -18,7 +18,7 @@
 * If you're using an old version of **index.Rmd** in your project you should modify the `knit:` YAML tag to the following:
   ```
   knit: (function(input, ...) {
-        csasdown::render('_bookdown.yml', doc_type = csasdown::get_doc_type())`
+        csasdown::render('_bookdown.yml')`
         })
   ```
 * If you're using an old version of **index.Rmd** in your project you should delete these chunks of code from it:

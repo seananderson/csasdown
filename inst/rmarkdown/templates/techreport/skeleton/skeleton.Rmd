@@ -62,7 +62,7 @@ type:
 # ------------
 # End of options to set
 knit: (function(input, ...) {
-       csasdown::render('_bookdown.yml', doc_type = csasdown::get_doc_type())
+       csasdown::render('_bookdown.yml')
       })
 site: bookdown::bookdown_site
 link-citations: true

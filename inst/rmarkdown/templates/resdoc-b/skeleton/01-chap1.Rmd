@@ -39,10 +39,6 @@ If you want to manually modify the temporary files and render the document from 
 
 Many preprocessor error messages are in relation to the temporary files and state line numbers in those files, so it won't be long before you want to keep those files around. **Make sure to make your edits in the original files and not the temporary ones as the temporary ones are overwritten every time you re-render the document!**
 
-## Compiling to MS Word
-When you run `csasdown::render()`, there is an argument called `doc_type` that has a default value of 'pdf' so a PDF will be rendered. To render a MS Word document, run:
-`csasdown::render(doc_type = 'word')`.
-
 ")
 ```
 ```{r chap01-para-3-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
