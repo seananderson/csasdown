@@ -137,7 +137,7 @@ To render other types of *csasdown* documents, replace `resdoc_pdf` and `resdoc_
 
 You can also render from the console if you're not using RStudio or to allow debugging of your code.
 
-To do this, you must have your working directory (see `getwd()`) be the one with the `index.Rmd` file and `_bookdown.yml` files in it.
+To do this, you must have your working directory (see `getwd()`) be the one with the `index.Rmd` file and `_bookdown.yml` files in it.  Then run:
 
 ```r
 csasdown::render()
@@ -145,20 +145,9 @@ csasdown::render()
 
 This method of rendering allows you to debug your code by inserting `browser()` calls which stops compilation at specific places.
 
-*Note that you'll need to run `sink()` in the console one it stops on your `browser()` calls to see any variable values.*
+*Note that you'll need to run `sink()` in the console once it stops on your `browser()` calls to see any variable values.*
 
 It also does *not* open a preview viewer once finished like the knit button method does, so you will have to navigate to the `_book/` directory and open it up manually.
-
-If you want to ignore the document type found in `index.Rmd` in the `output:` tag (shown above) and select the document type from the command line you can render the document like this:
-
-```r
-csasdown::render(doc_type = "pdf")
-```
-or like this:
-
-```r
-csasdown::render(doc_type = "word")
-```
 
 The rendered PDF or Word file of your report will be deposited in the `_book/` directory.
 
