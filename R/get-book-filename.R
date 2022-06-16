@@ -12,6 +12,10 @@
 #' @importFrom stringr str_extract_all
 get_book_filename <- function(yaml_fn = "_bookdown.yml"){
 
+  if(!file.exists(yaml_fn)){
+    stop("File '", yaml_fn, "' does not exist", call. = FALSE)
+  }
+
   yaml <- readLines(yaml_fn)
   book_fn_ind <- grep("^rmd_files: \\[", yaml)
   book_fn <- str_extract_all(yaml[book_fn_ind], "[a-zA-Z0-9_\\-]+\\.(R|r)md")[[1]]
