@@ -1457,3 +1457,28 @@ create_tempdir_for_latex <- function(type = c("resdoc", "sr", "techreport"),
   }
   tmp_dir
 }
+
+#' Redefinition of `cat()` with separator set to ""
+#'
+#' @inherit base::cat
+#' @export
+cat <- function (...,
+                 file = "",
+                 sep = "",
+                 fill = FALSE,
+                 labels = NULL,
+                 append = FALSE)
+{
+  if (is.character(file))
+    if (file == "")
+      file <- stdout()
+  else if (startsWith(file, "|")) {
+    file <- pipe(substring(file, 2L), "w")
+    on.exit(close(file))
+  }
+  else {
+    file <- file(file, ifelse(append, "a", "w"))
+    on.exit(close(file))
+  }
+  .Internal(cat(list(...), file, sep, fill, labels, append))
+}
