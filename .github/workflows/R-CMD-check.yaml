@@ -91,4 +91,3 @@ jobs:
       - name: Test coverage
         run: covr::codecov()
         shell: Rscript {0}
-        patch: off
