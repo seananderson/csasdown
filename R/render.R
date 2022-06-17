@@ -123,10 +123,11 @@ render <- function(yaml_fn = "_bookdown.yml",
   # render_type defined at beginning of this function
   inject_bilingual_code(tmp_index_fn, render_type)
 
-  render_book(tmp_index_fn,
-              config_file = tmp_yaml_fn,
-              ...)
-
+  suppressWarnings(
+    render_book(tmp_index_fn,
+                config_file = tmp_yaml_fn,
+                ...)
+  )
   # Delete the temporary files
   if(!keep_files){
     map(fn_process, ~{

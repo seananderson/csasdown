@@ -12,7 +12,7 @@
 remove_comments_from_chunks <- function(rmd_files){
 
   modded_files <- map(rmd_files, function(fn){
-    rmd <- readLines(fn)
+    suppressWarnings(rmd <- readLines(fn))
     # Extract the knitr code chunks
     pat_code_begin <- all_patterns$md$chunk.begin
     # The following pat code matched chunks with four backticks, which are

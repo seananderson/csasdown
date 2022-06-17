@@ -45,11 +45,11 @@ rename_output_files <- function(index_fn){
 
   unlink(new_fns, force = TRUE)
   rename_success <- file.rename(old_fns, new_fns)
-  if(!all(rename_success)){
-    imap(rename_success, ~{
-      if(!.x){
-        warning("Could not rename the file ", old_fns[.y], " to ", new_fns[.y])
-      }
-    })
-  }
+  imap(rename_success, ~{
+    if(.x){
+      message("File '", new_fns[.y], "' created.")
+    }else{
+      warning("Could not rename the file ", old_fns[.y], " to ", new_fns[.y])
+    }
+  })
 }

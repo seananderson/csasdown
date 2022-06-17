@@ -17,7 +17,7 @@ expect_message(csasdown::check_yaml(type = "sr"), "contains all")
 test_that("csasdown::render generates the PDF of the sr", {
   csasdown::set_french(val = FALSE)
   csasdown:::set_render_type(doc_type = "pdf")
-  expect_warning(csasdown::render())
+  csasdown::render()
   expect_true(file.exists(file.path(testing_path, "_book", "sr-english.pdf")))
 })
 
@@ -35,7 +35,7 @@ test_that("csasdown::render generates the .docx of the sr", {
 test_that("csasdown::render generates the French PDF of the sr", {
   csasdown::set_french(val = TRUE)
   csasdown:::set_render_type(doc_type = "pdf")
-  expect_warning(csasdown::render())
+  csasdown::render()
   expect_true(file.exists(file.path(testing_path, "_book", "sr-french.pdf")))
 })
 
@@ -44,6 +44,6 @@ test_that("csasdown::render generates the French PDF of the sr", {
 test_that("csasdown::render generates the French .docx of the sr", {
   csasdown::set_french(val = TRUE)
   csasdown:::set_render_type(doc_type = "word")
-  suppressWarnings(csasdown::render())
+  csasdown::render()
   expect_true(file.exists(file.path(testing_path, "_book", "sr-french.docx")))
 })

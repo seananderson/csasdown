@@ -30,7 +30,7 @@ validate_chunk_headers <- function(rmd_files,
       stop("File '", fn, "' does not exist",
            call. = FALSE)
     }
-    rmd <- readLines(fn)
+    suppressWarnings(rmd <- readLines(fn))
 
     chunk_head_inds <- grep(all_patterns$md$chunk.begin, rmd)
     if(!length(chunk_head_inds)){

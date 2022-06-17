@@ -18,7 +18,7 @@ expect_message(csasdown::check_yaml(type = "techreport"), "contains all")
 test_that("csasdown::render generates the PDF of the techreport", {
   csasdown::set_french(val = FALSE)
   csasdown:::set_render_type(doc_type = "pdf")
-  expect_warning(csasdown::render())
+  csasdown::render()
   expect_true(file.exists(file.path(testing_path, "_book", "techreport-english.pdf")))
 })
 
@@ -27,7 +27,7 @@ test_that("csasdown::render generates the PDF of the techreport", {
 test_that("csasdown::render generates the .docx of the techreport", {
   csasdown::set_french(val = FALSE)
   csasdown:::set_render_type(doc_type = "word")
-  expect_warning(csasdown::render())
+  csasdown::render()
   expect_true(file.exists(file.path(testing_path, "_book", "techreport-english.docx")))
 })
 
