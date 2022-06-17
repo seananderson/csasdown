@@ -28,8 +28,6 @@ If FALSE, only copy if the directory does not exist in the current directory}
 \item{draft_watermark}{If \code{TRUE} show a DRAFT watermark on all pages of the output document}
 
 \item{which_sty}{Name of the style file to modify}
-
-\item{french}{French?}
 }
 \value{
 Nothing

@@ -273,7 +273,6 @@ fr <- function(){
 #'  Pass `NULL` to prevent syntax highlighting (uses 'monochrome' theme) for slightly
 #'  different text format but no highlighting
 #' @param latex_engine LaTeX engine to render with. 'pdflatex' or 'xelatex'
-#' @param french French?
 #' @param prepub Logical for whether this is a pre-publication version
 #'  (currently not implemented for ResDocs)
 #' @param draft_watermark If `TRUE` show a DRAFT watermark on all pages of the output document
@@ -567,7 +566,6 @@ techreport_pdf <- function(latex_engine = "pdflatex",
 #' @param which_sty Name of the style file to modify
 #' @param lot_lof Include list of tables and list of figures in the document? Logical.
 #'  (implemented only for ResDocs and TechReports)
-#' @param french French?
 #' @param draft_watermark If `TRUE` show a DRAFT watermark on all pages of the output document
 #'
 #' @importFrom utils tail

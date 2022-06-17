@@ -88,8 +88,6 @@ The table of contents will still show the numbers.}
 \item{pandoc_args}{Any other arguments to pandoc.}
 
 \item{...}{other arguments to \code{\link[bookdown:pdf_book]{bookdown::pdf_book()}}.}
-
-\item{french}{French?}
 }
 \value{
 A modified \code{pdf_document} based on the CSAS LaTeX template.
