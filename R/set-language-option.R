@@ -19,17 +19,17 @@ set_language_option <- function(fn = "index.Rmd"){
   }
 
   trim_rmd <- trimws(readLines(fn))
-  pat <- "^french:\\s*(true|false)\\s*$"
+  pat <- "^french:\\s*(\\S+)\\s*$"
   french_ind <- grep(pat, trim_rmd)
 
-  if(!length(trim_rmd)){
-    warning("No 'french:' entry was found in the file ", fn,
-            ". Setting options(french) to FALSE")
+  if(!length(french_ind)){
+    stop("No 'french:' entry was found in the file ", fn,
+         ". Setting options(french) to FALSE")
     options(french = FALSE)
   }
   if(length(french_ind) > 1){
-    warning("More than one 'french:' entry was found in the file ", fn,
-            ". Setting options(french) to FALSE")
+    stop("More than one 'french:' entry was found in the file ", fn,
+         ". Setting options(french) to FALSE")
     options(french = FALSE)
   }
   val <- gsub(pat, "\\1", trim_rmd[french_ind])
