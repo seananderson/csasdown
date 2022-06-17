@@ -1,0 +1,6 @@
+```{r chunk-3-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+<<chunk-1-en>>
+```
+```{r chunk-4-en, eval = !fr(), results = 'asis'}
+cat("## Header for testing")
+```

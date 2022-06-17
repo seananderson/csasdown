@@ -14,12 +14,15 @@
 #'
 #' @param rmd_files A vector of character strings representing the names
 #' of Rmd files
+#' @param nowrite Don't write the files, instead return the Rmd code as
+#' elements of a list, with each element corresponding to the input files
+#' in `rmd_files`. Needed for testing.
 #'
 #' @return A vector of character strings representing the lines in an
 #' Rmd file but with the mirrored calls replaced with code
 #'
 #' @importFrom magrittr %>%
-copy_mirror_chunks <- function(rmd_files){
+copy_mirror_chunks <- function(rmd_files, nowrite = FALSE){
 
   # Make a pasted-together version of all the Rmds files so the chunks are all
   # in one object for searching for code. So if a file has a mirror to a
@@ -30,9 +33,10 @@ copy_mirror_chunks <- function(rmd_files){
   }))
 
   get_mirror_not_in_cat_inds <- function(txt, regex = "<<[a-zA-Z0-9_\\-]+>>"){
+
     cat_inds <- grep("^(cat|rmd_file)\\(.*", trimws(txt))
     if(length(cat_inds)){
-      # Have to make sure mirror code line is not inside a  `cat()` call
+      # Have to make sure mirror code line is not inside a `cat()` call
       mirror_in_cat_inds <- map(cat_inds, ~{
         chunk <- txt[.x:length(txt)]
         inds <- parse_cat_text(chunk, ret_inds = TRUE) + .x - 1
@@ -50,7 +54,10 @@ copy_mirror_chunks <- function(rmd_files){
       return(NULL)
     }
     if(length(cat_inds)){
-      all_mirror_inds[!all_mirror_inds %in% mirror_in_cat_inds]
+      return(all_mirror_inds[!all_mirror_inds %in% mirror_in_cat_inds])
+    }else{
+      # No cat() calls, but maybe a mirror code line
+      return(all_mirror_inds)
     }
   }
   # Replace chunk mirrors with code
@@ -74,12 +81,12 @@ copy_mirror_chunks <- function(rmd_files){
       pat <- paste0(chunk_name, ",")
       k <- grep(pat, huge_rmd)
       if(!length(k)){
-        stop("Chunk name '", chunk_name, "' does not seem to have a source chunk in ",
+        stop("Chunk name '", chunk_name, "' does not appear to have a source chunk in ",
              "the project",
              call. = FALSE)
       }
       if(length(k) > 1){
-        stop("Chunk name '", chunk_name, "' seems to have multiple source chunks in ",
+        stop("Chunk name '", chunk_name, "' appears to have multiple source chunks in ",
              "the project",
              call. = FALSE)
       }
@@ -101,10 +108,15 @@ copy_mirror_chunks <- function(rmd_files){
                "Line ", file_mirror_inds[1] - 1, " in file '", fn, "'",
                call. = FALSE)
         }
+
         txt <<- inject_vec_in_vec(txt, chunk, file_mirror_inds)
       }
     })
-    unlink(fn, force = TRUE)
-    writeLines(txt, fn)
+    if(nowrite){
+      return(txt)
+    }else{
+      unlink(fn, force = TRUE)
+      writeLines(txt, fn)
+    }
   })
 }

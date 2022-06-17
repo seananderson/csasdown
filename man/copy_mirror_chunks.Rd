@@ -4,11 +4,15 @@
 \alias{copy_mirror_chunks}
 \title{Copy mirrored knitr chunk code into chunks with the mirrored call}
 \usage{
-copy_mirror_chunks(rmd_files)
+copy_mirror_chunks(rmd_files, nowrite = FALSE)
 }
 \arguments{
 \item{rmd_files}{A vector of character strings representing the names
 of Rmd files}
+
+\item{nowrite}{Don't write the files, instead return the Rmd code as
+elements of a list, with each element corresponding to the input files
+in \code{rmd_files}. Needed for testing.}
 }
 \value{
 A vector of character strings representing the lines in an
