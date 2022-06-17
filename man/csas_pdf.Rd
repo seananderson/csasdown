@@ -11,7 +11,6 @@ resdoc_pdf(
   toc_depth = 3,
   highlight = "tango",
   latex_engine = "pdflatex",
-  french = FALSE,
   prepub = FALSE,
   copy_sty = TRUE,
   line_nums = FALSE,
@@ -31,7 +30,6 @@ sr_pdf(
   line_nums = FALSE,
   line_nums_mod = 1,
   draft_watermark = FALSE,
-  french = FALSE,
   highlight = "tango",
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),
@@ -41,7 +39,6 @@ sr_pdf(
 techreport_pdf(
   latex_engine = "pdflatex",
   copy_sty = TRUE,
-  french = FALSE,
   line_nums = FALSE,
   line_nums_mod = 1,
   lot_lof = FALSE,
@@ -70,8 +67,6 @@ different text format but no highlighting}
 
 \item{latex_engine}{LaTeX engine to render with. 'pdflatex' or 'xelatex'}
 
-\item{french}{French?}
-
 \item{prepub}{Logical for whether this is a pre-publication version
 (currently not implemented for ResDocs)}
 
@@ -93,6 +88,8 @@ The table of contents will still show the numbers.}
 \item{pandoc_args}{Any other arguments to pandoc.}
 
 \item{...}{other arguments to \code{\link[bookdown:pdf_book]{bookdown::pdf_book()}}.}
+
+\item{french}{French?}
 }
 \value{
 A modified \code{pdf_document} based on the CSAS LaTeX template.
