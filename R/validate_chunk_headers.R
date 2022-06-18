@@ -97,8 +97,10 @@ validate_chunk_headers <- function(rmd_files,
       }
       err_mess
     })
-    err_lst[lengths(err_lst) > 0] %>% unlist
-  }) %>% unlist
+    err_lst[lengths(err_lst) > 0] |>
+      unlist()
+  }) |>
+    unlist()
 
   `if`(length(errs), errs, NULL)
 }

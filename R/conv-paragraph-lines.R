@@ -56,8 +56,8 @@ conv_paragraph_lines <- function(chunk){
       return(.x)
     }
     c(.x, "\\\\", "")
-  }) %>%
-    unlist
+  }) |>
+    unlist()
 
   if(end_text_ind == length(chunk)){
     post_chunk <- NULL

@@ -20,8 +20,6 @@
 #'
 #' @return A vector of character strings representing the lines in an
 #' Rmd file but with the mirrored calls replaced with code
-#'
-#' @importFrom magrittr %>%
 copy_mirror_chunks <- function(rmd_files, nowrite = FALSE){
 
   # Make a pasted-together version of all the Rmds files so the chunks are all
@@ -47,7 +45,8 @@ copy_mirror_chunks <- function(rmd_files, nowrite = FALSE){
           return(txt_cat_mirror_inds)
         }
         NULL
-      }) %>% unlist
+      }) |>
+        unlist()
     }
     all_mirror_inds <- grep(regex, txt)
     if(!length(all_mirror_inds)){
