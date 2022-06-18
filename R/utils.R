@@ -1428,25 +1428,37 @@ create_tempdir_for_latex <- function(type = c("resdoc", "sr", "techreport"),
 
 #' Redefinition of [cat()] with separator set to empty string
 #'
-#' @inherit cat
+#' @param ... `R` objects (see `Details` for the types of objects allowed)
+#' @param file A connection, or a character string naming the file to print
+#' to. If "" (the default), cat prints to the standard output connection
+#' the console unless redirected by sink
+#' @param sep A character vector of strings to append after each element.
+#' @param fill A logical or (positive) numeric controlling how the output is
+#' broken into successive lines. If `FALSE` (default), only newlines created
+#' explicitly by ‘⁠\\n"⁠’ are printed. Otherwise, the output is broken in
+#' to lines with print width equal to the option width if fill is `TRUE`,
+#' or the value of `fill` if this is numeric. Linefeeds are only inserted
+#' between elements, strings wider than `fill` are not wrapped. Non-positive
+#' `fill` values are ignored, with a warning
+#' @param labels A character vector of labels for the lines printed. Ignored
+#' if `fill` is `FALSE`
+#' @param append Logical. Only used if the argument file is the name of file
+#' (and not a connection or "`|cmd`"). If `TRUE` output will be appended to file;
+#' otherwise, it will overwrite the contents of file.
 #'
+#' @inherit base::cat details note references seealso examples
 #' @export
 cat <- function(...,
                 file = "",
-                sep = "",
+                sep = " ",
                 fill = FALSE,
                 labels = NULL,
                 append = FALSE){
-  if (is.character(file))
-    if (file == "")
-      file <- stdout()
-  else if (startsWith(file, "|")) {
-    file <- pipe(substring(file, 2L), "w")
-    on.exit(close(file))
-  }
-  else {
-    file <- file(file, ifelse(append, "a", "w"))
-    on.exit(close(file))
-  }
-  .Internal(cat(list(...), file, sep, fill, labels, append))
+
+  base::cat(...,
+            file = file,
+            sep = "",
+            fill = fill,
+            labels = labels,
+            append = append)
 }
