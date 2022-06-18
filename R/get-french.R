@@ -31,6 +31,6 @@ get_french <- function(fn = "index.Rmd"){
     return(FALSE)
   }else{
     stop("The value found was not 'true' or 'false', it was '", val, "'",
-         call. = FALSE.)
+         call. = FALSE)
   }
 }
