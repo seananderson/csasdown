@@ -275,12 +275,12 @@ add_extra_header <- function(kable_input,
                              line = TRUE,
                              line_sep = 3) {
   table_info <- magic_mirror(kable_input)
-  header <- kableExtra:::standardize_header_input(header)
+  header <- standardize_header_input(header)
   if (length(table_info$colnames) != nrow(header)) {
     stop("The number of extra headers supplied is not the same as the number of columns in the table", call. = FALSE)
   }
   if (escape) {
-    header$header <- kableExtra:::input_escape(header$header, align)
+    header$header <- input_escape(header$header, align)
   }
   align <- match.arg(align, c("c", "l", "r"))
   hline_type <- switch(table_info$booktabs + 1,
@@ -288,7 +288,7 @@ add_extra_header <- function(kable_input,
     "\\\\toprule"
   )
   new_header_split <-
-    kableExtra:::pdfTable_new_header_generator(header,
+    pdfTable_new_header_generator(header,
       table_info$booktabs,
       bold,
       italic,
@@ -312,7 +312,7 @@ add_extra_header <- function(kable_input,
   } else {
     new_header <- new_header_split[1]
   }
-  j <- utf8_inp <- kableExtra:::solve_enc(kable_input)
+  j <- utf8_inp <- solve_enc(kable_input)
   out <- stringr::str_replace_all(
     utf8_inp,
     hline_type,
