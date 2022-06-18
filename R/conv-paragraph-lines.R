@@ -9,6 +9,7 @@
 #' second element is the rest of the Rmd.
 #'
 #' @keywords internal
+#' @family rmd_conversion_functions
 #'
 #' @param chunk A vector of character strings representing lines for RMD code
 #'

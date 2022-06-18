@@ -29,4 +29,14 @@ tmp <- conv_header_lines(chunk)
 header_line_chunk <- tmp[[1]]
 the_rest <- tmp[[2]]
 }
+\seealso{
+Other rmd_conversion_functions: 
+\code{\link{conv_blank_lines}()},
+\code{\link{conv_list_lines}()},
+\code{\link{conv_paragraph_lines}()},
+\code{\link{conv_type_1_table_lines}()},
+\code{\link{conv_type_2_table_lines}()},
+\code{\link{convert_newlines_rmd}()}
+}
+\concept{rmd_conversion_functions}
 \keyword{internal}
