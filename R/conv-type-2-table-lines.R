@@ -100,7 +100,7 @@ conv_type_2_table_lines <- function(chunk){
     }
     tbl_chunk <- c(tbl_chunk, chunk[i])
     if(i == length(chunk)){
-      tbl_chunk <- c(tbl_chunk, chunk[i], "")
+      tbl_chunk <- c(tbl_chunk, "")
       return(list(tbl_chunk, NULL))
     }
     i <- i + 1

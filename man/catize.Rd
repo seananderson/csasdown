@@ -4,18 +4,11 @@
 \alias{catize}
 \title{Convert a string including inline knitr code chunks to a cat-like string}
 \usage{
-catize(str, verbose = FALSE)
+catize(str)
 }
 \arguments{
 \item{str}{The string containing inline knitr-style R code
 (backtick-enclosed)}
-
-\item{verbose}{Shows two vectors extracted from the input text, which are
-used to build the new string:
-\enumerate{
-\item the text chunks between the R code chunks
-\item the R code chunks between the text chunks
-}}
 }
 \value{
 A non-quoted (see \code{\link[=noquote]{noquote()}}) string which can be
