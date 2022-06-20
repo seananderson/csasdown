@@ -9,89 +9,51 @@
 #' as the first element of a two-element list, the second element is the
 #' rest of the Rmd.
 #'
+#' @keywords internal
+#'
 #' @param chunk A vector of character strings representing lines for RMD code
 #'
 #' @return A list of two elements, 1) The corrected part of the chunk and
 #' 2) the rest of the chunk starting with the line after the last list line
-#' @export
-#'
-#' @examples
-#' library(csasdown)
-#' chunk <- c("- Item 1", "- Item 2", "", "1. Item 1", "  a. Item 1a")
-#' tmp <- conv_list_lines(chunk)
-#' list_line_chunk <- tmp[[1]]
-#' the_rest <- tmp[[2]]
 conv_list_lines <- function(chunk){
 
   if(is.null(chunk)){
     return(list(NULL, NULL))
   }
 
-  is_lst_line <- is_rmarkdown_list_line(chunk[1])
-
-  if(!is_lst_line){
+  if(!is_rmd_list_line(chunk[1])){
     return(list(NULL, chunk))
   }
 
   if(length(chunk) == 1){
-    return(list(c(chunk[1], "\\\\"), NULL))
+    return(list(chunk[1], NULL))
   }
 
-  new_chunk <- chunk[1]
-  is_lst <- TRUE
+  new_chunk <- NULL
+  curr_is_lst <- TRUE
   i <- 1
-  while(is_lst && i < length(chunk)){
-    i <- i + 1
-    is_lst <- is_rmarkdown_list_line(chunk[i])
-    if(is_lst){
-      new_chunk <- c(new_chunk, chunk[i])
+  repeat{
+    curr_is_lst <- is_rmd_list_line(chunk[i])
+    if(!curr_is_lst){
+      i <- i - 1
+      break
     }
-  }
-  # i is the line after the end of the list
-  # Process blank lines after lists here instead of letting
-  # conv_blank_lines() do it
-  start_blank_ind <- i
-  while(chunk[i] == "" && i < length(chunk)){
-    i <- i + 1
-  }
-  num_blank_lines <- i - start_blank_ind
-
-  if(is_rmarkdown_header_line(chunk[i])){
-    # Ignore single blank line and start the header
-    if(num_blank_lines == 1){
-      new_chunk <- c(new_chunk, "\\\\", "")
-      if(i == length(chunk)){
-        return(list(new_chunk, chunk[i]))
-      }else{
-        the_rest <- chunk[i:length(chunk)]
-        return(list(new_chunk, the_rest))
-      }
-    }
+    new_chunk <- c(new_chunk, chunk[i])
     if(i == length(chunk)){
-      new_chunk <- c(new_chunk, rep("\\\\", num_blank_lines + 1), "")
-    }else{
-      new_chunk <- c(new_chunk, rep("\\\\", num_blank_lines), "")
+      break
     }
-    the_rest <- chunk[i:length(chunk)]
-    return(list(new_chunk, the_rest))
-  }else{
-    if(num_blank_lines > 0){
-      # Insert blank lines
-      if(i == length(chunk)){
-        new_chunk <- c(new_chunk, rep("\\\\", num_blank_lines + 2), "")
-      }else{
-        new_chunk <- c(new_chunk, rep("\\\\", num_blank_lines + 1), "")
-      }
-    }else{
-      new_chunk <- c(new_chunk, "\\\\", "")
-    }
+    i <- i + 1
   }
-  if(i == length(chunk)){
-    the_rest <- NULL
-  }else{
-    the_rest <- chunk[i:length(chunk)]
-  }
+  # removal_len <- length(rmd_nlines(0))
+  # start_remove_ind <- length(new_chunk) - removal_len + 1
+  # end_removal_ind <- length(new_chunk)
+  # # Remove last added space chars (could be langer than one element)
+  # new_chunk <- new_chunk[-(start_remove_ind:end_removal_ind)]
 
-  list(new_chunk, the_rest)
+  if(i == length(chunk)){
+    list(new_chunk, NULL)
+  }else{
+    list(new_chunk, chunk[(i + 1):length(chunk)])
+  }
 }
 

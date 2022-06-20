@@ -5,6 +5,7 @@ test_that("csasdown::csas_table works with an extra_header", {
     df,
     caption = "Example of long table with header above column names",
     format = "latex",
+    bold_header = FALSE,
     escape = FALSE,
     repeat_header = TRUE,
     font_size = 8,

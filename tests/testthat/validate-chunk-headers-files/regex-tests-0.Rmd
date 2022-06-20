@@ -1,0 +1,16 @@
+```{r x-1-en, eval = !fr(), results = 'asis'}
+```
+
+```{r x-2-english, eval = !fr(), results = 'asis'}
+```
+
+```{r x-3-regular-code-chunk-no-associated-language, results = 'asis'}
+```
+```r 
+print("Hello World!")
+```
+
+````
+```{r x-4}
+```
+````

@@ -143,7 +143,7 @@ csas_table <- function(x,
   if (bold_header) {
     if(format == "latex"){
      warning("Bold headers not supported for the 'latex' format.\n",
-             "You must bold them manually by pasting latex macros aroud them.")
+             "You must bold them manually by pasting latex macros around them.")
     }else{
       suppressWarnings(k <- row_spec(k, 0, bold = TRUE))
     }

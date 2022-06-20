@@ -1,6 +1,6 @@
 Package: csasdown
 Title: Reproducible CSAS Reports with Bookdown
-Version: 0.0.10.9000
+Version: 0.1.0
 Authors@R: 
     c(person(given = c("Sean", "C."),
              family = "Anderson",
@@ -48,28 +48,29 @@ Description: Uses the 'bookdown' R package to generate CSAS
     huskydown package.
 License: MIT + file LICENSE
 Depends:
-    R (>= 3.3.0)
+    R (>= 3.6.0)
 Imports:
     bookdown,
     crayon,
-    dplyr,
     here,
-    ggplot2,
     kableExtra,
     knitr,
+    magrittr,
     officer,
     purrr,
-    readr,
     rmarkdown,
-    rosettafish,
     stringr,
-    tibble,
-    tinytex (>= 0.28),
+    tinytex (>= 0.39),
     utils
 Suggests:
     covr,
+    dplyr,
+    ggplot2,
     magick,
-    testthat
+    readr,
+    rosettafish,
+    testthat,
+    tibble
 Remotes:
     pbs-assess/rosettafish
 ByteCompile: true
@@ -79,4 +80,4 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
 SystemRequirements: pandoc (>= 1.18) - http://pandoc.org
 Config/testthat/parallel: true
-Config/testthat/edition: 3
+Config/testthat/edition: 2

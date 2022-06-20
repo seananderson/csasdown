@@ -22,10 +22,4 @@ lines will be converted into a mini-chunk, which will be returned
 as the first element of a two-element list, the second element is the
 rest of the Rmd.
 }
-\examples{
-library(csasdown)
-chunk <- c("- Item 1", "- Item 2", "", "1. Item 1", "  a. Item 1a")
-tmp <- conv_list_lines(chunk)
-list_line_chunk <- tmp[[1]]
-the_rest <- tmp[[2]]
-}
+\keyword{internal}

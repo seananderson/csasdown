@@ -2,17 +2,17 @@
 
 To render the document in French, simply open `index.Rmd` and change this:
 
-```
+````
 output:
  csasdown::techreport_pdf:
    french: false
-```
+````
 to this:
-```
+````
 output:
  csasdown::techreport_pdf:
    french: true
-```
+````
 and render as usual. You can switch back and forth at any time to see the changes in the examples. If you develop your document with this in mind you will save yourself a lot of work when you receive the translations and it's time to publish the French version. Try it now, and once in awhile when you are developing your document.
 
 > *Note that Technical Reports are not required to be in both languages, but Science Reponses and Research Documents are.*
@@ -96,6 +96,7 @@ read_csv(file.path("data", "multirow.csv")) %>%
   csas_table(format = "latex",
              escape = FALSE,
              font_size = 11,
+             bold_header = FALSE,
              caption = ifelse(fr(),
                               "French goes here",
                               "Goals and performance metrics")) %>%
@@ -145,6 +146,7 @@ csasdown::csas_table(widelong_df,
   col.names = c("Year", as.character(ages)),
   caption = "A long and wide table",
   format = "latex",
+  bold_header = FALSE,
   font_size = 8)
 ```
 \end{landscapepage}

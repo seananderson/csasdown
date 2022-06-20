@@ -16,15 +16,20 @@
 #' [conv_paragraph_lines()] deal with all the blank lines that follow those
 #' pieces of rmarkdown code.
 #'
+#' @keywords internal
+#'
 #' @param chunk A vector of character strings representing lines for RMD code
 #'
 #' @return A list of two elements, 1) The corrected part of the chunk and
 #' 2) the rest of the chunk starting with the line after the last blank line
-#' @export
 conv_blank_lines <- function(chunk){
 
   if(is.null(chunk)){
     return(list(NULL, NULL))
+  }
+
+  if(length(chunk) == 1 && chunk[1] == ""){
+    return(list(c("", "\\\\ \\\\", ""), NULL))
   }
 
   if(chunk[1] != ""){
@@ -33,11 +38,10 @@ conv_blank_lines <- function(chunk){
 
   blank_count <- 0
   i <- 1
-  is_blank <- chunk[i] == ""
   repeat{
-    if(chunk[i] == ""){
-      blank_count <- blank_count + 1
-    }else{
+    curr_is_blank <- chunk[i] == ""
+    blank_count <- `if`(curr_is_blank, blank_count + 1, blank_count)
+    if(!curr_is_blank){
       i <- i - 1
       break
     }
@@ -46,15 +50,10 @@ conv_blank_lines <- function(chunk){
     }
     i <- i + 1
   }
-  if(blank_count == 1){
-    new_chunk <- c("", "\\\\ \\\\", "")
-  }else{
-    new_chunk <- c(rep("\\\\", blank_count), "")
-  }
-
+  new_chunk <- rmd_nlines(blank_count)
   if(i == length(chunk)){
-    return(list(new_chunk, NULL))
+    list(new_chunk, NULL)
   }else{
-    return(list(new_chunk, chunk[(i + 1):length(chunk)]))
+    list(new_chunk, chunk[(i + 1):length(chunk)])
   }
 }

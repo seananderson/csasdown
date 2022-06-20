@@ -33,11 +33,12 @@
 #' following. They look nice as listed above but could be more than one to
 #' a line, or all on one line.
 #'
+#' @keywords internal
+#'
 #' @param yaml_fn The [bookdown] YAML file name, by default is "_bookdown.yml"
 #'
 #' @return A list of two, 1) The name of the temporary YAML file created
 #' 2) A vector of the temporary Rmd files created
-#' @export
 create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml"){
 
   if(!file.exists(yaml_fn)){

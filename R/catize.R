@@ -15,13 +15,18 @@
 #'
 #' Original rmarkdown string:
 #'
-#' "The date is `` `r as.character(Sys.Date())` `` today. You are on
-#' a `` `r Sys.info()["sysname"]` `` machine."
+#' ```
+#' "The date is `r as.character(Sys.Date())` today. You are on
+#' a `r Sys.info()["sysname"]` machine."
+#' ```
 #'
 #' Modified cat-like string (can be passed to [cat()]):
 #'
+#' ```
 #' "The date is ", as.character(Sys.Date()), " today. You are on a ",
 #' Sys.info()["sysname"], " machine."
+#' ```
+#' @keywords internal
 #'
 #' @param str The string containing inline knitr-style R code
 #' (backtick-enclosed)

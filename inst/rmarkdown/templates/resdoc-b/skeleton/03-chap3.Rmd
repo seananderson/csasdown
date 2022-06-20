@@ -58,6 +58,7 @@ csasdown::csas_table(widelong_df,
                                     "Une table de paysage longue et large",
                                     "A long and wide landscape table"),
                      format = "latex",
+                     bold_header = FALSE,
                      font_size = 8)
 ```
 \end{landscapepage}

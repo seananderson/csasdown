@@ -29,3 +29,4 @@ lines. The other functions (\code{\link[=conv_list_lines]{conv_list_lines()}}, \
 \code{\link[=conv_paragraph_lines]{conv_paragraph_lines()}} deal with all the blank lines that follow those
 pieces of rmarkdown code.
 }
+\keyword{internal}

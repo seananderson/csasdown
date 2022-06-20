@@ -18,10 +18,11 @@
 #' csasdown::draft("techreport")
 #' }
 #' @export
-draft <- function(type = c("resdoc", "sr", "techreport"),
+draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport"),
                   create_dir = FALSE,
                   edit = FALSE,
                   ...) {
+
   if (!grepl("\\/rmarkdown\\/templates", type)) { # so it also works with unit testing
     # type <- match.arg(type)
     if (!type %in% c("resdoc", "resdoc-b", "sr", "techreport")) {

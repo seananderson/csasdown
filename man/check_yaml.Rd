@@ -4,11 +4,13 @@
 \alias{check_yaml}
 \title{Check to make sure index.Rmd contains all current YAML options}
 \usage{
-check_yaml(type = "resdoc")
+check_yaml(
+  type = c("resdoc", "resdoc_pdf", "resdoc_word", "sr", "sr_pdf", "sr_word",
+    "techreport", "techreport_pdf", "techreport_word")
+)
 }
 \arguments{
-\item{type}{Type of document. Currently this is only implemented for research
-documents.}
+\item{type}{Type of document}
 }
 \description{
 As the csasdown package is updated, sometimes new mandatory YAML options are added

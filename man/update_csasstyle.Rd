@@ -10,6 +10,7 @@ update_csasstyle(
   line_nums = TRUE,
   line_nums_mod = 1,
   lot_lof = FALSE,
+  french = FALSE,
   draft_watermark = FALSE,
   which_sty = "res-doc.sty"
 )
@@ -25,6 +26,8 @@ If FALSE, only copy if the directory does not exist in the current directory}
 \item{lot_lof}{Include list of tables and list of figures in the document? Logical.
 (implemented only for ResDocs and TechReports)}
 
+\item{french}{French?}
+
 \item{draft_watermark}{If \code{TRUE} show a DRAFT watermark on all pages of the output document}
 
 \item{which_sty}{Name of the style file to modify}
@@ -36,3 +39,4 @@ Nothing
 Copy the csas-style directory from the local library location to
 the current directory, overwriting and edit the style file if necessary
 }
+\keyword{internal}

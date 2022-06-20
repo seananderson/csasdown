@@ -39,3 +39,4 @@ and throw an error.
 Either single or double quotes can be used to surround the text passed
 to \code{\link[=cat]{cat()}} in the string.
 }
+\keyword{internal}

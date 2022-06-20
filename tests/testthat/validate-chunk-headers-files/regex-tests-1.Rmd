@@ -1,0 +1,35 @@
+```{r x-1-en, eval = fr(), results = 'asis'}
+```
+
+```{r x-2-en, results = 'asis', eval = fr()}
+```
+
+```{r x-3, eval = !fr(), results = 'asis'}
+```
+
+```{r x-4-en, eval = !fr(), results = 'asis'}
+```
+
+```{r x-5-en, results = 'asis', eval = !fr()}
+```
+
+```{r x-6-en, eval = fr(), results = 'asis'}
+```
+
+```{r x-7-en, eval = !fr(), results = 'asis'}
+```
+
+```{r x-8-en, eval = !fr(), results = 'asis', needs_trans = FALSE}
+```
+
+```{r x-9-en, results = 'asis', needs_trans = FALSE, eval = !fr()}
+```
+
+```{r x-10-en, eval = fr(), results = 'asis', needs_trans = TRUE}
+```
+
+```{r x-11-en, eval = !fr(), results = 'asis', needs_trans = TRUE}
+```
+
+```{r x-12-en, needs_trans = TRUE, eval = !fr(), results = 'asis'}
+```

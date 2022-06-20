@@ -12,7 +12,7 @@ Minimize risk of loss\n(These metrics can be duplicated for numerous rebuilding 
 Avoid COSEWIC listing, Short-term trends in spawner biomass over the last three generations. (Median over MC trials and 95% CIs) emph{COSEWIC Criterion A}
 , Probability that short-term trends in abundances are > 30% (COSEWIC threshold) in the most recent time period. emph{COSEWIC Criterion A}
 , Proportion of years where the short-term trend metrics < 30% for all CUs (or specified % of CUs). (Median over MC trials and 95% CIs) emph{COSEWIC Criterion A}
-, Proportion of years where the short-term trend is stationary or positive and abundances are greater than 10,000. emph{COSEWIC Criterion C}
+, Proportion of years where the short-term trend is stationary or positive and abundances are greater than 10 thousand. emph{COSEWIC Criterion C}
 , Proportion of years where all CUs are above COSEWIC small population size thresholds; across the entire sampling period. (Median over MC trials and 95% CIs). emph{COSEWIC Criterion D}
 Maintain exploitation rates below sustainable levels, Mean exploitation rate relative to current $U_{MSY}$ for over the modelled time period. (Median value over MC trials and 95% CIs)
 Maximize catch and stability in catch, Proportion of years that mean catch for the CU-aggregate is above a minimum acceptable level over the entire sampling period; in the short term (first 1-2 generations); or in the long term (last 1-2 generations). (Median value over MC trials and 95% CIs)

@@ -22,10 +22,10 @@ french_address: |
      Une autre galaxie
 month: "Month"
 french_month: "Mois"
-year: 2019
+year: 2022
 report_number: nnn
 region: "Pacific Region"
-french_region: "Région Pacifique"
+french_region: "Région du Pacifique"
 isbn: "978-0-660-38322-4"
 cat_no: "Fs70-6/2021-012E-PDF"
 citation_other_language: "Last, F.M. et Smith, A.B. Title Here (*Latin Species Name*). DFO Secr. can. des avis sci. du MPO. Doc. de rech 2019/nnn. iv + 13 p."
@@ -74,7 +74,9 @@ output:
    highlight: tango
 # ------------
 # End of options to set
-knit: bookdown::render_book
+knit: (function(input, ...) {
+       csasdown::render('_bookdown.yml')
+      })
 link-citations: true
 bibliography: bib/refs.bib
 # Any extra LaTeX code for the header:
@@ -122,7 +124,8 @@ opts_chunk$set(
 
 ```{r load-libraries, echo = FALSE, cache = FALSE, message = FALSE, results = 'hide', warning = FALSE}
 # add other packages you might need here
-library(tidyverse)
+library(dplyr)
+library(ggplot2)
 library(rosettafish)
 library(csasdown)
 ```

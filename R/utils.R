@@ -1,6 +1,99 @@
+#' Supply the Rmarkdown newline code for a given number of newlines
+#'
+#' @keywords internal
+#'
+#' @param num_blank_lines A single value for the number of newlines,
+#' or actual blank lines required
+#'
+#' @return A character vector containing the sequence of code necessary
+#' to create the number of newlines required
+rmd_nlines <- function(num_blank_lines){
+  if(is.null(num_blank_lines)){
+    stop("`num_blank_lines` must not be `NULL`")
+  }
+  if(num_blank_lines < 0){
+    stop("`num_blank_lines` must be zero or greater")
+  }
+  if(num_blank_lines == 0){
+    return("")
+  }
+  if(num_blank_lines == 1){
+    return(c("", "\\\\ \\\\", ""))
+  }
+  if(num_blank_lines > 1){
+    return(c("", rep("\\\\", num_blank_lines - 1), ""))
+  }
+}
+
+#' Checks to see if character strings are Rmarkdown header lines
+#'
+#' @description
+#' Checks to see if character strings are Rmarkdown header lines which are
+#' text with at least one character, possibly containing whitespace. In other
+#' words, typical paragraph or sentence text with punctuation.
+#'
+#' @details
+#' The one thing that is not a text line is a header line (Starts with a #
+#' followed by a space)
+#'
+#' @keywords internal
+#'
+#' @param lines The vector of character strings to check
+#'
+#' @return A logical vector representing whether or not the lines are
+#' Rmarkdown header lines, which are normal text
+is_rmd_text_line <- function(lines){
+  if(is.null(lines)){
+    return(NULL)
+  }
+  if(any(is.na(lines))){
+    stop("An NA is present in the vector of strings:\n\n",
+         paste(lines, collapse = "\n"),
+         "\n\n",
+         call. = FALSE)
+  }
+
+  map_lgl(lines, ~{
+    (!is_rmd_header_line(.x) &&
+      grepl("^(\\s*\\S+\\s*)+$", trimws(.x)))
+  })
+}
+
+#' Checks to see if character strings are dashed lines
+#'
+#' @description
+#' Checks to see if character strings are dashed lines of any length
+#' (including one)
+#'
+#' @keywords internal
+#'
+#' @param lines The vector of character strings to check
+#'
+#' @return A logical vector representing whether or not the lines are
+#' dashed lines
+is_rmd_dashed_line <- function(lines){
+
+  if(is.null(lines)){
+    return(NULL)
+  }
+  if(any(is.na(lines))){
+    stop("An NA is present in the vector of strings:\n\n",
+         paste(lines, collapse = "\n"),
+         "\n\n",
+         call. = FALSE)
+  }
+
+  map_lgl(lines, ~{
+    grepl("^(\\s*-+\\s*)+$", trimws(.x))
+  })
+
+}
+
 #' Checks to see if character strings are Rmarkdown header lines
 #'
 #' @param lines The vector of character strings to check
+#'
+#' @keywords internal
 #'
 #' @details
 #' A header line must be indented less than 4 spaces and start with a #
@@ -8,8 +101,7 @@
 #'
 #' @return A logical vector representing whether or not the lines are
 #' Rmarkdown header lines
-#' @export
-is_rmarkdown_header_line <- function(lines){
+is_rmd_header_line <- function(lines){
   if(is.null(lines)){
     return(NULL)
   }
@@ -29,9 +121,39 @@ is_rmarkdown_header_line <- function(lines){
   })
 }
 
-#' Checks to see if character strings represent the start of a Rmarkdown tables
+#' Checks to see if character strings are Rmarkdown list lines
 #'
-#' @param lines_lst A list of character strings vectors of length 3
+#' @keywords internal
+#'
+#' @param lines The vector of character strings to check
+#'
+#' @return A logical vector representing whether or not the lines are
+#' Rmarkdown list lines
+is_rmd_list_line <- function(lines){
+  if(is.null(lines)){
+    return(NULL)
+  }
+  if(any(is.na(lines))){
+    stop("An NA is present in the vector of strings:\n\n",
+         paste(lines, collapse = "\n"),
+         "\n\n",
+         call. = FALSE)
+  }
+  map_lgl(lines, function(.x) {
+    substr(trimws(.x), 2, 3) == ". " ||
+      substr(trimws(.x), 1, 2) == "* " ||
+      substr(trimws(.x), 1, 2) == "+ " ||
+      substr(trimws(.x), 1, 2) == "- "
+  })
+}
+
+#' Checks to see if character strings represent the start of a Rmarkdown
+#' tables
+#'
+#' @keywords internal
+#'
+#' @param lines_lst A list of character strings vectors of at least length 5
+#' for a type 1 table and 3 for a type 2 table
 #'
 #' @details
 #' Three lines from the beginning of the table are required to determine if a
@@ -39,8 +161,7 @@ is_rmarkdown_header_line <- function(lines){
 #'
 #' @return A character vector representing which Rmarkdown table type each
 #' element in `lines_lst` is
-#' @export
-is_rmarkdown_table_line <- function(lines_lst){
+is_rmd_table_line <- function(lines_lst){
 
   if(is.null(lines_lst)){
     return(NULL)
@@ -54,73 +175,48 @@ is_rmarkdown_table_line <- function(lines_lst){
          "\n\n",
          call. = FALSE)
   }
-  # `text_pat` matches any sequence of zero or more whitespace characters, followed
-  # by 1 or more non-whitespace characters, followed by zero or more whitespace
-  # characters
-  # `dash_pat` matches any sequence of zero or more whitespace characters, followed
-  # by 1 or more dashes, followed by zero or more whitespace characters
-  text_pat <- "^(\\s*\\S+\\s*)+$"
-  dash_pat <- "^(\\s*-+\\s*)+$"
 
   map_chr(lines_lst, ~{
-    if(length(.x) < 3){
-      stop("You passed a vector of less than three lines. Three lines are ",
-           "required to determine if it is an Rmarkdown table or not:\n\n",
-           paste(.x, collapse = "\n"),
-           call. = FALSE)
+    is_type_1 <- FALSE
+    is_type_2 <- FALSE
+    if(length(.x) >= 5){
+      is_type_1 <- is_rmd_dashed_line(.x[1]) &&
+                   is_rmd_text_line(.x[2]) &&
+                   !is_rmd_header_line(.x[2]) &&
+                   !is_rmd_list_line(.x[2]) &&
+                   is_rmd_dashed_line(.x[3]) &&
+                   is_rmd_text_line(.x[4]) &&
+                   !is_rmd_header_line(.x[4]) &&
+                   !is_rmd_list_line(.x[4])
     }
-    t1 <- trimws(.x[1])
-    t2 <- trimws(.x[2])
-    t3 <- trimws(.x[3])
-    is_type_1 <- length(grep(dash_pat, t1)) &&
-                 length(grep(text_pat, t2)) &&
-                 length(grep(dash_pat, t3))
-    is_type_2 <- length(grep(text_pat, t1)) &&
-                 length(grep(dash_pat, t2)) &&
-                 length(grep(text_pat, t3))
+    if(length(.x) >= 3){
+      is_type_2 <- is_rmd_text_line(.x[1]) &&
+                   !is_rmd_header_line(.x[1]) &&
+                   !is_rmd_list_line(.x[1]) &&
+                   is_rmd_dashed_line(.x[2]) &&
+                   is_rmd_text_line(.x[3]) &&
+                   !is_rmd_header_line(.x[3]) &&
+                   !is_rmd_list_line(.x[3])
+    }
     if(is_type_1){
-      return("type1")
+      "type1"
+    }else if(is_type_2){
+      "type2"
+    }else{
+      "false"
     }
-    if(is_type_2){
-      return("type2")
-    }
-    "false"
-  })
-}
-
-#' Checks to see if character strings are Rmarkdown list lines
-#'
-#' @param lines The vector of character strings to check
-#'
-#' @return A logical vector representing whether or not the lines are
-#' Rmarkdown list lines
-#' @export
-is_rmarkdown_list_line <- function(lines){
-  if(is.null(lines)){
-    return(NULL)
-  }
-  if(any(is.na(lines))){
-    stop("An NA is present in the vector of strings:\n\n",
-         paste(lines, collapse = "\n"),
-         "\n\n",
-         call. = FALSE)
-  }
-  map_lgl(lines, ~{
-    substr(trimws(.x), 2, 3) == ". " ||
-    substr(trimws(.x), 1, 2) == "* " ||
-    substr(trimws(.x), 1, 2) == "+ " ||
-    substr(trimws(.x), 1, 2) == "- "
   })
 }
 
 #' Detect which columns are year columns based on the range and type
+#'
+#' @keywords internal
 #'
 #' @param df A data frame with column names
 #' @param year_range The range to use for year column acceptance. All values
 #' in the column must be in this range
 #'
 #' @return A vector of column names, or NULL if no year columns were found
-#' @export
 year_cols <- function(df, year_range = 1800:4000){
 
   col_is_year <- map2(df, names(df), ~{
@@ -177,6 +273,7 @@ fr <- function(){
 #'  Pass `NULL` to prevent syntax highlighting (uses 'monochrome' theme) for slightly
 #'  different text format but no highlighting
 #' @param latex_engine LaTeX engine to render with. 'pdflatex' or 'xelatex'
+#' @param french French?
 #' @param prepub Logical for whether this is a pre-publication version
 #'  (currently not implemented for ResDocs)
 #' @param draft_watermark If `TRUE` show a DRAFT watermark on all pages of the output document
@@ -224,7 +321,7 @@ resdoc_pdf <- function(toc = TRUE,
   }
 
   if((!highlight %in% themes) && !file.exists(here(highlight))){
-    stop("in YAML, `csasdown:resdco_pdf: highlight` must be one of ", paste(themes, collapse = ", "),
+    stop("in YAML, `csasdown:resdoc_pdf: highlight` must be one of ", paste(themes, collapse = ", "),
          "\nor a filename for a custom latex theme file.",
          "\nSee pandoc documentation, --highlight-style argument.", call. = FALSE)
   }
@@ -256,6 +353,7 @@ resdoc_pdf <- function(toc = TRUE,
     line_nums_mod = line_nums_mod,
     draft_watermark = draft_watermark,
     lot_lof = lot_lof,
+    french = fr(),
     which_sty = ifelse(fr(), "res-doc-french.sty", "res-doc.sty")
   )
 
@@ -272,8 +370,10 @@ resdoc_pdf <- function(toc = TRUE,
       include_section_nums = include_section_nums,
       include_abstract = TRUE,
       join_abstract = TRUE,
+      french = fr(),
       fix_ref_section_name =TRUE
     )
+
   })
   on.exit(options(bookdown.post.late = old_opt))
 
@@ -352,6 +452,7 @@ sr_pdf <- function(latex_engine = "pdflatex",
     line_nums = line_nums,
     line_nums_mod = line_nums_mod,
     draft_watermark = draft_watermark,
+    french = fr(),
     which_sty = ifelse(fr(), "sr-french.sty", "sr.sty")
   )
 
@@ -364,6 +465,7 @@ sr_pdf <- function(latex_engine = "pdflatex",
       prepub = prepub,
       highlight = highlight,
       include_abstract = FALSE,
+      french = fr(),
       join_abstract = FALSE
     )
   })
@@ -455,6 +557,7 @@ techreport_pdf <- function(latex_engine = "pdflatex",
     line_nums_mod = line_nums_mod,
     lot_lof = lot_lof,
     draft_watermark = draft_watermark,
+    french = fr(),
     which_sty = ifelse(fr(), "tech-report-french.sty", "tech-report.sty")
   )
 
@@ -464,6 +567,7 @@ techreport_pdf <- function(latex_engine = "pdflatex",
     fix_envs(
       x = x,
       highlight = highlight,
+      french = fr(),
       join_abstract = FALSE
     )
   })
@@ -474,6 +578,8 @@ techreport_pdf <- function(latex_engine = "pdflatex",
 #' Copy the csas-style directory from the local library location to
 #' the current directory, overwriting and edit the style file if necessary
 #'
+#' @keywords internal
+#'
 #' @param copy Logical. If TRUE, copy and overwrite if the directory already exists.
 #' If FALSE, only copy if the directory does not exist in the current directory
 #' @param line_nums Logical. Include line numbering in the document
@@ -481,6 +587,7 @@ techreport_pdf <- function(latex_engine = "pdflatex",
 #' @param which_sty Name of the style file to modify
 #' @param lot_lof Include list of tables and list of figures in the document? Logical.
 #'  (implemented only for ResDocs and TechReports)
+#' @param french French?
 #' @param draft_watermark If `TRUE` show a DRAFT watermark on all pages of the output document
 #'
 #' @importFrom utils tail
@@ -489,8 +596,13 @@ update_csasstyle <- function(copy = TRUE,
                              line_nums = TRUE,
                              line_nums_mod = 1,
                              lot_lof = FALSE,
+                             french = FALSE,
                              draft_watermark = FALSE,
                              which_sty = "res-doc.sty") {
+
+  fr <- function() { # hack for now
+    french
+  }
 
   fn <- system.file("csas-style", package = "csasdown")
   if(!copy && line_nums){
@@ -566,8 +678,13 @@ fix_envs <- function(x,
                      join_abstract = TRUE,
                      prepub = FALSE,
                      highlight = "tango",
+                     french = FALSE,
                      include_section_nums = TRUE,
                      fix_ref_section_name = FALSE) {
+
+  fr <- function() { # hack for now
+    french
+  }
 
   # fix equations:
   x <- gsub("^\\\\\\[$", "\\\\begin{equation}", x)
@@ -949,6 +1066,8 @@ fix_envs <- function(x,
 
 #' Fix the appendix subsections so they can be referenced properly in text
 #'
+#' @keywords internal
+#'
 #' @param x A vector of lines of the TEX file
 #'
 #' @return Modified TEX lines (a vector of lines of the TEX file)
@@ -1129,7 +1248,7 @@ inject_refstepcounters <- function(x) {
 #' @importFrom officer read_docx body_add_docx cursor_reach body_add_toc
 #' @export
 add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2021-eng-titlepage.docx",
-                                      resdoc = "_book/resdoc.docx") {
+                                      resdoc = "_book/resdoc-english.docx") {
   title_doc <- read_docx(titlepage)
   x <- body_add_docx(title_doc, resdoc, pos = "before")
   print(x, target = resdoc)
@@ -1176,28 +1295,44 @@ is_windows <- function() {
 
 #' Check to make sure index.Rmd contains all current YAML options
 #'
+#' @description
 #' As the csasdown package is updated, sometimes new mandatory YAML options are added
 #' to the `index.Rmd` file. Running this function will compare your file to the
 #' version built into the currently installed version of csasdown and issue
 #' a `stop()` statement telling you what doesn't match if needed.
 #'
-#' @param type Type of document. Currently this is only implemented for research
-#'   documents.
+#' @param type Type of document
 #'
 #' @importFrom rmarkdown yaml_front_matter
 #' @export
-check_yaml <- function(type = "resdoc") {
+check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
+                                "sr", "sr_pdf", "sr_word",
+                                "techreport", "techreport_pdf",
+                                "techreport_word")) {
+
+  type <- match.arg(type)
+  if(type %in% c("resdoc", "resdoc_pdf", "resdoc_word")){
+    type <- "resdoc"
+  }else if(type %in% c("sr", "sr_pdf", "sr_word")){
+    type <- "sr"
+  }else if(type %in% c("techreport", "techreport_pdf", "techreport_word")){
+    type <- "techreport"
+  }
+
+  message("Checking that YAML options are all present for document type '",
+          type, "' ...")
+
   x_skeleton <- names(yaml_front_matter(
-    system.file("rmarkdown", "templates", "resdoc", "skeleton", "skeleton.Rmd",
+    system.file("rmarkdown", "templates", type, "skeleton", "skeleton.Rmd",
       package = "csasdown"
     )
   ))
   x_index <- names(yaml_front_matter("index.Rmd"))
   .diff <- setdiff(x_skeleton, x_index)
   if (length(.diff) > 0L) {
-    stop("Your `index.Rmd` file is missing: ", paste(.diff, collapse = ", "), ".")
+    stop("Your `index.Rmd` file is missing: ", paste(.diff, collapse = ", "))
   } else {
-    message("Your `index.Rmd` file contains all necessary YAML options.")
+    message("Your `index.Rmd` file contains all necessary YAML options")
   }
 }
 
@@ -1274,15 +1409,13 @@ get_contact_info <- function(region = "National Capital Region") {
 #' tinytex::latexmk("resdoc.tex")
 #' setwd(root_dir)
 #' }
-create_tempdir_for_latex <- function(type = NULL,
-                                     where = "r",
+create_tempdir_for_latex <- function(type = c("resdoc", "sr", "techreport"),
+                                     where = c("r", "b"),
                                      tmp_dir = NULL,
                                      root_dir = here()) {
-  stopifnot(type == "resdoc" ||
-    type == "sr" ||
-    type == "techreport")
-  stopifnot(where == "r" ||
-    where == "b")
+
+  type <- match.arg(type)
+  where <- match.arg(where)
 
   if (is.null(tmp_dir)) {
     tmp_dir <- tempdir()
@@ -1304,16 +1437,48 @@ create_tempdir_for_latex <- function(type = NULL,
   copy_dir("knitr-figs-pdf", tmp_dir)
   copy_dir("knitr-figs-word", tmp_dir)
 
+  lang <- ifelse(fr(), "french", "english")
+
   # Copy the TEX file
-  tex_file_name <- paste0(type, ".tex")
+  tex_file_name <- paste0(type, "-", lang, ".tex")
   if (where == "b") {
     tex_file <- file.path(root_dir, "_book", tex_file_name)
   } else if (where == "r") {
     tex_file <- file.path(root_dir, tex_file_name)
   }
   if (!file.exists(tex_file)) {
-    stop(paste0(type, ".tex"), " does not exist in the ", ifelse(where == "b", "_book", "root"), " directory")
+    stop(paste0(type, ".tex"), " does not exist in the ",
+         ifelse(where == "b", "_book", "root"), " directory")
   }
-  invisible(file.copy(tex_file, tmp_dir))
+  copy_success <- file.copy(tex_file, tmp_dir)
+  if(!copy_success){
+    stop("Copy of file '",tex_file, "' to directory '", tmp_dir, "' failed.",
+         call. = FALSE)
+  }
   tmp_dir
+}
+
+#' Redefinition of `cat()` with separator set to ""
+#'
+#' @inherit base::cat
+#' @export
+cat <- function (...,
+                 file = "",
+                 sep = "",
+                 fill = FALSE,
+                 labels = NULL,
+                 append = FALSE)
+{
+  if (is.character(file))
+    if (file == "")
+      file <- stdout()
+  else if (startsWith(file, "|")) {
+    file <- pipe(substring(file, 2L), "w")
+    on.exit(close(file))
+  }
+  else {
+    file <- file(file, ifelse(append, "a", "w"))
+    on.exit(close(file))
+  }
+  .Internal(cat(list(...), file, sep, fill, labels, append))
 }

@@ -7,7 +7,7 @@
 save_latex_theme_code(themes = NULL)
 }
 \arguments{
-\item{theme}{If NULL, run function for all themes. If not NULL, apply to
+\item{themes}{If NULL, run function for all themes. If not NULL, apply to
 the theme(s) given.}
 }
 \description{
@@ -18,3 +18,4 @@ Source this file and run this function to create all the theme
 files for the package. Once those have been created, the package has to
 be re-installed, i.e. load_all("csasdown") will not access the new theme files.
 }
+\keyword{internal}

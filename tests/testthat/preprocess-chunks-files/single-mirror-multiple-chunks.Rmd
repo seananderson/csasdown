@@ -1,0 +1,9 @@
+```{r chunk-1-en, eval = !fr(), results = 'asis'}
+cat("First chunk")
+```
+```{r chunk-1-en, eval = !fr(), results = 'asis'}
+cat("Second chunk")
+```
+```{r chunk-1-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+<<chunk-1-en>>
+```

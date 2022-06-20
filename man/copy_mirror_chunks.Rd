@@ -4,11 +4,15 @@
 \alias{copy_mirror_chunks}
 \title{Copy mirrored knitr chunk code into chunks with the mirrored call}
 \usage{
-copy_mirror_chunks(rmd_files)
+copy_mirror_chunks(rmd_files, nowrite = FALSE)
 }
 \arguments{
-\item{rmd}{A vector of character strings representing the lines in an
-Rmd file}
+\item{rmd_files}{A vector of character strings representing the names
+of Rmd files}
+
+\item{nowrite}{Don't write the files, instead return the Rmd code as
+elements of a list, with each element corresponding to the input files
+in \code{rmd_files}. Needed for testing.}
 }
 \value{
 A vector of character strings representing the lines in an
@@ -17,5 +21,11 @@ Rmd file but with the mirrored calls replaced with code
 \description{
 Copy the mirrored chunk code into the chunk with the mirrored call.
 knitr does this automatically but we need to do it in the pre-processing
-step so we can modify the newlines in the mirrored code
+step so we can modify the newlines in the mirrored code.
 }
+\details{
+Search for chunks containing mirror code lines (looks like \verb{<<chunk-name>>}),
+find the chunk-names and copy the code within those chunks into the chunks
+with the mirror code lines, replacing them.
+}
+\keyword{internal}

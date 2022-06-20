@@ -5,7 +5,7 @@
 \title{Create a new CSAS document based on a template}
 \usage{
 draft(
-  type = c("resdoc", "sr", "techreport"),
+  type = c("resdoc", "resdoc-b", "sr", "techreport"),
   create_dir = FALSE,
   edit = FALSE,
   ...

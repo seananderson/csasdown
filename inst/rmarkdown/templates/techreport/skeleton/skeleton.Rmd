@@ -1,12 +1,14 @@
 ---
 title: "Title Here (*Latin Species Name*)"
-year: 20XX
+french_title: Titre ici (*Nom latin de l'espèce*)
+year: 2022
 report_number: nnn
 author: |
   First. M. Last^1^ and
   Alex B. Smith^2^
 author_list: "Last, F.M. and Smith, A.B."
 region: Pacific Region
+french_region: Région du Pacifique
 isbn: ""
 address: |
   ^1^Pacific Biological Station\
@@ -14,11 +16,18 @@ address: |
      Nanaimo, British Columbia, V9T 6N7, Canada\
   ^2^Far, far away\
      Another Galaxy
+french_address: |
+  ^1^Station biologique du Pacifique\
+     Pêches et Océans Canada, 3190 Hammond Bay Road\
+     Nanaimo, Colombie-Britannique, V9T 6N7, Canada\
+  \smallskip
+  ^2^Loin, très loin\
+     Une autre galaxie
 phone: "(555) 555-5555"
 author_footnote: "Email: First.Author@dfo-mpo.gc.ca | telephone: (250) 756-5555"
 abstract: |
   Here is the abstract text. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-abstract_other: |
+french_abstract: |
   Voici le résumé. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 output:
  csasdown::techreport_pdf:
@@ -52,7 +61,9 @@ type:
   techreport
 # ------------
 # End of options to set
-knit: bookdown::render_book
+knit: (function(input, ...) {
+       csasdown::render('_bookdown.yml')
+      })
 site: bookdown::bookdown_site
 link-citations: true
 bibliography: bib/refs.bib
@@ -97,43 +108,9 @@ opts_chunk$set(
   fig.align = fig_align,
   fig.pos = fig_pos
 )
-options(# Prevent xtable from adding a timestamp comment to the table code it produces
-        xtable.comment = FALSE,
-        # Don't allow kableExtra to load packages, we add them manually in csasdown
-        kableExtra.latex.load_packages = FALSE,
-        # Stop chunk output (echo) running into the margins
-        width = 80,
-        # Don't use scientific notation (stops tables from showing 1.2e3, etc.)
-        scipen = 999)
 ```
 
 ```{r load-libraries, cache=FALSE}
-meta <- rmarkdown::metadata$output
-if (is.null(meta)) {
-  # This knitr chunk has been run in R without running bookdown::render_book("index.Rmd")
-  # so rmarkdown::metadata$output is not populated
-  options(french = FALSE)
-} else {
-  if (length(grep("pdf", names(meta)))) {
-    options(french = meta$`csasdown::techreport_pdf`$french)
-    prepub <- meta$`csasdown::techreport_pdf`$prepub
-  } else if (length(grep("word", names(meta)))) {
-    options(french = meta$`csasdown::techreport_word`$french)
-    prepub <- meta$`csasdown::techreport_word`$prepub
-  }
-}
-csl <- "csl/csas.csl"
-options(OutDec = ".")
-if (is.null(getOption("french"))) {
-  stop("`french` was not set up correctly in YAML header in index.Rmd. ",
-       "It must be true or false",
-       call. = FALSE)
-}
-if (getOption("french")) {
-  csl <- "csl/csas-french.csl"
-  options(OutDec = ",")
-}
-
 # add other packages here:
 library(dplyr)
 library(ggplot2)
@@ -142,7 +119,3 @@ library(tibble)
 library(rosettafish)
 library(csasdown)
 ```
-
----
-csl: `r csl`    
----

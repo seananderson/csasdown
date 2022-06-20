@@ -1,0 +1,3 @@
+```{r chunk-2-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+<<chunk-1-en>>
+```

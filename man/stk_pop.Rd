@@ -17,3 +17,4 @@ empty, \code{NULL} is returned
 \description{
 Pop a value from the top of a stack
 }
+\keyword{internal}

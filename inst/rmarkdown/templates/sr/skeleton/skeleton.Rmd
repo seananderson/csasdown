@@ -1,9 +1,10 @@
 ---
 title: "Insert title here; title must be exactly as it appears on the cover page, but in title case (*Latin species name*)"
+french_title: "Insérez le titre ici ; le titre doit être exactement comme il apparaît sur la page de couverture, mais en majuscule (*Nom latin de l'espèce*)."
 title_short: "Short title"
-title_other: "Insérez le titre ici; il doit correspondre exactement à celui de la page couverture, mais en lettres minuscules (*Nom latin*)"
-year: 20XX
+year: 2022
 month: Month
+french_month: Mois
 report_number: 999 # This *must* be numeric! E.g., not `nnn`.
 approver: |
   Approver Name\
@@ -15,6 +16,7 @@ work_done_year: 20XX
 work_done_month: Month
 branch: Science Branch # French: Direction des sciences
 region: Pacific Region
+french_region: Région du Pacifique
 isbn: "ISBN-Here"
 cat_no: "Cat-Number-Here"
 output:
@@ -47,7 +49,9 @@ type:
   sr
 # ------------
 # End of options to set
-knit: bookdown::render_book
+knit: (function(input, ...) {
+       csasdown::render('_bookdown.yml')
+      })
 site: bookdown::bookdown_site
 link-citations: true
 bibliography: bib/refs.bib
@@ -94,43 +98,9 @@ opts_chunk$set(
   fig.align = fig_align,
   fig.pos = fig_pos
 )
-options(# Prevent xtable from adding a timestamp comment to the table code it produces
-        xtable.comment = FALSE,
-        # Don't allow kableExtra to load packages, we add them manually in csasdown
-        kableExtra.latex.load_packages = FALSE,
-        # Stop chunk output (echo) running into the margins
-        width = 80,
-        # Don't use scientific notation (stops tables from showing 1.2e3, etc.)
-        scipen = 999)
 ```
 
 ```{r load-libraries, cache=FALSE}
-meta <- rmarkdown::metadata$output
-if (is.null(meta)) {
-  # This knitr chunk has been run in R without running bookdown::render_book("index.Rmd")
-  # so rmarkdown::metadata$output is not populated
-  options(french = FALSE)
-} else {
-  if (length(grep("pdf", names(meta)))) {
-    options(french = meta$`csasdown::sr_pdf`$french)
-    prepub <- meta$`csasdown::sr_pdf`$prepub
-  } else if (length(grep("word", names(meta)))) {
-    options(french = meta$`csasdown::sr_word`$french)
-    prepub <- meta$`csasdown::sr_word`$prepub
-  }
-}
-csl <- "csl/csas.csl"
-options(OutDec = ".")
-if (is.null(getOption("french"))) {
-  stop("`french` was not set up correctly in YAML header in index.Rmd. ",
-       "It must be true or false",
-       call. = FALSE)
-}
-if (getOption("french")) {
-  csl <- "csl/csas-french.csl"
-  options(OutDec = ",")
-}
-
 # add other packages here:
 library(dplyr)
 library(readr)
@@ -138,7 +108,3 @@ library(tibble)
 library(rosettafish)
 library(csasdown)
 ```
-
----
-csl: `r csl`    
----

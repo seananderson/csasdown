@@ -1,24 +1,32 @@
-#' Inject complex code that make bilingual features in a resdoc-b possible
+#' Inject code that make bilingual features in a csasdown document possible
 #'
 #' @description
-#' Inject complex code that make bilingual features in a resdoc-b possible.
+#' Inject code that make bilingual features in a csasdown document possible.
 #' The main goal here is to hide this from authors as it is complex knitr
 #' hook code combined with some of the YAML variable extraction code and if
 #' modified, will crash the resdoc build process.
 #'
+#' @keywords internal
+#'
 #' @param fn Typically the working copy of this file:
-#' csasdown/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd
-#' which is index.Rmd by default
+#' `csasdown/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd`
+#' which is `index.Rmd` by default
+#' @param doc_type Document type
 #'
 #' @return Lines for the file `fn`, but with the code injected in the right
 #' place
-inject_bilingual_code <- function(fn = "index.Rmd"){
+inject_bilingual_code <- function(fn = "index.Rmd", doc_type){
 
   if(!file.exists(fn)){
     stop("File ", fn, " does not exist",
          call. = FALSE)
   }
   lines <- readLines(fn)
+
+  # Remove the _pdf or _word or _anything
+  if(length(grep("_", doc_type))){
+    doc_type <- gsub("^(\\S+)_.*$", "\\1", doc_type)
+  }
 
   bi_code <- c(
     '```{r bilingual-code, cache=FALSE}',
@@ -34,19 +42,6 @@ inject_bilingual_code <- function(fn = "index.Rmd"){
     '',
     'meta <- rmarkdown::metadata',
     'meta_out <- rmarkdown::metadata$output',
-    'if (is.null(meta_out)) {',
-    '  # This knitr chunk has been run in R without running bookdown::render_book("index.Rmd")',
-    '  # so rmarkdown::metadata$output is not populated',
-    '  options(french = FALSE)',
-    '} else {',
-    '  if (length(grep("pdf", names(meta_out)))) {',
-    '    options(french = meta_out$`csasdown::resdoc_pdf`$french)',
-    '    prepub <- meta_out$`csasdown::resdoc_pdf`$prepub',
-    '  } else if (length(grep("word", names(meta_out)))) {',
-    '    options(french = meta_out$`csasdown::resdoc_word`$french)',
-    '    prepub <- meta_out$`csasdown::resdoc_word`$prepub',
-    '  }',
-    '}',
     'csl <- "csl/csas.csl"',
     'options(OutDec = ".")',
     'if (is.null(getOption("french"))) {',
@@ -100,6 +95,14 @@ inject_bilingual_code <- function(fn = "index.Rmd"){
     '})',
     '```')
 
+  if(doc_type == "techreport"){
+    yaml_code <- c(
+      '---',
+      'title: `r ifelse(fr(), meta$french_title, meta$title)`',
+      'region: `r ifelse(fr(), meta$french_region, meta$region)`',
+      'csl: `r csl`',
+      '---')
+  }else{
     yaml_code <- c(
       '---',
       'title: `r ifelse(fr(), meta$french_title, meta$title)`',
@@ -107,8 +110,9 @@ inject_bilingual_code <- function(fn = "index.Rmd"){
       'region: `r ifelse(fr(), meta$french_region, meta$region)`',
       'csl: `r csl`',
       '---')
+  }
 
-    lines <- c(lines, bi_code, yaml_code)
-    writeLines(lines, fn)
+  lines <- c(lines, bi_code, yaml_code)
+  writeLines(lines, fn)
 
 }

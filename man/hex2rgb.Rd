@@ -20,3 +20,4 @@ A vector of three RGB decimal values, or three relative values
 \description{
 Convert a hex string into a vector of three decimal values (RGB)
 }
+\keyword{internal}

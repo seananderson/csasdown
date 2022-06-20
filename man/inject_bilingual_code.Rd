@@ -2,22 +2,25 @@
 % Please edit documentation in R/inject-bilingual-code.R
 \name{inject_bilingual_code}
 \alias{inject_bilingual_code}
-\title{Inject complex code that make bilingual features in a resdoc-b possible}
+\title{Inject code that make bilingual features in a csasdown document possible}
 \usage{
-inject_bilingual_code(fn = "index.Rmd")
+inject_bilingual_code(fn = "index.Rmd", doc_type)
 }
 \arguments{
 \item{fn}{Typically the working copy of this file:
-csasdown/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd
-which is index.Rmd by default}
+\code{csasdown/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd}
+which is \code{index.Rmd} by default}
+
+\item{doc_type}{Document type}
 }
 \value{
 Lines for the file \code{fn}, but with the code injected in the right
 place
 }
 \description{
-Inject complex code that make bilingual features in a resdoc-b possible.
+Inject code that make bilingual features in a csasdown document possible.
 The main goal here is to hide this from authors as it is complex knitr
 hook code combined with some of the YAML variable extraction code and if
 modified, will crash the resdoc build process.
 }
+\keyword{internal}

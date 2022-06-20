@@ -39,6 +39,8 @@
 #' }
 #' ```
 #'
+#' @keywords internal
+#'
 #' @param json JSON code as a vector of lines of code extracted using a system call like this:
 #' pandoc --print-highlight-style breezedark
 #' @param num_attrs The number of attributes for each style token in the file.
@@ -101,13 +103,14 @@ parse_pandoc_highlight_theme <- function(json = NULL,
 
 #' Generate LaTeX code for pandoc highlight-style list
 #'
+#' @keywords internal
+#'
 #' @param theme The pandoc highlight-style theme to make latex for
 #' @param pandoc_path If provided, the path in which pandoc executable resides,
 #' if `NULL`, `Sys.getenv("RSTUDIO_PANDOC")` will be used to attempt to provide the path
 #'
 #' @return A vector of lines of latex code representing the highlight-style for pandoc
 #' @importFrom grDevices col2rgb
-#' @export
 gen_latex_highlight_code <- function(theme = c("pygments",
                                                "tango",
                                                "espresso",
@@ -253,12 +256,14 @@ gen_latex_highlight_code <- function(theme = c("pygments",
 
 #' Create latex theme files for all the pandoc highlight-styles
 #'
-#' @param theme If NULL, run function for all themes. If not NULL, apply to
-#' the theme(s) given.
-#'
 #' @details Source this file and run this function to create all the theme
 #' files for the package. Once those have been created, the package has to
 #' be re-installed, i.e. load_all("csasdown") will not access the new theme files.
+#'
+#' @keywords internal
+#'
+#' @param themes If NULL, run function for all themes. If not NULL, apply to
+#' the theme(s) given.
 save_latex_theme_code <- function(themes = NULL){
 
   theme_path <- here::here("inst", "themes")
@@ -279,13 +284,14 @@ save_latex_theme_code <- function(themes = NULL){
 
 #' Convert a hex string into a vector of three decimal values (RGB)
 #'
+#' @keywords internal
+#'
 #' @param hex The hex string of 6 or 8 digits (if alpha included). May of may not begin with  #
 #' @param rel If `TRUE`, divide the RGB values by 255 for relative values
 #' @param ret_alpha if `TRUE` alpha value will be included in the output vector as the last item, so it will be
 #' length 4 instead of 3
 #'
 #' @return A vector of three RGB decimal values, or three relative values
-#' @export
 hex2rgb <- function(hex, rel = FALSE, ret_alpha = FALSE){
 
   hex <- gsub("#", "", hex)
