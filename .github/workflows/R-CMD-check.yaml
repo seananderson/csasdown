@@ -14,6 +14,9 @@ on:
 
 name: R-CMD-check
 
+env:
+  RSTUDIO_PANDOC: /usr/bin/pandoc
+
 jobs:
   R-CMD-check:
     if: "! contains(github.event.head_commit.message, '[skip ci]')"
@@ -22,7 +25,7 @@ jobs:
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         config:
           # - {os: windows-latest, r: 'release'}
@@ -31,7 +34,6 @@ jobs:
           # - {os: ubuntu-20.04, r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
     env:
-      RSTUDIO_PANDOC: /usr/bin/pandoc
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: ${{ matrix.config.rspm }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
