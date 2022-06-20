@@ -1,10 +1,7 @@
 test_that("parse_pandoc_highlight_theme() works", {
 
   # Get JSON theme code from Pandoc
-  pandoc_path <- Sys.getenv("RSTUDIO_PANDOC")
-  pandoc_path <- gsub("Program Files", "Progra~1", pandoc_path)
-  cmd <- paste(file.path(pandoc_path, "pandoc"),  "--print-highlight-style", "tango")
-  json <- system(cmd, intern = TRUE)
+  json <- system("pandoc --print-highlight-style tango", intern = TRUE)
 
   j <- csasdown:::parse_pandoc_highlight_theme(json)
   expect_true(all(lengths(purrr::map(j[[3]], ~{as.logical(grep("text-color", .x))}))))

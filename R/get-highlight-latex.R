@@ -126,7 +126,7 @@ gen_latex_highlight_code <- function(theme = c("pygments",
   if(is.null(pandoc_path)){
     # Get location of RStudio's pandoc
     pandoc_path <- Sys.getenv("RSTUDIO_PANDOC")
-    if(!length(pandoc_path)){
+    if(pandoc_path == ""){
       stop("Cannot find pandoc on your system. You need to have the environment ",
            "variable RSTUDIO_PANDOC set inside R or provide a path in the pandoc_path argument.",
            call. = FALSE)
@@ -134,7 +134,7 @@ gen_latex_highlight_code <- function(theme = c("pygments",
     pandoc_path <- gsub("Program Files", "Progra~1", pandoc_path)
   }
   if(!dir.exists(pandoc_path)){
-    stop("The pandoc_path ", pandoc_path, " does not exist",
+    stop("The `pandoc_path` '", pandoc_path, "' does not exist",
          call. = FALSE)
   }
 
