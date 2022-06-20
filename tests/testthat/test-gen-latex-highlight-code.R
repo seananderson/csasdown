@@ -1,5 +1,6 @@
 test_that("gen_latex_highlight_code() works", {
 
+
   expect_error(csasdown:::gen_latex_highlight_code("nope"),
                "'arg' should be one of ")
 
