@@ -1,7 +1,20 @@
 test_that("parse_pandoc_highlight_theme() works", {
 
   # Get JSON theme code from Pandoc
-  json <- system("pandoc --print-highlight-style tango", intern = TRUE)
+  # Is GitHub Actions..
+  gha_dir <- Sys.getenv("RUNNER_TEMP")
+  on_gha <-  gha_dir != ""
+  if(on_gha){
+    json <- readLines(file.path(gha_dir, "tango.theme"))
+  }else{
+    pandoc_path <- Sys.getenv("RSTUDIO_PANDOC")
+    pandoc_path <- gsub("Program Files", "Progra~1", pandoc_path)
+    if(pandoc_path == ""){
+      stop("`pandoc_path` is nonexistent", call. = FALSE)
+    }
+    cmd <- paste(file.path(pandoc_path, "pandoc"),  "--print-highlight-style tango")
+    json <- system(cmd, intern = TRUE)
+  }
 
   j <- csasdown:::parse_pandoc_highlight_theme(json)
   expect_true(all(lengths(purrr::map(j[[3]], ~{as.logical(grep("text-color", .x))}))))

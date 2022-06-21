@@ -74,7 +74,8 @@ parse_pandoc_highlight_theme <- function(json = NULL,
     background_color <- NA
   }
 
-  text_styles <- grep("\\\"\\w+\\\": \\{", json, value = T)
+  text_styles <- grep("\\\"\\w+\\\": \\{", json, value = TRUE)
+
   styles_sections <- json[(grep("text-styles", json) + 1):length(json)]
 
   styles <- list()
