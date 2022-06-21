@@ -1,9 +1,9 @@
 test_that("save_latex_theme_code() works", {
 
-  # Is GitHub Actions..
+  # On GitHub Actions..
   gha_dir <- Sys.getenv("RUNNER_TEMP")
-  is_gha <-  gha_dir == ""
-  if(is_gha){
+  on_gha <-  gha_dir == ""
+  if(on_gha){
     expect_message(csasdown:::save_latex_theme_code("kate", gha_dir),
                    "Created theme file ")
 

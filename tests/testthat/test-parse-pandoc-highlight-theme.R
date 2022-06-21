@@ -1,9 +1,8 @@
 test_that("parse_pandoc_highlight_theme() works", {
 
-  # Get JSON theme code from Pandoc
-  # Is GitHub Actions..
+  # On GitHub Actions..
   gha_dir <- Sys.getenv("RUNNER_TEMP")
-  on_gha <-  gha_dir != ""
+  on_gha <- gha_dir != ""
   if(on_gha){
     json <- readLines(file.path(gha_dir, "tango.theme"))
   }else{
