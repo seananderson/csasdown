@@ -131,10 +131,6 @@ gen_latex_highlight_code <- function(theme = c("pygments",
   on_gha <- gha_dir != ""
 
   if(on_gha){
-    if(gha_dir == ""){
-      stop("Cannot find $RUNNER_TEMP path on the system",
-           call. = FALSE)
-    }
     json_file <- file.path(gha_dir, "tango.theme")
     json <- readLines(json_file)
   }else{
