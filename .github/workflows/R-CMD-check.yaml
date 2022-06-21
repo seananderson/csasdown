@@ -14,9 +14,6 @@ on:
 
 name: R-CMD-check
 
-env:
-  RSTUDIO_PANDOC: /usr/bin/pandoc
-
 jobs:
   R-CMD-check:
     if: "! contains(github.event.head_commit.message, '[skip ci]')"
@@ -48,6 +45,9 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v1
 
       - uses: r-lib/actions/setup-tinytex@master
+
+      - name: Set env
+        run: RSTUDIO_PANDOC=$(which pandoc)
 
       - name: Query dependencies
         run: |
