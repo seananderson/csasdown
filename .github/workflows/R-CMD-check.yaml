@@ -44,9 +44,7 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
-      - uses: docker://pandoc/core
-        with:
-          args: "pandoc --print-highlight-style tango"
+      - run: pandoc --print-highlight-style tango
 
       - uses: r-lib/actions/setup-tinytex@master
 
