@@ -122,26 +122,36 @@ gen_latex_highlight_code <- function(theme = c("pygments",
                                      pandoc_path = NULL){
 
   theme <- match.arg(theme)
+  on_gha <- FALSE
 
   if(is.null(pandoc_path)){
     # Get location of RStudio's pandoc
     pandoc_path <- Sys.getenv("RSTUDIO_PANDOC")
     if(pandoc_path == ""){
-      stop("Cannot find pandoc on your system. You need to have the environment ",
-           "variable RSTUDIO_PANDOC set inside R or provide a path in the pandoc_path argument.",
+      # Probably on GitHub Actions, read in file created earlier in the build
+      on_gha <- TRUE
+      theme_file_path <- Sys.getenv("RUNNER_TEMP")
+      if(theme_file_path == ""){
+        stop("Cannot find theme path on your system. RUNNER_TEMP not set in R",
+             call. = FALSE)
+      }
+      theme_file <- file.path(theme_file_path, "tango.theme")
+      theme_code <- readLines(theme_file)
+      # stop("Cannot find pandoc on your system. You need to have the environment ",
+      #      "variable RSTUDIO_PANDOC set inside R or provide a path in the pandoc_path argument.",
+      #      call. = FALSE)
+    }
+  }
+  if(!on_gha){
+    pandoc_path <- gsub("Program Files", "Progra~1", pandoc_path)
+    if(!dir.exists(pandoc_path)){
+      stop("The `pandoc_path` '", pandoc_path, "' does not exist",
            call. = FALSE)
     }
-    pandoc_path <- gsub("Program Files", "Progra~1", pandoc_path)
+    cmd <- paste(file.path(pandoc_path, "pandoc"),  "--print-highlight-style", theme)
+    message("Running pandoc system command:\n", cmd)
+    theme_code <- system(cmd, intern = TRUE)
   }
-  if(!dir.exists(pandoc_path)){
-    stop("The `pandoc_path` '", pandoc_path, "' does not exist",
-         call. = FALSE)
-  }
-
-  cmd <- paste(file.path(pandoc_path, "pandoc"),  "--print-highlight-style", theme)
-  message("Running pandoc system command:\n", cmd)
-  theme_code <- system(cmd, intern = TRUE)
-
   style_list <- parse_pandoc_highlight_theme(theme_code)
 
   if(is.na(style_list$`text-color`)){
