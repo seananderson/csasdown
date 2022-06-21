@@ -1,3 +1,34 @@
+#' Convert a hex string into a vector of three decimal values (RGB)
+#'
+#' @keywords internal
+#'
+#' @param hex The hex string of 6 or 8 digits (if alpha included). May of may not begin with  #
+#' @param rel If `TRUE`, divide the RGB values by 255 for relative values
+#' @param ret_alpha if `TRUE` alpha value will be included in the output vector as the last item, so it will be
+#' length 4 instead of 3
+#'
+#' @return A vector of three RGB decimal values, or three relative values
+hex2rgb <- function(hex, rel = FALSE, ret_alpha = FALSE){
+
+  hex <- gsub("#", "", hex)
+  if(nchar(hex) != 6 && nchar(hex) != 8){
+    stop("hex must be a 6- or 8-digit number", call. = FALSE)
+  }
+  if(ret_alpha && nchar(hex) != 8){
+    hex <- paste0(hex, "ff")
+  }
+  if(ret_alpha){
+    hex_vec <- substring(hex, seq(1, 7, 2), seq(2, 8, 2))
+  }else{
+    hex_vec <- substring(hex, seq(1, 5, 2), seq(2, 6, 2))
+  }
+  dec <- strtoi(hex_vec, 16)
+  if(rel){
+    dec <- dec / 255
+  }
+  dec
+}
+
 #' Supply the Rmarkdown newline code for a given number of newlines
 #'
 #' @keywords internal

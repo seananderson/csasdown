@@ -4,26 +4,23 @@
 \alias{gen_latex_highlight_code}
 \title{Generate LaTeX code for pandoc highlight-style list}
 \usage{
-gen_latex_highlight_code(
-  theme = c("pygments", "tango", "espresso", "zenburn", "kate", "monochrome",
-    "breezedark", "haddock"),
-  pandoc_path = NULL
-)
+gen_latex_highlight_code(json_lst)
 }
 \arguments{
-\item{theme}{The pandoc highlight-style theme to make latex for}
-
-\item{pandoc_path}{If provided, the path in which pandoc executable resides,
-if \code{NULL}, \code{Sys.getenv("RSTUDIO_PANDOC")} will be used to attempt to
-provide the path, or \code{Sys.getenv("RUNNER_TEMP")} if \code{RSTUDIO_PANDOC} is
-not populated. \code{RUNNER_TEMP} is used as a theme path and a theme file
-is loaded. This happens on GitHub Action servers instead of using
-\code{RSTUDIO_PANDOC}.}
+\item{json_lst}{A list of pandoc highlight-style JSON codes, one for each
+theme to make a latex version for}
 }
 \value{
-A vector of lines of latex code representing the highlight-style for pandoc
+A list of vectors of lines of latex code representing the highlight-style for pandoc
+for each theme type
 }
 \description{
 Generate LaTeX code for pandoc highlight-style list
 }
+\seealso{
+Other highlight-theme: 
+\code{\link{create_pandoc_theme_files}()},
+\code{\link{parse_pandoc_highlight_theme}()}
+}
+\concept{highlight-theme}
 \keyword{internal}

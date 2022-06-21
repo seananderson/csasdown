@@ -1,55 +1,25 @@
 test_that("gen_latex_highlight_code() works", {
 
-  # On GitHub Actions..
-  gha_dir <- Sys.getenv("RUNNER_TEMP")
-  on_gha <- gha_dir != ""
-  if(on_gha){
-    expect_error(csasdown:::gen_latex_highlight_code("nope"),
-                 "'arg' should be one of ")
+  all_themes = c("pygments", "tango", "espresso", "zenburn",
+                 "kate", "monochrome", "breezedark", "haddock")
+  json_fns <- system.file(file.path("themes", paste0(all_themes, ".json")),
+                                    package = "csasdown",
+                          mustWork = TRUE)
 
-    expect_error(csasdown:::gen_latex_highlight_code("zenburn", "badpath"),
-                 "The `pandoc_path` 'badpath' does not exist")
+  latex_fns <- system.file(file.path("themes", paste0(all_themes, ".latex")),
+                           package = "csasdown",
+                           mustWork = TRUE)
 
-    tmp_env_var <- Sys.getenv("RUNNER_TEMP")
-    Sys.unsetenv("RUNNER_TEMP")
-    expect_error(csasdown:::gen_latex_highlight_code("zenburn"),
-                 "Cannot find $RUNNER_TEMP path on the system")
+  json_lst <- purrr::map(json_fns, ~{readLines(.x)})
+  latex_lst <- purrr::map(latex_fns, ~{readLines(.x)})
 
-    expect_error(csasdown:::gen_latex_highlight_code("zenburn", "anypath"),
-                 "Cannot find $RUNNER_TEMP path on the system")
+  new_latex_lst <- csasdown:::gen_latex_highlight_code(json_lst)
 
-    Sys.setenv(RUNNER_TEMP = tmp_env_var)
-  }else{
-    expect_error(csasdown:::gen_latex_highlight_code("nope"),
-                 "'arg' should be one of ")
+  expect_error(csasdown:::gen_latex_highlight_code(NULL),
+               "`json_lst` cannot be `NULL`")
 
-    expect_error(csasdown:::gen_latex_highlight_code("zenburn", "badpath"),
-                 "The `pandoc_path` 'badpath' does not exist")
+  expect_error(csasdown:::gen_latex_highlight_code(""),
+               "`json_lst` element 1 does not start with an open curly brace")
 
-    tmp_env_var <- Sys.getenv("RSTUDIO_PANDOC")
-    Sys.unsetenv("RSTUDIO_PANDOC")
-    expect_error(csasdown:::gen_latex_highlight_code("zenburn"),
-                 "Cannot find pandoc on your system.")
-
-    Sys.setenv(RSTUDIO_PANDOC = "wrongpath")
-    expect_error(csasdown:::gen_latex_highlight_code("zenburn"),
-                 "The `pandoc_path` 'wrongpath' does not exist")
-
-    Sys.setenv(RSTUDIO_PANDOC = tmp_env_var)
-  }
-
-  # ---------------------------------------------------------------------------
-  j <- csasdown:::gen_latex_highlight_code("zenburn")
-  expect_identical(j[1], paste0("\\DefineVerbatimEnvironment{Highlighting}",
-                                "{Verbatim}{commandchars=\\\\\\{\\},formatcom=",
-                                "\\color[rgb]{0.80,0.80,0.80}}"))
-  expect_identical(j[3], paste0("\\definecolor{shadecolor}{RGB}{48,48,48}"))
-  expect_identical(j[10], paste0("\\newcommand{\\CharTok}[1]{\\textcolor[rgb]",
-                                 "{0.86,0.64,0.64}{#1}}"))
-  expect_identical(j[20], paste0("\\newcommand{\\FloatTok}[1]{\\textcolor[rgb]",
-                                 "{0.75,0.75,0.82}{#1}}"))
-  expect_identical(j[length(j)], paste0("\\newcommand{\\WarningTok}[1]{\\text",
-                                        "color[rgb]{0.50,0.62,0.50}{\\textit",
-                                        "{#1}}}"))
-
+  expect_identical(latex_lst, new_latex_lst)
 })

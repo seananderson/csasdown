@@ -44,12 +44,6 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
-      - run: pandoc --print-highlight-style tango > "$RUNNER_TEMP/tango.theme"
-
-      - run: echo "RUNNER_TEMP = $RUNNER_TEMP" # /home/runner/work/_temp
-
-      - run: Rscript -e "Sys.getenv('RUNNER_TEMP');"
-
       - uses: r-lib/actions/setup-tinytex@master
 
       - name: Query dependencies

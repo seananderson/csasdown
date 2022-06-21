@@ -1,20 +1,20 @@
 test_that("parse_pandoc_highlight_theme() works", {
 
-  # On GitHub Actions..
-  gha_dir <- Sys.getenv("RUNNER_TEMP")
-  on_gha <- gha_dir != ""
-  if(on_gha){
-    json <- readLines(file.path(gha_dir, "tango.theme"))
-  }else{
-    pandoc_path <- Sys.getenv("RSTUDIO_PANDOC")
-    pandoc_path <- gsub("Program Files", "Progra~1", pandoc_path)
-    if(pandoc_path == ""){
-      stop("`pandoc_path` is nonexistent", call. = FALSE)
-    }
-    cmd <- paste(file.path(pandoc_path, "pandoc"),  "--print-highlight-style tango")
-    json <- system(cmd, intern = TRUE)
-  }
+  all_themes = c("pygments", "tango", "espresso", "zenburn",
+                 "kate", "monochrome", "breezedark", "haddock")
+  json_fns <- system.file(file.path("themes", paste0(all_themes, ".json")),
+                          package = "csasdown",
+                          mustWork = TRUE)
 
+  latex_fns <- system.file(file.path("themes", paste0(all_themes, ".latex")),
+                           package = "csasdown",
+                           mustWork = TRUE)
+
+  json_lst <- purrr::map(json_fns, ~{readLines(.x)})
+  latex_lst <- purrr::map(latex_fns, ~{readLines(.x)})
+
+  json <- json_lst[all_themes == "tango"]
+  back_json <- json[[1]]
   j <- csasdown:::parse_pandoc_highlight_theme(json)
   expect_true(all(lengths(purrr::map(j[[3]], ~{as.logical(grep("text-color", .x))}))))
   expect_identical(names(j), c("text-color", "background-color", "sections-list"))
@@ -64,7 +64,7 @@ test_that("parse_pandoc_highlight_theme() works", {
   expect_identical(op_list[[4]], c("italic", "false"))
   expect_identical(op_list[[5]], c("underline", "false"))
 
-  back_json <- json
+  # Remove all text-color and background-color items
   json <- gsub("text-color", "", json)
   json <- gsub("background-color", "", json)
   j <- csasdown:::parse_pandoc_highlight_theme(json)
