@@ -44,6 +44,10 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
+      - uses: docker://pandoc/core:2.9
+        with:
+          args: "pandoc --print-highlight-style tango"
+
       - uses: r-lib/actions/setup-tinytex@master
 
       - name: Query dependencies
