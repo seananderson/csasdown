@@ -4,7 +4,7 @@
 \alias{save_latex_theme_code}
 \title{Create latex theme files for all the pandoc highlight-styles}
 \usage{
-save_latex_theme_code(themes = NULL)
+save_latex_theme_code(themes = NULL, theme_path = here::here("inst", "themes"))
 }
 \arguments{
 \item{themes}{If NULL, run function for all themes. If not NULL, apply to

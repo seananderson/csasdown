@@ -14,7 +14,11 @@ gen_latex_highlight_code(
 \item{theme}{The pandoc highlight-style theme to make latex for}
 
 \item{pandoc_path}{If provided, the path in which pandoc executable resides,
-if \code{NULL}, \code{Sys.getenv("RSTUDIO_PANDOC")} will be used to attempt to provide the path}
+if \code{NULL}, \code{Sys.getenv("RSTUDIO_PANDOC")} will be used to attempt to
+provide the path, or \code{Sys.getenv("RUNNER_TEMP")} if \code{RSTUDIO_PANDOC} is
+not populated. \code{RUNNER_TEMP} is used as a theme path and a theme file
+is loaded. This happens on GitHub Action servers instead of using
+\code{RSTUDIO_PANDOC}.}
 }
 \value{
 A vector of lines of latex code representing the highlight-style for pandoc

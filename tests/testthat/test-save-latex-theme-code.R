@@ -1,24 +1,39 @@
 test_that("save_latex_theme_code() works", {
 
-  expect_message(csasdown:::save_latex_theme_code("kate"),
-                 "Created theme file ")
+  # Is GitHub Actions..
+  gha_dir <- Sys.getenv("RUNNER_TEMP")
+  is_gha <-  gha_dir == ""
+  if(is_gha){
+    expect_message(csasdown:::save_latex_theme_code("kate", gha_dir),
+                   "Created theme file ")
 
-  expect_true(file.exists(here::here("inst/themes/kate.latex")))
+    expect_true(file.exists(file.path(gha_dir, "kate.latex")))
 
-  suppressMessages(csasdown:::save_latex_theme_code())
-  expect_true(file.exists(here::here("inst/themes/breezedark.latex")))
-  expect_true(file.exists(here::here("inst/themes/espresso.latex")))
-  expect_true(file.exists(here::here("inst/themes/haddock.latex")))
-  expect_true(file.exists(here::here("inst/themes/kate.latex")))
-  expect_true(file.exists(here::here("inst/themes/monochrome.latex")))
-  expect_true(file.exists(here::here("inst/themes/pygments.latex")))
-  expect_true(file.exists(here::here("inst/themes/tango.latex")))
-  expect_true(file.exists(here::here("inst/themes/zenburn.latex")))
+    suppressMessages(csasdown:::save_latex_theme_code(theme_path = gha_dir))
+    expect_true(file.exists(file.path(gha_dir, "breezedark.latex")))
+    expect_true(file.exists(file.path(gha_dir, "espresso.latex")))
+    expect_true(file.exists(file.path(gha_dir, "haddock.latex")))
+    expect_true(file.exists(file.path(gha_dir, "kate.latex")))
+    expect_true(file.exists(file.path(gha_dir, "monochrome.latex")))
+    expect_true(file.exists(file.path(gha_dir, "pygments.latex")))
+    expect_true(file.exists(file.path(gha_dir, "tango.latex")))
+    expect_true(file.exists(file.path(gha_dir, "zenburn.latex")))
 
-  k <- file.info(here::here("inst/themes/zenburn.latex"))
-  expect_identical(lubridate::day(lubridate::today()), lubridate::day(k$mtime))
-  expect_identical(lubridate::hour(k$mtime), lubridate::hour(lubridate::now(tzone = "UTC")))
+  }else{
+    expect_message(csasdown:::save_latex_theme_code("kate"),
+                   "Created theme file ")
 
+    expect_true(file.exists(here::here("inst/themes/kate.latex")))
 
-  TODO
+    suppressMessages(csasdown:::save_latex_theme_code())
+    expect_true(file.exists(here::here("inst/themes/breezedark.latex")))
+    expect_true(file.exists(here::here("inst/themes/espresso.latex")))
+    expect_true(file.exists(here::here("inst/themes/haddock.latex")))
+    expect_true(file.exists(here::here("inst/themes/kate.latex")))
+    expect_true(file.exists(here::here("inst/themes/monochrome.latex")))
+    expect_true(file.exists(here::here("inst/themes/pygments.latex")))
+    expect_true(file.exists(here::here("inst/themes/tango.latex")))
+    expect_true(file.exists(here::here("inst/themes/zenburn.latex")))
+  }
+
 })

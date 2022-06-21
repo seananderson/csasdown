@@ -107,7 +107,11 @@ parse_pandoc_highlight_theme <- function(json = NULL,
 #'
 #' @param theme The pandoc highlight-style theme to make latex for
 #' @param pandoc_path If provided, the path in which pandoc executable resides,
-#' if `NULL`, `Sys.getenv("RSTUDIO_PANDOC")` will be used to attempt to provide the path
+#' if `NULL`, `Sys.getenv("RSTUDIO_PANDOC")` will be used to attempt to
+#' provide the path, or `Sys.getenv("RUNNER_TEMP")` if `RSTUDIO_PANDOC` is
+#' not populated. `RUNNER_TEMP` is used as a theme path and a theme file
+#' is loaded. This happens on GitHub Action servers instead of using
+#' `RSTUDIO_PANDOC`.
 #'
 #' @return A vector of lines of latex code representing the highlight-style for pandoc
 #' @importFrom grDevices col2rgb
@@ -274,9 +278,9 @@ gen_latex_highlight_code <- function(theme = c("pygments",
 #'
 #' @param themes If NULL, run function for all themes. If not NULL, apply to
 #' the theme(s) given.
-save_latex_theme_code <- function(themes = NULL){
+save_latex_theme_code <- function(themes = NULL,
+                                  theme_path = here::here("inst", "themes")){
 
-  theme_path <- here::here("inst", "themes")
   all_themes = c("pygments", "tango", "espresso", "zenburn",
                  "kate", "monochrome", "breezedark", "haddock")
 
