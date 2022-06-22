@@ -46,6 +46,8 @@
 #' @param fr_chunk_regex A regular expression to match for the chunk
 #' name for French chunks. Default is 'ends in -fr'. Passed to
 #' [validate_chunk_headers()]
+#' @param suppress_warnings If `TRUE`, [base::suppressWarnings()] will wrap
+#' the call to [bookdown::render_book()]
 #' @param ... Additional arguments passed to [bookdown::render_book()]
 #'
 #' @return Nothing
@@ -57,6 +59,7 @@ render <- function(yaml_fn = "_bookdown.yml",
                    keep_files = FALSE,
                    en_chunk_regex = "^\\S+-en$",
                    fr_chunk_regex = "^\\S+-fr$",
+                   suppress_warnings = TRUE,
                    ...){
 
   # Create the temporary YAML and Rmd files and store their names
@@ -133,11 +136,17 @@ render <- function(yaml_fn = "_bookdown.yml",
   # render_type defined at beginning of this function
   inject_bilingual_code(tmp_index_fn, render_type)
 
-  suppressWarnings(
+  if(suppress_warnings){
+    suppressWarnings(
+      render_book(tmp_index_fn,
+                  config_file = tmp_yaml_fn,
+                  ...)
+    )
+  }else{
     render_book(tmp_index_fn,
                 config_file = tmp_yaml_fn,
                 ...)
-  )
+  }
   # Delete the temporary files
   if(!keep_files){
     map(fn_process, ~{

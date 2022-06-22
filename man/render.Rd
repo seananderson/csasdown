@@ -9,6 +9,7 @@ render(
   keep_files = FALSE,
   en_chunk_regex = "^\\\\S+-en$",
   fr_chunk_regex = "^\\\\S+-fr$",
+  suppress_warnings = TRUE,
   ...
 )
 }
@@ -26,6 +27,9 @@ any other non-whitespace characters. Passed to \code{\link[=validate_chunk_heade
 \item{fr_chunk_regex}{A regular expression to match for the chunk
 name for French chunks. Default is 'ends in -fr'. Passed to
 \code{\link[=validate_chunk_headers]{validate_chunk_headers()}}}
+
+\item{suppress_warnings}{If \code{TRUE}, \code{\link[base:warning]{base::suppressWarnings()}} will wrap
+the call to \code{\link[bookdown:render_book]{bookdown::render_book()}}}
 
 \item{...}{Additional arguments passed to \code{\link[bookdown:render_book]{bookdown::render_book()}}}
 }
