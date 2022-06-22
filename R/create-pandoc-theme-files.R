@@ -1,3 +1,5 @@
+# nocov start
+
 #' Creates package JSON and LaTeX files for pandoc highlight theme types
 #'
 #' @keywords internal
@@ -62,3 +64,5 @@ create_pandoc_theme_files <- function(pandoc_dir = NULL){
   })
   invisible()
 }
+
+# nocov end

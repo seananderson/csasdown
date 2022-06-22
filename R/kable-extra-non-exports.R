@@ -1,3 +1,5 @@
+# nocov start
+
 #' input_escape is a [kableExtra] non-exported function
 #'
 #' @description
@@ -267,3 +269,5 @@ cline_gen <- function (header_df, booktabs, line_sep) {
   cline <- paste(cline, collapse = " ")
   return(cline)
 }
+
+# nocov end
