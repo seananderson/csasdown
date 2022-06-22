@@ -39,7 +39,7 @@
 #' [bookdown::render_book()]
 #' @param keep_files If `TRUE`, keep the temporary files created (Rmd files and
 #' YAML file)
-#' #' @param en_chunk_regex A regular expression to match for the chunk
+#' @param en_chunk_regex A regular expression to match for the chunk
 #' name for English chunks. Default is 'ends in -en'. The `$` means anchor
 #' to the end, so '-en' must be at the end. `\\S+` means match one or more
 #' any other non-whitespace characters. Passed to [validate_chunk_headers()]

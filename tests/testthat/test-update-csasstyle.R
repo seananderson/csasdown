@@ -1,6 +1,6 @@
 test_that("update_csasstyle() works", {
 
-  testing_path <- file.path(tempdir(), "test-update-csasstyle")
+  testing_path <- file.path(tempdir(), "test-update-csasstyle-resdoc")
   unlink(testing_path, recursive = TRUE, force = TRUE)
   dir.create(testing_path, showWarnings = FALSE)
   setwd(testing_path)

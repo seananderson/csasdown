@@ -19,70 +19,70 @@ test_that("cat parser works", {
 
   # -----------------------------------------------------------------------------
   # `verbose`
-  capture_log1 <- function(f) {
-    # Capture all messages from a function
-    function(...) {
-      logs <- list()
-      add_log <- function(type, message) {
-        new_l <- logs
-        new_log <- list(timestamp = format(Sys.time(), tz = 'UTC', format = '%Y-%m-%d %H:%M:%S'),
-                        type = type,
-                        message =  message)
-        new_l[[length(new_l) + 1]]  <- new_log
-        logs <<- new_l
-      }
-      res <- withCallingHandlers(
-        tryCatch(f(...), error=function(e) {
-          add_log("error", conditionMessage(e))
-          NULL
-        }), warning=function(w) {
-          add_log("warning", conditionMessage(w))
-          invokeRestart("muffleWarning")
-        }, message = function(m) {
-          add_log("message", conditionMessage(m))
-          invokeRestart("muffleMessage")
-        })
-      list(res, logs = logs)
-    }
-  }
   strs <- c("cat('This is an example",
             "of not starting with cat()')")
-  x <- capture_log1(csasdown:::parse_cat_text(strs, verbose = TRUE))
+  x <- csasdown:::capture_log(csasdown:::parse_cat_text(strs, verbose = TRUE))
   j <- x(1)
   j <- j$logs
-  mess <- map_chr(j, ~{.x$message})
+  mess <- purrr::map_chr(j, ~{.x$message})
   expect_identical(mess[1],
           "Pushed '(' from `cat()` to stack. Stack size is now 1\n\n")
   expect_identical(mess[2],
                  paste0("Pushed '(' to stack on line 2, char 25\nstack size ",
-                 "is now 2\n\033[36mof not starting with ",
-                 "cat\033[39m\033[31m(\033[39m\033[36m)')\033[39m\n\n"))
+                 "is now 2\nof not starting with cat()')\n\n"))
   expect_identical(mess[3],
                  paste0("Matched ')' on line 2, char 26\nstack size is now ",
-                 "1\n\033[36mof not starting with ",
-                 "cat(\033[39m\033[31m)\033[39m\033[36m')\033[39m\n\n"))
+                 "1\nof not starting with cat()')\n\n"))
   expect_identical(mess[4],
                    paste0("Matched closing ')' for `cat()` on line 2, char ",
-                   "28\nstack size is now 0\n\033[36mof not starting with ",
-                   "cat()'\033[39m\033[31m)\033[39m\033[36m\033[39m\n\n"))
-
+                   "28\nstack size is now 0\nof not starting with ",
+                   "cat()')\n\n"))
+  # expect_identical(mess[2],
+  #                  paste0("Pushed '(' to stack on line 2, char 25\nstack size ",
+  #                         "is now 2\n\033[36mof not starting with ",
+  #                         "cat\033[39m\033[31m(\033[39m\033[36m)')\033[39m\n\n"))
+  # expect_identical(mess[3],
+  #                  paste0("Matched ')' on line 2, char 26\nstack size is now ",
+  #                         "1\n\033[36mof not starting with ",
+  #                         "cat(\033[39m\033[31m)\033[39m\033[36m')\033[39m\n\n"))
+  # expect_identical(mess[4],
+  #                  paste0("Matched closing ')' for `cat()` on line 2, char ",
+  #                         "28\nstack size is now 0\n\033[36mof not starting with ",
+  #                         "cat()'\033[39m\033[31m)\033[39m\033[36m\033[39m\n\n"))
+  #
   # -----------------------------------------------------------------------------
   # `verbose` error
   strs <- c("cat('This is an )')")
-  x <- capture_log1(csasdown:::parse_cat_text(strs, verbose = TRUE))
+  x <- csasdown:::capture_log(csasdown:::parse_cat_text(strs, verbose = TRUE))
   j <- x(1)
   j <- j$logs
-  mess <- map_chr(j, ~{.x$message})
+  mess <- purrr::map_chr(j, ~{.x$message})
   expect_identical(mess[1],
                    "Pushed '(' from `cat()` to stack. Stack size is now 1\n\n")
   expect_identical(mess[2],
-                   paste0("Mismatched ')' found on line  1, char 13\n\033[36m'",
-                   "This is an \033[39m\033[31m)\033[39m\033[36m')\033[39m\n"))
-  suppressMessages(
-    expect_error(csasdown:::parse_cat_text(strs, verbose = TRUE),
-                 "Mismatched ')' found on line  1, char 13",
-                 fixed = TRUE)
-  )
+                   paste0("Mismatched ')' found on line  1, char 13\n",
+                          "'This is an )')\n"))
+  # expect_identical(mess[2],
+  #                  paste0("Mismatched ')' found on line  1, char 13\n\033[36m'",
+  #                         "This is an \033[39m\033[31m)\033[39m\033[36m')\033[39m\n"))
+  #
+  x <- csasdown:::capture_log(csasdown:::parse_cat_text(strs, verbose = TRUE))
+  j <- x(1)
+  j <- j$logs
+  mess <- purrr::map_chr(j, ~{.x$message})
+  types <- purrr::map_chr(j, ~{.x$type})
+  expect_identical(types[1], "message")
+  expect_identical(mess[1],
+                   paste0("Pushed '(' from `cat()` to stack. Stack size is ",
+                          "now 1\n\n"))
+  expect_identical(types[2], "error")
+  expect_identical(mess[2],
+                   paste0("Mismatched ')' found on line  1, char ",
+                          "13\n'This is an )')\n"))
+  # expect_identical(mess[2],
+  #                  paste0("Mismatched ')' found on line  1, char ",
+  #                         "13\n\033[36m'This is an \033[39m\033[31m)\033[39m\033",
+  #                         "[36m')\033[39m\n"))
 
   # -----------------------------------------------------------------------------
   # Single quotes

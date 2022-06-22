@@ -18,8 +18,9 @@ render(
 \code{\link[bookdown:render_book]{bookdown::render_book()}}}
 
 \item{keep_files}{If \code{TRUE}, keep the temporary files created (Rmd files and
-YAML file)
-#' @param en_chunk_regex A regular expression to match for the chunk
+YAML file)}
+
+\item{en_chunk_regex}{A regular expression to match for the chunk
 name for English chunks. Default is 'ends in -en'. The \code{$} means anchor
 to the end, so '-en' must be at the end. \verb{\\\\S+} means match one or more
 any other non-whitespace characters. Passed to \code{\link[=validate_chunk_headers]{validate_chunk_headers()}}}

@@ -1520,3 +1520,48 @@ cat <- function(...,
             labels = labels,
             append = append)
 }
+
+# nocov start
+#' Capture multiple log messages from a function call
+#'
+#' @details
+#' Capture all messages from a function.
+#' Use like this:
+#' `` x <- capture_log(function_call(args)) ``
+#' `` j <- x(1) ``
+#' `` j <- j$logs ``
+#' `` messages <- map_chr(j, ~{.x$message}) ``
+#'
+#' @keywords internal
+#' @param f The function call
+#'
+#' @return A function which you call like this (if you name sit `x`): `x(1)`
+#' to extract the messages
+capture_log <- function(f) {
+
+  function(...) {
+    logs <- list()
+    add_log <- function(type, message) {
+      new_l <- logs
+      new_log <- list(timestamp = format(Sys.time(),
+                                         tz = 'UTC', format = '%Y-%m-%d %H:%M:%S'),
+                      type = type,
+                      message = message)
+      new_l[[length(new_l) + 1]]  <- new_log
+      logs <<- new_l
+    }
+    res <- withCallingHandlers(
+      tryCatch(f(...), error = function(e) {
+        add_log("error", conditionMessage(e))
+        NULL
+      }), warning = function(w) {
+        add_log("warning", conditionMessage(w))
+        invokeRestart("muffleWarning")
+      }, message = function(m) {
+        add_log("message", conditionMessage(m))
+        invokeRestart("muffleMessage")
+      })
+    list(res, logs = logs)
+  }
+}
+# nocov end

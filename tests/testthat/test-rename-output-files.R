@@ -20,7 +20,22 @@ test_that("rename_output_files() works", {
   expect_true(file.exists(file.path("_book", "sr-english.pdf")))
   expect_true(file.exists(file.path("_book", "sr-english.tex")))
 
-  expect_warning(csasdown:::rename_output_files("index.Rmd"))
+  x <- csasdown:::capture_log(csasdown:::rename_output_files("index.Rmd"))
+  j <- x(1)
+  j <- j$logs
+  mess <- purrr::map_chr(j, ~{.x$message})
+  expect_identical(mess[1],
+                   paste0("cannot rename file '_book/sr.tex' ",
+                         "to '_book/sr-english.tex', reason 'The system ",
+                         "cannot find the file specified'"))
+  expect_identical(mess[2],
+                   paste0("cannot rename file '_book/sr.pdf' ",
+                          "to '_book/sr-english.pdf', reason 'The system ",
+                          "cannot find the file specified'"))
+  expect_identical(mess[3],
+                   "Could not rename the file _book/sr.tex to _book/sr-english.tex")
+  expect_identical(mess[4],
+                   "Could not rename the file _book/sr.pdf to _book/sr-english.pdf")
 
   file.create(file.path(d, "sr.docx"))
   file.create(file.path(d, "reference-keys.txt"))
@@ -29,25 +44,25 @@ test_that("rename_output_files() works", {
   expect_true(file.exists(file.path("_book", "sr-english.docx")))
   expect_true(file.exists(file.path("_book", "reference-keys-docx-english.txt")))
 
-  expect_warning(csasdown:::rename_output_files("index.Rmd"))
+  x <- csasdown:::capture_log(csasdown:::rename_output_files("index.Rmd"))
+  j <- x(1)
+  j <- j$logs
+  mess <- purrr::map_chr(j, ~{.x$message})
+  expect_identical(mess[1],
+                   paste0("cannot rename file '_book/reference-keys.txt' ",
+                          "to '_book/reference-keys-docx-english.txt', ",
+                          "reason 'The system cannot find the file ",
+                          "specified'"))
+  expect_identical(mess[2],
+                   paste0("cannot rename file '_book/sr.docx' ",
+                          "to '_book/sr-english.docx', reason 'The system ",
+                          "cannot find the file specified'"))
+  expect_identical(mess[3],
+                   paste0("Could not rename the file _book/reference-keys.txt ",
+                   "to _book/reference-keys-docx-english.txt"))
+  expect_identical(mess[4],
+                   paste0("Could not rename the file _book/sr.docx to ",
+                          "_book/sr-english.docx"))
 
-  options(french = TRUE)
-  file.create(file.path(d, "sr.pdf"))
-  file.create(file.path(d, "sr.tex"))
-  csasdown:::set_render_type(doc_type = "pdf")
-  csasdown:::rename_output_files("index.Rmd")
-  expect_true(file.exists(file.path("_book", "sr-french.pdf")))
-  expect_true(file.exists(file.path("_book", "sr-french.tex")))
-
-  expect_warning(csasdown:::rename_output_files("index.Rmd"))
-
-  file.create(file.path(d, "sr.docx"))
-  file.create(file.path(d, "reference-keys.txt"))
-  csasdown:::set_render_type(doc_type = "word")
-  csasdown:::rename_output_files("index.Rmd")
-  expect_true(file.exists(file.path("_book", "sr-french.docx")))
-  expect_true(file.exists(file.path("_book", "reference-keys-docx-french.txt")))
-
-  expect_warning(csasdown:::rename_output_files("index.Rmd"))
 
 })
