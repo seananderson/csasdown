@@ -9,7 +9,7 @@ suppressMessages(csasdown::draft(
   edit = FALSE
 ))
 
-# ----------------------------------------------------
+# -----------------------------------------------------------------------------
 # Make sure all YAML options are contained in index.Rmd
 expect_message(csasdown::check_yaml(type = "techreport"), "contains all")
 
@@ -19,21 +19,24 @@ test_that("csasdown::render generates the PDF of the techreport", {
   csasdown::set_french(val = FALSE)
   csasdown:::set_render_type(doc_type = "pdf")
   csasdown::render()
-  expect_true(file.exists(file.path(testing_path, "_book", "techreport-english.pdf")))
+  expect_true(file.exists(file.path(testing_path, "_book",
+                                    "techreport-english.pdf")))
 })
 
-# ----------------------------------------------------
+# -----------------------------------------------------------------------------
 # Render the Word techreport
 test_that("csasdown::render generates the .docx of the techreport", {
   csasdown::set_french(val = FALSE)
   csasdown:::set_render_type(doc_type = "word")
   csasdown::render()
-  expect_true(file.exists(file.path(testing_path, "_book", "techreport-english.docx")))
+  expect_true(file.exists(file.path(testing_path, "_book",
+                                    "techreport-english.docx")))
 })
 
-# ----------------------------------------------------
+# -----------------------------------------------------------------------------
 # Render the PDF techreport, with `NULL` highlight
-# test_that("csasdown::render generates monochrome code PDF of the techreport", {
+# test_that("csasdown::render generates monochrome code PDF of the techreport",
+#  {
 #   csasdown::set_french(val = FALSE)
 #   csasdown:::set_render_type(doc_type = "pdf")
 #   rmd <- readLines("index.Rmd")
@@ -45,7 +48,7 @@ test_that("csasdown::render generates the .docx of the techreport", {
 #   # Checked manually that the code chunks are monochrome
 # })
 
-# ----------------------------------------------------
+# -----------------------------------------------------------------------------
 # Render the PDF resdoc, with bogus highlight
 test_that("csasdown::render detects bogus highlight", {
   csasdown::set_french(val = FALSE)
@@ -54,7 +57,8 @@ test_that("csasdown::render detects bogus highlight", {
   ind <- grep("highlight:", rmd)
   rmd[ind] <- "   highlight: bogus"
   writeLines(rmd, "index.Rmd")
-  expect_error(csasdown::render(), paste0("in YAML, `csasdown:techreport_pdf: ",
+  expect_error(csasdown::render(), paste0("in YAML, ",
+                                          "`csasdown:techreport_pdf: ",
                                           "highlight` must be one of"))
 })
 
@@ -84,6 +88,8 @@ test_that("csasdown::render detects cover page missing", {
   rmd[ind] <- "   line_nums_mod: 1"
   writeLines(rmd, "index.Rmd")
   csasdown::render()
-  expect_true(file.exists(file.path(testing_path, "_book", "techreport-english.pdf")))
-  expect_true(file.exists(file.path(testing_path, "tech-report-cover.pdf")))
+  expect_true(file.exists(file.path(testing_path, "_book",
+                                    "techreport-english.pdf")))
+  expect_true(file.exists(file.path(testing_path,
+                                    "tech-report-cover.pdf")))
 })
