@@ -24,14 +24,13 @@ test_that("rename_output_files() works", {
   j <- x(1)
   j <- j$logs
   mess <- purrr::map_chr(j, ~{.x$message})
-  expect_identical(mess[1],
-                   paste0("cannot rename file '_book/sr.tex' ",
-                         "to '_book/sr-english.tex', reason 'The system ",
-                         "cannot find the file specified'"))
-  expect_identical(mess[2],
-                   paste0("cannot rename file '_book/sr.pdf' ",
-                          "to '_book/sr-english.pdf', reason 'The system ",
-                          "cannot find the file specified'"))
+  types <- purrr::map_chr(j, ~{.x$type})
+  expect_match(mess[1],
+               paste0("cannot rename file '_book/sr.tex' ",
+                      "to '_book/sr-english.tex'"))
+  expect_match(mess[2],
+               paste0("cannot rename file '_book/sr.pdf' ",
+                      "to '_book/sr-english.pdf'"))
   expect_identical(mess[3],
                    "Could not rename the file _book/sr.tex to _book/sr-english.tex")
   expect_identical(mess[4],
@@ -48,21 +47,17 @@ test_that("rename_output_files() works", {
   j <- x(1)
   j <- j$logs
   mess <- purrr::map_chr(j, ~{.x$message})
-  expect_identical(mess[1],
-                   paste0("cannot rename file '_book/reference-keys.txt' ",
-                          "to '_book/reference-keys-docx-english.txt', ",
-                          "reason 'The system cannot find the file ",
-                          "specified'"))
-  expect_identical(mess[2],
-                   paste0("cannot rename file '_book/sr.docx' ",
-                          "to '_book/sr-english.docx', reason 'The system ",
-                          "cannot find the file specified'"))
+  expect_match(mess[1],
+               paste0("cannot rename file '_book/reference-keys.txt' ",
+                      "to '_book/reference-keys-docx-english.txt'"))
+  expect_match(mess[2],
+               paste0("cannot rename file '_book/sr.docx' ",
+                      "to '_book/sr-english.docx'"))
   expect_identical(mess[3],
                    paste0("Could not rename the file _book/reference-keys.txt ",
                    "to _book/reference-keys-docx-english.txt"))
   expect_identical(mess[4],
                    paste0("Could not rename the file _book/sr.docx to ",
                           "_book/sr-english.docx"))
-
 
 })
