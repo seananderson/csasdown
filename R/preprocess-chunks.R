@@ -11,7 +11,7 @@ preprocess_chunks <- function(fns, yaml_fn = "_bookdown.yml"){
 
   map(fns, ~{
     if(!file.exists(.x)){
-      stop("The file ", .x, " does not exist. Check the YAML file entry ",
+      stop("The file '", .x, "' does not exist. Check the YAML file entry ",
            "in file '", yaml_fn, "'",
            call. = FALSE)
     }
