@@ -1,4 +1,4 @@
-test_that("preprocess_chunks() works", {
+test_that("csasdown:::preprocess_chunks() works", {
 
   rmd_dir <- testthat::test_path("preprocess-chunks-files")
 
@@ -20,13 +20,13 @@ test_that("preprocess_chunks() works", {
     edit = FALSE
   ))
 
-  expect_invisible(preprocess_chunks(NULL))
+  expect_invisible(csasdown:::preprocess_chunks(NULL))
 
-  expect_error(preprocess_chunks("unknown-file.Rmd"),
+  expect_error(csasdown:::preprocess_chunks("unknown-file.Rmd"),
                "The file 'unknown-file.Rmd' does not exist. Check the YAML file entry")
 
 
-  preprocess_chunks("double-chunk-cat.Rmd")
+  csasdown:::preprocess_chunks("double-chunk-cat.Rmd")
 
   expect_identical(readLines("double-chunk-cat.Rmd"),
                    c("```{r chunk-1-en, eval = !fr(), results = 'asis'}",
@@ -41,7 +41,7 @@ test_that("preprocess_chunks() works", {
                       "```"))
 
 
-  expect_error(expect_message(preprocess_chunks("double-chunk-cat-extra-blanks.Rmd"),
+  expect_error(expect_message(csasdown:::preprocess_chunks("double-chunk-cat-extra-blanks.Rmd"),
                               paste0("Not all chunks in the file double-chunk-cat-extra-blanks.Rmd ",
                                      "with `needs_trans = TRUE` have `cat(` immediately following. ",
                                      "If the chunks mirror other chunks, make sure that the mirrored ",
@@ -49,7 +49,7 @@ test_that("preprocess_chunks() works", {
                                      "`cat()` are:\n\nchunk-1-fr"), fixed = TRUE),
                "Chunks missing `cat()`", fixed = TRUE)
 
-  preprocess_chunks("double-chunk-cat-single-quotes.Rmd")
+  csasdown:::preprocess_chunks("double-chunk-cat-single-quotes.Rmd")
   actual <- readLines("double-chunk-cat-single-quotes.Rmd")
   expect_identical(actual, c("```{r chunk-1-en, eval = !fr(), results = 'asis'}",
                              "cat(\"# Header",
@@ -62,6 +62,6 @@ test_that("preprocess_chunks() works", {
                               "Test text \", print('Hello World 2!'), \"\")",
                               "```"))
 
-  preprocess_chunks("empty-file.Rmd")
+  csasdown:::preprocess_chunks("empty-file.Rmd")
   expect_identical(readLines("empty-file.Rmd"), character(0))
 })

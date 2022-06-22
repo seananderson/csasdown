@@ -1,0 +1,6 @@
+# Header
+This text will be injected into the chunk in the other file.
+
+```{r xxx}
+print("Hello world")
+```
