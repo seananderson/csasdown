@@ -132,26 +132,26 @@ preprocess_chunks <- function(fns, yaml_fn = "_bookdown.yml"){
           # There will be a leading quote and ending quote, but they may not be on
           # their own line. Remove them and keep track if they shared a line with other
           # values.
-          if(text_chunk[1] == "\""){
+          if(text_chunk[1] == "\"" || text_chunk[1] == "'"){
             text_chunk <- text_chunk[-1]
             # Toggle to paste the quote to the beginning of the first element
             # If FALSE, add a new element to the beginning of the vector with
             # the quote character only after calling convert_newlines_rmd()
             paste_beg <- FALSE
           }
-          if(text_chunk[length(text_chunk)] == "\""){
+          if(text_chunk[length(text_chunk)] == "\"" || text_chunk[length(text_chunk)] == "'"){
             text_chunk <- text_chunk[-length(text_chunk)]
             # Toggle to paste the quote to the end of the last element
             # If FALSE, add a new element to the end of the vector with
             # the quote character only after calling convert_newlines_rmd()
             paste_end <- FALSE
           }
-          if(length(grep("^\".+$", text_chunk[1]))){
-            text_chunk[1] <- gsub("\"(.*)", "\\1", text_chunk[1])
+          if(length(grep("^(\"|').+$", text_chunk[1]))){
+            text_chunk[1] <- gsub("(\"|')(.*)", "\\2", text_chunk[1])
             paste_beg <- TRUE
           }
-          if(length(grep("^.+\"$", text_chunk[length(text_chunk)]))){
-            text_chunk[length(text_chunk)] <- gsub("(.*)\"", "\\1", text_chunk[length(text_chunk)])
+          if(length(grep("^.+(\"|')$", text_chunk[length(text_chunk)]))){
+            text_chunk[length(text_chunk)] <- gsub("(.*)(\"|')", "\\1", text_chunk[length(text_chunk)])
             paste_end <- TRUE
           }
 
