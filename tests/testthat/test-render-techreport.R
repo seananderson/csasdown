@@ -31,23 +31,58 @@ test_that("csasdown::render generates the .docx of the techreport", {
   expect_true(file.exists(file.path(testing_path, "_book", "techreport-english.docx")))
 })
 
-
-# French techreport does not currently work, and never has
-#
 # ----------------------------------------------------
-# Render the French PDF techreport
-#test_that("csasdown::render generates the French PDF of the techreport", {
-  # csasdown::set_french(val = TRUE)
-  # csasdown:::set_render_type(doc_type = "pdf")
-  # expect_warning(csasdown::render())
-  # expect_true(file.exists(file.path(testing_path, "_book", "techreport-french.pdf")))
-#})
-
-# ----------------------------------------------------
-# Render the French Word techreport
-# test_that("csasdown::render generates the French .docx of the techreport", {
-#   csasdown::set_french(val = TRUE)
-#   csasdown:::set_render_type(doc_type = "word")
-#   suppressWarnings(csasdown::render())
-#   expect_true(file.exists(file.path(testing_path, "_book", "techreport-french.docx")))
+# Render the PDF techreport, with `NULL` highlight
+# test_that("csasdown::render generates monochrome code PDF of the techreport", {
+#   csasdown::set_french(val = FALSE)
+#   csasdown:::set_render_type(doc_type = "pdf")
+#   rmd <- readLines("index.Rmd")
+#   ind <- grep("highlight:", rmd)
+#   rmd[ind] <- "   highlight: "
+#   writeLines(rmd, "index.Rmd")
+#   csasdown::render()
+#   expect_true(file.exists(file.path(testing_path, "_book", "techreport-english.pdf")))
+#   # Checked manually that the code chunks are monochrome
 # })
+
+# ----------------------------------------------------
+# Render the PDF resdoc, with bogus highlight
+test_that("csasdown::render detects bogus highlight", {
+  csasdown::set_french(val = FALSE)
+  csasdown:::set_render_type(doc_type = "pdf")
+  rmd <- readLines("index.Rmd")
+  ind <- grep("highlight:", rmd)
+  rmd[ind] <- "   highlight: bogus"
+  writeLines(rmd, "index.Rmd")
+  expect_error(csasdown::render(), paste0("in YAML, `csasdown:techreport_pdf: ",
+                                          "highlight` must be one of"))
+})
+
+# -----------------------------------------------------------------------------
+# Render the PDF resdoc, with character line number mod
+test_that("csasdown::render detects character line number mod value", {
+  csasdown::set_french(val = FALSE)
+  csasdown:::set_render_type(doc_type = "pdf")
+  rmd <- readLines("index.Rmd")
+  ind <- grep("highlight:", rmd)
+  rmd[ind] <- "   highlight: tango"
+  ind <- grep("line_nums_mod:", rmd)
+  rmd[ind] <- "   line_nums_mod: A"
+  writeLines(rmd, "index.Rmd")
+  expect_error(csasdown::render(), paste0("line_nums_mod must be a numeric ",
+                                          "or integer value."))
+})
+
+# -----------------------------------------------------------------------------
+# Detect that PDF cover page is missing
+test_that("csasdown::render detects cover page missing", {
+  unlink("tech-report-cover*.pdf", force = TRUE)
+  csasdown::set_french(val = FALSE)
+  csasdown:::set_render_type(doc_type = "pdf")
+  ind <- grep("line_nums_mod:", rmd)
+  rmd[ind] <- "   line_nums_mod: 1"
+  writeLines(rmd, "index.Rmd")
+  csasdown::render()
+  expect_true(file.exists(file.path(testing_path, "_book", "techreport-english.pdf")))
+  expect_true(file.exists(file.path(testing_path, "tech-report-cover.pdf")))
+})

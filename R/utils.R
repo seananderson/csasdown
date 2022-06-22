@@ -386,6 +386,7 @@ resdoc_pdf <- function(toc = TRUE,
   if (!class(line_nums_mod) %in% c("integer", "numeric")) {
     stop("line_nums_mod must be a numeric or integer value.", call. = FALSE)
   }
+
   update_csasstyle(
     copy = copy_sty,
     line_nums = line_nums,
@@ -459,7 +460,7 @@ sr_pdf <- function(latex_engine = "pdflatex",
   }
 
   if((!highlight %in% themes) && !file.exists(here(highlight))){
-    stop("in YAML, `csasdown:resdco_pdf: highlight` must be one of ", paste(themes, collapse = ", "),
+    stop("in YAML, `csasdown:sr_pdf: highlight` must be one of ", paste(themes, collapse = ", "),
          "\nor a filename for a custom latex theme file.",
          "\nSee pandoc documentation, --highlight-style argument.", call. = FALSE)
   }
@@ -479,6 +480,10 @@ sr_pdf <- function(latex_engine = "pdflatex",
   )
   tmp_hl <- grep("--highlight-style", base$pandoc$args)
   base$pandoc$args <- base$pandoc$args[-c(tmp_hl[1], tmp_hl[1] + 1)]
+
+  if (!class(line_nums_mod) %in% c("integer", "numeric")) {
+    stop("line_nums_mod must be a numeric or integer value.", call. = FALSE)
+  }
 
   update_csasstyle(
     copy = copy_sty,
@@ -547,7 +552,7 @@ techreport_pdf <- function(latex_engine = "pdflatex",
   }
 
   if((!highlight %in% themes) && !file.exists(here(highlight))){
-    stop("in YAML, `csasdown:resdco_pdf: highlight` must be one of ", paste(themes, collapse = ", "),
+    stop("in YAML, `csasdown:techreport_pdf: highlight` must be one of ", paste(themes, collapse = ", "),
          "\nor a filename for a custom latex theme file.",
          "\nSee pandoc documentation, --highlight-style argument.", call. = FALSE)
   }
@@ -577,6 +582,11 @@ techreport_pdf <- function(latex_engine = "pdflatex",
     file.copy(cover_docx, ".", overwrite = FALSE)
     file.copy(cover_pdf, ".", overwrite = FALSE)
   }
+
+  if (!class(line_nums_mod) %in% c("integer", "numeric")) {
+    stop("line_nums_mod must be a numeric or integer value.", call. = FALSE)
+  }
+
   update_csasstyle(
     copy = copy_sty,
     line_nums = line_nums,

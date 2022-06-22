@@ -3,6 +3,14 @@ test_that("csasdown:::is_rmd_header_line() works", {
   expect_null(csasdown:::is_rmd_header_line(NULL))
   # ---------------------------------------------------------------------------
 
+  expect_error(csasdown:::is_rmd_header_line(NA),
+               "An NA is present in the vector of strings:")
+  # ---------------------------------------------------------------------------
+
+  expect_error(csasdown:::is_rmd_header_line(c("1. List Item", NA)),
+               "An NA is present in the vector of strings:")
+  # ---------------------------------------------------------------------------
+
   expect_false(csasdown:::is_rmd_header_line(""))
   # ---------------------------------------------------------------------------
 

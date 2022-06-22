@@ -56,3 +56,45 @@ test_that("csasdown::render generates the French .docx of the resdoc", {
   csasdown::render()
   expect_true(file.exists(file.path(testing_path, "_book", "resdoc-french.docx")))
 })
+
+# ----------------------------------------------------
+# Render the PDF resdoc, with `NULL` highlight
+test_that("csasdown::render generates monochrome code PDF of the resdoc", {
+  csasdown::set_french(val = FALSE)
+  csasdown:::set_render_type(doc_type = "pdf")
+  rmd <- readLines("index.Rmd")
+  ind <- grep("highlight:", rmd)
+  rmd[ind] <- "   highlight: "
+  writeLines(rmd, "index.Rmd")
+  csasdown::render()
+  expect_true(file.exists(file.path(testing_path, "_book", "resdoc-english.pdf")))
+  # Checked manually that the code chunks are monochrome
+})
+
+# ----------------------------------------------------
+# Render the PDF resdoc, with bogus highlight
+test_that("csasdown::render detects bogus highlight", {
+  csasdown::set_french(val = FALSE)
+  csasdown:::set_render_type(doc_type = "pdf")
+  rmd <- readLines("index.Rmd")
+  ind <- grep("highlight:", rmd)
+  rmd[ind] <- "   highlight: bogus"
+  writeLines(rmd, "index.Rmd")
+  expect_error(csasdown::render(), paste0("in YAML, `csasdown:resdoc_pdf: ",
+                                          "highlight` must be one of"))
+})
+
+# -----------------------------------------------------------------------------
+# Render the PDF resdoc, with character line number mod
+test_that("csasdown::render detects character line number mod value", {
+  csasdown::set_french(val = FALSE)
+  csasdown:::set_render_type(doc_type = "pdf")
+  rmd <- readLines("index.Rmd")
+  ind <- grep("highlight:", rmd)
+  rmd[ind] <- "   highlight: tango"
+  ind <- grep("line_nums_mod:", rmd)
+  rmd[ind] <- "   line_nums_mod: A"
+  writeLines(rmd, "index.Rmd")
+  expect_error(csasdown::render(), paste0("line_nums_mod must be a numeric ",
+                                          "or integer value."))
+})

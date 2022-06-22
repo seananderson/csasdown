@@ -4,17 +4,30 @@
 \alias{render}
 \title{Render any csasdown document with bilingual features}
 \usage{
-render(yaml_fn = "_bookdown.yml", keep_files = FALSE, ...)
+render(
+  yaml_fn = "_bookdown.yml",
+  keep_files = FALSE,
+  en_chunk_regex = "^\\\\S+-en$",
+  fr_chunk_regex = "^\\\\S+-fr$",
+  ...
+)
 }
 \arguments{
 \item{yaml_fn}{The YAML file name. The default is '_bookdown.yml' for
 \code{\link[bookdown:render_book]{bookdown::render_book()}}}
 
 \item{keep_files}{If \code{TRUE}, keep the temporary files created (Rmd files and
-YAML file)}
+YAML file)
+#' @param en_chunk_regex A regular expression to match for the chunk
+name for English chunks. Default is 'ends in -en'. The \code{$} means anchor
+to the end, so '-en' must be at the end. \verb{\\\\S+} means match one or more
+any other non-whitespace characters. Passed to \code{\link[=validate_chunk_headers]{validate_chunk_headers()}}}
 
-\item{...}{Additional arguments passed to \code{\link[bookdown:render_book]{bookdown::render_book()}} and
+\item{fr_chunk_regex}{A regular expression to match for the chunk
+name for French chunks. Default is 'ends in -fr'. Passed to
 \code{\link[=validate_chunk_headers]{validate_chunk_headers()}}}
+
+\item{...}{Additional arguments passed to \code{\link[bookdown:render_book]{bookdown::render_book()}}}
 }
 \value{
 Nothing

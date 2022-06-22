@@ -39,8 +39,14 @@
 #' [bookdown::render_book()]
 #' @param keep_files If `TRUE`, keep the temporary files created (Rmd files and
 #' YAML file)
-#' @param ... Additional arguments passed to [bookdown::render_book()] and
+#' #' @param en_chunk_regex A regular expression to match for the chunk
+#' name for English chunks. Default is 'ends in -en'. The `$` means anchor
+#' to the end, so '-en' must be at the end. `\\S+` means match one or more
+#' any other non-whitespace characters. Passed to [validate_chunk_headers()]
+#' @param fr_chunk_regex A regular expression to match for the chunk
+#' name for French chunks. Default is 'ends in -fr'. Passed to
 #' [validate_chunk_headers()]
+#' @param ... Additional arguments passed to [bookdown::render_book()]
 #'
 #' @return Nothing
 #' @importFrom purrr prepend imap_chr imap
@@ -49,6 +55,8 @@
 #' @export
 render <- function(yaml_fn = "_bookdown.yml",
                    keep_files = FALSE,
+                   en_chunk_regex = "^\\S+-en$",
+                   fr_chunk_regex = "^\\S+-fr$",
                    ...){
 
   # Create the temporary YAML and Rmd files and store their names
@@ -99,7 +107,9 @@ render <- function(yaml_fn = "_bookdown.yml",
 
   # Make sure all chunk headers are of the correct language and have
   # `needs_trans` chunk headers set correctly
-  validate_chunk_headers(fn_process, ...)
+  validate_chunk_headers(fn_process,
+                         en_chunk_regex = en_chunk_regex,
+                         fr_chunk_regex = fr_chunk_regex)
 
   # Remove all comments from code chunks in all files
   remove_comments_from_chunks(fn_process)
