@@ -79,6 +79,7 @@ test_that("csasdown::render detects cover page missing", {
   unlink("tech-report-cover*.pdf", force = TRUE)
   csasdown::set_french(val = FALSE)
   csasdown:::set_render_type(doc_type = "pdf")
+  rmd <- readLines("index.Rmd")
   ind <- grep("line_nums_mod:", rmd)
   rmd[ind] <- "   line_nums_mod: 1"
   writeLines(rmd, "index.Rmd")
