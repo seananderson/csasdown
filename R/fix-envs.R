@@ -1,4 +1,4 @@
-#' Fix TEX environment values
+#' Post-process LaTeX code
 #'
 #' @description
 #' A post-processor to modify LaTeX code after the document has been knit

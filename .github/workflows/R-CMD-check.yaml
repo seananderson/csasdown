@@ -25,9 +25,6 @@ jobs:
       fail-fast: true
       matrix:
         config:
-          # Warning, some tests assume Windows is for local testing only and
-          #  tests will fail on GitHub Actions if you set Windows here. These
-          #  tests are in test/testthat/test-parse-cat-text.R
           # - {os: windows-latest, r: 'release'}
           # - {os: macOS-latest, r: 'release'}
           - {os: ubuntu-20.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}

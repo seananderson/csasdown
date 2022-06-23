@@ -25,34 +25,21 @@ test_that("cat parser works", {
   j <- x(1)
   j <- j$logs
   mess <- purrr::map_chr(j, ~{.x$message})
-  if(csasdown:::is_windows()){
-    # Assume GitHub Actions server is not Windows
-    expect_identical(mess[2],
+  expect_identical(mess[2],
+                   crayon::strip_style(
                      paste0("Pushed '(' to stack on line 2, char 25\nstack size ",
                             "is now 2\n\033[36mof not starting with ",
-                            "cat\033[39m\033[31m(\033[39m\033[36m)')\033[39m\n\n"))
-    expect_identical(mess[3],
+                            "cat\033[39m\033[31m(\033[39m\033[36m)')\033[39m\n\n")))
+  expect_identical(mess[3],
+                   crayon::strip_style(
                      paste0("Matched ')' on line 2, char 26\nstack size is now ",
                             "1\n\033[36mof not starting with ",
-                            "cat(\033[39m\033[31m)\033[39m\033[36m')\033[39m\n\n"))
-    expect_identical(mess[4],
+                            "cat(\033[39m\033[31m)\033[39m\033[36m')\033[39m\n\n")))
+  expect_identical(mess[4],
+                   crayon::strip_style(
                      paste0("Matched closing ')' for `cat()` on line 2, char ",
                             "28\nstack size is now 0\n\033[36mof not starting with ",
-                            "cat()'\033[39m\033[31m)\033[39m\033[36m\033[39m\n\n"))
-  }else{
-    expect_identical(mess[1],
-                     "Pushed '(' from `cat()` to stack. Stack size is now 1\n\n")
-    expect_identical(mess[2],
-                     paste0("Pushed '(' to stack on line 2, char 25\nstack size ",
-                            "is now 2\nof not starting with cat()')\n\n"))
-    expect_identical(mess[3],
-                     paste0("Matched ')' on line 2, char 26\nstack size is now ",
-                            "1\nof not starting with cat()')\n\n"))
-    expect_identical(mess[4],
-                     paste0("Matched closing ')' for `cat()` on line 2, char ",
-                            "28\nstack size is now 0\nof not starting with ",
-                            "cat()')\n\n"))
-  }
+                            "cat()'\033[39m\033[31m)\033[39m\033[36m\033[39m\n\n")))
 
   # -----------------------------------------------------------------------------
   # `verbose` error
@@ -63,17 +50,12 @@ test_that("cat parser works", {
   mess <- purrr::map_chr(j, ~{.x$message})
   expect_identical(mess[1],
                    "Pushed '(' from `cat()` to stack. Stack size is now 1\n\n")
-  if(csasdown:::is_windows()){
-    # Assume GitHub Actions server is not Windows
-    expect_identical(mess[2],
+  expect_identical(mess[2],
+                   crayon::strip_style(
                      paste0("No matching '(' for this ')' on line  1, char ",
-                     "13\n\033[36m'This is an \033[39m\033[31m)\033[39m\033[",
-                     "36m')\033[39m\n"))
-  }else{
-    expect_identical(mess[2],
-                     paste0("No matching '(' for this ')' on line  1, char 13\n",
-                            "'This is an )')\n"))
-  }
+                            "13\n\033[36m'This is an \033[39m\033[31m)\033[39m\033[",
+                            "36m')\033[39m\n")))
+
   x <- csasdown:::capture_log(csasdown:::parse_cat_text(strs, verbose = TRUE))
   j <- x(1)
   j <- j$logs
@@ -84,17 +66,11 @@ test_that("cat parser works", {
                    paste0("Pushed '(' from `cat()` to stack. Stack size is ",
                           "now 1\n\n"))
   expect_identical(types[2], "error")
-  if(csasdown:::is_windows()){
-    # Assume GitHub Actions server is not Windows
-    expect_identical(mess[2],
+  expect_identical(mess[2],
+                   crayon::strip_style(
                      paste0("No matching '(' for this ')' on line  1, char ",
                             "13\n\033[36m'This is an \033[39m\033[31m)\033[",
-                            "39m\033[36m')\033[39m\n"))
-  }else{
-    expect_identical(mess[2],
-                     paste0("No matching '(' for this ')' on line  1, char ",
-                            "13\n'This is an )')\n"))
-  }
+                            "39m\033[36m')\033[39m\n")))
 
   # -----------------------------------------------------------------------------
   # Single quotes

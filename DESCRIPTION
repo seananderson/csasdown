@@ -64,6 +64,7 @@ Imports:
     utils
 Suggests:
     covr,
+    crayon,
     dplyr,
     ggplot2,
     magick,

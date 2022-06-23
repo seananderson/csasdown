@@ -14,7 +14,7 @@ A logical vector representing whether or not the lines are
 dashed lines
 }
 \description{
-Checks to see if character strings are dashed lines of any length
-(including one)
+Checks to see if character strings are dashed lines of any length,
+including length 1
 }
 \keyword{internal}

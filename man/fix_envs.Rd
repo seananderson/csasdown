@@ -2,7 +2,7 @@
 % Please edit documentation in R/fix-envs.R
 \name{fix_envs}
 \alias{fix_envs}
-\title{Fix TEX environment values}
+\title{Post-process LaTeX code}
 \usage{
 fix_envs(
   x,
