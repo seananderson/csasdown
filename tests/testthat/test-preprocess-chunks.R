@@ -1,7 +1,6 @@
 test_that("csasdown:::preprocess_chunks() works", {
 
   rmd_dir <- testthat::test_path("preprocess-chunks-files")
-
   testing_path <- file.path(tempdir(), "resdoc-preprocess-chunks")
   unlink(testing_path, recursive = TRUE, force = TRUE)
   dir.create(testing_path, showWarnings = FALSE)
@@ -20,14 +19,16 @@ test_that("csasdown:::preprocess_chunks() works", {
     edit = FALSE
   ))
 
+  # ---------------------------------------------------------------------------
   expect_invisible(csasdown:::preprocess_chunks(NULL))
 
+  # ---------------------------------------------------------------------------
   expect_error(csasdown:::preprocess_chunks("unknown-file.Rmd"),
                "The file 'unknown-file.Rmd' does not exist. Check the YAML file entry")
 
 
+  # ---------------------------------------------------------------------------
   csasdown:::preprocess_chunks("double-chunk-cat.Rmd")
-
   expect_identical(readLines("double-chunk-cat.Rmd"),
                    c("```{r chunk-1-en, eval = !fr(), results = 'asis'}",
                      "cat(\"# Header",
@@ -40,7 +41,7 @@ test_that("csasdown:::preprocess_chunks() works", {
                      "Test text \", print('Hello World 2!'), \"\")",
                       "```"))
 
-
+  # ---------------------------------------------------------------------------
   expect_error(expect_message(csasdown:::preprocess_chunks("double-chunk-cat-extra-blanks.Rmd"),
                               paste0("Not all chunks in the file double-chunk-cat-extra-blanks.Rmd ",
                                      "with `needs_trans = TRUE` have `cat(` immediately following. ",
@@ -49,6 +50,7 @@ test_that("csasdown:::preprocess_chunks() works", {
                                      "`cat()` are:\n\nchunk-1-fr"), fixed = TRUE),
                "Chunks missing `cat()`", fixed = TRUE)
 
+  # ---------------------------------------------------------------------------
   csasdown:::preprocess_chunks("double-chunk-cat-single-quotes.Rmd")
   actual <- readLines("double-chunk-cat-single-quotes.Rmd")
   expect_identical(actual, c("```{r chunk-1-en, eval = !fr(), results = 'asis'}",
@@ -62,6 +64,94 @@ test_that("csasdown:::preprocess_chunks() works", {
                               "Test text \", print('Hello World 2!'), \"\")",
                               "```"))
 
+  # ---------------------------------------------------------------------------
   csasdown:::preprocess_chunks("empty-file.Rmd")
   expect_identical(readLines("empty-file.Rmd"), character(0))
+
+  # ---------------------------------------------------------------------------
+  rmd <- c("```{r test, eval = !fr(), needs_trans = TRUE}",
+           "cat('Text in cat surrounded by single quotes')",
+           "```")
+  fn <- "single-quote-only-test.Rmd"
+  writeLines(rmd, fn)
+
+  csasdown:::preprocess_chunks(fn)
+  actual <- readLines(fn)
+  expected <- c("```{r test, eval = !fr(), needs_trans = TRUE}",
+                "cat(\"Text in cat surrounded by single quotes\")",
+                "```")
+  expect_identical(actual, expected)
+
+  # ---------------------------------------------------------------------------
+  rmd <- c("```{r test}",
+           "cat('X')",
+           "```")
+  fn <- "single-quote-only-test.Rmd"
+  writeLines(rmd, fn)
+
+  csasdown:::preprocess_chunks(fn)
+  actual <- readLines(fn)
+  expected <- c("```{r test}",
+                "cat(\"X\")",
+                "```")
+  expect_identical(actual, expected)
+
+  # ---------------------------------------------------------------------------
+  rmd <- c("```{r test}",
+           "# comment",
+           "cat('X')",
+           "```")
+  fn <- "single-quote-only-test.Rmd"
+  writeLines(rmd, fn)
+
+  csasdown:::preprocess_chunks(fn)
+  actual <- readLines(fn)
+  expected <- c("```{r test}",
+                "# comment",
+                "cat(\"X\")",
+                "```")
+  expect_identical(actual, expected)
+
+  # ---------------------------------------------------------------------------
+  rmd <- c("```{r test}",
+           "# comment",
+           "cat('X')",
+           "```",
+           "",
+           "",
+           "```{r test2, needs_trans = TRUE}",
+           "cat(\"Y\")",
+           "```")
+  fn <- "single-quote-only-test.Rmd"
+  writeLines(rmd, fn)
+
+  csasdown:::preprocess_chunks(fn)
+  actual <- readLines(fn)
+  expected <- c("```{r test}",
+                "# comment",
+                "cat(\"X\")",
+                "```",
+                "",
+                "",
+                "```{r test2, needs_trans = TRUE}",
+                "cat(\"Y\")",
+                "```")
+  expect_identical(actual, expected)
+
+  # ---------------------------------------------------------------------------
+  rmd <- c("```{r test}",
+           "# comment",
+           "cat('`r unique(mtcars$cyl)`')",
+           "```")
+  fn <- "single-quote-only-test.Rmd"
+  writeLines(rmd, fn)
+
+  csasdown:::preprocess_chunks(fn)
+  actual <- readLines(fn)
+  expected <- c("```{r test}",
+                "# comment",
+                "cat(\"\", unique(mtcars$cyl), \"\")",
+                "```")
+  expect_identical(actual, expected)
+
 })

@@ -41,7 +41,6 @@ preprocess_chunks <- function(fns, yaml_fn = "_bookdown.yml"){
             chunk_name <- gsub(pat, "\\1", chunk_head)
             return(chunk_name)
           }
-          NULL
         })
         bad_chunk_names <- bad_chunk_names[lengths(bad_chunk_names) > 0]
         message("Not all chunks in the file ", .x, " with `needs_trans = TRUE` have ",
@@ -81,7 +80,6 @@ preprocess_chunks <- function(fns, yaml_fn = "_bookdown.yml"){
                  nchar(text_chunk[length(text_chunk)]),
                  nchar(text_chunk[length(text_chunk)])) <- "\""
         }
-
         text_chunk <- map_chr(text_chunk, ~{
           catize(.x)
         })
@@ -169,19 +167,6 @@ preprocess_chunks <- function(fns, yaml_fn = "_bookdown.yml"){
           }
         }
 
-        # If single quotes were used to surround the text in [cat()], make them double
-        # so that they match the quotes used to make the embedded code parts
-        if(substr(text_chunk[1], 1, 1) == "'"){
-          substr(text_chunk[1], 1, 1) <- "\""
-        }
-        if(substr(text_chunk[length(text_chunk)],
-                  nchar(text_chunk[length(text_chunk)]),
-                  nchar(text_chunk[length(text_chunk)])) == "'"){
-          substr(text_chunk[length(text_chunk)],
-                 nchar(text_chunk[length(text_chunk)]),
-                 nchar(text_chunk[length(text_chunk)])) <- "\""
-        }
-
         text_chunk <- map_chr(text_chunk, ~{
           catize(.x)
         })
@@ -236,7 +221,7 @@ preprocess_chunks <- function(fns, yaml_fn = "_bookdown.yml"){
         spaced_out_rmd <- c(spaced_out_rmd, out_rmd[i])
       }
     }else{
-      spaced_out_rmd <- ""
+      spaced_out_rmd <- "" # nocov
     }
     unlink(.x, force = TRUE)
     writeLines(spaced_out_rmd, .x)

@@ -23,14 +23,14 @@ set_language_option <- function(fn = "index.Rmd"){
   french_ind <- grep(pat, trim_rmd)
 
   if(!length(french_ind)){
+    options(french = FALSE)
     stop("No 'french:' entry was found in the file ", fn,
          ". Setting options(french) to FALSE")
-    options(french = FALSE)
   }
   if(length(french_ind) > 1){
+    options(french = FALSE)
     stop("More than one 'french:' entry was found in the file ", fn,
          ". Setting options(french) to FALSE")
-    options(french = FALSE)
   }
   val <- gsub(pat, "\\1", trim_rmd[french_ind])
   if(val == "true"){

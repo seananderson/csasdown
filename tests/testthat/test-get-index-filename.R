@@ -1,5 +1,5 @@
 test_that("get_index_filename() works for the resdoc", {
-  testing_path <- file.path(tempdir(), "resdoc-get-book-filename")
+  testing_path <- file.path(tempdir(), "resdoc-get-index-filename")
   unlink(testing_path, recursive = TRUE, force = TRUE)
   dir.create(testing_path, showWarnings = FALSE)
   setwd(testing_path)
@@ -15,6 +15,9 @@ test_that("get_index_filename() works for the resdoc", {
                fixed = TRUE)
   expect_error(csasdown:::get_index_filename(""),
                "The `yaml_fn` argument (filename) cannot be an empty string",
+               fixed = TRUE)
+  expect_error(csasdown:::get_index_filename("nonexistent-file.yml"),
+               "File 'nonexistent-file.yml' does not exist",
                fixed = TRUE)
   expect_identical(csasdown:::get_index_filename(), "index.Rmd")
   file.copy("_bookdown.yml", "tmp-bookdown.yml")
@@ -38,7 +41,7 @@ test_that("get_index_filename() works for the resdoc", {
 })
 
 test_that("get_index_filename() works for the SR", {
-  testing_path <- file.path(tempdir(), "sr-get-book-filename")
+  testing_path <- file.path(tempdir(), "sr-get-index-filename")
   unlink(testing_path, recursive = TRUE, force = TRUE)
   dir.create(testing_path, showWarnings = FALSE)
   setwd(testing_path)
@@ -68,7 +71,7 @@ test_that("get_index_filename() works for the SR", {
 })
 
 test_that("get_index_filename() works for the techreport", {
-  testing_path <- file.path(tempdir(), "techreport-get-book-filename")
+  testing_path <- file.path(tempdir(), "techreport-get-index-filename")
   unlink(testing_path, recursive = TRUE, force = TRUE)
   dir.create(testing_path, showWarnings = FALSE)
   setwd(testing_path)
