@@ -1,4 +1,4 @@
-df <- data.frame(a = 1:20, b = 1:20)
+df <- data.frame(a = LETTERS[1:26], b = letters[1:26])
 
 test_that("csasdown::csas_table works with an extra_header", {
   x <- csasdown::csas_table(
@@ -11,7 +11,66 @@ test_that("csasdown::csas_table works with an extra_header", {
     font_size = 8,
     extra_header = toupper(letters[1:ncol(df)]),
     ex_line_sep = 0,
-    ex_align = "r"
-  )
+    ex_align = "r")
+
   expect_true(grepl("endfirsthead", x))
+
+  # ---------------------------------------------------------------------------
+  # Column names with newlines
+  col_names <- c("Capital\nLetters", "Small\nLetters")
+  x <- csasdown::csas_table(
+    df,
+    caption = "Newline col names",
+    format = "latex",
+    bold_header = FALSE,
+    escape = FALSE,
+    repeat_header = TRUE,
+    font_size = 8,
+    extra_header = toupper(letters[1:ncol(df)]),
+    ex_line_sep = 0,
+    ex_align = "r",
+    col_names = col_names)
+
+  nl <- grep("\\{Capital\\\\\\\\Letters\\}", x)
+  expect_identical(nl, 1L)
+  nl <- grep("\\{Small\\\\\\\\Letters\\}", x)
+  expect_identical(nl, 1L)
+
+  # ---------------------------------------------------------------------------
+  # Add extra header for non-latex should throw error
+  expect_error(csasdown::csas_table(df,
+                                    extra_header = toupper(letters[1:ncol(df)])),
+               paste0("Adding an extra header is only supported for latex ",
+                      "tables (format = 'latex')."),
+               fixed = TRUE)
+
+  # ---------------------------------------------------------------------------
+  # Try bold header for latex should throw error
+  expect_warning(csasdown::csas_table(df,
+                                      format = "latex",
+                                      bold_header = TRUE),
+                 paste0("Bold headers not supported for the 'latex' format.\n",
+                        "You must bold them manually by pasting latex macros ",
+                        "around them."),
+                 fixed = TRUE)
+
+  # ---------------------------------------------------------------------------
+  df <- data.frame(a = LETTERS[1:26], b = c(letters[1:25], "endhead"))
+  expect_warning(csasdown::csas_table(df,
+                                      format = "latex",
+                                      bold_header = FALSE),
+                 paste0("'endhead' found more than once in the table latex, ",
+                        "cannot add 'Continued on next page... text to table"),
+                 fixed = TRUE)
+
+  # ---------------------------------------------------------------------------
+  df <- data.frame(a = LETTERS[1:26], b = c(letters[1:25], "endfirsthead"))
+  expect_warning(csasdown::csas_table(df,
+                                      format = "latex",
+                                      bold_header = FALSE),
+                 paste0("'endfirsthead' found more than once in the table ",
+                        "latex, cannot add 'Continued from previous page... ",
+                        "text to table"),
+                 fixed = TRUE)
+
 })
