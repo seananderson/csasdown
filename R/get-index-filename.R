@@ -13,19 +13,27 @@
 #' @importFrom stringr str_extract_all
 get_index_filename <- function(yaml_fn = "_bookdown.yml"){
 
+  if(is.null(yaml_fn)){
+    stop("The `yaml_fn` argument (filename) cannot be `NULL`", call. = FALSE)
+  }
+
+  if(yaml_fn == ""){
+    stop("The `yaml_fn` argument (filename) cannot be an empty string", call. = FALSE)
+  }
+
   if(!file.exists(yaml_fn)){
     stop("File '", yaml_fn, "' does not exist", call. = FALSE)
   }
 
   yaml <- readLines(yaml_fn)
   index_fn_ind <- grep("^rmd_files: \\[", yaml)
-  index_fn <- str_extract_all(yaml[index_fn_ind], "[a-zA-Z0-9_\\-]+\\.(R|r)md")[[1]]
-  if(!length(index_fn)){
+  if(!length(index_fn_ind)){
     stop("Index filename not found in ", yaml_fn, ". ",
          "This is typically index.Rmd and should be the first entry after ",
          "`rmd_files:[` and on the same line as it",
          call. = FALSE)
   }
+  index_fn <- str_extract_all(yaml[index_fn_ind], "[a-zA-Z0-9_\\-]+\\.(R|r)md")[[1]]
   # In case there were more than one Rmd files on the first line
   index_fn[1]
 }

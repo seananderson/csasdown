@@ -9,20 +9,32 @@ test_that("get_index_filename() works for the resdoc", {
     edit = FALSE
   ))
 
-  expect_error(csasdown:::get_index_filename(NULL))
-  expect_error(csasdown:::get_index_filename(""))
+  # -----------------------------------------------------------------------------
+  expect_error(csasdown:::get_index_filename(NULL),
+               "The `yaml_fn` argument (filename) cannot be `NULL`",
+               fixed = TRUE)
+  expect_error(csasdown:::get_index_filename(""),
+               "The `yaml_fn` argument (filename) cannot be an empty string",
+               fixed = TRUE)
   expect_identical(csasdown:::get_index_filename(), "index.Rmd")
   file.copy("_bookdown.yml", "tmp-bookdown.yml")
   expect_identical(csasdown:::get_index_filename("tmp-bookdown.yml"), "index.Rmd")
 
+  # -----------------------------------------------------------------------------
   yaml <- readLines("_bookdown.yml")
   yaml <- gsub("index.Rmd", "tmp-index.Rmd", yaml)
   writeLines(yaml, "_bookdown.yml")
   expect_identical(csasdown:::get_index_filename(), "tmp-index.Rmd")
 
+  # -----------------------------------------------------------------------------
   yaml <- gsub("^rmd_files:.*$", "", yaml)
   writeLines(yaml, "_bookdown.yml")
-  expect_error(csasdown:::get_index_filename())
+  expect_error(csasdown:::get_index_filename(),
+               paste0("Index filename not found in _bookdown.yml. This is ",
+                      "typically index.Rmd and should be the first entry after ",
+                      "`rmd_files:[` and on the same line as it"),
+               fixed = TRUE)
+
 })
 
 test_that("get_index_filename() works for the SR", {
@@ -36,17 +48,20 @@ test_that("get_index_filename() works for the SR", {
     edit = FALSE
   ))
 
+  # -----------------------------------------------------------------------------
   expect_error(csasdown:::get_index_filename(NULL))
   expect_error(csasdown:::get_index_filename(""))
   expect_identical(csasdown:::get_index_filename(), "index.Rmd")
   file.copy("_bookdown.yml", "tmp-bookdown.yml")
   expect_identical(csasdown:::get_index_filename("tmp-bookdown.yml"), "index.Rmd")
 
+  # -----------------------------------------------------------------------------
   yaml <- readLines("_bookdown.yml")
   yaml <- gsub("index.Rmd", "tmp-index.Rmd", yaml)
   writeLines(yaml, "_bookdown.yml")
   expect_identical(csasdown:::get_index_filename(), "tmp-index.Rmd")
 
+  # -----------------------------------------------------------------------------
   yaml <- gsub("^rmd_files:.*$", "", yaml)
   writeLines(yaml, "_bookdown.yml")
   expect_error(csasdown:::get_index_filename())
@@ -63,17 +78,20 @@ test_that("get_index_filename() works for the techreport", {
     edit = FALSE
   ))
 
+  # -----------------------------------------------------------------------------
   expect_error(csasdown:::get_index_filename(NULL))
   expect_error(csasdown:::get_index_filename(""))
   expect_identical(csasdown:::get_index_filename(), "index.Rmd")
   file.copy("_bookdown.yml", "tmp-bookdown.yml")
   expect_identical(csasdown:::get_index_filename("tmp-bookdown.yml"), "index.Rmd")
 
+  # -----------------------------------------------------------------------------
   yaml <- readLines("_bookdown.yml")
   yaml <- gsub("index.Rmd", "tmp-index.Rmd", yaml)
   writeLines(yaml, "_bookdown.yml")
   expect_identical(csasdown:::get_index_filename(), "tmp-index.Rmd")
 
+  # -----------------------------------------------------------------------------
   yaml <- gsub("^rmd_files:.*$", "", yaml)
   writeLines(yaml, "_bookdown.yml")
   expect_error(csasdown:::get_index_filename())
