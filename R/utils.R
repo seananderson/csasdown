@@ -870,6 +870,7 @@ fix_envs <- function(x,
         )
     }
   } else {
+    # nocov start
     warning("The number of detected figure captions did not match the number of ",
       "detected figures. Reverting to unnumbered alternative text figures.",
       call. = FALSE
@@ -878,6 +879,7 @@ fix_envs <- function(x,
       "(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})",
       "\\\\pdftooltip{\\1}{Figure}", x
     )
+    # nocov end
   }
   # ----------------------------------------------------------------------
 
@@ -926,9 +928,11 @@ fix_envs <- function(x,
       if(fix_ref_section_name){
         ref_ind <- grep("\\{REFERENCES", x)
         if(!length(ref_ind)){
+          # nocov start
           stop("REFERENCES section header not found in the document. Make sure you ",
                "haven't commented out that section in _bookdown.yml or changed the header name",
                call. = FALSE)
+          # nocov end
         }
         x[ref_ind] <- gsub("REFERENCES", ifelse(fr(),
                                                 "R\u00c9F\u00c9RENCES CIT\u00c9ES",
@@ -936,7 +940,7 @@ fix_envs <- function(x,
       }
 
   } else {
-      warning("Did not find the beginning of the LaTeX bibliography.", call. = FALSE)
+      warning("Did not find the beginning of the LaTeX bibliography.", call. = FALSE) # nocov
     }
   }
 
@@ -1262,6 +1266,7 @@ inject_refstepcounters <- function(x) {
   x
 }
 
+# nocov start
 #' Add a Res Doc titlepage to a docx file
 #'
 #' Add a Res Doc titlepage. Must hand edit `templates/RES2021-eng-titlepage.docx`
@@ -1318,7 +1323,8 @@ add_techreport_docx_titlepage <- function(titlepage = ifelse(fr(), "templates/te
 is_windows <- function() {
   identical(.Platform$OS.type, "windows")
 }
-
+# nocov end
+#
 #' Check to make sure index.Rmd contains all current YAML options
 #'
 #' @description
