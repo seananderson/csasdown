@@ -90,3 +90,19 @@ test_that("csasdown::render detects character line number mod value", {
                                           "or integer value."))
 })
 
+# -----------------------------------------------------------------------------
+# Try to render a doc with no Rmd file input
+test_that("csasdown::render with no Rmd input", {
+  testing_path <- file.path(tempdir(), "sr")
+  unlink(testing_path, recursive = TRUE, force = TRUE)
+  dir.create(testing_path, showWarnings = FALSE)
+  setwd(testing_path)
+  suppressMessages(csasdown::draft(
+    system.file("rmarkdown", "templates", "sr", package = "csasdown"),
+    create_dir = FALSE,
+    edit = FALSE
+  ))
+
+  expect_warning(csasdown::render(suppress_warnings = FALSE))
+})
+

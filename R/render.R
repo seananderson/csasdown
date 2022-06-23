@@ -80,11 +80,6 @@ render <- function(yaml_fn = "_bookdown.yml",
   # It sets `options(french)` to the value in the file
   set_language_option(index_fn)
 
-  if(!length(tmp_rmd_fns)){
-    stop("No uncommented Rmd files were found in the YAML file ", yaml_fn,
-         call. = FALSE)
-  }
-
   # Render type (resdoc_pdf, sr_word, etc)
   render_type <- get_render_type(index_fn)
 
@@ -99,7 +94,7 @@ render <- function(yaml_fn = "_bookdown.yml",
   }else if(csas_render_type == "techreport"){
     csas_render_type <- "Technical Report"
   }else{
-    csas_render_type <- "CSAS Document"
+    csas_render_type <- "CSAS Document" # nocov
   }
 
   message(paste0("\nRendering the ", csas_render_type, " as a ", pdf_or_word,

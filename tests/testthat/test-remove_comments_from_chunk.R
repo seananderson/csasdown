@@ -315,5 +315,68 @@ test_that("Removing all comments from knitr chunks works", {
            "```")
   expect_identical(actual, expected)
 
-  unlink(fn, recursive = TRUE)
+  # ---------------------------------------------------------------------------
+  chunk <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
+             "# Test comment",
+             "#Test Comment 2",
+             "cat('Be careful with your spacing in _Markdown_ documents.",
+             "While whitespace largely is ignored, it does at",
+             "times give _Markdown_ signals as to how to proceed.  ",
+             "')",
+             "",
+             "# Test comment 3",
+             "```",
+             "# AAAAAAAAAA",
+             "",
+             "AAAAAAAAAA",
+             "",
+             "```{r chap01-para-7-en, eval = !fr(), results = 'asis'}",
+             "# Test comment",
+             "#Test Comment 2",
+             "cat('More text!')",
+             "",
+             "# Test comment 3")
+  writeLines(chunk, fn)
+  expect_error(csasdown:::remove_comments_from_chunks(fn),
+               paste0("The number of knitr starting code chunk header ",
+                      "lines does not equal the number of ending code chunk ",
+                      "lines (triple backtick-lines)"),
+               fixed = TRUE)
+
+  # ---------------------------------------------------------------------------
+  chunk <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
+             "# Test comment",
+             "#Test Comment 2",
+             "cat('Be careful with your spacing in _Markdown_ documents.",
+             "While whitespace largely is ignored, it does at",
+             "times give _Markdown_ signals as to how to proceed.",
+             "')",
+             "",
+             "cat('# Test comment 3')",
+             "```",
+             "# AAAAAAAAAA",
+             "",
+             "AAAAAAAAAA",
+             "",
+             "```{r chap01-para-7-en, eval = !fr(), results = 'asis'}",
+             "# Test comment",
+             "#Test Comment 2",
+             "cat('More text!')",
+             "",
+             "# Test comment 3",
+             "```")
+  writeLines(chunk, fn)
+  expect_error(csasdown:::remove_comments_from_chunks(fn),
+               paste0("Can only have one `cat()` call inside a code chunk:\n\n",
+                      "```{r chap01-para-6-en, eval = !fr(), results = 'asis'}\n",
+                      "# Test comment\n",
+                      "#Test Comment 2\n",
+                      "cat('Be careful with your spacing in _Markdown_ documents.\n",
+                      "While whitespace largely is ignored, it does at\n",
+                      "times give _Markdown_ signals as to how to proceed.\n",
+                      "')\n\n",
+                      "cat('# Test comment 3')\n",
+                      "```\n\n"),
+               fixed = TRUE)
+
 })

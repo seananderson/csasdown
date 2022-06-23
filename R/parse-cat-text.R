@@ -45,7 +45,7 @@ parse_cat_text <- function(str_vec, ret_inds = FALSE, verbose = FALSE){
     # `cat()` text is surrounded by single quotes
     quote_type <- "'"
   }else{
-    stop("Non-existent quote type for `cat()` text. You must use either ",
+    stop("Quote type not allowed for `cat()` text. You must use either ",
          "single or double quotes. You used ", substr(str_vec[1], 1, 1),
          call. = FALSE)
   }
@@ -80,20 +80,21 @@ parse_cat_text <- function(str_vec, ret_inds = FALSE, verbose = FALSE){
         tmp <- stk_pop(pstack)
         pstack <- tmp$stack
         popval <- tmp$val
+        # nocov start
         if(is.null(popval)){
-          stop("Mismatched ')' found on line  ", .y, ", char ", char_pos, "\n",
+          stop("No preceeding '(' to match ')' found on line  ", .y, ", char ",
+               char_pos, "\n",
                cyan(substr(str_vec[.y], 1, char_pos - 1)),
                red(substr(str_vec[.y], char_pos, char_pos)),
                cyan(substr(str_vec[.y], char_pos + 1 , nchar(str_vec[.y]))),
                "\n",
                call. = FALSE)
         }
-        # The check for prev_char not being NULL here is to stop this
-        # running the first time through
+        # nocov end
         if(prev_char == quote_type){
           # Matched the end ')' of cat()
           if(stk_size(pstack)){
-            stop("Mismatched ')' found on line  ", .y, ", char ", char_pos, "\n",
+            stop("Extra '(' matches this ')' on line  ", .y, ", char ", char_pos, "\n",
                  cyan(substr(str_vec[.y], 1, char_pos - 1)),
                  red(substr(str_vec[.y], char_pos, char_pos)),
                  cyan(substr(str_vec[.y], char_pos + 1 , nchar(str_vec[.y]))),
@@ -128,8 +129,8 @@ parse_cat_text <- function(str_vec, ret_inds = FALSE, verbose = FALSE){
           matched <- TRUE
           break
         }
-        if(stk_size(pstack) == 0){
-          stop("Mismatched ')' found on line  ", .y, ", char ", char_pos, "\n",
+        if(!stk_size(pstack)){
+          stop("No matching '(' for this ')' on line  ", .y, ", char ", char_pos, "\n",
                cyan(substr(str_vec[.y], 1, char_pos - 1)),
                red(substr(str_vec[.y], char_pos, char_pos)),
                cyan(substr(str_vec[.y], char_pos + 1 , nchar(str_vec[.y]))),
