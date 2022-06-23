@@ -25,9 +25,12 @@ read_rmd_file <- function(fn){
          call. = FALSE)
   }
   lines <- readLines(fn)
+  if(!length(lines)){
+    return("")
+  }
   # Remove any double quotes
   lines <- gsub("\"", "'", lines)
-  lines <- gsub("^\ +$", "", lines)
+  lines <- gsub("^\\s+$", "", lines)
   lines[1] <- paste0("cat(\"", lines[1])
   if(lines[length(lines)] == ""){
     lines[length(lines) + 1] <- "\")"
