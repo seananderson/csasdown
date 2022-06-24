@@ -11,34 +11,22 @@ test_that("update_csasstyle() works", {
   ))
 
   # ---------------------------------------------------------------------------
-  expect_error(csasdown:::update_csasstyle(FALSE, TRUE),
-               paste0("You have set `copy_sty` to `FALSE` and `line_nums` to ",
-                      "`TRUE` in the index.Rmd YAML header. The permanent ",
-                      "style file cannot be modified as needed to include ",
-                      "line numbering. Either set `copy_sty` to `TRUE` or ",
-                      "`line_nums` to `FALSE` to build."),
-               fixed = TRUE)
+  expect_error(csasdown:::update_csasstyle(copy = FALSE, line_nums = TRUE),
+               paste0("You have set `copy` to `FALSE` and `line_nums` to ",
+                      "`TRUE`"))
 
   # ---------------------------------------------------------------------------
-  expect_error(csasdown:::update_csasstyle(FALSE, lot_lof = TRUE),
-               paste0("You have set `copy_sty` to `FALSE` and `line_nums` ",
-                      "to `TRUE` in the index.Rmd YAML header. The ",
-                      "permanent style file cannot be modified as needed to ",
-                      "include line numbering. Either set `copy_sty` to ",
-                      "`TRUE` or `line_nums` to `FALSE` to build."),
-               fixed = TRUE)
+  expect_error(csasdown:::update_csasstyle(copy = FALSE, line_nums = FALSE,
+                                           lot_lof = TRUE),
+               paste0("You have set `copy` to `FALSE` and `lot_lof` ",
+                      "to `TRUE`"))
 
   # ---------------------------------------------------------------------------
-  expect_error(csasdown:::update_csasstyle(FALSE,
-                                line_nums = FALSE,
-                                draft_watermark = TRUE),
-               paste0("You have set `copy_sty` to `FALSE` and ",
-                      "`draft_watermark` to `TRUE` in the index.Rmd YAML ",
-                      "header. The permanent style file cannot be modified ",
-                      "as needed to include the DRAFT watermark. Either set ",
-                      "`copy_sty` to `TRUE` or `draft_watermark` to `FALSE` ",
-                      "to build."),
-               fixed = TRUE)
+  expect_error(csasdown:::update_csasstyle(copy = FALSE,
+                                           line_nums = FALSE,
+                                           draft_watermark = TRUE),
+               paste0("You have set `copy` to `FALSE` and ",
+                      "`draft_watermark` to `TRUE`"))
 
   # ---------------------------------------------------------------------------
   # Set lot_lof (toggle show List of tables/List of Figures in doc)

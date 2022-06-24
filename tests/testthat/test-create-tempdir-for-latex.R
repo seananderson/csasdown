@@ -10,6 +10,24 @@ test_that("create_tempdir_for_latex() works", {
     edit = FALSE
   ))
 
+  # ---------------------------------------------------------------------------
+  expect_error(create_tempdir_for_latex("sr", "b", root_dir = getwd()),
+               "sr.tex does not exist in the '_book' directory")
+
+  # ---------------------------------------------------------------------------
+  # Render the SR
+  csasdown::set_french(val = FALSE)
+  csasdown:::set_render_type(doc_type = "pdf")
+  suppressWarnings(csasdown::render())
+  unlink("_book/sr-english.tex")
+  # Try for case where copying from the '_book' directory
+  expect_error(create_tempdir_for_latex("sr",
+                                        "b",
+                                        tmp_dir = file.path(testing_path, "test"),
+                                        root_dir = getwd()),
+               "sr.tex does not exist in the '_book' directory")
+
+  # ---------------------------------------------------------------------------
   # Render the SR
   csasdown::set_french(val = FALSE)
   csasdown:::set_render_type(doc_type = "pdf")
@@ -19,8 +37,7 @@ test_that("create_tempdir_for_latex() works", {
   tmp_dir <- create_tempdir_for_latex("sr",
                                       "b",
                                       tmp_dir = file.path(testing_path, "test"),
-                                      root_dir = getwd()
-  )
+                                      root_dir = getwd())
   tmp_csas_dir <- file.path(tmp_dir, "csas-style")
 
   expect_true(file.exists(file.path(tmp_csas_dir, "res-doc.sty")))

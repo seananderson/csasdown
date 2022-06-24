@@ -31,22 +31,22 @@ update_csasstyle <- function(copy = TRUE,
 
   fn <- system.file("csas-style", package = "csasdown")
   if(!copy && line_nums){
-    bail("You have set `copy_sty` to `FALSE` and `line_nums` to `TRUE` in ",
+    bail("You have set `copy` to `FALSE` and `line_nums` to `TRUE` in ",
          "the index.Rmd YAML header. The permanent style file cannot be ",
          "modified as needed to include line numbering. ",
-         "Either set `copy_sty` to `TRUE` or `line_nums` to `FALSE` to build.")
+         "Either set `copy` to `TRUE` or `line_nums` to `FALSE` to build.")
   }
   if(!copy && lot_lof){
-    bail("You have set `copy_sty` to `FALSE` and `lot_lof` to `TRUE` in the ",
+    bail("You have set `copy` to `FALSE` and `lot_lof` to `TRUE` in the ",
          "index.Rmd YAML header. The permanent style file cannot be ",
          "modified as needed to include the lists of tables and figures. ",
-         "Either set `copy_sty` to `TRUE` or `lot_lof` to `FALSE` to build.")
+         "Either set `copy` to `TRUE` or `lot_lof` to `FALSE` to build.")
   }
   if(!copy && draft_watermark){
-    bail("You have set `copy_sty` to `FALSE` and `draft_watermark` to `TRUE` ",
+    bail("You have set `copy` to `FALSE` and `draft_watermark` to `TRUE` ",
          "in the index.Rmd YAML header. The permanent style file cannot be ",
          "modified as needed to include the DRAFT watermark. ",
-         "Either set `copy_sty` to `TRUE` or `draft_watermark` to `FALSE` to build.")
+         "Either set `copy` to `TRUE` or `draft_watermark` to `FALSE` to build.")
   }
 
   if (copy || !dir.exists("csas-style")) {
@@ -89,7 +89,7 @@ update_csasstyle <- function(copy = TRUE,
       end_of_file <- csas_style[seq(last_usepackage_ind + 1, length(csas_style))]
       draft_watermark_include <- "\\usepackage{draftwatermark}"
       if(last_usepackage_ind == length(csas_style)){
-        csas_style <- c(beg_of_file, draft_watermark_include)
+        csas_style <- c(beg_of_file, draft_watermark_include) # nocov
       }else{
         csas_style <- c(beg_of_file, draft_watermark_include, end_of_file)
       }

@@ -18,19 +18,19 @@ get_contact_info <- function(region = "National Capital Region") {
     # Get index for region (row)
     ind <- which(region_info$RegionFr == region)
     if(!length(ind)){
-      # Maybe the author used English for the region name
+      # Maybe the author accidentally used English for the region name
       ind <- which(region_info$Region == region)
     }
   } else {
     # Get index for region (row)
     ind <- which(region_info$Region == region)
     if(!length(ind)){
-      # Maybe the author used French for the region name
+      # Maybe the author accidentally used French for the region name
       ind <- which(region_info$RegionFr == region)
     }
   }
   # If region not detected, use national contact info
-  if (length(ind) == 0) {
+  if (!length(ind)) {
     default_region <- "National Capital Region"
     email <- region_info$Email[region_info$Region == default_region]
     if(fr()){
