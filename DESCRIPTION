@@ -51,6 +51,7 @@ Depends:
     R (>= 4.1.0)
 Imports:
     bookdown,
+    cli,
     crayon,
     glue,
     here,
@@ -64,7 +65,6 @@ Imports:
     utils
 Suggests:
     covr,
-    crayon,
     dplyr,
     ggplot2,
     magick,
