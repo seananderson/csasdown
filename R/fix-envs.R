@@ -86,10 +86,8 @@ fix_envs <- function(x,
     abs_beg <- grep("begin_abstract_csasdown", x)
     abs_end <- grep("end_abstract_csasdown", x)
     if (length(abs_beg) == 0L || length(abs_end) == 0L) {
-      warning("`% begin_abstract_csasdown` or `% end_abstract_csasdown`` not found ",
-              "in `templates/csas.tex`",
-              call. = FALSE
-      )
+      alert("`% begin_abstract_csasdown` or `% end_abstract_csasdown`` not found ",
+            "in `templates/csas.tex`")
     } else {
       abs_vec <- x[seq(abs_beg + 1, abs_end - 1)]
       abs_vec <- abs_vec[abs_vec != ""]
@@ -181,10 +179,8 @@ fix_envs <- function(x,
     }
   } else {
     # nocov start
-    warning("The number of detected figure captions did not match the number of ",
-            "detected figures. Reverting to unnumbered alternative text figures.",
-            call. = FALSE
-    )
+    alert("The number of detected figure captions did not match the number of ",
+          "detected figures. Reverting to unnumbered alternative text figures.")
     x <- gsub(
       "(\\\\includegraphics\\[(.*?)\\]\\{(.*?)\\})",
       "\\\\pdftooltip{\\1}{Figure}", x
@@ -239,9 +235,8 @@ fix_envs <- function(x,
         ref_ind <- grep("\\{REFERENCES", x)
         if(!length(ref_ind)){
           # nocov start
-          stop("REFERENCES section header not found in the document. Make sure you ",
-               "haven't commented out that section in _bookdown.yml or changed the header name",
-               call. = FALSE)
+          bail("REFERENCES section header not found in the document. Make sure you ",
+               "haven't commented out that section in _bookdown.yml or changed the header name")
           # nocov end
         }
         x[ref_ind] <- gsub("REFERENCES", ifelse(fr(),
@@ -250,7 +245,7 @@ fix_envs <- function(x,
       }
 
     } else {
-      warning("Did not find the beginning of the LaTeX bibliography.", call. = FALSE) # nocov
+      alert("Did not find the beginning of the LaTeX bibliography.") # nocov
     }
   }
 
@@ -284,7 +279,7 @@ fix_envs <- function(x,
     rn_loc_1 <- grep(pattern = "\\% Report number", x = x) + 1
     rn_loc_2 <- grep(pattern = "\\% End of report number", x = x) - 1
     if (rn_loc_1 != rn_loc_2) {
-      stop("Can't find report number (report_number)")
+      bail("Can't find report number (report_number)")
     }
     rn_text <- x[rn_loc_1]
     rn_text_clean <- gsub(pattern = "\\}+$", replacement = "", x = rn_text)
@@ -293,7 +288,7 @@ fix_envs <- function(x,
     # 2. Modify short title
     st_loc_1 <- grep(pattern = "\\% Title short", x = x) + 1
     st_loc_2 <- grep(pattern = "\\% End of title short", x = x) - 1
-    if (st_loc_1 != st_loc_2) stop("Can't find short title (title_short)")
+    if (st_loc_1 != st_loc_2) bail("Can't find short title (title_short)")
     st_text <- x[st_loc_1]
     st_text_clean <- gsub(pattern = "\\}+$", replacement = "", x = st_text)
     st_text_new <- paste0(st_text_clean, addText)
@@ -305,24 +300,24 @@ fix_envs <- function(x,
         pattern = "La pr\\\\\'\\{e\\}sente publication doit \\\\\\^\\{e\\}tre cit\\\\\'\\{e\\}e comme suit~:",
         x = x
       )
-      if (length(cite_head_fr) == 0) stop("Can't find French citation header")
+      if (length(cite_head_fr) == 0) bail("Can't find French citation header")
       x[cite_head_fr] <- "Cite comme ceci (jusqu'\u00E0 la publication)~:"
       cite_loc_fr <- grep(
         pattern = "\\\\citeFr\\{\\\\rdWorkDoneYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
       )
-      if (length(cite_loc_fr) == 0) stop("Can't find French citation")
+      if (length(cite_loc_fr) == 0) bail("Can't find French citation")
       x[cite_loc_fr] <- "\\citeFr{Sous presse}"
       # Nuke english citation
       cite_head_eng <- grep(
         pattern = "\\\\emph\\{Also available in English:\\}",
         x = x
       )
-      if (length(cite_head_eng) == 0) stop("Can't find English citation header")
+      if (length(cite_head_eng) == 0) bail("Can't find English citation header")
       x[cite_head_eng] <- ""
       cite_loc_eng <- grep(
         pattern = "\\\\citeEng\\{\\\\rdWorkDoneYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
       )
-      if (length(cite_loc_eng) == 0) stop("Can't find English citation")
+      if (length(cite_loc_eng) == 0) bail("Can't find English citation")
       x[cite_loc_eng] <- ""
     } else {
       # Edit english citation
@@ -330,24 +325,24 @@ fix_envs <- function(x,
         pattern = "Correct Citation for this Publication:",
         x = x
       )
-      if (length(cite_head_eng) == 0) stop("Can't find English citation header")
+      if (length(cite_head_eng) == 0) bail("Can't find English citation header")
       x[cite_head_eng] <- "Correct citation (until published):"
       cite_loc_eng <- grep(
         pattern = "\\\\citeEng\\{\\\\rdWorkDoneYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
       )
-      if (length(cite_loc_eng) == 0) stop("Can't find English citation")
+      if (length(cite_loc_eng) == 0) bail("Can't find English citation")
       x[cite_loc_eng] <- "\\citeEng{In press}"
       # Nuke french citation
       cite_head_fr <- grep(
         pattern = "\\\\emph\\{Aussi disponible en fran\\\\c\\{c\\}ais~:\\}",
         x = x
       )
-      if (length(cite_head_fr) == 0) stop("Can't find French citation header")
+      if (length(cite_head_fr) == 0) bail("Can't find French citation header")
       x[cite_head_fr] <- ""
       cite_loc_fr <- grep(
         pattern = "\\\\citeFr\\{\\\\rdWorkDoneYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
       )
-      if (length(cite_loc_fr) == 0) stop("Can't find French citation")
+      if (length(cite_loc_fr) == 0) bail("Can't find French citation")
       x[cite_loc_fr] <- ""
     } # End modify citations
   } # End if prepub

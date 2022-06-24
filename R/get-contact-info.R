@@ -38,7 +38,7 @@ get_contact_info <- function(region = "National Capital Region") {
     }else{
       address <- region_info$Address[region_info$Region == default_region]
     }
-    warning("Region not detected; using national CSAS contact info")
+    alert("Region not detected; using national CSAS contact info")
   } else {
     # Get regional contact info
     email <- region_info$Email[ind]

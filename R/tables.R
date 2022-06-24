@@ -83,7 +83,7 @@ csas_table <- function(x,
     .x %in% names(x)
   })
   if(!all(names_exist)){
-    stop("One or more of the columns supplied in `cols_no_format` are not in the data frame.",
+    bail("One or more of the columns supplied in `cols_no_format` are not in the data frame.",
          "The column(s) are:\n", paste(cols_no_format[!names_exist], collapse = ", "))
   }
   # Check to make sure the names supplied by cols_to_format are actually in the data frame
@@ -91,7 +91,7 @@ csas_table <- function(x,
     .x %in% names(x)
   })
   if(!all(names_exist)){
-    stop("One or more of the columns supplied in `cols_to_format` are not in the data frame.",
+    bail("One or more of the columns supplied in `cols_to_format` are not in the data frame.",
          "The column(s) are:\n", paste(cols_to_format[!names_exist], collapse = ", "))
   }
 
@@ -142,8 +142,8 @@ csas_table <- function(x,
 
   if (bold_header) {
     if(format == "latex"){
-     warning("Bold headers not supported for the 'latex' format.\n",
-             "You must bold them manually by pasting latex macros around them.")
+      alert("Bold headers not supported for the 'latex' format.\n",
+            "You must bold them manually by pasting latex macros around them.")
     }else{
       suppressWarnings(k <- row_spec(k, 0, bold = TRUE))
     }
@@ -166,9 +166,8 @@ csas_table <- function(x,
   if (!is.null(extra_header)) {
     kable_format <- attr(k, "format")
     if (kable_format != "latex") {
-      stop("Adding an extra header is only supported for latex tables ",
-           "(format = 'latex').",
-           call. = FALSE)
+      bail("Adding an extra header is only supported for latex tables ",
+           "(format = 'latex').")
     }
     k <- add_extra_header(k,
       header = extra_header,
@@ -195,8 +194,8 @@ csas_table <- function(x,
     # Add Continued on next page...
     j <- grep("endhead", k_lines)
     if(length(j) > 1){
-      warning("'endhead' found more than once in the table latex, cannot add ",
-              "'Continued on next page... text to table")
+      alert("'endhead' found more than once in the table latex, cannot add ",
+            "'Continued on next page... text to table")
       return(k)
     }
     k_lines_pre <- k_lines[1:j]
@@ -215,8 +214,8 @@ csas_table <- function(x,
     # Add Continued from previous page...
     j <- grep("endfirsthead", k_lines)
     if(length(j) > 1){
-      warning("'endfirsthead' found more than once in the table latex, cannot add ",
-              "'Continued from previous page... text to table")
+      alert("'endfirsthead' found more than once in the table latex, cannot add ",
+            "'Continued from previous page... text to table")
       return(k)
     }
     k_lines_pre <- k_lines[1:j]
@@ -277,7 +276,7 @@ add_extra_header <- function(kable_input,
   table_info <- magic_mirror(kable_input)
   header <- standardize_header_input(header)
   if (length(table_info$colnames) != nrow(header)) {
-    stop("The number of extra headers supplied is not the same as the number of columns in the table", call. = FALSE)
+    bail("The number of extra headers supplied is not the same as the number of columns in the table")
   }
   if (escape) {
     header$header <- input_escape(header$header, align)

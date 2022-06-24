@@ -25,21 +25,19 @@ create_pandoc_theme_files <- function(pandoc_dir = NULL){
   if(is.null(pandoc_dir)){
     pandoc_dir <- Sys.getenv("RSTUDIO_PANDOC")
     if(pandoc_dir == ""){
-      stop("Cannot find pandoc on your system. The environment variable ",
+      bail("Cannot find pandoc on your system. The environment variable ",
            "`RSTUDIO_PANDOC` is not set and you didn't provide a directory ",
-           "name in the `pandoc_dir` argument.",
-           call. = FALSE)
+           "name in the `pandoc_dir` argument.")
     }
   }
   # In case you're on Windows. Won't affect anything if you're not
   pandoc_dir <- gsub("Program Files", "Progra~1", pandoc_dir)
   if(!dir.exists(pandoc_dir)){
-    stop("The directory '", pandoc_dir, "' does not exist",
-         call. = FALSE)
+    bail("The directory '", pandoc_dir, "' does not exist")
   }
   json_lst <- map(all_themes, ~{
     cmd <- paste(file.path(pandoc_dir, "pandoc"),  "--print-highlight-style", .x)
-    message("Running pandoc system command:\n", cmd, "\n")
+    notify("Running pandoc system command:\n", cmd, "\n")
     system(cmd, intern = TRUE)
   })
 
@@ -47,11 +45,10 @@ create_pandoc_theme_files <- function(pandoc_dir = NULL){
 
   # Save the files
   if(length(json_lst) != length(latex_lst)){
-    stop("The length of the JSON list (", length(json_lst), ") and the ",
+    bail("The length of the JSON list (", length(json_lst), ") and the ",
          "length of the latex list (", length(latex_lst), ") are not the ",
          "same. They should both be the same as the number of themes (",
-         length(all_themes), ")",
-         call. = FALSE)
+         length(all_themes), ")")
   }
   theme_dir <- here::here("inst", "themes")
   imap(all_themes, ~{
@@ -59,8 +56,8 @@ create_pandoc_theme_files <- function(pandoc_dir = NULL){
     latex_fn <- file.path(theme_dir, paste0(.x, ".latex"))
     writeLines(latex_lst[[.y]], latex_fn)
     writeLines(json_lst[[.y]], json_fn)
-    message("Created JSON file ", json_fn)
-    message("Created LaTeX file ", latex_fn, "\n")
+    notify("Created JSON file ", json_fn)
+    notify("Created LaTeX file ", latex_fn, "\n")
   })
   invisible()
 }

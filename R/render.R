@@ -97,8 +97,8 @@ render <- function(yaml_fn = "_bookdown.yml",
     csas_render_type <- "CSAS Document" # nocov
   }
 
-  message(paste0("\nRendering the ", csas_render_type, " as a ", pdf_or_word,
-                 " document in ", `if`(fr(), "French", "English"), "..."))
+  notify("Rendering the ", csas_render_type, " as a ", pdf_or_word,
+         " document in ", `if`(fr(), "French", "English"), "...")
 
   # Process all Rmd files except for the `index_fn` (index.Rmd)
   fn_process <- tmp_rmd_fns[tmp_rmd_fns != index_fn]
@@ -132,15 +132,19 @@ render <- function(yaml_fn = "_bookdown.yml",
   inject_bilingual_code(tmp_index_fn, render_type)
 
   if(suppress_warnings){
-    suppressWarnings(
-      render_book(tmp_index_fn,
-                  config_file = tmp_yaml_fn,
-                  ...)
+    suppressMessages(
+      suppressWarnings(
+        render_book(tmp_index_fn,
+                    config_file = tmp_yaml_fn,
+                    ...)
+      )
     )
   }else{
-    render_book(tmp_index_fn,
+    suppressMessages(
+      render_book(tmp_index_fn,
                 config_file = tmp_yaml_fn,
                 ...)
+    )
   }
   # Delete the temporary files
   if(!keep_files){

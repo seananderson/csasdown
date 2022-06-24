@@ -24,8 +24,8 @@ check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
     type <- "techreport"
   }
 
-  message("Checking that YAML options are all present for document type '",
-          type, "' ...")
+  notify("Checking that YAML options are all present for document type '",
+         type, "' ...")
 
   x_skeleton <- names(yaml_front_matter(
     system.file("rmarkdown", "templates", type, "skeleton", "skeleton.Rmd",
@@ -35,9 +35,9 @@ check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
   x_index <- names(yaml_front_matter("index.Rmd"))
   .diff <- setdiff(x_skeleton, x_index)
   if (length(.diff) > 0L) {
-    stop("Your `index.Rmd` file is missing: ", paste(.diff, collapse = ", "))
+    bail("Your `index.Rmd` file is missing: ", paste(.diff, collapse = ", "))
   } else {
-    message("Your `index.Rmd` file contains all necessary YAML options")
+    check_notify("Your `index.Rmd` file contains all necessary YAML options")
   }
 }
 

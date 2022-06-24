@@ -59,14 +59,13 @@ conv_type_1_table_lines <- function(chunk){
   }
 
   if(length(chunk) < 5){
-    stop("A type 1 table must have at least 5 lines. Input chunk is:\n\n",
+    bail("A type 1 table must have at least 5 lines. Input chunk is:\n\n",
          paste(chunk, collapse = "\n"),
-         "\n\n",
-         call. = FALSE)
+         "\n\n")
   }
 
   if(is_rmd_table_line(chunk) != "type1"){
-    stop("The following table is not a type 1 table based on the first four ",
+    bail("The following table is not a type 1 table based on the first four ",
          "rows:\n\n",
          paste(chunk, collapse = "\n"),
          "\n\n",
@@ -74,8 +73,7 @@ conv_type_1_table_lines <- function(chunk){
          "- a row of dashes\n",
          "- a row of text representing column headers\n",
          "- a row of dashes\n",
-         "- a row of text representing the first row of data.",
-         call. = FALSE)
+         "- a row of text representing the first row of data.")
   }
 
   start_tbl_ind <- 1
@@ -117,12 +115,12 @@ conv_type_1_table_lines <- function(chunk){
       return(list(tbl_chunk, NULL))
     }
   }else{
-    message("A table appears to have been started but not finished. ",
-            "This can happen if a list element or header element was ",
-            "misplaced inside the table code. Here is the offending ",
-            "Rmarkdown text:\n")
-    message(paste(chunk, collapse = "\n"))
-    stop("Incomplete table", call. = FALSE)
+    notify("A table appears to have been started but not finished. ",
+           "This can happen if a list element or header element was ",
+           "misplaced inside the table code. Here is the offending ",
+           "Rmarkdown text:\n")
+    notify(paste(chunk, collapse = "\n"))
+    bail("Incomplete table")
   }
 
   # Add label if it exists

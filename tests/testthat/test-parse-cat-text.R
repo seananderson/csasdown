@@ -25,21 +25,9 @@ test_that("cat parser works", {
   j <- x(1)
   j <- j$logs
   mess <- purrr::map_chr(j, ~{.x$message})
-  expect_identical(mess[2],
-                   crayon::strip_style(
-                     paste0("Pushed '(' to stack on line 2, char 25\nstack size ",
-                            "is now 2\n\033[36mof not starting with ",
-                            "cat\033[39m\033[31m(\033[39m\033[36m)')\033[39m\n\n")))
-  expect_identical(mess[3],
-                   crayon::strip_style(
-                     paste0("Matched ')' on line 2, char 26\nstack size is now ",
-                            "1\n\033[36mof not starting with ",
-                            "cat(\033[39m\033[31m)\033[39m\033[36m')\033[39m\n\n")))
-  expect_identical(mess[4],
-                   crayon::strip_style(
-                     paste0("Matched closing ')' for `cat()` on line 2, char ",
-                            "28\nstack size is now 0\n\033[36mof not starting with ",
-                            "cat()'\033[39m\033[31m)\033[39m\033[36m\033[39m\n\n")))
+  expect_match(mess[2], "Pushed '\\(' to stack on line 2, char 25")
+  expect_match(mess[3], "Matched '\\)' on line 2, char 26")
+  expect_match(mess[4], "Matched closing '\\)' for `cat\\(\\)` on line 2, char 28")
 
   # -----------------------------------------------------------------------------
   # `verbose` error
@@ -48,13 +36,8 @@ test_that("cat parser works", {
   j <- x(1)
   j <- j$logs
   mess <- purrr::map_chr(j, ~{.x$message})
-  expect_identical(mess[1],
-                   "Pushed '(' from `cat()` to stack. Stack size is now 1\n\n")
-  expect_identical(mess[2],
-                   crayon::strip_style(
-                     paste0("No matching '(' for this ')' on line  1, char ",
-                            "13\n\033[36m'This is an \033[39m\033[31m)\033[39m\033[",
-                            "36m')\033[39m\n")))
+  expect_match(mess[1], "Pushed '\\(' from `cat\\(\\)` to stack. Stack size is now 1")
+  expect_match(mess[2], "No matching '\\(' for this '\\)' on line  1, char 13")
 
   x <- csasdown:::capture_log(csasdown:::parse_cat_text(strs, verbose = TRUE))
   j <- x(1)
@@ -62,15 +45,9 @@ test_that("cat parser works", {
   mess <- purrr::map_chr(j, ~{.x$message})
   types <- purrr::map_chr(j, ~{.x$type})
   expect_identical(types[1], "message")
-  expect_identical(mess[1],
-                   paste0("Pushed '(' from `cat()` to stack. Stack size is ",
-                          "now 1\n\n"))
+  expect_match(mess[1], "Pushed '\\(' from `cat\\(\\)` to stack. Stack size is now 1")
   expect_identical(types[2], "error")
-  expect_identical(mess[2],
-                   crayon::strip_style(
-                     paste0("No matching '(' for this ')' on line  1, char ",
-                            "13\n\033[36m'This is an \033[39m\033[31m)\033[",
-                            "39m\033[36m')\033[39m\n")))
+  expect_match(mess[2], "No matching '\\(' for this '\\)' on line  1, char 13")
 
   # -----------------------------------------------------------------------------
   # Single quotes

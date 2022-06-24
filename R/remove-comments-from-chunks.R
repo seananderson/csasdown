@@ -23,9 +23,8 @@ remove_comments_from_chunks <- function(rmd_files){
     end_inds <- grep(pat_code_end, rmd)
 
     if(length(start_inds) != length(!end_inds)){
-      stop("The number of knitr starting code chunk header lines does not ",
-           "equal the number of ending code chunk lines (triple backtick-lines)",
-           call. = FALSE)
+      bail("The number of knitr starting code chunk header lines does not ",
+           "equal the number of ending code chunk lines (triple backtick-lines)")
     }
 
     if(!length(start_inds)){
@@ -46,10 +45,9 @@ remove_comments_from_chunks <- function(rmd_files){
       cat_ind <- grep("^cat\\(.*", trimws(chunk))
       if(length(cat_ind)){
         if(length(cat_ind) > 1){
-          stop("Can only have one `cat()` call inside a code chunk:\n\n",
+          bail("Can only have one `cat()` call inside a code chunk:\n\n",
                paste(chunk, collapse = "\n"),
-               "\n\n",
-               call. = FALSE)
+               "\n\n")
         }
         # Get the indices of the chunk which are inside the `cat()` call
         k <- parse_cat_text(chunk[cat_ind:length(chunk)], ret_inds = TRUE)

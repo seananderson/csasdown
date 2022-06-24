@@ -65,11 +65,10 @@ resdoc_pdf <- function(toc = TRUE,
   }
 
   if((!highlight %in% themes) && !file.exists(here(highlight))){
-    stop("in YAML, `csasdown:resdoc_pdf: highlight` must be one of ",
+    bail("in YAML, `csasdown:resdoc_pdf: highlight` must be one of ",
          paste(themes, collapse = ", "),
          "\nor a filename for a custom latex theme file.",
-         "\nSee pandoc documentation, --highlight-style argument.",
-         call. = FALSE)
+         "\nSee pandoc documentation, --highlight-style argument.")
   }
 
   if (fr()) {
@@ -91,7 +90,7 @@ resdoc_pdf <- function(toc = TRUE,
   base$pandoc$args <- base$pandoc$args[-c(tmp_hl[1], tmp_hl[1] + 1)]
 
   if (!class(line_nums_mod) %in% c("integer", "numeric")) {
-    stop("line_nums_mod must be a numeric or integer value.", call. = FALSE)
+    bail("line_nums_mod must be a numeric or integer value.")
   }
 
   update_csasstyle(

@@ -65,12 +65,11 @@ extract_rmd_table_label <- function(chunk){
         if(n_lead_spaces > 3){
           # Rmarkdown specs say a table caption line must be indented 3 or less
           # spaces. If more, it is just a regular text line
-          warning("A line that looks like a table caption was found but it is ",
+          alert("A line that looks like a table caption was found but it is ",
                   "indented ", n_lead_spaces, " spaces. The Rmarkdown ",
                   "specification says it must be 3 or less:\n\n",
                   chunk[i],
-                  "\n\n",
-                  call. = FALSE)
+                  "\n\n")
           return(list(NULL, chunk))
         }
         return(list(chunk[i], NULL))
@@ -94,12 +93,11 @@ extract_rmd_table_label <- function(chunk){
     if(n_lead_spaces > 3){
       # Rmarkdown specs say a table caption line must be indented 3 or less
       # spaces. If more, it is just a regular text line
-      warning("A line that looks like a table caption was found but it is ",
-              "indented ", n_lead_spaces, " spaces. The Rmarkdown ",
-              "specification says it must be 3 or less:\n\n",
-              chunk[i],
-              "\n\n",
-              call. = FALSE)
+      alert("A line that looks like a table caption was found but it is ",
+            "indented ", n_lead_spaces, " spaces. The Rmarkdown ",
+            "specification says it must be 3 or less:\n\n",
+            chunk[i],
+            "\n\n")
       return(list(NULL, chunk))
     }
     text_follows <- FALSE
@@ -146,22 +144,20 @@ extract_rmd_table_label <- function(chunk){
     if(n_lead_spaces > 3){
       # Rmarkdown specs say a table caption line must be indented 3 or less
       # spaces. If more, it is just a regular text line
-      warning("A line that looks like a table caption was found but it is ",
-              "indented ", n_lead_spaces, " spaces. The Rmarkdown ",
-              "specification says it must be 3 or less:\n\n",
-              chunk[i],
-              "\n\n",
-              call. = FALSE)
+      alert("A line that looks like a table caption was found but it is ",
+            "indented ", n_lead_spaces, " spaces. The Rmarkdown ",
+            "specification says it must be 3 or less:\n\n",
+            chunk[i],
+            "\n\n")
       return(list(NULL, chunk))
     }
     # The following line MUST be text or there is no label
     i <- i + 1
     if(chunk[i] == ""){
-      warning("Blank 'Table:' tag for table, this will not produce a ",
-              "label.\nYou must not have blank lines between an empty ",
-              "'Table:' tag and the caption that goes with it:\n\n",
-              paste(chunk, collapse = "\n"),
-              call. = FALSE)
+      alert("Blank 'Table:' tag for table, this will not produce a ",
+            "label.\nYou must not have blank lines between an empty ",
+            "'Table:' tag and the caption that goes with it:\n\n",
+            paste(chunk, collapse = "\n"))
       return(list(NULL, chunk))
     }
     text_follows <- FALSE

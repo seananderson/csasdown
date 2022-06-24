@@ -10,7 +10,7 @@
 get_render_type <- function(fn = "index.Rmd"){
 
   if(!file.exists(fn)){
-    stop("The file '", fn, "' does not exist")
+    bail("The file '", fn, "' does not exist")
   }
   rmd <- readLines(fn)
   trim_rmd <- trimws(rmd)
@@ -19,15 +19,13 @@ get_render_type <- function(fn = "index.Rmd"){
   doc_type_pat <- "^csasdown::(\\S+):\\s*$"
   doc_ind <- grep(doc_type_pat, trim_rmd)
   if(!length(doc_ind)){
-    stop("Document type not found in file '", fn, "'\n",
-         "A line'csasdown::resdoc_pdf:' was not found",
-         call. = FALSE)
+    bail("Document type not found in file '", fn, "'\n",
+         "A line'csasdown::resdoc_pdf:' was not found")
   }
   if(length(doc_ind) > 1){
-    warning("Document type defined more than once in file '", fn, "'\n",
-            "A line like 'csasdown::resdoc_pdf:' is multiply defined.\n",
-            "Using the first instance.",
-            call. = FALSE)
+    alert("Document type defined more than once in file '", fn, "'\n",
+          "A line like 'csasdown::resdoc_pdf:' is multiply defined.\n",
+          "Using the first instance.")
     doc_ind <- doc_ind[1]
   }
 

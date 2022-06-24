@@ -11,9 +11,8 @@ preprocess_chunks <- function(fns, yaml_fn = "_bookdown.yml"){
 
   map(fns, ~{
     if(!file.exists(.x)){
-      stop("The file '", .x, "' does not exist. Check the YAML file entry ",
-           "in file '", yaml_fn, "'",
-           call. = FALSE)
+      bail("The file '", .x, "' does not exist. Check the YAML file entry ",
+           "in file '", yaml_fn, "'")
     }
     rmd <- readLines(.x)
 
@@ -43,14 +42,13 @@ preprocess_chunks <- function(fns, yaml_fn = "_bookdown.yml"){
           }
         })
         bad_chunk_names <- bad_chunk_names[lengths(bad_chunk_names) > 0]
-        message("Not all chunks in the file ", .x, " with `needs_trans = TRUE` have ",
-                "`cat(` immediately following. If the chunks mirror other chunks, ",
-                "make sure that the mirrored chunk has a `cat()` call in it.\n")
-        message("The chunk name(s) missing `cat()` are:\n\n",
-                paste(bad_chunk_names, collapse = "\n"),
-                "\n")
-        stop("Chunks missing `cat()`",
-             call. = FALSE)
+        notify("Not all chunks in the file ", .x, " with `needs_trans = TRUE` have ",
+               "`cat(` immediately following. If the chunks mirror other chunks, ",
+               "make sure that the mirrored chunk has a `cat()` call in it.\n")
+        notify("The chunk name(s) missing `cat()` are:\n\n",
+               paste(bad_chunk_names, collapse = "\n"),
+               "\n")
+        bail("Chunks missing `cat()`")
       }
       cat_inds <- cat_inds[!(cat_inds %in% (nt_inds + 1))]
 

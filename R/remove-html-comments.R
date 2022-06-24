@@ -53,7 +53,7 @@ remove_html_comments <- function(chunk, fn = "unknown"){
   end_comment <- str_extract_all(chunk, "-->")
   end_lines <- which(lengths(end_comment) > 0 & map_lgl(chunk, function(.x) {!is.na(.x)}))
   if(length(start_lines) != length(end_lines)){
-    stop("The number of start comment characters and end comment ",
+    bail("The number of start comment characters and end comment ",
          "characters do not match for comments spanning multiple ",
          "lines in file '", fn, "'\n\nLine numbers for the ",
          "starting comment characters are:\n\n",
@@ -64,7 +64,7 @@ remove_html_comments <- function(chunk, fn = "unknown"){
          "\n\n")
   }
   if(any(end_lines - start_lines < 1)){
-    stop("One or more of the end comment characters in file '", fn, "' comes ",
+    bail("One or more of the end comment characters in file '", fn, "' comes ",
          "before start comment characters for comments spanning multiple ",
          "lines.\n\nLine numbers for the starting ",
          "comment characters are:\n\n",

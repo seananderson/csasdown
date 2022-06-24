@@ -65,13 +65,12 @@ create_tempdir_for_latex <- function(type = c("resdoc", "sr", "techreport"),
     tex_file <- file.path(root_dir, tex_file_name)
   }
   if (!file.exists(tex_file)) {
-    stop(paste0(type, ".tex"), " does not exist in the ",
+    bail(paste0(type, ".tex"), " does not exist in the ",
          ifelse(where == "b", "_book", "root"), " directory")
   }
   copy_success <- file.copy(tex_file, tmp_dir)
   if(!copy_success){
-    stop("Copy of file '",tex_file, "' to directory '", tmp_dir, "' failed.",
-         call. = FALSE)
+    bail("Copy of file '",tex_file, "' to directory '", tmp_dir, "' failed.")
   }
   tmp_dir
 }

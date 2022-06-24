@@ -30,10 +30,8 @@ run_pdflatex <- function(extra_pdflatex = 1, ...) {
   if(length(book_pdf_file)){
     book_pdf_file <- book_pdf_file[[1]]
     if (file.exists(book_pdf_file)) {
-      stop("The file '", book_pdf_file, "' exists. ",
-           "Delete it before running this function.",
-           call. = FALSE
-      )
+      bail("The file '", book_pdf_file, "' exists. ",
+           "Delete it before running this function.")
     }
   }
   tex_file <- list.files("_book", pattern = "tex", full.names = FALSE)[[1]]

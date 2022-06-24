@@ -10,7 +10,8 @@ test_that("create_tmp_yaml_rmd_files() throws errors", {
   ))
 
   expect_error(csasdown:::create_tmp_yaml_rmd_files("nonexistent-file.yml"),
-               "YAML file nonexistent-file.yml does not exist")
+               "The YAML file nonexistent-file.yml does not exist",
+               fixed = TRUE)
 
   file.create("empty.yml")
   expect_error(csasdown:::create_tmp_yaml_rmd_files("empty.yml"),

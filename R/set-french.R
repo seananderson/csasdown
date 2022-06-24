@@ -8,24 +8,22 @@
 set_french <- function(fn = "index.Rmd", val = TRUE){
 
   if(!val %in% c(TRUE, FALSE)){
-    stop("`val` must be `TRUE` or `FALSE`")
+    bail("`val` must be `TRUE` or `FALSE`")
   }
 
   if(!file.exists(fn)){
-    stop("The file '", fn, "' does not exist")
+    bail("The file '", fn, "' does not exist")
   }
   rmd <- readLines(fn)
   trim_rmd <- trimws(rmd)
 
   french_ind <- grep("^french:\\s*(\\S+)\\s*$", trim_rmd)
   if(!length(french_ind)){
-    stop("`french:` YAML tag of incorrect format or not found in file '",
-         fn, "'\n",
-         call. = FALSE)
+    bail("`french:` YAML tag of incorrect format or not found in file '",
+         fn, "'\n")
   }
   if(length(french_ind) > 1){
-    stop("`french:` YAML tag has more than one entry in file '", fn, "'\n",
-         call. = FALSE)
+    bail("`french:` YAML tag has more than one entry in file '", fn, "'\n")
   }
 
   leading_spaces <- gsub("^(\\s*)french:\\s(true|false)\\s*$", "\\1", rmd[french_ind])

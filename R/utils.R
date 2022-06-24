@@ -20,15 +20,14 @@ hex2rgb <- function(hex, rel = FALSE, ret_alpha = FALSE){
 
   hex <- gsub("#", "", hex)
   if(nchar(hex) != 6 && nchar(hex) != 8){
-    stop("hex must be a 6- or 8-digit number", call. = FALSE)
+    bail("hex must be a 6- or 8-digit number")
   }
   if(ret_alpha && nchar(hex) != 8){
     hex <- paste0(hex, "ff")
   }
   for(i in 1:nchar(hex)){
     if(!substr(hex, i, i) %in% c(0:9, letters[1:6], LETTERS[1:6])){
-      stop("`hex` contains non-hexadecimal digits",
-           call. = FALSE)
+      bail("`hex` contains non-hexadecimal digits")
     }
   }
   if(ret_alpha){
@@ -54,10 +53,10 @@ hex2rgb <- function(hex, rel = FALSE, ret_alpha = FALSE){
 #' to create the number of newlines required
 rmd_nlines <- function(num_blank_lines){
   if(is.null(num_blank_lines)){
-    stop("`num_blank_lines` must not be `NULL`")
+    bail("`num_blank_lines` must not be `NULL`")
   }
   if(num_blank_lines < 0){
-    stop("`num_blank_lines` must be zero or greater")
+    bail("`num_blank_lines` must be zero or greater")
   }
   if(num_blank_lines == 0){
     return("")
@@ -92,10 +91,9 @@ is_rmd_text_line <- function(lines){
     return(NULL)
   }
   if(any(is.na(lines))){
-    stop("An NA is present in the vector of strings:\n\n",
+    bail("An NA is present in the vector of strings:\n\n",
          paste(lines, collapse = "\n"),
-         "\n\n",
-         call. = FALSE)
+         "\n\n")
   }
 
   map_lgl(lines, ~{
@@ -122,10 +120,9 @@ is_rmd_dashed_line <- function(lines){
     return(NULL)
   }
   if(any(is.na(lines))){
-    stop("An NA is present in the vector of strings:\n\n",
+    bail("An NA is present in the vector of strings:\n\n",
          paste(lines, collapse = "\n"),
-         "\n\n",
-         call. = FALSE)
+         "\n\n")
   }
 
   map_lgl(lines, ~{
@@ -151,10 +148,9 @@ is_rmd_header_line <- function(lines){
     return(NULL)
   }
   if(any(is.na(lines))){
-    stop("An NA is present in the vector of strings:\n\n",
+    bail("An NA is present in the vector of strings:\n\n",
          paste(lines, collapse = "\n"),
-         "\n\n",
-         call. = FALSE)
+         "\n\n")
   }
 
   map_lgl(lines, ~{
@@ -179,10 +175,9 @@ is_rmd_list_line <- function(lines){
     return(NULL)
   }
   if(any(is.na(lines))){
-    stop("An NA is present in the vector of strings:\n\n",
+    bail("An NA is present in the vector of strings:\n\n",
          paste(lines, collapse = "\n"),
-         "\n\n",
-         call. = FALSE)
+         "\n\n")
   }
   map_lgl(lines, function(.x) {
     substr(trimws(.x), 2, 3) == ". " ||
@@ -215,10 +210,9 @@ is_rmd_table_line <- function(lines_lst){
     lines_lst <- list(lines_lst)
   }
   if(any(is.na(lines_lst))){
-    stop("An NA is present in the vector of strings:\n\n",
+    bail("An NA is present in the vector of strings:\n\n",
          paste(lines_lst, collapse = "\n"),
-         "\n\n",
-         call. = FALSE)
+         "\n\n")
   }
 
   map_chr(lines_lst, ~{
@@ -453,3 +447,61 @@ capture_log <- function(f) {
   }
 }
 # nocov end
+
+#' Abort code execution
+#'
+#' @details
+#' Uses [cli::symbol] and [crayon::red()]
+#'
+#' @keywords internal
+#'
+#' @param ... Arguments that make up the message
+#' @importFrom cli symbol
+#' @importFrom crayon red
+bail <- function(...){
+  msg <- paste0(unlist(list(...)), collapse = "")
+  stop(red(symbol$cross, msg), call. = FALSE)
+}
+
+#' Issue a warning
+#'
+#' @details
+#' Uses [cli::symbol] and [crayon::yellow()]
+#'
+#' @keywords internal
+#'
+#' @param ... Arguments that make up the message
+#' @importFrom crayon yellow
+alert <- function(...){
+  msg <- paste0(unlist(list(...)), collapse = "")
+  warning(yellow(symbol$warning, msg), call. = FALSE)
+}
+
+#' Issue a notification
+#'
+#' @details
+#' Uses [cli::symbol] and [crayon::green()]
+#'
+#' @keywords internal
+#'
+#' @param ... Arguments that make up the message
+#' @importFrom crayon green white magenta make_style
+notify <- function(...){
+  msg <- paste0(unlist(list(...)), collapse = "")
+  purple <- crayon::make_style(rgb(0.7, 0.2, 0.7))
+  message(purple(symbol$info, msg))
+}
+
+#' Issue a check-mark notification
+#'
+#' @details
+#' Uses [cli::symbol] and [crayon::green()]
+#'
+#' @keywords internal
+#'
+#' @param ... Arguments that make up the message
+#' @importFrom crayon green
+check_notify <- function(...){
+  msg <- paste0(unlist(list(...)), collapse = "")
+  message(green(symbol$tick, msg))
+}

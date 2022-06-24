@@ -14,8 +14,7 @@
 set_language_option <- function(fn = "index.Rmd"){
 
   if(!file.exists(fn)){
-    stop("File '", fn, "' does not exist",
-         call. = FALSE)
+    bail("File '", fn, "' does not exist")
   }
 
   trim_rmd <- trimws(readLines(fn))
@@ -24,12 +23,12 @@ set_language_option <- function(fn = "index.Rmd"){
 
   if(!length(french_ind)){
     options(french = FALSE)
-    stop("No 'french:' entry was found in the file ", fn,
+    bail("No 'french:' entry was found in the file ", fn,
          ". Setting options(french) to FALSE")
   }
   if(length(french_ind) > 1){
     options(french = FALSE)
-    stop("More than one 'french:' entry was found in the file ", fn,
+    bail("More than one 'french:' entry was found in the file ", fn,
          ". Setting options(french) to FALSE")
   }
   val <- gsub(pat, "\\1", trim_rmd[french_ind])
@@ -38,8 +37,7 @@ set_language_option <- function(fn = "index.Rmd"){
   }else if(val == "false"){
     options(french = FALSE)
   }else{
-    stop("Problem with regular expression in `set_language_option()`,\n",
-         "could not extract true/false for 'french:'",
-         call. = FALSE)
+    bail("Problem with regular expression in `set_language_option()`,\n",
+         "could not extract true/false for 'french:'")
   }
 }

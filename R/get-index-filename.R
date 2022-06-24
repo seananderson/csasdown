@@ -14,26 +14,27 @@
 get_index_filename <- function(yaml_fn = "_bookdown.yml"){
 
   if(is.null(yaml_fn)){
-    stop("The `yaml_fn` argument (filename) cannot be `NULL`", call. = FALSE)
+    bail("The `yaml_fn` argument (filename) cannot be `NULL`")
   }
 
   if(yaml_fn == ""){
-    stop("The `yaml_fn` argument (filename) cannot be an empty string", call. = FALSE)
+    bail("The `yaml_fn` argument (filename) cannot be an empty string")
   }
 
   if(!file.exists(yaml_fn)){
-    stop("File '", yaml_fn, "' does not exist", call. = FALSE)
+    bail("File '", yaml_fn, "' does not exist")
   }
 
+  notify("Checking for Rmarkdown index filename in '", yaml_fn, "' file")
   yaml <- readLines(yaml_fn)
   index_fn_ind <- grep("^rmd_files: \\[", yaml)
   if(!length(index_fn_ind)){
-    stop("Index filename not found in ", yaml_fn, ". ",
+    bail("Index filename not found in ", yaml_fn, ". ",
          "This is typically index.Rmd and should be the first entry after ",
-         "`rmd_files:[` and on the same line as it",
-         call. = FALSE)
+         "`rmd_files:[` and on the same line as it")
   }
   index_fn <- str_extract_all(yaml[index_fn_ind], "[a-zA-Z0-9_\\-]+\\.(R|r)md")[[1]]
   # In case there were more than one Rmd files on the first line
+  check_notify("Rmarkdown index filename (", index_fn[1], ") found in '", yaml_fn, "' file")
   index_fn[1]
 }

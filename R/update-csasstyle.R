@@ -31,25 +31,22 @@ update_csasstyle <- function(copy = TRUE,
 
   fn <- system.file("csas-style", package = "csasdown")
   if(!copy && line_nums){
-    stop("You have set `copy_sty` to `FALSE` and `line_nums` to `TRUE` in ",
+    bail("You have set `copy_sty` to `FALSE` and `line_nums` to `TRUE` in ",
          "the index.Rmd YAML header. The permanent style file cannot be ",
          "modified as needed to include line numbering. ",
-         "Either set `copy_sty` to `TRUE` or `line_nums` to `FALSE` to build.",
-         call. = FALSE)
+         "Either set `copy_sty` to `TRUE` or `line_nums` to `FALSE` to build.")
   }
   if(!copy && lot_lof){
-    stop("You have set `copy_sty` to `FALSE` and `lot_lof` to `TRUE` in the ",
+    bail("You have set `copy_sty` to `FALSE` and `lot_lof` to `TRUE` in the ",
          "index.Rmd YAML header. The permanent style file cannot be ",
          "modified as needed to include the lists of tables and figures. ",
-         "Either set `copy_sty` to `TRUE` or `lot_lof` to `FALSE` to build.",
-         call. = FALSE)
+         "Either set `copy_sty` to `TRUE` or `lot_lof` to `FALSE` to build.")
   }
   if(!copy && draft_watermark){
-    stop("You have set `copy_sty` to `FALSE` and `draft_watermark` to `TRUE` ",
+    bail("You have set `copy_sty` to `FALSE` and `draft_watermark` to `TRUE` ",
          "in the index.Rmd YAML header. The permanent style file cannot be ",
          "modified as needed to include the DRAFT watermark. ",
-         "Either set `copy_sty` to `TRUE` or `draft_watermark` to `FALSE` to build.",
-         call. = FALSE)
+         "Either set `copy_sty` to `TRUE` or `draft_watermark` to `FALSE` to build.")
   }
 
   if (copy || !dir.exists("csas-style")) {
@@ -83,7 +80,7 @@ update_csasstyle <- function(copy = TRUE,
         csas_style <- c(beg_of_file, lot, cp, lof, cp, end_of_file)
         writeLines(csas_style, file.path("csas-style", which_sty))
       } else { # nocov start
-        warning("`lot_lof` is only implemented for Res Docs and TechReports.", call. = FALSE)
+        alert("`lot_lof` is only implemented for Res Docs and TechReports.")
       } # nocov end
     }
     if(draft_watermark){

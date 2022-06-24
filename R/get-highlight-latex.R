@@ -12,14 +12,12 @@
 gen_latex_highlight_code <- function(json_lst){
 
   if(is.null(json_lst)){
-    stop("`json_lst` cannot be `NULL`",
-         call. = FALSE)
+    bail("`json_lst` cannot be `NULL`")
   }
 
   imap(json_lst, function(json = .x, num = .y){
     if(!length(grep("^\\{\\s*$", json))){
-      stop("`json_lst` element ", num, " does not start with an open curly brace",
-           call. = FALSE)
+      bail("`json_lst` element ", num, " does not start with an open curly brace")
     }
     style_list <- parse_pandoc_highlight_theme(json)
 

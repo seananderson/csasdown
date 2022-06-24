@@ -80,14 +80,12 @@ copy_mirror_chunks <- function(rmd_files, nowrite = FALSE){
       pat <- paste0(chunk_name, ",")
       k <- grep(pat, huge_rmd)
       if(!length(k)){
-        stop("Chunk name '", chunk_name, "' does not appear to have a source chunk in ",
-             "the project",
-             call. = FALSE)
+        bail("Chunk name '", chunk_name, "' does not appear to have a source chunk in ",
+             "the project")
       }
       if(length(k) > 1){
-        stop("Chunk name '", chunk_name, "' appears to have multiple source chunks in ",
-             "the project",
-             call. = FALSE)
+        bail("Chunk name '", chunk_name, "' appears to have multiple source chunks in ",
+             "the project")
       }
       k <- k + 1
       src_start <- k
@@ -102,10 +100,9 @@ copy_mirror_chunks <- function(rmd_files, nowrite = FALSE){
         chained_mirror_pat <- "^<<(\\S+)>>$"
         if(length(grep(chained_mirror_pat, trimws(chunk)))){
           nm <- gsub(chained_mirror_pat, "\\1", chunk)
-          stop("A mirrored chunk has another mirror code line in it.\n",
+          bail("A mirrored chunk has another mirror code line in it.\n",
                "Chained mirror chunks are not supported.\n",
-               "Line ", file_mirror_inds[1] - 1, " in file '", fn, "'",
-               call. = FALSE)
+               "Line ", file_mirror_inds[1] - 1, " in file '", fn, "'")
         }
 
         txt <<- inject_vec_in_vec(txt, chunk, file_mirror_inds)

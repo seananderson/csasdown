@@ -27,16 +27,15 @@ inject_rmd_files <- function(rmd_files){
       # Check the rmd code to make sure there are no triple-tick code chunks in it
       backtick_inds <- grep("^```", trimws(rmd))
       if(length(backtick_inds)){
-        message("Triple-backticks found in file '", basename(.x),
+        notify("Triple-backticks found in file '", basename(.x),
                 "' on line(s) ",
                 paste(backtick_inds, collapse = ", "))
-        stop("Triple- or Quadruple-backtick code chunks are not allowed in ",
+        bail("Triple- or Quadruple-backtick code chunks are not allowed in ",
              "external RMD files which have been injected using ",
              "`rmd_files()`. The code is going to be imported into a chunk ",
              "and embedding chunks into other chunks is not possible in knitr. ",
              "Delete them or use Markdown comments to comment those chunks out ",
-             "<!-- -->.",
-             call. = FALSE)
+             "<!-- -->.")
       }
       # Need to remove the NA's from the chunk that was returned from `remove_html_comments()`
       rmd <- rmd[!is.na(rmd)]
