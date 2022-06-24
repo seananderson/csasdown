@@ -16,6 +16,14 @@ test_that("get_contact_info() works", {
   expect_identical(r$address, "200 Kent St.\\\\\\\\Ottawa, ON, K1A 0E6")
 
   # ---------------------------------------------------------------------------
+  options(french = TRUE)
+  region <- "nonexistent"
+  expect_warning(r <- get_contact_info(region),
+                 "Region not detected; using national CSAS contact info")
+  expect_identical(r$email, "csas-sccs@dfo-mpo.gc.ca")
+  expect_identical(r$address, "200 Kent St.\\\\\\\\Ottawa (ON) K1A 0E6")
+
+  # ---------------------------------------------------------------------------
   # English doc, English region
   options(french = FALSE)
   region <- "Pacific Region"
