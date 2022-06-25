@@ -12,24 +12,24 @@ test_that("set_yaml_tag() works", {
   # ---------------------------------------------------------------------------
   # Test NULL filename
   expect_error(csasdown::set_yaml_tag("french:", "true", NULL),
-               "Filename \\(`fn`\\) cannot be `NULL`")
+               "Filename \\S+ cannot be ")
 
   # ---------------------------------------------------------------------------
   # Test NULL tag
   expect_error(csasdown::set_yaml_tag(NULL, "true"),
-               "YAML tag \\(`tag`\\) cannot be `NULL`")
+               "YAML tag \\S+ cannot be ")
 
   # ---------------------------------------------------------------------------
   # Test NULL tag value
   expect_error(csasdown::set_yaml_tag("french:", NULL),
-               "YAML tag value \\(`val`\\) cannot be `NULL`")
+               "YAML tag value \\S+ cannot be")
 
   # ---------------------------------------------------------------------------
   # Test Empty file
   rmd <- character(0)
   writeLines(rmd, "empty.Rmd")
   expect_error(csasdown::set_yaml_tag("french:", "tru", "empty.Rmd"),
-               "File 'empty.Rmd' does not contain anything")
+               "File \\S+ does not contain anything")
 
   # ---------------------------------------------------------------------------
   # Test unbalanced YAML file
@@ -37,8 +37,8 @@ test_that("set_yaml_tag() works", {
   rmd <- c(rmd, "", "---", "tag1: junk", "")
   writeLines(rmd, "unbalanced.Rmd")
   expect_error(csasdown::set_yaml_tag("french:", "tru", "unbalanced.Rmd"),
-               paste0("There are uneven sets of '---' lines meaning an ",
-                      "unending YAML block in file 'unbalanced.Rmd'"))
+               paste0("There are uneven sets of \\S+ lines meaning an ",
+                      "unending YAML block in file"))
 
   # ---------------------------------------------------------------------------
   # Test no YAML blocks
@@ -62,24 +62,24 @@ test_that("set_yaml_tag() works", {
     edit = FALSE
   ))
   expect_error(csasdown::set_yaml_tag("prepub", "true", "no.Rmd"),
-               "File 'no.Rmd' does not exist")
+               "File \\S+ does not exist")
 
   # ---------------------------------------------------------------------------
   # Test trying to change csasdown::
   expect_error(csasdown::set_yaml_tag("csasdown::", "true"),
-               paste0("The `output:` and `csasdown::<doc_type>` tags cannot ",
+               paste0("The \\S+ and \\S+ tags cannot ",
                       "be changed with this function."))
 
   # ---------------------------------------------------------------------------
   # Test trying to change knit:
   expect_error(csasdown::set_yaml_tag("knit", "true"),
-               paste0("The `knit:` tag cannot be modified"))
+               paste0("The \\S+ tag cannot be modified"))
 
   # ---------------------------------------------------------------------------
   # Test non existent
   expect_error(csasdown::set_yaml_tag("nonexistent", "true"),
-               paste0("The YAML tag '\\^\\\\s\\*nonexistent' was not found in ",
-                      "the file 'index.Rmd'"))
+               paste0("The YAML tag \\S+ was not found in ",
+                      "the file"))
 
   # ---------------------------------------------------------------------------
   # Test trying tag names not in a YAML block
@@ -87,8 +87,8 @@ test_that("set_yaml_tag() works", {
   rmd[64] <- "fake_tag: true"
   writeLines(rmd, "index.Rmd")
   expect_error(csasdown::set_yaml_tag("fake_chunk:", "false"),
-               paste0("The YAML tag '\\^\\\\s\\*fake_chunk:' was not found ",
-                      "in the file 'index.Rmd'"))
+               paste0("The YAML tag \\S+ was not found ",
+                      "in the file"))
 
   # ---------------------------------------------------------------------------
   # Test tag names with and without leading spaces
@@ -112,7 +112,7 @@ test_that("set_yaml_tag() works", {
   csasdown::set_yaml_tag("block3_tag2", "It's all good")
   csasdown::set_yaml_tag("block3_tag1", "First tag of block")
   expect_error(csasdown::set_yaml_tag("title", "X"),
-               paste0("The YAML tag '\\^\\\\s\\*title' was found more than ",
-                      "once in the file 'index.Rmd'"))
+               paste0("The YAML tag \\S+ was found more than ",
+                      "once in the file"))
 
 })

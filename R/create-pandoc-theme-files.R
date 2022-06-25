@@ -26,18 +26,19 @@ create_pandoc_theme_files <- function(pandoc_dir = NULL){
     pandoc_dir <- Sys.getenv("RSTUDIO_PANDOC")
     if(pandoc_dir == ""){
       bail("Cannot find pandoc on your system. The environment variable ",
-           "`RSTUDIO_PANDOC` is not set and you didn't provide a directory ",
-           "name in the `pandoc_dir` argument.")
+           csas_color("RSTUDIO_PANDOC"), " is not set and you didn't ",
+           "provide a directory name in the ", csas_color("pandoc_dir"),
+           " argument.")
     }
   }
   # In case you're on Windows. Won't affect anything if you're not
   pandoc_dir <- gsub("Program Files", "Progra~1", pandoc_dir)
   if(!dir.exists(pandoc_dir)){
-    bail("The directory '", pandoc_dir, "' does not exist")
+    bail("The directory ", fn_color(pandoc_dir), " does not exist")
   }
   json_lst <- map(all_themes, ~{
     cmd <- paste(file.path(pandoc_dir, "pandoc"),  "--print-highlight-style", .x)
-    notify("Running pandoc system command:\n", cmd, "\n")
+    notify("Running pandoc system command:\n", csas_color(cmd), "\n")
     system(cmd, intern = TRUE)
   })
 
@@ -56,8 +57,8 @@ create_pandoc_theme_files <- function(pandoc_dir = NULL){
     latex_fn <- file.path(theme_dir, paste0(.x, ".latex"))
     writeLines(latex_lst[[.y]], latex_fn)
     writeLines(json_lst[[.y]], json_fn)
-    notify("Created JSON file ", json_fn)
-    notify("Created LaTeX file ", latex_fn, "\n")
+    notify("Created JSON file ", fn_color(json_fn))
+    notify("Created LaTeX file ", fn_color(latex_fn), "\n")
   })
   invisible()
 }

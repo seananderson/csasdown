@@ -29,10 +29,10 @@ test_that("rename_output_files() works", {
                                "to '_book/sr-english.tex'"))
   expect_match(mess[2], paste0("cannot rename file '_book/sr.pdf' ",
                                "to '_book/sr-english.pdf'"))
-  expect_match(mess[3], paste0("Could not rename the file _book/sr.tex ",
-                               "to _book/sr-english.tex"))
-  expect_match(mess[4], paste0("Could not rename the file _book/sr.pdf ",
-                               "to _book/sr-english.pdf"))
+  expect_match(mess[3], paste0("Could not rename the file \\S+ ",
+                               "to \\S+"))
+  expect_match(mess[4], paste0("Could not rename the file \\S+ ",
+                               "to \\S+"))
 
   file.create(file.path(d, "sr.docx"))
   file.create(file.path(d, "reference-keys.txt"))
@@ -52,10 +52,10 @@ test_that("rename_output_files() works", {
                paste0("cannot rename file '_book/sr.docx' ",
                       "to '_book/sr-english.docx'"))
   expect_match(mess[3],
-                   paste0("Could not rename the file _book/reference-keys.txt ",
-                   "to _book/reference-keys-docx-english.txt"))
+                   paste0("Could not rename the file \\S+ ",
+                   "to \\S+"))
   expect_match(mess[4],
-                   paste0("Could not rename the file _book/sr.docx to ",
-                          "_book/sr-english.docx"))
+                   paste0("Could not rename the file \\S+ to ",
+                          "\\S+"))
 
 })

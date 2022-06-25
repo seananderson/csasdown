@@ -17,7 +17,8 @@ gen_latex_highlight_code <- function(json_lst){
 
   imap(json_lst, function(json = .x, num = .y){
     if(!length(grep("^\\{\\s*$", json))){
-      bail("`json_lst` element ", num, " does not start with an open curly brace")
+      bail(csas_color("json_lst"), " element ", num, " does not start with ",
+           "an open curly brace")
     }
     style_list <- parse_pandoc_highlight_theme(json)
 

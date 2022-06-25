@@ -31,7 +31,8 @@ rename_output_files <- function(index_fn){
   if(pdf_or_docx == "pdf"){
     new_other_fn <- file.path("_book", paste0(new_doc_fn, ".tex"))
   }else if(pdf_or_docx == "docx"){
-    new_other_fn <- file.path("_book", paste0("reference-keys-docx-", lang, ".txt"))
+    new_other_fn <- file.path("_book",
+                              paste0("reference-keys-docx-", lang, ".txt"))
   }
   new_fns <- c(new_other_fn, new_output_fn)
 
@@ -47,9 +48,10 @@ rename_output_files <- function(index_fn){
   rename_success <- file.rename(old_fns, new_fns)
   imap(rename_success, ~{
     if(.x){
-      notify("File '", new_fns[.y], "' created.")
+      check_notify("File ", fn_color(new_fns[.y]), " created.")
     }else{
-      alert("Could not rename the file ", old_fns[.y], " to ", new_fns[.y])
+      alert("Could not rename the file ", fn_color(old_fns[.y]),
+            " to ", fn_color(new_fns[.y]))
     }
   })
 }

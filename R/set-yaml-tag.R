@@ -17,36 +17,36 @@
 set_yaml_tag <- function(tag = NULL, val = NULL, fn = "index.Rmd"){
 
   if(is.null(fn)){
-    bail("Filename (`fn`) cannot be `NULL`")
+    bail("Filename ", csas_color("fn"), " cannot be ", csas_color("NULL"))
   }
 
   if(is.null(tag)){
-    bail("YAML tag (`tag`) cannot be `NULL`")
+    bail("YAML tag ", tag_color("tag"), " cannot be ", csas_color("NULL"))
   }
 
   if(is.null(val)){
-    bail("YAML tag value (`val`) cannot be `NULL`")
+    bail("YAML tag value ", tag_color("val"), " cannot be ", csas_color("NULL"))
   }
 
   if(!file.exists(fn)){
-    bail("File '", fn, "' does not exist")
+    bail("File ", fn_color(fn), " does not exist")
   }
 
   rmd <- readLines(fn)
 
   if(!length(rmd)){
-    bail("File '", fn, "' does not contain anything")
+    bail("File ", fn_color(fn), " does not contain anything")
   }
   #rmd <- c(rmd, "---", "approver:", "", "kfeujbvk:  kmneec", "---")
 
   if(length(grep("csasdown::", tag)) || length(grep("output", tag))){
-    bail("The `output:` and `csasdown::<doc_type>` tags cannot be changed ",
-         "with this function.\n",
-         "Use csasdown:::set_render_type() instead")
+    bail("The ", tag_color("output:"), " and ", tag_color("csasdown::<doc_type>"),
+         " tags cannot be changed with this function.\n",
+         "Use ", csas_color("csasdown:::set_render_type()"), " instead")
   }
 
   if(length(grep("knit", tag))){
-    bail("The `knit:` tag cannot be modified")
+    bail("The ", tag_color("knit:"), " tag cannot be modified")
   }
 
   # ---------------------------------------------------------------------------
@@ -74,8 +74,9 @@ set_yaml_tag <- function(tag = NULL, val = NULL, fn = "index.Rmd"){
   }
   # start_yaml_inds and end_yaml_inds hold the indices of the --- lines
   if(length(start_yaml_inds) != length(end_yaml_inds)){
-    bail("There are uneven sets of '---' lines meaning an unending YAML ",
-         "block in file '", fn, "'")
+    bail("There are uneven sets of ", tag_color("---"),
+         " lines meaning an unending YAML ",
+         "block in file ", fn_color(fn))
   }
   if(!length(start_yaml_inds)){
     alert("There were no YAML blocks found in the file. Nothing was changed")
@@ -99,14 +100,17 @@ set_yaml_tag <- function(tag = NULL, val = NULL, fn = "index.Rmd"){
     unlist()
 
   if(!length(inds)){
-    bail("The YAML tag '", tag, "' was not found in the file '", fn, "'")
+    bail("The YAML tag ", tag_color(tag), " was not found in the file ",
+         fn_color(fn))
   }
 
   if(length(inds) > 1){
-    bail("The YAML tag '", tag, "' was found more than once in the file ",
-         "'", fn, "'.\nRefine your regular expression for `tag` and try again.",
-         "\nThe matching lines (", paste(inds, collapse = ", "), ") are:\n\n",
-         paste(rmd[inds], collapse = "\n"))
+    bail("The YAML tag ", tag_color(tag), " was found more than once ",
+         "in the file ", fn_color(fn), ".\nRefine your regular expression ",
+         "for ", csas_color("tag"), " and try again.",
+         "\nThe matching lines (", csas_color(paste(inds, collapse = ", ")),
+         ") are:\n\n",
+         csas_color(paste(rmd[inds], collapse = "\n")))
   }
 
   # ---------------------------------------------------------------------------

@@ -12,21 +12,22 @@ test_that("update_csasstyle() works", {
 
   # ---------------------------------------------------------------------------
   expect_error(csasdown:::update_csasstyle(copy = FALSE, line_nums = TRUE),
-               paste0("You have set `copy` to `FALSE` and `line_nums` to ",
-                      "`TRUE`"))
+               paste0("YAML header. The permanent style file cannot be ",
+                      "modified as needed to include line numbering"))
 
   # ---------------------------------------------------------------------------
   expect_error(csasdown:::update_csasstyle(copy = FALSE, line_nums = FALSE,
                                            lot_lof = TRUE),
-               paste0("You have set `copy` to `FALSE` and `lot_lof` ",
-                      "to `TRUE`"))
+               paste0("YAML header. The permanent style file cannot be ",
+                      "modified as needed to include the lists of tables ",
+                      "and figures"))
 
   # ---------------------------------------------------------------------------
   expect_error(csasdown:::update_csasstyle(copy = FALSE,
                                            line_nums = FALSE,
                                            draft_watermark = TRUE),
-               paste0("You have set `copy` to `FALSE` and ",
-                      "`draft_watermark` to `TRUE`"))
+               paste0("YAML header. The permanent style file cannot be ",
+                      "modified as needed to include the DRAFT watermark"))
 
   # ---------------------------------------------------------------------------
   # Set lot_lof (toggle show List of tables/List of Figures in doc)

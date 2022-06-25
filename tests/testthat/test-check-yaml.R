@@ -11,7 +11,7 @@ test_that("check_yaml() works", {
 
   # ---------------------------------------------------------------------------
   expect_message(csasdown::check_yaml("sr"),
-                 "Your `index.Rmd` file contains all necessary YAML options")
+                 "Your \\S+ file contains all necessary YAML options")
 
   # ---------------------------------------------------------------------------
   file.copy("index.Rmd", "x.Rmd")
@@ -21,25 +21,20 @@ test_that("check_yaml() works", {
   writeLines(rmd, "index.Rmd")
   suppressMessages(
     expect_error(csasdown::check_yaml("sr"),
-                 "Your `index.Rmd` file is missing: french_region")
+                 "Your \\S+ file is missing the YAML tag")
   )
 
   # ---------------------------------------------------------------------------
   file.copy("x.Rmd", "index.Rmd", overwrite = TRUE)
   suppressMessages(
     expect_error(csasdown::check_yaml("resdoc"),
-                 paste0("Your `index.Rmd` file is missing: author, ",
-                        "author_list, address, french_address, citation_other",
-                        "_language, abstract, french_abstract, header"))
+                 paste0("Your \\S+ file is missing the YAML tag\\(s\\)"))
   )
 
   # ---------------------------------------------------------------------------
   suppressMessages(
     expect_error(csasdown::check_yaml("techreport"),
-                 paste0("Your `index.Rmd` file is missing: author, ",
-                        "author_list, address, french_address, phone, ",
-                        "author_footnote, abstract, french_abstract, ",
-                        "header-includes"))
+                 paste0("Your \\S+ file is missing the YAML tag\\(s\\):"))
   )
 
 })

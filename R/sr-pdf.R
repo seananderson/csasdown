@@ -21,10 +21,12 @@ sr_pdf <- function(latex_engine = "pdflatex",
   }
 
   if((!highlight %in% themes) && !file.exists(here(highlight))){
-    bail("in YAML, `csasdown:sr_pdf: highlight` must be one of ",
-         paste(themes, collapse = ", "),
+    bail("in YAML, ", tag_color("csasdown:sr_pdf: highlight"),
+         " must be one of ",
+         csas_color(paste(themes, collapse = ", ")),
          "\nor a filename for a custom latex theme file.",
-         "\nSee pandoc documentation, --highlight-style argument.")
+         "\nSee pandoc documentation, ",
+         csas_color("--highlight-style argument."))
   }
 
   if (fr()) {
@@ -44,7 +46,7 @@ sr_pdf <- function(latex_engine = "pdflatex",
   base$pandoc$args <- base$pandoc$args[-c(tmp_hl[1], tmp_hl[1] + 1)]
 
   if (!class(line_nums_mod) %in% c("integer", "numeric")) {
-    bail("line_nums_mod must be a numeric or integer value.")
+    bail(csas_color("line_nums_mod"), " must be a numeric or integer value.")
   }
 
   update_csasstyle(

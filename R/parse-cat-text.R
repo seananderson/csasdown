@@ -35,7 +35,8 @@
 parse_cat_text <- function(str_vec, ret_inds = FALSE, verbose = FALSE){
 
   if(!length(grep("^cat\\(.*", str_vec[1]))){
-    bail("The first line of `str_vec` must start with `cat(`")
+    bail("The first line of ", csas_color("str_vec"), " must start with ",
+         csas_color("cat()"))
   }
   str_vec[1] <- gsub("^cat\\(", "", str_vec[1])
   if(length(grep("^\"", str_vec[1]))){
@@ -45,7 +46,8 @@ parse_cat_text <- function(str_vec, ret_inds = FALSE, verbose = FALSE){
     # `cat()` text is surrounded by single quotes
     quote_type <- "'"
   }else{
-    bail("Quote type not allowed for `cat()` text. You must use either ",
+    bail("Quote type not allowed for ", csas_color("cat()"), " text. ",
+         "You must use either ",
          "single or double quotes. You used ", substr(str_vec[1], 1, 1))
   }
 
@@ -54,8 +56,8 @@ parse_cat_text <- function(str_vec, ret_inds = FALSE, verbose = FALSE){
   # Push the `cat(` '(' to the stack initially
   pstack <- stk_push(pstack, "(")
   if(verbose){
-    notify("Pushed '(' from `cat()` to stack. Stack size is now ",
-           stk_size(pstack), "\n")
+    notify("Pushed '(' from ", csas_color("cat()"), " to stack. ",
+           "Stack size is now ", stk_size(pstack), "\n")
   }
   matched <- FALSE
   prev_char <- NULL
@@ -108,7 +110,8 @@ parse_cat_text <- function(str_vec, ret_inds = FALSE, verbose = FALSE){
           }
           if(char_pos != nchar(str_vec[.y])){
             bail("Extra characters follow the ')' that closes `cat()`.\n",
-                 "Closing ')' for `cat()` must be at the end of the line \n",
+                 "Closing ')' for ", csas_color("cat()"), " must be at the ",
+                 "end of the line \n",
                  "with nothing following it (check for trailing whitespace):\n\n",
                  cyan(substr(str_vec[.y], 1, char_pos - 1)),
                  red(substr(str_vec[.y], char_pos, char_pos)),

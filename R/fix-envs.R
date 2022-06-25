@@ -86,8 +86,9 @@ fix_envs <- function(x,
     abs_beg <- grep("begin_abstract_csasdown", x)
     abs_end <- grep("end_abstract_csasdown", x)
     if (length(abs_beg) == 0L || length(abs_end) == 0L) {
-      alert("`% begin_abstract_csasdown` or `% end_abstract_csasdown`` not found ",
-            "in `templates/csas.tex`")
+      alert(tag_color("% begin_abstract_csasdown"), " or ",
+            tag_color("% end_abstract_csasdown"), " not found ",
+            "in ", fn_color("templates/csas.tex"))
     } else {
       abs_vec <- x[seq(abs_beg + 1, abs_end - 1)]
       abs_vec <- abs_vec[abs_vec != ""]
@@ -236,7 +237,8 @@ fix_envs <- function(x,
         if(!length(ref_ind)){
           # nocov start
           bail("REFERENCES section header not found in the document. Make sure you ",
-               "haven't commented out that section in _bookdown.yml or changed the header name")
+               "haven't commented out that section in ",
+               fn_color("_bookdown.yml"), " or changed the header name")
           # nocov end
         }
         x[ref_ind] <- gsub("REFERENCES", ifelse(fr(),

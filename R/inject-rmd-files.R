@@ -21,19 +21,20 @@ inject_rmd_files <- function(rmd_files){
     rmd_file_names <- gsub("^rmd_file\\([\"|\'](.*)[\"|\']\\)$", "\\1", nms)
     rmd_file_names <- trimws(rmd_file_names)
     rmd_code <- map(rmd_file_names, function(.x) {
-      rmd <- read_rmd_file(.x)
+      rmd <- read_rmd_file(.x, src_fn = fn)
       # Strip any HTML comments out of the file
       rmd <- remove_html_comments(rmd, .x)
       # Check the rmd code to make sure there are no triple-tick code chunks in it
       backtick_inds <- grep("^```", trimws(rmd))
       if(length(backtick_inds)){
-        notify("Triple-backticks found in file '", basename(.x),
-                "' on line(s) ",
+        notify("Triple-backticks found in file ", fn_color(basename(.x)),
+                " on line(s) ",
                 paste(backtick_inds, collapse = ", "))
         bail("Triple- or Quadruple-backtick code chunks are not allowed in ",
              "external RMD files which have been injected using ",
-             "`rmd_files()`. The code is going to be imported into a chunk ",
-             "and embedding chunks into other chunks is not possible in knitr. ",
+             csas_color("rmd_file()"), ". The code is going to be imported ",
+             "into a chunk and embedding chunks into other chunks is not ",
+             "possible in knitr. ",
              "Delete them or use Markdown comments to comment those chunks out ",
              "<!-- -->.")
       }

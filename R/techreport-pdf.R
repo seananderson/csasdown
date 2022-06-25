@@ -21,10 +21,11 @@ techreport_pdf <- function(latex_engine = "pdflatex",
   }
 
   if((!highlight %in% themes) && !file.exists(here(highlight))){
-    bail("in YAML, `csasdown:techreport_pdf: highlight` must be one of ",
-         paste(themes, collapse = ", "),
+    bail("in YAML, ", tag_color("csasdown:techreport_pdf: highlight"),
+         "must be one of ",
+         csas_color(paste(themes, collapse = ", ")),
          "\nor a filename for a custom latex theme file.",
-         "\nSee pandoc documentation, --highlight-style argument.")
+         "\nSee pandoc documentation, ", csas_color("--highlight-style argument."))
   }
 
   if (fr()) {

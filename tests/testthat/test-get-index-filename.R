@@ -11,14 +11,11 @@ test_that("get_index_filename() works for the resdoc", {
 
   # -----------------------------------------------------------------------------
   expect_error(csasdown:::get_index_filename(NULL),
-               "The `yaml_fn` argument (filename) cannot be `NULL`",
-               fixed = TRUE)
+               "The \\S+ argument \\(filename\\) cannot be")
   expect_error(csasdown:::get_index_filename(""),
-               "The `yaml_fn` argument (filename) cannot be an empty string",
-               fixed = TRUE)
+               "The \\S+ argument \\(filename\\) cannot be an empty string")
   expect_error(csasdown:::get_index_filename("nonexistent-file.yml"),
-               "File 'nonexistent-file.yml' does not exist",
-               fixed = TRUE)
+               "File \\S+ does not exist")
   expect_identical(csasdown:::get_index_filename(), "index.Rmd")
   file.copy("_bookdown.yml", "tmp-bookdown.yml")
   expect_identical(csasdown:::get_index_filename("tmp-bookdown.yml"), "index.Rmd")
@@ -33,10 +30,8 @@ test_that("get_index_filename() works for the resdoc", {
   yaml <- gsub("^rmd_files:.*$", "", yaml)
   writeLines(yaml, "_bookdown.yml")
   expect_error(csasdown:::get_index_filename(),
-               paste0("Index filename not found in _bookdown.yml. This is ",
-                      "typically index.Rmd and should be the first entry after ",
-                      "`rmd_files:[` and on the same line as it"),
-               fixed = TRUE)
+               paste0("Index filename not found in \\S+. This is ",
+                      "typically index.Rmd and should be the first entry after"))
 
 })
 

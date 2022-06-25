@@ -367,16 +367,6 @@ test_that("Removing all comments from knitr chunks works", {
              "```")
   writeLines(chunk, fn)
   expect_error(csasdown:::remove_comments_from_chunks(fn),
-               paste0("Can only have one `cat()` call inside a code chunk:\n\n",
-                      "```{r chap01-para-6-en, eval = !fr(), results = 'asis'}\n",
-                      "# Test comment\n",
-                      "#Test Comment 2\n",
-                      "cat('Be careful with your spacing in _Markdown_ documents.\n",
-                      "While whitespace largely is ignored, it does at\n",
-                      "times give _Markdown_ signals as to how to proceed.\n",
-                      "')\n\n",
-                      "cat('# Test comment 3')\n",
-                      "```\n\n"),
-               fixed = TRUE)
+               paste0("Can only have one \\S+ call inside a code chunk:"))
 
 })

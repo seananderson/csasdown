@@ -70,7 +70,10 @@ create_tempdir_for_latex <- function(type = c("resdoc", "sr", "techreport"),
   }
   copy_success <- file.copy(tex_file, tmp_dir)
   if(!copy_success){
-    bail("Copy of file '",tex_file, "' to directory '", tmp_dir, "' failed.") # nocov
+    # nocov start
+    bail("Copy of file ", fn_color(tex_file), " to directory ",
+         fn_color(tmp_dir), " failed.")
+    # nocov end
   }
   tmp_dir
 }

@@ -14,7 +14,7 @@ test_that("run_pdflatex() works", {
 
   # -----------------------------------------------------------------------------
   expect_error(csasdown::run_pdflatex(),
-               paste0("The file '_book/resdoc-english.pdf' exists. Delete it ",
+               paste0("The file \\S+ exists. Delete it ",
                       "before running this function."))
 
   # -----------------------------------------------------------------------------

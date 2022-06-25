@@ -83,16 +83,20 @@ csas_table <- function(x,
     .x %in% names(x)
   })
   if(!all(names_exist)){
-    bail("One or more of the columns supplied in `cols_no_format` are not in the data frame.",
-         "The column(s) are:\n", paste(cols_no_format[!names_exist], collapse = ", "))
+    bail("One or more of the columns supplied in ",
+         csas_color("cols_no_format"), " are not in the data frame.",
+         "The column(s) are:\n",
+         csas_color(paste(cols_no_format[!names_exist], collapse = ", ")))
   }
   # Check to make sure the names supplied by cols_to_format are actually in the data frame
   names_exist <- map_lgl(cols_to_format, ~{
     .x %in% names(x)
   })
   if(!all(names_exist)){
-    bail("One or more of the columns supplied in `cols_to_format` are not in the data frame.",
-         "The column(s) are:\n", paste(cols_to_format[!names_exist], collapse = ", "))
+    bail("One or more of the columns supplied in ",
+         csas_color("cols_no_format"), " are not in the data frame.",
+         "The column(s) are:\n",
+         csas_color(paste(cols_to_format[!names_exist], collapse = ", ")))
   }
 
   year_col_names <- unique(c(year_cols(x), cols_no_format))
@@ -142,7 +146,8 @@ csas_table <- function(x,
 
   if (bold_header) {
     if(format == "latex"){
-      alert("Bold headers not supported for the 'latex' format.\n",
+      alert("Bold headers not supported for the ",
+            csas_color("latex"), " format.\n",
             "You must bold them manually by pasting latex macros around them.")
     }else{
       suppressWarnings(k <- row_spec(k, 0, bold = TRUE))
@@ -167,7 +172,7 @@ csas_table <- function(x,
     kable_format <- attr(k, "format")
     if (kable_format != "latex") {
       bail("Adding an extra header is only supported for latex tables ",
-           "(format = 'latex').")
+           "(format = ", csas_color("latex"), ").")
     }
     k <- add_extra_header(k,
       header = extra_header,
@@ -194,8 +199,9 @@ csas_table <- function(x,
     # Add Continued on next page...
     j <- grep("endhead", k_lines)
     if(length(j) > 1){
-      alert("'endhead' found more than once in the table latex, cannot add ",
-            "'Continued on next page... text to table")
+      alert(csas_color("endhead"), " found more than once in the table latex, ",
+            "cannot add ", csas_color("Continued on next page..."),
+            " text to table")
       return(k)
     }
     k_lines_pre <- k_lines[1:j]
@@ -214,8 +220,9 @@ csas_table <- function(x,
     # Add Continued from previous page...
     j <- grep("endfirsthead", k_lines)
     if(length(j) > 1){
-      alert("'endfirsthead' found more than once in the table latex, cannot add ",
-            "'Continued from previous page... text to table")
+      alert(csas_color("endfirsthead"), " found more than once in the table ",
+            "latex, cannot add ",
+            csas_color("Continued from previous page..."), " text to table")
       return(k)
     }
     k_lines_pre <- k_lines[1:j]

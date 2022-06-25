@@ -1,0 +1,4 @@
+```{r test}
+# comment
+cat("", unique(mtcars$cyl), "")
+```

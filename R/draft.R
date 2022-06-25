@@ -26,7 +26,8 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport"),
   if (!grepl("\\/rmarkdown\\/templates", type)) { # so it also works with unit testing
     # type <- match.arg(type)
     if (!type %in% c("resdoc", "resdoc-b", "sr", "techreport")) {
-      alert("`type` should be one of 'resdoc', 'resdoc-b', sr', or 'techreport'.")
+      alert(csas_color("type"), " should be one of ",
+            csas_color("resdoc, resdoc-b, sr, or techreport"), ".")
     }
     package <- "csasdown"
   } else {
@@ -38,8 +39,7 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport"),
     package = package,
     create_dir = create_dir,
     edit = edit,
-    ...
-  )
+    ...)
   # rmarkdown::draft does not copy files that begin with a dot (on Windows)
   # so we just rename the git ignore file
   if (file.exists("_gitignore")) {

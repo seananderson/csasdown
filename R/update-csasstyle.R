@@ -31,22 +31,33 @@ update_csasstyle <- function(copy = TRUE,
 
   fn <- system.file("csas-style", package = "csasdown")
   if(!copy && line_nums){
-    bail("You have set `copy` to `FALSE` and `line_nums` to `TRUE` in ",
-         "the index.Rmd YAML header. The permanent style file cannot be ",
-         "modified as needed to include line numbering. ",
-         "Either set `copy` to `TRUE` or `line_nums` to `FALSE` to build.")
+    bail("You have set ", csas_color("copy"), " to ", csas_color("FALSE"),
+         "and ", csas_color("line_nums"), " to ", csas_color("TRUE"),
+         " in the ", fn_color("index.Rmd"), " YAML header. The permanent ",
+         "style file cannot be modified as needed to include line numbering. ",
+         "Either set ", csas_color("copy"), " to ", csas_color("TRUE"),
+         "or ", csas_color("line_nums"), " to ", csas_color("FALSE"),
+         " to build.")
   }
   if(!copy && lot_lof){
-    bail("You have set `copy` to `FALSE` and `lot_lof` to `TRUE` in the ",
-         "index.Rmd YAML header. The permanent style file cannot be ",
-         "modified as needed to include the lists of tables and figures. ",
-         "Either set `copy` to `TRUE` or `lot_lof` to `FALSE` to build.")
+    bail("You have set ", csas_color("copy"), " to ", csas_color("FALSE"),
+         "and ", csas_color("lot_lof"), " to ", csas_color("TRUE"),
+         " in the ", fn_color("index.Rmd"), " YAML header. The permanent ",
+         "style file cannot be modified as needed to include the lists of ",
+         "tables and figures. Either set ",
+         csas_color("copy"), " to ", csas_color("TRUE"), " or ",
+         csas_color("lot_lof"), " to ", csas_color("FALSE"),
+         " to build.")
   }
   if(!copy && draft_watermark){
-    bail("You have set `copy` to `FALSE` and `draft_watermark` to `TRUE` ",
-         "in the index.Rmd YAML header. The permanent style file cannot be ",
-         "modified as needed to include the DRAFT watermark. ",
-         "Either set `copy` to `TRUE` or `draft_watermark` to `FALSE` to build.")
+    bail("You have set ", csas_color("copy"), " to ", csas_color("FALSE"),
+         "and ", csas_color("draft_watermark"), " to ", csas_color("TRUE"),
+         " in the ", fn_color("index.Rmd"), " YAML header. The permanent ",
+         "style file cannot be modified as needed to include the DRAFT ",
+         "watermark. Either set ",
+         csas_color("copy"), " to ", csas_color("TRUE"), " or ",
+         csas_color("draft_watermark"), " to ", csas_color("FALSE"),
+         " to build.")
   }
 
   if (copy || !dir.exists("csas-style")) {
@@ -80,7 +91,8 @@ update_csasstyle <- function(copy = TRUE,
         csas_style <- c(beg_of_file, lot, cp, lof, cp, end_of_file)
         writeLines(csas_style, file.path("csas-style", which_sty))
       } else { # nocov start
-        alert("`lot_lof` is only implemented for Res Docs and TechReports.")
+        alert(csas_color("lot_lof"), " is only implemented for Res Docs and ",
+              "TechReports.")
       } # nocov end
     }
     if(draft_watermark){

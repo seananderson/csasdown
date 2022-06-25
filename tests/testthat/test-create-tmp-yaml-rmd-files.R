@@ -10,12 +10,11 @@ test_that("create_tmp_yaml_rmd_files() throws errors", {
   ))
 
   expect_error(csasdown:::create_tmp_yaml_rmd_files("nonexistent-file.yml"),
-               "The YAML file nonexistent-file.yml does not exist",
-               fixed = TRUE)
+               "The YAML file \\S+ does not exist")
 
   file.create("empty.yml")
   expect_error(csasdown:::create_tmp_yaml_rmd_files("empty.yml"),
-               "YAML file empty.yml is empty")
+               "YAML file \\S+ is empty")
   rmd <- readLines("_bookdown.yml")
   back_rmd <- rmd
 
@@ -24,13 +23,13 @@ test_that("create_tmp_yaml_rmd_files() throws errors", {
   rmd[ind] <- ""
   writeLines(rmd, "_bookdown.yml")
   expect_error(csasdown:::create_tmp_yaml_rmd_files(),
-               "`rmd_files: \\[` not found")
+               "not found in \\S+. It must appear at the beginning")
 
   rmd[ind] <- tmp
   rmd[ind + 1] <- tmp
   writeLines(rmd, "_bookdown.yml")
   expect_error(csasdown:::create_tmp_yaml_rmd_files(),
-               "More than one `rmd_files: \\[` found")
+               "More than one \\S+")
 
   rmd <- back_rmd
   writeLines(rmd, "_bookdown.yml")
@@ -40,7 +39,7 @@ test_that("create_tmp_yaml_rmd_files() throws errors", {
   rmd[ind] <- ""
   writeLines(rmd, "_bookdown.yml")
   expect_error(csasdown:::create_tmp_yaml_rmd_files(),
-               "`\\]` not found")
+               "not found in \\S+. It must appear at the end")
 
   rmd[2:length(rmd)] <- ""
   rmd[2] <- "rmd_files: ["

@@ -35,9 +35,11 @@ check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
   x_index <- names(yaml_front_matter("index.Rmd"))
   .diff <- setdiff(x_skeleton, x_index)
   if (length(.diff) > 0L) {
-    bail("Your `index.Rmd` file is missing: ", paste(.diff, collapse = ", "))
+    bail("Your ", fn_color("index.Rmd"), " file is missing the YAML ",
+         "tag(s):\n\n", tag_color(paste(.diff, collapse = "\n")))
   } else {
-    check_notify("Your `index.Rmd` file contains all necessary YAML options")
+    check_notify("Your ", fn_color("index.Rmd"), " file contains all ",
+                 "necessary YAML options")
   }
 }
 

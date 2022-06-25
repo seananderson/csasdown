@@ -97,8 +97,9 @@ render <- function(yaml_fn = "_bookdown.yml",
     csas_render_type <- "CSAS Document" # nocov
   }
 
-  notify("Rendering the ", csas_render_type, " as a ", pdf_or_word,
-         " document in ", `if`(fr(), "French", "English"), "...")
+  notify("Rendering the ", csas_color(csas_render_type), " as a ",
+         csas_color(pdf_or_word), " document in ",
+         csas_color(`if`(fr(), "French", "English")), "...")
 
   # Process all Rmd files except for the `index_fn` (index.Rmd)
   fn_process <- tmp_rmd_fns[tmp_rmd_fns != index_fn]

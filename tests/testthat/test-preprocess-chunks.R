@@ -24,7 +24,7 @@ test_that("csasdown:::preprocess_chunks() works", {
 
   # ---------------------------------------------------------------------------
   expect_error(csasdown:::preprocess_chunks("unknown-file.Rmd"),
-               "The file 'unknown-file.Rmd' does not exist. Check the YAML file entry")
+               "The file \\S+ does not exist. Check the YAML file entry")
 
 
   # ---------------------------------------------------------------------------
@@ -42,13 +42,10 @@ test_that("csasdown:::preprocess_chunks() works", {
                       "```"))
 
   # ---------------------------------------------------------------------------
-  expect_error(expect_message(csasdown:::preprocess_chunks("double-chunk-cat-extra-blanks.Rmd"),
-                              paste0("Not all chunks in the file double-chunk-cat-extra-blanks.Rmd ",
-                                     "with `needs_trans = TRUE` have `cat(` immediately following. ",
-                                     "If the chunks mirror other chunks, make sure that the mirrored ",
-                                     "chunk has a `cat()` call in it.\n\nThe chunk name(s) missing ",
-                                     "`cat()` are:\n\nchunk-1-fr"), fixed = TRUE),
-               "Chunks missing `cat()`", fixed = TRUE)
+  expect_error(expect_message(
+    csasdown:::preprocess_chunks("double-chunk-cat-extra-blanks.Rmd"),
+    paste0("One or more chunks in the file double-chunk-cat-extra-blanks.Rmd ",
+           "with knitr option")))
 
   # ---------------------------------------------------------------------------
   csasdown:::preprocess_chunks("double-chunk-cat-single-quotes.Rmd")

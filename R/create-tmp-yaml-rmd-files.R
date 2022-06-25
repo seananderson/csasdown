@@ -42,11 +42,11 @@
 create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml"){
 
   if(!file.exists(yaml_fn)){
-    bail("The YAML file ", yaml_fn, " does not exist")
+    bail("The YAML file ", fn_color(yaml_fn), " does not exist")
   }
   yaml <- readLines(yaml_fn)
   if(!length(yaml)){
-   bail("The YAML file ", yaml_fn, " is empty")
+   bail("The YAML file ", fn_color(yaml_fn), " is empty")
   }
   # Remove surrounding whitespace
   yaml <- trimws(yaml)
@@ -56,11 +56,12 @@ create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml"){
   # Store indices where the open square bracket is
   brac_open_ind <- grep("^rmd_files: \\[", yaml)
   if(!length(brac_open_ind)){
-    bail("`rmd_files: [` not found in ", yaml_fn, ". ",
+    bail(tag_color("rmd_files: ["), " not found in ", fn_color(yaml_fn), ". ",
          "It must appear at the beginning of a line")
   }
   if(length(brac_open_ind) > 1){
-    bail("More than one `rmd_files: [` found in ", yaml_fn)
+    bail("More than one ", tag_color("rmd_files: ["), " found in ",
+         fn_color(yaml_fn))
   }
   if(brac_open_ind > 1){
     pre_rmd_fns <- yaml[1:(brac_open_ind - 1)]
@@ -71,7 +72,7 @@ create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml"){
   # Store indices where the close square bracket is
   brac_close_ind <- grep("\\]$", yaml)
   if(!length(brac_close_ind)){
-    bail("`]` not found in ", yaml_fn, ". ",
+    bail(tag_color("]"), " not found in ", fn_color(yaml_fn), ". ",
          "It must appear at the end of a line")
   }
 
@@ -86,7 +87,7 @@ create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml"){
   # Extract all Rmd filenames
   rmd_fns <- unlist(str_extract_all(yaml, "[a-zA-Z0-9_\\-]+\\.(R|r)md"))
   if(!length(rmd_fns)){
-    bail("No .Rmd filenames found in ", yaml_fn)
+    bail("No .Rmd filenames found in ", fn_color(yaml_fn))
   }
 
   # Copy the files into the new files

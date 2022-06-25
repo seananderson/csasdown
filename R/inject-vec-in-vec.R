@@ -19,27 +19,28 @@
 inject_vec_in_vec <- function(main_vec = NULL, sec_vec = NULL, inds = NULL){
 
   if(is.null(main_vec)){
-    bail("`main_vec` cannot be `NULL`")
+    bail(csas_color("main_vec"), " cannot be ", csas_color("NULL"))
   }
   if(is.null(sec_vec)){
-    bail("`sec_vec` cannot be `NULL`")
+    bail(csas_color("sec_vec"), " cannot be ", csas_color("NULL"))
   }
   if(is.null(inds)){
-    bail("`inds` cannot be `NULL`")
+    bail(csas_color("inds"), " cannot be ", csas_color("NULL"))
   }
   if(any(is.na(main_vec))){
-    bail("`main_vec` cannot contain `NA`")
+    bail(csas_color("main_vec"), " cannot contain ", csas_color("NA"))
   }
   if(any(is.na(sec_vec))){
-    bail("`sec_vec` cannot  contain `NA`")
+    bail(csas_color("sec_vec"), " cannot contain ", csas_color("NA"))
   }
   if(any(is.na(inds))){
-    bail("`inds` cannot contain `NA`")
+    bail(csas_color("inds"), " cannot contain ", csas_color("NA"))
   }
 
   inds <- sort(unique(inds))
   if(!all(inds %in% seq_along(main_vec))){
-    bail("`inds` extends outside the range of `main_vec`")
+    bail(csas_color("inds"), " extends outside the range of ",
+         csas_color("main_vec"))
   }
 
   out <- NULL

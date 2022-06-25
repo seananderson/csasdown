@@ -30,7 +30,7 @@ run_pdflatex <- function(extra_pdflatex = 1, ...) {
   if(length(book_pdf_file)){
     book_pdf_file <- book_pdf_file[[1]]
     if (file.exists(book_pdf_file)) {
-      bail("The file '", book_pdf_file, "' exists. ",
+      bail("The file ", fn_color(book_pdf_file), " exists. ",
            "Delete it before running this function.")
     }
   }

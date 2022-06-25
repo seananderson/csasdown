@@ -13,15 +13,28 @@
 #' @keywords internal
 #'
 #' @param fn The Rmd filename. An extension is not needed
+#' @param src_fn The name of the Rmd filename which was used when trying to
+#' import the `fn` file, i.e. the file in which `rmd_file("fn")` is called from
 #'
 #' @return Verbatim text representing the file
-read_rmd_file <- function(fn){
+read_rmd_file <- function(fn, src_fn = "unknown"){
 
+  # nocov start
+  if(is.null(fn)){
+    bail("The filename ", csas_color("fn"), " is ", csas_color("NULL"),
+         " when trying to import from file ", fn_color(src_fn))
+  }
+  if(fn == ""){
+    bail("The filename ", csas_color("fn"), " is an empty string ",
+         "when trying to import from file ", fn_color(src_fn))
+  }
+  # nocov end
   if(!length(grep("\\.Rmd$", fn))){
     fn <- paste0(fn, ".Rmd")
   }
   if(!file.exists(fn)){
-    bail("File ", fn, " does not exist")
+    bail("File ", fn_color(fn), " does not exist when trying to import from the ",
+         "file ", fn_color(src_fn))
   }
   lines <- readLines(fn)
   if(!length(lines)){

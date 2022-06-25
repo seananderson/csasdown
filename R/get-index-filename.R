@@ -14,27 +14,30 @@
 get_index_filename <- function(yaml_fn = "_bookdown.yml"){
 
   if(is.null(yaml_fn)){
-    bail("The `yaml_fn` argument (filename) cannot be `NULL`")
+    bail("The ", csas_color("yaml_fn"), " argument (filename) ",
+         "cannot be ", csas_color("NULL"))
   }
 
   if(yaml_fn == ""){
-    bail("The `yaml_fn` argument (filename) cannot be an empty string")
+    bail("The ", csas_color("yaml_fn"), " argument (filename) ",
+         "cannot be an empty string")
   }
 
   if(!file.exists(yaml_fn)){
-    bail("File '", yaml_fn, "' does not exist")
+    bail("File ", fn_color(yaml_fn), " does not exist")
   }
 
-  notify("Checking for Rmarkdown index filename in '", yaml_fn, "' file")
+  notify("Checking for Rmarkdown index filename in ", fn_color(yaml_fn), " file")
   yaml <- readLines(yaml_fn)
   index_fn_ind <- grep("^rmd_files: \\[", yaml)
   if(!length(index_fn_ind)){
-    bail("Index filename not found in ", yaml_fn, ". ",
+    bail("Index filename not found in ", fn_color(yaml_fn), ". ",
          "This is typically index.Rmd and should be the first entry after ",
-         "`rmd_files:[` and on the same line as it")
+         tag_color("rmd_files:["), " and on the same line as it")
   }
   index_fn <- str_extract_all(yaml[index_fn_ind], "[a-zA-Z0-9_\\-]+\\.(R|r)md")[[1]]
   # In case there were more than one Rmd files on the first line
-  check_notify("Rmarkdown index filename (", index_fn[1], ") found in '", yaml_fn, "' file")
+  check_notify("Rmarkdown index filename (", fn_color(index_fn[1]),
+               ") found in ", fn_color(yaml_fn), " file")
   index_fn[1]
 }

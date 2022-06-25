@@ -45,8 +45,9 @@ remove_comments_from_chunks <- function(rmd_files){
       cat_ind <- grep("^cat\\(.*", trimws(chunk))
       if(length(cat_ind)){
         if(length(cat_ind) > 1){
-          bail("Can only have one `cat()` call inside a code chunk:\n\n",
-               paste(chunk, collapse = "\n"),
+          bail("Can only have one ", csas_color("cat()"), " call inside a ",
+               "code chunk:\n\n",
+               csas_color(paste(chunk, collapse = "\n")),
                "\n\n")
         }
         # Get the indices of the chunk which are inside the `cat()` call

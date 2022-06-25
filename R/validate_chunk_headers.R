@@ -27,7 +27,7 @@ validate_chunk_headers <- function(rmd_files,
   errs <- map(rmd_files, function(fn){
 
     if(!file.exists(fn)){
-      bail("File '", fn, "' does not exist") # nocov
+      bail("File ", fn_color(fn), " does not exist") # nocov
     }
     suppressWarnings(rmd <- readLines(fn))
 
@@ -48,50 +48,62 @@ validate_chunk_headers <- function(rmd_files,
       if(length(en_opt)){
         if(!is.null(en_chunk_regex)){
           if(!length(grep(en_chunk_regex, chunk_name))){
-            err_mess <- paste0("Chunk name '",
-                               chunk_name,
-                               "' in file '", fn,
-                               "'\n is not of correct format for English chunks ",
-                               "(", en_chunk_regex, ")")
+            err_mess <- paste0("Chunk name ",
+                               csas_color(chunk_name),
+                               " in file ", fn_color(fn),
+                               "\n is not of correct format for English ",
+                               "chunks ",
+                               "(", csas_color(en_chunk_regex), ")")
           }
         }
-        # Verify that the English chunk does not have `needs_trans = TRUE` or `needs_trans = FALSE`
-        if(length(grep("needs_trans\\s*=\\s*(TRUE|FALSE)\\s*[,|\\}]", rmd[chunk_head_ind]))){
+        # Verify that the English chunk does not have `needs_trans = TRUE` or
+        # `needs_trans = FALSE`
+        if(length(grep("needs_trans\\s*=\\s*(TRUE|FALSE)\\s*[,|\\}]",
+                       rmd[chunk_head_ind]))){
           err_mess <- c(err_mess,
-                        paste0("Chunk '",
-                               chunk_name,
-                               "' in file '", fn,
-                               "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"))
+                        paste0("Chunk ",
+                               csas_color(chunk_name),
+                               " in file ", fn_color(fn),
+                               "\n must not include ",
+                               csas_color("needs_trans = TRUE"), " or ",
+                               csas_color("needs_trans = FALSE")))
         }
       }
       if(length(fr_opt)){
         # Verify that the chunk name fulfills French format requirement
         if(!is.null(fr_chunk_regex)){
           if(!length(grep(fr_chunk_regex, chunk_name))){
-            err_mess <- paste0("Chunk name '",
-                               chunk_name,
-                               "' in file '", fn,
-                               "'\n is not of correct format for French chunks ",
-                               "(", fr_chunk_regex, ")")
+            err_mess <- paste0("Chunk name ",
+                               csas_color(chunk_name),
+                               " in file ", fn_color(fn),
+                               "\n is not of correct format for French ",
+                               "chunks ",
+                               "(", csas_color(fr_chunk_regex), ")")
           }
         }
         # Verify that the French chunk has `needs_trans = TRUE` or `needs_trans = FALSE`
-        if(!length(grep("needs_trans\\s*=\\s*(TRUE|FALSE)\\s*[,|\\}]", rmd[chunk_head_ind]))){
+        if(!length(grep("needs_trans\\s*=\\s*(TRUE|FALSE)\\s*[,|\\}]",
+                        rmd[chunk_head_ind]))){
           err_mess <- c(err_mess,
-                        paste0("Chunk '",
-                               chunk_name,
-                               "' in file '", fn,
-                               "'\n must include `needs_trans = TRUE` or `needs_trans = FALSE`"))
+                        paste0("Chunk ",
+                               csas_color(chunk_name),
+                               " in file ", fn_color(fn),
+                               "\n must include ",
+                               csas_color("needs_trans = TRUE"), " or ",
+                               csas_color("needs_trans = FALSE")))
         }
       }
       if(!length(en_opt) && !length(fr_opt)){
         # Ensure that neutral chunks do not have `need_trans` set
-        if(length(grep("needs_trans\\s*=\\s*(TRUE|FALSE)\\s*[,|\\}]", rmd[chunk_head_ind]))){
+        if(length(grep("needs_trans\\s*=\\s*(TRUE|FALSE)\\s*[,|\\}]",
+                       rmd[chunk_head_ind]))){
           err_mess <- c(err_mess,
-                        paste0("Chunk '",
-                               chunk_name,
-                               "' in file '", fn,
-                               "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"))
+                        paste0("Chunk ",
+                               csas_color(chunk_name),
+                               " in file ", fn_color(fn),
+                               "\n must not include ",
+                               csas_color("needs_trans = TRUE"), " or ",
+                               csas_color("needs_trans = FALSE")))
         }
       }
       err_mess

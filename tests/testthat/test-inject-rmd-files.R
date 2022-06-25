@@ -27,14 +27,10 @@ test_that("inject_rmd_files() works", {
                              "```" ))
 
   mess <- "Triple-backticks found in file 'injected-triple-backticks' on line(s) 4, 6"
-  err <- paste0("Triple- or Quadruple-backtick code chunks are not allowed in ",
-                "external RMD files which have been injected using `rmd_files()`. ",
-                "The code is going to be imported into a chunk and embedding chunks ",
-                "into other chunks is not possible in knitr. Delete them or use ",
-                "Markdown comments to comment those chunks out <!-- -->.")
   expect_error(expect_message(csasdown:::inject_rmd_files("injected-into-2.Rmd"),
                               mess, fixed = TRUE),
-               err, fixed = TRUE)
+               paste0("Triple- or Quadruple-backtick code chunks are not allowed in ",
+                      "external RMD files which have been injected using"))
 
   csasdown:::inject_rmd_files("injected-into-multiple.Rmd")
   actual <- readLines("injected-into-multiple.Rmd")

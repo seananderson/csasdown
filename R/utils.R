@@ -460,9 +460,10 @@ capture_log <- function(f) {
 #' @importFrom crayon red combine_styles make_style
 bail <- function(...){
   msg <- paste0(unlist(list(...)), collapse = "")
-  err_bg <- make_style("red", bg = TRUE)
-  err_fg <- make_style("white")
-  err <- combine_styles(err_fg, err_bg)
+  #err_bg <- make_style("snow", bg = TRUE)
+  #err_fg <- make_style("red4")
+  #err <- combine_styles(err_fg, err_bg)
+  err <- make_style("orangered3")
   stop(err(symbol$cross, msg), call. = FALSE)
 }
 
@@ -508,3 +509,37 @@ check_notify <- function(...){
   msg <- paste0(unlist(list(...)), collapse = "")
   message(green(symbol$tick, msg))
 }
+
+#' Create functions for coloring various keyword families
+#'
+#' @param message The message to color
+#' @param r_color The R color string which will be accepted by
+#' [crayon::make_style()]
+#'
+#' @return A function to custom color text
+color_factory <- function(message, r_color){
+
+  function(message){
+    x <- make_style(r_color)
+    x(message)
+  }
+}
+
+#' Filename color for messages throughout the project
+#'
+#' @return The customized message modified by the [crayon::make_style()]
+#' color function
+fn_color <- color_factory(message, "skyblue")
+
+#' YAML tag color for messages throughout the project
+#'
+#' @return The customized message modified by the [crayon::make_style()]
+#' color function
+tag_color <- color_factory(message, "limegreen")
+
+#' csasdown items (render type, format, chunk names, etc) color
+#' for messages throughout the project
+#'
+#' @return The customized message modified by the [crayon::make_style()]
+#' color function
+csas_color <- color_factory(message, "seashell4")

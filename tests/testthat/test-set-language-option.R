@@ -27,13 +27,13 @@ test_that("set_language_option() works", {
   rmd[ind] <- ""
   writeLines(rmd, "index.Rmd")
   expect_error(csasdown:::set_language_option(),
-               "No 'french:' entry was found")
+               "No \\S+ entry was found")
 
   # ---------------------------------------------------------------------------
   rmd[ind] <- "   french: truee"
   writeLines(rmd, "index.Rmd")
   expect_error(csasdown:::set_language_option(),
-               "could not extract true/false")
+               "Could not extract \\S+")
 
   # ---------------------------------------------------------------------------
   rmd_prev <- rmd[1:ind]
@@ -41,7 +41,7 @@ test_that("set_language_option() works", {
   rmd <- c(rmd_prev, "   french: true", "   french: false", rmd_post)
   writeLines(rmd, "index.Rmd")
   expect_error(csasdown:::set_language_option(),
-               "More than one 'french:' entry")
+               "More than one \\S+ entry")
 
   # ---------------------------------------------------------------------------
 

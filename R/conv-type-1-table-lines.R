@@ -60,14 +60,14 @@ conv_type_1_table_lines <- function(chunk){
 
   if(length(chunk) < 5){
     bail("A type 1 table must have at least 5 lines. Input chunk is:\n\n",
-         paste(chunk, collapse = "\n"),
+         csas_color(paste(chunk, collapse = "\n")),
          "\n\n")
   }
 
   if(is_rmd_table_line(chunk) != "type1"){
     bail("The following table is not a type 1 table based on the first four ",
          "rows:\n\n",
-         paste(chunk, collapse = "\n"),
+         csas_color(paste(chunk, collapse = "\n")),
          "\n\n",
          "They must start with:\n",
          "- a row of dashes\n",
@@ -113,12 +113,11 @@ conv_type_1_table_lines <- function(chunk){
       return(list(tbl_chunk, NULL))
     }
   }else{
-    notify("A table appears to have been started but not finished. ",
-           "This can happen if a list element or header element was ",
-           "misplaced inside the table code. Here is the offending ",
-           "Rmarkdown text:\n")
-    notify(paste(chunk, collapse = "\n"))
-    bail("Incomplete table")
+    bail("A table appears to have been started but not finished. ",
+         "This can happen if a list element or header element was ",
+         "misplaced inside the table code. Here is the offending ",
+         "Rmarkdown text:\n\n",
+         csas_color(paste(chunk, collapse = "\n")))
   }
 
   # Add label if it exists

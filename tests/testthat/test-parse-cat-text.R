@@ -5,17 +5,15 @@ test_that("cat parser works", {
   strs <- c("'This is an example",
             "of not starting with cat()")
   expect_error(csasdown:::parse_cat_text(strs),
-               "The first line of `str_vec` must start with `cat(`",
-               fixed = TRUE)
+               "The first line of \\S+ must start with")
 
   # -----------------------------------------------------------------------------
   # Wrong quote type
   strs <- c("cat(`'This is an example",
             "of not starting with cat()`)")
   expect_error(csasdown:::parse_cat_text(strs),
-               paste0("Quote type not allowed for `cat()` text. You must use ",
-                      "either single or double quotes. You used `"),
-               fixed = TRUE)
+               paste0("Quote type not allowed for \\S+ text. You must use ",
+                      "either single or double quotes. You used `"))
 
   # -----------------------------------------------------------------------------
   # `verbose`
@@ -36,7 +34,7 @@ test_that("cat parser works", {
   j <- x(1)
   j <- j$logs
   mess <- purrr::map_chr(j, ~{.x$message})
-  expect_match(mess[1], "Pushed '\\(' from `cat\\(\\)` to stack. Stack size is now 1")
+  expect_match(mess[1], "Pushed '\\(' from \\S+ to stack. Stack size is now 1")
   expect_match(mess[2], "No matching '\\(' for this '\\)' on line  1, char 13")
 
   x <- csasdown:::capture_log(csasdown:::parse_cat_text(strs, verbose = TRUE))
@@ -45,7 +43,7 @@ test_that("cat parser works", {
   mess <- purrr::map_chr(j, ~{.x$message})
   types <- purrr::map_chr(j, ~{.x$type})
   expect_identical(types[1], "message")
-  expect_match(mess[1], "Pushed '\\(' from `cat\\(\\)` to stack. Stack size is now 1")
+  expect_match(mess[1], "Pushed '\\(' from \\S+ to stack. Stack size is now 1")
   expect_identical(types[2], "error")
   expect_match(mess[2], "No matching '\\(' for this '\\)' on line  1, char 13")
 
