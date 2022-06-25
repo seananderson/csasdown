@@ -18,7 +18,7 @@
 inject_bilingual_code <- function(fn = "index.Rmd", doc_type){
 
   if(!file.exists(fn)){
-    bail("File ", fn, " does not exist")
+    bail("File ", fn, " does not exist") # no cov
   }
   lines <- readLines(fn)
 

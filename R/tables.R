@@ -276,7 +276,10 @@ add_extra_header <- function(kable_input,
   table_info <- magic_mirror(kable_input)
   header <- standardize_header_input(header)
   if (length(table_info$colnames) != nrow(header)) {
-    bail("The number of extra headers supplied is not the same as the number of columns in the table")
+    # nocov start
+    bail("The number of extra headers supplied is not the same as the ",
+         "number of columns in the table")
+    # nocov end
   }
   if (escape) {
     header$header <- input_escape(header$header, align)
@@ -309,7 +312,7 @@ add_extra_header <- function(kable_input,
       new_header_split[2]
     )
   } else {
-    new_header <- new_header_split[1]
+    new_header <- new_header_split[1] # nocov
   }
   j <- utf8_inp <- solve_enc(kable_input)
   out <- stringr::str_replace_all(
@@ -326,11 +329,12 @@ add_extra_header <- function(kable_input,
     table_info$new_header_row <- new_header_split[1]
     table_info$header_df <- list(header)
   } else {
+    # nocov start
     table_info$new_header_row <- c(
       table_info$new_header_row,
-      new_header_split[1]
-    )
+      new_header_split[1])
     table_info$header_df[[length(table_info$header_df) + 1]] <- header
+    # nocov end
   }
   attr(out, "kable_meta") <- table_info
   out

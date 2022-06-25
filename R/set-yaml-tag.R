@@ -92,7 +92,7 @@ set_yaml_tag <- function(tag = NULL, val = NULL, fn = "index.Rmd"){
   inds <- grep(tag, rmd)
   inds <- map2(start_yaml_inds, end_yaml_inds, ~{
     if(.x + 1 == .y){
-      return(NULL)
+      return(NULL) # nocov
     }
     inds[inds %in% (.x + 1):(.y - 1)]
   }) |>

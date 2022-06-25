@@ -27,7 +27,7 @@ validate_chunk_headers <- function(rmd_files,
   errs <- map(rmd_files, function(fn){
 
     if(!file.exists(fn)){
-      bail("File '", fn, "' does not exist")
+      bail("File '", fn, "' does not exist") # nocov
     }
     suppressWarnings(rmd <- readLines(fn))
 

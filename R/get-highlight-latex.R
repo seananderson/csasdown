@@ -65,13 +65,13 @@ gen_latex_highlight_code <- function(json_lst){
       bb <- as.logical(attr_list[[4]][2]) # italics
       cc <- as.logical(attr_list[[5]][2]) # underline
       if(aa && bb && cc){
-        m <- paste0(m, "{\\textbf{\\textit{\\underline{#1}}}}")
+        m <- paste0(m, "{\\textbf{\\textit{\\underline{#1}}}}") # nocov
       }else if(aa & bb & !cc){
         m <- paste0(m, "{\\textbf{\\textit{#1}}}")
       }else if(aa & !bb & cc){
-        m <- paste0(m, "{\\textbf{\\underline{#1}}}")
+        m <- paste0(m, "{\\textbf{\\underline{#1}}}") # nocov
       }else if(!aa & bb & cc){
-        m <- paste0(m, "{\\textit{\\underline{#1}}}")
+        m <- paste0(m, "{\\textit{\\underline{#1}}}") # nocov
       }else if(aa & !bb & !cc){
         m <- paste0(m, "{\\textit{#1}}")
       }else if(!aa & bb & !cc){
