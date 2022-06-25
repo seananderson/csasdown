@@ -74,7 +74,7 @@ copy_mirror_chunks <- function(rmd_files, nowrite = FALSE){
       pat <- paste0("<<", chunk_name, ">>")
       file_mirror_inds <- get_mirror_not_in_cat_inds(txt, pat)
       if(!length(file_mirror_inds)){
-        return(NULL)
+        return(NULL) # nocov
       }
       # Search for the code for this mirrored chunk in huge_rmd
       pat <- paste0(chunk_name, ",")

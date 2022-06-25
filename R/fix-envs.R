@@ -300,24 +300,24 @@ fix_envs <- function(x,
         pattern = "La pr\\\\\'\\{e\\}sente publication doit \\\\\\^\\{e\\}tre cit\\\\\'\\{e\\}e comme suit~:",
         x = x
       )
-      if (length(cite_head_fr) == 0) bail("Can't find French citation header")
+      if (length(cite_head_fr) == 0) bail("Can't find French citation header") # nocov
       x[cite_head_fr] <- "Cite comme ceci (jusqu'\u00E0 la publication)~:"
       cite_loc_fr <- grep(
         pattern = "\\\\citeFr\\{\\\\rdWorkDoneYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
       )
-      if (length(cite_loc_fr) == 0) bail("Can't find French citation")
+      if (length(cite_loc_fr) == 0) bail("Can't find French citation") # nocov
       x[cite_loc_fr] <- "\\citeFr{Sous presse}"
       # Nuke english citation
       cite_head_eng <- grep(
         pattern = "\\\\emph\\{Also available in English:\\}",
         x = x
       )
-      if (length(cite_head_eng) == 0) bail("Can't find English citation header")
+      if (length(cite_head_eng) == 0) bail("Can't find English citation header") # nocov
       x[cite_head_eng] <- ""
       cite_loc_eng <- grep(
         pattern = "\\\\citeEng\\{\\\\rdWorkDoneYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
       )
-      if (length(cite_loc_eng) == 0) bail("Can't find English citation")
+      if (length(cite_loc_eng) == 0) bail("Can't find English citation") # nocov
       x[cite_loc_eng] <- ""
     } else {
       # Edit english citation
@@ -325,24 +325,24 @@ fix_envs <- function(x,
         pattern = "Correct Citation for this Publication:",
         x = x
       )
-      if (length(cite_head_eng) == 0) bail("Can't find English citation header")
+      if (length(cite_head_eng) == 0) bail("Can't find English citation header") # nocov
       x[cite_head_eng] <- "Correct citation (until published):"
       cite_loc_eng <- grep(
         pattern = "\\\\citeEng\\{\\\\rdWorkDoneYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
       )
-      if (length(cite_loc_eng) == 0) bail("Can't find English citation")
+      if (length(cite_loc_eng) == 0) bail("Can't find English citation") # nocov
       x[cite_loc_eng] <- "\\citeEng{In press}"
       # Nuke french citation
       cite_head_fr <- grep(
         pattern = "\\\\emph\\{Aussi disponible en fran\\\\c\\{c\\}ais~:\\}",
         x = x
       )
-      if (length(cite_head_fr) == 0) bail("Can't find French citation header")
+      if (length(cite_head_fr) == 0) bail("Can't find French citation header") # nocov
       x[cite_head_fr] <- ""
       cite_loc_fr <- grep(
         pattern = "\\\\citeFr\\{\\\\rdWorkDoneYear\\{\\}/\\\\rdNumber\\{\\}\\}", x = x
       )
-      if (length(cite_loc_fr) == 0) bail("Can't find French citation")
+      if (length(cite_loc_fr) == 0) bail("Can't find French citation") # nocov
       x[cite_loc_fr] <- ""
     } # End modify citations
   } # End if prepub
@@ -391,7 +391,7 @@ fix_envs <- function(x,
     if(highlight %in% themes){
       theme_latex <- readLines(system.file("themes", paste0(highlight, ".latex"), package = "csasdown"))
     }else{
-      theme_latex <- readLines(here(highlight))
+      theme_latex <- readLines(here(highlight)) # nocov
     }
     x <- c(pre_theme, theme_latex, post_theme)
   }

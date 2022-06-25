@@ -80,9 +80,7 @@ conv_type_1_table_lines <- function(chunk){
   end_tbl_ind <- NULL
   start_lbl_ind <- NULL
   end_lbl_ind <- NULL
-  if(length(chunk) == 4){
-    return(list(NULL, chunk))
-  }
+
   # Add the first 4 rows as they have been checked already in
   # `is_rmd_table_line()`
   tbl_chunk <- c(chunk[1:4], "")
@@ -105,7 +103,7 @@ conv_type_1_table_lines <- function(chunk){
       tbl_chunk <- c(tbl_chunk, chunk[i], "")
     }
     if(i == length(chunk)){
-      break
+      break # nocov
     }
     i <- i + 1
   }

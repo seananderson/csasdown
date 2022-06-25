@@ -10,7 +10,57 @@ test_that("set_yaml_tag() works", {
   ))
 
   # ---------------------------------------------------------------------------
+  # Test NULL filename
+  expect_error(csasdown::set_yaml_tag("french:", "true", NULL),
+               "Filename \\(`fn`\\) cannot be `NULL`")
+
+  # ---------------------------------------------------------------------------
+  # Test NULL tag
+  expect_error(csasdown::set_yaml_tag(NULL, "true"),
+               "YAML tag \\(`tag`\\) cannot be `NULL`")
+
+  # ---------------------------------------------------------------------------
+  # Test NULL tag value
+  expect_error(csasdown::set_yaml_tag("french:", NULL),
+               "YAML tag value \\(`val`\\) cannot be `NULL`")
+
+  # ---------------------------------------------------------------------------
+  # Test Empty file
+  rmd <- character(0)
+  writeLines(rmd, "empty.Rmd")
+  expect_error(csasdown::set_yaml_tag("french:", "tru", "empty.Rmd"),
+               "File 'empty.Rmd' does not contain anything")
+
+  # ---------------------------------------------------------------------------
+  # Test unbalanced YAML file
+  rmd <- readLines("index.Rmd")
+  rmd <- c(rmd, "", "---", "tag1: junk", "")
+  writeLines(rmd, "unbalanced.Rmd")
+  expect_error(csasdown::set_yaml_tag("french:", "tru", "unbalanced.Rmd"),
+               paste0("There are uneven sets of '---' lines meaning an ",
+                      "unending YAML block in file 'unbalanced.Rmd'"))
+
+  # ---------------------------------------------------------------------------
+  # Test no YAML blocks
+  rmd <- readLines("index.Rmd")
+  inds <- grep("---", rmd)
+  rmd <- rmd[-inds]
+  writeLines(rmd, "index.Rmd")
+  expect_warning(csasdown::set_yaml_tag("french:", "tru"),
+                 paste0("There were no YAML blocks found in the file. ",
+                        "Nothing was changed"))
+
+  # ---------------------------------------------------------------------------
   # Test non existent
+  testing_path <- file.path(tempdir(), "test-set-yaml-tags-2")
+  unlink(testing_path, recursive = TRUE, force = TRUE)
+  dir.create(testing_path, showWarnings = FALSE)
+  setwd(testing_path)
+  suppressMessages(csasdown::draft(
+    system.file("rmarkdown", "templates", "sr", package = "csasdown"),
+    create_dir = FALSE,
+    edit = FALSE
+  ))
   expect_error(csasdown::set_yaml_tag("prepub", "true", "no.Rmd"),
                "File 'no.Rmd' does not exist")
 

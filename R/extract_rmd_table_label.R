@@ -167,10 +167,10 @@ extract_rmd_table_label <- function(chunk){
       }
       if(i + 2 < length(chunk) &&
          is_rmd_table_line(chunk[i:length(chunk)]) != "false"){
-        if(chunk[i] != ""){
+        if(chunk[i] != ""){ #nocov start
           text_follows <- TRUE
         }
-        break
+        break #nocov end
       }
     }
     if(end_lbl_ind == length(chunk)){
