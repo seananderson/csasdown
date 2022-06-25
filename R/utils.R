@@ -457,10 +457,13 @@ capture_log <- function(f) {
 #'
 #' @param ... Arguments that make up the message
 #' @importFrom cli symbol
-#' @importFrom crayon red
+#' @importFrom crayon red combine_styles make_style
 bail <- function(...){
   msg <- paste0(unlist(list(...)), collapse = "")
-  stop(red(symbol$cross, msg), call. = FALSE)
+  err_bg <- make_style("red", bg = TRUE)
+  err_fg <- make_style("white")
+  err <- combine_styles(err_fg, err_bg)
+  stop(err(symbol$cross, msg), call. = FALSE)
 }
 
 #' Issue a warning
@@ -488,7 +491,7 @@ alert <- function(...){
 #' @importFrom crayon green white magenta make_style
 notify <- function(...){
   msg <- paste0(unlist(list(...)), collapse = "")
-  purple <- crayon::make_style(rgb(0.7, 0.2, 0.7))
+  purple <- make_style(rgb(0.7, 0.2, 0.7))
   message(purple(symbol$info, msg))
 }
 

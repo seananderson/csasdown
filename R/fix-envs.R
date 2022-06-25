@@ -279,7 +279,7 @@ fix_envs <- function(x,
     rn_loc_1 <- grep(pattern = "\\% Report number", x = x) + 1
     rn_loc_2 <- grep(pattern = "\\% End of report number", x = x) - 1
     if (rn_loc_1 != rn_loc_2) {
-      bail("Can't find report number (report_number)")
+      bail("Can't find report number (report_number)") # nocov
     }
     rn_text <- x[rn_loc_1]
     rn_text_clean <- gsub(pattern = "\\}+$", replacement = "", x = rn_text)
@@ -288,7 +288,7 @@ fix_envs <- function(x,
     # 2. Modify short title
     st_loc_1 <- grep(pattern = "\\% Title short", x = x) + 1
     st_loc_2 <- grep(pattern = "\\% End of title short", x = x) - 1
-    if (st_loc_1 != st_loc_2) bail("Can't find short title (title_short)")
+    if (st_loc_1 != st_loc_2) bail("Can't find short title (title_short)") # nocov
     st_text <- x[st_loc_1]
     st_text_clean <- gsub(pattern = "\\}+$", replacement = "", x = st_text)
     st_text_new <- paste0(st_text_clean, addText)

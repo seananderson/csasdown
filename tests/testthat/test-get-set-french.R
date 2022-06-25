@@ -10,9 +10,9 @@ test_that("set_french() and get_french() throws errors", {
   ))
 
   expect_error(csasdown::get_french("nonexistent-file.Rmd"),
-               "The file 'nonexistent-file.Rmd' does not exist")
+               "File 'nonexistent-file.Rmd' does not exist")
   expect_error(csasdown::set_french("nonexistent-file.Rmd"),
-               "The file 'nonexistent-file.Rmd' does not exist")
+               "File 'nonexistent-file.Rmd' does not exist")
 
   fn <- "index.Rmd"
   rmd <- readLines(fn)
@@ -25,7 +25,7 @@ test_that("set_french() and get_french() throws errors", {
   expect_error(csasdown::get_french(),
                "`french:` YAML tag of incorrect format or not found in file")
   expect_error(csasdown::set_french(),
-               "`french:` YAML tag of incorrect format or not found in file")
+               "The YAML tag '\\^\\\\s\\*french:' was not found in the file 'index.Rmd'")
 
   rmd <- back_rmd
   rmd[ind] <- tmp
@@ -35,7 +35,7 @@ test_that("set_french() and get_french() throws errors", {
                "`french:` YAML tag has more than one entry in file")
 
   expect_error(csasdown::set_french(),
-               "`french:` YAML tag has more than one entry in file")
+               "The YAML tag '\\^\\\\s\\*french:' was found more than once")
 })
 
 test_that("set_french() and get_french() works", {

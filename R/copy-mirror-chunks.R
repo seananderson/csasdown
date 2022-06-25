@@ -44,7 +44,7 @@ copy_mirror_chunks <- function(rmd_files, nowrite = FALSE){
           txt_cat_mirror_inds <- cat_mirror_inds + .x - 1
           return(txt_cat_mirror_inds)
         }
-        NULL
+        NULL # nocov
       }) |>
         unlist()
     }

@@ -7,7 +7,7 @@
 get_french <- function(fn = "index.Rmd"){
 
   if(!file.exists(fn)){
-    bail("The file '", fn, "' does not exist")
+    bail("File '", fn, "' does not exist")
   }
   rmd <- readLines(fn)
   trim_rmd <- trimws(rmd)

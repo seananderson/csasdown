@@ -7,6 +7,19 @@ test_that("copy_mirror_chunks() works", {
   expect_null(actual)
 
   # ---------------------------------------------------------------------------
+  # Zero mirror chunks
+  rmd <- c("```{r chunk-1-en, eval = !fr(), results = 'asis'}",
+           "cat('Test')",
+           "```",
+           "```{r chunk-1-fr, eval = fr(), results = 'asis', needs_trans = TRUE}",
+           "cat('Test 2')",
+           "```")
+  fn <- "zero-mirror-chunks.Rmd"
+  writeLines(rmd, fn)
+  actual <- csasdown:::copy_mirror_chunks(fn, nowrite = TRUE)[[1]]
+  expect_null(actual)
+
+  # ---------------------------------------------------------------------------
   # One mirror chunk
   fn <- file.path(test_path(), "preprocess-chunks-files", "single-mirror.Rmd")
   actual <- csasdown:::copy_mirror_chunks(fn, nowrite = TRUE)[[1]]

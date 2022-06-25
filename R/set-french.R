@@ -1,5 +1,8 @@
 #' Set French in the index.Rmd file to 'true' or 'false'
 #'
+#' @description
+#' Wrapper function to set the french: YAML tag
+#'
 #' @param fn The name of the YAML file, typically 'index.Rmd' for bookdown
 #' @param val `TRUE` or `FALSE`
 #'
@@ -7,32 +10,5 @@
 #' @export
 set_french <- function(fn = "index.Rmd", val = TRUE){
 
-  if(!val %in% c(TRUE, FALSE)){
-    bail("`val` must be `TRUE` or `FALSE`")
-  }
-
-  if(!file.exists(fn)){
-    bail("The file '", fn, "' does not exist")
-  }
-  rmd <- readLines(fn)
-  trim_rmd <- trimws(rmd)
-
-  french_ind <- grep("^french:\\s*(\\S+)\\s*$", trim_rmd)
-  if(!length(french_ind)){
-    bail("`french:` YAML tag of incorrect format or not found in file '",
-         fn, "'\n")
-  }
-  if(length(french_ind) > 1){
-    bail("`french:` YAML tag has more than one entry in file '", fn, "'\n")
-  }
-
-  leading_spaces <- gsub("^(\\s*)french:\\s(true|false)\\s*$", "\\1", rmd[french_ind])
-  all_spaces <- grep("^\\s*$", leading_spaces)
-  if(!length(all_spaces)){
-    leading_spaces <- ""
-  }
-  french_val <- ifelse(val == TRUE, "true", "false")
-  rmd[french_ind] <- paste0(leading_spaces, "french: ", french_val)
-  writeLines(rmd, fn)
-  invisible()
+  set_yaml_tag("french:", val = ifelse(val, "true", "false"), fn = fn)
 }

@@ -117,4 +117,22 @@ test_that("fix_envs() works", {
   expect_true(file.exists("_book/resdoc-english.pdf"))
   expect_true(file.exists("_book/resdoc-english.tex"))
 
+  # ---------------------------------------------------------------------------
+  # Test prepub French SR
+  testing_path <- file.path(tempdir(), "test-fix-envs-report-num")
+  unlink(testing_path, recursive = TRUE, force = TRUE)
+  dir.create(testing_path, showWarnings = FALSE)
+  setwd(testing_path)
+  suppressMessages(csasdown::draft(
+    system.file("rmarkdown", "templates", "sr", package = "csasdown"),
+    create_dir = FALSE,
+    edit = FALSE
+  ))
+
+  csasdown:::set_french(val = TRUE)
+  csasdown::set_yaml_tag("prepub", "true")
+  csasdown::render()
+  expect_true(file.exists("_book/sr-french.pdf"))
+  expect_true(file.exists("_book/sr-french.tex"))
+
 })

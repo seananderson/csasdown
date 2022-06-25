@@ -61,6 +61,7 @@ Imports:
     purrr,
     rmarkdown,
     stringr,
+    tibble,
     tinytex (>= 0.39),
     utils
 Suggests:
@@ -70,8 +71,7 @@ Suggests:
     magick,
     readr,
     rosettafish,
-    testthat,
-    tibble
+    testthat
 Remotes:
     pbs-assess/rosettafish
 ByteCompile: true

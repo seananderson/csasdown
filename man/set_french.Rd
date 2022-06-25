@@ -15,5 +15,5 @@ set_french(fn = "index.Rmd", val = TRUE)
 Nothing, write the file \code{fn}
 }
 \description{
-Set French in the index.Rmd file to 'true' or 'false'
+Wrapper function to set the french: YAML tag
 }

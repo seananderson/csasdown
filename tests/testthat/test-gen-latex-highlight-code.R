@@ -1,5 +1,10 @@
 test_that("gen_latex_highlight_code() works", {
 
+  # Make sure decimal points in file don't get compared
+  # with commas (if french)
+  options(french = FALSE)
+  options(OutDec = ".")
+
   all_themes = c("pygments", "tango", "espresso", "zenburn",
                  "kate", "monochrome", "breezedark", "haddock")
   json_fns <- system.file(file.path("themes", paste0(all_themes, ".json")),
