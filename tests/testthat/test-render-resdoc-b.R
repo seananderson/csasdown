@@ -24,6 +24,17 @@ test_that("csasdown::render generates the PDF of the resdoc", {
 })
 
 # -----------------------------------------------------------------------------
+# Render the PDF resdoc with verbose = TRUE (Add codecov coverage)
+test_that("csasdown::render generates the PDF of the resdoc", {
+  unlink(file.path(testing_path, "_book", "resdoc-english.pdf"), force = TRUE)
+  csasdown::set_french(val = FALSE)
+  csasdown:::set_render_type(doc_type = "pdf")
+  csasdown::render(verbose = TRUE)
+  expect_true(file.exists(file.path(testing_path, "_book",
+                                    "resdoc-english.pdf")))
+})
+
+# -----------------------------------------------------------------------------
 # Render the Word resdoc
 test_that("csasdown::render generates the .docx of the resdoc", {
   csasdown::set_french(val = FALSE)
