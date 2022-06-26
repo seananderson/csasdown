@@ -490,6 +490,7 @@ alert <- function(...){
 #'
 #' @param ... Arguments that make up the message
 #' @importFrom crayon green white magenta make_style
+#' @importFrom grDevices rgb
 notify <- function(...){
   msg <- paste0(unlist(list(...)), collapse = "")
   purple <- make_style(rgb(0.7, 0.2, 0.7))
@@ -527,12 +528,14 @@ color_factory <- function(message, r_color){
 
 #' Filename color for messages throughout the project
 #'
+#' @rdname color_factory
 #' @return The customized message modified by the [crayon::make_style()]
 #' color function
 fn_color <- color_factory(message, "skyblue")
 
 #' YAML tag color for messages throughout the project
 #'
+#' @rdname color_factory
 #' @return The customized message modified by the [crayon::make_style()]
 #' color function
 tag_color <- color_factory(message, "limegreen")
@@ -540,6 +543,7 @@ tag_color <- color_factory(message, "limegreen")
 #' csasdown items (render type, format, chunk names, etc) color
 #' for messages throughout the project
 #'
+#' @rdname color_factory
 #' @return The customized message modified by the [crayon::make_style()]
 #' color function
 csas_color <- color_factory(message, "seashell4")

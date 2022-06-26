@@ -21,10 +21,10 @@ test_that("gen_latex_highlight_code() works", {
   new_latex_lst <- csasdown:::gen_latex_highlight_code(json_lst)
 
   expect_error(csasdown:::gen_latex_highlight_code(NULL),
-               "`json_lst` cannot be `NULL`")
+               "cannot be")
 
   expect_error(csasdown:::gen_latex_highlight_code(""),
-               "`json_lst` element 1 does not start with an open curly brace")
+               "element 1 does not start with an open curly brace")
 
   expect_identical(latex_lst, new_latex_lst)
 })

@@ -57,9 +57,7 @@ test_that("csasdown::render detects bogus highlight", {
   ind <- grep("highlight:", rmd)
   rmd[ind] <- "   highlight: bogus"
   writeLines(rmd, "index.Rmd")
-  expect_error(csasdown::render(), paste0("in YAML, ",
-                                          "`csasdown:techreport_pdf: ",
-                                          "highlight` must be one of"))
+  expect_error(csasdown::render(), paste0("must be one of"))
 })
 
 # -----------------------------------------------------------------------------
@@ -73,7 +71,7 @@ test_that("csasdown::render detects character line number mod value", {
   ind <- grep("line_nums_mod:", rmd)
   rmd[ind] <- "   line_nums_mod: A"
   writeLines(rmd, "index.Rmd")
-  expect_error(csasdown::render(), paste0("line_nums_mod must be a numeric ",
+  expect_error(csasdown::render(), paste0("must be a numeric ",
                                           "or integer value."))
 })
 

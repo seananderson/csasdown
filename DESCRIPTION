@@ -54,6 +54,7 @@ Imports:
     cli,
     crayon,
     glue,
+    grDevices,
     here,
     kableExtra,
     knitr,

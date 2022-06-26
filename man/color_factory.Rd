@@ -2,9 +2,18 @@
 % Please edit documentation in R/utils.R
 \name{color_factory}
 \alias{color_factory}
+\alias{fn_color}
+\alias{tag_color}
+\alias{csas_color}
 \title{Create functions for coloring various keyword families}
 \usage{
 color_factory(message, r_color)
+
+fn_color(message)
+
+tag_color(message)
+
+csas_color(message)
 }
 \arguments{
 \item{message}{The message to color}
@@ -14,7 +23,23 @@ color_factory(message, r_color)
 }
 \value{
 A function to custom color text
+
+The customized message modified by the \code{\link[crayon:make_style]{crayon::make_style()}}
+color function
+
+The customized message modified by the \code{\link[crayon:make_style]{crayon::make_style()}}
+color function
+
+The customized message modified by the \code{\link[crayon:make_style]{crayon::make_style()}}
+color function
 }
 \description{
 Create functions for coloring various keyword families
+
+Filename color for messages throughout the project
+
+YAML tag color for messages throughout the project
+
+csasdown items (render type, format, chunk names, etc) color
+for messages throughout the project
 }

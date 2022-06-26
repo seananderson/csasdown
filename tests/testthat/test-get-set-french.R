@@ -25,7 +25,7 @@ test_that("set_french() and get_french() throws errors", {
   expect_error(csasdown::get_french(),
                "YAML tag of incorrect format or not found in file")
   expect_error(csasdown::set_french(),
-               "The YAML tag '\\^\\\\s\\*french:' was not found in the file")
+               "The YAML tag \\S+ was not found in the file")
 
   rmd <- back_rmd
   rmd[ind] <- tmp
@@ -35,7 +35,7 @@ test_that("set_french() and get_french() throws errors", {
                "YAML tag has more than one entry in file")
 
   expect_error(csasdown::set_french(),
-               "The YAML tag '\\^\\\\s\\*french:' was found more than once")
+               "The YAML tag \\S+ was found more than once")
 })
 
 test_that("set_french() and get_french() works", {
