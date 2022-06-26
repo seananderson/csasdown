@@ -4,7 +4,7 @@
 \alias{rename_output_files}
 \title{Rename the PDF, Word, and TEX files to include English or French in the name}
 \usage{
-rename_output_files(index_fn)
+rename_output_files(index_fn, verbose = FALSE)
 }
 \arguments{
 \item{index_fn}{The working copy of this file:

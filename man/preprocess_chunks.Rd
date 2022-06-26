@@ -4,13 +4,15 @@
 \alias{preprocess_chunks}
 \title{Run the pre-processor on the chunks in the Rmd files}
 \usage{
-preprocess_chunks(fns, yaml_fn = "_bookdown.yml")
+preprocess_chunks(fns, yaml_fn = "_bookdown.yml", verbose = FALSE)
 }
 \arguments{
 \item{fns}{A vector of character strings holding the Rmd filenames that
 are to be included}
 
 \item{yaml_fn}{The Bookdown YAML filename}
+
+\item{verbose}{Logical. If \code{TRUE}, print messages}
 }
 \value{
 Nothing

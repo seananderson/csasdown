@@ -7,13 +7,20 @@
 #' am error message telling you what doesn't match if needed.
 #'
 #' @param type Type of document
+#' @param verbose Logical. If `TRUE`, print messages
 #'
 #' @importFrom rmarkdown yaml_front_matter
 #' @export
 check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
                                 "sr", "sr_pdf", "sr_word",
                                 "techreport", "techreport_pdf",
-                                "techreport_word")) {
+                                "techreport_word"),
+                       verbose = FALSE) {
+
+  if(verbose){
+    notify("Checking that YAML options are all present for document type ",
+           csas_color(type), " ...")
+  }
 
   type <- match.arg(type)
   if(type %in% c("resdoc", "resdoc_pdf", "resdoc_word")){
@@ -23,9 +30,6 @@ check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
   }else if(type %in% c("techreport", "techreport_pdf", "techreport_word")){
     type <- "techreport"
   }
-
-  notify("Checking that YAML options are all present for document type '",
-         type, "' ...")
 
   x_skeleton <- names(yaml_front_matter(
     system.file("rmarkdown", "templates", type, "skeleton", "skeleton.Rmd",
@@ -38,8 +42,10 @@ check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
     bail("Your ", fn_color("index.Rmd"), " file is missing the YAML ",
          "tag(s):\n\n", tag_color(paste(.diff, collapse = "\n")))
   } else {
-    check_notify("Your ", fn_color("index.Rmd"), " file contains all ",
-                 "necessary YAML options")
+    if(verbose){
+      check_notify("Your ", fn_color("index.Rmd"), " file contains all ",
+                   "necessary YAML options\n")
+    }
   }
 }
 

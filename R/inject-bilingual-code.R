@@ -12,10 +12,17 @@
 #' `csasdown/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd`
 #' which is `index.Rmd` by default
 #' @param doc_type Document type
+#' @param verbose Logical. If `TRUE`, print messages
 #'
 #' @return Lines for the file `fn`, but with the code injected in the right
 #' place
-inject_bilingual_code <- function(fn = "index.Rmd", doc_type){
+inject_bilingual_code <- function(fn = "index.Rmd",
+                                  doc_type,
+                                  verbose = FALSE){
+
+  if(verbose){
+    notify("Injecting bilingual code into ", fn_color(fn), " ...")
+  }
 
   if(!file.exists(fn)){
     bail("File ", fn_color(fn), " does not exist") # nocov
@@ -65,7 +72,7 @@ inject_bilingual_code <- function(fn = "index.Rmd", doc_type){
     '#  chunk options to your English paragraph chunks instead of the French ones.',
     '#  ',
     '#  IMPORTANT NOTES',
-    '#  - Use `csasdown::render_resdoc()` to render the document. This runs a',
+    '#  - Use `csasdown::render()` to render the document. This runs a',
     '#    pre-processing step which ensures any inline R chunks',
     '#    `r print("Like this one")` are taken care of correctly and that all',
     '#    backslash variables (eg. \\pi, \\alpha, \\@ref, \\cite) are all processed',
@@ -114,4 +121,9 @@ inject_bilingual_code <- function(fn = "index.Rmd", doc_type){
   lines <- c(lines, bi_code, yaml_code)
   writeLines(lines, fn)
 
+  if(verbose){
+    check_notify("Injected knitr hook and language extraction code")
+    check_notify("Injected trailing YAML block")
+    check_notify("Injected bilingual code successfully\n")
+  }
 }

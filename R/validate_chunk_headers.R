@@ -14,12 +14,18 @@
 #' any other non-whitespace characters
 #' @param fr_chunk_regex A regular expression to match for the chunk
 #' name for French chunks. Default is 'ends in -fr'
+#' @param verbose Logical. If `TRUE`, print messages
 #'
 #' @return A vector of error messages, one item for each chunk problem
 #' @keywords internal
 validate_chunk_headers <- function(rmd_files,
                                    en_chunk_regex = "^\\S+-en$",
-                                   fr_chunk_regex = "^\\S+-fr$"){
+                                   fr_chunk_regex = "^\\S+-fr$",
+                                   verbose = FALSE){
+
+  if(verbose){
+    notify("Checking to make sure knitr chunk headers follow csasdown rules ...")
+  }
 
   if(!length(rmd_files)){
     return(invisible())
@@ -39,6 +45,10 @@ validate_chunk_headers <- function(rmd_files,
     chunk_name_pat <- "^```\\s*\\{\\s*r\\s*(\\s*\\S+\\s*)+?\\s*,\\s*.*$"
     err_lst <- map(chunk_head_inds, function(chunk_head_ind){
       chunk_name <- gsub(chunk_name_pat, "\\1", trimws(rmd[chunk_head_ind]))
+      if(verbose){
+        notify("Evaluating chunk ",
+               csas_color(trimws(rmd[chunk_head_ind])))
+      }
       fr_opt <- grep("eval\\s*=\\s*fr\\(\\)\\s*[,|\\}]",
                      rmd[chunk_head_ind])
       en_opt <- grep("eval\\s*=\\s*!fr\\(\\)\\s*[,|\\}]",
@@ -112,6 +122,10 @@ validate_chunk_headers <- function(rmd_files,
       unlist()
   }) |>
     unlist()
+
+  if(verbose){
+    check_notify("Knitr chunk headers are all good\n")
+  }
 
   `if`(length(errs), errs, NULL)
 }

@@ -4,10 +4,12 @@
 \alias{get_index_filename}
 \title{Extract the index filename from the YAML file (usually index.Rmd)}
 \usage{
-get_index_filename(yaml_fn = "_bookdown.yml")
+get_index_filename(yaml_fn = "_bookdown.yml", verbose = FALSE)
 }
 \arguments{
 \item{yaml_fn}{The YAML file name. The default is '_bookdown.yml' for}
+
+\item{verbose}{Logical. If \code{TRUE}, print messages}
 }
 \value{
 The book filename (typically index.Rmd) for \link{bookdown}

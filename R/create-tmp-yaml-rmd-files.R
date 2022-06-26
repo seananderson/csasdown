@@ -36,10 +36,16 @@
 #' @keywords internal
 #'
 #' @param yaml_fn The [bookdown] YAML file name, by default is "_bookdown.yml"
+#' @param verbose Logical. If `TRUE`, print messages
 #'
 #' @return A list of two, 1) The name of the temporary YAML file created
 #' 2) A vector of the temporary Rmd files created
-create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml"){
+create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml",
+                                      verbose = FALSE){
+
+  if(verbose){
+    notify("Creating temporary YAML and Rmarkdown files ...")
+  }
 
   if(!file.exists(yaml_fn)){
     bail("The YAML file ", fn_color(yaml_fn), " does not exist")
@@ -111,6 +117,10 @@ create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml"){
   yaml <- c(pre_rmd_fns, rmd_fns_listing, post_rmd_fns)
   tmp_fn <- paste0("tmp", yaml_fn)
   writeLines(yaml, tmp_fn)
+
+  if(verbose){
+    check_notify("Temporary YAML and Rmarkdown files created successfully ..\n")
+  }
 
   list(tmp_fn, rmd_fns)
 }

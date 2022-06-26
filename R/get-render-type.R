@@ -3,11 +3,17 @@
 #'
 #' @keywords internal
 #' @param fn The name of the YAML file, typically 'index.Rmd' for bookdown
+#' @param verbose Logical. If `TRUE`, print messages
 #'
 #' @return A character string representing the render type. One of
 #' `resdoc_pdf`, `resdoc_word`, `sr_pdf`, `sr_word`, `techreport_pdf` or
 #' `techreport_word`
-get_render_type <- function(fn = "index.Rmd"){
+get_render_type <- function(fn = "index.Rmd",
+                            verbose = FALSE){
+
+  if(verbose){
+    notify("Checking file ", fn_color(fn), " for document render type ...")
+  }
 
   if(!file.exists(fn)){
     bail("The file ", fn_color(fn), " does not exist")
@@ -30,5 +36,11 @@ get_render_type <- function(fn = "index.Rmd"){
     doc_ind <- doc_ind[1]
   }
 
-  gsub(doc_type_pat, "\\1", trimws(rmd[doc_ind]))
+  render_type <- gsub(doc_type_pat, "\\1", trimws(rmd[doc_ind]))
+  if(verbose){
+    check_notify("Found document render type: ",
+                 csas_color(render_type), "\n")
+  }
+
+  render_type
 }

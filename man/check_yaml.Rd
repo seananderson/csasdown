@@ -6,11 +6,14 @@
 \usage{
 check_yaml(
   type = c("resdoc", "resdoc_pdf", "resdoc_word", "sr", "sr_pdf", "sr_word",
-    "techreport", "techreport_pdf", "techreport_word")
+    "techreport", "techreport_pdf", "techreport_word"),
+  verbose = FALSE
 )
 }
 \arguments{
 \item{type}{Type of document}
+
+\item{verbose}{Logical. If \code{TRUE}, print messages}
 }
 \description{
 As the csasdown package is updated, sometimes new mandatory YAML options are added

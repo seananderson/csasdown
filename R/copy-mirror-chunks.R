@@ -17,11 +17,18 @@
 #' @param nowrite Don't write the files, instead return the Rmd code as
 #' elements of a list, with each element corresponding to the input files
 #' in `rmd_files`. Needed for testing.
+#' @param verbose Logical. If `TRUE`, print messages
 #'
 #' @return A vector of character strings representing the lines in an
 #' Rmd file but with the mirrored calls replaced with code
-copy_mirror_chunks <- function(rmd_files, nowrite = FALSE){
+copy_mirror_chunks <- function(rmd_files,
+                               nowrite = FALSE,
+                               verbose = FALSE){
 
+  if(verbose){
+    notify("Copying chunk source code into mirror references (",
+           csas_color("<<chunk-name>>"), ") ...")
+  }
   # Make a pasted-together version of all the Rmds files so the chunks are all
   # in one object for searching for code. So if a file has a mirror to a
   # chunk in another file in the project, it will still find the code that is
@@ -70,6 +77,9 @@ copy_mirror_chunks <- function(rmd_files, nowrite = FALSE){
     chunk_names <- unique(gsub("<<([a-zA-Z0-9_\\-]+)>>", "\\1", txt[mirror_inds]))
     map(chunk_names, function(chunk_name){
 
+      if(verbose){
+        notify("Copying source code from chunk ", csas_color(chunk_name))
+      }
       # Search for the mirrored chunks in txt (the file)
       pat <- paste0("<<", chunk_name, ">>")
       file_mirror_inds <- get_mirror_not_in_cat_inds(txt, pat)
@@ -119,4 +129,10 @@ copy_mirror_chunks <- function(rmd_files, nowrite = FALSE){
       writeLines(txt, fn)
     }
   })
+
+  if(verbose){
+    check_notify("Mirror chunks copied successfully\n")
+  }
+
+  modded_files
 }

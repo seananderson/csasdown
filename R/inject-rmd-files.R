@@ -9,10 +9,15 @@
 #'
 #' @param rmd_files A vector of character strings representing the names
 #' of Rmd files
+#' @param verbose Logical. If `TRUE`, print messages
 #'
 #' @return Nothing
-inject_rmd_files <- function(rmd_files){
+inject_rmd_files <- function(rmd_files, verbose = FALSE){
 
+  if(verbose){
+    notify("Attempting to inject Rmd files included with ",
+           csas_color("rmd_file('filename')"), " ...")
+  }
   modded_files <- map(rmd_files, function(fn){
     rmd <- readLines(fn)
     # Single or double quotes around filename
@@ -71,4 +76,8 @@ inject_rmd_files <- function(rmd_files){
     new_rmd <- unlist(k)
     writeLines(new_rmd, fn)
   })
+
+  if(verbose){
+    check_notify("Rmd files injected successfuly\n")
+  }
 }

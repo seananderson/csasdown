@@ -448,83 +448,54 @@ capture_log <- function(f) {
 }
 # nocov end
 
-#' Abort code execution
-#'
-#' @details
-#' Uses [cli::symbol] and [crayon::red()]
-#'
-#' @keywords internal
-#'
-#' @param ... Arguments that make up the message
-#' @importFrom cli symbol
-#' @importFrom crayon red combine_styles make_style
-bail <- function(...){
-  msg <- paste0(unlist(list(...)), collapse = "")
-  #err_bg <- make_style("snow", bg = TRUE)
-  #err_fg <- make_style("red4")
-  #err <- combine_styles(err_fg, err_bg)
-  err <- make_style("orangered3")
-  stop(err(symbol$cross, msg), call. = FALSE)
-}
-
-#' Issue a warning
-#'
-#' @details
-#' Uses [cli::symbol] and [crayon::yellow()]
-#'
-#' @keywords internal
-#'
-#' @param ... Arguments that make up the message
-#' @importFrom crayon yellow
-alert <- function(...){
-  msg <- paste0(unlist(list(...)), collapse = "")
-  warning(yellow(symbol$warning, msg), call. = FALSE)
-}
-
-#' Issue a notification
-#'
-#' @details
-#' Uses [cli::symbol] and [crayon::green()]
-#'
-#' @keywords internal
-#'
-#' @param ... Arguments that make up the message
-#' @importFrom crayon green white magenta make_style
-#' @importFrom grDevices rgb
-notify <- function(...){
-  msg <- paste0(unlist(list(...)), collapse = "")
-  purple <- make_style(rgb(0.7, 0.2, 0.7))
-  message(purple(symbol$info, msg))
-}
-
-#' Issue a check-mark notification
-#'
-#' @details
-#' Uses [cli::symbol] and [crayon::green()]
-#'
-#' @keywords internal
-#'
-#' @param ... Arguments that make up the message
-#' @importFrom crayon green
-check_notify <- function(...){
-  msg <- paste0(unlist(list(...)), collapse = "")
-  message(green(symbol$tick, msg))
-}
-
 #' Create functions for coloring various keyword families
 #'
 #' @param message The message to color
 #' @param r_color The R color string which will be accepted by
 #' [crayon::make_style()]
 #'
+#' @importFrom crayon make_style combine_styles
 #' @return A function to custom color text
 color_factory <- function(message, r_color){
-
+# nocov start
   function(message){
+    # How to use both background and foreground (needs arguments)
+    # bg <- make_style("snow", bg = TRUE)
+    # fg <- make_style("red4")
+    # x <- combine_styles(fg, bg)
     x <- make_style(r_color)
     x(message)
   }
+# nocov end
 }
+
+#' Overall error color throughout the project
+#'
+#' @rdname color_factory
+#' @return The customized message modified by the [crayon::make_style()]
+#' color function
+error_color <- color_factory(message, "orangered3")
+
+#' Overall warning color throughout the project
+#'
+#' @rdname color_factory
+#' @return The customized message modified by the [crayon::make_style()]
+#' color function
+warning_color <- color_factory(message, "yellow")
+
+#' Overall message color throughout the project
+#'
+#' @rdname color_factory
+#' @return The customized message modified by the [crayon::make_style()]
+#' color function
+message_color <- color_factory(message, "dodgerblue3")
+
+#' Overall message color throughout the project
+#'
+#' @rdname color_factory
+#' @return The customized message modified by the [crayon::make_style()]
+#' color function
+completed_message_color <- color_factory(message, "green")
 
 #' Filename color for messages throughout the project
 #'
@@ -547,3 +518,56 @@ tag_color <- color_factory(message, "limegreen")
 #' @return The customized message modified by the [crayon::make_style()]
 #' color function
 csas_color <- color_factory(message, "seashell4")
+
+#' Abort code execution
+#'
+#' @details
+#' Uses [cli::symbol] and [crayon::red()]
+#'
+#' @keywords internal
+#'
+#' @param ... Arguments that make up the message
+#' @importFrom cli symbol
+bail <- function(...){
+  msg <- paste0(unlist(list(...)), collapse = "")
+  stop(error_color(paste(symbol$cross, msg)), call. = FALSE)
+}
+
+#' Issue a warning
+#'
+#' @details
+#' Uses [cli::symbol] and [crayon::yellow()]
+#'
+#' @keywords internal
+#'
+#' @param ... Arguments that make up the message
+alert <- function(...){
+  msg <- paste0(unlist(list(...)), collapse = "")
+  warning(warning_color(paste(symbol$warning, msg)), call. = FALSE)
+}
+
+#' Issue a notification
+#'
+#' @details
+#' Uses [cli::symbol] and [crayon::green()]
+#'
+#' @keywords internal
+#'
+#' @param ... Arguments that make up the message
+notify <- function(...){
+  msg <- paste0(unlist(list(...)), collapse = "")
+  message(message_color(paste(symbol$info, msg)))
+}
+
+#' Issue a check-mark notification
+#'
+#' @details
+#' Uses [cli::symbol] and [crayon::green()]
+#'
+#' @keywords internal
+#'
+#' @param ... Arguments that make up the message
+check_notify <- function(...){
+  msg <- paste0(unlist(list(...)), collapse = "")
+  message(completed_message_color(paste(symbol$tick, msg)))
+}

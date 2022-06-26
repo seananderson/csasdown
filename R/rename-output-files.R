@@ -11,8 +11,11 @@
 #' which is `index.Rmd` by default
 #'
 #' @return Nothing
-rename_output_files <- function(index_fn){
+rename_output_files <- function(index_fn, verbose = FALSE){
 
+  if(verbose){
+    notify("Renaming output files ...")
+  }
   # This will be resdoc_pdf, sr_word, etc.
   csas_render_type <- get_render_type(index_fn)
 
@@ -54,4 +57,8 @@ rename_output_files <- function(index_fn){
             " to ", fn_color(new_fns[.y]))
     }
   })
+
+  if(verbose){
+    check_notify("Renamed output files successfully\n")
+  }
 }

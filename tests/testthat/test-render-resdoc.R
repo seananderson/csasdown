@@ -10,7 +10,8 @@ suppressMessages(csasdown::draft(
 
 # -----------------------------------------------------------------------------
 # Make sure all YAML options are contained in index.Rmd
-expect_message(csasdown::check_yaml(), "contains all")
+expect_message(csasdown::check_yaml(verbose = TRUE),
+               "contains all necessary YAML options")
 
 # -----------------------------------------------------------------------------
 # Render the PDF resdoc

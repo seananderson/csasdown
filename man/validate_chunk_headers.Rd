@@ -7,7 +7,8 @@
 validate_chunk_headers(
   rmd_files,
   en_chunk_regex = "^\\\\S+-en$",
-  fr_chunk_regex = "^\\\\S+-fr$"
+  fr_chunk_regex = "^\\\\S+-fr$",
+  verbose = FALSE
 )
 }
 \arguments{
@@ -21,6 +22,8 @@ any other non-whitespace characters}
 
 \item{fr_chunk_regex}{A regular expression to match for the chunk
 name for French chunks. Default is 'ends in -fr'}
+
+\item{verbose}{Logical. If \code{TRUE}, print messages}
 }
 \value{
 A vector of error messages, one item for each chunk problem

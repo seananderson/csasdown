@@ -10,7 +10,7 @@ test_that("check_yaml() works", {
   ))
 
   # ---------------------------------------------------------------------------
-  expect_message(csasdown::check_yaml("sr"),
+  expect_message(csasdown::check_yaml("sr", verbose = TRUE),
                  "Your \\S+ file contains all necessary YAML options")
 
   # ---------------------------------------------------------------------------

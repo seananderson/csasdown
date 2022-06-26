@@ -5,9 +5,16 @@
 #' @param fns A vector of character strings holding the Rmd filenames that
 #' are to be included
 #' @param yaml_fn The Bookdown YAML filename
+#' @param verbose Logical. If `TRUE`, print messages
 #'
 #' @return Nothing
-preprocess_chunks <- function(fns, yaml_fn = "_bookdown.yml"){
+preprocess_chunks <- function(fns,
+                              yaml_fn = "_bookdown.yml",
+                              verbose = FALSE){
+
+  if(verbose){
+    notify("Running preprocessor on chunks ...")
+  }
 
   map(fns, ~{
     if(!file.exists(.x)){
@@ -25,6 +32,11 @@ preprocess_chunks <- function(fns, yaml_fn = "_bookdown.yml"){
     if(!length(chunk_head_inds)){
       # No chunks in the file, return the file
       return(NULL)
+    }
+    if(verbose){
+      purrr::walk(chunk_head_inds, ~{
+        notify("Preprossesing chunk ", csas_color(rmd[.x]))
+      })
     }
     nt_inds <- chunk_head_inds[grep("needs_trans\ *=\ *TRUE", rmd[chunk_head_inds])]
     nt_chunks <- NULL
@@ -231,5 +243,10 @@ preprocess_chunks <- function(fns, yaml_fn = "_bookdown.yml"){
     unlink(.x, force = TRUE)
     writeLines(spaced_out_rmd, .x)
   })
+
+  if(verbose){
+    check_notify("Chunks preprocessed successfully\n")
+  }
+
   invisible()
 }

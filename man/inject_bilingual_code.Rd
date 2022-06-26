@@ -4,7 +4,7 @@
 \alias{inject_bilingual_code}
 \title{Inject code that make bilingual features in a csasdown document possible}
 \usage{
-inject_bilingual_code(fn = "index.Rmd", doc_type)
+inject_bilingual_code(fn = "index.Rmd", doc_type, verbose = FALSE)
 }
 \arguments{
 \item{fn}{Typically the working copy of this file:
@@ -12,6 +12,8 @@ inject_bilingual_code(fn = "index.Rmd", doc_type)
 which is \code{index.Rmd} by default}
 
 \item{doc_type}{Document type}
+
+\item{verbose}{Logical. If \code{TRUE}, print messages}
 }
 \value{
 Lines for the file \code{fn}, but with the code injected in the right

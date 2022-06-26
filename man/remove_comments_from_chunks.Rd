@@ -5,11 +5,13 @@
 \title{Remove all comment lines from knitr chunks in the Rmd code for the files
 provided}
 \usage{
-remove_comments_from_chunks(rmd_files)
+remove_comments_from_chunks(rmd_files, verbose = FALSE)
 }
 \arguments{
 \item{rmd_files}{A vector of character strings representing the names
 of Rmd files}
+
+\item{verbose}{Logical. If \code{TRUE}, print messages}
 }
 \value{
 Nothing

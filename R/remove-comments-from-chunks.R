@@ -5,11 +5,17 @@
 #'
 #' @param rmd_files A vector of character strings representing the names
 #' of Rmd files
+#' @param verbose Logical. If `TRUE`, print messages
 #'
 #' @return Nothing
 #' @export
 #' @importFrom knitr all_patterns
-remove_comments_from_chunks <- function(rmd_files){
+remove_comments_from_chunks <- function(rmd_files,
+                                        verbose = FALSE){
+
+  if(verbose){
+    notify("Removing comments from jnitr code chunks ...")
+  }
 
   modded_files <- map(rmd_files, function(fn){
     suppressWarnings(rmd <- readLines(fn))
@@ -99,4 +105,7 @@ remove_comments_from_chunks <- function(rmd_files){
 
     writeLines(out_rmd, fn)
   })
+  if(verbose){
+    check_notify("Comments successfully removed from all chunks\n")
+  }
 }

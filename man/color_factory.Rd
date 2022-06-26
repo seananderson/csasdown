@@ -2,12 +2,24 @@
 % Please edit documentation in R/utils.R
 \name{color_factory}
 \alias{color_factory}
+\alias{error_color}
+\alias{warning_color}
+\alias{message_color}
+\alias{completed_message_color}
 \alias{fn_color}
 \alias{tag_color}
 \alias{csas_color}
 \title{Create functions for coloring various keyword families}
 \usage{
 color_factory(message, r_color)
+
+error_color(message)
+
+warning_color(message)
+
+message_color(message)
+
+completed_message_color(message)
 
 fn_color(message)
 
@@ -32,9 +44,29 @@ color function
 
 The customized message modified by the \code{\link[crayon:make_style]{crayon::make_style()}}
 color function
+
+The customized message modified by the \code{\link[crayon:make_style]{crayon::make_style()}}
+color function
+
+The customized message modified by the \code{\link[crayon:make_style]{crayon::make_style()}}
+color function
+
+The customized message modified by the \code{\link[crayon:make_style]{crayon::make_style()}}
+color function
+
+The customized message modified by the \code{\link[crayon:make_style]{crayon::make_style()}}
+color function
 }
 \description{
 Create functions for coloring various keyword families
+
+Overall error color throughout the project
+
+Overall warning color throughout the project
+
+Overall message color throughout the project
+
+Overall message color throughout the project
 
 Filename color for messages throughout the project
 

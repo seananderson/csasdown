@@ -4,11 +4,13 @@
 \alias{inject_rmd_files}
 \title{Inject verbatim text from Rmd files into Rmd code}
 \usage{
-inject_rmd_files(rmd_files)
+inject_rmd_files(rmd_files, verbose = FALSE)
 }
 \arguments{
 \item{rmd_files}{A vector of character strings representing the names
 of Rmd files}
+
+\item{verbose}{Logical. If \code{TRUE}, print messages}
 }
 \value{
 Nothing

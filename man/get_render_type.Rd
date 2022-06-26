@@ -5,10 +5,12 @@
 \title{Get the the type of document to render by extracting from the YAML tags in
 the index file}
 \usage{
-get_render_type(fn = "index.Rmd")
+get_render_type(fn = "index.Rmd", verbose = FALSE)
 }
 \arguments{
 \item{fn}{The name of the YAML file, typically 'index.Rmd' for bookdown}
+
+\item{verbose}{Logical. If \code{TRUE}, print messages}
 }
 \value{
 A character string representing the render type. One of
