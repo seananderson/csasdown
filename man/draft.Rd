@@ -6,17 +6,32 @@
 \usage{
 draft(
   type = c("resdoc", "resdoc-b", "sr", "techreport"),
-  create_dir = FALSE,
+  directory = getwd(),
   edit = FALSE,
+  verbose = TRUE,
+  testing = FALSE,
+  testing_affirm = FALSE,
   ...
 )
 }
 \arguments{
-\item{type}{The type of document to start.}
+\item{type}{The type of document to draft}
 
-\item{create_dir}{\code{TRUE} to create a new directory for the document.}
+\item{directory}{The directory to place the draft document files}
 
-\item{edit}{\code{TRUE} to edit the template immediately.}
+\item{edit}{Logical. If \code{TRUE}, edit the template file immediately
+(See \code{edit} in \code{\link[rmarkdown:draft]{rmarkdown::draft()}})}
+
+\item{verbose}{Logical. If \code{TRUE}, print messages}
+
+\item{testing}{Logical. If \code{TRUE}, the question about overwriting
+files which already exist will be set to \code{yes} automatically to
+ensure unit test work correctly}
+
+\item{testing_affirm}{Logical. If \code{TRUE}, set overwrite to \code{TRUE}
+for testing if \code{testing} is \code{TRUE}. If \code{TRUE} set overwrite to \code{FALSE}
+for testing if \code{testing} is \code{TRUE}. If \code{testing} is \code{FALSE}, this
+will be ignored}
 
 \item{...}{Other arguments to pass to \code{\link[rmarkdown:draft]{rmarkdown::draft()}}.}
 }
@@ -30,7 +45,13 @@ function for further details.
 \examples{
 \dontrun{
 csasdown::draft("resdoc")
+csasdown::draft("resdoc-b")
 csasdown::draft("sr")
 csasdown::draft("techreport")
 }
 }
+\seealso{
+Other drafting: 
+\code{\link{create_rstudio_project_file}()}
+}
+\concept{drafting}

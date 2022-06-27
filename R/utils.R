@@ -490,6 +490,13 @@ warning_color <- color_factory(message, "yellow")
 #' color function
 message_color <- color_factory(message, "dodgerblue3")
 
+#' Overall question color throughout the project
+#'
+#' @rdname color_factory
+#' @return The customized message modified by the [crayon::make_style()]
+#' color function
+question_color <- color_factory(message, "firebrick1")
+
 #' Overall message color throughout the project
 #'
 #' @rdname color_factory
@@ -570,4 +577,17 @@ notify <- function(...){
 check_notify <- function(...){
   msg <- paste0(unlist(list(...)), collapse = "")
   message(completed_message_color(paste(symbol$tick, msg)))
+}
+
+#' Issue a question notification
+#'
+#' @details
+#' Uses [cli::symbol] and [crayon::green()]
+#'
+#' @keywords internal
+#'
+#' @param ... Arguments that make up the message
+question <- function(...){
+  msg <- paste0(unlist(list(...)), collapse = "")
+  message(question_color(paste(symbol$fancy_question_mark, msg)))
 }

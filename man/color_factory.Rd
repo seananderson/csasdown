@@ -5,6 +5,7 @@
 \alias{error_color}
 \alias{warning_color}
 \alias{message_color}
+\alias{question_color}
 \alias{completed_message_color}
 \alias{fn_color}
 \alias{tag_color}
@@ -18,6 +19,8 @@ error_color(message)
 warning_color(message)
 
 message_color(message)
+
+question_color(message)
 
 completed_message_color(message)
 
@@ -56,6 +59,9 @@ color function
 
 The customized message modified by the \code{\link[crayon:make_style]{crayon::make_style()}}
 color function
+
+The customized message modified by the \code{\link[crayon:make_style]{crayon::make_style()}}
+color function
 }
 \description{
 Create functions for coloring various keyword families
@@ -65,6 +71,8 @@ Overall error color throughout the project
 Overall warning color throughout the project
 
 Overall message color throughout the project
+
+Overall question color throughout the project
 
 Overall message color throughout the project
 
