@@ -7,10 +7,11 @@
 draft(
   type = c("resdoc", "resdoc-b", "sr", "techreport"),
   directory = getwd(),
+  fn = "index.Rmd",
   edit = FALSE,
   verbose = TRUE,
   testing = FALSE,
-  testing_affirm = FALSE,
+  testing_affirm_ovr = FALSE,
   ...
 )
 }
@@ -19,6 +20,10 @@ draft(
 
 \item{directory}{The directory to place the draft document files}
 
+\item{fn}{Typically the working copy of this file:
+\verb{/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd}
+which is \code{index.Rmd} by default}
+
 \item{edit}{Logical. If \code{TRUE}, edit the template file immediately
 (See \code{edit} in \code{\link[rmarkdown:draft]{rmarkdown::draft()}})}
 
@@ -26,9 +31,9 @@ draft(
 
 \item{testing}{Logical. If \code{TRUE}, the question about overwriting
 files which already exist will be set to \code{yes} automatically to
-ensure unit test work correctly}
+ensure unit tests work correctly}
 
-\item{testing_affirm}{Logical. If \code{TRUE}, set overwrite to \code{TRUE}
+\item{testing_affirm_ovr}{Logical. If \code{TRUE}, set overwrite to \code{TRUE}
 for testing if \code{testing} is \code{TRUE}. If \code{TRUE} set overwrite to \code{FALSE}
 for testing if \code{testing} is \code{TRUE}. If \code{testing} is \code{FALSE}, this
 will be ignored}

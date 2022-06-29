@@ -32,8 +32,20 @@ create_tempdir_for_latex <- function(type = c("resdoc", "sr", "techreport"),
                                      tmp_dir = NULL,
                                      root_dir = here()) {
 
-  type <- match.arg(type)
-  where <- match.arg(where)
+  tryCatch({type <- match.arg(type)
+  }, error = function(e){
+    bail(csas_color("type"), " must be one of ",
+         csas_color("resdoc"), ", ", csas_color("sr"), ", or ",
+         csas_color("techreport"), ".\n",
+         "You tried: ", csas_color(type))
+  })
+
+  tryCatch({where <- match.arg(where)
+  }, error = function(e){
+    bail(csas_color("where"), " must be one of ",
+         csas_color("b"), " or ", csas_color("r"), ".\n",
+         "You tried: ", csas_color(where))
+  })
 
   if (is.null(tmp_dir)) {
     tmp_dir <- tempdir()

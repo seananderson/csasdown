@@ -35,7 +35,7 @@ preprocess_chunks <- function(fns,
     }
     if(verbose){
       purrr::walk(chunk_head_inds, ~{
-        notify("Preprossesing chunk ", csas_color(rmd[.x]))
+        notify(csas_color(rmd[.x]))
       })
     }
     nt_inds <- chunk_head_inds[grep("needs_trans\ *=\ *TRUE", rmd[chunk_head_inds])]

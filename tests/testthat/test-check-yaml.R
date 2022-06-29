@@ -3,11 +3,7 @@ test_that("check_yaml() works", {
   unlink(testing_path, recursive = TRUE, force = TRUE)
   dir.create(testing_path, showWarnings = FALSE)
   setwd(testing_path)
-  suppressMessages(csasdown::draft(
-    system.file("rmarkdown", "templates", "sr", package = "csasdown"),
-    create_dir = FALSE,
-    edit = FALSE
-  ))
+  csasdown::draft("sr", testing = TRUE, testing_affirm_ovr = TRUE)
 
   # ---------------------------------------------------------------------------
   expect_message(csasdown::check_yaml("sr", verbose = TRUE),

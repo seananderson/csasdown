@@ -10,4 +10,7 @@
 NULL
 
 # hack because I can't suppress this package data warning!?
-if(getRversion() >= "2.15.1") utils::globalVariables(c("region_info", ".x", ".y"))
+if(getRversion() >= "2.15.1")
+  utils::globalVariables(c("region_info", ".x", ".y",
+                           "fn", "num_lines", "post_num",
+                           "pre_num"))

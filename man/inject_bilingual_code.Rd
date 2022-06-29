@@ -4,11 +4,16 @@
 \alias{inject_bilingual_code}
 \title{Inject code that make bilingual features in a csasdown document possible}
 \usage{
-inject_bilingual_code(fn = "index.Rmd", doc_type, verbose = FALSE)
+inject_bilingual_code(
+  fn = get_index_filename(system.file("rmarkdown", "templates", "resdoc", "skeleton",
+    "_bookdown.yml", package = "csasdown")),
+  doc_type,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{fn}{Typically the working copy of this file:
-\code{csasdown/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd}
+\verb{/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd}
 which is \code{index.Rmd} by default}
 
 \item{doc_type}{Document type}

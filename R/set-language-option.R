@@ -12,8 +12,14 @@
 #' @param verbose Logical. If `TRUE`, print messages
 #'
 #' @return Nothing
-set_language_option <- function(fn = "index.Rmd",
-                                verbose = FALSE){
+set_language_option <- function(fn = get_index_filename(
+         system.file("rmarkdown",
+                     "templates",
+                     "resdoc", # All types have the same index filename
+                     "skeleton",
+                     "_bookdown.yml",
+                     package = "csasdown")),
+         verbose = FALSE){
 
   if(verbose){
     notify("Checking file ", fn_color(fn), " for render language ...")

@@ -53,6 +53,7 @@ Imports:
     bookdown,
     cli,
     crayon,
+    dplyr,
     glue,
     here,
     kableExtra,
@@ -66,7 +67,6 @@ Imports:
     utils
 Suggests:
     covr,
-    dplyr,
     ggplot2,
     magick,
     readr,

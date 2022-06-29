@@ -367,6 +367,6 @@ test_that("Removing all comments from knitr chunks works", {
              "```")
   writeLines(chunk, fn)
   expect_error(csasdown:::remove_comments_from_chunks(fn),
-               paste0("Can only have one \\S+ call inside a code chunk:"))
+               paste0("inside each code chunk:"))
 
 })

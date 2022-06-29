@@ -110,21 +110,37 @@ render <- function(yaml_fn = "_bookdown.yml",
                          fr_chunk_regex = fr_chunk_regex,
                          verbose)
 
-  # Remove all comments from code chunks in all files
-  remove_comments_from_chunks(fn_process, verbose)
+  # Remove all comments from code chunks in all files that
+  # contain `cat()`, `<<chunk-name>>`, or `rmd_file()`,
+  # storing the number of lines removed so we can adjust messages
+  # later by that many to refer back to original files
+  offsets_comm <- remove_comments_from_chunks(fn_process, verbose)
 
-  # Inject the Rmd code in referenced files into the actual code in all files
-  inject_rmd_files(fn_process, verbose)
+  # Inject the external Rmarkdown code in files referenced by `rmd_file()`
+  # into the actual document code in all files (vector `fn_process`)
+  offsets_rmd <- inject_rmd_files(fn_process, offsets_comm, verbose)
+
+  # The offsets in the files compared to the input file. These can be used to
+  # correct messages with line numbers. Note this table has a row for every
+  # chunk in the document but there are only values for those
+  # that contained `cat()`, `<<chunk-name>>`, or `rmd_file()` as their
+  # contents
+  offsets <- offsets_comm |>
+    mutate(rmd_num = offsets_rmd$post_num)
 
   # Replace instances of <<chunk-name>> with code from the actual chunk
   # called `chunk-name`. This works project wide, i.e. a chunk can mirror
   # a chunk from a different file as long as both are in `fn_process`.
   # There can be multiple instances of <<chunk-name>> and all will be replaced
   # with the source for that chunk.
-  copy_mirror_chunks(fn_process, verbose = verbose)
+  copy_mirror_chunks(fn_process,
+                     line_offsets = offsets,
+                     verbose = verbose)
 
   # Run the pre-processor on all the chunks
-  preprocess_chunks(fn_process, yaml_fn, verbose)
+  preprocess_chunks(fn_process,
+                    yaml_fn,
+                    verbose)
 
   # Inject some more complex code into the temporary version of index.Rmd
   # so the authors don't have to see it in index.Rmd and cannot change it,

@@ -12,7 +12,7 @@ add_extra_header(
   monospace = FALSE,
   underline = FALSE,
   strikeout = FALSE,
-  align = "c",
+  align = c("c", "l", "r"),
   color = NULL,
   background,
   font_size,

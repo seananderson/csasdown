@@ -5,29 +5,26 @@ test_that("draft() works", {
   setwd(testing_path)
 
   # ---------------------------------------------------------------------------
-  expect_message(csasdown::draft(
-    system.file("rmarkdown", "templates", "resdoc-b", package = "csasdown"),
-    verbose = TRUE,
-    testing = TRUE,
-    testing_affirm = TRUE),
-    paste0("Created a new RStudio project file"))
+  expect_message(csasdown::draft("sr",
+                  verbose = TRUE,
+                  testing = TRUE,
+                  testing_affirm = TRUE),
+  paste0("Created a new RStudio project file"))
 
   # ---------------------------------------------------------------------------
-  expect_error(csasdown::draft(
-    system.file("rmarkdown", "templates", "resdoc-b", package = "csasdown"),
-    verbose = TRUE,
-    testing = TRUE,
-    testing_affirm = FALSE),
-    paste0("New document not drafted, you decided to keep the old files"))
+  expect_error(csasdown::draft("resdoc-b",
+                               verbose = TRUE,
+                               testing = TRUE,
+                               testing_affirm = FALSE),
+         paste0("New document not drafted, you decided to keep"))
 
   # ---------------------------------------------------------------------------
   # Bad directory
-  expect_error(csasdown::draft(
-    system.file("rmarkdown", "templates", "resdoc-b", package = "csasdown"),
-    directory = "baddir",
-    verbose = TRUE,
-    testing = TRUE,
-    testing_affirm = FALSE),
+  expect_error(csasdown::draft("resdoc-b",
+                               directory = "baddir",
+                               verbose = TRUE,
+                               testing = TRUE,
+                               testing_affirm = FALSE),
     paste0("does not exist so the csasdown project cannot be created there"))
 
 

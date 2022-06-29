@@ -24,7 +24,7 @@ validate_chunk_headers <- function(rmd_files,
                                    verbose = FALSE){
 
   if(verbose){
-    notify("Checking to make sure knitr chunk headers follow csasdown rules ...")
+    notify("Validating knitr chunk headers ...")
   }
 
   if(!length(rmd_files)){
@@ -46,8 +46,7 @@ validate_chunk_headers <- function(rmd_files,
     err_lst <- map(chunk_head_inds, function(chunk_head_ind){
       chunk_name <- gsub(chunk_name_pat, "\\1", trimws(rmd[chunk_head_ind]))
       if(verbose){
-        notify("Evaluating chunk ",
-               csas_color(trimws(rmd[chunk_head_ind])))
+        notify(csas_color(trimws(rmd[chunk_head_ind])))
       }
       fr_opt <- grep("eval\\s*=\\s*fr\\(\\)\\s*[,|\\}]",
                      rmd[chunk_head_ind])

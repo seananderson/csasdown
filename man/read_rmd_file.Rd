@@ -2,7 +2,7 @@
 % Please edit documentation in R/read-rmd-file.R
 \name{read_rmd_file}
 \alias{read_rmd_file}
-\title{Read in am Rmd file and return it}
+\title{Read in am Rmd file, place \code{cat()} around it, and return it}
 \usage{
 read_rmd_file(fn, src_fn = "unknown")
 }

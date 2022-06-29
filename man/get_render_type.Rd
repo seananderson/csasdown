@@ -5,7 +5,11 @@
 \title{Get the the type of document to render by extracting from the YAML tags in
 the index file}
 \usage{
-get_render_type(fn = "index.Rmd", verbose = FALSE)
+get_render_type(
+  fn = get_index_filename(system.file("rmarkdown", "templates", "resdoc", "skeleton",
+    "_bookdown.yml", package = "csasdown")),
+  verbose = FALSE
+)
 }
 \arguments{
 \item{fn}{The name of the YAML file, typically 'index.Rmd' for bookdown}

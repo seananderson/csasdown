@@ -8,8 +8,14 @@
 #' @return A character string representing the render type. One of
 #' `resdoc_pdf`, `resdoc_word`, `sr_pdf`, `sr_word`, `techreport_pdf` or
 #' `techreport_word`
-get_render_type <- function(fn = "index.Rmd",
-                            verbose = FALSE){
+get_render_type <- function(fn = get_index_filename(
+             system.file("rmarkdown",
+                         "templates",
+                         "resdoc", # All types have the same index filename
+                         "skeleton",
+                         "_bookdown.yml",
+                         package = "csasdown")),
+             verbose = FALSE){
 
   if(verbose){
     notify("Checking file ", fn_color(fn), " for document render type ...")

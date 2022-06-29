@@ -1,4 +1,4 @@
-#' Read in am Rmd file and return it
+#' Read in am Rmd file, place `cat()` around it, and return it
 #'
 #' @description
 #' Read in am Rmd file and return it verbatim, with a newline added at the end.
@@ -28,6 +28,7 @@ read_rmd_file <- function(fn, src_fn = "unknown"){
     bail("The filename ", csas_color("fn"), " is an empty string ",
          "when trying to import from file ", fn_color(src_fn))
   }
+
   # nocov end
   if(!length(grep("\\.Rmd$", fn))){
     fn <- paste0(fn, ".Rmd")

@@ -272,7 +272,7 @@ add_extra_header <- function(kable_input,
                              monospace = FALSE,
                              underline = FALSE,
                              strikeout = FALSE,
-                             align = "c",
+                             align = c("c", "l", "r"),
                              color = NULL,
                              background,
                              font_size,
@@ -280,6 +280,15 @@ add_extra_header <- function(kable_input,
                              escape,
                              line = TRUE,
                              line_sep = 3) {
+
+  tryCatch({align <- match.arg(align)
+  }, error = function(e){
+    bail(csas_color("align"), " must be one of ",
+         csas_color("c"), ", ", csas_color("l"), ", or ",
+         csas_color("r"), ".\n",
+         "You tried: ", csas_color(align))
+  })
+
   table_info <- magic_mirror(kable_input)
   header <- standardize_header_input(header)
   if (length(table_info$colnames) != nrow(header)) {
@@ -291,7 +300,7 @@ add_extra_header <- function(kable_input,
   if (escape) {
     header$header <- input_escape(header$header, align)
   }
-  align <- match.arg(align, c("c", "l", "r"))
+
   hline_type <- switch(table_info$booktabs + 1,
     "\\\\hline",
     "\\\\toprule"

@@ -8,10 +8,21 @@
 #' 'word'
 #'
 #' @return Nothing
-set_render_type <- function(fn = "index.Rmd",
-                            doc_type = c("pdf", "word")){
+set_render_type <- function(fn = get_index_filename(
+         system.file("rmarkdown",
+                     "templates",
+                     "resdoc", # All types have the same index filename
+                     "skeleton",
+                     "_bookdown.yml",
+                     package = "csasdown")),
+         doc_type = c("pdf", "word")){
 
-  doc_type <- match.arg(doc_type)
+  tryCatch({doc_type <- match.arg(doc_type)
+  }, error = function(e){
+    bail(csas_color("doc_type"), " must be one of ",
+         csas_color("pdf"), ", or ", csas_color("word"), ".\n",
+         "You tried: ", csas_color(doc_type))
+  })
 
   full_doc_type <- get_render_type(fn)
 

@@ -166,6 +166,8 @@ This will attach the title page to the beginning of the Word document.
 
 ## Components
 
+[Project structure in the Bookdown document:](https://bookdown.org/yihui/rmarkdown/bookdown-project.html)
+
 The following components are ones you should edit to customize your report:
 
 ### `_bookdown.yml`

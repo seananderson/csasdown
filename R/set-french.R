@@ -8,7 +8,14 @@
 #'
 #' @return Nothing, write the file `fn`
 #' @export
-set_french <- function(fn = "index.Rmd", val = TRUE){
+set_french <- function(fn = get_index_filename(
+         system.file("rmarkdown",
+                     "templates",
+                     "resdoc", # All types have the same index filename
+                     "skeleton",
+                     "_bookdown.yml",
+                     package = "csasdown")),
+         val = TRUE){
 
   set_yaml_tag("french:", val = ifelse(val, "true", "false"), fn = fn)
 }

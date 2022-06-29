@@ -14,7 +14,12 @@ of Rmd files}
 \item{verbose}{Logical. If \code{TRUE}, print messages}
 }
 \value{
-Nothing
+A list of length the same as the number of files in \code{rmd_files},
+Each list element is another list of two vectors, the first being 1 item for
+each chunk in the file and representing the number of comments that were
+previously removed in each chunk prior to the \code{cat()}, \verb{<<chunk>>}, or
+\code{rmd_file()} call. The second is the number of comments for each chunk
+after those calls
 }
 \description{
 Remove all comment lines from knitr chunks in the Rmd code for the files

@@ -4,7 +4,7 @@ test_that("copy_mirror_chunks() works", {
   # Empty file
   fn <- file.path(test_path(), "preprocess-chunks-files", "empty-file.Rmd")
   actual <- csasdown:::copy_mirror_chunks(fn, nowrite = TRUE)[[1]]
-  expect_null(actual)
+  expect_null(actual, NULL)
 
   # ---------------------------------------------------------------------------
   # Zero mirror chunks
@@ -17,7 +17,7 @@ test_that("copy_mirror_chunks() works", {
   fn <- "zero-mirror-chunks.Rmd"
   writeLines(rmd, fn)
   actual <- csasdown:::copy_mirror_chunks(fn, nowrite = TRUE)[[1]]
-  expect_null(actual)
+  expect_null(actual, NULL)
 
   # ---------------------------------------------------------------------------
   # One mirror chunk

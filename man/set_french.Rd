@@ -4,7 +4,11 @@
 \alias{set_french}
 \title{Set French in the index.Rmd file to 'true' or 'false'}
 \usage{
-set_french(fn = "index.Rmd", val = TRUE)
+set_french(
+  fn = get_index_filename(system.file("rmarkdown", "templates", "resdoc", "skeleton",
+    "_bookdown.yml", package = "csasdown")),
+  val = TRUE
+)
 }
 \arguments{
 \item{fn}{The name of the YAML file, typically 'index.Rmd' for bookdown}

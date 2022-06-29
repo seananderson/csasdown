@@ -9,16 +9,22 @@
 #' @keywords internal
 #'
 #' @param fn Typically the working copy of this file:
-#' `csasdown/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd`
+#' `/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd`
 #' which is `index.Rmd` by default
 #' @param doc_type Document type
 #' @param verbose Logical. If `TRUE`, print messages
 #'
 #' @return Lines for the file `fn`, but with the code injected in the right
 #' place
-inject_bilingual_code <- function(fn = "index.Rmd",
-                                  doc_type,
-                                  verbose = FALSE){
+inject_bilingual_code <- function(fn = get_index_filename(
+                system.file("rmarkdown",
+                            "templates",
+                            "resdoc", # All types have the same index filename
+                            "skeleton",
+                            "_bookdown.yml",
+                            package = "csasdown")),
+                doc_type,
+                verbose = FALSE){
 
   if(verbose){
     notify("Injecting bilingual code into ", fn_color(fn), " ...")
