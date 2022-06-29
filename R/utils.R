@@ -579,6 +579,7 @@ check_notify <- function(...){
   message(completed_message_color(paste(symbol$tick, msg)))
 }
 
+# nocov start
 #' Issue a question notification
 #'
 #' @details
@@ -591,3 +592,5 @@ question <- function(...){
   msg <- paste0(unlist(list(...)), collapse = "")
   message(question_color(paste(symbol$fancy_question_mark, msg)))
 }
+# nocov end
+
