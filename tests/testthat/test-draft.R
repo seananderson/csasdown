@@ -32,4 +32,13 @@ test_that("draft() works", {
                                                       verbose = TRUE),
                paste0("does not exist so an RStudio project file cannot ",
                       "be created there"))
+
+  # ---------------------------------------------------------------------------
+  # Delete all non-proj files
+  expect_message(csasdown::draft("resdoc-b",
+                                 verbose = TRUE,
+                                 testing = TRUE,
+                                 testing_affirm = TRUE),
+                 "Deleted")
+
 })

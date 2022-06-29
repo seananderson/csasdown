@@ -39,6 +39,7 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport"),
                   testing_affirm_ovr = FALSE,
                   ...) {
 
+  # nocov start
   if(!grepl("\\/rmarkdown\\/templates", type)){
     # This is necessary so this function also works with unit testing
     if(!type %in% c("resdoc", "resdoc-b", "sr", "techreport")){
@@ -51,6 +52,7 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport"),
   }else{
     package <- NULL
   }
+  # nocov end
 
   if(!dir.exists(directory)){
     bail("The directory ", fn_color(directory), " does not exist so ",
