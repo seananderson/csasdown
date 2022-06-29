@@ -105,4 +105,12 @@ test_that("copy_mirror_chunks() works", {
   expect_error(csasdown:::copy_mirror_chunks(fn, nowrite = TRUE),
                "appears to have multiple source chunks")
 
+  # ---------------------------------------------------------------------------
+  # Verbose, One mirror chunk, one file, more than one reference chunk
+  fn <- file.path(test_path(), "preprocess-chunks-files",
+                  "single-mirror.Rmd")
+  expect_message(csasdown:::copy_mirror_chunks(fn, nowrite = TRUE,
+                                               verbose = TRUE),
+               "Copying Rmarkdown code into")
+
 })
