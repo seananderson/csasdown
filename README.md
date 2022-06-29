@@ -141,6 +141,11 @@ To do this, you must have your working directory (see `getwd()`) be the one with
 ```r
 csasdown::render()
 ```
+or, for a detailed explanation of each step in the rendering process:
+
+```r
+csasdown::render(verbose = TRUE)
+```
 
 This method of rendering allows you to debug your code by inserting `browser()` calls which stops compilation at specific places.
 

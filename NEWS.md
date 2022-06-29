@@ -2,6 +2,10 @@
 
 # csasdown 0.1.0
 
+* All messages, warnings, and errors now appear in color if your console supports ANSI color escapes. RStudio does support this and all testing for this feature was done in RStudio 2022.02.3 Build 492.
+
+* `verbose` was added to many functions. If you run `render(verbose = TRUE)` you will see a detailed listing of the steps taken during rendering, including line numbers of important items.
+
 * A new function `csasdown::render()` will auto-detect your document type (*resdoc*, *resdoc-b*, *sr*, *techreport*) and render accordingly. We recommend using this over `bookdown::render_book()`. The 'Knit' button in RStudio should properly choose `csasdown::render()`.
 
 * New YAML options are required for this render method; an error will be produced when you run `render()` explaining which ones you are missing. These new YAML options are new French options and are required to render the document. Even if you don't plan on using French, you must enter them with some (any) default text. They are:
