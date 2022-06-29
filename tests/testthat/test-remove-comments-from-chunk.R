@@ -369,4 +369,18 @@ test_that("Removing all comments from knitr chunks works", {
   expect_error(csasdown:::remove_comments_from_chunks(fn),
                paste0("inside each code chunk:"))
 
+  # ---------------------------------------------------------------------------
+  chunk <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
+             "cat('Be careful with your spacing in _Markdown_ documents.",
+             "While whitespace largely is ignored, it does at",
+             "times give _Markdown_ signals as to how to proceed.",
+             "')",
+             "```",
+             "```{r chap01-para-7-en, eval = !fr(), results = 'asis'}",
+             "cat('More text!')",
+             "```")
+  writeLines(chunk, fn)
+  expect_message(csasdown:::remove_comments_from_chunks(fn, verbose = TRUE),
+               paste0("There were no comments in chunks found to remove"))
+
 })
