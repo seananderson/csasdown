@@ -3,20 +3,19 @@
 #' Create a draft of an R Markdown CSAS document
 #'
 #' @param type The type of document to draft
-#' @param verbose Logical. If `TRUE`, print messages
 #' @param directory The directory to place the draft document files
 #' @param fn Typically the working copy of this file:
 #' `/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd`
 #' which is `index.Rmd` by default
 #' @param edit Logical. If `TRUE`, edit the template file immediately
 #' (See `edit` in [rmarkdown::draft()])
+#' @param verbose Logical. If `TRUE`, print messages
 #' @param testing Logical. If `TRUE`, the question about overwriting
-#' files which already exist will be set to `yes` automatically to
-#' ensure unit tests work correctly
-#' @param testing_affirm_ovr Logical. If `TRUE`, set overwrite to `TRUE`
-#' for testing if `testing` is `TRUE`. If `TRUE` set overwrite to `FALSE`
-#' for testing if `testing` is `TRUE`. If `testing` is `FALSE`, this
-#' will be ignored
+#' files which already exist will skipped to ensure unit tests work
+#' correctly
+#' @param testing_affirm_ovr Logical. If `TRUE` and `testing` is `TRUE`,
+#' set overwrite files to `TRUE`. If `FALSE` and `testing` is `TRUE`,
+#' set overwrite to `FALSE`. If `testing` is `FALSE`, this argument is ignored
 #' @param ... Other arguments to pass to [rmarkdown::draft()].
 #'
 #' @details This is a light wrapper around [rmarkdown::draft()]. Consult that
@@ -40,26 +39,18 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport"),
                   testing_affirm_ovr = FALSE,
                   ...) {
 
-  if (!grepl("\\/rmarkdown\\/templates", type)) { # so it also works with unit testing
-    # type <- match.arg(type)
-    if (!type %in% c("resdoc", "resdoc-b", "sr", "techreport")) {
+  if(!grepl("\\/rmarkdown\\/templates", type)){
+    # This is necessary so this function also works with unit testing
+    if(!type %in% c("resdoc", "resdoc-b", "sr", "techreport")){
       alert(csas_color("type"), " should be one of ",
             csas_color("resdoc"), ", ", csas_color("resdoc-b"), ", ",
             csas_color("sr"), ", or ", csas_color("techreport"),
             call. = FALSE)
     }
     package <- "csasdown"
-  } else {
+  }else{
     package <- NULL
   }
-
-  # tryCatch({type <- match.arg(type)
-  # }, error = function(e){
-  #   bail(csas_color("type"), " must be one of ",
-  #        csas_color("resdoc"), ", ", csas_color("resdoc-b"), ", ",
-  #        csas_color("sr"), ", or ", csas_color("techreport"), ".\n",
-  #        "You tried: ", csas_color(type))
-  # })
 
   if(!dir.exists(directory)){
     bail("The directory ", fn_color(directory), " does not exist so ",

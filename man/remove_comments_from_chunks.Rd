@@ -14,15 +14,24 @@ of Rmd files}
 \item{verbose}{Logical. If \code{TRUE}, print messages}
 }
 \value{
-A list of length the same as the number of files in \code{rmd_files},
-Each list element is another list of two vectors, the first being 1 item for
-each chunk in the file and representing the number of comments that were
-previously removed in each chunk prior to the \code{cat()}, \verb{<<chunk>>}, or
-\code{rmd_file()} call. The second is the number of comments for each chunk
-after those calls
+A \code{\link[tibble:tibble]{tibble::tibble()}} containing the Rmd filenames (column \code{fn})
+and all the full chunk headers (column \code{chunk_header}) which are
+unique document-wide. The chunk line number (column \code{chunk_ind}) is
+also included so that headers can be searched for later, matched,
+and correct line numbers from unmodified Rmd lines can be reported.
+Columns containing the number of comments removed from each chunk
+before (\code{pre_num}) and after (\code{post_num}) a call to \code{cat()},
+\code{rmd_file()}, or a mirror chunk \verb{<<chunk-name>>} are included.
+Addition of \code{chunk_ind} and \code{pre_num} allow exact line numbers to be
+quoted in messages for the original files.
 }
 \description{
 Remove all comment lines from knitr chunks in the Rmd code for the files
 provided
+}
+\details{
+Overwrites the files \code{rmd_files} with a modified version that has the
+comments removed from chunks which contain a call to \code{cat()},
+\code{rmd_file()}, or a mirror chunk \verb{<<chunk-name>>}
 }
 \keyword{internal}

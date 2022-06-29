@@ -1,18 +1,28 @@
 #' Remove all comment lines from knitr chunks in the Rmd code for the files
 #' provided
 #'
+#' @details
+#' Overwrites the files `rmd_files` with a modified version that has the
+#' comments removed from chunks which contain a call to `cat()`,
+#' `rmd_file()`, or a mirror chunk `<<chunk-name>>`
+#'
 #' @keywords internal
 #'
 #' @param rmd_files A vector of character strings representing the names
 #' of Rmd files
 #' @param verbose Logical. If `TRUE`, print messages
 #'
-#' @return A list of length the same as the number of files in `rmd_files`,
-#' Each list element is another list of two vectors, the first being 1 item for
-#' each chunk in the file and representing the number of comments that were
-#' previously removed in each chunk prior to the `cat()`, `<<chunk>>`, or
-#' `rmd_file()` call. The second is the number of comments for each chunk
-#'  after those calls
+#' @return A [tibble::tibble()] containing the Rmd filenames (column `fn`)
+#' and all the full chunk headers (column `chunk_header`) which are
+#' unique document-wide. The chunk line number (column `chunk_ind`) is
+#' also included so that headers can be searched for later, matched,
+#' and correct line numbers from unmodified Rmd lines can be reported.
+#' Columns containing the number of comments removed from each chunk
+#' before (`pre_num`) and after (`post_num`) a call to `cat()`,
+#' `rmd_file()`, or a mirror chunk `<<chunk-name>>` are included.
+#' Addition of `chunk_ind` and `pre_num` allow exact line numbers to be
+#' quoted in messages for the original files.
+#'
 #' @export
 #' @importFrom dplyr summarize group_by mutate
 #' @importFrom knitr all_patterns

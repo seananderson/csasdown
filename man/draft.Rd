@@ -30,13 +30,12 @@ which is \code{index.Rmd} by default}
 \item{verbose}{Logical. If \code{TRUE}, print messages}
 
 \item{testing}{Logical. If \code{TRUE}, the question about overwriting
-files which already exist will be set to \code{yes} automatically to
-ensure unit tests work correctly}
+files which already exist will skipped to ensure unit tests work
+correctly}
 
-\item{testing_affirm_ovr}{Logical. If \code{TRUE}, set overwrite to \code{TRUE}
-for testing if \code{testing} is \code{TRUE}. If \code{TRUE} set overwrite to \code{FALSE}
-for testing if \code{testing} is \code{TRUE}. If \code{testing} is \code{FALSE}, this
-will be ignored}
+\item{testing_affirm_ovr}{Logical. If \code{TRUE} and \code{testing} is \code{TRUE},
+set overwrite files to \code{TRUE}. If \code{FALSE} and \code{testing} is \code{TRUE},
+set overwrite to \code{FALSE}. If \code{testing} is \code{FALSE}, this argument is ignored}
 
 \item{...}{Other arguments to pass to \code{\link[rmarkdown:draft]{rmarkdown::draft()}}.}
 }

@@ -3,22 +3,20 @@
 #' @description
 #' Inject verbatim text from Rmd files into Rmd code wrapped in
 #' [cat()] so that the bilingual features of csasdown can be used properly
-#' but the author can write paragraphs or sections in pure Rmarkdown
+#' but the author can write paragraphs or sections in pure Rmarkdown.
+#' Uses [read_rmd_file()] to read in the file and place `cat()` around
+#' the contents before injecting it
 #'
 #' @keywords internal
 #'
 #' @param rmd_files A vector of character strings representing the names
 #' of Rmd files
-#' [remove_comments_from_chunks()]. If `NULL`, it will be ignored. If
-#' present, the values will be added/subtracted from line number messages
-#' in this function to give an accurate line number for the original files
 #' @param line_offsets A [data.frame()] or [tibble::tibble()] containing the
 #' line offsets to be added to line numbers in messages in order to give the
 #' correct line numbers for the original files. Has columns `fn` (chr),
 #' `chunk_header` (chr)  `chunk_ind` (int), `pre_num` (dbl), `post_num` (dbl),
 #' and `rmd_num` (dbl). See `return` values for [inject_rmd_files()] and
 #' [remove_comments_from_chunks()]
-#'
 #' @param verbose Logical. If `TRUE`, print messages
 #'
 #' @return Nothing

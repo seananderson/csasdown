@@ -6,9 +6,9 @@
 #' step so we can modify the newlines in the mirrored code.
 #'
 #' @details
-#' Search for chunks containing mirror code lines (looks like `<<chunk-name>>`),
-#' find the chunk-names and copy the code within those chunks into the chunks
-#' with the mirror code lines, replacing them.
+#' Search for chunks containing mirror code lines (looks like
+#' `<<chunk-name>>`), find the chunk-names and copy the code within those
+#' chunks into the chunks with the mirror code lines, replacing them.
 #'
 #' @keywords internal
 #'
@@ -23,7 +23,6 @@
 #' `chunk_header` (chr)  `chunk_ind` (int), `pre_num` (dbl), `post_num` (dbl),
 #' and `rmd_num` (dbl). See `return` values for [inject_rmd_files()] and
 #' [remove_comments_from_chunks()]
-#'
 #' @param verbose Logical. If `TRUE`, print messages
 #'
 #' @return A vector of character strings representing the lines in an
@@ -38,7 +37,7 @@ copy_mirror_chunks <- function(rmd_files,
            csas_color("<<chunk-name>>"), ") ...")
   }
 
-  # Make a pasted-together version of all the Rmds files so the chunks are all
+  # Make a pasted-together version of all the Rmd files so the chunks are all
   # in one object for searching for code. So if a file has a mirror to a
   # chunk in another file in the project, it will still find the code that is
   # being referred to
