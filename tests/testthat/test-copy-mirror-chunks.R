@@ -90,7 +90,7 @@ test_that("copy_mirror_chunks() works", {
   fn1 <- file.path(test_path(), "preprocess-chunks-files", "single-mirror.Rmd")
   fn2 <- file.path(test_path(), "preprocess-chunks-files", "single-chained.Rmd")
   expect_error(csasdown:::copy_mirror_chunks(c(fn1, fn2), nowrite = TRUE),
-               "Chained mirror chunk")
+               "Chained mirror reference")
 
   # ---------------------------------------------------------------------------
   # One mirror chunk, one file, no reference chunk for mirror

@@ -88,7 +88,7 @@ copy_mirror_chunks <- function(rmd_files,
       return(NULL)
     }
     if(verbose){
-      notify("Mirror chunks in file: ", fn_color(fn))
+      notify("Mirror references in file: ", fn_color(fn))
     }
     chunk_headers <- txt[mirror_inds - 1]
     chunk_names <- unique(gsub("<<([a-zA-Z0-9_\\-]+)>>", "\\1", txt[mirror_inds]))
@@ -116,13 +116,13 @@ copy_mirror_chunks <- function(rmd_files,
       pat <- paste0(chunk_name, ",")
       k <- grep(pat, huge_rmd)
       if(!length(k)){
-        bail("In file ", fn_color(fn), ", mirrored chunk name ",
+        bail("In file ", fn_color(fn), ", mirrored reference name ",
              csas_color(paste0("<<", chunk_name, ">>")),
                         " does not appear to have a source chunk in ",
                         "the project")
       }
       if(length(k) > 1){
-        bail("In file ", fn_color(fn), ", mirrored chunk name ",
+        bail("In file ", fn_color(fn), ", mirrored reference name ",
              csas_color(paste0("<<", chunk_name, ">>")),
              " appears to have multiple source chunks in the project")
       }
@@ -139,8 +139,8 @@ copy_mirror_chunks <- function(rmd_files,
         chained_mirror_pat <- "^<<(\\S+)>>$"
         if(length(grep(chained_mirror_pat, trimws(chunk)))){
           nm <- gsub(chained_mirror_pat, "\\1", chunk)
-          bail("A mirrored chunk has another mirror code line in it.\n",
-               "Chained mirror chunks are not supported.\n",
+          bail("A mirrored reference has another mirror code line in it.\n",
+               "Chained mirror references are not supported.\n",
                "Line ", csas_color(file_mirror_inds[1] - 1), " in file ",
                fn_color(fn))
         }
@@ -170,7 +170,8 @@ copy_mirror_chunks <- function(rmd_files,
     if(as.logical(tot_lines_added)){
       line <- ifelse(tot_lines_added == 1, "line", "lines")
       check_notify(tag_color(tot_lines_added),
-                   " ", line, " successfully copied from one chunk into another:")
+                   " ", line, " successfully copied from source chunks ",
+                   "into mirror references:")
 
       tot_added_by_file <- num_lines_df |>
         group_by(fn) |>
@@ -181,12 +182,12 @@ copy_mirror_chunks <- function(rmd_files,
                             " Rmarkdown lines to file ", fn_color(..1)))
       })
     }else{
-      check_notify("There were no mirror chunks (", fn_color("<<chunk-name>>"),
+      check_notify("There were no mirror references (", fn_color("<<chunk-name>>"),
                    " ) found, therefore no Rmarkdown code to copy\n")
     }
 
 
-    check_notify("Mirror chunks copied successfully\n")
+    check_notify("Mirror reference code copied successfully\n")
   }
 
   num_lines_df
