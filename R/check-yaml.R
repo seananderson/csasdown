@@ -17,11 +17,6 @@ check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
                                 "techreport_word"),
                        verbose = FALSE) {
 
-  if(verbose){
-    notify("Checking that YAML options are all present for document type ",
-           csas_color(type), " ...")
-  }
-
   tryCatch({type <- match.arg(type)
   }, error = function(e){
     bail(csas_color("type"), " must be one of ",
@@ -32,6 +27,11 @@ check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
          ", or ", csas_color("techreport_word"), ".\n",
          "You tried: ", csas_color(type))
   })
+
+  if(verbose){
+    notify("Checking that YAML options are all present for document type ",
+           csas_color(type), " ...")
+  }
 
   if(type %in% c("resdoc", "resdoc_pdf", "resdoc_word")){
     type <- "resdoc"

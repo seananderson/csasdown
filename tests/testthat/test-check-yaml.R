@@ -10,6 +10,10 @@ test_that("check_yaml() works", {
                  "Your \\S+ file contains all necessary YAML options")
 
   # ---------------------------------------------------------------------------
+  expect_error(csasdown::check_yaml("badtype", verbose = TRUE),
+               "type\\S+ must be one of \\S+resdoc\\S+, \\S+resdoc_pdf")
+
+  # ---------------------------------------------------------------------------
   file.copy("index.Rmd", "x.Rmd")
   rmd <- readLines("index.Rmd")
   ind <- grep("french_region:", rmd)
