@@ -78,11 +78,11 @@ test_that("inject_rmd_files() works", {
   # ---------------------------------------------------------------------------
   expect_message(csasdown:::inject_rmd_files("injected-into-verbose.Rmd",
                                              verbose = TRUE),
-               "Injecting \\S+injected\\S+ into")
+               "Injecting")
 
   # ---------------------------------------------------------------------------
   expect_message(csasdown:::inject_rmd_files("injected-into-verbose.Rmd",
                                              verbose = TRUE),
-                 "There were no \\S+rmd_file")
+                 "There were no")
 
 })

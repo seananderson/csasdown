@@ -65,6 +65,6 @@ test_that("csasdown::csas_table works with an extra_header", {
 
   # ---------------------------------------------------------------------------
   expect_error(csasdown:::add_extra_header(align = "x"),
-               "must be one of \\S+c\\S+, \\S+l\\S+, or \\S+r")
+               "must be one of")
 
 })

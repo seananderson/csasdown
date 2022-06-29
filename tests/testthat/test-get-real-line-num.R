@@ -2,15 +2,15 @@ test_that("get_real_line_num works", {
 
   # ---------------------------------------------------------------------------
   expect_error(csasdown:::get_real_line_num(NULL),
-               "header\\S+ cannot be \\S+NULL")
+               "cannot be")
 
   # ---------------------------------------------------------------------------
   expect_error(csasdown:::get_real_line_num("header", NULL),
-               "line_offsets\\S+ cannot be \\S+NULL")
+               "cannot be")
 
   # ---------------------------------------------------------------------------
   expect_error(csasdown:::get_real_line_num("header", 1:4),
-               "\\S+ must be a \\S+data.frame")
+               "must be a")
 
   # ---------------------------------------------------------------------------
   x <- tibble::tibble(fn = rep("test.Rmd", 4),

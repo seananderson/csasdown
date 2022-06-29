@@ -11,7 +11,7 @@ test_that("check_yaml() works", {
 
   # ---------------------------------------------------------------------------
   expect_error(csasdown::check_yaml("badtype", verbose = TRUE),
-               "type\\S+ must be one of \\S+resdoc\\S+, \\S+resdoc_pdf")
+               "must be one of")
 
   # ---------------------------------------------------------------------------
   file.copy("index.Rmd", "x.Rmd")
