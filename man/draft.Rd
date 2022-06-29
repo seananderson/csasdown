@@ -16,13 +16,13 @@ draft(
 )
 }
 \arguments{
-\item{type}{The type of document to draft}
+\item{type}{The type of document to draft. Must be one of \code{resdoc},
+\code{resdoc-b}, \code{sr}, or \code{techreport}}
 
-\item{directory}{The directory to place the draft document files}
+\item{directory}{The directory to place the draft document files.
+Is the current directory by default}
 
-\item{fn}{Typically the working copy of this file:
-\verb{/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd}
-which is \code{index.Rmd} by default}
+\item{fn}{Bookdown starting file, \code{index.Rmd} by default}
 
 \item{edit}{Logical. If \code{TRUE}, edit the template file immediately
 (See \code{edit} in \code{\link[rmarkdown:draft]{rmarkdown::draft()}})}

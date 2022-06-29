@@ -15,23 +15,28 @@ render(
 )
 }
 \arguments{
-\item{yaml_fn}{The YAML file name. The default is '_bookdown.yml' for
-\code{\link[bookdown:render_book]{bookdown::render_book()}}}
+\item{yaml_fn}{The Bookdown YAML file name. '_bookdown.yml' by default}
 
-\item{keep_files}{If \code{TRUE}, keep the temporary files created (Rmd
-files and YAML file)}
+\item{keep_files}{If \code{TRUE}, keep the temporary files created by the
+pre-processor (\verb{tmp-*.Rmd} and \code{tmp_bookdown.yml})}
 
 \item{en_chunk_regex}{A regular expression to match for the chunk
-name for English chunks. Default is 'ends in -en'. The \code{$} means anchor
-to the end, so '-en' must be at the end. \verb{\\\\S+} means match one or more
-any other non-whitespace characters. Passed to \code{\link[=validate_chunk_headers]{validate_chunk_headers()}}}
-
-\item{fr_chunk_regex}{A regular expression to match for the chunk
-name for French chunks. Default is 'ends in -fr'. Passed to
+name for English chunks. Default for English chunks is that their names
+end in \code{-en}. The regular expression for this is \verb{^\\\\S+-en$}.
+The \code{$} means anchor to the end, so \code{-en} must be at the end. \verb{\\\\S+}
+means match one or more non-whitespace characters. Passed to
 \code{\link[=validate_chunk_headers]{validate_chunk_headers()}}}
 
-\item{suppress_warnings}{If \code{TRUE}, \code{\link[base:warning]{base::suppressWarnings()}} will wrap
-the call to \code{\link[bookdown:render_book]{bookdown::render_book()}}}
+\item{fr_chunk_regex}{A regular expression to match for the chunk
+name for French chunks. Default for French chunks is that their names
+end in \code{-frn}. The regular expression for this is \verb{^\\\\S+-frn$}.
+The \code{$} means anchor to the end, so \code{-fr} must be at the end. \verb{\\\\S+}
+means match one or more non-whitespace characters. Passed to
+\code{\link[=validate_chunk_headers]{validate_chunk_headers()}}}
+
+\item{suppress_warnings}{Logical. If \code{TRUE}, the call to
+\code{\link[bookdown:render_book]{bookdown::render_book()}} from within this function will have warnings
+suppressed}
 
 \item{verbose}{Logical. If \code{TRUE}, print messages}
 

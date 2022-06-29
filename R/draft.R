@@ -2,11 +2,11 @@
 #'
 #' Create a draft of an R Markdown CSAS document
 #'
-#' @param type The type of document to draft
-#' @param directory The directory to place the draft document files
-#' @param fn Typically the working copy of this file:
-#' `/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd`
-#' which is `index.Rmd` by default
+#' @param type The type of document to draft. Must be one of `resdoc`,
+#' `resdoc-b`, `sr`, or `techreport`
+#' @param directory The directory to place the draft document files.
+#' Is the current directory by default
+#' @param fn Bookdown starting file, `index.Rmd` by default
 #' @param edit Logical. If `TRUE`, edit the template file immediately
 #' (See `edit` in [rmarkdown::draft()])
 #' @param verbose Logical. If `TRUE`, print messages

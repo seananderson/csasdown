@@ -33,19 +33,24 @@
 #' You can use either single or double quotes to surround the text passed
 #' to [cat()]. i.e. `cat('contents')` or `cat("contents")`
 #'
-#' @param yaml_fn The YAML file name. The default is '_bookdown.yml' for
-#' [bookdown::render_book()]
-#' @param keep_files If `TRUE`, keep the temporary files created (Rmd
-#' files and YAML file)
+#' @param yaml_fn The Bookdown YAML file name. '_bookdown.yml' by default
+#' @param keep_files If `TRUE`, keep the temporary files created by the
+#' pre-processor (`tmp-*.Rmd` and `tmp_bookdown.yml`)
 #' @param en_chunk_regex A regular expression to match for the chunk
-#' name for English chunks. Default is 'ends in -en'. The `$` means anchor
-#' to the end, so '-en' must be at the end. `\\S+` means match one or more
-#' any other non-whitespace characters. Passed to [validate_chunk_headers()]
-#' @param fr_chunk_regex A regular expression to match for the chunk
-#' name for French chunks. Default is 'ends in -fr'. Passed to
+#' name for English chunks. Default for English chunks is that their names
+#' end in `-en`. The regular expression for this is `^\\S+-en$`.
+#' The `$` means anchor to the end, so `-en` must be at the end. `\\S+`
+#' means match one or more non-whitespace characters. Passed to
 #' [validate_chunk_headers()]
-#' @param suppress_warnings If `TRUE`, [base::suppressWarnings()] will wrap
-#' the call to [bookdown::render_book()]
+#' @param fr_chunk_regex A regular expression to match for the chunk
+#' name for French chunks. Default for French chunks is that their names
+#' end in `-frn`. The regular expression for this is `^\\S+-frn$`.
+#' The `$` means anchor to the end, so `-fr` must be at the end. `\\S+`
+#' means match one or more non-whitespace characters. Passed to
+#' [validate_chunk_headers()]
+#' @param suppress_warnings Logical. If `TRUE`, the call to
+#' [bookdown::render_book()] from within this function will have warnings
+#' suppressed
 #' @param verbose Logical. If `TRUE`, print messages
 #' @param ... Additional arguments passed to [bookdown::render_book()]
 #'
