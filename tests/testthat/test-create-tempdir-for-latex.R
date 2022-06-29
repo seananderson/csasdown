@@ -11,6 +11,18 @@ test_that("csasdown::create_tempdir_for_latex() works", {
   ))
 
   # ---------------------------------------------------------------------------
+  expect_error(csasdown::create_tempdir_for_latex("badtype",
+                                                  "b",
+                                                  root_dir = getwd()),
+               "must be one of")
+
+  # ---------------------------------------------------------------------------
+  expect_error(csasdown::create_tempdir_for_latex("sr",
+                                                  "x",
+                                                  root_dir = getwd()),
+               "must be one of")
+
+  # ---------------------------------------------------------------------------
   expect_error(csasdown::create_tempdir_for_latex("sr",
                                                   "b",
                                                   root_dir = getwd()),
