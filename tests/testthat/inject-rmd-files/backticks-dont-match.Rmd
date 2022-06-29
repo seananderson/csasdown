@@ -1,0 +1,5 @@
+```{r chunk-1-en, eval = !fr(), results = 'asis'}
+cat("First chunk")
+```
+```{r chunk-2-en, eval = !fr(), results = 'asis'}
+rmd_file("injected")
