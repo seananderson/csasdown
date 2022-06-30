@@ -159,12 +159,6 @@ test_that("csasdown:::preprocess_chunks() works", {
            "#",
            "```")
 
-  # offsets <- tibble::tibble(fn = "None",
-  #           chunk_header = c("```{r test, needs_trans = TRUE}",
-  #                            "```{r test2, needs_trans = TRUE}"),
-  #           chunk_inds = c(1, 3),
-  #           pre_)
-
   fn <- "empty-chunks-test.Rmd"
   writeLines(rmd, fn)
   offsets <- remove_comments_from_chunks(fn, verbose = TRUE)
