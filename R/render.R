@@ -172,7 +172,19 @@ render <- function(yaml_fn = "_bookdown.yml",
     )
   }
   if(verbose){
-    check_notify("Knitting and Pandoc completed, document successfuly built\n")
+    fn <- file.path("_book",
+                    paste0(gsub("^(\\S+)_\\S+$", "\\1", render_type),
+                           ".",
+                           ifelse(doc_format == "pdf", "pdf", "docx")))
+    if(file.exists(fn)){
+      check_notify("Knitting and Pandoc completed, document built ",
+                   "successfully\n")
+    }else{
+      # nocov start
+      bail("The Knitting and Pandoc procedure did not produce ",
+           fn_color(fn))
+      # nocov end
+    }
   }
 
   # Delete the temporary files
