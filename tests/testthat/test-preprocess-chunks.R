@@ -151,4 +151,29 @@ test_that("csasdown:::preprocess_chunks() works", {
                 "```")
   expect_identical(actual, expected)
 
+  # ---------------------------------------------------------------------------
+  rmd <- c("```{r test, needs_trans = TRUE}",
+           "```",
+           "```{r test2, needs_trans = TRUE}",
+           "print('Hello')",
+           "#",
+           "```")
+
+  # offsets <- tibble::tibble(fn = "None",
+  #           chunk_header = c("```{r test, needs_trans = TRUE}",
+  #                            "```{r test2, needs_trans = TRUE}"),
+  #           chunk_inds = c(1, 3),
+  #           pre_)
+
+  fn <- "empty-chunks-test.Rmd"
+  writeLines(rmd, fn)
+  offsets <- remove_comments_from_chunks(fn, verbose = TRUE)
+
+  expect_error(csasdown:::preprocess_chunks(fn,
+                                            line_offsets = offsets,
+                                            verbose = TRUE),
+               paste0("check the source chunks for those by searching ",
+                      "the project for the chunk name"))
+
+
 })
