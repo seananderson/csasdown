@@ -17,9 +17,9 @@
 #' unique document-wide. The chunk line number (column `chunk_ind`) is
 #' also included so that headers can be searched for later, matched,
 #' and correct line numbers from unmodified Rmd lines can be reported.
-#' Columns containing the number of comments removed from each chunk
-#' before (`pre_num`) and after (`post_num`) a call to `cat()`,
-#' `rmd_file()`, or a mirror chunk `<<chunk-name>>` are included.
+#' Columns containing the number of comment lines and blank lines removed
+#' from each chunk before (`pre_num`) and after (`post_num`) a call to
+#' `cat()`, `rmd_file()`, or a mirror chunk `<<chunk-name>>` are included.
 #' Addition of `chunk_ind` and `pre_num` allow exact line numbers to be
 #' quoted in messages for the original files.
 #'
@@ -59,12 +59,13 @@ remove_comments_from_chunks <- function(rmd_files,
     code_chunks <- map2(start_inds, end_inds, function(.x, .y) {
       rmd[seq(.x, .y)]
     })
-    # Process code chunks here (remove comment lines). Unfortunately,
-    # if an Rmarkdown header is inside a `cat()` statement, starting on its own
-    # line, it will appear exactly the same as a comment inside the code chunk.
-    # To fix this, look for `cat()` statements inside code chunks, and ignore
-    # lines that start with # inside the `cat()` statements.
-    com_pat <- "^#.*$"
+    # Process code chunks here (remove comment lines and blank lines).
+    # Unfortunately, if an Rmarkdown header is inside a `cat()` statement,
+    # starting on its own line, it will appear exactly the same as a
+    # comment inside the code chunk. To fix this, look for `cat()` statements
+    # inside code chunks, and ignore lines that start with # inside the
+    # `cat()` statements.
+    com_pat <- "(^#.*$|^$)"
     # code_chunks is a list of three items for each chunk:
     # 1. chunk contents (without any comments)
     # 2. how many comment lines came before the `cat()` or `rmd_lines()`
@@ -133,7 +134,9 @@ remove_comments_from_chunks <- function(rmd_files,
         if(verbose){
           num_comments_removed <- num_com_lines_pre + num_com_lines_post
           if(num_comments_removed > 0){
-            comm <- ifelse(num_comments_removed == 1, "comment", "comments")
+            comm <- ifelse(num_comments_removed == 1,
+                           "comment line/blank line",
+                           "comment lines/blank lines")
             notify("Removing ",
                    tag_color(num_comments_removed),
                    " ", comm, " from chunk on line ", tag_color(ln), " of ",
@@ -183,7 +186,9 @@ remove_comments_from_chunks <- function(rmd_files,
   if(verbose){
     tot_comments_removed <- sum(offsets$pre_num + offsets$post_num)
     if(as.logical(sum(tot_comments_removed))){
-      comm <- ifelse(sum(tot_comments_removed) == 1, "comment", "comments")
+      comm <- ifelse(sum(tot_comments_removed) == 1,
+                     "comment line/blank line",
+                     "comment lines/blank lines")
       check_notify(tag_color(tot_comments_removed),
                    " ", comm, " successfully removed from chunks containing:\n",
                    csas_color("cat()"), ", ", csas_color("<<chunk-name>>"),
@@ -195,10 +200,11 @@ remove_comments_from_chunks <- function(rmd_files,
 
       pwalk(tot_removed_by_file, ~{
         check_notify(paste0("Removed ", tag_color(..2),
-                            " comment lines from file ", fn_color(..1)))
+                            " comment lines/blank lines from file ",
+                            fn_color(..1)))
       })
       if(verbose){
-        check_notify("Comments removed successfuly\n")
+        check_notify("Comment lines and blank lines removed successfuly\n")
       }
     }else{
       check_notify("There were no comments in chunks found to remove\n")

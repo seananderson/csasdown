@@ -5,18 +5,27 @@
 #' @param fns A vector of character strings holding the Rmd filenames that
 #' are to be included
 #' @param yaml_fn The Bookdown YAML filename
+#' @param line_offsets A [data.frame()] or [tibble::tibble()] containing the
+#' line offsets to be added to line numbers in messages in order to give the
+#' correct line numbers for the original files. Has columns `fn` (chr),
+#' `chunk_header` (chr)  `chunk_ind` (int), `pre_num` (dbl), `post_num` (dbl),
+#' and `rmd_num` (dbl). See `return` values for [inject_rmd_files()] and
 #' @param verbose Logical. If `TRUE`, print messages
+#'
+#' @importFrom purrr map2_chr
 #'
 #' @return Nothing
 preprocess_chunks <- function(fns,
                               yaml_fn = "_bookdown.yml",
+                              line_offsets = NULL,
                               verbose = FALSE){
 
   if(verbose){
-    notify("Running preprocessor on chunks ...")
+    notify("Running preprocessor on knitr chunks ...")
   }
 
   map(fns, ~{
+    fn <- .x
     if(!file.exists(.x)){
       bail("The file ", fn_color(.x), " does not exist. Check the YAML file entry ",
            "in file ", fn_color(yaml_fn))
@@ -43,31 +52,35 @@ preprocess_chunks <- function(fns,
     if(length(nt_inds)){
       if(!all((nt_inds + 1) %in% cat_inds)){
         # Name the chunks which are missing `cat()`
-        bad_chunk_names <- map(nt_inds, ~{
+        bad_chunk_headers <- map(nt_inds, ~{
           x <- .x + 1
           if(!x %in% cat_inds){
-            # Extract chunk name
-            chunk_head <- gsub(all_patterns$md$chunk.begin, "\\1", rmd[.x])
-            pat <- "r\\s*(\\s*\\S+\\s*)+?\\s*,\\s*.*$"
-            chunk_name <- gsub(pat, "\\1", chunk_head)
-            return(chunk_name)
+            chunk_head <- grep(all_patterns$md$chunk.begin, rmd[.x], value = TRUE)
+            return(chunk_head)
           }
         })
-        bad_chunk_names <- bad_chunk_names[lengths(bad_chunk_names) > 0]
-        bail("One or more chunks in the file ", fn_color(.x), " with knitr ",
-             "option ", csas_color("needs_trans = TRUE"), " do not have ",
+        bad_chunk_headers <- bad_chunk_headers[lengths(bad_chunk_headers) > 0]
+        bad_chunk_names <- map(bad_chunk_headers, ~{
+          pat <- "r\\s*(\\s*\\S+\\s*)+?\\s*,\\s*.*$"
+          chunk_head_contents <- gsub(all_patterns$md$chunk.begin, "\\1", .x)
+          gsub(pat, "\\1", chunk_head_contents)
+        })
+        bad_chunk_line_nums <- map_dbl(bad_chunk_headers, ~{
+          get_real_line_num(.x, line_offsets)
+        })
+        bail("The following chunk name(s) are missing ",
              csas_color("cat()"), " or ", csas_color("rmd_file('filename')"),
-             " as the first line of code in the chunk (ignoring comment ",
-             "lines). If the chunk mirrors another chunk, (e.g. ",
-             "contains ", csas_color("<<chunk-name>>"),
-             " only), make sure that the mirrored chunk has a ",
+             " as their first lines of code (not including blank lines and ",
+             "comment lines):\n\n",
+             paste(map2_chr(bad_chunk_names, bad_chunk_line_nums, ~{
+               paste0("In file ", fn_color(gsub("^tmp-(\\S+)$", "\\1", fn)),
+                      ", line ", tag_color(.y), ": <<", .x, ">>")
+             }), collapse = "\n"),
+             "\n\nIf those chunks contain ", csas_color("<<chunk-name>>"),
+             ", check the source chunks for those by searching the project ",
+             "for the chunk name and make sure they have ",
              csas_color("cat()"), " or ", csas_color("rmd_file('filename')"),
-             "call as its first line of code.\n\n",
-
-             "The chunk name(s) missing ",
-             csas_color("cat()"), " or ", csas_color("rmd_file('filename')"),
-             " on their first lines are:\n\n",
-             csas_color(paste(bad_chunk_names, collapse = "\n")), "\n")
+             " as their first lines of code")
       }
       cat_inds <- cat_inds[!(cat_inds %in% (nt_inds + 1))]
 

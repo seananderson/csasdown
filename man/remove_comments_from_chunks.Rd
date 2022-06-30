@@ -19,9 +19,9 @@ and all the full chunk headers (column \code{chunk_header}) which are
 unique document-wide. The chunk line number (column \code{chunk_ind}) is
 also included so that headers can be searched for later, matched,
 and correct line numbers from unmodified Rmd lines can be reported.
-Columns containing the number of comments removed from each chunk
-before (\code{pre_num}) and after (\code{post_num}) a call to \code{cat()},
-\code{rmd_file()}, or a mirror chunk \verb{<<chunk-name>>} are included.
+Columns containing the number of comment lines and blank lines removed
+from each chunk before (\code{pre_num}) and after (\code{post_num}) a call to
+\code{cat()}, \code{rmd_file()}, or a mirror chunk \verb{<<chunk-name>>} are included.
 Addition of \code{chunk_ind} and \code{pre_num} allow exact line numbers to be
 quoted in messages for the original files.
 }

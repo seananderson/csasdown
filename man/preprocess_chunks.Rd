@@ -4,13 +4,24 @@
 \alias{preprocess_chunks}
 \title{Run the pre-processor on the chunks in the Rmd files}
 \usage{
-preprocess_chunks(fns, yaml_fn = "_bookdown.yml", verbose = FALSE)
+preprocess_chunks(
+  fns,
+  yaml_fn = "_bookdown.yml",
+  line_offsets = NULL,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{fns}{A vector of character strings holding the Rmd filenames that
 are to be included}
 
 \item{yaml_fn}{The Bookdown YAML filename}
+
+\item{line_offsets}{A \code{\link[=data.frame]{data.frame()}} or \code{\link[tibble:tibble]{tibble::tibble()}} containing the
+line offsets to be added to line numbers in messages in order to give the
+correct line numbers for the original files. Has columns \code{fn} (chr),
+\code{chunk_header} (chr)  \code{chunk_ind} (int), \code{pre_num} (dbl), \code{post_num} (dbl),
+and \code{rmd_num} (dbl). See \code{return} values for \code{\link[=inject_rmd_files]{inject_rmd_files()}} and}
 
 \item{verbose}{Logical. If \code{TRUE}, print messages}
 }

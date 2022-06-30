@@ -48,5 +48,13 @@ get_real_line_num <- function(header, line_offsets){
          csas_color(header))
   }
   row <- line_offsets[row_ind, ]
-  row$chunk_ind + row$pre_num + 1
+  ret_val <- row$chunk_ind + row$pre_num
+  if(row_ind < nrow(line_offsets)){
+    chunk_diff <- line_offsets[row_ind + 1, ]$chunk_ind -
+      line_offsets[row_ind, ]$chunk_ind
+    if(chunk_diff > 2){
+      ret_val <- ret_val + 1
+    }
+  }
+  ret_val
 }

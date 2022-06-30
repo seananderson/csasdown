@@ -145,6 +145,7 @@ render <- function(yaml_fn = "_bookdown.yml",
   # Run the pre-processor on all the chunks
   preprocess_chunks(fn_process,
                     yaml_fn,
+                    line_offsets = offsets,
                     verbose)
 
   # Inject some more complex code into the temporary version of index.Rmd
