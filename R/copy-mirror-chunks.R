@@ -113,7 +113,7 @@ copy_mirror_chunks <- function(rmd_files,
                  fn_color(gsub("^tmp-(\\S+)$", "\\1", fn)))        }
       }
       # Search for the code for this mirrored chunk in huge_rmd
-      pat <- paste0(chunk_name, ",")
+      pat <- paste0(chunk_name, "\\s*(,|\\})")
       k <- grep(pat, huge_rmd)
       if(!length(k)){
         bail("In file ", fn_color(fn), ", mirrored reference name ",
