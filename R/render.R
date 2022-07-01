@@ -109,7 +109,7 @@ render <- function(yaml_fn = "_bookdown.yml",
   fn_process <- tmp_rmd_fns[tmp_rmd_fns != index_fn]
 
   # Make sure all chunk headers are of the correct language and have
-  # `needs_trans` chunk headers set correctly
+  # `needs_trans` and `results = 'asis'` chunk headers set correctly
   validate_chunk_headers(fn_process,
                          en_chunk_regex = en_chunk_regex,
                          fr_chunk_regex = fr_chunk_regex,
@@ -199,5 +199,11 @@ render <- function(yaml_fn = "_bookdown.yml",
   # rendering different language versions does not overwrite the other
   # language version.
   rename_output_files(index_fn, verbose)
+  if(!verbose){
+    notify("For help debugging your code, render your document like this:\n",
+           csas_color("render(verbose = TRUE, keep_files = TRUE)"), "\n\n")
+  }
+
+  check_notify("Render completed")
   invisible()
 }

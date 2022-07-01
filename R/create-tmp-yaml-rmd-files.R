@@ -38,6 +38,8 @@
 #' @param yaml_fn The [bookdown] YAML file name, by default is "_bookdown.yml"
 #' @param verbose Logical. If `TRUE`, print messages
 #'
+#' @importFrom purrr walk2
+#'
 #' @return A list of two, 1) The name of the temporary YAML file created
 #' 2) A vector of the temporary Rmd files created
 create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml",
@@ -100,7 +102,18 @@ create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml",
   orig_rmd_fns <- rmd_fns
   rmd_fns <- paste0("tmp-", rmd_fns)
   unlink(rmd_fns, force = TRUE)
-  file.copy(orig_rmd_fns, rmd_fns)
+
+  walk2(orig_rmd_fns, rmd_fns, ~{
+    success <- file.copy(.x, .y, overwrite = TRUE)
+    if(success){
+      if(verbose){
+        check_notify("File copied from ", fn_color(.x), " to ", fn_color(.y))
+      }
+    }else{
+      bail("Could not copy file from ", fn_color(.x), " to ", fn_color(.y), "\n",
+           "Check that file exists in the current directory")
+    }
+  })
 
   # Create the text listing the new Rmd files for inside the new YAML file
   rmd_fns_listing <- imap_chr(rmd_fns, ~{
@@ -117,6 +130,16 @@ create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml",
   yaml <- c(pre_rmd_fns, rmd_fns_listing, post_rmd_fns)
   tmp_fn <- paste0("tmp", yaml_fn)
   writeLines(yaml, tmp_fn)
+
+  if(file.exists(tmp_fn)){
+    if(verbose){
+      check_notify("File ", fn_color(tmp_fn), " created")
+    }
+  }else{
+    # nocov start
+    bail("Could not create file ", fn_color(tmp_fn))
+    # nocov end
+  }
 
   if(verbose){
     check_notify("Temporary YAML and Rmarkdown files created successfully ..\n")

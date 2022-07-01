@@ -10,6 +10,8 @@
 #' `csasdown/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd`
 #' which is `index.Rmd` by default
 #'
+#' @importFrom purrr map2_lgl
+#'
 #' @return Nothing
 rename_output_files <- function(index_fn, verbose = FALSE){
 
@@ -48,17 +50,19 @@ rename_output_files <- function(index_fn, verbose = FALSE){
   old_fns <- c(old_other_fn, old_output_fn)
 
   unlink(new_fns, force = TRUE)
-  rename_success <- file.rename(old_fns, new_fns)
-  imap(rename_success, ~{
-    if(.x){
-      check_notify("File ", fn_color(new_fns[.y]), " created.")
+  copy_success <- map2_lgl(old_fns, new_fns, ~{
+    success <- file.copy(.x, .y, overwrite = TRUE)
+    if(success){
+      check_notify("File ", fn_color(.y), " created.")
+      unlink(.x, force = TRUE)
+      return(TRUE)
     }else{
-      alert("Could not rename the file ", fn_color(old_fns[.y]),
-            " to ", fn_color(new_fns[.y]))
+      alert("Could not copy file from ", fn_color(.x), " to ", fn_color(.y))
+      return(FALSE)
     }
   })
 
-  if(verbose){
-    check_notify("Renamed output files successfully\n")
+  if(verbose && all(copy_success)){
+    check_notify("Renamed output files successfully")
   }
 }

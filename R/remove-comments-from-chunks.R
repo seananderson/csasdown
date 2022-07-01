@@ -31,7 +31,9 @@ remove_comments_from_chunks <- function(rmd_files,
                                         verbose = FALSE){
 
   if(verbose){
-    notify("Removing comments from knitr code chunks ...")
+    notify("Removing comments from knitr code chunks containing:\n",
+           csas_color("cat()"), ", ", csas_color("<<chunk-name>>"),
+           ", or ", csas_color("rmd_file()"), " ...")
   }
 
   offsets <- map(rmd_files, function(fn){
