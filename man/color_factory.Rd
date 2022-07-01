@@ -10,6 +10,7 @@
 \alias{fn_color}
 \alias{tag_color}
 \alias{csas_color}
+\alias{mod_color}
 \title{Create functions for coloring various keyword families}
 \usage{
 color_factory(message, r_color)
@@ -29,6 +30,8 @@ fn_color(message)
 tag_color(message)
 
 csas_color(message)
+
+mod_color(message)
 }
 \arguments{
 \item{message}{The message to color}
@@ -38,6 +41,9 @@ csas_color(message)
 }
 \value{
 A function to custom color text
+
+The customized message modified by the \code{\link[crayon:make_style]{crayon::make_style()}}
+color function
 
 The customized message modified by the \code{\link[crayon:make_style]{crayon::make_style()}}
 color function
@@ -82,4 +88,6 @@ YAML tag color for messages throughout the project
 
 csasdown items (render type, format, chunk names, etc) color
 for messages throughout the project
+
+modified tag color for messages throughout the project
 }

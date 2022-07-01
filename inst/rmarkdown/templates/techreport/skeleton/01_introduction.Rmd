@@ -31,7 +31,7 @@ Note that the year part of the citation is clickable and will take you directly 
 Here is an example equation with the code used to generate it. Note that `csasdown` automatically numbers it on the right-hand side of the page. It does this consecutively throughout the document sections, but appendices are each numbered on their own, e.g. A.1, A.2, ... for Appendix A, and B.1, B.2, ... for Appendix B.")
 ```
 
-```{r para-chap02-1-fr, eval=!fr(), results = 'asis', needs_trans = TRUE}
+```{r para-chap02-1-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
 <<para-chap02-1-en>>
 ```
 

@@ -524,7 +524,14 @@ tag_color <- color_factory(message, "limegreen")
 #' @rdname color_factory
 #' @return The customized message modified by the [crayon::make_style()]
 #' color function
-csas_color <- color_factory(message, "seashell4")
+csas_color <- color_factory(message, "yellowgreen")
+
+#' modified tag color for messages throughout the project
+#'
+#' @rdname color_factory
+#' @return The customized message modified by the [crayon::make_style()]
+#' color function
+mod_color <- color_factory(message, "orangered")
 
 #' Abort code execution
 #'

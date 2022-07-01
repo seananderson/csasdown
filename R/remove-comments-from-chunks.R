@@ -80,10 +80,8 @@ remove_comments_from_chunks <- function(rmd_files,
       has_rmd_file <- as.logical(length(rmd_file_ind))
       if(has_cat || has_mirror || has_rmd_file){
         if(length(cat_ind) > 1 ||
-           length(mirror_ind) > 1 ||
            length(rmd_file_ind) > 1){
-          bail("Can only have one ", csas_color("cat() call"), ", ",
-               csas_color("mirror reference (<<chunk-name>>)"), ", or ",
+          bail("Can only have one ", csas_color("cat() call"), " or ",
                csas_color("rmd_file() call"), " inside each code chunk:\n\n",
                csas_color(paste(chunk, collapse = "\n")),
                "\n\n")

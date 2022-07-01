@@ -1,5 +1,5 @@
 ```{r x-1-en, eval = !fr(), results = 'asis'}
 ```
 
-```{r x-1-english, eval = !fr(), results = 'asis'}
+```{r x-1-fr, eval = fr(), results = 'asis'}
 ```

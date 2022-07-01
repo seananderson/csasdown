@@ -34,6 +34,8 @@
 #' @importFrom crayon cyan red
 parse_cat_text <- function(str_vec, ret_inds = FALSE, verbose = FALSE){
 
+
+  str_vec <- trimws(str_vec)
   if(!length(grep("^cat\\(.*", str_vec[1]))){
     bail("The first line of ", csas_color("str_vec"), " must start with ",
          csas_color("cat()"))
