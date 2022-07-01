@@ -1,6 +1,5 @@
 test_that("validate_chunk_headers() works", {
   rmd_dir <- testthat::test_path("validate-chunk-headers-files")
-  #rmd_dir <- here::here(testthat::test_path(), "validate-chunk-headers-files")
 
   testing_path <- file.path(tempdir(), "test-validate-chunk-headers")
   unlink(testing_path, recursive = TRUE, force = TRUE)
@@ -19,6 +18,8 @@ test_that("validate_chunk_headers() works", {
             file.path(testing_path, "regex-tests-6.Rmd"))
   file.copy(file.path(rmd_dir, "regex-tests-7.Rmd"),
             file.path(testing_path, "regex-tests-7.Rmd"))
+  file.copy(file.path(rmd_dir, "regex-tests-8.Rmd"),
+            file.path(testing_path, "regex-tests-8.Rmd"))
   setwd(testing_path)
 
   expect_invisible(csasdown:::validate_chunk_headers(NULL))
@@ -26,6 +27,10 @@ test_that("validate_chunk_headers() works", {
 
   expect_error(csasdown:::validate_chunk_headers("regex-tests-0.Rmd"),
                paste0("is not of correct format for English chunks"))
+  # ---------------------------------------------------------------------------
+
+  expect_error(csasdown:::validate_chunk_headers("regex-tests-8.Rmd"),
+               paste0("is not of correct format for French chunks"))
   # ---------------------------------------------------------------------------
 
   expect_warning(csasdown:::validate_chunk_headers("regex-tests-3.Rmd"),
