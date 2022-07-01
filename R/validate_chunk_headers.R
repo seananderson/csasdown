@@ -158,21 +158,25 @@ validate_chunk_headers <- function(rmd_files,
                 csas_color(rmd[chunk_head_ind]), mod_color(" (code modified)"))
         }
       }
-      if(!en_opt && grepl(en_chunk_regex, chunk_name)){
-        alert("Found a chunk on line ",
-              tag_color(chunk_head_ind), " in file ",
-              fn_color(fn), " with a name that follows the format for an ",
-              "English chunk but is missing ", csas_color("`eval = !fr()`"),
-              ". Check this chunk to verify your intentions:\n",
-              csas_color(rmd[chunk_head_ind]))
+      if(!is.null(en_chunk_regex)){
+        if(!en_opt && grepl(en_chunk_regex, chunk_name)){
+          alert("Found a chunk on line ",
+                tag_color(chunk_head_ind), " in file ",
+                fn_color(fn), " with a name that follows the format for an ",
+                "English chunk but is missing ", csas_color("`eval = !fr()`"),
+                ". Check this chunk to verify your intentions:\n",
+                csas_color(rmd[chunk_head_ind]))
+        }
       }
-      if(!fr_opt && grepl(fr_chunk_regex, chunk_name)){
-        alert("Found a chunk on line ",
-              tag_color(chunk_head_ind), " in file ",
-              fn_color(fn), " with a name that follows the format for a ",
-              "French chunk but is missing ", csas_color("`eval = fr()`"),
-              ". Check this chunk to verify your intentions:\n",
-              csas_color(rmd[chunk_head_ind]))
+      if(!is.null(fr_chunk_regex)){
+        if(!fr_opt && grepl(fr_chunk_regex, chunk_name)){
+          alert("Found a chunk on line ",
+                tag_color(chunk_head_ind), " in file ",
+                fn_color(fn), " with a name that follows the format for a ",
+                "French chunk but is missing ", csas_color("`eval = fr()`"),
+                ". Check this chunk to verify your intentions:\n",
+                csas_color(rmd[chunk_head_ind]))
+        }
       }
       if(verbose){
         notify(csas_color(rmd[chunk_head_ind]),

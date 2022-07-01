@@ -20,19 +20,9 @@ test_that("rename_output_files() works", {
   expect_true(file.exists(file.path("_book", "sr-english.pdf")))
   expect_true(file.exists(file.path("_book", "sr-english.tex")))
 
-  x <- csasdown:::capture_log(csasdown:::rename_output_files("index.Rmd"))
-  j <- x(1)
-  j <- j$logs
-  mess <- purrr::map_chr(j, ~{.x$message})
-  types <- purrr::map_chr(j, ~{.x$type})
-  expect_match(mess[1], paste0("cannot rename file '_book/sr.tex' ",
-                               "to '_book/sr-english.tex'"))
-  expect_match(mess[2], paste0("cannot rename file '_book/sr.pdf' ",
-                               "to '_book/sr-english.pdf'"))
-  expect_match(mess[3], paste0("Could not rename the file \\S+ ",
-                               "to \\S+"))
-  expect_match(mess[4], paste0("Could not rename the file \\S+ ",
-                               "to \\S+"))
+  w <- capture_warnings(csasdown:::rename_output_files("index.Rmd"))
+  expect_match(w[1], paste0("Could not copy file from"))
+  expect_match(w[2], paste0("Could not copy file from"))
 
   file.create(file.path(d, "sr.docx"))
   file.create(file.path(d, "reference-keys.txt"))
@@ -41,21 +31,8 @@ test_that("rename_output_files() works", {
   expect_true(file.exists(file.path("_book", "sr-english.docx")))
   expect_true(file.exists(file.path("_book", "reference-keys-docx-english.txt")))
 
-  x <- csasdown:::capture_log(csasdown:::rename_output_files("index.Rmd"))
-  j <- x(1)
-  j <- j$logs
-  mess <- purrr::map_chr(j, ~{.x$message})
-  expect_match(mess[1],
-               paste0("cannot rename file '_book/reference-keys.txt' ",
-                      "to '_book/reference-keys-docx-english.txt'"))
-  expect_match(mess[2],
-               paste0("cannot rename file '_book/sr.docx' ",
-                      "to '_book/sr-english.docx'"))
-  expect_match(mess[3],
-                   paste0("Could not rename the file \\S+ ",
-                   "to \\S+"))
-  expect_match(mess[4],
-                   paste0("Could not rename the file \\S+ to ",
-                          "\\S+"))
+  w <- capture_warnings(csasdown:::rename_output_files("index.Rmd"))
+  expect_match(w[1], paste0("Could not copy file from"))
+  expect_match(w[2], paste0("Could not copy file from"))
 
 })

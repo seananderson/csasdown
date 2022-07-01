@@ -33,9 +33,9 @@ test_that("cat parser works", {
   x <- csasdown:::capture_log(csasdown:::parse_cat_text(strs, verbose = TRUE))
   j <- x(1)
   j <- j$logs
-  mess <- purrr::map_chr(j, ~{.x$message})
-  expect_match(mess[1], "Pushed '\\(' from \\S+ to stack. Stack size is now 1")
-  expect_match(mess[2], "No matching '\\(' for this '\\)' on line  1, char 13")
+  w <- purrr::map_chr(j, ~{.x$message})
+  expect_match(w[1], "Pushed '\\(' from \\S+ to stack. Stack size is now 1")
+  expect_match(w[2], "No matching '\\(' for this '\\)' on line  1, char 13")
 
   x <- csasdown:::capture_log(csasdown:::parse_cat_text(strs, verbose = TRUE))
   j <- x(1)
