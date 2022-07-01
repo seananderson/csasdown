@@ -50,19 +50,11 @@ validate_chunk_headers <- function(rmd_files,
       return(NULL)
     }
 
-    chunk_name_pat <- "^```\\s*\\{\\s*r,?\\s*(\\s*\\S+\\s*)+?\\s*,\\s*.*$"
+    chunk_name_pat <- "^```\\s*\\{\\s*r,?\\s*(\\s*\\S+\\s*)+?\\s*(,|\\}$)\\s*.*"
     map(chunk_head_inds, function(chunk_head_ind){
 
       curr_chunk_modified <- FALSE
       chunk_head <- trimws(rmd[chunk_head_ind])
-      # Check for comma after r in chunk (causes cascading problems if passed)
-      # comma_r <- grepl("^```\\s*\\{\\s*r,", chunk_head)
-      # if(comma_r){
-      #   bail("Chunk on line ", tag_color(chunk_head_ind), " in file ",
-      #        fn_color(gsub("^tmp-(\\S+)$", "\\1", fn)), " has a comma ",
-      #        "after the initial ", tag_color("```{r "), "Remove this ",
-      #        "and try again.")
-      # }
       chunk_name <- gsub(chunk_name_pat, "\\1", chunk_head)
       fr_opt <- chunk_header_contains(chunk_head, "eval = fr()")
       en_opt <- chunk_header_contains(chunk_head, "eval = !fr()")
@@ -78,8 +70,8 @@ validate_chunk_headers <- function(rmd_files,
             bail("Chunk name on line ", tag_color(chunk_head_ind), " in file ",
                  fn_color(gsub("^tmp-(\\S+)$", "\\1", fn)), " is not of ",
                  "correct format for English chunks (because it contains ",
-                 "`eval = !fr()`). The name does not match the regular ",
-                 "expression which is ",
+                 csas_color("`eval = !fr()`"), "). The name does not match ",
+                 "the regular expression which is ",
                  csas_color(en_chunk_regex), ":\n",
                  csas_color(chunk_head))
           }
@@ -109,8 +101,8 @@ validate_chunk_headers <- function(rmd_files,
                  " in file ",
                  fn_color(gsub("^tmp-(\\S+)$", "\\1", fn)), " is not of ",
                  "correct format for French chunks (because it contains ",
-                 "`eval = !fr()`). The name does not match the regular ",
-                 "expression which is ",
+                 csas_color("`eval = !fr()`"), " ). The name does not match ",
+                 "the regular expression which is ",
                  csas_color(fr_chunk_regex), ":\n",
                  csas_color(chunk_head))
           }
@@ -159,11 +151,28 @@ validate_chunk_headers <- function(rmd_files,
                 tag_color(chunk_head_ind), " in file ",
                 fn_color(fn), " is missing and has been added ",
                 "automatically.\n",
-                "Any chunk header that contains `eval = fr()` or ",
-                "`eval = !fr()` requires it:\n",
+                "Any chunk header that contains ",
+                csas_color("`eval = fr()`"), " or ",
+                csas_color("`eval = !fr()`"), " requires it:\n",
                 csas_color(prev_chunk_head), "  ", tag_color("-->"), "\n",
                 csas_color(rmd[chunk_head_ind]), mod_color(" (code modified)"))
         }
+      }
+      if(!en_opt && grepl(en_chunk_regex, chunk_name)){
+        alert("Found a chunk on line ",
+              tag_color(chunk_head_ind), " in file ",
+              fn_color(fn), " with a name that follows the format for an ",
+              "English chunk but is missing ", csas_color("`eval = !fr()`"),
+              ". Check this chunk to verify your intentions:\n",
+              csas_color(rmd[chunk_head_ind]))
+      }
+      if(!fr_opt && grepl(fr_chunk_regex, chunk_name)){
+        alert("Found a chunk on line ",
+              tag_color(chunk_head_ind), " in file ",
+              fn_color(fn), " with a name that follows the format for a ",
+              "French chunk but is missing ", csas_color("`eval = fr()`"),
+              ". Check this chunk to verify your intentions:\n",
+              csas_color(rmd[chunk_head_ind]))
       }
       if(verbose){
         notify(csas_color(rmd[chunk_head_ind]),
