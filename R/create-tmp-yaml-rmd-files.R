@@ -110,8 +110,10 @@ create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml",
         check_notify("File copied from ", fn_color(.x), " to ", fn_color(.y))
       }
     }else{
+      # nocov start
       bail("Could not copy file from ", fn_color(.x), " to ", fn_color(.y), "\n",
            "Check that file exists in the current directory")
+      # nocov end
     }
   })
 

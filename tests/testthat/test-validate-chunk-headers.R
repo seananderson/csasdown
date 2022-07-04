@@ -4,36 +4,38 @@ test_that("validate_chunk_headers() works", {
   testing_path <- file.path(tempdir(), "test-validate-chunk-headers")
   unlink(testing_path, recursive = TRUE, force = TRUE)
   dir.create(testing_path, showWarnings = FALSE)
-  file.copy(file.path(rmd_dir, "regex-tests-0.Rmd"),
-            file.path(testing_path, "regex-tests-0.Rmd"))
   file.copy(file.path(rmd_dir, "regex-tests-1.Rmd"),
             file.path(testing_path, "regex-tests-1.Rmd"))
   file.copy(file.path(rmd_dir, "regex-tests-2.Rmd"),
             file.path(testing_path, "regex-tests-2.Rmd"))
-  file.copy(file.path(rmd_dir, "regex-tests-3.Rmd"),
-            file.path(testing_path, "regex-tests-3.Rmd"))
-  file.copy(file.path(rmd_dir, "regex-tests-5.Rmd"),
-            file.path(testing_path, "regex-tests-5.Rmd"))
-  file.copy(file.path(rmd_dir, "regex-tests-6.Rmd"),
-            file.path(testing_path, "regex-tests-6.Rmd"))
-  file.copy(file.path(rmd_dir, "regex-tests-7.Rmd"),
-            file.path(testing_path, "regex-tests-7.Rmd"))
-  file.copy(file.path(rmd_dir, "regex-tests-8.Rmd"),
-            file.path(testing_path, "regex-tests-8.Rmd"))
   setwd(testing_path)
 
   expect_invisible(csasdown:::validate_chunk_headers(NULL))
   # ---------------------------------------------------------------------------
 
-  expect_error(csasdown:::validate_chunk_headers("regex-tests-0.Rmd"),
+  fn <- "test.Rmd"
+  writeLines(c("```{r x-1-en, eval = !fr(), results = 'asis'}",
+               "```",
+               "```{r x-2-english, eval = !fr(), results = 'asis'}",
+               "```"),
+             fn)
+  expect_error(csasdown:::validate_chunk_headers(fn),
                paste0("is not of correct format for English chunks"))
   # ---------------------------------------------------------------------------
 
-  expect_error(csasdown:::validate_chunk_headers("regex-tests-8.Rmd"),
+  writeLines(c("```{r fr-y-1, eval = fr(), needs_trans = FALSE, results = \"asis\"}",
+               "```"),
+             fn)
+  expect_error(csasdown:::validate_chunk_headers(fn),
                paste0("is not of correct format for French chunks"))
   # ---------------------------------------------------------------------------
 
-  expect_warning(csasdown:::validate_chunk_headers("regex-tests-3.Rmd"),
+  writeLines(c("```{r x-1-en, eval = !fr(), results = 'asis'}",
+               "```",
+               "```{r x-1-fr, eval = fr(), results = 'asis'}",
+               "```"),
+             fn)
+  expect_warning(csasdown:::validate_chunk_headers(fn),
                  paste0("is missing for this French chunk and has been added"))
   # ---------------------------------------------------------------------------
 
@@ -58,15 +60,32 @@ test_that("validate_chunk_headers() works", {
   expect_match(w[14], "is not allowed for English chunks and has been removed")
   # ---------------------------------------------------------------------------
 
-  expect_warning(csasdown:::validate_chunk_headers("regex-tests-5.Rmd"),
+  writeLines(c("```{r x-1-en, eval = !fr()}",
+               "```"),
+             fn)
+  expect_warning(csasdown:::validate_chunk_headers(fn),
                  "is missing and has been added automatically")
   # ---------------------------------------------------------------------------
 
-  expect_warning(csasdown:::validate_chunk_headers("regex-tests-6.Rmd"),
+  writeLines(c("```{r x-1, needs_trans = FALSE}",
+               "```"),
+             fn)
+  expect_warning(csasdown:::validate_chunk_headers(fn),
                  "is not of correct format for neutral chunks")
   # ---------------------------------------------------------------------------
-
-  expect_warning(csasdown:::validate_chunk_headers("regex-tests-7.Rmd"),
+  writeLines(c("```{r y-1-fr, eval = fr(), needs_trans = FALSE}",
+               "```"),
+             fn)
+  expect_warning(csasdown:::validate_chunk_headers(fn),
                  "is missing and has been added automatically")
+  # ---------------------------------------------------------------------------
 
-})
+  writeLines(c("```{r x-1-en}", "```"), fn)
+  expect_warning(csasdown:::validate_chunk_headers(fn),
+                 "with a name that follows the format for an English chunk")
+
+  writeLines(c("```{r x-1-fr}", "```"), fn)
+  expect_warning(csasdown:::validate_chunk_headers(fn),
+                 "with a name that follows the format for a French chunk")
+
+  })
