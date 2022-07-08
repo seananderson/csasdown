@@ -8,7 +8,7 @@
 #' @details
 #' This allows the author to write pure Rmarkdown in a file, and have it read
 #' into the [cat()] command in a csasdown resdoc Rmd file's code chunk. See
-#' 'resdoc-bilingual' type example doc (`csasdown::draft("resdoc-bilingual")`)
+#' the bilingual resdoc example doc (`csasdown::draft("resdoc-b")`)
 #'
 #' @keywords internal
 #'
