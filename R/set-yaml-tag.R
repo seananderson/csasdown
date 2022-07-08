@@ -1,5 +1,7 @@
 #' Set a YAML tag to a value inside the YAML header in the file given
 #'
+#' @keywords internal
+#'
 #' @param tag A regular expression representing the name of the tag. Usually
 #' just the name of the tag is enough but if it occurs more than once in the
 #' file, you will need to refine your regular expression here
@@ -13,7 +15,6 @@
 #' @importFrom tibble tibble
 #' @importFrom purrr map2 map2_lgl
 #' @return Nothing
-#' @export
 set_yaml_tag <- function(tag = NULL, val = NULL, fn = "index.Rmd"){
 
   if(is.null(fn)){

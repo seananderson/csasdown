@@ -35,13 +35,13 @@
 #' ```
 #'
 #' @keywords internal
+#'
 #' @family rmd_conversion_functions
 #'
 #' @param chunk A vector of character strings representing lines for RMD code
 #'
 #' @return A list of two elements, which are the modified type 1 table and the
 #' rest of the chunk starting with the line after the end of the table
-#' @export
 #'
 #' @examples
 #' library(csasdown)

@@ -24,3 +24,4 @@ This is a function called in output in the YAML of the \code{index.Rmd} file
 to specify the creation of a Microsoft Word version of the Research
 Document or Science Response.
 }
+\keyword{internal}
