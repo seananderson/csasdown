@@ -4,8 +4,6 @@
 #' This is a function called in output in the YAML of the driver Rmd file
 #' to specify using the CSAS LaTeX template and cls files.
 #'
-#' @keywords internal
-#'
 #' @param toc Logical. If `TRUE`, include a Table of Contents (TOC)
 #' @param toc_depth A positive integer representing how many levels of section
 #' headers to show in the TOC
@@ -41,6 +39,7 @@
 #' @import bookdown
 #' @importFrom here here
 #' @rdname csas_pdf
+#' @export
 resdoc_pdf <- function(toc = TRUE,
                        toc_depth = 3,
                        highlight = "tango",

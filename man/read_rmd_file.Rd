@@ -23,6 +23,6 @@ they cause an "incomplete final line" warning from Rmarkdown.
 \details{
 This allows the author to write pure Rmarkdown in a file, and have it read
 into the \code{\link[=cat]{cat()}} command in a csasdown resdoc Rmd file's code chunk. See
-the bilingual resdoc example doc (\code{csasdown::draft("resdoc-b")})
+'resdoc-bilingual' type example doc (\code{csasdown::draft("resdoc-bilingual")})
 }
 \keyword{internal}

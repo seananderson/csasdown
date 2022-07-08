@@ -369,8 +369,6 @@ is_windows <- function() {
 
 #' Redefinition of [cat()] with separator set to empty string
 #'
-#' @keywords internal
-#'
 #' @param ... `R` objects (see `Details` for the types of objects allowed)
 #' @param file A connection, or a character string naming the file to print
 #' to. If "" (the default), cat prints to the standard output connection
@@ -390,6 +388,7 @@ is_windows <- function() {
 #' otherwise, it will overwrite the contents of file.
 #'
 #' @inherit base::cat details note references seealso examples
+#' @export
 cat <- function(...,
                 file = "",
                 sep = " ",

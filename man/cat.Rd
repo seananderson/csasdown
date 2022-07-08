@@ -88,4 +88,3 @@ Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988)
 \code{\link[base]{print}}, \code{\link[base]{format}}, and \code{\link[base]{paste}}
   which concatenates into a string.
 }
-\keyword{internal}

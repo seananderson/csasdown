@@ -24,4 +24,3 @@ Nothing
 \description{
 Set a YAML tag to a value inside the YAML header in the file given
 }
-\keyword{internal}

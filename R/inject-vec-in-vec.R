@@ -15,6 +15,7 @@
 #' @keywords internal
 #'
 #' @return A vector of strings
+#' @export
 inject_vec_in_vec <- function(main_vec = NULL, sec_vec = NULL, inds = NULL){
 
   if(is.null(main_vec)){

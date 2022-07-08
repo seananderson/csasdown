@@ -6,10 +6,10 @@
 #' the." Contact information for the national CSAS office is returned if
 #' regional information is not found, with a warning.
 #'
-#' @keywords internal
-#'
 #' @param region Region in which the document is published; character vector.
 #' (i.e., Pacific). Default is "National Capital Region."
+#'
+#' @export
 #'
 #' @return Email address and mailing address as list of character vectors
 get_contact_info <- function(region = "National Capital Region") {

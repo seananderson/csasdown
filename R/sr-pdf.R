@@ -1,4 +1,4 @@
-#' @keywords internal
+#' @export
 #' @rdname csas_pdf
 sr_pdf <- function(latex_engine = "pdflatex",
                    prepub = FALSE,
