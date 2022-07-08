@@ -32,7 +32,7 @@ RUN wget -O- \
     hanging babel-english babel-french titlecaps ifnextok \
     textcase doi appendix soulpos chngcntr amsfonts soulutf8 \
     dvips booktabs wrapfig threeparttable threeparttablex draftwatermark \
-    footmisc \
+    footmisc listings \
   && tlmgr path add \
   && Rscript -e "tinytex::r_texmf()" \
   && tlmgr init-usertree \
