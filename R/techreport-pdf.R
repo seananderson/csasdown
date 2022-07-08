@@ -1,4 +1,4 @@
-#' @export
+#' @keywords internal
 #' @rdname csas_pdf
 techreport_pdf <- function(latex_engine = "pdflatex",
                            copy_sty = TRUE,

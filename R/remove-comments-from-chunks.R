@@ -23,7 +23,6 @@
 #' Addition of `chunk_ind` and `pre_num` allow exact line numbers to be
 #' quoted in messages for the original files.
 #'
-#' @export
 #' @importFrom dplyr summarize group_by mutate
 #' @importFrom knitr all_patterns
 #' @importFrom purrr map_dbl pwalk

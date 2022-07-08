@@ -5,10 +5,11 @@
 #' to specify the creation of a Microsoft Word version of the Research
 #' Document or Science Response.
 #'
+#' @keywords internal
+#'
 #' @param ... Other arguments to [bookdown::word_document2()]
 #' @import bookdown
 #' @rdname csas_docx
-#' @export
 #' @return A Word Document in the `.docx` format based on the CSAS Res Doc
 #' template
 resdoc_word <- function(...) {

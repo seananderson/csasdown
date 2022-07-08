@@ -10,13 +10,13 @@
 #' rest of the Rmd.
 #'
 #' @keywords internal
+#'
 #' @family rmd_conversion_functions
 #'
 #' @param chunk A vector of character strings representing lines for RMD code
 #'
 #' @return A list of two elements, 1) The corrected part of the chunk and
 #' 2) the rest of the chunk starting with the line after the last blank line
-#' @export
 #'
 #' @examples
 #' library(csasdown)

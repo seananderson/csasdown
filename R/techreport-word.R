@@ -1,4 +1,4 @@
-#' @export
+#' @keywords internal
 #' @rdname csas_docx
 techreport_word <- function(...) {
   file <- "tech-report.docx"
