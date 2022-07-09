@@ -42,7 +42,7 @@
 #' @importFrom kableExtra row_spec kable_styling landscape linebreak
 #' @importFrom purrr map map2 map_chr map_lgl map_df
 #' @examples
-#' csas_table(head(iris))
+#' csasdown::csas_table(head(iris))
 #' @export
 csas_table <- function(x,
                        format = "pandoc",

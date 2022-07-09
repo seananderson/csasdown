@@ -161,7 +161,7 @@ test_that("csasdown:::preprocess_chunks() works", {
 
   fn <- "empty-chunks-test.Rmd"
   writeLines(rmd, fn)
-  offsets <- remove_comments_from_chunks(fn, verbose = TRUE)
+  offsets <- csasdown:::remove_comments_from_chunks(fn, verbose = TRUE)
 
   expect_error(csasdown:::preprocess_chunks(fn,
                                             line_offsets = offsets,

@@ -8,14 +8,18 @@ the index file}
 set_render_type(
   fn = get_index_filename(system.file("rmarkdown", "templates", "resdoc", "skeleton",
     "_bookdown.yml", package = "csasdown")),
-  doc_type = c("pdf", "word")
+  doc_type = c("pdf", "word", "asis")
 )
 }
 \arguments{
 \item{fn}{The name of the YAML file, typically 'index.Rmd' for bookdown}
 
-\item{doc_type}{The type of document to set for rendering. Either 'pdf' or
-'word'}
+\item{doc_type}{The type of document to set for rendering. Either 'pdf',
+'word', or 'asis'. If \code{asis}, leave the render type as-is. The reason
+for this is so that the render type line in the file can be overwritten
+with three colons instead of two, without changing the type.
+i.e. \code{csasdown::render_type} or \code{csasdown:::render_type} will both
+be re-written as \code{csasdown:::render_type} for all values of \code{doc_type}.}
 }
 \value{
 Nothing

@@ -10,18 +10,31 @@ test_that("get_render_type() and set_render_type() throw errors", {
   ))
 
   expect_error(csasdown:::get_render_type("nonexistent-file.Rmd"), "does not exist")
-
+  # ---------------------------------------------------------------------------
+  rmd <- readLines("index.Rmd")
+  ind <- grep("csasdown:::resdoc_pdf:", rmd)
+  tmp <- rmd[ind]
+  rmd[ind] <- " csasdown::resdoc_pdf:"
+  writeLines(rmd, "index.Rmd")
   rmd <- readLines("index.Rmd")
   ind <- grep("csasdown::resdoc_pdf:", rmd)
-  tmp <- rmd[ind]
+  expect_identical(ind, 44L)
+  csasdown:::set_render_type("index.Rmd", "asis")
+  rmd <- readLines("index.Rmd")
+  ind <- grep("csasdown:::resdoc_pdf:", rmd)
+  expect_identical(ind, 44L)
+
+  # ---------------------------------------------------------------------------
   rmd[ind] <- ""
   writeLines(rmd, "index.Rmd")
   expect_error(csasdown:::get_render_type(), "Document type not found")
 
+  # ---------------------------------------------------------------------------
   rmd[ind] <- tmp
   rmd[ind + 1] <- tmp
   writeLines(rmd, "index.Rmd")
-  expect_warning(csasdown:::get_render_type(), "Document type defined more than once")
+  expect_warning(csasdown:::get_render_type(),
+                 "Document type defined more than once")
 })
 
 test_that("get_render_type() and set_render_type() works for resdoc", {
@@ -36,13 +49,18 @@ test_that("get_render_type() and set_render_type() works for resdoc", {
   ))
 
   expect_identical(csasdown:::get_render_type(), "resdoc_pdf")
+  # ---------------------------------------------------------------------------
   csasdown:::set_render_type(doc_type = "word")
   expect_identical(csasdown:::get_render_type(), "resdoc_word")
+  # ---------------------------------------------------------------------------
   csasdown:::set_render_type(doc_type = "pdf")
   expect_identical(csasdown:::get_render_type(), "resdoc_pdf")
 
+  # ---------------------------------------------------------------------------
   expect_error(csasdown:::set_render_type(doc_type = ""))
+  # ---------------------------------------------------------------------------
   expect_error(csasdown:::set_render_type(doc_type = "oops"))
+  # ---------------------------------------------------------------------------
   expect_invisible(csasdown:::set_render_type(doc_type = NULL))
 })
 
@@ -58,13 +76,18 @@ test_that("get_render_type() and set_render_type() works for SR", {
   ))
 
   expect_identical(csasdown:::get_render_type(), "sr_pdf")
+  # ---------------------------------------------------------------------------
   csasdown:::set_render_type(doc_type = "word")
   expect_identical(csasdown:::get_render_type(), "sr_word")
+  # ---------------------------------------------------------------------------
   csasdown:::set_render_type(doc_type = "pdf")
   expect_identical(csasdown:::get_render_type(), "sr_pdf")
 
+  # ---------------------------------------------------------------------------
   expect_error(csasdown:::set_render_type(doc_type = ""))
+  # ---------------------------------------------------------------------------
   expect_error(csasdown:::set_render_type(doc_type = "oops"))
+  # ---------------------------------------------------------------------------
   expect_invisible(csasdown:::set_render_type(doc_type = NULL))
 })
 
@@ -80,13 +103,18 @@ test_that("get_render_type() and set_render_type() works for techreport", {
   ))
 
   expect_identical(csasdown:::get_render_type(), "techreport_pdf")
+  # ---------------------------------------------------------------------------
   csasdown:::set_render_type(doc_type = "word")
   expect_identical(csasdown:::get_render_type(), "techreport_word")
+  # ---------------------------------------------------------------------------
   csasdown:::set_render_type(doc_type = "pdf")
   expect_identical(csasdown:::get_render_type(), "techreport_pdf")
 
+  # ---------------------------------------------------------------------------
   expect_error(csasdown:::set_render_type(doc_type = ""))
+  # ---------------------------------------------------------------------------
   expect_error(csasdown:::set_render_type(doc_type = "oops"))
+  # ---------------------------------------------------------------------------
   expect_invisible(csasdown:::set_render_type(doc_type = NULL))
 })
 

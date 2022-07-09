@@ -75,7 +75,9 @@ render <- function(yaml_fn = "_bookdown.yml",
   tmp_rmd_fns <- tmp_yaml_rmd_fns[[2]]
 
   index_fn <- get_index_filename(tmp_yaml_fn, verbose)
-  # Render type (resdoc_pdf, sr_word, etc)
+  # Make sure ` csasdown:::resdoc():` line has three colons
+  set_render_type(index_fn, "asis")
+  # Get the render type (resdoc_pdf, sr_word, etc)
   render_type <- get_render_type(index_fn, verbose)
   doc_format <- gsub("^\\S+_(\\S+)$", "\\1", render_type)
   pdf_or_word <- `if`(doc_format == "pdf", "PDF", "Word")

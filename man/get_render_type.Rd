@@ -25,4 +25,10 @@ A character string representing the render type. One of
 Get the the type of document to render by extracting from the YAML tags in
 the index file
 }
+\details{
+Will overwrite the line in the file \code{fn} that contains
+\code{csasdown::render_type} or \code{csasdown:::render_type} with
+\code{csasdown:::render_type}. This is for backwards compatibility with versions
+where those functions were exported.
+}
 \keyword{internal}

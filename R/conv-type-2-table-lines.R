@@ -44,11 +44,13 @@
 #' rest of the chunk starting with the line after the end of the table
 #'
 #' @examples
+#' \dontrun{
 #' library(csasdown)
 #' chunk <- c("  Parameter   Value", "---------- -----------",
 #'            "     x          1.0", "     y          2.2")
 #' tmp <- conv_type_2_table_lines(chunk)
 #' the_rest <- tmp[[2]]
+#' }
 conv_type_2_table_lines <- function(chunk){
 
   if(is.null(chunk)){

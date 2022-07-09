@@ -19,11 +19,13 @@
 #' 2) the rest of the chunk starting with the line after the last blank line
 #'
 #' @examples
+#' \dontrun{
 #' library(csasdown)
 #' chunk <- c("#Main", "##Introduction", "", "Some text..", "More Rmd text")
 #' tmp <- conv_header_lines(chunk)
 #' header_line_chunk <- tmp[[1]]
 #' the_rest <- tmp[[2]]
+#' }
 conv_header_lines <- function(chunk){
 
   if(is.null(chunk)){

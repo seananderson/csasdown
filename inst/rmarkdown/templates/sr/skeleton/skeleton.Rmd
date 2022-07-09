@@ -20,7 +20,7 @@ french_region: Région du Pacifique
 isbn: "ISBN-Here"
 cat_no: "Cat-Number-Here"
 output:
- csasdown::sr_pdf:
+ csasdown:::sr_pdf:
    french: false
    prepub: false
    # copy_sty is a toggle to copy the style file from the csasdown package every time you compile

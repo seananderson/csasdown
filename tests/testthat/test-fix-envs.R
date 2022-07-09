@@ -130,7 +130,7 @@ test_that("fix_envs() works", {
   ))
 
   csasdown:::set_french(val = TRUE)
-  csasdown::set_yaml_tag("prepub", "true")
+  csasdown:::set_yaml_tag("prepub", "true")
   csasdown::render()
   expect_true(file.exists("_book/sr-french.pdf"))
   expect_true(file.exists("_book/sr-french.tex"))

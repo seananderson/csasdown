@@ -52,11 +52,13 @@ A second line of table caption here (no blank lines in between)
 }\if{html}{\out{</div>}}
 }
 \examples{
+\dontrun{
 chunk <- c("---------- -----------", "  Parameter   Value",
            "---------- -----------", "     x          1.0",
            "     y          2.2", "---------- -----------")
 tmp <- csasdown:::conv_type_1_table_lines(chunk)
 the_rest <- tmp[[2]]
+}
 }
 \seealso{
 Other rmd_conversion_functions: 

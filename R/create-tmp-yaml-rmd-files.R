@@ -144,7 +144,8 @@ create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml",
   }
 
   if(verbose){
-    check_notify("Temporary YAML and Rmarkdown files created successfully ..\n")
+    check_notify("Temporary YAML and Rmarkdown files created ",
+                 "successfully\n")
   }
 
   list(tmp_fn, rmd_fns)
