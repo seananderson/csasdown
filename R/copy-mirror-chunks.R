@@ -160,13 +160,19 @@ copy_mirror_chunks <- function(rmd_files,
     }
     num_lines_df
   })
+
   if(!nowrite){
     num_lines_df <- num_lines_df |>
       map_df(~{.x})
   }
 
   if(verbose){
-    tot_lines_added <- sum(num_lines_df$num_lines)
+    if(nrow(num_lines_df) > 0){
+      tot_lines_added <- sum(num_lines_df$num_lines)
+    }else{
+      tot_lines_added <- 0
+    }
+
     if(as.logical(tot_lines_added)){
       line <- ifelse(tot_lines_added == 1, "line", "lines")
       check_notify(tag_color(tot_lines_added),
