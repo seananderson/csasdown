@@ -167,7 +167,7 @@ copy_mirror_chunks <- function(rmd_files,
   }
 
   if(verbose){
-    if(nrow(num_lines_df) > 0){
+    if("data.frame" %in% class(num_lines_df) && nrow(num_lines_df) > 0){
       tot_lines_added <- sum(num_lines_df$num_lines)
     }else{
       tot_lines_added <- 0
