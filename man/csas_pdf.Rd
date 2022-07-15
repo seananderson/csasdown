@@ -17,6 +17,7 @@ resdoc_pdf(
   line_nums_mod = 1,
   lot_lof = FALSE,
   draft_watermark = FALSE,
+  french = FALSE,
   include_section_nums = TRUE,
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),
@@ -31,6 +32,7 @@ sr_pdf(
   line_nums_mod = 1,
   draft_watermark = FALSE,
   highlight = "tango",
+  french = FALSE,
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),
   ...
@@ -44,6 +46,7 @@ techreport_pdf(
   lot_lof = FALSE,
   draft_watermark = FALSE,
   highlight = "tango",
+  french = FALSE,
   pandoc_args = c("--top-level-division=chapter", "--wrap=none",
     "--default-image-extension=png"),
   ...

@@ -7,6 +7,7 @@ techreport_pdf <- function(latex_engine = "pdflatex",
                            lot_lof = FALSE,
                            draft_watermark = FALSE,
                            highlight = "tango",
+                           french = FALSE,
                            pandoc_args = c("--top-level-division=chapter",
                                            "--wrap=none",
                                            "--default-image-extension=png"),
@@ -19,6 +20,8 @@ techreport_pdf <- function(latex_engine = "pdflatex",
   if(is.null(highlight)){
     highlight = "monochrome" # nocov
   }
+
+  fr <- function() if (french) TRUE else FALSE
 
   if((!highlight %in% themes) && !file.exists(here(highlight))){
     bail("in YAML, ", tag_color("csasdown:techreport_pdf: highlight"),

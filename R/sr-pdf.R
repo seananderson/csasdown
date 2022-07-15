@@ -7,10 +7,13 @@ sr_pdf <- function(latex_engine = "pdflatex",
                    line_nums_mod = 1,
                    draft_watermark = FALSE,
                    highlight = "tango",
+                   french = FALSE,
                    pandoc_args = c("--top-level-division=chapter",
                                    "--wrap=none",
                                    "--default-image-extension=png"),
                    ...) {
+
+  fr <- function() if (french) TRUE else FALSE
 
   themes <- c("pygments", "tango", "espresso",
               "zenburn", "kate", "monochrome",

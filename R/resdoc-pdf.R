@@ -51,6 +51,7 @@ resdoc_pdf <- function(toc = TRUE,
                        line_nums_mod = 1,
                        lot_lof = FALSE,
                        draft_watermark = FALSE,
+                       french = FALSE,
                        include_section_nums = TRUE,
                        pandoc_args = c("--top-level-division=chapter",
                                        "--wrap=none",
@@ -60,6 +61,8 @@ resdoc_pdf <- function(toc = TRUE,
   themes <- c("pygments", "tango", "espresso",
               "zenburn", "kate", "monochrome",
               "breezedark", "haddock")
+
+  fr <- function() if (french) TRUE else FALSE
 
   if(is.null(highlight)){
     highlight = "monochrome" # nocov
