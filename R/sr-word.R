@@ -1,5 +1,5 @@
-#' @keywords internal
 #' @rdname csas_docx
+#' @export
 sr_word <- function(...) {
   file <- if (fr()) "SRR-RS2021-fra.docx" else "SRR-RS2021-eng.docx"
   base <- word_document2(...,

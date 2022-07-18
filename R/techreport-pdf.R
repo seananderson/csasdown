@@ -1,5 +1,5 @@
-#' @keywords internal
 #' @rdname csas_pdf
+#' @export
 techreport_pdf <- function(latex_engine = "pdflatex",
                            copy_sty = TRUE,
                            line_nums = FALSE,

@@ -1,5 +1,5 @@
-#' @keywords internal
 #' @rdname csas_pdf
+#' @export
 sr_pdf <- function(latex_engine = "pdflatex",
                    prepub = FALSE,
                    copy_sty = TRUE,

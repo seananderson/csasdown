@@ -104,4 +104,3 @@ Output from \code{\link[bookdown:pdf_book]{bookdown::pdf_book()}}, modified by t
 This is a function called in output in the YAML of the driver Rmd file
 to specify using the CSAS LaTeX template and cls files.
 }
-\keyword{internal}

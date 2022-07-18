@@ -1,5 +1,5 @@
-#' @keywords internal
 #' @rdname csas_docx
+#' @export
 techreport_word <- function(...) {
   file <- "tech-report.docx"
   base <- word_document2(...,
