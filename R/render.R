@@ -207,5 +207,10 @@ render <- function(yaml_fn = "_bookdown.yml",
   }
 
   check_notify("Render completed")
+  unlink("tmp-index.Rmd")
+  if(!keep_files) {
+    unlink("*.log")
+    unlink("*.upa")
+  }
   invisible()
 }
