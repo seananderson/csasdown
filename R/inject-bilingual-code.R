@@ -65,6 +65,9 @@ inject_bilingual_code <- function(fn = get_index_filename(
     '  csl <- "csl/csas-french.csl"',
     '  options(OutDec = ",")',
     '}',
+    '',
+    'french <- isTRUE(getOption("french")) # for backwards compatibility',
+    '',
     '# This hook simplifies document translation for the author.',
     '# When building in French, it draws a box around paragraphs contained in chunks',
     '#  which have the option `needs_trans = TRUE`. It also labels',
@@ -105,7 +108,9 @@ inject_bilingual_code <- function(fn = get_index_filename(
     '    }',
     '  }',
     '})',
-    '```')
+    '```',
+    ''
+  )
 
   if(doc_type == "techreport"){
     yaml_code <- c(
