@@ -96,7 +96,7 @@ test_that("create_tmp_yaml_rmd_files() properly deletes tmp files", {
 
     writeLines("test", "tmp-index.Rmd")
     writeLines("test", "tmp-01-chap1.Rmd")
-    tmp_yaml_rmd_fns <- create_tmp_yaml_rmd_files("_bookdown.yml")
+    tmp_yaml_rmd_fns <- csasdown:::create_tmp_yaml_rmd_files("_bookdown.yml")
     expect_false(file.exists("tmp-tmp-index.Rmd"))
     expect_false(file.exists("tmp-tmp-01-chap1.Rmd"))
 
@@ -106,7 +106,7 @@ test_that("create_tmp_yaml_rmd_files() properly deletes tmp files", {
     yml_mod <- gsub("01-chap1.Rmd", "01_chap1.Rmd", yml)
     writeLines(yml_mod, "_bookdown.yml")
     writeLines("test", "01_chap1.Rmd")
-    tmp_yaml_rmd_fns <- create_tmp_yaml_rmd_files("_bookdown.yml")
+    tmp_yaml_rmd_fns <- csasdown:::create_tmp_yaml_rmd_files("_bookdown.yml")
     expect_false(file.exists("tmp-tmp-01_chap1.Rmd"))
 
 })
