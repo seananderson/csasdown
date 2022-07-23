@@ -83,3 +83,30 @@ test_that("create_tmp_yaml_rmd_files() works", {
   expect_true(file.exists("tmp-05-appendix.Rmd"))
 
 })
+
+test_that("create_tmp_yaml_rmd_files() properly deletes tmp files", {
+  testing_path <- file.path(tempdir(), "resdoc-create-ymp-yaml-rmd-files-get-deleted")
+  unlink(testing_path, recursive = TRUE, force = TRUE)
+  dir.create(testing_path, showWarnings = FALSE)
+  setwd(testing_path)
+  suppressMessages(csasdown::draft(
+    system.file("rmarkdown", "templates", "resdoc", package = "csasdown"),
+    create_dir = FALSE,
+    edit = FALSE))
+
+    writeLines("test", "tmp-index.Rmd")
+    writeLines("test", "tmp-01-chap1.Rmd")
+    tmp_yaml_rmd_fns <- create_tmp_yaml_rmd_files("_bookdown.yml")
+    expect_false(file.exists("tmp-tmp-index.Rmd"))
+    expect_false(file.exists("tmp-tmp-01-chap1.Rmd"))
+
+    unlink("tmp-index.Rmd", force = TRUE)
+    unlink("tmp-01-chap1.Rmd", force = TRUE)
+    yml <- readLines("_bookdown.yml")
+    yml_mod <- gsub("01-chap1.Rmd", "01_chap1.Rmd", yml)
+    writeLines(yml_mod, "_bookdown.yml")
+    writeLines("test", "01_chap1.Rmd")
+    tmp_yaml_rmd_fns <- create_tmp_yaml_rmd_files("_bookdown.yml")
+    expect_false(file.exists("tmp-tmp-01_chap1.Rmd"))
+
+})
