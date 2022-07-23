@@ -83,13 +83,23 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport"),
       affirm_delete <- ifelse(testing_affirm_ovr, "y", "n")
     }else{
       # nocov start
-      affirm_delete <- readline(
-        question("This action will delete the contents ",
-                 "of the directory ", fn_color(directory), " ...\n",
-                 "Are you sure you want to do this (y/n)?"))
+      repeat{
+        affirm_delete <- readline(
+          question("This action will delete the contents ",
+                   "of the directory ", fn_color(directory), "\n\n",
+                   "Are you sure you want to do this (y/n)?"))
+        if(tolower(affirm_delete) != "n" &&
+           tolower(affirm_delete) != "no" &&
+           tolower(affirm_delete) != "y" &&
+           tolower(affirm_delete) != "yes"){
+          question("Please answer yes or no.")
+        }else{
+          break
+        }
+      }
       # nocov end
     }
-    if(affirm_delete == "y" || affirm_delete == "Y"){
+    if(tolower(affirm_delete) == "y" || tolower(affirm_delete) == "yes"){
       unlink(fns, recursive = TRUE, force = TRUE)
       check_notify("Deleted all non-.Rproj files and directories in directory ",
                    fn_color(directory), "\n")

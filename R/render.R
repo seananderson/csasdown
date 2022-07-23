@@ -189,14 +189,6 @@ render <- function(yaml_fn = "_bookdown.yml",
     }
   }
 
-  # Delete the temporary files
-  if(!keep_files){
-    map(fn_process, ~{
-      unlink(.x, force = TRUE)
-    })
-    unlink(tmp_yaml_fn)
-  }
-
   # Rename the output files to include 'english' or 'french' so that
   # rendering different language versions does not overwrite the other
   # language version.
@@ -206,11 +198,17 @@ render <- function(yaml_fn = "_bookdown.yml",
            csas_color("render(verbose = TRUE, keep_files = TRUE)"), "\n\n")
   }
 
-  check_notify("Render completed")
+  # Delete the temporary files
   if(!keep_files) {
-    unlink("tmp-index.Rmd")
+    map(fn_process, ~{
+      unlink(.x, force = TRUE)
+    })
+    unlink(tmp_yaml_fn)
+    unlink(index_fn)
     unlink("*.log")
     unlink("*.upa")
   }
+
+  check_notify("Render completed")
   invisible()
 }

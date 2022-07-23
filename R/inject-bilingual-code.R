@@ -112,6 +112,15 @@ inject_bilingual_code <- function(fn = get_index_filename(
     ''
   )
 
+  # Check that bilingual code has not been injected previously
+  bi_code_ind <- which(bi_code[1] == lines)
+  if(!length(bi_code_ind)){
+    lines <- c(lines, bi_code)
+    if(verbose){
+      check_notify("Injected knitr hook and language extraction code")
+    }
+  }
+
   if(doc_type == "techreport"){
     yaml_code <- c(
       '---',
@@ -129,12 +138,18 @@ inject_bilingual_code <- function(fn = get_index_filename(
       '---')
   }
 
-  lines <- c(lines, bi_code, yaml_code)
+  # Check that bilingual YAML code has not been injected previously
+  yaml_code_ind <- which(yaml_code[2] == lines)
+  if(!length(yaml_code_ind)){
+    lines <- c(lines, yaml_code)
+    if(verbose){
+      check_notify("Injected trailing YAML block")
+    }
+  }
+
   writeLines(lines, fn)
 
-  if(verbose){
-    check_notify("Injected knitr hook and language extraction code")
-    check_notify("Injected trailing YAML block")
+  if(verbose && (!length(bi_code_ind) || !length(yaml_code_ind))){
     check_notify("Injected bilingual code successfully\n")
   }
 }

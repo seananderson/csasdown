@@ -101,6 +101,30 @@ create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml",
   # Copy the files into the new files
   orig_rmd_fns <- rmd_fns
   rmd_fns <- paste0("tmp-", rmd_fns)
+  if(interactive() && any(grepl("^tmp-tmp", rmd_fns))){
+    repeat{
+      ques <- readline(
+        question("csasdown detected that some of the Rmd ",
+                 "files listed in ", fn_color(yaml_fn),
+                 " begin with two or more ", csas_color("tmp-") ,
+                 " prefixes.\nContinuing will result in temporary ",
+                 "files beginning with ", csas_color("tmp-tmp-"), ".\n\n",
+                 "Are you sure you want to render this? (y/n)"))
+      if(tolower(ques) != "n" &&
+         tolower(ques) != "no" &&
+         tolower(ques) != "y" &&
+         tolower(ques) != "yes"){
+        notify("Please answer yes or no.")
+      }else{
+        break
+      }
+    }
+    if(tolower(ques) == "n" || tolower(ques) == "no"){
+      bail("Stopped rendering due to extra ", csas_color("tmp-"),
+           " prefixes being found ",
+           "in Rmd filenames listed in ", fn_color(yaml_fn))
+    }
+  }
   unlink(rmd_fns, force = TRUE)
 
   walk2(orig_rmd_fns, rmd_fns, ~{
