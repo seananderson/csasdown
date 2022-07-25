@@ -88,6 +88,8 @@ figures in the document. Implemented only for 'resdoc' and 'techreport'}
 \item{draft_watermark}{Logical. If \code{TRUE}, show a DRAFT watermark on all
 pages of the output document}
 
+\item{french}{French?}
+
 \item{include_section_nums}{Logical. If \code{TRUE}, include the section and
 subsection numbers in the body titles. The table of contents will still
 show the numbers}

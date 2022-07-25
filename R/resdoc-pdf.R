@@ -32,6 +32,7 @@
 #' figures in the document. Implemented only for 'resdoc' and 'techreport'
 #' @param draft_watermark Logical. If `TRUE`, show a DRAFT watermark on all
 #' pages of the output document
+#' @param french French?
 #' @param pandoc_args Any other arguments to `pandoc`
 #' @param ... other arguments to [bookdown::pdf_book()].
 #' @return Output from [bookdown::pdf_book()], modified by the post-processor
