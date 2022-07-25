@@ -51,7 +51,6 @@ create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml",
 
   # In case render() was stopped and tmp- files are still present:
   tmp_files <- list.files(pattern = "^tmp-*")
-  # tmp_files <- tmp_files[]
   unlink(tmp_files)
 
   if(!file.exists(yaml_fn)){
