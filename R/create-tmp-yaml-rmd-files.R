@@ -49,6 +49,11 @@ create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml",
     notify("Creating temporary YAML and Rmarkdown files ...")
   }
 
+  # In case render() was stopped and tmp- files are still present:
+  tmp_files <- list.files(pattern = "^tmp-*")
+  # tmp_files <- tmp_files[]
+  unlink(tmp_files)
+
   if(!file.exists(yaml_fn)){
     bail("The YAML file ", fn_color(yaml_fn), " does not exist")
   }
@@ -97,6 +102,8 @@ create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml",
   if(!length(rmd_fns)){
     bail("No .Rmd filenames found in ", fn_color(yaml_fn))
   }
+  # In case render() was stopped and tmp- files are still listed in yaml:
+  rmd_fns <- gsub("^tmp\\-", "", rmd_fns)
 
   # Copy the files into the new files
   orig_rmd_fns <- rmd_fns
