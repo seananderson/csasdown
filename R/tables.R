@@ -207,14 +207,18 @@ csas_table <- function(x,
     k_lines_pre <- k_lines[1:j]
     k_lines_post <- k_lines[(j + 1):length(k_lines)]
     if(getOption("french", default = FALSE)){
-      new_line_latex <- paste0("\\\\  \\hline \\multicolumn{",
+      new_line_latex <- paste0("\\hline \\multicolumn{",
                                ncol(x),
                                "}{l}{\\textit{Suite \u00e0 la page suivante ...}}")
     }else{
-      new_line_latex <- paste0("\\\\  \\hline \\multicolumn{",
+      new_line_latex <- paste0("\\hline \\multicolumn{",
                                ncol(x),
                                "}{l}{\\textit{Continued on next page ...}}")
     }
+    if(k_lines_post[1] == ""){
+      k_lines_post <- k_lines_post[-1]
+    }
+    k_lines_post <- c("\\\\", k_lines_post)
     k_lines <- c(k_lines_pre, new_line_latex, k_lines_post)
 
     # Add Continued from previous page...
