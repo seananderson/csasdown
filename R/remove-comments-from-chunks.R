@@ -182,7 +182,7 @@ remove_comments_from_chunks <- function(rmd_files,
   }) |>
     map_df(~{.x})
 
-  if(verbose){
+  if(verbose && nrow(offsets)){
     tot_comments_removed <- sum(offsets$pre_num + offsets$post_num)
     if(as.logical(sum(tot_comments_removed))){
       comm <- ifelse(sum(tot_comments_removed) == 1,
