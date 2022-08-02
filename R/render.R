@@ -75,7 +75,6 @@ render <- function(yaml_fn = "_bookdown.yml",
   tmp_rmd_fns <- tmp_yaml_rmd_fns[[2]]
 
   index_fn <- get_index_filename(tmp_yaml_fn, verbose)
-  # Make sure ` csasdown:::resdoc():` line has three colons
   set_render_type(index_fn, "asis")
   # Get the render type (resdoc_pdf, sr_word, etc)
   render_type <- get_render_type(index_fn, verbose)
@@ -125,30 +124,32 @@ render <- function(yaml_fn = "_bookdown.yml",
 
   # Inject the external Rmarkdown code in files referenced by `rmd_file()`
   # into the actual document code in all files (vector `fn_process`)
-  offsets_rmd <- inject_rmd_files(fn_process, offsets_comm, verbose)
+  if (nrow(offsets_comm)) {
+    offsets_rmd <- inject_rmd_files(fn_process, offsets_comm, verbose)
 
   # The offsets in the files compared to the input file. These can be used to
   # correct messages with line numbers. Note this table has a row for every
   # chunk in the document but there are only values for those
   # that contained `cat()`, `<<chunk-name>>`, or `rmd_file()` as their
   # contents
-  offsets <- offsets_comm |>
-    mutate(rmd_num = offsets_rmd$post_num)
+    offsets <- offsets_comm |>
+      mutate(rmd_num = offsets_rmd$post_num)
 
-  # Replace instances of <<chunk-name>> with code from the actual chunk
-  # called `chunk-name`. This works project wide, i.e. a chunk can mirror
-  # a chunk from a different file as long as both are in `fn_process`.
-  # There can be multiple instances of <<chunk-name>> and all will be replaced
-  # with the source for that chunk.
-  copy_mirror_chunks(fn_process,
-                     line_offsets = offsets,
-                     verbose = verbose)
+    # Replace instances of <<chunk-name>> with code from the actual chunk
+    # called `chunk-name`. This works project wide, i.e. a chunk can mirror
+    # a chunk from a different file as long as both are in `fn_process`.
+    # There can be multiple instances of <<chunk-name>> and all will be replaced
+    # with the source for that chunk.
+    copy_mirror_chunks(fn_process,
+                       line_offsets = offsets,
+                       verbose = verbose)
 
   # Run the pre-processor on all the chunks
-  preprocess_chunks(fn_process,
-                    yaml_fn,
-                    line_offsets = offsets,
-                    verbose)
+    preprocess_chunks(fn_process,
+                      yaml_fn,
+                      line_offsets = offsets,
+                      verbose)
+  }
 
   # Inject some more complex code into the temporary version of index.Rmd
   # so the authors don't have to see it in index.Rmd and cannot change it,
@@ -158,6 +159,7 @@ render <- function(yaml_fn = "_bookdown.yml",
   if(verbose){
     notify("Knitting Rmd files and running Pandoc to build the document ...")
   }
+
   if(suppress_warnings){
     suppressMessages(
       suppressWarnings(
