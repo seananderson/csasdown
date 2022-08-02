@@ -5,11 +5,7 @@
 #'
 #' @param fn The name of the YAML file, typically 'index.Rmd' for bookdown
 #' @param doc_type The type of document to set for rendering. Either 'pdf',
-#' 'word', or 'asis'. If `asis`, leave the render type as-is. The reason
-#' for this is so that the render type line in the file can be overwritten
-#' with three colons instead of two, without changing the type.
-#' i.e. `csasdown::render_type` or `csasdown:::render_type` will both
-#' be re-written as `csasdown:::render_type` for all values of `doc_type`.
+#' 'word', or 'asis'. If `asis`, leave the render type as-is.
 #'
 #' @return Nothing
 set_render_type <- function(fn = get_index_filename(
@@ -37,17 +33,22 @@ set_render_type <- function(fn = get_index_filename(
   doc_type_pat <- "^csasdown::+(\\S+):\\s*$"
   doc_ind <- grep(doc_type_pat, trim_rmd)
 
-  csas_doc_type <- gsub("(.*)_\\S+$", "\\1", full_doc_type)
-  format_type <- gsub("\\S+_(\\S+)$", "\\1", full_doc_type)
-  leading_spaces <- gsub("^(\\s*)\\S+\\s*$", "\\1", rmd[doc_ind])
-  if(doc_type == "asis"){
-    full_type_line <- paste0(leading_spaces, "csasdown:::",
-                             csas_doc_type, "_", format_type, ":")
-  }else{
-    full_type_line <- paste0(leading_spaces, "csasdown:::",
-                             csas_doc_type, "_", doc_type, ":")
+  # catch legacy code with ::: instead of ::
+  if (grepl(":::", trim_rmd[doc_ind])) {
+    rmd[doc_ind] <- gsub(":::", "::", rmd[doc_ind])
   }
-  rmd[doc_ind] <- full_type_line
+
+  # csas_doc_type <- gsub("(.*)_\\S+$", "\\1", full_doc_type)
+  # format_type <- gsub("\\S+_(\\S+)$", "\\1", full_doc_type)
+  # leading_spaces <- gsub("^(\\s*)\\S+\\s*$", "\\1", rmd[doc_ind])
+  # if(doc_type == "asis"){
+  #   full_type_line <- paste0(leading_spaces, "csasdown::",
+  #                            csas_doc_type, "_", format_type, ":")
+  # }else{
+  #   full_type_line <- paste0(leading_spaces, "csasdown::",
+  #                            csas_doc_type, "_", doc_type, ":")
+  # }
+  # rmd[doc_ind] <- full_type_line
   unlink(fn, force = TRUE)
   writeLines(rmd, fn)
   invisible()
