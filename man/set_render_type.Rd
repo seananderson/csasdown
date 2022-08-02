@@ -15,11 +15,7 @@ set_render_type(
 \item{fn}{The name of the YAML file, typically 'index.Rmd' for bookdown}
 
 \item{doc_type}{The type of document to set for rendering. Either 'pdf',
-'word', or 'asis'. If \code{asis}, leave the render type as-is. The reason
-for this is so that the render type line in the file can be overwritten
-with three colons instead of two, without changing the type.
-i.e. \code{csasdown::render_type} or \code{csasdown:::render_type} will both
-be re-written as \code{csasdown:::render_type} for all values of \code{doc_type}.}
+'word', or 'asis'. If \code{asis}, leave the render type as-is.}
 }
 \value{
 Nothing
