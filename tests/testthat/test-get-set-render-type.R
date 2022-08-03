@@ -12,7 +12,7 @@ test_that("get_render_type() and set_render_type() throw errors", {
   expect_error(csasdown:::get_render_type("nonexistent-file.Rmd"), "does not exist")
   # ---------------------------------------------------------------------------
   rmd <- readLines("index.Rmd")
-  ind <- grep("csasdown:::resdoc_pdf:", rmd)
+  ind <- grep("csasdown::resdoc_pdf:", rmd)
   tmp <- rmd[ind]
   rmd[ind] <- " csasdown::resdoc_pdf:"
   writeLines(rmd, "index.Rmd")
@@ -21,7 +21,7 @@ test_that("get_render_type() and set_render_type() throw errors", {
   expect_identical(ind, 44L)
   csasdown:::set_render_type("index.Rmd", "asis")
   rmd <- readLines("index.Rmd")
-  ind <- grep("csasdown:::resdoc_pdf:", rmd)
+  ind <- grep("csasdown::resdoc_pdf:", rmd)
   expect_identical(ind, 44L)
 
   # ---------------------------------------------------------------------------
