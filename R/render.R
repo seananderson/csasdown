@@ -127,11 +127,11 @@ render <- function(yaml_fn = "_bookdown.yml",
   if (nrow(offsets_comm)) {
     offsets_rmd <- inject_rmd_files(fn_process, offsets_comm, verbose)
 
-  # The offsets in the files compared to the input file. These can be used to
-  # correct messages with line numbers. Note this table has a row for every
-  # chunk in the document but there are only values for those
-  # that contained `cat()`, `<<chunk-name>>`, or `rmd_file()` as their
-  # contents
+    # The offsets in the files compared to the input file. These can be used to
+    # correct messages with line numbers. Note this table has a row for every
+    # chunk in the document but there are only values for those
+    # that contained `cat()`, `<<chunk-name>>`, or `rmd_file()` as their
+    # contents
     offsets <- offsets_comm |>
       mutate(rmd_num = offsets_rmd$post_num)
 
@@ -144,7 +144,7 @@ render <- function(yaml_fn = "_bookdown.yml",
                        line_offsets = offsets,
                        verbose = verbose)
 
-  # Run the pre-processor on all the chunks
+    # Run the pre-processor on all the chunks
     preprocess_chunks(fn_process,
                       yaml_fn,
                       line_offsets = offsets,
