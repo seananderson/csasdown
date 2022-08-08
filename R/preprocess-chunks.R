@@ -152,10 +152,38 @@ preprocess_chunks <- function(fns,
           text_chunk <- parse_cat_text(rmd[.x:(cat_inds[.y + 1] - 1)])
         }
         chunk_end_inds <<- c(chunk_end_inds, .x + length(text_chunk) - 1)
+
         # Convert any single backslashes to double. All the extra ones are needed here
         # because of escaping and because we are inside a cat() layer so it is a double-
         # double situation
         text_chunk <- gsub("\\\\", "\\\\\\\\", text_chunk)
+
+        # Check for equations
+        start_eq <- grep("\\\\begin\\{equation\\*?\\}", text_chunk)
+        end_eq <- grep("\\\\end\\{equation\\*?\\}", text_chunk)
+        chunk_has_eq <- FALSE
+        if(length(start_eq)){
+          if(length(start_eq) != length(end_eq)){
+            bail("Non-equal numbers of ", csas_color("\\begin{equation}"),
+                 " and ", csas_color("\\end{equation}"), " detected")
+          }
+          chunk_has_eq <- TRUE
+
+          eqs <- map2(start_eq, end_eq, ~{text_chunk[seq(.x, .y)]})
+          # Make sure the first equation does not have a quote preceeding it
+          # on the begin equation label on its first line. If it does, remove it
+          eqs[[1]][1] <-
+            gsub("(\\s*'|\")",
+                 "",
+                 eqs[[1]][1])
+          # Make sure the final equation does not have a quote following after
+          # the end equation label on its last line. If it does, remove it
+          eqs[[length(eqs)]][length(eqs[[length(eqs)]])] <-
+             gsub("(\\\\end\\{equation\\*?\\})(\\s*'|\")$",
+                  "\\1",
+                  eqs[[length(eqs)]][length(eqs[[length(eqs)]])])
+        }
+
         if(!(length(text_chunk) == 1 && text_chunk[1] == "\"\"")){
           # There will be a leading quote and ending quote, but they may not be on
           # their own line. Remove them and keep track if they shared a line with other
@@ -200,8 +228,33 @@ preprocess_chunks <- function(fns,
         text_chunk <- map_chr(text_chunk, ~{
           catize(.x)
         })
-        text_chunk[1] <- paste0("cat(", text_chunk[1])
-        text_chunk[length(text_chunk)] <- paste0(text_chunk[length(text_chunk)], ")")
+
+        if(chunk_has_eq){
+          # Replace the modified equation lines with the unmodified ones
+          start_eq <- grep("\\\\begin\\{equation\\*?\\}", text_chunk)
+          end_eq <- grep("\\\\end\\{equation\\*?\\}", text_chunk)
+          text_chunk <- replace_vecs_with_vecs(text_chunk, eqs, start_eq, end_eq)
+        }
+
+        # If the first line is the beginning of an equation and paste_beg
+        # of the line is TRUE, add a quote. Quote is added for other cases
+        # earlier
+        if(chunk_has_eq &&
+           paste_beg &&
+           length(grep("\\\\begin\\{equation\\*?\\}", text_chunk[1]))){
+          text_chunk[1] <- paste0("cat(\"", text_chunk[1])
+        }else{
+          text_chunk[1] <- paste0("cat(", text_chunk[1])
+        }
+        # If the last line is the end of an equation and paste_end of the
+        # line is TRUE, add a quote. Quote is added for other cases earlier
+        if(chunk_has_eq &&
+           paste_end &&
+           length(grep("\\\\end\\{equation\\*?\\}", text_chunk[length(text_chunk)]))){
+          text_chunk[length(text_chunk)] <- paste0(text_chunk[length(text_chunk)], "\")")
+        }else{
+          text_chunk[length(text_chunk)] <- paste0(text_chunk[length(text_chunk)], ")")
+        }
         text_chunk
       })
     }
