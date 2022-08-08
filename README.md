@@ -4,12 +4,12 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/pbs-assess/csasdown/workflows/R-CMD-check/badge.svg)](https://github.com/pbs-assess/csasdown/actions)
-[![Coverage status](https://codecov.io/gh/pbs-assess/csasdown/branch/master/graph/badge.svg)](https://codecov.io/github/pbs-assess/csasdown?branch=master)
+[![Coverage status](https://codecov.io/gh/pbs-assess/csasdown/branch/main/graph/badge.svg)](https://codecov.io/github/pbs-assess/csasdown?branch=main)
 <!-- badges: end -->
 
 csasdown is an R package that facilitates generating Canadian Science Advisory Secretariat (CSAS) documents in PDF or Word format using R Markdown and bookdown.
 
-Check the [NEWS](https://github.com/pbs-assess/csasdown/blob/master/NEWS.md) file for information on what has changed recently.
+Check the [NEWS](https://github.com/pbs-assess/csasdown/blob/main/NEWS.md) file for information on what has changed recently.
 
 Check the [Wiki](https://github.com/pbs-assess/csasdown/wiki) for hints and FAQs.
 
@@ -60,7 +60,7 @@ csasdown::draft("sr")
 
 Note that the `techreport` example contains a lot of information on getting started with R Markdown and should be the first one you render if you are new to `csasdown`. The `resdoc` example contains other examples.
 
-The `resdoc-b` contains examples and guidance on setting up chunks to hold both English and French Rmarkdown, and explanations of the features introduced in version 0.1.0 (see the [NEWS](https://github.com/pbs-assess/csasdown/blob/master/NEWS.md) file).
+The `resdoc-b` contains examples and guidance on setting up chunks to hold both English and French Rmarkdown, and explanations of the features introduced in version 0.1.0 (see the [NEWS](https://github.com/pbs-assess/csasdown/blob/main/NEWS.md) file).
 
 5. Render the document right away to make sure everything works by opening the file **index.Rmd** and clicking the **knit** button in RStudio. Once completed, a preview pane showing the PDF document will appear. The location of the PDF is in the **_book** directory. See the *Rendering* section below for more information.
 
@@ -79,7 +79,7 @@ Open your git client software, navigate to the working directory of your new pro
 
 ```git remote -v``` verifies you entered the correct URL and it is bound to **origin**
 
-```git push --set-upstream origin master```
+```git push --set-upstream origin main```
 
 Look on your GitHub repository and you should see all the new files there. Your git client is now set up to push and fetch from your repository on GitHub.
 -->
@@ -141,6 +141,11 @@ To do this, you must have your working directory (see `getwd()`) be the one with
 ```r
 csasdown::render()
 ```
+or, for a detailed explanation of each step in the rendering process:
+
+```r
+csasdown::render(verbose = TRUE)
+```
 
 This method of rendering allows you to debug your code by inserting `browser()` calls which stops compilation at specific places.
 
@@ -165,6 +170,8 @@ This will attach the title page to the beginning of the Word document.
 -->
 
 ## Components
+
+[Project structure in the Bookdown document:](https://bookdown.org/yihui/rmarkdown/bookdown-project.html)
 
 The following components are ones you should edit to customize your report:
 

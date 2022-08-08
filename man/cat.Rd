@@ -2,47 +2,36 @@
 % Please edit documentation in R/utils.R
 \name{cat}
 \alias{cat}
-\title{Redefinition of \code{cat()} with separator set to ""}
+\title{Redefinition of \code{\link[=cat]{cat()}} with separator set to empty string}
 \usage{
-cat(..., file = "", sep = "", fill = FALSE, labels = NULL, append = FALSE)
+cat(..., file = "", sep = " ", fill = FALSE, labels = NULL, append = FALSE)
 }
 \arguments{
-\item{...}{\R objects (see \sQuote{Details} for the types of objects
-    allowed).}
+\item{...}{\code{R} objects (see \code{Details} for the types of objects allowed)}
 
-\item{file}{A \link[base]{connection}, or a character string naming the file
-    to print to.  If \code{""} (the default), \code{cat} prints to the
-    standard output connection, the console unless redirected by
-    \code{\link[base]{sink}}.
-#ifdef unix not active  }
+\item{file}{A connection, or a character string naming the file to print
+to. If "" (the default), cat prints to the standard output connection
+the console unless redirected by sink}
 
-\item{sep}{a character vector of strings to append after each element.}
+\item{sep}{A character vector of strings to append after each element.}
 
-\item{fill}{a logical or (positive) numeric controlling how the output is
-    broken into successive lines.  If \code{FALSE} (default), only newlines
-    created explicitly by \samp{"\\n"} are printed.  Otherwise, the
-    output is broken into lines with print width equal to the option
-    \code{width} if \code{fill} is \code{TRUE}, or the value of
-    \code{fill} if this is numeric.  Linefeeds are only inserted
-    \emph{between} elements, strings wider than \code{fill} are not
-    wrapped.  Non-positive \code{fill} values are
-    ignored, with a warning.}
+\item{fill}{A logical or (positive) numeric controlling how the output is
+broken into successive lines. If \code{FALSE} (default), only newlines created
+explicitly by ‘⁠\\n"⁠’ are printed. Otherwise, the output is broken in
+to lines with print width equal to the option width if fill is \code{TRUE},
+or the value of \code{fill} if this is numeric. Linefeeds are only inserted
+between elements, strings wider than \code{fill} are not wrapped. Non-positive
+\code{fill} values are ignored, with a warning}
 
-\item{labels}{character vector of labels for the lines printed.
-    Ignored if \code{fill} is \code{FALSE}.}
+\item{labels}{A character vector of labels for the lines printed. Ignored
+if \code{fill} is \code{FALSE}}
 
-\item{append}{logical. Only used if the argument \code{file} is the
-    name of file (and not a connection or \code{"|cmd"}).
-    If \code{TRUE} output will be appended to
-    \code{file}; otherwise, it will overwrite the contents of
-    \code{file}.}
-}
-\value{
-None (invisible \code{NULL}).
+\item{append}{Logical. Only used if the argument file is the name of file
+(and not a connection or "\verb{|cmd}"). If \code{TRUE} output will be appended to file;
+otherwise, it will overwrite the contents of file.}
 }
 \description{
-Outputs the objects, concatenating the representations.  \code{cat}
-  performs much less conversion than \code{\link[base]{print}}.
+Redefinition of \code{\link[=cat]{cat()}} with separator set to empty string
 }
 \details{
 \code{cat} is useful for producing output in user-defined functions.
@@ -99,3 +88,4 @@ Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988)
 \code{\link[base]{print}}, \code{\link[base]{format}}, and \code{\link[base]{paste}}
   which concatenates into a string.
 }
+\keyword{internal}

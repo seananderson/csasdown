@@ -6,6 +6,12 @@ test_that("Conversion of list lines in Rmd works correctly", {
   expect_null(tmp[[2]])
   # ---------------------------------------------------------------------------
 
+  chunk <- "Text, not list item"
+  tmp <- csasdown:::conv_list_lines(chunk)
+  expect_null(tmp[[1]])
+  expect_identical(tmp[[2]], c("Text, not list item"))
+  # ---------------------------------------------------------------------------
+
   chunk <- "1. Item"
   tmp <- csasdown:::conv_list_lines(chunk)
   expect_identical(tmp[[1]], c("1. Item"))

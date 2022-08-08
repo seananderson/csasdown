@@ -9,17 +9,29 @@
 #' @keywords internal
 #'
 #' @param fn Typically the working copy of this file:
-#' `csasdown/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd`
+#' `/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd`
 #' which is `index.Rmd` by default
 #' @param doc_type Document type
+#' @param verbose Logical. If `TRUE`, print messages
 #'
 #' @return Lines for the file `fn`, but with the code injected in the right
 #' place
-inject_bilingual_code <- function(fn = "index.Rmd", doc_type){
+inject_bilingual_code <- function(fn = get_index_filename(
+                system.file("rmarkdown",
+                            "templates",
+                            "resdoc", # All types have the same index filename
+                            "skeleton",
+                            "_bookdown.yml",
+                            package = "csasdown")),
+                doc_type,
+                verbose = FALSE){
+
+  if(verbose){
+    notify("Injecting bilingual code into ", fn_color(fn), " ...")
+  }
 
   if(!file.exists(fn)){
-    stop("File ", fn, " does not exist",
-         call. = FALSE)
+    bail("File ", fn_color(fn), " does not exist") # nocov
   }
   lines <- readLines(fn)
 
@@ -53,6 +65,9 @@ inject_bilingual_code <- function(fn = "index.Rmd", doc_type){
     '  csl <- "csl/csas-french.csl"',
     '  options(OutDec = ",")',
     '}',
+    '',
+    'french <- isTRUE(getOption("french")) # for backwards compatibility',
+    '',
     '# This hook simplifies document translation for the author.',
     '# When building in French, it draws a box around paragraphs contained in chunks',
     '#  which have the option `needs_trans = TRUE`. It also labels',
@@ -66,7 +81,7 @@ inject_bilingual_code <- function(fn = "index.Rmd", doc_type){
     '#  chunk options to your English paragraph chunks instead of the French ones.',
     '#  ',
     '#  IMPORTANT NOTES',
-    '#  - Use `csasdown::render_resdoc()` to render the document. This runs a',
+    '#  - Use `csasdown::render()` to render the document. This runs a',
     '#    pre-processing step which ensures any inline R chunks',
     '#    `r print("Like this one")` are taken care of correctly and that all',
     '#    backslash variables (eg. \\pi, \\alpha, \\@ref, \\cite) are all processed',
@@ -93,7 +108,18 @@ inject_bilingual_code <- function(fn = "index.Rmd", doc_type){
     '    }',
     '  }',
     '})',
-    '```')
+    '```',
+    ''
+  )
+
+  # Check that bilingual code has not been injected previously
+  bi_code_ind <- which(bi_code[1] == lines)
+  if(!length(bi_code_ind)){
+    lines <- c(lines, bi_code)
+    if(verbose){
+      check_notify("Injected knitr hook and language extraction code")
+    }
+  }
 
   if(doc_type == "techreport"){
     yaml_code <- c(
@@ -112,7 +138,18 @@ inject_bilingual_code <- function(fn = "index.Rmd", doc_type){
       '---')
   }
 
-  lines <- c(lines, bi_code, yaml_code)
+  # Check that bilingual YAML code has not been injected previously
+  yaml_code_ind <- which(yaml_code[2] == lines)
+  if(!length(yaml_code_ind)){
+    lines <- c(lines, yaml_code)
+    if(verbose){
+      check_notify("Injected trailing YAML block")
+    }
+  }
+
   writeLines(lines, fn)
 
+  if(verbose && (!length(bi_code_ind) || !length(yaml_code_ind))){
+    check_notify("Injected bilingual code successfully\n")
+  }
 }

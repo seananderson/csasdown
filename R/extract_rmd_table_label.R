@@ -54,32 +54,20 @@ extract_rmd_table_label <- function(chunk){
   }
 
   if(i == length(chunk)){
-    if(chunk[i] == ""){
-      # The whole chunk was just blank lines
-      return(list(NULL, chunk))
-    }else{
-      # Whole chunk just had one line of text at the end
-      line_mtch_lbl_style_1 <- length(grep(lbl_def_pat , trimws(chunk[i])))
-      if(line_mtch_lbl_style_1){
-        n_lead_spaces <- nchar(gsub("^(\\s*).*$", "\\1", chunk[i]))
-        if(n_lead_spaces > 3){
-          # Rmarkdown specs say a table caption line must be indented 3 or less
-          # spaces. If more, it is just a regular text line
-          warning("A line that looks like a table caption was found but it is ",
-                  "indented ", n_lead_spaces, " spaces. The Rmarkdown ",
-                  "specification says it must be 3 or less:\n\n",
-                  chunk[i],
-                  "\n\n",
-                  call. = FALSE)
-          return(list(NULL, chunk))
-        }
-        return(list(chunk[i], NULL))
-      }
-      # Cannot match the second type of label because it requires two lines
-      # minimum, so return the whole chunk as it is not a label and not part
-      # of the table
+    # Whole chunk just had one line of text at the end that cannot match the
+    # second type of label because it requires two lines minimum
+    n_lead_spaces <- nchar(gsub("^(\\s*).*$", "\\1", chunk[i]))
+    if(n_lead_spaces > 3){
+      # Rmarkdown specs say a table caption line must be indented 3 or less
+      # spaces. If more, it is just a regular text line
+      alert("A line that looks like a table caption was found but it is ",
+            "indented ", n_lead_spaces, " spaces. The Rmarkdown ",
+            "specification says it must be 3 or less:\n\n",
+            csas_color(chunk[i]),
+            "\n\n")
       return(list(NULL, chunk))
     }
+    return(list(chunk[i], NULL))
   }
   start_lbl_ind <- i
   # If here, the chunk is not all whitespace, `start_lbl_ind` is at a position
@@ -94,12 +82,11 @@ extract_rmd_table_label <- function(chunk){
     if(n_lead_spaces > 3){
       # Rmarkdown specs say a table caption line must be indented 3 or less
       # spaces. If more, it is just a regular text line
-      warning("A line that looks like a table caption was found but it is ",
-              "indented ", n_lead_spaces, " spaces. The Rmarkdown ",
-              "specification says it must be 3 or less:\n\n",
-              chunk[i],
-              "\n\n",
-              call. = FALSE)
+      alert("A line that looks like a table caption was found but it is ",
+            "indented ", n_lead_spaces, " spaces. The Rmarkdown ",
+            "specification says it must be 3 or less:\n\n",
+            csas_color(chunk[i]),
+            "\n\n")
       return(list(NULL, chunk))
     }
     text_follows <- FALSE
@@ -146,22 +133,21 @@ extract_rmd_table_label <- function(chunk){
     if(n_lead_spaces > 3){
       # Rmarkdown specs say a table caption line must be indented 3 or less
       # spaces. If more, it is just a regular text line
-      warning("A line that looks like a table caption was found but it is ",
-              "indented ", n_lead_spaces, " spaces. The Rmarkdown ",
-              "specification says it must be 3 or less:\n\n",
-              chunk[i],
-              "\n\n",
-              call. = FALSE)
+      alert("A line that looks like a table caption was found but it is ",
+            "indented ", n_lead_spaces, " spaces. The Rmarkdown ",
+            "specification says it must be 3 or less:\n\n",
+            csas_color(chunk[i]),
+            "\n\n")
       return(list(NULL, chunk))
     }
     # The following line MUST be text or there is no label
     i <- i + 1
     if(chunk[i] == ""){
-      warning("Blank 'Table:' tag for table, this will not produce a ",
-              "label.\nYou must not have blank lines between an empty ",
-              "'Table:' tag and the caption that goes with it:\n\n",
-              paste(chunk, collapse = "\n"),
-              call. = FALSE)
+      alert("Blank ", tag_color("Table:"), " tag for table, this will ",
+            "not produce a label.\nYou must not have blank lines between ",
+            "an empty ",
+            tag_color("Table:"), " tag and the caption that goes with it:\n\n",
+            csas_color(paste(chunk, collapse = "\n")))
       return(list(NULL, chunk))
     }
     text_follows <- FALSE
@@ -182,10 +168,10 @@ extract_rmd_table_label <- function(chunk){
       }
       if(i + 2 < length(chunk) &&
          is_rmd_table_line(chunk[i:length(chunk)]) != "false"){
-        if(chunk[i] != ""){
+        if(chunk[i] != ""){ #nocov start
           text_follows <- TRUE
         }
-        break
+        break #nocov end
       }
     }
     if(end_lbl_ind == length(chunk)){

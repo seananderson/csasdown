@@ -5,10 +5,12 @@ on:
     branches:
       - main
       - master
+      - dev
   pull_request:
     branches:
       - main
       - master
+      - dev
 
 name: R-CMD-check
 
@@ -20,7 +22,7 @@ jobs:
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         config:
           # - {os: windows-latest, r: 'release'}

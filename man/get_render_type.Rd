@@ -5,10 +5,16 @@
 \title{Get the the type of document to render by extracting from the YAML tags in
 the index file}
 \usage{
-get_render_type(fn = "index.Rmd")
+get_render_type(
+  fn = get_index_filename(system.file("rmarkdown", "templates", "resdoc", "skeleton",
+    "_bookdown.yml", package = "csasdown")),
+  verbose = FALSE
+)
 }
 \arguments{
 \item{fn}{The name of the YAML file, typically 'index.Rmd' for bookdown}
+
+\item{verbose}{Logical. If \code{TRUE}, print messages}
 }
 \value{
 A character string representing the render type. One of
@@ -18,5 +24,11 @@ A character string representing the render type. One of
 \description{
 Get the the type of document to render by extracting from the YAML tags in
 the index file
+}
+\details{
+Will overwrite the line in the file \code{fn} that contains
+\code{csasdown::render_type} or \code{csasdown:::render_type} with
+\code{csasdown:::render_type}. This is for backwards compatibility with versions
+where those functions were exported.
 }
 \keyword{internal}

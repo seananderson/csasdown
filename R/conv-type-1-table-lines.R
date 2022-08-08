@@ -39,6 +39,7 @@
 #' A second line of table caption here (no blank lines in between)
 #' ```
 #' @keywords internal
+#' @family rmd_conversion_functions
 #'
 #' @param chunk A vector of character strings representing lines for RMD code
 #'
@@ -46,11 +47,13 @@
 #' rest of the chunk starting with the line after the end of the table
 #'
 #' @examples
+#' \dontrun{
 #' chunk <- c("---------- -----------", "  Parameter   Value",
 #'            "---------- -----------", "     x          1.0",
 #'            "     y          2.2", "---------- -----------")
 #' tmp <- csasdown:::conv_type_1_table_lines(chunk)
 #' the_rest <- tmp[[2]]
+#' }
 conv_type_1_table_lines <- function(chunk){
 
   if(is.null(chunk)){
@@ -58,32 +61,28 @@ conv_type_1_table_lines <- function(chunk){
   }
 
   if(length(chunk) < 5){
-    stop("A type 1 table must have at least 5 lines. Input chunk is:\n\n",
-         paste(chunk, collapse = "\n"),
-         "\n\n",
-         call. = FALSE)
+    bail("A type 1 table must have at least 5 lines. Input chunk is:\n\n",
+         csas_color(paste(chunk, collapse = "\n")),
+         "\n\n")
   }
 
   if(is_rmd_table_line(chunk) != "type1"){
-    stop("The following table is not a type 1 table based on the first four ",
+    bail("The following table is not a type 1 table based on the first four ",
          "rows:\n\n",
-         paste(chunk, collapse = "\n"),
+         csas_color(paste(chunk, collapse = "\n")),
          "\n\n",
          "They must start with:\n",
          "- a row of dashes\n",
          "- a row of text representing column headers\n",
          "- a row of dashes\n",
-         "- a row of text representing the first row of data.",
-         call. = FALSE)
+         "- a row of text representing the first row of data.")
   }
 
   start_tbl_ind <- 1
   end_tbl_ind <- NULL
   start_lbl_ind <- NULL
   end_lbl_ind <- NULL
-  if(length(chunk) == 4){
-    return(list(NULL, chunk))
-  }
+
   # Add the first 4 rows as they have been checked already in
   # `is_rmd_table_line()`
   tbl_chunk <- c(chunk[1:4], "")
@@ -106,7 +105,7 @@ conv_type_1_table_lines <- function(chunk){
       tbl_chunk <- c(tbl_chunk, chunk[i], "")
     }
     if(i == length(chunk)){
-      break
+      break # nocov
     }
     i <- i + 1
   }
@@ -116,12 +115,11 @@ conv_type_1_table_lines <- function(chunk){
       return(list(tbl_chunk, NULL))
     }
   }else{
-    message("A table appears to have been started but not finished. ",
-            "This can happen if a list element or header element was ",
-            "misplaced inside the table code. Here is the offending ",
-            "Rmarkdown text:\n")
-    message(paste(chunk, collapse = "\n"))
-    stop("Incomplete table", call. = FALSE)
+    bail("A table appears to have been started but not finished. ",
+         "This can happen if a list element or header element was ",
+         "misplaced inside the table code. Here is the offending ",
+         "Rmarkdown text:\n\n",
+         csas_color(paste(chunk, collapse = "\n")))
   }
 
   # Add label if it exists

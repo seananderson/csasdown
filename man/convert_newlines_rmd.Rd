@@ -28,4 +28,14 @@ following, before the next text occurs. List elements must not have newlines
 between them.
 This allows for 'What you see is what you get' in your Rmarkdown code.
 }
+\seealso{
+Other rmd_conversion_functions: 
+\code{\link{conv_blank_lines}()},
+\code{\link{conv_header_lines}()},
+\code{\link{conv_list_lines}()},
+\code{\link{conv_paragraph_lines}()},
+\code{\link{conv_type_1_table_lines}()},
+\code{\link{conv_type_2_table_lines}()}
+}
+\concept{rmd_conversion_functions}
 \keyword{internal}

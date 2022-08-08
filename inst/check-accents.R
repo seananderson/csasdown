@@ -93,8 +93,8 @@ write_utf8 <- function(text, f = tempfile()) {
   readLines(f, encoding = "UTF-8")
 
 }
-write_utf8(broken) %>% tools::showNonASCII()
-write_utf8(correct) %>% tools::showNonASCII()
+write_utf8(broken) |>  tools::showNonASCII()
+write_utf8(correct) |>  tools::showNonASCII()
 
 pryr::bits(broken)
 pryr::bits(correct)
@@ -119,8 +119,8 @@ latin1_c <- iconv(correct, to = "latin1")
 latin1_b <- iconv(broken, to = "UTF-8")
 latin1_c <- iconv(correct, to = "UTF-8")
 
-latin1_b %>% is_broken()
-latin1_c %>% is_broken()
+latin1_b |>  is_broken()
+latin1_c |>  is_broken()
 
 
 
@@ -130,5 +130,5 @@ paste(latin1_c, "(latin1):", pryr::bits(latin1_c))
 latin1_b
 latin1_c
 
-write_utf8(broken) %>% pryr::bits()
-write_utf8(correct) %>% pryr::bits()
+write_utf8(broken) |>  pryr::bits()
+write_utf8(correct) |>  pryr::bits()

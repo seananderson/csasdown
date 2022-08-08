@@ -1,47 +1,121 @@
-# nocov start
 #' Create a new CSAS document based on a template
 #'
 #' Create a draft of an R Markdown CSAS document
 #'
-#' @param type The type of document to start.
-#' @param create_dir `TRUE` to create a new directory for the document.
-#' @param edit `TRUE` to edit the template immediately.
+#' @param type The type of document to draft. Must be one of `resdoc`,
+#' `resdoc-b`, `sr`, or `techreport`
+#' @param directory The directory to place the draft document files.
+#' Is the current directory by default
+#' @param fn Bookdown starting file, `index.Rmd` by default
+#' @param edit Logical. If `TRUE`, edit the template file immediately
+#' (See `edit` in [rmarkdown::draft()])
+#' @param verbose Logical. If `TRUE`, print messages
+#' @param testing Logical. If `TRUE`, the question about overwriting
+#' files which already exist will skipped to ensure unit tests work
+#' correctly
+#' @param testing_affirm_ovr Logical. If `TRUE` and `testing` is `TRUE`,
+#' set overwrite files to `TRUE`. If `FALSE` and `testing` is `TRUE`,
+#' set overwrite to `FALSE`. If `testing` is `FALSE`, this argument is ignored
 #' @param ... Other arguments to pass to [rmarkdown::draft()].
 #'
 #' @details This is a light wrapper around [rmarkdown::draft()]. Consult that
-#'   function for further details.
+#' function for further details.
 #'
+#' @family drafting
 #' @examples
 #' \dontrun{
 #' csasdown::draft("resdoc")
+#' csasdown::draft("resdoc-b")
 #' csasdown::draft("sr")
 #' csasdown::draft("techreport")
 #' }
 #' @export
 draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport"),
-                  create_dir = FALSE,
+                  directory = getwd(),
+                  fn = "index.Rmd",
                   edit = FALSE,
+                  verbose = TRUE,
+                  testing = FALSE,
+                  testing_affirm_ovr = FALSE,
                   ...) {
 
-  if (!grepl("\\/rmarkdown\\/templates", type)) { # so it also works with unit testing
-    # type <- match.arg(type)
-    if (!type %in% c("resdoc", "resdoc-b", "sr", "techreport")) {
-      warning("`type` should be one of 'resdoc', 'resdoc-b', sr', or 'techreport'.",
-              call. = FALSE)
+  # nocov start
+  if(!grepl("\\/rmarkdown\\/templates", type)){
+    # This is necessary so this function also works with unit testing
+    if(!type %in% c("resdoc", "resdoc-b", "sr", "techreport")){
+      alert(csas_color("type"), " should be one of ",
+            csas_color("resdoc"), ", ", csas_color("resdoc-b"), ", ",
+            csas_color("sr"), ", or ", csas_color("techreport"),
+            call. = FALSE)
     }
     package <- "csasdown"
-  } else {
+  }else{
     package <- NULL
   }
+  # nocov end
 
-  rmarkdown::draft("index.Rmd",
-    template = type,
-    package = package,
-    create_dir = create_dir,
-    edit = edit,
-    ...
-  )
-  # rmarkdown::draft does not copy files that begin with a dot (on Windows)
+  if(!dir.exists(directory)){
+    bail("The directory ", fn_color(directory), " does not exist so ",
+         "the csasdown project cannot be created there")
+  }
+
+  if(verbose){
+    notify("Drafting a new ", csas_color(type), " project ...")
+  }
+
+  # Get files and directories present in the directory ------------------------
+  # `all_files` is files ONLY, no directories
+  all_files <- dir()
+  # Keep RStudio project files during deletion and don't include them
+  # in the check to see if the directory is empty
+  fns <- all_files[-grep("^.*(RProj|Rproj|rproj)$", all_files)]
+
+  # `dirs` is directories ONLY, no files
+  dirs <- list.dirs()
+  # Remove 'hidden' directories that start with './.'
+  dirs <- dirs[-grep("^(\\.\\/\\.\\S+|\\.)$", dirs)]
+  # Removed leading './' from directory names
+  dirs <- gsub("^\\.\\/(\\S+)$", "\\1", dirs)
+
+  if(length(fns) || length(dirs)){
+    # There is at least one file or directory present
+    if(testing){
+      affirm_delete <- ifelse(testing_affirm_ovr, "y", "n")
+    }else{
+      # nocov start
+      repeat{
+        affirm_delete <- readline(
+          question("This action will delete the contents ",
+                   "of the directory ", fn_color(directory), "\n\n",
+                   "Are you sure you want to do this (y/n)?"))
+        if(tolower(affirm_delete) != "n" &&
+           tolower(affirm_delete) != "no" &&
+           tolower(affirm_delete) != "y" &&
+           tolower(affirm_delete) != "yes"){
+          question("Please answer yes or no.")
+        }else{
+          break
+        }
+      }
+      # nocov end
+    }
+    if(tolower(affirm_delete) == "y" || tolower(affirm_delete) == "yes"){
+      unlink(fns, recursive = TRUE, force = TRUE)
+      check_notify("Deleted all non-.Rproj files and directories in directory ",
+                   fn_color(directory), "\n")
+    }else{
+      bail("New document not drafted, you decided to keep the files ",
+           "and/or directories in the directory ", fn_color(directory))
+    }
+  }
+
+  rmarkdown::draft(fn,
+                   template = type,
+                   package = package,
+                   edit = edit,
+                   ...)
+
+  # rmarkdown::draft() does not copy files that begin with a dot (on Windows)
   # so we just rename the git ignore file
   if (file.exists("_gitignore")) {
     file.rename("_gitignore", ".gitignore")
@@ -49,33 +123,29 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport"),
   if (file.exists("_here")) {
     file.rename("_here", ".here")
   }
-  create_rstudio_project_file()
-}
+  create_rstudio_project_file(directory)
 
-#' Creates a blank Rstudio project file in the current directory with the same name
-#' as the current directory.
-create_rstudio_project_file <- function() {
-  wd <- getwd()
-  fn <- file.path(wd, paste0(basename(wd), ".Rproj"))
-  txt <- c(
-    "Version: 1.0",
-    "\n",
-    "\n",
-    "RestoreWorkspace: Default",
-    "SaveWorkspace: Default",
-    "AlwaysSaveHistory: Default",
-    "\n",
-    "EnableCodeIndexing: Yes",
-    "UseSpacesForTab: Yes",
-    "NumSpacesForTab: 2",
-    "Encoding: UTF-8",
-    "\n",
-    "RnwWeave: knitr",
-    "LaTeX: pdfLaTeX",
-    "\n",
-    "AutoAppendNewLine: Yes",
-    "StripTrailingWhitespace: Yes"
-  )
-  writeLines(txt, fn)
+  if(verbose){
+    # `dirs` is directories ONLY, no files
+    dirs <- list.dirs()
+    # Remove 'hidden' directories that start with './.'
+    dirs <- dirs[-grep("^(\\.\\/\\.\\S+|\\.)$", dirs)]
+    # Removed leading './' from directory names
+    dirs <- gsub("^\\.\\/(\\S+)$", "\\1", dirs)
+    # Add angle brackets around them
+    dirs <- paste0("<", dirs, ">")
+
+    check_notify("Directories copied:\n",
+                 paste(dirs, collapse = "\n"), "\n")
+    files <- setdiff(list.files(), list.dirs(recursive = FALSE,
+                                             full.names = FALSE))
+    check_notify("Files copied:\n",
+                 paste(files, collapse = "\n"), "\n")
+    check_notify("Successfully drafted a new ", csas_color(type),
+                 " project in ", fn_color(directory), "\n")
+    notify("To render it into a document, run ",
+           csas_color("csasdown::render()"))
+    notify("Change render options in the file ",
+           fn_color(fn))
+  }
 }
-# nocov end

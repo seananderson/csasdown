@@ -5,13 +5,17 @@
 \title{Set the the type of document to render by modifying the YAML tags in
 the index file}
 \usage{
-set_render_type(fn = "index.Rmd", doc_type = c("pdf", "word"))
+set_render_type(
+  fn = get_index_filename(system.file("rmarkdown", "templates", "resdoc", "skeleton",
+    "_bookdown.yml", package = "csasdown")),
+  doc_type = c("pdf", "word", "asis")
+)
 }
 \arguments{
 \item{fn}{The name of the YAML file, typically 'index.Rmd' for bookdown}
 
-\item{doc_type}{The type of document to set for rendering. Either 'pdf' or
-'word'}
+\item{doc_type}{The type of document to set for rendering. Either 'pdf',
+'word', or 'asis'. If \code{asis}, leave the render type as-is.}
 }
 \value{
 Nothing

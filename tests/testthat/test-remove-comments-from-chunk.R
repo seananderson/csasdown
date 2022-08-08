@@ -21,7 +21,6 @@ test_that("Removing all comments from knitr chunks works", {
                 "While whitespace largely is ignored, it does at",
                 "times give _Markdown_ signals as to how to proceed.  ",
                 "')",
-                "",
                 "```")
   expect_identical(actual, expected)
 
@@ -33,7 +32,6 @@ test_that("Removing all comments from knitr chunks works", {
              "While whitespace largely is ignored, it does at",
              "times give _Markdown_ signals as to how to proceed.  ",
              "')",
-             "",
              "# Test comment 3",
              "```",
              "# BBBBBBBBBB",
@@ -48,7 +46,6 @@ test_that("Removing all comments from knitr chunks works", {
                 "While whitespace largely is ignored, it does at",
                 "times give _Markdown_ signals as to how to proceed.  ",
                 "')",
-                "",
                 "```",
                 "# BBBBBBBBBB",
                 "",
@@ -83,7 +80,6 @@ test_that("Removing all comments from knitr chunks works", {
                 "While whitespace largely is ignored, it does at",
                 "times give _Markdown_ signals as to how to proceed.  ",
                 "')",
-                "",
                 "```")
   expect_identical(actual, expected)
 
@@ -118,7 +114,6 @@ test_that("Removing all comments from knitr chunks works", {
            "While whitespace largely is ignored, it does at",
            "times give _Markdown_ signals as to how to proceed.  ",
            "')",
-           "",
            "```",
            "# BBBBBBBBBB",
            "",
@@ -148,21 +143,22 @@ test_that("Removing all comments from knitr chunks works", {
              "",
              "# Test comment 3",
              "```")
-  exp <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
-           "cat('Be careful with your spacing in _Markdown_ documents.",
-           "While whitespace largely is ignored, it does at",
-           "times give _Markdown_ signals as to how to proceed.  ",
-           "')",
-           "",
-           "```",
-           "# BBBBBBBBBB",
-           "",
-           "BBBBBBBBBB",
-           "",
-           "```{r chap01-para-7-en, eval = !fr(), results = 'asis'}",
-           "cat('More text!')",
-           "",
-           "```")
+  writeLines(chunk, fn)
+  ret <- csasdown:::remove_comments_from_chunks(fn)
+  actual <- readLines(fn)
+  expected <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
+                "cat('Be careful with your spacing in _Markdown_ documents.",
+                "While whitespace largely is ignored, it does at",
+                "times give _Markdown_ signals as to how to proceed.  ",
+                "')",
+                "```",
+                "# BBBBBBBBBB",
+                "",
+                "BBBBBBBBBB",
+                "",
+                "```{r chap01-para-7-en, eval = !fr(), results = 'asis'}",
+                "cat('More text!')",
+                "```")
   expect_identical(actual, expected)
 
   # ---------------------------------------------------------------------------
@@ -203,7 +199,6 @@ test_that("Removing all comments from knitr chunks works", {
            "While whitespace largely is ignored, it does at",
            "times give _Markdown_ signals as to how to proceed.  ",
            "')",
-           "",
            "```",
            "# BBBBBBBBBB",
            "",
@@ -211,7 +206,6 @@ test_that("Removing all comments from knitr chunks works", {
            "",
            "```{r chap01-para-7-en, eval = !fr(), results = 'asis'}",
            "cat('More text!')",
-           "",
            "```")
   expect_identical(actual, expected)
 
@@ -257,7 +251,6 @@ test_that("Removing all comments from knitr chunks works", {
            "While whitespace largely is ignored, it does at",
            "times give _Markdown_ signals as to how to proceed.  ",
            "')",
-           "",
            "```",
            "# BBBBBBBBBB",
            "",
@@ -265,7 +258,6 @@ test_that("Removing all comments from knitr chunks works", {
            "",
            "```{r chap01-para-7-en, eval = !fr(), results = 'asis'}",
            "cat('More text!')",
-           "",
            "```",
            "# CCCCCCCCCC",
            "",
@@ -299,21 +291,86 @@ test_that("Removing all comments from knitr chunks works", {
   ret <- csasdown:::remove_comments_from_chunks(fn)
   actual <- readLines(fn)
   expected <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
-           "cat('Be careful with your spacing in _Markdown_ documents.",
-           "While whitespace largely is ignored, it does at",
-           "times give _Markdown_ signals as to how to proceed.  ",
-           "')",
-           "",
-           "```",
-           "# AAAAAAAAAA",
-           "",
-           "AAAAAAAAAA",
-           "",
-           "```{r chap01-para-7-en, eval = !fr(), results = 'asis'}",
-           "cat('More text!')",
-           "",
-           "```")
+                "cat('Be careful with your spacing in _Markdown_ documents.",
+                "While whitespace largely is ignored, it does at",
+                "times give _Markdown_ signals as to how to proceed.  ",
+                "')",
+                "```",
+                "# AAAAAAAAAA",
+                "",
+                "AAAAAAAAAA",
+                "",
+                "```{r chap01-para-7-en, eval = !fr(), results = 'asis'}",
+                "cat('More text!')",
+                "```")
   expect_identical(actual, expected)
 
-  unlink(fn, recursive = TRUE)
+  # ---------------------------------------------------------------------------
+  chunk <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
+             "# Test comment",
+             "#Test Comment 2",
+             "cat('Be careful with your spacing in _Markdown_ documents.",
+             "While whitespace largely is ignored, it does at",
+             "times give _Markdown_ signals as to how to proceed.  ",
+             "')",
+             "",
+             "# Test comment 3",
+             "```",
+             "# AAAAAAAAAA",
+             "",
+             "AAAAAAAAAA",
+             "",
+             "```{r chap01-para-7-en, eval = !fr(), results = 'asis'}",
+             "# Test comment",
+             "#Test Comment 2",
+             "cat('More text!')",
+             "",
+             "# Test comment 3")
+  writeLines(chunk, fn)
+  expect_error(csasdown:::remove_comments_from_chunks(fn),
+               paste0("The number of knitr starting code chunk header ",
+                      "lines does not equal the number of ending code chunk ",
+                      "lines (triple backtick-lines)"),
+               fixed = TRUE)
+
+  # ---------------------------------------------------------------------------
+  chunk <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
+             "# Test comment",
+             "#Test Comment 2",
+             "cat('Be careful with your spacing in _Markdown_ documents.",
+             "While whitespace largely is ignored, it does at",
+             "times give _Markdown_ signals as to how to proceed.",
+             "')",
+             "",
+             "cat('# Test comment 3')",
+             "```",
+             "# AAAAAAAAAA",
+             "",
+             "AAAAAAAAAA",
+             "",
+             "```{r chap01-para-7-en, eval = !fr(), results = 'asis'}",
+             "# Test comment",
+             "#Test Comment 2",
+             "cat('More text!')",
+             "",
+             "# Test comment 3",
+             "```")
+  writeLines(chunk, fn)
+  expect_error(csasdown:::remove_comments_from_chunks(fn),
+               paste0("inside each code chunk:"))
+
+  # ---------------------------------------------------------------------------
+  chunk <- c("```{r chap01-para-6-en, eval = !fr(), results = 'asis'}",
+             "cat('Be careful with your spacing in _Markdown_ documents.",
+             "While whitespace largely is ignored, it does at",
+             "times give _Markdown_ signals as to how to proceed.",
+             "')",
+             "```",
+             "```{r chap01-para-7-en, eval = !fr(), results = 'asis'}",
+             "cat('More text!')",
+             "```")
+  writeLines(chunk, fn)
+  expect_message(csasdown:::remove_comments_from_chunks(fn, verbose = TRUE),
+               paste0("There were no comments in chunks found to remove"))
+
 })

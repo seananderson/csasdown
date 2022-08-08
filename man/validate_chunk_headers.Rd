@@ -7,7 +7,8 @@
 validate_chunk_headers(
   rmd_files,
   en_chunk_regex = "^\\\\S+-en$",
-  fr_chunk_regex = "^\\\\S+-fr$"
+  fr_chunk_regex = "^\\\\S+-fr$",
+  verbose = FALSE
 )
 }
 \arguments{
@@ -21,6 +22,8 @@ any other non-whitespace characters}
 
 \item{fr_chunk_regex}{A regular expression to match for the chunk
 name for French chunks. Default is 'ends in -fr'}
+
+\item{verbose}{Logical. If \code{TRUE}, print messages}
 }
 \value{
 A vector of error messages, one item for each chunk problem
@@ -29,6 +32,12 @@ A vector of error messages, one item for each chunk problem
 Validate that chunk headers contain only certain combinations of settings.
 Check that chunks with \code{eval = fr()} or \code{eval = !fr()}, have the correct
 \code{needs_trans} setting and a correct chunk name format if \code{chunk_regex}
-is \code{TRUE}
+is \code{TRUE}. Verify that these chunks also contain the \code{results = 'asis'}
+header option. Without that, \code{cat()} produces non-Rmarkdown output
+in the document.
+}
+\details{
+Inserts \code{results = 'asis'} if necessary for chunks that have the
+\code{eval = fr()} or \code{eval = !fr()} header options.
 }
 \keyword{internal}

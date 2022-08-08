@@ -1,0 +1,54 @@
+test_that("update_csasstyle() works", {
+
+  testing_path <- file.path(tempdir(), "test-update-csasstyle-resdoc")
+  unlink(testing_path, recursive = TRUE, force = TRUE)
+  dir.create(testing_path, showWarnings = FALSE)
+  setwd(testing_path)
+  suppressMessages(csasdown::draft(
+    system.file("rmarkdown", "templates", "resdoc", package = "csasdown"),
+    create_dir = FALSE,
+    edit = FALSE
+  ))
+
+  # ---------------------------------------------------------------------------
+  expect_error(csasdown:::update_csasstyle(copy = FALSE, line_nums = TRUE),
+               paste0("YAML header. The permanent style file cannot be ",
+                      "modified as needed to include line numbering"))
+
+  # ---------------------------------------------------------------------------
+  expect_error(csasdown:::update_csasstyle(copy = FALSE, line_nums = FALSE,
+                                           lot_lof = TRUE),
+               paste0("YAML header. The permanent style file cannot be ",
+                      "modified as needed to include the lists of tables ",
+                      "and figures"))
+
+  # ---------------------------------------------------------------------------
+  expect_error(csasdown:::update_csasstyle(copy = FALSE,
+                                           line_nums = FALSE,
+                                           draft_watermark = TRUE),
+               paste0("YAML header. The permanent style file cannot be ",
+                      "modified as needed to include the DRAFT watermark"))
+
+  # ---------------------------------------------------------------------------
+  # Set lot_lof (toggle show List of tables/List of Figures in doc)
+  rmd <- readLines("index.Rmd")
+  ind <- grep("lot_lof:", rmd)
+  rmd[ind] <- "   lot_lof: true"
+  writeLines(rmd, "index.Rmd")
+  csasdown::render()
+  expect_true(file.exists("_book/resdoc-english.pdf"))
+
+  # ---------------------------------------------------------------------------
+  # Set draft_watermark
+  unlink("_book/resdoc-english.pdf", force = TRUE)
+  unlink("_book/resdoc-english.tex", force = TRUE)
+  rmd <- readLines("index.Rmd")
+  ind <- grep("lot_lof:", rmd)
+  rmd[ind] <- "   lot_lof: false"
+  ind <- grep("draft_watermark:", rmd)
+  rmd[ind] <- "   draft_watermark: true"
+  writeLines(rmd, "index.Rmd")
+  csasdown::render()
+  expect_true(file.exists("_book/resdoc-english.pdf"))
+
+})

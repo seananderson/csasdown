@@ -11,18 +11,21 @@
 #'
 #' @keywords internal
 #'
+#' @family rmd_conversion_functions
+#'
 #' @param chunk A vector of character strings representing lines for RMD code
 #'
 #' @return A list of two elements, 1) The corrected part of the chunk and
 #' 2) the rest of the chunk starting with the line after the last blank line
-#' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(csasdown)
 #' chunk <- c("#Main", "##Introduction", "", "Some text..", "More Rmd text")
 #' tmp <- conv_header_lines(chunk)
 #' header_line_chunk <- tmp[[1]]
 #' the_rest <- tmp[[2]]
+#' }
 conv_header_lines <- function(chunk){
 
   if(is.null(chunk)){

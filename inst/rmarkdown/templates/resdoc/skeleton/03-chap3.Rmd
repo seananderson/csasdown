@@ -81,8 +81,8 @@ Here is a reference to the figure: Figure \@ref(fig:example-fig).  Note the use 
 Below we will investigate how to save the output of an R plot and label it in a way similar to that done above.  Recall the `flights` dataset from Section \@ref(rmd-basics).  (Note that we've shown a different way to reference a section here.)  We will next explore a bar graph with the mean flight departure delays by airline from Portland for 2014.  Note also the use of the `scale` parameter which is discussed on the next page.
 
 ```{r delaysboxplot, warnings=FALSE, messages=FALSE, fig.cap="Mean Delays by Airline", fig.width=6}
-flights %>% group_by(carrier) %>%
-  summarize(mean_dep_delay = mean(dep_delay)) %>%
+flights |> group_by(carrier) |>
+  summarize(mean_dep_delay = mean(dep_delay)) |>
   ggplot(aes(x = carrier, y = mean_dep_delay)) +
   geom_bar(position = "identity", stat = "identity", fill = "red")
 ```

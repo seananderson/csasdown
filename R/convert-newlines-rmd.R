@@ -13,6 +13,7 @@
 #' This allows for 'What you see is what you get' in your Rmarkdown code.
 #'
 #' @keywords internal
+#' @family rmd_conversion_functions
 #'
 #' @param chunk A vector of strings, one line of Rmarkdown per element
 #' @param strip_blank_lines Strip all lines composed of whitespace.

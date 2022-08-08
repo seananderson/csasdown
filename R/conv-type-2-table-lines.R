@@ -36,18 +36,21 @@
 #'
 #' @keywords internal
 #'
+#' @family rmd_conversion_functions
+#'
 #' @param chunk A vector of character strings representing lines for RMD code
 #'
 #' @return A list of two elements, which are the modified type 1 table and the
 #' rest of the chunk starting with the line after the end of the table
-#' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(csasdown)
 #' chunk <- c("  Parameter   Value", "---------- -----------",
 #'            "     x          1.0", "     y          2.2")
 #' tmp <- conv_type_2_table_lines(chunk)
 #' the_rest <- tmp[[2]]
+#' }
 conv_type_2_table_lines <- function(chunk){
 
   if(is.null(chunk)){
@@ -55,10 +58,9 @@ conv_type_2_table_lines <- function(chunk){
   }
 
   if(length(chunk) < 3){
-    stop("A type 2 table must have at least 3 lines. Input table is:\n\n",
-         paste(chunk, collapse = "\n"),
-         "\n\n",
-         call. = FALSE)
+    bail("A type 2 table must have at least 3 lines. Input table is:\n\n",
+         csas_color(paste(chunk, collapse = "\n")),
+         "\n\n")
   }
 
   # ---------------------------------------------------------------------------
@@ -66,15 +68,14 @@ conv_type_2_table_lines <- function(chunk){
   #  followed by 1 or more dashes, followed by zero or more whitespace
   #  characters
   if(is_rmd_table_line(chunk) != "type2"){
-    stop("The following table is not a type 2 table based on the first three ",
+    bail("The following table is not a type 2 table based on the first three ",
          "rows:\n\n",
-         paste(chunk, collapse = "\n"),
+         csas_color(paste(chunk, collapse = "\n")),
          "\n\n",
          "They must start with:\n",
          "- a row of text representing headers\n",
          "- a row of dashes\n",
-         "- a row of text representing a row of table data.",
-         call. = FALSE)
+         "- a row of text representing a row of table data.")
   }
 
   start_tbl_ind <- 1
@@ -99,7 +100,7 @@ conv_type_2_table_lines <- function(chunk){
     }
     tbl_chunk <- c(tbl_chunk, chunk[i])
     if(i == length(chunk)){
-      tbl_chunk <- c(tbl_chunk, chunk[i], "")
+      tbl_chunk <- c(tbl_chunk, "")
       return(list(tbl_chunk, NULL))
     }
     i <- i + 1

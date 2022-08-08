@@ -2,11 +2,11 @@
 
 Open a command line and navigate to the docker directories where the `Dockerfile` resides.
 
-1. Compile a `cgrandin/admb` image and push to `cgrandin/admb`. The necessary files are located at [https://github.com/pbs-assess/gfiscam/tree/wsl2/docker]
+Compile a `<docker_name>/csasdown` image and push to `<docker_name>/csasdown`:
+ - `docker build . --no-cache -t <docker_name>/csasdown`
+ - `docker push <docker_name>/csasdown`
 
-1. Compile a `cgrandin/csasdown` image and push to `cgrandin/csasdown`. The commands to build and push are:
- - `docker build . --no-cache -t cgrandin/csasdown`
- - `docker push cgrandin/csasdown`
+where `<docker_name>` is your Dockerhub username (without angle brackets)
 
 # Files in this directory
 

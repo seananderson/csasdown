@@ -30,10 +30,6 @@
 #'
 #' @param str The string containing inline knitr-style R code
 #' (backtick-enclosed)
-#' @param verbose Shows two vectors extracted from the input text, which are
-#' used to build the new string:
-#' 1) the text chunks between the R code chunks
-#' 2) the R code chunks between the text chunks
 #'
 #' @return A non-quoted (see [noquote()]) string which can be
 #' enclosed with double-quotes and copy/pasted into a [cat()]
@@ -41,8 +37,7 @@
 #'
 #' @importFrom stringr str_split str_extract_all
 #' @importFrom knitr all_patterns
-#' @export
-catize <- function(str, verbose = FALSE){
+catize <- function(str){
 
   # `pattern` is the official knitr regexp, see $md section,
   # ..$ inline.code: chr "`r[ #]([^`]+)\\s*`" line here:
@@ -55,20 +50,8 @@ catize <- function(str, verbose = FALSE){
   #pattern <- all_patterns$md$inline.code
   txt <- str_split(str, pattern)[[1]]
   code <- str_extract_all(str, pattern)[[1]]
-  if(verbose){
-    message("txt:")
-    print(txt)
-    message("code:")
-    print(code)
-    cat("\n")
-  }
   if(!length(code)){
     return(str)
-  }
-  if(length(txt) != length(code) + 1){
-    stop("The string did not split up correctly when splitting on ",
-         "backtick-surrounded inline R code",
-         call. = FALSE)
   }
   # Extract R code(s)
   code <- gsub("^`r ", "", code)

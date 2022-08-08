@@ -6,17 +6,36 @@
 \usage{
 draft(
   type = c("resdoc", "resdoc-b", "sr", "techreport"),
-  create_dir = FALSE,
+  directory = getwd(),
+  fn = "index.Rmd",
   edit = FALSE,
+  verbose = TRUE,
+  testing = FALSE,
+  testing_affirm_ovr = FALSE,
   ...
 )
 }
 \arguments{
-\item{type}{The type of document to start.}
+\item{type}{The type of document to draft. Must be one of \code{resdoc},
+\code{resdoc-b}, \code{sr}, or \code{techreport}}
 
-\item{create_dir}{\code{TRUE} to create a new directory for the document.}
+\item{directory}{The directory to place the draft document files.
+Is the current directory by default}
 
-\item{edit}{\code{TRUE} to edit the template immediately.}
+\item{fn}{Bookdown starting file, \code{index.Rmd} by default}
+
+\item{edit}{Logical. If \code{TRUE}, edit the template file immediately
+(See \code{edit} in \code{\link[rmarkdown:draft]{rmarkdown::draft()}})}
+
+\item{verbose}{Logical. If \code{TRUE}, print messages}
+
+\item{testing}{Logical. If \code{TRUE}, the question about overwriting
+files which already exist will skipped to ensure unit tests work
+correctly}
+
+\item{testing_affirm_ovr}{Logical. If \code{TRUE} and \code{testing} is \code{TRUE},
+set overwrite files to \code{TRUE}. If \code{FALSE} and \code{testing} is \code{TRUE},
+set overwrite to \code{FALSE}. If \code{testing} is \code{FALSE}, this argument is ignored}
 
 \item{...}{Other arguments to pass to \code{\link[rmarkdown:draft]{rmarkdown::draft()}}.}
 }
@@ -30,7 +49,13 @@ function for further details.
 \examples{
 \dontrun{
 csasdown::draft("resdoc")
+csasdown::draft("resdoc-b")
 csasdown::draft("sr")
 csasdown::draft("techreport")
 }
 }
+\seealso{
+Other drafting: 
+\code{\link{create_rstudio_project_file}()}
+}
+\concept{drafting}

@@ -24,8 +24,8 @@ input_data_table <- function(tab,
   nonbracs <- stringr::str_extract(tmp, "[(\\w+ ) ]+(?= +\\()")
   bracs <- stringr::str_extract(tmp, "(?<=\\()\\w+(?=\\))")
   if(!all(is.na(bracs) == is.na(nonbracs))){
-    warning("The match of bracketed items in the Source ",
-            "column of the Input data table was incorrect.")
+    alert("The match of bracketed items in the Source ",
+          "column of the Input data table was incorrect.")
   }
   tmp[!is.na(bracs)] <- paste0(en2fr(firstup(nonbracs[!is.na(nonbracs)])),
                                " (",

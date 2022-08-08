@@ -105,5 +105,5 @@ This is a custom wrapper for \code{\link[knitr:kable]{knitr::kable()}} with some
 the tables work with CSAS formatting in both LaTeX and Word documents.
 }
 \examples{
-csas_table(head(iris))
+csasdown::csas_table(head(iris))
 }

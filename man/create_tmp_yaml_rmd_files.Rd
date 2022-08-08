@@ -6,10 +6,12 @@
 Create a copy of the RMd files listed, with the names listed in the new
 YAML file}
 \usage{
-create_tmp_yaml_rmd_files(yaml_fn = "_bookdown.yml")
+create_tmp_yaml_rmd_files(yaml_fn = "_bookdown.yml", verbose = FALSE)
 }
 \arguments{
 \item{yaml_fn}{The \link{bookdown} YAML file name, by default is "_bookdown.yml"}
+
+\item{verbose}{Logical. If \code{TRUE}, print messages}
 }
 \value{
 A list of two, 1) The name of the temporary YAML file created

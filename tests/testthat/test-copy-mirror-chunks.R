@@ -7,6 +7,19 @@ test_that("copy_mirror_chunks() works", {
   expect_null(actual)
 
   # ---------------------------------------------------------------------------
+  # Zero mirror chunks
+  rmd <- c("```{r chunk-1-en, eval = !fr(), results = 'asis'}",
+           "cat('Test')",
+           "```",
+           "```{r chunk-1-fr, eval = fr(), results = 'asis', needs_trans = TRUE}",
+           "cat('Test 2')",
+           "```")
+  fn <- "zero-mirror-chunks.Rmd"
+  writeLines(rmd, fn)
+  actual <- csasdown:::copy_mirror_chunks(fn, nowrite = TRUE)[[1]]
+  expect_null(actual, NULL)
+
+  # ---------------------------------------------------------------------------
   # One mirror chunk
   fn <- file.path(test_path(), "preprocess-chunks-files", "single-mirror.Rmd")
   actual <- csasdown:::copy_mirror_chunks(fn, nowrite = TRUE)[[1]]
@@ -77,7 +90,7 @@ test_that("copy_mirror_chunks() works", {
   fn1 <- file.path(test_path(), "preprocess-chunks-files", "single-mirror.Rmd")
   fn2 <- file.path(test_path(), "preprocess-chunks-files", "single-chained.Rmd")
   expect_error(csasdown:::copy_mirror_chunks(c(fn1, fn2), nowrite = TRUE),
-               "Chained mirror chunk")
+               "Chained mirror reference")
 
   # ---------------------------------------------------------------------------
   # One mirror chunk, one file, no reference chunk for mirror
@@ -91,5 +104,13 @@ test_that("copy_mirror_chunks() works", {
                   "single-mirror-multiple-chunks.Rmd")
   expect_error(csasdown:::copy_mirror_chunks(fn, nowrite = TRUE),
                "appears to have multiple source chunks")
+
+  # ---------------------------------------------------------------------------
+  # Verbose, One mirror chunk, one file, more than one reference chunk
+  fn <- file.path(test_path(), "preprocess-chunks-files",
+                  "single-mirror.Rmd")
+  expect_message(csasdown:::copy_mirror_chunks(fn, nowrite = TRUE,
+                                               verbose = TRUE),
+               "Copying Rmarkdown code into")
 
 })

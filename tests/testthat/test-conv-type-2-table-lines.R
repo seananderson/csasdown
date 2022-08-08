@@ -1,17 +1,24 @@
 test_that("Conversion of type 2 table lines in Rmd works correctly", {
 
+  # ---------------------------------------------------------------------------
   chunk <- NULL
   tmp <- csasdown:::conv_type_2_table_lines(chunk)
   expect_null(tmp[[1]])
   expect_null(tmp[[2]])
 
   # ---------------------------------------------------------------------------
+  chunk <- c("", "")
+  expect_error(tmp <- csasdown:::conv_type_2_table_lines(chunk), "at least 3")
+
+  # ---------------------------------------------------------------------------
   chunk <- c("", "-----", "")
-  expect_error(tmp <- csasdown:::conv_type_2_table_lines(chunk))
+  expect_error(tmp <- csasdown:::conv_type_2_table_lines(chunk),
+               "not a type 2 table based on the first three rows")
 
   # ---------------------------------------------------------------------------
   chunk <- c("-----", "asd", "-----")
-  expect_error(tmp <- csasdown:::conv_type_2_table_lines(chunk))
+  expect_error(tmp <- csasdown:::conv_type_2_table_lines(chunk),
+               "not a type 2 table based on the first three rows")
 
   # ---------------------------------------------------------------------------
   chunk <- c("asd", "-----", "xyz")
@@ -139,6 +146,18 @@ test_that("Conversion of type 2 table lines in Rmd works correctly", {
                                "Two lines."))
   expect_null(tmp[[2]])
 
+  # ---------------------------------------------------------------------------
+  chunk <- c(" fgdfgdgfd    assadsd  ",
+             "----------- -----------",
+             " gfbbggfbf    ffvvfvf  ",
+             " hgnhhnhnf    oiuoiuo  ")
+  tmp <- csasdown:::conv_type_2_table_lines(chunk)
+  expect_identical(tmp[[1]], c(" fgdfgdgfd    assadsd  ",
+                               "----------- -----------",
+                               " gfbbggfbf    ffvvfvf  ",
+                               " hgnhhnhnf    oiuoiuo  ",
+                               ""))
+  expect_null(tmp[[2]])
   # ---------------------------------------------------------------------------
   chunk <- c(" fgdfgdgfd    assadsd  ",
              "----------- -----------",

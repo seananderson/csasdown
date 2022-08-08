@@ -1,0 +1,8 @@
+```{r chunk-1-en, eval = !fr(), results = 'asis'}
+cat("# Header
+Test text `r print('Hello World!')`")
+```
+```{r chunk-1-fr, eval = fr(), results = 'asis', needs_trans = TRUE}
+cat("## Header 2
+Test text `r print('Hello World 2!')`")
+```

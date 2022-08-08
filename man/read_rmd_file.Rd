@@ -2,12 +2,15 @@
 % Please edit documentation in R/read-rmd-file.R
 \name{read_rmd_file}
 \alias{read_rmd_file}
-\title{Read in am Rmd file and return it}
+\title{Read in am Rmd file, place \code{cat()} around it, and return it}
 \usage{
-read_rmd_file(fn)
+read_rmd_file(fn, src_fn = "unknown")
 }
 \arguments{
 \item{fn}{The Rmd filename. An extension is not needed}
+
+\item{src_fn}{The name of the Rmd filename which was used when trying to
+import the \code{fn} file, i.e. the file in which \code{rmd_file("fn")} is called from}
 }
 \value{
 Verbatim text representing the file
@@ -20,6 +23,6 @@ they cause an "incomplete final line" warning from Rmarkdown.
 \details{
 This allows the author to write pure Rmarkdown in a file, and have it read
 into the \code{\link[=cat]{cat()}} command in a csasdown resdoc Rmd file's code chunk. See
-'resdoc-bilingual' type example doc (\code{csasdown::draft("resdoc-bilingual")})
+the bilingual resdoc example doc (\code{csasdown::draft("resdoc-b")})
 }
 \keyword{internal}

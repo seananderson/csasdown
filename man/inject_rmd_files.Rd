@@ -4,11 +4,20 @@
 \alias{inject_rmd_files}
 \title{Inject verbatim text from Rmd files into Rmd code}
 \usage{
-inject_rmd_files(rmd_files)
+inject_rmd_files(rmd_files, line_offsets = NULL, verbose = FALSE)
 }
 \arguments{
 \item{rmd_files}{A vector of character strings representing the names
 of Rmd files}
+
+\item{line_offsets}{A \code{\link[=data.frame]{data.frame()}} or \code{\link[tibble:tibble]{tibble::tibble()}} containing the
+line offsets to be added to line numbers in messages in order to give the
+correct line numbers for the original files. Has columns \code{fn} (chr),
+\code{chunk_header} (chr)  \code{chunk_ind} (int), \code{pre_num} (dbl), \code{post_num} (dbl),
+and \code{rmd_num} (dbl). See \code{return} values for \code{\link[=inject_rmd_files]{inject_rmd_files()}} and
+\code{\link[=remove_comments_from_chunks]{remove_comments_from_chunks()}}}
+
+\item{verbose}{Logical. If \code{TRUE}, print messages}
 }
 \value{
 Nothing
@@ -16,6 +25,8 @@ Nothing
 \description{
 Inject verbatim text from Rmd files into Rmd code wrapped in
 \code{\link[=cat]{cat()}} so that the bilingual features of csasdown can be used properly
-but the author can write paragraphs or sections in pure Rmarkdown
+but the author can write paragraphs or sections in pure Rmarkdown.
+Uses \code{\link[=read_rmd_file]{read_rmd_file()}} to read in the file and place \code{cat()} around
+the contents before injecting it
 }
 \keyword{internal}

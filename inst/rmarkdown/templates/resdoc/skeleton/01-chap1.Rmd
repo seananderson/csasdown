@@ -172,10 +172,10 @@ The example we show here does the following:
 
 ```{r max_delays}
 library(dplyr)
-flights2 <- flights %>%
+flights2 <- flights |> 
   select(carrier_name, arr_delay)
-max_delays <- flights2 %>%
-  group_by(carrier_name) %>%
+max_delays <- flights2 |> 
+  group_by(carrier_name) |> 
   summarize(max_arr_delay = max(arr_delay, na.rm = TRUE))
 ```
 
@@ -197,7 +197,7 @@ Let's make a plot of the data:
 
 ```{r march3plot, fig.height=3, fig.width=6, fig.cap="My caption."}
 library(ggplot2)
-flights %>%
+flights |> 
   ggplot(aes(x = dep_time, y = arr_delay)) +
   geom_point()
 ```

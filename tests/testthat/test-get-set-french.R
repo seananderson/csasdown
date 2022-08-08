@@ -1,5 +1,45 @@
+test_that("set_french() and get_french() throws errors", {
+  testing_path <- file.path(tempdir(), "sr-set-french-errors")
+  unlink(testing_path, recursive = TRUE, force = TRUE)
+  dir.create(testing_path, showWarnings = FALSE)
+  setwd(testing_path)
+  suppressMessages(csasdown::draft(
+    system.file("rmarkdown", "templates", "sr", package = "csasdown"),
+    create_dir = FALSE,
+    edit = FALSE
+  ))
+
+  expect_error(csasdown::get_french("nonexistent-file.Rmd"),
+               "File \\S+ does not exist")
+  expect_error(csasdown::set_french("nonexistent-file.Rmd"),
+               "File \\S+ does not exist")
+
+  fn <- "index.Rmd"
+  rmd <- readLines(fn)
+  back_rmd <- rmd
+
+  ind <- grep("french:", rmd)
+  tmp <- rmd[ind]
+  rmd[ind] <- ""
+  writeLines(rmd, fn)
+  expect_error(csasdown::get_french(),
+               "YAML tag of incorrect format or not found in file")
+  expect_error(csasdown::set_french(),
+               "The YAML tag \\S+ was not found in the file")
+
+  rmd <- back_rmd
+  rmd[ind] <- tmp
+  rmd[ind + 1] <- tmp
+  writeLines(rmd, fn)
+  expect_error(csasdown::get_french(),
+               "YAML tag has more than one entry in file")
+
+  expect_error(csasdown::set_french(),
+               "The YAML tag \\S+ was found more than once")
+})
+
 test_that("set_french() and get_french() works", {
-  testing_path <- file.path(tempdir(), "sr-latex-test-1")
+  testing_path <- file.path(tempdir(), "sr-set-french")
   unlink(testing_path, recursive = TRUE, force = TRUE)
   dir.create(testing_path, showWarnings = FALSE)
   setwd(testing_path)

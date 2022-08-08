@@ -11,3 +11,4 @@ remotes::install_github("gadenbuie/xaringanthemer")
 
 # Install csasdown and dependencies
 remotes::install_github("pbs-assess/csasdown")
+remotes::install_github("pbs-assess/rosettafish")

@@ -4,17 +4,43 @@
 \alias{render}
 \title{Render any csasdown document with bilingual features}
 \usage{
-render(yaml_fn = "_bookdown.yml", keep_files = FALSE, ...)
+render(
+  yaml_fn = "_bookdown.yml",
+  keep_files = FALSE,
+  en_chunk_regex = "^\\\\S+-en$",
+  fr_chunk_regex = "^\\\\S+-fr$",
+  suppress_warnings = TRUE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
-\item{yaml_fn}{The YAML file name. The default is '_bookdown.yml' for
-\code{\link[bookdown:render_book]{bookdown::render_book()}}}
+\item{yaml_fn}{The Bookdown YAML file name. '_bookdown.yml' by default}
 
-\item{keep_files}{If \code{TRUE}, keep the temporary files created (Rmd files and
-YAML file)}
+\item{keep_files}{If \code{TRUE}, keep the temporary files created by the
+pre-processor (\verb{tmp-*.Rmd} and \code{tmp_bookdown.yml})}
 
-\item{...}{Additional arguments passed to \code{\link[bookdown:render_book]{bookdown::render_book()}} and
+\item{en_chunk_regex}{A regular expression to match for the chunk
+name for English chunks. Default for English chunks is that their names
+end in \code{-en}. The regular expression for this is \verb{^\\\\S+-en$}.
+The \code{$} means anchor to the end, so \code{-en} must be at the end. \verb{\\\\S+}
+means match one or more non-whitespace characters. Passed to
 \code{\link[=validate_chunk_headers]{validate_chunk_headers()}}}
+
+\item{fr_chunk_regex}{A regular expression to match for the chunk
+name for French chunks. Default for French chunks is that their names
+end in \code{-frn}. The regular expression for this is \verb{^\\\\S+-frn$}.
+The \code{$} means anchor to the end, so \code{-fr} must be at the end. \verb{\\\\S+}
+means match one or more non-whitespace characters. Passed to
+\code{\link[=validate_chunk_headers]{validate_chunk_headers()}}}
+
+\item{suppress_warnings}{Logical. If \code{TRUE}, the call to
+\code{\link[bookdown:render_book]{bookdown::render_book()}} from within this function will have warnings
+suppressed}
+
+\item{verbose}{Logical. If \code{TRUE}, print messages}
+
+\item{...}{Additional arguments passed to \code{\link[bookdown:render_book]{bookdown::render_book()}}}
 }
 \value{
 Nothing
@@ -23,36 +49,34 @@ Nothing
 Render a csasdown document with bilingual features. Renders a csasdown
 document (autodetects resdoc, sr, techreport) using the
 \code{\link[bookdown:render_book]{bookdown::render_book()}} method but includes a pre-processing step to
-do several things:
+do several things (simplified):
 \enumerate{
-\item Inject 'index.Rmd' with special code to allow bilingual features to
-be used
-\item Convert anything inside \code{\link[=cat]{cat()}} calls to cat-like
-strings instead of rmarkdown strings.
-This means that any inline R code
-included with backticks, eg: \code{`r Sys.time()`} will be replaced with
+\item Create temporary files for \verb{_bookdown.yml}, and the files listed
+inside it
+\item Inject the temporary version of \code{index.Rmd} with special code to
+allow bilingual features to be used properly
+\item Convert anything inside \code{\link[=cat]{cat()}} calls to cat-like strings instead
+of rmarkdown strings.
+This means that any inline R code included with backticks,
+eg: \code{`r Sys.time()`} will be replaced with
 a quoted, comma separated string (see \code{\link[=catize]{catize()}}). This allows the \code{\link[=cat]{cat()}}
-function inside a code chunk to contain backtick-quoted R expressions exactly
-like what knitr processes inline.
+function inside a code chunk to contain backtick-quoted R expressions
+exactly like what knitr processes inline.
 }
 }
 \details{
-This is a convenience function so users can place \code{\link[=cat]{cat()}} around
-already-written rmarkdown code containing inline R code chunks, and
-place those \code{\link[=cat]{cat()}} statements inside a large code chunk. It will be
-invisible to users when using this function to render their document.
-
 Temporary files for all the Rmd files and the YAML file which contains these
-filenames (typically _bookdown.yml) are created with modified code chunks.
-Anywhere in the Rmd files containing \code{\link[=cat]{cat()}} with knitr-style inline embedded
-code chunks included are modified to make a string of text and R code together
-which can be processed by core R. The official knitr regular expression is used
-to extract these inline code chunks. The main Rmd file, typically index.Rmd
-is not modified at all (it is not parsed).
+filenames (typically \verb{_bookdown.yml}) are created with modified code chunks.
+Anywhere in the Rmd files containing \code{\link[=cat]{cat()}} with knitr-style inline
+embedded code chunks included are modified to make a string of text and
+R code together which can be processed by core R. The official knitr
+regular expression is used to extract these inline code chunks. The main
+Rmd file, typically \code{index.Rmd} is not modified at all (it is not parsed).
 
 Any single-backslash escaped things in rmarkdown such as \verb{$\\pi$}, or
 \verb{$\\alpha$} or similar will be converted to double-backslashed inside
 of the temporary Rmd files to avoid an error from the \code{\link[=cat]{cat()}} function.
 
-You can use either single or double quotes to surround the text passed to \code{\link[=cat]{cat()}}
+You can use either single or double quotes to surround the text passed
+to \code{\link[=cat]{cat()}}. i.e. \code{cat('contents')} or \code{cat("contents")}
 }

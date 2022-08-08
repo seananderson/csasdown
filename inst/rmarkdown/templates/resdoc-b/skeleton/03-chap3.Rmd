@@ -115,8 +115,8 @@ cat("Below we will investigate how to save the output of an R plot and label it 
 (ref:fig-delaysboxplot-fr) Retards moyens par compagnie aérienne.
 
 ```{r delaysboxplot, warnings = FALSE, messages = FALSE, fig.width = 6, fig.cap = ifelse(fr(), "(ref:fig-delaysboxplot-fr)", "(ref:fig-delaysboxplot-en)")}
-flights %>% group_by(carrier) %>%
-  summarize(mean_dep_delay = mean(dep_delay)) %>%
+flights |> group_by(carrier) |>
+  summarize(mean_dep_delay = mean(dep_delay)) |>
   ggplot(aes(x = carrier, y = mean_dep_delay)) +
   geom_bar(position = "identity", stat = "identity", fill = "red") + 
   ylab(`if`(fr(), "Retard moyen au départ", "Mean departure delay")) + 

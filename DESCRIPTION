@@ -48,29 +48,30 @@ Description: Uses the 'bookdown' R package to generate CSAS
     huskydown package.
 License: MIT + file LICENSE
 Depends:
-    R (>= 3.6.0)
+    R (>= 4.1.0)
 Imports:
     bookdown,
+    cli,
     crayon,
+    dplyr,
+    glue,
     here,
     kableExtra,
     knitr,
-    magrittr,
     officer,
     purrr,
     rmarkdown,
     stringr,
+    tibble,
     tinytex (>= 0.39),
     utils
 Suggests:
     covr,
-    dplyr,
     ggplot2,
     magick,
     readr,
     rosettafish,
-    testthat,
-    tibble
+    testthat
 Remotes:
     pbs-assess/rosettafish
 ByteCompile: true

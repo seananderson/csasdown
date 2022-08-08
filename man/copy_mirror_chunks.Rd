@@ -4,7 +4,12 @@
 \alias{copy_mirror_chunks}
 \title{Copy mirrored knitr chunk code into chunks with the mirrored call}
 \usage{
-copy_mirror_chunks(rmd_files, nowrite = FALSE)
+copy_mirror_chunks(
+  rmd_files,
+  nowrite = FALSE,
+  line_offsets = NULL,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{rmd_files}{A vector of character strings representing the names
@@ -13,6 +18,15 @@ of Rmd files}
 \item{nowrite}{Don't write the files, instead return the Rmd code as
 elements of a list, with each element corresponding to the input files
 in \code{rmd_files}. Needed for testing.}
+
+\item{line_offsets}{A \code{\link[=data.frame]{data.frame()}} or \code{\link[tibble:tibble]{tibble::tibble()}} containing the
+line offsets to be added to line numbers in messages in order to give the
+correct line numbers for the original files. Has columns \code{fn} (chr),
+\code{chunk_header} (chr)  \code{chunk_ind} (int), \code{pre_num} (dbl), \code{post_num} (dbl),
+and \code{rmd_num} (dbl). See \code{return} values for \code{\link[=inject_rmd_files]{inject_rmd_files()}} and
+\code{\link[=remove_comments_from_chunks]{remove_comments_from_chunks()}}}
+
+\item{verbose}{Logical. If \code{TRUE}, print messages}
 }
 \value{
 A vector of character strings representing the lines in an
@@ -24,8 +38,8 @@ knitr does this automatically but we need to do it in the pre-processing
 step so we can modify the newlines in the mirrored code.
 }
 \details{
-Search for chunks containing mirror code lines (looks like \verb{<<chunk-name>>}),
-find the chunk-names and copy the code within those chunks into the chunks
-with the mirror code lines, replacing them.
+Search for chunks containing mirror code lines (looks like
+\verb{<<chunk-name>>}), find the chunk-names and copy the code within those
+chunks into the chunks with the mirror code lines, replacing them.
 }
 \keyword{internal}

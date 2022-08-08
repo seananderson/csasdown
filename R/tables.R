@@ -42,7 +42,7 @@
 #' @importFrom kableExtra row_spec kable_styling landscape linebreak
 #' @importFrom purrr map map2 map_chr map_lgl map_df
 #' @examples
-#' csas_table(head(iris))
+#' csasdown::csas_table(head(iris))
 #' @export
 csas_table <- function(x,
                        format = "pandoc",
@@ -83,16 +83,20 @@ csas_table <- function(x,
     .x %in% names(x)
   })
   if(!all(names_exist)){
-    stop("One or more of the columns supplied in `cols_no_format` are not in the data frame.",
-         "The column(s) are:\n", paste(cols_no_format[!names_exist], collapse = ", "))
+    bail("One or more of the columns supplied in ",
+         csas_color("cols_no_format"), " are not in the data frame.",
+         "The column(s) are:\n",
+         csas_color(paste(cols_no_format[!names_exist], collapse = ", ")))
   }
   # Check to make sure the names supplied by cols_to_format are actually in the data frame
   names_exist <- map_lgl(cols_to_format, ~{
     .x %in% names(x)
   })
   if(!all(names_exist)){
-    stop("One or more of the columns supplied in `cols_to_format` are not in the data frame.",
-         "The column(s) are:\n", paste(cols_to_format[!names_exist], collapse = ", "))
+    bail("One or more of the columns supplied in ",
+         csas_color("cols_no_format"), " are not in the data frame.",
+         "The column(s) are:\n",
+         csas_color(paste(cols_to_format[!names_exist], collapse = ", ")))
   }
 
   year_col_names <- unique(c(year_cols(x), cols_no_format))
@@ -142,8 +146,9 @@ csas_table <- function(x,
 
   if (bold_header) {
     if(format == "latex"){
-     warning("Bold headers not supported for the 'latex' format.\n",
-             "You must bold them manually by pasting latex macros around them.")
+      alert("Bold headers not supported for the ",
+            csas_color("latex"), " format.\n",
+            "You must bold them manually by pasting latex macros around them.")
     }else{
       suppressWarnings(k <- row_spec(k, 0, bold = TRUE))
     }
@@ -166,9 +171,8 @@ csas_table <- function(x,
   if (!is.null(extra_header)) {
     kable_format <- attr(k, "format")
     if (kable_format != "latex") {
-      stop("Adding an extra header is only supported for latex tables ",
-           "(format = 'latex').",
-           call. = FALSE)
+      bail("Adding an extra header is only supported for latex tables ",
+           "(format = ", csas_color("latex"), ").")
     }
     k <- add_extra_header(k,
       header = extra_header,
@@ -195,28 +199,34 @@ csas_table <- function(x,
     # Add Continued on next page...
     j <- grep("endhead", k_lines)
     if(length(j) > 1){
-      warning("'endhead' found more than once in the table latex, cannot add ",
-              "'Continued on next page... text to table")
+      alert(csas_color("endhead"), " found more than once in the table latex, ",
+            "cannot add ", csas_color("Continued on next page..."),
+            " text to table")
       return(k)
     }
     k_lines_pre <- k_lines[1:j]
     k_lines_post <- k_lines[(j + 1):length(k_lines)]
     if(getOption("french", default = FALSE)){
-      new_line_latex <- paste0("\\\\  \\hline \\multicolumn{",
+      new_line_latex <- paste0("\\hline \\multicolumn{",
                                ncol(x),
                                "}{l}{\\textit{Suite \u00e0 la page suivante ...}}")
     }else{
-      new_line_latex <- paste0("\\\\  \\hline \\multicolumn{",
+      new_line_latex <- paste0("\\hline \\multicolumn{",
                                ncol(x),
                                "}{l}{\\textit{Continued on next page ...}}")
     }
+    if(k_lines_post[1] == ""){
+      k_lines_post <- k_lines_post[-1]
+    }
+    k_lines_post <- c("\\\\", k_lines_post)
     k_lines <- c(k_lines_pre, new_line_latex, k_lines_post)
 
     # Add Continued from previous page...
     j <- grep("endfirsthead", k_lines)
     if(length(j) > 1){
-      warning("'endfirsthead' found more than once in the table latex, cannot add ",
-              "'Continued from previous page... text to table")
+      alert(csas_color("endfirsthead"), " found more than once in the table ",
+            "latex, cannot add ",
+            csas_color("Continued from previous page..."), " text to table")
       return(k)
     }
     k_lines_pre <- k_lines[1:j]
@@ -266,7 +276,7 @@ add_extra_header <- function(kable_input,
                              monospace = FALSE,
                              underline = FALSE,
                              strikeout = FALSE,
-                             align = "c",
+                             align = c("c", "l", "r"),
                              color = NULL,
                              background,
                              font_size,
@@ -274,21 +284,33 @@ add_extra_header <- function(kable_input,
                              escape,
                              line = TRUE,
                              line_sep = 3) {
+
+  tryCatch({align <- match.arg(align)
+  }, error = function(e){
+    bail(csas_color("align"), " must be one of ",
+         csas_color("c"), ", ", csas_color("l"), ", or ",
+         csas_color("r"), ".\n",
+         "You tried: ", csas_color(align))
+  })
+
   table_info <- magic_mirror(kable_input)
-  header <- kableExtra:::standardize_header_input(header)
+  header <- standardize_header_input(header)
   if (length(table_info$colnames) != nrow(header)) {
-    stop("The number of extra headers supplied is not the same as the number of columns in the table", call. = FALSE)
+    # nocov start
+    bail("The number of extra headers supplied is not the same as the ",
+         "number of columns in the table")
+    # nocov end
   }
   if (escape) {
-    header$header <- kableExtra:::input_escape(header$header, align)
+    header$header <- input_escape(header$header, align)
   }
-  align <- match.arg(align, c("c", "l", "r"))
+
   hline_type <- switch(table_info$booktabs + 1,
     "\\\\hline",
     "\\\\toprule"
   )
   new_header_split <-
-    kableExtra:::pdfTable_new_header_generator(header,
+    pdfTable_new_header_generator(header,
       table_info$booktabs,
       bold,
       italic,
@@ -310,9 +332,9 @@ add_extra_header <- function(kable_input,
       new_header_split[2]
     )
   } else {
-    new_header <- new_header_split[1]
+    new_header <- new_header_split[1] # nocov
   }
-  j <- utf8_inp <- kableExtra:::solve_enc(kable_input)
+  j <- utf8_inp <- solve_enc(kable_input)
   out <- stringr::str_replace_all(
     utf8_inp,
     hline_type,
@@ -327,11 +349,12 @@ add_extra_header <- function(kable_input,
     table_info$new_header_row <- new_header_split[1]
     table_info$header_df <- list(header)
   } else {
+    # nocov start
     table_info$new_header_row <- c(
       table_info$new_header_row,
-      new_header_split[1]
-    )
+      new_header_split[1])
     table_info$header_df[[length(table_info$header_df) + 1]] <- header
+    # nocov end
   }
   attr(out, "kable_meta") <- table_info
   out

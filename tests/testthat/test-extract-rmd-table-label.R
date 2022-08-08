@@ -9,6 +9,11 @@ test_that("csasdown:::extract_rmd_table_label() works", {
   expect_identical(ret, list(NULL, j))
 
   # ---------------------------------------------------------------------------
+  j <- c("", "", "", "")
+  ret <- csasdown:::extract_rmd_table_label(j)
+  expect_identical(ret, list(NULL, j))
+
+  # ---------------------------------------------------------------------------
   j <- c("# Header", "1. Item 1", "1. Item 2")
   ret <- csasdown:::extract_rmd_table_label(j)
   expect_identical(ret, list(NULL, j))

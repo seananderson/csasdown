@@ -17,6 +17,7 @@
 #' pieces of rmarkdown code.
 #'
 #' @keywords internal
+#' @family rmd_conversion_functions
 #'
 #' @param chunk A vector of character strings representing lines for RMD code
 #'

@@ -9,6 +9,7 @@
 #' second element is the rest of the Rmd.
 #'
 #' @keywords internal
+#' @family rmd_conversion_functions
 #'
 #' @param chunk A vector of character strings representing lines for RMD code
 #'
@@ -55,8 +56,8 @@ conv_paragraph_lines <- function(chunk){
       return(.x)
     }
     c(.x, "\\\\", "")
-  }) %>%
-    unlist
+  }) |>
+    unlist()
 
   if(end_text_ind == length(chunk)){
     post_chunk <- NULL

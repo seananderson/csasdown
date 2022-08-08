@@ -1,4 +1,4 @@
-test_that("create_tempdir_for_latex() works", {
+test_that("csasdown::create_tempdir_for_latex() works", {
 
   testing_path <- file.path(tempdir(), "sr-latex-test-1")
   unlink(testing_path, recursive = TRUE, force = TRUE)
@@ -10,17 +10,59 @@ test_that("create_tempdir_for_latex() works", {
     edit = FALSE
   ))
 
+  # ---------------------------------------------------------------------------
+  expect_error(csasdown::create_tempdir_for_latex("badtype",
+                                                  "b",
+                                                  root_dir = getwd()),
+               "must be one of")
+
+  # ---------------------------------------------------------------------------
+  expect_error(csasdown::create_tempdir_for_latex("sr",
+                                                  "x",
+                                                  root_dir = getwd()),
+               "must be one of")
+
+  # ---------------------------------------------------------------------------
+  expect_error(csasdown::create_tempdir_for_latex("sr",
+                                                  "b",
+                                                  root_dir = getwd()),
+               "sr.tex does not exist in the '_book' directory")
+
+  # ---------------------------------------------------------------------------
+  # Render the SR
+  csasdown::set_french(val = FALSE)
+  csasdown:::set_render_type(doc_type = "pdf")
+  suppressWarnings(csasdown::render())
+  unlink("_book/sr-english.tex")
+  # Try for case where copying from the '_book' directory
+  expect_error(csasdown::create_tempdir_for_latex("sr",
+                                        "b",
+                                        tmp_dir = file.path(testing_path,
+                                                            "test"),
+                                        root_dir = getwd()),
+               "sr.tex does not exist in the '_book' directory")
+
+  # ---------------------------------------------------------------------------
+  testing_path <- file.path(tempdir(), "sr-latex-test-2")
+  unlink(testing_path, recursive = TRUE, force = TRUE)
+  dir.create(testing_path, showWarnings = FALSE)
+  setwd(testing_path)
+  suppressMessages(csasdown::draft(
+    system.file("rmarkdown", "templates", "sr", package = "csasdown"),
+    create_dir = FALSE,
+    edit = FALSE
+  ))
   # Render the SR
   csasdown::set_french(val = FALSE)
   csasdown:::set_render_type(doc_type = "pdf")
   suppressWarnings(csasdown::render())
 
   # Try for case where copying from the '_book' directory
-  tmp_dir <- create_tempdir_for_latex("sr",
+  tmp_dir <- csasdown::create_tempdir_for_latex("sr",
                                       "b",
-                                      tmp_dir = file.path(testing_path, "test"),
-                                      root_dir = getwd()
-  )
+                                      tmp_dir = file.path(testing_path,
+                                                          "test"),
+                                      root_dir = getwd())
   tmp_csas_dir <- file.path(tmp_dir, "csas-style")
 
   expect_true(file.exists(file.path(tmp_csas_dir, "res-doc.sty")))
@@ -37,8 +79,9 @@ test_that("create_tempdir_for_latex() works", {
   expect_true(file.exists(file.path(tmp_dir, "sr-english.tex")))
 
   # ---------------------------------------------------------------------------
-  # Test copying of the tex file from the root directory instead of the _book directory
-  testing_path <- file.path(tempdir(), "sr-latex-test-2")
+  # Test copying of the tex file from the root directory instead of the _book
+  # directory
+  testing_path <- file.path(tempdir(), "sr-latex-test-3")
   unlink(testing_path, recursive = TRUE, force = TRUE)
   dir.create(testing_path, showWarnings = FALSE)
   setwd(testing_path)
@@ -54,9 +97,10 @@ test_that("create_tempdir_for_latex() works", {
   suppressWarnings(csasdown::render())
 
   file.copy(file.path("_book", "sr-english.tex"), "sr-english.tex")
-  tmp_dir <- create_tempdir_for_latex("sr",
+  tmp_dir <- csasdown::create_tempdir_for_latex("sr",
                                       "r",
-                                      tmp_dir = file.path(testing_path, "test"),
+                                      tmp_dir = file.path(testing_path,
+                                                          "test"),
                                       root_dir = getwd()
   )
   tmp_csas_dir <- file.path(tmp_dir, "csas-style")

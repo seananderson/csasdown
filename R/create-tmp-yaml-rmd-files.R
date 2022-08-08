@@ -36,17 +36,29 @@
 #' @keywords internal
 #'
 #' @param yaml_fn The [bookdown] YAML file name, by default is "_bookdown.yml"
+#' @param verbose Logical. If `TRUE`, print messages
+#'
+#' @importFrom purrr walk2
 #'
 #' @return A list of two, 1) The name of the temporary YAML file created
 #' 2) A vector of the temporary Rmd files created
-create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml"){
+create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml",
+                                      verbose = FALSE){
+
+  if(verbose){
+    notify("Creating temporary YAML and Rmarkdown files ...")
+  }
+
+  # In case render() was stopped and tmp- files are still present:
+  tmp_files <- list.files(pattern = "^tmp-*")
+  unlink(tmp_files)
 
   if(!file.exists(yaml_fn)){
-    stop("The YAML file ", yaml_fn, " does not exist", call. = FALSE)
+    bail("The YAML file ", fn_color(yaml_fn), " does not exist")
   }
   yaml <- readLines(yaml_fn)
   if(!length(yaml)){
-    stop("The YAML file ", yaml_fn, " is empty", call. = FALSE)
+   bail("The YAML file ", fn_color(yaml_fn), " is empty")
   }
   # Remove surrounding whitespace
   yaml <- trimws(yaml)
@@ -56,12 +68,12 @@ create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml"){
   # Store indices where the open square bracket is
   brac_open_ind <- grep("^rmd_files: \\[", yaml)
   if(!length(brac_open_ind)){
-    stop("`rmd_files: [` not found in ", yaml_fn, ". ",
-         "It must appear at the beginning of a line",
-         call. = FALSE)
+    bail(tag_color("rmd_files: ["), " not found in ", fn_color(yaml_fn), ". ",
+         "It must appear at the beginning of a line")
   }
   if(length(brac_open_ind) > 1){
-    stop("More than one `rmd_files: [` found in ", yaml_fn, call. = FALSE)
+    bail("More than one ", tag_color("rmd_files: ["), " found in ",
+         fn_color(yaml_fn))
   }
   if(brac_open_ind > 1){
     pre_rmd_fns <- yaml[1:(brac_open_ind - 1)]
@@ -72,9 +84,8 @@ create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml"){
   # Store indices where the close square bracket is
   brac_close_ind <- grep("\\]$", yaml)
   if(!length(brac_close_ind)){
-    stop("`]` not found in ", yaml_fn, ". ",
-         "It must appear at the end of a line",
-         call. = FALSE)
+    bail(tag_color("]"), " not found in ", fn_color(yaml_fn), ". ",
+         "It must appear at the end of a line")
   }
 
   # Choose first `]` index. This will be the non-greedy match
@@ -88,15 +99,53 @@ create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml"){
   # Extract all Rmd filenames
   rmd_fns <- unlist(str_extract_all(yaml, "[a-zA-Z0-9_\\-]+\\.(R|r)md"))
   if(!length(rmd_fns)){
-    stop("No .Rmd filenames found in ", yaml_fn,
-         call. = FALSE)
+    bail("No .Rmd filenames found in ", fn_color(yaml_fn))
   }
+  # In case render() was stopped and tmp- files are still listed in yaml:
+  rmd_fns <- gsub("^tmp\\-", "", rmd_fns)
 
   # Copy the files into the new files
   orig_rmd_fns <- rmd_fns
   rmd_fns <- paste0("tmp-", rmd_fns)
+  if(interactive() && any(grepl("^tmp-tmp", rmd_fns))){
+    repeat{
+      ques <- readline(
+        question("csasdown detected that some of the Rmd ",
+                 "files listed in ", fn_color(yaml_fn),
+                 " begin with two or more ", csas_color("tmp-") ,
+                 " prefixes.\nContinuing will result in temporary ",
+                 "files beginning with ", csas_color("tmp-tmp-"), ".\n\n",
+                 "Are you sure you want to render this? (y/n)"))
+      if(tolower(ques) != "n" &&
+         tolower(ques) != "no" &&
+         tolower(ques) != "y" &&
+         tolower(ques) != "yes"){
+        notify("Please answer yes or no.")
+      }else{
+        break
+      }
+    }
+    if(tolower(ques) == "n" || tolower(ques) == "no"){
+      bail("Stopped rendering due to extra ", csas_color("tmp-"),
+           " prefixes being found ",
+           "in Rmd filenames listed in ", fn_color(yaml_fn))
+    }
+  }
   unlink(rmd_fns, force = TRUE)
-  file.copy(orig_rmd_fns, rmd_fns)
+
+  walk2(orig_rmd_fns, rmd_fns, ~{
+    success <- file.copy(.x, .y, overwrite = TRUE)
+    if(success){
+      if(verbose){
+        check_notify("File copied from ", fn_color(.x), " to ", fn_color(.y))
+      }
+    }else{
+      # nocov start
+      bail("Could not copy file from ", fn_color(.x), " to ", fn_color(.y), "\n",
+           "Check that file exists in the current directory")
+      # nocov end
+    }
+  })
 
   # Create the text listing the new Rmd files for inside the new YAML file
   rmd_fns_listing <- imap_chr(rmd_fns, ~{
@@ -113,6 +162,21 @@ create_tmp_yaml_rmd_files <- function(yaml_fn = "_bookdown.yml"){
   yaml <- c(pre_rmd_fns, rmd_fns_listing, post_rmd_fns)
   tmp_fn <- paste0("tmp", yaml_fn)
   writeLines(yaml, tmp_fn)
+
+  if(file.exists(tmp_fn)){
+    if(verbose){
+      check_notify("File ", fn_color(tmp_fn), " created")
+    }
+  }else{
+    # nocov start
+    bail("Could not create file ", fn_color(tmp_fn))
+    # nocov end
+  }
+
+  if(verbose){
+    check_notify("Temporary YAML and Rmarkdown files created ",
+                 "successfully\n")
+  }
 
   list(tmp_fn, rmd_fns)
 }

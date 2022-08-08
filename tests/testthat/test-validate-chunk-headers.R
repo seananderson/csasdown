@@ -1,163 +1,91 @@
 test_that("validate_chunk_headers() works", {
+  rmd_dir <- testthat::test_path("validate-chunk-headers-files")
 
-  dr <- file.path(testthat::test_path(), "validate-chunk-headers-files")
+  testing_path <- file.path(tempdir(), "test-validate-chunk-headers")
+  unlink(testing_path, recursive = TRUE, force = TRUE)
+  dir.create(testing_path, showWarnings = FALSE)
+  file.copy(file.path(rmd_dir, "regex-tests-1.Rmd"),
+            file.path(testing_path, "regex-tests-1.Rmd"))
+  file.copy(file.path(rmd_dir, "regex-tests-2.Rmd"),
+            file.path(testing_path, "regex-tests-2.Rmd"))
+  setwd(testing_path)
+
   expect_invisible(csasdown:::validate_chunk_headers(NULL))
   # ---------------------------------------------------------------------------
 
-  rmd_file <- file.path(dr, "regex-tests-0.Rmd")
-  expect_identical(csasdown:::validate_chunk_headers(rmd_file),
-    paste0("Chunk name 'x-2-english' in ",
-           "file '", file.path(dr, "regex-tests-0.Rmd"), "'\n is not of ",
-           "correct format for English chunks (^\\S+-en$)"))
+  fn <- "test.Rmd"
+  writeLines(c("```{r x-1-en, eval = !fr(), results = 'asis'}",
+               "```",
+               "```{r x-2-english, eval = !fr(), results = 'asis'}",
+               "```"),
+             fn)
+  expect_error(csasdown:::validate_chunk_headers(fn),
+               paste0("is not of correct format for English chunks"))
   # ---------------------------------------------------------------------------
 
-  rmd_file <- file.path(dr, "regex-tests-3.Rmd")
-  expect_identical(csasdown:::validate_chunk_headers(rmd_file),
-    paste0("Chunk name 'x-1-english' in file '", file.path(dr,
-    "regex-tests-3.Rmd"), "'\n is not of correct format for English chunks ",
-    "(^\\S+-en$)"))
+  writeLines(c("```{r fr-y-1, eval = fr(), needs_trans = FALSE, results = \"asis\"}",
+               "```"),
+             fn)
+  expect_error(csasdown:::validate_chunk_headers(fn),
+               paste0("is not of correct format for French chunks"))
   # ---------------------------------------------------------------------------
 
-  rmd_files <- file.path(dr, c("regex-tests-1.Rmd", "regex-tests-2.Rmd"))
-  expected <- c(
-    paste0("Chunk 'x-1-en' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n must include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'x-2-en' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n must include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'x-6-en' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n must include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'x-8-en' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'x-9-en' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'x-11-en' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'x-12-en' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'y-1-end' in file '", file.path(dr, "regex-tests-2.Rmd"),
-           "'\n must include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'y-2-en' in file '", file.path(dr, "regex-tests-2.Rmd"),
-           "'\n must include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'y-6-en' in file '", file.path(dr, "regex-tests-2.Rmd"),
-           "'\n must include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'y-8-en' in file '", file.path(dr, "regex-tests-2.Rmd"),
-           "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'y-9-en' in file '", file.path(dr, "regex-tests-2.Rmd"),
-           "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'y-11-en' in file '", file.path(dr, "regex-tests-2.Rmd"),
-           "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'y-12-en' in file '", file.path(dr, "regex-tests-2.Rmd"),
-           "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"))
-
-  actual <- csasdown:::validate_chunk_headers(rmd_files,
-                                   en_chunk_regex = NULL,
-                                   fr_chunk_regex = NULL)
-  expect_identical(actual, expected)
+  writeLines(c("```{r x-1-en, eval = !fr(), results = 'asis'}",
+               "```",
+               "```{r x-1-fr, eval = fr(), results = 'asis'}",
+               "```"),
+             fn)
+  expect_warning(csasdown:::validate_chunk_headers(fn),
+                 paste0("is missing for this French chunk and has been added"))
   # ---------------------------------------------------------------------------
 
-  rmd_files <- file.path(dr, c("regex-tests-1.Rmd", "regex-tests-2.Rmd"))
-  expected <- c(
-    paste0("Chunk name 'x-1-en' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n is not of correct format for French chunks (^\\S+-fr$)"),
-    paste0("Chunk 'x-1-en' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n must include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk name 'x-2-en' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n is not of correct format for French chunks (^\\S+-fr$)"),
-    paste0("Chunk 'x-2-en' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n must include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk name 'x-3' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n is not of correct format for English chunks (^\\S+-en$)"),
-
-    paste0("Chunk name 'x-6-en' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n is not of correct format for French chunks (^\\S+-fr$)"),
-    paste0("Chunk 'x-6-en' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n must include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'x-8-en' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'x-9-en' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk name 'x-10-en' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n is not of correct format for French chunks (^\\S+-fr$)"),
-
-    paste0("Chunk 'x-11-en' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'x-12-en' in file '", file.path(dr, "regex-tests-1.Rmd"),
-           "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk name 'y-1-end' in file '", file.path(dr, "regex-tests-2.Rmd"),
-           "'\n is not of correct format for French chunks (^\\S+-fr$)"),
-    paste0("Chunk 'y-1-end' in file '", file.path(dr, "regex-tests-2.Rmd"),
-           "'\n must include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk name 'y-2-en' in file '", file.path(dr, "regex-tests-2.Rmd"),
-           "'\n is not of correct format for French chunks (^\\S+-fr$)"),
-    paste0("Chunk 'y-2-en' in file '", file.path(dr, "regex-tests-2.Rmd"),
-           "'\n must include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk name 'y-6-en' in file '", file.path(dr, "regex-tests-2.Rmd"),
-           "'\n is not of correct format for French chunks (^\\S+-fr$)"),
-    paste0("Chunk 'y-6-en' in file '", file.path(dr, "regex-tests-2.Rmd"),
-           "'\n must include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'y-8-en' in file '", file.path(dr, "regex-tests-2.Rmd"),
-           "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'y-9-en' in file '", file.path(dr, "regex-tests-2.Rmd"),
-           "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk name 'y-10-en' in file '", file.path(dr, "regex-tests-2.Rmd"),
-           "'\n is not of correct format for French chunks (^\\S+-fr$)"),
-
-    paste0("Chunk 'y-11-en' in file '", file.path(dr, "regex-tests-2.Rmd"),
-           "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"),
-
-    paste0("Chunk 'y-12-en' in file '", file.path(dr, "regex-tests-2.Rmd"),
-           "'\n must not include `needs_trans = TRUE` or `needs_trans = FALSE`"))
-
-  actual <- csasdown:::validate_chunk_headers(rmd_files)
-  expect_identical(actual, expected)
+  rmd_files <-  c("regex-tests-1.Rmd", "regex-tests-2.Rmd")
+  w <- capture_warnings(csasdown:::validate_chunk_headers(
+    rmd_files,
+    en_chunk_regex = NULL,
+    fr_chunk_regex = NULL))
+  expect_match(w[1], "is missing for this French chunk and has been added")
+  expect_match(w[2], "is missing for this French chunk and has been added")
+  expect_match(w[3], "is missing for this French chunk and has been added")
+  expect_match(w[4], "is not allowed for English chunks and has been removed")
+  expect_match(w[5], "is not allowed for English chunks and has been removed")
+  expect_match(w[6], "is not allowed for English chunks and has been removed")
+  expect_match(w[7], "is not allowed for English chunks and has been removed")
+  expect_match(w[8], "is missing for this French chunk and has been added")
+  expect_match(w[9], "is missing for this French chunk and has been added")
+  expect_match(w[10], "is missing for this French chunk and has been added")
+  expect_match(w[11], "is not allowed for English chunks and has been removed")
+  expect_match(w[12], "is not allowed for English chunks and has been removed")
+  expect_match(w[13], "is not allowed for English chunks and has been removed")
+  expect_match(w[14], "is not allowed for English chunks and has been removed")
   # ---------------------------------------------------------------------------
 
-  rmd_file <- file.path(dr, "regex-tests-5.Rmd")
-  expected <- c(
-    paste0("Chunk name 'x-1-en' in file '", file.path(dr,
-      "regex-tests-5.Rmd"), "'\n is not of correct format for English chunks ",
-      "(^en-\\S+$)"),
-    paste0("Chunk 'fr-x-2' in file '", file.path(dr,
-      "regex-tests-5.Rmd"), "'\n must include `needs_trans = TRUE` or ",
-      "`needs_trans = FALSE`"),
-    paste0("Chunk 'en-x-3' in file '", file.path(dr,
-      "regex-tests-5.Rmd"), "'\n must not include `needs_trans = TRUE` or ",
-      "`needs_trans = FALSE`"),
-    paste0("Chunk 'x-5' in file '", file.path(dr,
-      "regex-tests-5.Rmd"), "'\n must not include `needs_trans = TRUE` or ",
-      "`needs_trans = FALSE`"),
-    paste0("Chunk 'x-6' in file '", file.path(dr,
-      "regex-tests-5.Rmd"), "'\n must not include `needs_trans = TRUE` or ",
-      "`needs_trans = FALSE`"))
-  actual <- csasdown:::validate_chunk_headers(rmd_file,
-                                   en_chunk_regex = "^en-\\S+$",
-                                   fr_chunk_regex = "^fr-\\S+$")
-  expect_identical(actual, expected)
+  writeLines(c("```{r x-1-en, eval = !fr()}",
+               "```"),
+             fn)
+  expect_warning(csasdown:::validate_chunk_headers(fn),
+                 "is missing and has been added automatically")
   # ---------------------------------------------------------------------------
 
-})
+  writeLines(c("```{r x-1, needs_trans = FALSE}",
+               "```"),
+             fn)
+  expect_warning(csasdown:::validate_chunk_headers(fn),
+                 "is not of correct format for neutral chunks")
+  # ---------------------------------------------------------------------------
+  writeLines(c("```{r y-1-fr, eval = fr(), needs_trans = FALSE}",
+               "```"),
+             fn)
+  expect_warning(csasdown:::validate_chunk_headers(fn),
+                 "is missing and has been added automatically")
+  # ---------------------------------------------------------------------------
+
+  writeLines(c("```{r x-1-en}", "```"), fn)
+  expect_warning(csasdown:::validate_chunk_headers(fn),
+                 "with a name that follows the format for an English chunk")
+
+  writeLines(c("```{r x-1-fr}", "```"), fn)
+  expect_warning(csasdown:::validate_chunk_headers(fn),
+                 "with a name that follows the format for a French chunk")
+
+  })

@@ -10,9 +10,14 @@
 #' `csasdown/inst/rmarkdown/templates/resdoc-b/skeleton/skeleton.Rmd`
 #' which is `index.Rmd` by default
 #'
+#' @importFrom purrr map2_lgl
+#'
 #' @return Nothing
-rename_output_files <- function(index_fn){
+rename_output_files <- function(index_fn, verbose = FALSE){
 
+  if(verbose){
+    notify("Renaming output files ...")
+  }
   # This will be resdoc_pdf, sr_word, etc.
   csas_render_type <- get_render_type(index_fn)
 
@@ -31,7 +36,8 @@ rename_output_files <- function(index_fn){
   if(pdf_or_docx == "pdf"){
     new_other_fn <- file.path("_book", paste0(new_doc_fn, ".tex"))
   }else if(pdf_or_docx == "docx"){
-    new_other_fn <- file.path("_book", paste0("reference-keys-docx-", lang, ".txt"))
+    new_other_fn <- file.path("_book",
+                              paste0("reference-keys-docx-", lang, ".txt"))
   }
   new_fns <- c(new_other_fn, new_output_fn)
 
@@ -44,12 +50,19 @@ rename_output_files <- function(index_fn){
   old_fns <- c(old_other_fn, old_output_fn)
 
   unlink(new_fns, force = TRUE)
-  rename_success <- file.rename(old_fns, new_fns)
-  if(!all(rename_success)){
-    imap(rename_success, ~{
-      if(!.x){
-        warning("Could not rename the file ", old_fns[.y], " to ", new_fns[.y])
-      }
-    })
+  copy_success <- map2_lgl(old_fns, new_fns, ~{
+    success <- file.copy(.x, .y, overwrite = TRUE)
+    if(success){
+      check_notify("File ", fn_color(.y), " created.")
+      unlink(.x, force = TRUE)
+      return(TRUE)
+    }else{
+      alert("Could not copy file from ", fn_color(.x), " to ", fn_color(.y))
+      return(FALSE)
+    }
+  })
+
+  if(verbose && all(copy_success)){
+    check_notify("Renamed output files successfully")
   }
 }
