@@ -250,9 +250,9 @@
   \appendix
   %% Always start a new page for appendices
   \newpage
-  \renewcommand{\thesection}{\thechapter.\arabic{section}.}
-  \renewcommand{\thesubsection}{\thechapter.\arabic{section}.\arabic{subsection}.}
-  \renewcommand{\thesubsubsection}{\thechapter.\arabic{section}.\arabic{subsection}.\arabic{subsubsection}.}
+  \renewcommand{\thesection}{\thechapter.\arabic{section}}
+  \renewcommand{\thesubsection}{\thechapter.\arabic{section}.\arabic{subsection}}
+  \renewcommand{\thesubsubsection}{\thechapter.\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
   \renewcommand{\thetable}{\thechapter.\arabic{table}}
   \renewcommand{\thefigure}{\thechapter.\arabic{figure}}
   \renewcommand{\theequation}{\thechapter.\arabic{equation}}
@@ -263,6 +263,13 @@
   %% Section headings now use \appsection command
   \renewcommand{\section}{\appsection}
 }
+
+% Keeping periods after section numbers but not when referencing sections
+% https://tex.stackexchange.com/questions/399025/keeping-periods-after-section-numbers-but-not-when-referencing-sections
+\renewcommand{\@seccntformat}[1]{\csname the#1\endcsname.\quad}
+\renewcommand{\cftsecaftersnum}{.}
+\renewcommand{\cftsubsecaftersnum}{.}
+\renewcommand{\cftsubsubsecaftersnum}{.}
 
 % Make the references section an actual section instead of a chapter and number it
 \renewcommand{\bibsection}{\section{\refname}}
