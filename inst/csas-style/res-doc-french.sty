@@ -267,9 +267,6 @@
 % Keeping periods after section numbers but not when referencing sections
 % https://tex.stackexchange.com/questions/399025/keeping-periods-after-section-numbers-but-not-when-referencing-sections
 \renewcommand{\@seccntformat}[1]{\csname the#1\endcsname.\quad}
-\renewcommand{\cftsecaftersnum}{.}
-\renewcommand{\cftsubsecaftersnum}{.}
-\renewcommand{\cftsubsubsecaftersnum}{.}
 
 % Make the references section an actual section instead of a chapter and number it
 \renewcommand{\bibsection}{\section{\refname}}
