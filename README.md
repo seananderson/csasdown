@@ -7,15 +7,13 @@
 [![Coverage status](https://codecov.io/gh/pbs-assess/csasdown/branch/main/graph/badge.svg)](https://codecov.io/github/pbs-assess/csasdown?branch=main)
 <!-- badges: end -->
 
-csasdown is an R package that facilitates generating Canadian Science Advisory Secretariat (CSAS) documents in PDF or Word format using R Markdown and bookdown.
+csasdown is an R package for generating Canadian Science Advisory Secretariat (CSAS) documents in PDF or Word format using R Markdown and bookdown.
 
 Check the [NEWS](https://github.com/pbs-assess/csasdown/blob/main/NEWS.md) file for information on what has changed recently.
 
 Check the [Wiki](https://github.com/pbs-assess/csasdown/wiki) for hints and FAQs.
 
-Slides from a short workshop on csasdown: [[PDF](https://www.dropbox.com/s/7m23mh3yfhk5ah8/csasdown-slides.pdf?dl=1)].
-
-Have a problem? If it's a bug or feature request please post it as a [GitHub Issue](https://github.com/pbs-assess/csasdown/issues). If it's a quick question on csasdown use, find us on [DFO MS Teams](https://teams.microsoft.com/l/channel/19%3ae15d7a8e776b418b8e4975a4c9c5f93f%40thread.skype/R%2520-%2520csasdown?groupId=50a32c0d-d5fe-4368-b95b-4beaaa1ba1a1&tenantId=1594fdae-a1d9-4405-915d-011467234338).
+Have a problem? If it's a bug or feature request, please post it as a [GitHub Issue](https://github.com/pbs-assess/csasdown/issues). If it's a question on csasdown use, we encourage you to use the new [discussion board](https://github.com/pbs-assess/csasdown/discussions). Questions that are emailed or sent on MS Teams may be (anonymously and without data or screenshots) copied to the discussion board and answered there. Let us know if you don't want that to happen. For quick back-and-forth questions, you can catch us on [DFO MS Teams](https://teams.microsoft.com/l/channel/19%3ae15d7a8e776b418b8e4975a4c9c5f93f%40thread.skype/R%2520-%2520csasdown?groupId=50a32c0d-d5fe-4368-b95b-4beaaa1ba1a1&tenantId=1594fdae-a1d9-4405-915d-011467234338).
 
 **If you use csasdown to write a report, please let us know so we can add it to the list of publications using the package. This helps us justify spending our work time on its development. You can post an issue, make a pull request adding it to this readme, send us a quick email (contact details [here](https://github.com/pbs-assess/csasdown/blob/c76731e8580bb12da9324e56ff5e56a8d4901aeb/DESCRIPTION#L5-L8)), or find us on [DFO MS Teams](https://teams.microsoft.com/l/channel/19%3ae15d7a8e776b418b8e4975a4c9c5f93f%40thread.skype/R%2520-%2520csasdown?groupId=50a32c0d-d5fe-4368-b95b-4beaaa1ba1a1&tenantId=1594fdae-a1d9-4405-915d-011467234338).**
 
@@ -40,7 +38,7 @@ remotes::install_github("pbs-assess/csasdown")
 csasdown::draft("resdoc")
 ```
 
-You can do the same for an advanced Research Document with bilingual features:
+or for an advanced Research Document with bilingual features (in development):
 
 ```r
 csasdown::draft("resdoc-b")
@@ -68,23 +66,7 @@ The `resdoc-b` contains examples and guidance on setting up chunks to hold both 
 
 7. *(Optional but recommended)* Create a blank repository on GitHub, commit your changes, and push to GitHub. New to Git? Start with <https://happygitwithr.com/>.
 
-<!--
-Open your git client software, navigate to the working directory of your new project and type the following commands:
-
-```git add *``` to add all the new files you created in step 4.
-
-```git commit -m "Initial commit"```
-
-```git remote add origin URL``` where URL is the new repository URL as copied from the GitHub site.
-
-```git remote -v``` verifies you entered the correct URL and it is bound to **origin**
-
-```git push --set-upstream origin main```
-
-Look on your GitHub repository and you should see all the new files there. Your git client is now set up to push and fetch from your repository on GitHub.
--->
-
-8. Need to make an English *and* French version? csasdown has support for both. Also see csasdown's sister package [rosettafish](https://github.com/pbs-assess/rosettafish).
+8. Need to make an English *and* French version? csasdown has support for both. Also see csasdown's sibling package [rosettafish](https://github.com/pbs-assess/rosettafish).
 
 ## Publications prepared using csasdown
 
