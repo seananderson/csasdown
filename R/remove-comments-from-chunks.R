@@ -38,7 +38,8 @@ remove_comments_from_chunks <- function(rmd_files,
   offsets <- map(rmd_files, function(fn){
     suppressWarnings(rmd <- readLines(fn))
     # Extract the knitr code chunks
-    pat_code_begin <- all_patterns$md$chunk.begin
+    #pat_code_begin <- all_patterns$md$chunk.begin
+    pat_code_begin <- "^[\t >]*```+\\s*\\{(=latex|([a-zA-Z0-9_]+( *[ ,].*)?))\\}\\s*$"
     # The following pat code matched chunks with four backticks, which are
     # verbatim code chunks and not meant to be processed
     # pat_code_end <- all_patterns$md$chunk.end
