@@ -35,22 +35,21 @@
 parse_cat_text <- function(str_vec, ret_inds = FALSE, verbose = FALSE){
 
 
-  str_vec <- trimws(str_vec)
   if(!length(grep("^cat\\(.*", str_vec[1]))){
     bail("The first line of ", csas_color("str_vec"), " must start with ",
          csas_color("cat()"))
   }
-  str_vec[1] <- gsub("^cat\\(", "", str_vec[1])
-  if(length(grep("^\"", str_vec[1]))){
+  str_vec[1] <- gsub("^cat\\(", "", trimws(str_vec[1]))
+  if(length(grep("^\"", trimws(str_vec[1])))){
     # `cat()` text is surrounded by double quotes
     quote_type <- "\""
-  }else if(length(grep("^'", str_vec[1]))){
+  }else if(length(grep("^'", trimws(str_vec[1])))){
     # `cat()` text is surrounded by single quotes
     quote_type <- "'"
   }else{
     bail("Quote type not allowed for ", csas_color("cat()"), " text. ",
          "You must use either ",
-         "single or double quotes. You used ", substr(str_vec[1], 1, 1))
+         "single or double quotes. You used ", substr(trimws(str_vec[1]), 1, 1))
   }
 
   # Parse (possibly nested) parens in the text
@@ -64,16 +63,16 @@ parse_cat_text <- function(str_vec, ret_inds = FALSE, verbose = FALSE){
   matched <- FALSE
   prev_char <- NULL
   for(.y in seq_along(str_vec)){
-    for(char_pos in seq_len(nchar(str_vec[.y]))){
-      char <- substr(str_vec[.y], char_pos, char_pos)
+    for(char_pos in seq_len(nchar(trimws(str_vec[.y])))){
+      char <- substr(trimws(str_vec[.y]), char_pos, char_pos)
       if(char == "("){
         pstack <- stk_push(pstack, "(")
         if(verbose){
           notify("Pushed '(' to stack on line ", .y, ", char ", char_pos, "\n",
                  "stack size is now ", stk_size(pstack), "\n",
-                 cyan(substr(str_vec[.y], 1, char_pos - 1)),
-                 red(substr(str_vec[.y], char_pos, char_pos)),
-                 cyan(substr(str_vec[.y], char_pos + 1 , nchar(str_vec[.y]))),
+                 cyan(substr(trimws(str_vec[.y]), 1, char_pos - 1)),
+                 red(substr(trimws(str_vec[.y]), char_pos, char_pos)),
+                 cyan(substr(trimws(str_vec[.y]), char_pos + 1 , nchar(trimws(str_vec[.y])))),
                  "\n")
         }
       }
@@ -87,9 +86,9 @@ parse_cat_text <- function(str_vec, ret_inds = FALSE, verbose = FALSE){
         if(is.null(popval)){
           bail("No preceeding '(' to match ')' found on line  ", .y, ", char ",
                char_pos, "\n",
-               cyan(substr(str_vec[.y], 1, char_pos - 1)),
-               red(substr(str_vec[.y], char_pos, char_pos)),
-               cyan(substr(str_vec[.y], char_pos + 1 , nchar(str_vec[.y]))),
+               cyan(substr(trimws(str_vec[.y]), 1, char_pos - 1)),
+               red(substr(trimws(str_vec[.y]), char_pos, char_pos)),
+               cyan(substr(trimws(str_vec[.y]), char_pos + 1 , nchar(trimws(str_vec[.y])))),
                "\n")
         }
         # nocov end
@@ -97,31 +96,32 @@ parse_cat_text <- function(str_vec, ret_inds = FALSE, verbose = FALSE){
           # Matched the end ')' of cat()
           if(stk_size(pstack)){
             bail("Extra '(' matches this ')' on line  ", .y, ", char ", char_pos, "\n",
-                 cyan(substr(str_vec[.y], 1, char_pos - 1)),
-                 red(substr(str_vec[.y], char_pos, char_pos)),
-                 cyan(substr(str_vec[.y], char_pos + 1 , nchar(str_vec[.y]))),
+                 cyan(substr(trimws(str_vec[.y]), 1, char_pos - 1)),
+                 red(substr(trimws(str_vec[.y]), char_pos, char_pos)),
+                 cyan(substr(trimws(str_vec[.y]), char_pos + 1 , nchar(trimws(str_vec[.y])))),
                  "\n")
           }
           if(verbose){
             notify("Matched closing ')' for `cat()` on line ", .y, ", char ", char_pos, "\n",
                    "stack size is now ", stk_size(pstack), "\n",
-                   cyan(substr(str_vec[.y], 1, char_pos - 1)),
-                   red(substr(str_vec[.y], char_pos, char_pos)),
-                   cyan(substr(str_vec[.y], char_pos + 1 , nchar(str_vec[.y]))),
+                   cyan(substr(trimws(str_vec[.y]), 1, char_pos - 1)),
+                   red(substr(trimws(str_vec[.y]), char_pos, char_pos)),
+                   cyan(substr(trimws(str_vec[.y]), char_pos + 1 , nchar(trimws(str_vec[.y])))),
                    "\n")
           }
-          if(char_pos != nchar(str_vec[.y])){
+          if(char_pos != nchar(trimws(str_vec[.y]))){
             bail("Extra characters follow the ')' that closes `cat()`.\n",
                  "Closing ')' for ", csas_color("cat()"), " must be at the ",
                  "end of the line \n",
                  "with nothing following it (check for trailing whitespace):\n\n",
-                 cyan(substr(str_vec[.y], 1, char_pos - 1)),
-                 red(substr(str_vec[.y], char_pos, char_pos)),
-                 cyan(substr(str_vec[.y], char_pos + 1 , nchar(str_vec[.y]))),
+                 cyan(substr(trimws(str_vec[.y]), 1, char_pos - 1)),
+                 red(substr(trimws(str_vec[.y]), char_pos, char_pos)),
+                 cyan(substr(trimws(str_vec[.y]), char_pos + 1 , nchar(str_vec[.y]))),
                  "\n")
           }
           # Remove ')' that closes `cat()`
-          str_vec[.y] <- substr(str_vec[.y], 1, char_pos - 1)
+          ws <- gsub("^(\\s*).*", "\\1", str_vec[.y]) # leading whitespace
+          str_vec[.y] <- paste0(ws, substr(trimws(str_vec[.y]), 1, char_pos - 1))
           # This is the total return chunk
           out_chunk <- str_vec[1:.y]
           if(ret_inds){
@@ -132,17 +132,17 @@ parse_cat_text <- function(str_vec, ret_inds = FALSE, verbose = FALSE){
         }
         if(!stk_size(pstack)){
           bail("No matching '(' for this ')' on line  ", .y, ", char ", char_pos, "\n",
-               cyan(substr(str_vec[.y], 1, char_pos - 1)),
-               red(substr(str_vec[.y], char_pos, char_pos)),
-               cyan(substr(str_vec[.y], char_pos + 1 , nchar(str_vec[.y]))),
+               cyan(substr(trimws(str_vec[.y]), 1, char_pos - 1)),
+               red(substr(trimws(str_vec[.y]), char_pos, char_pos)),
+               cyan(substr(trimws(str_vec[.y]), char_pos + 1 , nchar(str_vec[.y]))),
                "\n")
         }
         if(verbose){
           notify("Matched ')' on line ", .y, ", char ", char_pos, "\n",
                  "stack size is now ", stk_size(pstack), "\n",
-                 cyan(substr(str_vec[.y], 1, char_pos - 1)),
-                 red(substr(str_vec[.y], char_pos, char_pos)),
-                 cyan(substr(str_vec[.y], char_pos + 1 , nchar(str_vec[.y]))),
+                 cyan(substr(trimws(str_vec[.y]), 1, char_pos - 1)),
+                 red(substr(trimws(str_vec[.y]), char_pos, char_pos)),
+                 cyan(substr(trimws(str_vec[.y]), char_pos + 1 , nchar(str_vec[.y]))),
                  "\n")
         }
       }
