@@ -159,13 +159,13 @@ preprocess_chunks <- function(fns,
         text_chunk <- gsub("\\\\", "\\\\\\\\", text_chunk)
 
         # Check for equations
-        start_eq <- grep("\\\\begin\\{equation\\*?\\}", text_chunk)
-        end_eq <- grep("\\\\end\\{equation\\*?\\}", text_chunk)
+        start_eq <- grep("\\\\begin\\{(equation|flalign|align)\\*?\\}", text_chunk)
+        end_eq <- grep("\\\\end\\{(equation|flalign|align)\\*?\\}", text_chunk)
         chunk_has_eq <- FALSE
         if(length(start_eq)){
           if(length(start_eq) != length(end_eq)){
-            bail("Non-equal numbers of ", csas_color("\\begin{equation}"),
-                 " and ", csas_color("\\end{equation}"), " detected")
+            bail("Non-equal numbers of ", csas_color("\\begin{(equation|flalign|align)}"),
+                 " and ", csas_color("\\end{(equation|flalign|align)}"), " detected")
           }
           chunk_has_eq <- TRUE
 
@@ -179,7 +179,7 @@ preprocess_chunks <- function(fns,
           # Make sure the final equation does not have a quote following after
           # the end equation label on its last line. If it does, remove it
           eqs[[length(eqs)]][length(eqs[[length(eqs)]])] <-
-             gsub("(\\\\end\\{equation\\*?\\})(\\s*'|\")$",
+             gsub("(\\\\end\\{(equation|flalign|align)\\*?\\})(\\s*'|\")$",
                   "\\1",
                   eqs[[length(eqs)]][length(eqs[[length(eqs)]])])
         }
@@ -231,8 +231,8 @@ preprocess_chunks <- function(fns,
 
         if(chunk_has_eq){
           # Replace the modified equation lines with the unmodified ones
-          start_eq <- grep("\\\\begin\\{equation\\*?\\}", text_chunk)
-          end_eq <- grep("\\\\end\\{equation\\*?\\}", text_chunk)
+          start_eq <- grep("\\\\begin\\{(equation|flalign|align)\\*?\\}", text_chunk)
+          end_eq <- grep("\\\\end\\{(equation|flalign|align)\\*?\\}", text_chunk)
           text_chunk <- replace_vecs_with_vecs(text_chunk, eqs, start_eq, end_eq)
         }
 
@@ -241,7 +241,7 @@ preprocess_chunks <- function(fns,
         # earlier
         if(chunk_has_eq &&
            paste_beg &&
-           length(grep("\\\\begin\\{equation\\*?\\}", text_chunk[1]))){
+           length(grep("\\\\begin\\{(equation|flalign|align)\\*?\\}", text_chunk[1]))){
           text_chunk[1] <- paste0("cat(\"", text_chunk[1])
         }else{
           text_chunk[1] <- paste0("cat(", text_chunk[1])
@@ -250,7 +250,7 @@ preprocess_chunks <- function(fns,
         # line is TRUE, add a quote. Quote is added for other cases earlier
         if(chunk_has_eq &&
            paste_end &&
-           length(grep("\\\\end\\{equation\\*?\\}", text_chunk[length(text_chunk)]))){
+           length(grep("\\\\end\\{(equation|flalign|align)\\*?\\}", text_chunk[length(text_chunk)]))){
           text_chunk[length(text_chunk)] <- paste0(text_chunk[length(text_chunk)], "\")")
         }else{
           text_chunk[length(text_chunk)] <- paste0(text_chunk[length(text_chunk)], ")")
