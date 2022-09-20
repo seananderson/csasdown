@@ -28,7 +28,7 @@ test_that("csasdown:::get_contact_info() works", {
   options(french = FALSE)
   region <- "Pacific Region"
   r <- csasdown:::get_contact_info(region)
-  expect_identical(r$email, "csap@dfo-mpo.gc.ca")
+  expect_identical(r$email, "DFO.PacificCSA-CASPacifique.MPO@dfo-mpo.gc.ca")
   expect_identical(r$address, "3190 Hammond Bay Rd.\\\\\\\\Nanaimo, BC, V9T 6N7")
 
   # ---------------------------------------------------------------------------
@@ -36,7 +36,7 @@ test_that("csasdown:::get_contact_info() works", {
   options(french = FALSE)
   region <- "Région du Pacifique"
   r <- csasdown:::get_contact_info(region)
-  expect_identical(r$email, "csap@dfo-mpo.gc.ca")
+  expect_identical(r$email, "DFO.PacificCSA-CASPacifique.MPO@dfo-mpo.gc.ca")
   expect_identical(r$address, "3190 Hammond Bay Rd.\\\\\\\\Nanaimo, BC, V9T 6N7")
 
   # ---------------------------------------------------------------------------
@@ -44,7 +44,7 @@ test_that("csasdown:::get_contact_info() works", {
   options(french = TRUE)
   region <- "Région du Pacifique"
   r <- csasdown:::get_contact_info(region)
-  expect_identical(r$email, "csap@dfo-mpo.gc.ca")
+  expect_identical(r$email, "DFO.PacificCSA-CASPacifique.MPO@dfo-mpo.gc.ca")
   expect_identical(r$address, "3190, chemin Hammond Bay\\\\\\\\Nanaimo (C.-B.) V9T 6N7")
 
   # ---------------------------------------------------------------------------
@@ -52,7 +52,7 @@ test_that("csasdown:::get_contact_info() works", {
   options(french = TRUE)
   region <- "Pacific Region"
   r <- csasdown:::get_contact_info(region)
-  expect_identical(r$email, "csap@dfo-mpo.gc.ca")
+  expect_identical(r$email, "DFO.PacificCSA-CASPacifique.MPO@dfo-mpo.gc.ca")
   expect_identical(r$address, "3190, chemin Hammond Bay\\\\\\\\Nanaimo (C.-B.) V9T 6N7")
 
 
