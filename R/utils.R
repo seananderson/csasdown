@@ -52,6 +52,7 @@ hex2rgb <- function(hex, rel = FALSE, ret_alpha = FALSE){
 #' @return A character vector containing the sequence of code necessary
 #' to create the number of newlines required
 rmd_nlines <- function(num_blank_lines){
+
   if(is.null(num_blank_lines)){
     bail("`num_blank_lines` must not be `NULL`")
   }
@@ -62,10 +63,12 @@ rmd_nlines <- function(num_blank_lines){
     return("")
   }
   if(num_blank_lines == 1){
-    return(c("", "\\\\ \\\\", ""))
+    #return(c("", "\\\\ \\\\", ""))
+    return(c("\\n", ""))
   }
   if(num_blank_lines > 1){
-    return(c("", rep("\\\\", num_blank_lines - 1), ""))
+    #return(c("", rep("\\\\", num_blank_lines - 1), ""))
+    return(rep(c("\\n", ""), num_blank_lines - 1))
   }
 }
 
