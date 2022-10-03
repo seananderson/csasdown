@@ -37,5 +37,5 @@ This Science Response Report results from the Science Response Process Month Day
 
 *Add the following sentence if there are other associated publications that will be posted on the schedule.*
 
-Additional publications from this meeting will be posted on the \link{http://www.isdm-gdsi.gc.ca/csas-sccs/applications/events-evenements/index-eng.asp}{DFO Science Advisory Schedule} as they become available.
+Additional publications from this meeting will be posted on the \href{http://www.isdm-gdsi.gc.ca/csas-sccs/applications/events-evenements/index-eng.asp}{DFO Science Advisory Schedule} as they become available.
 

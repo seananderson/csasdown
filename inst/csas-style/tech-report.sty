@@ -30,6 +30,7 @@
 \RequirePackage{lmodern}  % Nicer (c) symbol
 \RequirePackage{calc}  % Text length calculations
 \RequirePackage[authoryear]{natbib}  % Citations
+\RequirePackage{hyperref}  % Better cross references
 \RequirePackage{letltxmacro}  % Enable/disable footnotes
 \RequirePackage{pdfpages}  % Include PDF documents
 \RequirePackage[T1]{fontenc}  % Allow french characters (Resume)
@@ -39,28 +40,6 @@
 \RequirePackage{subcaption}  % Panels within a figure
 \RequirePackage{pdfcomment} % For pdftooltip
 \usepackage{chngcntr} % https://tex.stackexchange.com/questions/85776/change-figure-numbering-for-appendix
-
-%% ------------------------------------------------------------------------------
-%% Load hyperlink package and set up link colors
-\usepackage%[breaklinks=true,
-            %bookmarksopen=true,
-            %bookmarksdepth=3]
-           {hyperref}
-\hypersetup{colorlinks,
-            plainpages=true,
-            linkcolor=black,
-            citecolor=black,
-            urlcolor=blue,
-            bookmarksopen=true,
-            bookmarksopenlevel=1}
-% Underlines
-\usepackage[normalem]{ulem}
-% hack into hyperref (from https://tex.stackexchange.com/q/208808)
-\makeatletter
-\newcommand*{\link}{\begingroup\@makeother\#\@mylink}
-\newcommand*{\@mylink}[2]{\href{#1}{\sffamily\uline{#2}}\endgroup}
-\makeatother
-%% ------------------------------------------------------------------------------
 
 % Included so that the kableExtra::linebreak function can be used
 \RequirePackage{makecell}
@@ -118,6 +97,13 @@
 \setlength{\TPVertModule}
   {-1in}
 %% ------------------------------------------------------------------------------
+
+% Hyper links
+\hypersetup{colorlinks,
+            plainpages=true,
+            linkcolor=black,
+            citecolor=black,
+            urlcolor=blue }
 
 %%%%% Parameters %%%%%
 % General layout parameters for all pages:
