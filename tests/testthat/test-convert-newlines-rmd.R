@@ -1,7 +1,7 @@
 test_that("csasdown:::convert_newlines_rmd works", {
 
   str <- c("")
-  str_mod <- c("", "\\\\ \\\\", "")
+  str_mod <- c("", "\\n", "")
   ret <- csasdown:::convert_newlines_rmd(str)
   expect_identical(ret, str_mod)
 
@@ -10,8 +10,7 @@ test_that("csasdown:::convert_newlines_rmd works", {
            "",
            "Welcome!")
   str_mod <- c("Hello world",
-               "",
-               "\\\\",
+               "\\n",
                "",
                "Welcome!")
   ret <- csasdown:::convert_newlines_rmd(str)
@@ -29,18 +28,20 @@ test_that("csasdown:::convert_newlines_rmd works", {
            "",
            "#Section header 2")
   str_mod <- c("#Section header",
-               "",
-               "\\\\ \\\\",
+               "\\n",
                "",
                "Lorem ipsum dolor sit amet. Est magnam tenetur ut internos ",
-               "\\\\","",
-               "internos aut similique vitae. In sapiente molestias ut aperiam ",
-               "\\\\","",
-               "autem ut galisum dignissimos.",
+               "\\\\",
                "",
+               "internos aut similique vitae. In sapiente molestias ut aperiam ",
                "\\\\",
-               "\\\\",
-               "\\\\",
+               "",
+               "autem ut galisum dignissimos.",
+               "\\n",
+               "",
+               "\\n",
+               "",
+               "\\n",
                "",
                "#Section header 2")
   ret <- csasdown:::convert_newlines_rmd(str)
@@ -53,13 +54,12 @@ test_that("csasdown:::convert_newlines_rmd works", {
            "Lorem ipsum dolor sit amet",
            "",
            "")
-  str_mod <- c("",
-               "\\\\",
-               "\\\\",
+  str_mod <- c("\\n",
+               "",
+               "\\n",
                "",
                "Lorem ipsum dolor sit amet",
-               "",
-               "\\\\",
+               "\\n",
                "")
   ret <- csasdown:::convert_newlines_rmd(str)
   expect_identical(ret, str_mod)
@@ -73,12 +73,10 @@ test_that("csasdown:::convert_newlines_rmd works", {
            "",
            "yy")
   str_mod <- c("xx",
-               "",
-               "\\\\",
+               "\\n",
                "",
                "Lorem ipsum dolor sit amet",
-               "",
-               "\\\\",
+               "\\n",
                "",
                "yy")
   ret <- csasdown:::convert_newlines_rmd(str)
@@ -96,8 +94,7 @@ test_that("csasdown:::convert_newlines_rmd works", {
            "3. Item 3.",
            "",
            "End of list")
-  str_mod <- c("",
-               "\\\\ \\\\",
+  str_mod <- c("\\n",
                "",
                "Creating a list",
                "",
@@ -109,8 +106,7 @@ test_that("csasdown:::convert_newlines_rmd works", {
                "      ii. Item 2bii",
                "",
                "3. Item 3.",
-               "",
-               "\\\\ \\\\",
+               "\\n",
                "",
                "End of list")
   ret <- csasdown:::convert_newlines_rmd(str)
@@ -148,16 +144,14 @@ test_that("csasdown:::convert_newlines_rmd works", {
                "\\\\",
                "",
                "tempor incididunt ut labore et dolore magna aliqua. Bibendum ut",
-               "",
-               "\\\\",
+               "\\n",
                "",
                "   parameter           value",
                "---------------- -----------------",
                "       a                 5",
                "       b                 8",
                "       c                 9",
-               "",
-               "\\\\ \\\\",
+               "\\n",
                "",
                "----------------------------------------------------------------------------------",
                "  Factors                    Correlation between Parents & Child      Inherited",
@@ -201,12 +195,10 @@ test_that("csasdown:::convert_newlines_rmd works", {
                "-----",
                "  b",
                "-----",
-               "",
-               "\\\\ \\\\",
+               "\\n",
                "",
                "other text",
-               "",
-               "\\\\ \\\\",
+               "\\n",
                "",
                "-----",
                "  x",

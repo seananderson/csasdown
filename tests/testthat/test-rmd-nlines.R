@@ -14,12 +14,12 @@ test_that("rnd_nlines() works", {
   expect_identical(csasdown:::rmd_nlines(0), "")
 
   # -----------------------------------------------------------------------------
-  expect_identical(csasdown:::rmd_nlines(1), c("", "\\\\ \\\\", ""))
+  expect_identical(csasdown:::rmd_nlines(1), c("\\n", ""))
 
   # -----------------------------------------------------------------------------
-  expect_identical(csasdown:::rmd_nlines(2), c("", "\\\\", ""))
+  expect_identical(csasdown:::rmd_nlines(2), c("\\n", ""))
 
   # -----------------------------------------------------------------------------
-  expect_identical(csasdown:::rmd_nlines(4), c("", "\\\\", "\\\\", "\\\\", ""))
+  expect_identical(csasdown:::rmd_nlines(4), c("\\n", "", "\\n", "", "\\n", ""))
 
 })
