@@ -205,6 +205,7 @@ csas_table <- function(x,
       return(k)
     }
     if(!length(j)){
+      attributes(k_lines) <- attributes(k)
       return(k_lines)
     }
     k_lines_pre <- k_lines[1:j]
@@ -249,6 +250,7 @@ csas_table <- function(x,
     attributes(k_lines_str) <- attributes(k)
     k <- k_lines_str
   }
+
   k
 }
 
