@@ -204,6 +204,10 @@ csas_table <- function(x,
             " text to table")
       return(k)
     }
+    if(!length(j)){
+      attributes(k_lines) <- attributes(k)
+      return(k_lines)
+    }
     k_lines_pre <- k_lines[1:j]
     k_lines_post <- k_lines[(j + 1):length(k_lines)]
     if(getOption("french", default = FALSE)){
@@ -246,6 +250,7 @@ csas_table <- function(x,
     attributes(k_lines_str) <- attributes(k)
     k <- k_lines_str
   }
+
   k
 }
 
