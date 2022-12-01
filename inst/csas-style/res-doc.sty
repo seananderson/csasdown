@@ -337,11 +337,11 @@
 %% Creates a header and footer on the long page sides on landscape pages
 \AddEverypageHook{\ifdim\textwidth=\textheight
   \fancyhf{}\fancyfoot{}
- \begin{textblock}{0.05}(0.925,0.5)
+ \begin{textblock}{0.05}(0.9,0.5)
  {\rotatebox{90}{\sffamily\selectfont\small\thepage}}\end{textblock}
-  \begin{textblock}{1}(0.1,0.0909)
+  \begin{textblock}{0.05}(0.062,0.0909){\rotatebox{90}{\rule{9in}{0.25pt}}}
   \end{textblock}
-  \begin{textblock}{1}(0.9,0.0909)
+  \begin{textblock}{0.05}(0.875,0.0909){\rotatebox{90}{\rule{9in}{0.25pt}}}
   \end{textblock}
 \fi}
 
