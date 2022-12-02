@@ -81,21 +81,17 @@
 %% Creates a header and footer on the long page sides on landscape pages
 \AddEverypageHook{\ifdim\textwidth=\textheight
   \fancyhf{}\fancyfoot{}
-\begin{textblock}{0.05}(0.925,0.5)
-{\rotatebox{90}{\sffamily\selectfont\small\thepage}}\end{textblock}
- \begin{textblock}{1}(0.1,0.0909)
-{\rotatebox{90}{\rule{9in}{0.25pt}}}\end{textblock}
-  \begin{textblock}{1}(0.9,0.0909)
-  {\rotatebox{90}{\rule{9in}{0.25pt}}}\end{textblock}
+\begin{textblock}{0.05}(0.9,0.5)
+{\rotatebox{90}{\sffamily\selectfont\normalsize\thepage}}\end{textblock}
 \fi}
 
 %% For landscape pages in CSAS documents
 \usepackage{pdflscape} % rotates landscape pages
 \usepackage[absolute]{textpos}
 \setlength{\TPHorizModule}
-  {-1in}
+  {8.5in}
 \setlength{\TPVertModule}
-  {-1in}
+  {11in}
 %% ------------------------------------------------------------------------------
 
 % Hyper links
