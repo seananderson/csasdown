@@ -75,9 +75,13 @@ update_csasstyle <- function(copy = TRUE,
         csas_style <- c(beg_of_file, "\\linenumbers", modulo, end_of_file)
         writeLines(csas_style, file.path("csas-style", which_sty))
       } else {
-        modulo <- paste0("\\modulolinenumbers[", line_nums_mod, "]")
-        csas_style <- c(csas_style, "\\linenumbers", modulo)
-        writeLines(csas_style, file.path("csas-style", which_sty))
+        if (!grepl("tech-report", which_sty)) {
+          modulo <- paste0("\\modulolinenumbers[", line_nums_mod, "]")
+          csas_style <- c(csas_style, "\\linenumbers", modulo)
+          writeLines(csas_style, file.path("csas-style", which_sty))
+        } else {
+          message("Line numbers temporarily disabled for tech reports.")
+        }
       }
     }
     if (lot_lof) {
