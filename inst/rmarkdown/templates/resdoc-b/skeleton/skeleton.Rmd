@@ -1,5 +1,6 @@
 ---
-title: "Title Here (*Latin Species Name*)"
+title: |
+  "Title Here (*Latin Species Name*)"
 french_title: "Titre ici (*Nom latin de l'espèce*)"
 author: |
   First. M. Last^1^ and
