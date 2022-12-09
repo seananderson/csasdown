@@ -1,4 +1,5 @@
 test_that("set_yaml_tag() works", {
+  wd <- getwd()
   testing_path <- file.path(tempdir(), "test-set-yaml-tags")
   unlink(testing_path, recursive = TRUE, force = TRUE)
   dir.create(testing_path, showWarnings = FALSE)
@@ -92,11 +93,11 @@ test_that("set_yaml_tag() works", {
 
   # ---------------------------------------------------------------------------
   # Test tag names with and without leading spaces
-  csasdown:::set_yaml_tag("title: \"Insert", "New title")
+  csasdown:::set_yaml_tag("title:", "New title")
   csasdown:::set_yaml_tag("approver", c("Bob Ross", "Regional Director"))
   rmd <- readLines("index.Rmd")
   expect_identical(rmd[2], "title: New title")
-  expect_identical(rmd[9:11], c("approver: |", "  Bob Ross\\ ", "  Regional Director"))
+  expect_identical(rmd[10:12], c("approver: |", "  Bob Ross\\ ", "  Regional Director"))
 
   # ---------------------------------------------------------------------------
   # Test tag name at end of YAML block
@@ -115,4 +116,5 @@ test_that("set_yaml_tag() works", {
                paste0("The YAML tag \\S+ was found more than ",
                       "once in the file"))
 
+  setwd(wd)
 })

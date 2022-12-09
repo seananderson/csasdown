@@ -1,5 +1,6 @@
 test_that("update_csasstyle() works", {
 
+  wd <- getwd()
   testing_path <- file.path(tempdir(), "test-update-csasstyle-resdoc")
   unlink(testing_path, recursive = TRUE, force = TRUE)
   dir.create(testing_path, showWarnings = FALSE)
@@ -51,4 +52,5 @@ test_that("update_csasstyle() works", {
   csasdown::render()
   expect_true(file.exists("_book/resdoc-english.pdf"))
 
+  setwd(wd)
 })

@@ -1,4 +1,5 @@
 test_that("set_language_option() works", {
+  wd <- getwd()
   testing_path <- file.path(tempdir(), "sr-set-language-option")
   unlink(testing_path, recursive = TRUE, force = TRUE)
   dir.create(testing_path, showWarnings = FALSE)
@@ -44,5 +45,5 @@ test_that("set_language_option() works", {
                "More than one \\S+ entry")
 
   # ---------------------------------------------------------------------------
-
+  setwd(wd)
 })
