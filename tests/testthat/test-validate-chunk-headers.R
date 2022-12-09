@@ -1,4 +1,5 @@
 test_that("validate_chunk_headers() works", {
+  wd <- getwd()
   rmd_dir <- testthat::test_path("validate-chunk-headers-files")
 
   testing_path <- file.path(tempdir(), "test-validate-chunk-headers")
@@ -88,4 +89,5 @@ test_that("validate_chunk_headers() works", {
   expect_warning(csasdown:::validate_chunk_headers(fn),
                  "with a name that follows the format for a French chunk")
 
+  setwd(wd)
   })

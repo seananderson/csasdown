@@ -1,4 +1,5 @@
 test_that("set_yaml_tag() works", {
+  wd <- getwd()
   testing_path <- file.path(tempdir(), "test-set-yaml-tags")
   unlink(testing_path, recursive = TRUE, force = TRUE)
   dir.create(testing_path, showWarnings = FALSE)
@@ -115,4 +116,5 @@ test_that("set_yaml_tag() works", {
                paste0("The YAML tag \\S+ was found more than ",
                       "once in the file"))
 
+  setwd(wd)
 })

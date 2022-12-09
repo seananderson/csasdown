@@ -1,3 +1,4 @@
+wd <- getwd()
 rnd_num <- as.integer(abs(rnorm(1) * 1e6))
 testing_path <- file.path(tempdir(), paste0("techreport_", rnd_num))
 unlink(testing_path, recursive = TRUE, force = TRUE)
@@ -94,3 +95,5 @@ test_that("csasdown::render detects cover page missing", {
   expect_true(file.exists(file.path(testing_path,
                                     "tech-report-cover.pdf")))
 })
+
+setwd(wd)
