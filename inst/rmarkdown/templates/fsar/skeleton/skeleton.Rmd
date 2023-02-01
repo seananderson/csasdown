@@ -1,0 +1,53 @@
+---
+title: "Title here (*Latin species name*)"
+year: "2022"
+report_number: "nnn"
+date: "January 25, 2022"
+region: "Pacific Region"
+phone: "(555) 555-5555"
+context: |
+  Here is the context text. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+output:
+ csasdown::fsar_word
+link-citations: false
+bibliography: bib/refs.bib
+---
+
+```{r setup, echo=FALSE, cache=FALSE, message=FALSE, results='hide', warning=FALSE}
+library(knitr)
+knitr_figs_dir <- "knitr-figs-docx/"
+knitr_cache_dir <- "knitr-cache-docx/"
+fig_out_type <- "png"
+fig_asp <- 0.618
+fig_width <- 9
+fig_out_width <- "6in"
+fig_dpi <- 180
+fig_align <- "center"
+fig_pos <- "htb"
+opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  comment = "#>",
+  fig.path = knitr_figs_dir,
+  cache.path = knitr_cache_dir,
+  fig.asp = fig_asp,
+  fig.width = fig_width,
+  out.width = fig_out_width,
+  echo = FALSE,
+  dev = fig_out_type,
+  dpi = fig_dpi,
+  fig.align = fig_align,
+  fig.pos = fig_pos
+)
+```
+
+```{r load-libraries, cache=FALSE}
+# add other packages here:
+
+# library(dplyr)
+# library(ggplot2)
+
+# library(rosettafish)
+# library(csasdown)
+```

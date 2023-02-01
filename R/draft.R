@@ -30,7 +30,7 @@
 #' csasdown::draft("techreport")
 #' }
 #' @export
-draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport"),
+draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "fsar"),
                   directory = getwd(),
                   fn = "index.Rmd",
                   edit = FALSE,
@@ -42,7 +42,7 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport"),
   # nocov start
   if(!grepl("\\/rmarkdown\\/templates", type)){
     # This is necessary so this function also works with unit testing
-    if(!type %in% c("resdoc", "resdoc-b", "sr", "techreport")){
+    if(!type %in% c("resdoc", "resdoc-b", "sr", "techreport", "fsar")){
       alert(csas_color("type"), " should be one of ",
             csas_color("resdoc"), ", ", csas_color("resdoc-b"), ", ",
             csas_color("sr"), ", or ", csas_color("techreport"),

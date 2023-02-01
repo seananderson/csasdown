@@ -1,0 +1,4 @@
+book_filename: "fsar"
+rmd_files: ["index.Rmd",
+            "01_fsat.Rmd"]
+delete_merged_file: true

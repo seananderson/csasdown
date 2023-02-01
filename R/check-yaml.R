@@ -14,7 +14,7 @@
 check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
                                 "sr", "sr_pdf", "sr_word",
                                 "techreport", "techreport_pdf",
-                                "techreport_word"),
+                                "techreport_word", "fsar_word"),
                        verbose = FALSE) {
 
   tryCatch({type <- match.arg(type)
@@ -24,6 +24,7 @@ check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
          csas_color("resdoc_word"), ", ", csas_color("sr"), ", ",
          csas_color("sr_pdf"), ", ", csas_color("sr_word"), ", ",
          csas_color("techreport"), ", ", csas_color("techreport_pdf"),
+         ", ", csas_color("techreport_pdf"),
          ", or ", csas_color("techreport_word"), ".\n",
          "You tried: ", csas_color(type))
   })
@@ -39,6 +40,8 @@ check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
     type <- "sr"
   }else if(type %in% c("techreport", "techreport_pdf", "techreport_word")){
     type <- "techreport"
+  } else if(type %in% c("fsar_word")) {
+    type <- "fsar"
   }
 
   x_skeleton <- names(yaml_front_matter(

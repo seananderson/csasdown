@@ -6,7 +6,7 @@
 \usage{
 check_yaml(
   type = c("resdoc", "resdoc_pdf", "resdoc_word", "sr", "sr_pdf", "sr_word",
-    "techreport", "techreport_pdf", "techreport_word"),
+    "techreport", "techreport_pdf", "techreport_word", "fsar_word"),
   verbose = FALSE
 )
 }
