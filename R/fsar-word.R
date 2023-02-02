@@ -127,18 +127,48 @@ render_sar <- function(...) {
   file <- "fsar-first-page.docx"
   doc <- officer::read_docx(system.file("csas-docx", file, package = "csasdown"))
 
+
+  d <- officer::headers_replace_text_at_bkm(doc, "report_year", x$report_year)
+  d <- officer::headers_replace_text_at_bkm(doc, "report_number", x$report_number)
+  d <- officer::headers_replace_text_at_bkm(doc, "region_name", x$region)
+
+  doc <- officer::body_replace_all_text(doc, tolower("<<FISH STOCK NAME>>"), x$report_title)
+
   doc <- officer::body_replace_all_text(doc, "<<context paragraph>>", x$context)
 
-  date_title <- paste0(x$date, " '", x$title, "'")
+  date_title <- paste0(x$meeting_date, " '", x$report_title, "'")
   doc <- officer::body_replace_all_text(doc, "<<meeting date and title>>", date_title)
+
+  release_date <- paste(x$release_month, x$report_year)
+  d <- officer::footers_replace_text_at_bkm(doc, "release_date", release_date)
 
   print(doc, target = "TEMP-first-page.docx")
 
   file <- "fsar-last-page.docx"
   doc <- officer::read_docx(system.file("csas-docx", file, package = "csasdown"))
 
-  doc <- officer::body_replace_all_text(doc, "<<region>>", x$region)
-  doc <- officer::body_replace_all_text(doc, "<<phone>>", x$phone)
+  date_title <- paste0(x$meeting_date, " '", x$report_title, "'")
+  doc <- officer::body_replace_text_at_bkm(doc, "meeting_date_and_title", date_title)
+
+  doc <- officer::body_replace_text_at_bkm(doc, "csa_address", x$csa_address)
+  doc <- officer::body_replace_text_at_bkm(doc, "email", x$email)
+  doc <- officer::body_replace_text_at_bkm(doc, "region", x$region)
+  doc <- officer::body_replace_text_at_bkm(doc, "phone", x$phone)
+  doc <- officer::body_replace_text_at_bkm(doc, "copyright_year", x$report_year)
+
+  doc <- officer::body_replace_text_at_bkm(doc, "report_title_eng", x$report_title)
+  doc <- officer::body_replace_text_at_bkm(doc, "report_year_eng", x$report_year)
+  doc <- officer::body_replace_text_at_bkm(doc, "report_year_eng2", x$report_year)
+  doc <- officer::body_replace_text_at_bkm(doc, "report_number_eng", x$report_number)
+
+
+  doc <- officer::body_replace_text_at_bkm(doc, "report_year_french", x$report_year)
+  doc <- officer::body_replace_text_at_bkm(doc, "report_year_french2", x$report_year)
+  doc <- officer::body_replace_text_at_bkm(doc, "report_number_french", x$report_number)
+  doc <- officer::body_replace_text_at_bkm(doc, "report_title_other_lang", x$report_title_french)
+
+  doc <- officer::body_replace_text_at_bkm(doc, "inuktitut_citation", x$inuktitut_citation)
+
   print(doc, target = "TEMP-last-page.docx")
 
   d <- officer::read_docx("TEMP-first-page.docx")
