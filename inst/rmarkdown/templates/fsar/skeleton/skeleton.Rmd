@@ -20,31 +20,17 @@ title: ""
 ---
 
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE, results='hide', warning=FALSE}
-library(knitr)
-knitr_figs_dir <- "knitr-figs-docx/"
-knitr_cache_dir <- "knitr-cache-docx/"
-fig_out_type <- "png"
-fig_asp <- 0.618
-fig_width <- 9
-fig_out_width <- "6in"
-fig_dpi <- 180
-fig_align <- "center"
-fig_pos <- "htb"
-opts_chunk$set(
+knitr::opts_chunk$set(
   collapse = TRUE,
   warning = FALSE,
   message = FALSE,
-  comment = "#>",
-  fig.path = knitr_figs_dir,
-  cache.path = knitr_cache_dir,
-  fig.asp = fig_asp,
-  fig.width = fig_width,
-  out.width = fig_out_width,
+  fig.path = "knitr-figs-docx/",
+  fig.asp = 0.618,
+  fig.width = 7,
   echo = FALSE,
-  dev = fig_out_type,
-  dpi = fig_dpi,
-  fig.align = fig_align,
-  fig.pos = fig_pos
+  dev = "png",
+  dpi = 180,
+  fig.align = "center"
 )
 ```
 
