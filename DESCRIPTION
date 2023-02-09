@@ -40,7 +40,10 @@ Authors@R:
       person(given = "Ben",
              family = "Marwick",
              role = "ctb",
-             comment = "Development of huskydown"))
+             comment = "Development of huskydown"),
+      person(paste("His Majesty the King in Right of Canada, as represented by",
+             "the Minister of the Department of Fisheries and Oceans"),
+             role = "cph"))
 Description: Uses the 'bookdown' R package to generate CSAS
     (Canadian Science Advisory Secretariat) Research Documents, Science
     Responses, and Technical Reports in PDF or Word format. The package is
