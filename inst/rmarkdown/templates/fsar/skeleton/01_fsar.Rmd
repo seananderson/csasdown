@@ -12,14 +12,173 @@ Text here
 
 ### Year assessment approach was approved {-}
 
-### Assessment Date {-}
+### Assessment Type {-}
 
-1. Last Full Assessment: date and reference
-
+### Most Recent Assessment Date {-}
+1.	Last Full Assessment: date and reference
 2.	Last Interim Year Update: date and reference
 
-### Year assessment approach was approved {-}
+### Assessment Approach {-}
 
-Text here
+### Stock Structure Assumption {-}
 
-## SOURCES OF INFORMATION {-}
+Briefly summarize the current assumptions regarding the stock structure and distribution of the stock being reported. Where the assessed stock distribution differs from the stock defined for management (i.e. there are mismatches between the biological unit and the assessment unit and/or the management unit), an explanation must be provided of how the assessed stock relates to the managed stock. Where there are LRPs for multiple sub-units, indicate, by name, the sub-units that have LRPs and those that do not (where possible). 
+
+### Reference Points {-}
+
+Include the description of reference point, current value (numbers or formulas), and reference. This section is mandatory. Include N/A if reference point/target has not been developed, with a brief explanation of why there is no reference point. If a USR hasn’t been accepted, and the resource manager asks to provide advice with respect to a proposed USR(s) that hasn’t been fully accepted, please make a note and incorporate requested USR(s). 
+
+1.	Limit Reference Point (LRP): 
+2.	Upper Stock Reference (USR):
+3.	Removal Reference (RR): 
+4.	Target (TRP): (if developed)
+
+#### Harvest Decision Rule {-}
+If applicable
+
+Include text and/or figure to describe the harvest decision rule (s) for the fishery if applicable.
+
+#### Data {-}
+
+### ECOLOGICAL AND CLIMATE CHANGE CONSIDERATIONS {-}
+
+Describe the environmental and climate change considerations affecting the fish stock. Focus on tactical 1-3 year advice and any long-term strategic considerations for the stock if available. Focus on more recent changes and how they represents a change from the overall ecosystem context. i.e. this is driving changes in mortality. Use plain language, and talk about the consequences/ impacts on the stock. Incorporate implications of trends in ecological and/or climate change drivers on the future state of the stock to help with development of tactical and strategic goals.  
+
+
+### ASSESSMENT {-}
+
+#### Historical and Recent Stock Trajectory and Trends  {-}
+
+```{r trends-template}
+##
+## simulated outputs from a population model
+##
+## this simulated dataset will have all possible types of values for the proposed 4-panel template
+
+## a starting point could be ICES SAG
+## https://www.ices.dk/data/assessment-tools/Pages/stock-assessment-graphs.aspx
+
+## name of the 4 panels
+categories <- c("Catch","SSB","Fishing","Recruitment")
+years <- 1950:2022
+
+set.seed(1234)
+ts1 <- 2000 + (arima.sim(list(order = c(1,0,0), ar = 0.9), n = length(years))*400)
+ts1.2 <- rep(1500, length(years))
+
+ts2 <- 2000 + (arima.sim(list(order = c(1,0,0), ar = 0.9), n = length(years))*400)
+ts2.2 <- rep(1500, length(years))
+
+
+sim.df <-
+  rbind(
+    data.frame(
+      row.number=1,
+      col.number=1,
+      panel.category=rep(categories[1], length(years)*2),
+      year=rep(years, 2),
+      ts.name=rep(c("Catch-MT","TAC-MT"), each=length(years)),
+      ts.value=c(ts1,ts2)
+    ),
+    data.frame(
+      row.number=1,
+      col.number=2,
+      panel.category=rep(categories[2], length(years)*4),
+      year=rep(years, 4),
+      ts.name=rep(c("SSB-MT","SSBlow-MT","SSBhigh-MT","SSBlim-MT"), each=length(years)),
+      ts.value=c(ts1,ts1+500, ts1-500, ts2)
+    ),
+    data.frame(
+      row.number=2,
+      col.number=1,
+      panel.category=rep(categories[3], length(years)*4),
+      year=rep(years, 4),
+      ts.name=rep(c("F-1/yr","Flow-1/yr","Fhigh-1/yr","Flim-1/yr"), each=length(years)),
+      ts.value=c(ts1/2000,(ts1+500)/2000, (ts1-500)/2000, ts2/2000)
+    ),
+    data.frame(
+      row.number=2,
+      col.number=2,
+      panel.category=rep(categories[4], length(years)*3),
+      year=rep(years, 3),
+      ts.name=rep(c("R-E06","Rlow-E06","Rhigh-E06"), each=length(years)),
+      ts.value=c(ts1/0.001,(ts1/0.001)+8E5, (ts1/0.001)-8E5)/1E6
+    )
+  )
+
+sim.df$panel.category <- factor(sim.df$panel.category, levels=c("Catch","SSB","Fishing","Recruitment"), ordered=TRUE)
+```
+
+Quick template using ggplot:
+```{r templates-1}
+
+library(ggplot2)
+theme_set(theme_bw())
+g <- ggplot(data=sim.df, aes(x=year, y=ts.value)) +
+  #facet_grid(rows=vars(row.number), cols=vars(col.number), scales="free") +
+  facet_wrap(vars(panel.category), scales="free") +
+  geom_line(data=sim.df[sim.df$ts.name=="Catch-MT",]) +
+  geom_line(data=sim.df[sim.df$ts.name=="SSB-MT",]) +
+  geom_line(data=sim.df[sim.df$ts.name=="F-1/yr",]) +
+  geom_line(data=sim.df[sim.df$ts.name=="R-E06",])
+g
+```
+
+An alternative version using cowplot:
+
+```{r templates-2}
+## alternative using cowplot
+g <- ggplot(data=sim.df, aes(x=year, y=ts.value))
+g1 <- g + geom_line(data=sim.df[sim.df$ts.name=="Catch-MT",]) + labs(x="Year", y="Catch-MT")
+
+g2 <- g + geom_line(data=sim.df[sim.df$ts.name=="SSB-MT",]) + labs(x="Year", y="SSB-MT")
+
+g3 <- g + geom_line(data=sim.df[sim.df$ts.name=="F-1/yr",]) + labs(x="Year", y="F-1/yr")
+
+g4 <- g + geom_line(data=sim.df[sim.df$ts.name=="R-E06",]) + labs(x="Year", y="R-E06")
+
+cowplot::plot_grid(g1, g2, g3, g4, ncol=2, labels="auto")
+
+```
+
+#### History of (Landings/Harvest/Effort), TAC (& Catch Advice) {-}
+
+Table of landings/harvest or effort if applicable, total allowable catch (TAC) and (optional) catch advice, over the recent historical period. Identify whether landings are based on fishing year or calendar year and the units of landings, TAC and catch advice. This section is mandatory, include N/A if not available or applicable with text description indicating why the information is not available.
+
+#### Projections or Simulations {-}
+
+This section is used to report the available information on likely future trends in biomass. Indicate the projected outcome under the current, or range of, catch levels (provide the short or long-term projections if available, or a qualitative statement based on past experience/expert judgement, etc.). 
+Include: years of projection, the probability of tested and current catch causing biomass to remain below, or to decline below the reference points (probability of being below the LRP and below the USR) and probability of increasing above the Removal Reference. Include probability of stock growth next year if the stock is in the Critical Zone. Include ‘risk tables’ if possible. This section is mandatory, include N/A if projections are not available. 
+
+#### Harvest Decision Rule Update (if applicable) {-}
+Any figures or text necessary to incorporate related to updating a Harvest Decision Rule, that haven’t already been included.
+
+#### Evaluation of Exceptional Circumstances/Assessment Triggers (if applicable) {-}
+Evaluation of any exceptional circumstances to push for a re-evaluation of a management procedures in an MSE context, or triggers that would prompt an assessment earlier than the pre-agreed assessment cycle (as per SAR 2016/020). 
+
+### INDIGENOUS CONTRIBUTIONS {-}
+
+
+
+### BYCATCH (OPTIONAL SECTION)  {-}
+
+Estimates of bycatch of non-target species. Target species caught in other fisheries should be summarized in the landings portion of the assessment. 
+
+### OTHER MANAGEMENT QUESTIONS (OPTIONAL SECTION) {-}
+
+It is preferable that other management questions be addressed in a sperate meeting, with a regular SAR document. However, if there is a management question that must be addressed during the full assessment, a brief summary of the evaluation can be placed here if it is relevant for decision making, and bullets added to the science advice section. Examples of science advice that has been given in a full assessment meeting:
+
+Examples
+- Science advice to set minimum legal size for the fishery; evaluation of size at sexual maturity
+- Proposal of an Upper Reference Point – if it’s possible to do this in a separate process with a SAR that’s preferable
+- Proposal of an LRP – if it’s possible to do this in a separate process with a SAR that’s preferable
+
+### SOURCES OF UNCERTAINTY {-}
+
+
+
+### LIST OF MEETING PARTICIPANTS {-}
+
+
+### SOURCES OF INFORMATION {-}
+
