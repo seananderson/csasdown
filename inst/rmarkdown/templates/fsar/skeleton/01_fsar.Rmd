@@ -51,7 +51,7 @@ Describe the environmental and climate change considerations affecting the fish 
 
 ```{r trends-template}
 ##
-## simulated outputs from a population model
+## simulated outputs from an assessment
 ##
 ## this simulated dataset will have all possible types of values for the proposed 4-panel template
 
@@ -63,8 +63,8 @@ categories <- c("Catch","SSB","Fishing","Recruitment")
 years <- 1950:2022
 
 set.seed(1234)
-ts1 <- 2000 + (arima.sim(list(order = c(1,0,0), ar = 0.9), n = length(years))*400)
-ts1.2 <- rep(1500, length(years))
+ts1 <- 500 + (arima.sim(list(order = c(1,0,0), ar = 0.9), n = length(years))*100)
+ts1.2 <- rep(400, length(years))
 
 ts2 <- 2000 + (arima.sim(list(order = c(1,0,0), ar = 0.9), n = length(years))*400)
 ts2.2 <- rep(1500, length(years))
@@ -78,7 +78,7 @@ sim.df <-
       panel.category=rep(categories[1], length(years)*2),
       year=rep(years, 2),
       ts.name=rep(c("Catch-MT","TAC-MT"), each=length(years)),
-      ts.value=c(ts1,ts2)
+      ts.value=c(ts1,ts1.2)
     ),
     data.frame(
       row.number=1,
@@ -86,7 +86,7 @@ sim.df <-
       panel.category=rep(categories[2], length(years)*4),
       year=rep(years, 4),
       ts.name=rep(c("SSB-MT","SSBlow-MT","SSBhigh-MT","SSBlim-MT"), each=length(years)),
-      ts.value=c(ts1,ts1+500, ts1-500, ts2)
+      ts.value=c(ts2,ts2+500, ts2-500, ts2.2)
     ),
     data.frame(
       row.number=2,
@@ -94,7 +94,7 @@ sim.df <-
       panel.category=rep(categories[3], length(years)*4),
       year=rep(years, 4),
       ts.name=rep(c("F-1/yr","Flow-1/yr","Fhigh-1/yr","Flim-1/yr"), each=length(years)),
-      ts.value=c(ts1/2000,(ts1+500)/2000, (ts1-500)/2000, ts2/2000)
+      ts.value=c(ts1/500,(ts1+100)/500, (ts1-100)/500, ts1.2/500)
     ),
     data.frame(
       row.number=2,
@@ -102,42 +102,55 @@ sim.df <-
       panel.category=rep(categories[4], length(years)*3),
       year=rep(years, 3),
       ts.name=rep(c("R-E06","Rlow-E06","Rhigh-E06"), each=length(years)),
-      ts.value=c(ts1/0.001,(ts1/0.001)+8E5, (ts1/0.001)-8E5)/1E6
+      ts.value=c(ts1/1E-6,(ts1/1E-6)+2E8, (ts1/1E-6)-2E8)/1E6
     )
   )
 
 sim.df$panel.category <- factor(sim.df$panel.category, levels=c("Catch","SSB","Fishing","Recruitment"), ordered=TRUE)
 ```
 
-Quick template using ggplot:
-```{r templates-1}
+Four-panel template using ggplot with the csas_theme:
 
+```{r templates-1}
 library(ggplot2)
-theme_set(theme_bw())
 g <- ggplot(data=sim.df, aes(x=year, y=ts.value)) +
   #facet_grid(rows=vars(row.number), cols=vars(col.number), scales="free") +
-  facet_wrap(vars(panel.category), scales="free") +
+  facet_wrap(~panel.category, scales="free", nrow=2, strip.position="top") +
   geom_line(data=sim.df[sim.df$ts.name=="Catch-MT",]) +
   geom_line(data=sim.df[sim.df$ts.name=="SSB-MT",]) +
   geom_line(data=sim.df[sim.df$ts.name=="F-1/yr",]) +
-  geom_line(data=sim.df[sim.df$ts.name=="R-E06",])
-g
+  geom_line(data=sim.df[sim.df$ts.name=="R-E06",]) +
+  labs(x="Year", y="Value")
+g + theme_csas()
 ```
 
 An alternative version using cowplot:
 
 ```{r templates-2}
 ## alternative using cowplot
-g <- ggplot(data=sim.df, aes(x=year, y=ts.value))
-g1 <- g + geom_line(data=sim.df[sim.df$ts.name=="Catch-MT",]) + labs(x="Year", y="Catch-MT")
+library(cowplot)
 
-g2 <- g + geom_line(data=sim.df[sim.df$ts.name=="SSB-MT",]) + labs(x="Year", y="SSB-MT")
+g <- ggplot(data=sim.df, aes(x=year, y=ts.value, lty=ts.name)) + theme_csas()
+g1 <- g + 
+  geom_line(data=sim.df[sim.df$ts.name=="Catch-MT",]) +
+  geom_line(data=sim.df[sim.df$ts.name=="TAC-MT",]) + 
+  labs(x="Year", y="Catch-MT") 
 
-g3 <- g + geom_line(data=sim.df[sim.df$ts.name=="F-1/yr",]) + labs(x="Year", y="F-1/yr")
+g2 <- g + 
+  geom_line(data=sim.df[sim.df$ts.name=="SSB-MT",]) +
+  geom_line(data=sim.df[sim.df$ts.name=="SSBlow-MT",]) +
+  geom_line(data=sim.df[sim.df$ts.name=="SSBhigh-MT",]) +
+  geom_line(data=sim.df[sim.df$ts.name=="SSBlim-MT",])  + 
+  labs(x="Year", y="SSB-MT")
 
-g4 <- g + geom_line(data=sim.df[sim.df$ts.name=="R-E06",]) + labs(x="Year", y="R-E06")
+g3 <- g + geom_line(data=sim.df[sim.df$ts.name=="F-1/yr",]) +
+  geom_line(data=sim.df[sim.df$ts.name=="Flim-1/yr",]) + 
+  labs(x="Year", y="F-1/yr")
 
-cowplot::plot_grid(g1, g2, g3, g4, ncol=2, labels="auto")
+g4 <- g + geom_line(data=sim.df[sim.df$ts.name=="R-E06",]) +
+  labs(x="Year", y="R-E06")
+
+plot_grid(g1, g2, g3, g4, ncol=2, labels="auto")
 
 ```
 
@@ -178,6 +191,7 @@ Examples
 
 
 ### LIST OF MEETING PARTICIPANTS {-}
+
 
 
 ### SOURCES OF INFORMATION {-}

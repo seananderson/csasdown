@@ -57,6 +57,7 @@ Imports:
     cli,
     crayon,
     dplyr,
+    ggplot2,
     glue,
     here,
     kableExtra,
@@ -70,7 +71,6 @@ Imports:
     utils
 Suggests:
     covr,
-    ggplot2,
     magick,
     readr,
     rosettafish,
