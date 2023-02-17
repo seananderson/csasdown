@@ -15,6 +15,7 @@ Text here
 ### Assessment Type {-}
 
 ### Most Recent Assessment Date {-}
+
 1.	Last Full Assessment: date and reference
 2.	Last Interim Year Update: date and reference
 
@@ -34,9 +35,10 @@ Include the description of reference point, current value (numbers or formulas),
 4.	Target (TRP): (if developed)
 
 #### Harvest Decision Rule {-}
+
 If applicable
 
-Include text and/or figure to describe the harvest decision rule (s) for the fishery if applicable.
+Include text and/or figure to describe the harvest decision rule(s) for the fishery if applicable.
 
 #### Data {-}
 
@@ -50,7 +52,6 @@ Describe the environmental and climate change considerations affecting the fish 
 #### Historical and Recent Stock Trajectory and Trends  {-}
 
 ```{r trends-template}
-##
 ## simulated outputs from an assessment
 ##
 ## this simulated dataset will have all possible types of values for the proposed 4-panel template
@@ -59,68 +60,68 @@ Describe the environmental and climate change considerations affecting the fish 
 ## https://www.ices.dk/data/assessment-tools/Pages/stock-assessment-graphs.aspx
 
 ## name of the 4 panels
-categories <- c("Catch","SSB","Fishing","Recruitment")
+categories <- c("Catch", "SSB", "Fishing", "Recruitment")
 years <- 1950:2022
 
 set.seed(1234)
-ts1 <- 500 + (arima.sim(list(order = c(1,0,0), ar = 0.9), n = length(years))*100)
+ts1 <- 500 + (arima.sim(list(order = c(1, 0, 0), ar = 0.9), n = length(years)) * 100)
 ts1.2 <- rep(400, length(years))
 
-ts2 <- 2000 + (arima.sim(list(order = c(1,0,0), ar = 0.9), n = length(years))*400)
+ts2 <- 2000 + (arima.sim(list(order = c(1, 0, 0), ar = 0.9), n = length(years)) * 400)
 ts2.2 <- rep(1500, length(years))
 
 
 sim.df <-
   rbind(
     data.frame(
-      row.number=1,
-      col.number=1,
-      panel.category=rep(categories[1], length(years)*2),
-      year=rep(years, 2),
-      ts.name=rep(c("Catch-MT","TAC-MT"), each=length(years)),
-      ts.value=c(ts1,ts1.2)
+      row.number = 1,
+      col.number = 1,
+      panel.category = rep(categories[1], length(years) * 2),
+      year = rep(years, 2),
+      ts.name = rep(c("Catch-MT", "TAC-MT"), each = length(years)),
+      ts.value = c(ts1, ts1.2)
     ),
     data.frame(
-      row.number=1,
-      col.number=2,
-      panel.category=rep(categories[2], length(years)*4),
-      year=rep(years, 4),
-      ts.name=rep(c("SSB-MT","SSBlow-MT","SSBhigh-MT","SSBlim-MT"), each=length(years)),
-      ts.value=c(ts2,ts2+500, ts2-500, ts2.2)
+      row.number = 1,
+      col.number = 2,
+      panel.category = rep(categories[2], length(years) * 4),
+      year = rep(years, 4),
+      ts.name = rep(c("SSB-MT", "SSBlow-MT", "SSBhigh-MT", "SSBlim-MT"), each = length(years)),
+      ts.value = c(ts2, ts2 + 500, ts2 - 500, ts2.2)
     ),
     data.frame(
-      row.number=2,
-      col.number=1,
-      panel.category=rep(categories[3], length(years)*5),
-      year=rep(years, 5),
-      ts.name=rep(c("F-1/yr","Flow-1/yr","Fhigh-1/yr","Flim-1/yr","M-1/yr"), each=length(years)),
-      ts.value=c(ts1/500,(ts1+100)/500, (ts1-100)/500, ts1.2/500,rep(0.2,length(years)))
+      row.number = 2,
+      col.number = 1,
+      panel.category = rep(categories[3], length(years) * 5),
+      year = rep(years, 5),
+      ts.name = rep(c("F-1/yr", "Flow-1/yr", "Fhigh-1/yr", "Flim-1/yr", "M-1/yr"), each = length(years)),
+      ts.value = c(ts1 / 500, (ts1 + 100) / 500, (ts1 - 100) / 500, ts1.2 / 500, rep(0.2, length(years)))
     ),
     data.frame(
-      row.number=2,
-      col.number=2,
-      panel.category=rep(categories[4], length(years)*3),
-      year=rep(years, 3),
-      ts.name=rep(c("R-E06","Rlow-E06","Rhigh-E06"), each=length(years)),
-      ts.value=c(ts1/1E-6,(ts1/1E-6)+2E8, (ts1/1E-6)-2E8)/1E6
+      row.number = 2,
+      col.number = 2,
+      panel.category = rep(categories[4], length(years) * 3),
+      year = rep(years, 3),
+      ts.name = rep(c("R-E06", "Rlow-E06", "Rhigh-E06"), each = length(years)),
+      ts.value = c(ts1 / 1E-6, (ts1 / 1E-6) + 2E8, (ts1 / 1E-6) - 2E8) / 1E6
     )
   )
 
-sim.df$panel.category <- factor(sim.df$panel.category, levels=c("Catch","SSB","Fishing","Recruitment"), ordered=TRUE)
+sim.df$panel.category <- factor(sim.df$panel.category, levels = c("Catch", "SSB", "Fishing", "Recruitment"), ordered = TRUE)
 ```
 
-Four-panel template using ggplot with the csas_theme:
+Four-panel template using ggplot with `theme_csas()`:
 
 ```{r templates-1}
 library(ggplot2)
-g <- ggplot(data=sim.df, aes(x=year, y=ts.value)) +
-  #facet_grid(rows=vars(row.number), cols=vars(col.number), scales="free") +
-  facet_wrap(~panel.category, scales="free", nrow=2, strip.position="top") +
-  geom_line(data=sim.df[sim.df$ts.name=="Catch-MT",]) +
-  geom_line(data=sim.df[sim.df$ts.name=="SSB-MT",]) +
-  geom_line(data=sim.df[sim.df$ts.name=="F-1/yr",]) +
-  geom_line(data=sim.df[sim.df$ts.name=="R-E06",]) +
-  labs(x="Year", y="Value")
+g <- ggplot(data = sim.df, aes(x = year, y = ts.value)) +
+  # facet_grid(rows=vars(row.number), cols=vars(col.number), scales="free") +
+  facet_wrap(~panel.category, scales = "free", nrow = 2, strip.position = "top") +
+  geom_line(data = sim.df[sim.df$ts.name == "Catch-MT", ]) +
+  geom_line(data = sim.df[sim.df$ts.name == "SSB-MT", ]) +
+  geom_line(data = sim.df[sim.df$ts.name == "F-1/yr", ]) +
+  geom_line(data = sim.df[sim.df$ts.name == "R-E06", ]) +
+  labs(x = "Year", y = "Value")
 g + theme_csas()
 ```
 
@@ -130,35 +131,35 @@ An alternative version using cowplot:
 ## alternative using cowplot
 library(cowplot)
 
-g <- ggplot(data=sim.df, aes(x=year, y=ts.value, lty=ts.name)) + theme_csas()
-g1 <- g + 
-  geom_line(data=sim.df[sim.df$ts.name=="Catch-MT",]) +
-  geom_line(data=sim.df[sim.df$ts.name=="TAC-MT",]) + 
-  labs(x="Year", y="Catch-MT") 
+g <- ggplot(data = sim.df, aes(x = year, y = ts.value, lty = ts.name)) +
+  theme_csas()
+g1 <- g +
+  geom_line(data = sim.df[sim.df$ts.name == "Catch-MT", ]) +
+  geom_line(data = sim.df[sim.df$ts.name == "TAC-MT", ]) +
+  labs(x = "Year", y = "Catch-MT")
 
-g2 <- g + 
-  geom_line(data=sim.df[sim.df$ts.name=="SSB-MT",]) +
-  geom_line(data=sim.df[sim.df$ts.name=="SSBlow-MT",]) +
-  geom_line(data=sim.df[sim.df$ts.name=="SSBhigh-MT",]) +
-  geom_line(data=sim.df[sim.df$ts.name=="SSBlim-MT",])  + 
-  labs(x="Year", y="SSB-MT")
+g2 <- g +
+  geom_line(data = sim.df[sim.df$ts.name == "SSB-MT", ]) +
+  geom_line(data = sim.df[sim.df$ts.name == "SSBlow-MT", ]) +
+  geom_line(data = sim.df[sim.df$ts.name == "SSBhigh-MT", ]) +
+  geom_line(data = sim.df[sim.df$ts.name == "SSBlim-MT", ]) +
+  labs(x = "Year", y = "SSB-MT")
 
-g3 <- g + geom_line(data=sim.df[sim.df$ts.name=="F-1/yr",]) +
-  geom_line(data=sim.df[sim.df$ts.name=="Flim-1/yr",]) + 
-  geom_line(data=sim.df[sim.df$ts.name=="M-1/yr",]) + 
+g3 <- g + geom_line(data = sim.df[sim.df$ts.name == "F-1/yr", ]) +
+  geom_line(data = sim.df[sim.df$ts.name == "Flim-1/yr", ]) +
+  geom_line(data = sim.df[sim.df$ts.name == "M-1/yr", ]) +
   scale_y_continuous(
     # Features of the first axis
     name = "F-1/yr",
     # Add a second axis and specify its features
-    sec.axis = sec_axis( trans=~.*1, name="M-1/yr")
+    sec.axis = sec_axis(trans = ~ . * 1, name = "M-1/yr")
   ) +
-  labs(x="Year")
+  labs(x = "Year")
 
-g4 <- g + geom_line(data=sim.df[sim.df$ts.name=="R-E06",]) +
-  labs(x="Year", y="R-E06")
+g4 <- g + geom_line(data = sim.df[sim.df$ts.name == "R-E06", ]) +
+  labs(x = "Year", y = "R-E06")
 
-plot_grid(g1, g2, g3, g4, ncol=2, labels="auto")
-
+plot_grid(g1, g2, g3, g4, ncol = 2, labels = "auto")
 ```
 
 #### History of (Landings/Harvest/Effort), TAC (& Catch Advice) {-}
@@ -171,14 +172,14 @@ This section is used to report the available information on likely future trends
 Include: years of projection, the probability of tested and current catch causing biomass to remain below, or to decline below the reference points (probability of being below the LRP and below the USR) and probability of increasing above the Removal Reference. Include probability of stock growth next year if the stock is in the Critical Zone. Include ‘risk tables’ if possible. This section is mandatory, include N/A if projections are not available. 
 
 #### Harvest Decision Rule Update (if applicable) {-}
+
 Any figures or text necessary to incorporate related to updating a Harvest Decision Rule, that haven’t already been included.
 
 #### Evaluation of Exceptional Circumstances/Assessment Triggers (if applicable) {-}
+
 Evaluation of any exceptional circumstances to push for a re-evaluation of a management procedures in an MSE context, or triggers that would prompt an assessment earlier than the pre-agreed assessment cycle (as per SAR 2016/020). 
 
 ### INDIGENOUS CONTRIBUTIONS {-}
-
-
 
 ### BYCATCH (OPTIONAL SECTION)  {-}
 
@@ -195,15 +196,11 @@ Examples
 
 ### SOURCES OF UNCERTAINTY {-}
 
-
-
 ### LIST OF MEETING PARTICIPANTS {-}
 
 ```{r}
-particpants.df <- read.csv("./data/participants.csv")
+particpants.df <- read.csv(here::here("data", "participants.csv"))
 csas_table(particpants.df)
 ```
 
-
 ### SOURCES OF INFORMATION {-}
-
