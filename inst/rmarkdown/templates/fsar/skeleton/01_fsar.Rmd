@@ -91,10 +91,10 @@ sim.df <-
     data.frame(
       row.number=2,
       col.number=1,
-      panel.category=rep(categories[3], length(years)*4),
-      year=rep(years, 4),
-      ts.name=rep(c("F-1/yr","Flow-1/yr","Fhigh-1/yr","Flim-1/yr"), each=length(years)),
-      ts.value=c(ts1/500,(ts1+100)/500, (ts1-100)/500, ts1.2/500)
+      panel.category=rep(categories[3], length(years)*5),
+      year=rep(years, 5),
+      ts.name=rep(c("F-1/yr","Flow-1/yr","Fhigh-1/yr","Flim-1/yr","M-1/yr"), each=length(years)),
+      ts.value=c(ts1/500,(ts1+100)/500, (ts1-100)/500, ts1.2/500,rep(0.2,length(years)))
     ),
     data.frame(
       row.number=2,
@@ -145,7 +145,14 @@ g2 <- g +
 
 g3 <- g + geom_line(data=sim.df[sim.df$ts.name=="F-1/yr",]) +
   geom_line(data=sim.df[sim.df$ts.name=="Flim-1/yr",]) + 
-  labs(x="Year", y="F-1/yr")
+  geom_line(data=sim.df[sim.df$ts.name=="M-1/yr",]) + 
+  scale_y_continuous(
+    # Features of the first axis
+    name = "F-1/yr",
+    # Add a second axis and specify its features
+    sec.axis = sec_axis( trans=~.*1, name="M-1/yr")
+  ) +
+  labs(x="Year")
 
 g4 <- g + geom_line(data=sim.df[sim.df$ts.name=="R-E06",]) +
   labs(x="Year", y="R-E06")
@@ -192,6 +199,10 @@ Examples
 
 ### LIST OF MEETING PARTICIPANTS {-}
 
+```{r}
+particpants.df <- read.csv("./data/participants.csv")
+csas_table(particpants.df)
+```
 
 
 ### SOURCES OF INFORMATION {-}
