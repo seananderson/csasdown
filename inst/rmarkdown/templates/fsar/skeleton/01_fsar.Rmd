@@ -136,14 +136,21 @@ g <- ggplot(data = sim.df, aes(x = year, y = ts.value, lty = ts.name)) +
 g1 <- g +
   geom_line(data = sim.df[sim.df$ts.name == "Catch-MT", ]) +
   geom_line(data = sim.df[sim.df$ts.name == "TAC-MT", ]) +
-  labs(x = "Year", y = "Catch-MT")
+  labs(x = "Year", y = "Catch-MT") +
+  theme(legend.position=c(0.1,0.9), 
+        legend.background = element_rect(fill = "white", color = "black"),
+        legend.title=element_blank())
 
 g2 <- g +
   geom_line(data = sim.df[sim.df$ts.name == "SSB-MT", ]) +
   geom_line(data = sim.df[sim.df$ts.name == "SSBlow-MT", ]) +
   geom_line(data = sim.df[sim.df$ts.name == "SSBhigh-MT", ]) +
   geom_line(data = sim.df[sim.df$ts.name == "SSBlim-MT", ]) +
-  labs(x = "Year", y = "SSB-MT")
+  labs(x = "Year", y = "SSB-MT") +
+  theme(legend.position=c(0.1,0.9), 
+        legend.background = element_rect(fill = "white", color = "black"),
+        legend.title=element_blank())
+
 
 g3 <- g + geom_line(data = sim.df[sim.df$ts.name == "F-1/yr", ]) +
   geom_line(data = sim.df[sim.df$ts.name == "Flim-1/yr", ]) +
@@ -154,13 +161,45 @@ g3 <- g + geom_line(data = sim.df[sim.df$ts.name == "F-1/yr", ]) +
     # Add a second axis and specify its features
     sec.axis = sec_axis(trans = ~ . * 1, name = "M-1/yr")
   ) +
-  labs(x = "Year")
+  labs(x = "Year") +
+  theme(legend.position=c(0.1,0.9), 
+        legend.background = element_rect(fill = "white", color = "black"),
+        legend.title=element_blank())
+
 
 g4 <- g + geom_line(data = sim.df[sim.df$ts.name == "R-E06", ]) +
-  labs(x = "Year", y = "R-E06")
+  labs(x = "Year", y = "R-E06") +
+  theme(legend.position=c(0.1,0.9), 
+        legend.background = element_rect(fill = "white", color = "black"),
+        legend.title=element_blank())
+
 
 plot_grid(g1, g2, g3, g4, ncol = 2, labels = "auto")
 ```
+And yet another take to see if geom_ribbon could work for showing uncertainty estimates:
+
+```{r templates-3}
+## alternative using cowplot
+
+panel1.df <- tidyr::pivot_wider(sim.df[which(sim.df$panel.category=="SSB"),], names_from="ts.name", values_from="ts.value")
+names(panel1.df) <- c("row.number","col.number","panel.category","year","SSB","SSBlow","SSBhigh","SSBlim")
+
+g <- ggplot(data = panel1.df, aes(x = year, y = SSB, ymin=SSBlow, ymax=SSBhigh)) +
+  theme_csas()
+
+g1 <- g + 
+  geom_line() +
+  geom_ribbon(alpha=0.5) +
+  geom_line(aes(y=SSBlim)) +
+  labs(x = "Year", y = "SSB-MT") +
+  theme(legend.position=c(0.1,0.9), 
+        legend.background = element_rect(fill = "white", color = "black"),
+        legend.title=element_blank())
+
+g1
+
+```
+
 
 #### History of (Landings/Harvest/Effort), TAC (& Catch Advice) {-}
 
