@@ -208,25 +208,40 @@ g1
 
 ```
 
-And in base R:
+And in base R, in French and English:
 
 ```{r}
 in.df <- sim.df
 
+fourpanel.fig.fct <- function(language="EN") {
 mm <- matrix(c(rep(0,5),0,1,0,2,0,rep(0,5),0,3,0,4,0,rep(0,5)), nc=5, byrow = TRUE)
 ll <- layout(mm, widths=c(0.06,0.43,0.06,0.43,0.02), heights=c(c(0.02,0.45,0.04,0.45,0.04))) # layout.show(ll)
 par(mar=c(2,2,0,0))
 
-# top-left panel
+# top-left panel - Catch and TAC
 idx <- which(in.df$panel.category=="Catch")
-yl <- c(0,max(in.df[idx,"ts.value"])*1.25)
-idx <- which(in.df$panel.category=="Catch" & in.df$ts.name=="Catch-MT")
-plot(ts.value~year, data=in.df[idx,], type='l', lwd=2, axes=FALSE, xlab="", ylab="", ylim=yl)
-idx <- which(in.df$panel.category=="Catch" & in.df$ts.name=="TAC-MT")
-lines(ts.value~year, data=in.df[idx,], lty=2)
+yl <- c(0,max(in.df[idx,"ts.value"])*1.4)
+tl.df <- in.df[idx,]
+
+if(language=="EN"){
+  x.lab <- "Year"
+  y.lab <- "Catch"
+  legend.text <- c("Catch-MT","TAC-MT")
+  }
+if(language=="FR"){
+  x.lab <- "Année"
+  y.lab <- "Capture"
+  legend.text <- c("Capture-tonne","TAC-tonne")
+  }
+
+plot(ts.value~year, data=tl.df, type='n', axes=FALSE, xlab="", ylab="", ylim=yl)
+## Catch
+lines(ts.value~year, data=tl.df[which(tl.df$ts.name=="Catch-MT"),], type='l', lwd=2)
+## TAC
+lines(ts.value~year, data=tl.df[which(tl.df$ts.name=="TAC-MT"),], type='l', lty=2)
 
 legend("topleft", 
-       c("Catch","TAC"), 
+       legend.text, 
        lty=c(1,2),
        lwd=c(2,1),
        pch=c(-1,-1),
@@ -234,28 +249,37 @@ legend("topleft",
 
 axis(side=1, padj=-0.5)
 axis(side=2, las=1, hadj=0.9)
-mtext(side=1, "Year", line=2)
-mtext(side=2, "Catch (MT)", line=3)
+mtext(side=1, x.lab, line=2, cex=0.75)
+mtext(side=2, y.lab, line=3, cex=0.75)
 box()
+
 
 # top-right panel
 idx <- which(in.df$panel.category=="SSB")
-yl <- c(0,max(in.df[idx,"ts.value"])*1.25)
-idx <- which(in.df$panel.category=="SSB" & in.df$ts.name=="SSB-MT")
-plot(ts.value~year, data=in.df[idx,], type='l', lwd=2, axes=FALSE, xlab="", ylab="", ylim=yl)
-idx <- which(in.df$panel.category=="SSB" & in.df$ts.name=="SSBlow-MT")
-lines(ts.value~year, data=in.df[idx,], type='l', lty=2)
-idx <- which(in.df$panel.category=="SSB" & in.df$ts.name=="SSBhigh-MT")
-lines(ts.value~year, data=in.df[idx,], type='l', lty=2)
-idx <- which(in.df$panel.category=="SSB" & in.df$ts.name=="SSBlrp-MT")
-lines(ts.value~year, data=in.df[idx,], type='l', lty=3, lwd=2, col="red")
-#text(years[floor(length(years)/2)], max(in.df[idx,"ts.value"])*1.1, "SSBlrp")
-idx <- which(in.df$panel.category=="SSB" & in.df$ts.name=="SSBusr-MT")
-lines(ts.value~year, data=in.df[idx,], type='l', lty=3, lwd=2, col="forestgreen")
-#text(years[floor(length(years)/2)], max(in.df[idx,"ts.value"])*1.1, "SSBusr")
+yl <- c(0,max(in.df[idx,"ts.value"])*1.4)
+tr.df <- in.df[idx,]
+
+if(language=="EN"){
+  y.lab <- "Biomass"
+  legend.text <- c("SSB-MT", "95% confidence","LRP-MT","USR-MT")
+  }
+if(language=="FR"){
+  y.lab <- "Biomasse"
+  legend.text <- c("BSR-tonne", "confidence de 95%","NRL-tonne","NRS-tonne")
+  }
+
+plot(ts.value~year, data=tr.df, type='n', axes=FALSE, xlab="", ylab="", ylim=yl)
+## SSB
+lines(ts.value~year, data=tr.df[which(tr.df$ts.name=="SSB-MT"),], type='l', lwd=2)
+## lower and upper
+lines(ts.value~year, data=tr.df[which(tr.df$ts.name=="SSBlow-MT"),], type='l', lty=2)
+lines(ts.value~year, data=tr.df[which(tr.df$ts.name=="SSBhigh-MT"),], type='l', lty=2)
+## LRP and USR
+lines(ts.value~year, data=tr.df[which(tr.df$ts.name=="SSBlrp-MT"),], type='l', lty=3, lwd=2, col="red")
+lines(ts.value~year, data=tr.df[which(tr.df$ts.name=="SSBusr-MT"),], type='l', lty=3, lwd=2, col="forestgreen")
 
 legend("topleft",
-       c("SSB", "95% confidence", "USR","LRP"),
+       legend.text,
        lty=c(1,2,3,3),
        lwd=c(2,1,2,2),
        col=c("black","black","forestgreen","red"),
@@ -264,26 +288,33 @@ legend("topleft",
 
 axis(side=1, padj=-0.5)
 axis(side=2, las=1, hadj=0.9)
-mtext(side=1, "Year", line=2)
-mtext(side=2, "SSB (MT)", line=3)
+mtext(side=1, x.lab, line=2, cex=0.75)
+mtext(side=2, y.lab, line=3, cex=0.75)
 box()
-#legend("top", "SSB", bty="n")
 
 ## bottom-left panel
 idx <- which(in.df$panel.category=="Fishing")
-yl <- c(0,max(in.df[idx,"ts.value"])*1.25)
+yl <- c(0,max(in.df[idx,"ts.value"])*1.4)
+bl.df <- in.df[idx,]
+
+if(language=="EN"){
+  y.lab <- "Mortality"
+  legend.text <- c("F-1/yr", "95% confidence","Flim-1/yr")
+  }
+if(language=="FR"){
+  y.lab <- "Mortalité"
+  legend.text <- c("F-1/yr", "confidence de 95%","Flim-1/yr")
+  }
+
+
 idx <- which(in.df$panel.category=="Fishing" & in.df$ts.name=="F-1/yr")
-plot(ts.value~year, data=in.df[idx,], type='l', lwd=2, axes=FALSE, xlab="", ylab="", ylim=yl)
-idx <- which(in.df$panel.category=="Fishing" & in.df$ts.name=="Flow-1/yr")
-lines(ts.value~year, data=in.df[idx,], type='l', lty=2)
-idx <- which(in.df$panel.category=="Fishing" & in.df$ts.name=="Fhigh-1/yr")
-lines(ts.value~year, data=in.df[idx,], type='l', lty=2)
-idx <- which(in.df$panel.category=="Fishing" & in.df$ts.name=="Flim-1/yr")
-lines(ts.value~year, data=in.df[idx,], type='l', lty=3, lwd=2, col="red")
-#text(years[floor(length(years)/2)], max(in.df[idx,"ts.value"])*1.1, "Flim")
+plot(ts.value~year, data=bl.df[which(bl.df$ts.name=="F-1/yr"),], type='l', lwd=2, axes=FALSE, xlab="", ylab="", ylim=yl)
+lines(ts.value~year, data=bl.df[which(bl.df$ts.name=="Flow-1/yr"),], type='l', lty=2)
+lines(ts.value~year, data=bl.df[which(bl.df$ts.name=="Fhigh-1/yr"),], type='l', lty=2)
+lines(ts.value~year, data=bl.df[which(bl.df$ts.name=="Flim-1/yr"),], lty=3, lwd=2, col="red")
 
 legend("topleft",
-       c("F","95% confidence","Flim"),
+       legend.text,
        lty=c(1,2,3),
        lwd=c(2,1,2),
        col=c("black","black","red"),
@@ -292,24 +323,31 @@ legend("topleft",
 
 axis(side=1, padj=-0.5)
 axis(side=2, las=1, hadj=0.9)
-mtext(side=1, "Year", line=2)
-mtext(side=2, "Fishing mortality (per year)", line=3)
+mtext(side=1, x.lab, line=2, cex=0.75)
+mtext(side=2, y.lab, line=3, cex=0.75)
 
 box()
-#legend("top", "Fishing mortality", bty="n")
+
 
 ## bottom-right panel
 idx <- which(in.df$panel.category=="Recruitment")
-yl <- c(0,max(in.df[idx,"ts.value"])*1.1)
-idx <- which(in.df$panel.category=="Recruitment" & in.df$ts.name=="R-E06")
-plot(ts.value~year, data=in.df[idx,], type='l', lwd=2, axes=FALSE, xlab="", ylab="", ylim=yl)
-idx <- which(in.df$panel.category=="Recruitment" & in.df$ts.name=="Rlow-E06")
-lines(ts.value~year, data=in.df[idx,], type='l', lty=2)
-idx <- which(in.df$panel.category=="Recruitment" & in.df$ts.name=="Rhigh-E06")
-lines(ts.value~year, data=in.df[idx,], type='l', lty=2)
+yl <- c(0,max(in.df[idx,"ts.value"])*1.2)
+br.df <- in.df[idx,]
+
+if(language=="EN"){
+  y.lab <- "Recruitment"
+  legend.text <- c("R-E06", "95% confidence")
+  }
+if(language=="FR"){
+  y.lab <- "Recrutement"
+  legend.text <- c("R-E06", "confidence de 95%")
+  }
+plot(ts.value~year, data=br.df[which(br.df$ts.name=="R-E06"),], type='l', lwd=2, axes=FALSE, xlab="", ylab="", ylim=yl)
+lines(ts.value~year, data=br.df[which(br.df$ts.name=="Rlow-E06"),], type='l', lty=2)
+lines(ts.value~year, data=br.df[which(br.df$ts.name=="Rhigh-E06"),], type='l', lty=2)
 
 legend("topleft",
-       c("R","95% confidence"),
+       legend.text,
        lty=c(1,2),
        lwd=c(2,1),
        col=c("black","black"),
@@ -317,16 +355,63 @@ legend("topleft",
        )
 
 axis(side=1, padj=-0.5)
-mtext(side=1, "Year", line=2)
+mtext(side=1, x.lab, line=2, cex=0.75)
 axis(side=2, las=1, hadj=0.9)
-mtext(side=1, "Year", line=2)
-mtext(side=2, "Recruits (E06)", line=3)
+mtext(side=2, y.lab, line=3, cex=0.75)
 box()
-#legend("top", "Recruitment", bty="n")
+} # end function definition
 
 
+## English template
+fourpanel.fig.fct("EN")
+## French template
+fourpanel.fig.fct("FR")
 ```
 
+Following Michelle's suggestion, coming from another template, suggesting that "Confidence/credible intervals should be presented graphically with shading that includes fading edges at more extreme probabilities in order to better characterize improbably but high consequence events".
+
+```{r}
+# https://mattwilkens.com/2014/08/20/visualizing-uncertainty-with-probability-clouds/
+library(ggplot2)
+
+se_limit     = 0.95  # Largest standard error level to show; valid range 0 to 1
+se_regions   = 100   # Number of regions in uncertainty cloud. 100 is a lot;
+                     #   a little slow, but produces very smooth cloud.
+se_alpha_max = 0.8   # How dark to make region at center of uncertainty cloud.
+                     #   0.5 = 50% grey.
+line_type    = 0     # A ggplot2 linetype for fit line; 0 = none, 1 = solid
+
+data <- data.frame(x=seq(1:70), y= 1000 + ((arima.sim(list(order = c(1, 0, 0), ar = 0.9), n = length(1:70)))*200))
+
+p = ggplot(data=data, aes(x, y))
+p <- p + theme_csas()
+for(i in 1:se_regions) { # This loop generates the uncertainty density shading 
+	p = p + geom_smooth(method = "lm", linetype = line_type, fill = "black", level = i*se_limit/se_regions, alpha = se_alpha_max/(se_regions))
+} 
+p #
+```
+
+Using the denstrip package:
+```{r}
+library(denstrip)
+x <- 1:10
+nx <- length(x)
+est <- seq(0, 1, length=nx)
+lcl <- seq(-1, 0, length=nx)
+ucl <- seq(1, 2, length=nx)
+se <- (est - lcl)/qnorm(0.975)
+y <- seq(-3, 3, length=100)
+z <- matrix(nrow=nx, ncol=length(y))
+for(i in 1:nx)
+z[i,] <- dnorm(y, est[i], se[i])
+
+plot(x, type="n", ylim=c(-1.5, 2.5))
+densregion.normal(x, est, se, ny=50, colmax=grey(0.3))
+lines(x, est)
+lines(x, lcl, lty=2)
+lines(x, ucl, lty=2)
+
+```
 
 #### History of (Landings/Harvest/Effort), TAC (& Catch Advice) {-}
 
