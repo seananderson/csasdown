@@ -167,6 +167,22 @@ g4 <- ggplot(data = df, aes(x = year)) +
   theme(axis.title.y = ggtext::element_markdown())
 
 plot_grid(g1, g2, g3, g4, ncol = 2, labels = "auto")
+
+# Option for plotting catch by gear as a stacked bar chart
+# Sample data
+catch_by_gear_df <- 
+  df %>%
+    mutate(gear1 = 1 * (`Catch-MT` / 5), gear2 = 4 * (`Catch-MT` / 5)) %>%
+    pivot_longer(cols = gear1:gear2, names_to = "gear")  # gear type as a column
+
+catch_barplot <- 
+  ggplot(data = catch_by_gear_df, aes(x = year)) +
+  geom_bar(aes(y = `Catch-MT`, fill = gear), stat = "identity") +
+  scale_fill_brewer(type = "qual", palette = "Dark2") +
+  scale_y_continuous(expand = c(0, NA)) +
+  labs(x = "Year", y = "Catch (t)") +
+  theme_csas()
+catch_barplot
 ```
 
 Yet another take to see if geom_ribbon could work for showing uncertainty estimates:
