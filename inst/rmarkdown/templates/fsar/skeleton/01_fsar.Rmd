@@ -129,48 +129,42 @@ An alternative version using cowplot:
 ## alternative using cowplot
 library(cowplot)
 
-g <- ggplot(data = sim.df, aes(x = year, y = ts.value, lty = ts.name)) +
+# Use wide format for ggplots
+df <- sim.df %>% 
+  pivot_wider(id_cols = c(year), names_from = ts.name, values_from = ts.value)
+
+# Catch
+g1 <- ggplot(data = df, aes(x = year)) +
+  geom_line(aes(y = `Catch-MT`)) +
+  geom_line(aes(y = `TAC-MT`), linetype = "dashed", colour = "grey45") + 
+  ylim(c(0, NA)) +
+  labs(x = "Year", y = "Catch (t)") +
   theme_csas()
-g1 <- g +
-  geom_line(data = sim.df[sim.df$ts.name == "Catch-MT", ]) +
-  geom_line(data = sim.df[sim.df$ts.name == "TAC-MT", ]) +
-  labs(x = "Year", y = "Catch-MT") +
-  theme(legend.position=c(0.1,0.9), 
-        legend.background = element_rect(fill = "white", color = "black"),
-        legend.title=element_blank())
 
-g2 <- g +
-  geom_line(data = sim.df[sim.df$ts.name == "SSB-MT", ]) +
-  geom_line(data = sim.df[sim.df$ts.name == "SSBlow-MT", ]) +
-  geom_line(data = sim.df[sim.df$ts.name == "SSBhigh-MT", ]) +
-  geom_line(data = sim.df[sim.df$ts.name == "SSBlrp-MT", ]) +
-  labs(x = "Year", y = "SSB-MT") +
-  theme(legend.position=c(0.1,0.9), 
-        legend.background = element_rect(fill = "white", color = "black"),
-        legend.title=element_blank())
+# SSB = Spawning stock biomass
+g2 <- ggplot(data = df, aes(x = year)) +
+  geom_line(aes(y = `SSB-MT`)) + 
+  geom_ribbon(aes(ymin = `SSBlow-MT`, ymax = `SSBhigh-MT`), alpha = 0.3) + 
+  geom_line(aes(y = `SSBlrp-MT`), linetype = 'dashed', colour = 'red') +
+  geom_line(aes(y = `SSBusr-MT`), linetype = 'dashed', colour = 'grey45') + 
+  labs(x = "Year", y = "SSB (t)") +
+  theme_csas()
 
+# Instantaneous fishing mortality
+g3 <- ggplot(data = df, aes(x = year)) +
+  geom_line(aes(y = `F-1/yr`)) + 
+  geom_ribbon(aes(ymin = `Flow-1/yr`, ymax = `Fhigh-1/yr`), alpha = 0.3) +
+  geom_line(aes(y = `Flim-1/yr`), linetype = 'dashed', colour = 'grey45') + 
+  labs(x = "Year", y = "Fishing mortality (yr<sup>-1</sup>)") +
+  theme_csas() + 
+  theme(axis.title.y = ggtext::element_markdown())
 
-g3 <- g + geom_line(data = sim.df[sim.df$ts.name == "F-1/yr", ]) +
-  geom_line(data = sim.df[sim.df$ts.name == "Flim-1/yr", ]) +
-  geom_line(data = sim.df[sim.df$ts.name == "M-1/yr", ]) +
-  scale_y_continuous(
-    # Features of the first axis
-    name = "F-1/yr",
-    # Add a second axis and specify its features
-    sec.axis = sec_axis(trans = ~ . * 1, name = "M-1/yr")
-  ) +
-  labs(x = "Year") +
-  theme(legend.position=c(0.1,0.9), 
-        legend.background = element_rect(fill = "white", color = "black"),
-        legend.title=element_blank())
-
-
-g4 <- g + geom_line(data = sim.df[sim.df$ts.name == "R-E06", ]) +
-  labs(x = "Year", y = "R-E06") +
-  theme(legend.position=c(0.1,0.9), 
-        legend.background = element_rect(fill = "white", color = "black"),
-        legend.title=element_blank())
-
+g4 <- ggplot(data = df, aes(x = year)) + 
+  geom_line(aes(y = `R-E06`)) + 
+  geom_ribbon(aes(ymin = `Rlow-E06`, ymax = `Rhigh-E06`), alpha = 0.3) +
+  labs(x = "Year", y = "Recruitment (10<sup>6</sup>)") +
+  theme_csas() +
+  theme(axis.title.y = ggtext::element_markdown())
 
 plot_grid(g1, g2, g3, g4, ncol = 2, labels = "auto")
 ```
