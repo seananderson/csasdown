@@ -81,32 +81,24 @@ ts2.2 <- rep(1500, length(years))
 sim.df <-
   rbind(
     data.frame(
-      row.number = 1,
-      col.number = 1,
       panel.category = rep(categories[1], length(years) * 2),
       year = rep(years, 2),
       ts.name = rep(c("Catch-MT", "TAC-MT"), each = length(years)),
       ts.value = c(ts1, ts1.2)
     ),
     data.frame(
-      row.number = 1,
-      col.number = 2,
       panel.category = rep(categories[2], length(years) * 5),
       year = rep(years, 5),
       ts.name = rep(c("SSB-MT", "SSBlow-MT", "SSBhigh-MT", "SSBlrp-MT", "SSBusr-MT"), each = length(years)),
       ts.value = c(ts2, ts2 + 500, ts2 - 500, ts2.2, ts2.2*2)
     ),
     data.frame(
-      row.number = 2,
-      col.number = 1,
       panel.category = rep(categories[3], length(years) * 5),
       year = rep(years, 5),
       ts.name = rep(c("F-1/yr", "Flow-1/yr", "Fhigh-1/yr", "Flim-1/yr", "M-1/yr"), each = length(years)),
       ts.value = c(ts1 / 500, (ts1 + 100) / 500, (ts1 - 100) / 500, ts1.2 / 400, rep(0.2, length(years)))
     ),
     data.frame(
-      row.number = 2,
-      col.number = 2,
       panel.category = rep(categories[4], length(years) * 3),
       year = rep(years, 3),
       ts.name = rep(c("R-E06", "Rlow-E06", "Rhigh-E06"), each = length(years)),
@@ -122,7 +114,6 @@ Testing a four-panel template using basic ggplot with `theme_csas()`:
 ```{r templates-1}
 library(ggplot2)
 g <- ggplot(data = sim.df, aes(x = year, y = ts.value)) +
-  # facet_grid(rows=vars(row.number), cols=vars(col.number), scales="free") +
   facet_wrap(~panel.category, scales = "free", nrow = 2, strip.position = "top") +
   geom_line(data = sim.df[sim.df$ts.name == "Catch-MT", ]) +
   geom_line(data = sim.df[sim.df$ts.name == "SSB-MT", ]) +
