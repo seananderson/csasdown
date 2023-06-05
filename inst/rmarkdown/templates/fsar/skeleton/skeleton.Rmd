@@ -29,17 +29,15 @@ knitr::opts_chunk$set(
   fig.width = 7,
   echo = FALSE,
   dev = "png",
-  dpi = 180,
-  fig.align = "center"
+  dpi = 180
 )
 ```
 
 ```{r load-libraries, cache=FALSE}
 # add other packages here:
+library(dplyr)
+library(ggplot2)
 
-# library(dplyr)
-# library(ggplot2)
-
-# library(rosettafish)
-# library(csasdown)
+library(rosettafish)
+library(csasdown)
 ```

@@ -184,13 +184,11 @@ catch_barplot <-
 catch_barplot
 ```
 
-Yet another take to see if geom_ribbon could work for showing uncertainty estimates:
+Yet another take to see if `geom_ribbon()` could work for showing uncertainty estimates:
 
 ```{r templates-3}
-## alternative using cowplot
-
-panel1.df <- tidyr::pivot_wider(sim.df[which(sim.df$panel.category == "SSB"), ], names_from = "ts.name", values_from = "ts.value")
-names(panel1.df) <- c("row.number", "col.number", "panel.category", "year", "SSB", "SSBlow", "SSBhigh", "SSBlrp", "SSBusr")
+panel1.df <- tidyr::pivot_wider(sim.df[sim.df$panel.category == "SSB", ], names_from = "ts.name", values_from = "ts.value")
+names(panel1.df) <- c("panel.category", "year", "SSB", "SSBlow", "SSBhigh", "SSBlrp", "SSBusr")
 
 g <- ggplot(data = panel1.df, aes(x = year, y = SSB, ymin = SSBlow, ymax = SSBhigh)) +
   theme_csas()
@@ -395,24 +393,24 @@ p #
 
 Using the denstrip package:
 ```{r}
-library(denstrip)
-x <- 1:10
-nx <- length(x)
-est <- seq(0, 1, length = nx)
-lcl <- seq(-1, 0, length = nx)
-ucl <- seq(1, 2, length = nx)
-se <- (est - lcl) / qnorm(0.975)
-y <- seq(-3, 3, length = 100)
-z <- matrix(nrow = nx, ncol = length(y))
-for (i in 1:nx) {
-  z[i, ] <- dnorm(y, est[i], se[i])
-}
-
-plot(x, type = "n", ylim = c(-1.5, 2.5))
-densregion.normal(x, est, se, ny = 50, colmax = grey(0.3))
-lines(x, est)
-lines(x, lcl, lty = 2)
-lines(x, ucl, lty = 2)
+# library(denstrip)
+# x <- 1:10
+# nx <- length(x)
+# est <- seq(0, 1, length = nx)
+# lcl <- seq(-1, 0, length = nx)
+# ucl <- seq(1, 2, length = nx)
+# se <- (est - lcl) / qnorm(0.975)
+# y <- seq(-3, 3, length = 100)
+# z <- matrix(nrow = nx, ncol = length(y))
+# for (i in 1:nx) {
+#   z[i, ] <- dnorm(y, est[i], se[i])
+# }
+#
+# plot(x, type = "n", ylim = c(-1.5, 2.5))
+# densregion.normal(x, est, se, ny = 50, colmax = grey(0.3))
+# lines(x, est)
+# lines(x, lcl, lty = 2)
+# lines(x, ucl, lty = 2)
 ```
 
 #### History of (Landings/Harvest/Effort), TAC (& Catch Advice) {-}
@@ -440,7 +438,7 @@ Estimates of bycatch of non-target species. Target species caught in other fishe
 
 ### OTHER MANAGEMENT QUESTIONS (OPTIONAL SECTION) {-}
 
-It is preferable that other management questions be addressed in a sperate meeting, with a regular SAR document. However, if there is a management question that must be addressed during the full assessment, a brief summary of the evaluation can be placed here if it is relevant for decision making, and bullets added to the science advice section. Examples of science advice that has been given in a full assessment meeting:
+It is preferable that other management questions be addressed in a seperate meeting, with a regular SAR document. However, if there is a management question that must be addressed during the full assessment, a brief summary of the evaluation can be placed here if it is relevant for decision making, and bullets added to the science advice section. Examples of science advice that has been given in a full assessment meeting:
 
 Examples
 - Science advice to set minimum legal size for the fishery; evaluation of size at sexual maturity
