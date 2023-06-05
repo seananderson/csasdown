@@ -172,7 +172,7 @@ cowplot::plot_grid(g1, g2, g3, g4, ncol = 2, labels = "auto")
 catch_by_gear_df <-
   df |>
   mutate(gear1 = 1 * (`Catch-MT` / 5), gear2 = 4 * (`Catch-MT` / 5)) |>
-  pivot_longer(cols = gear1:gear2, names_to = "gear") # gear type as a column
+  tidyr::pivot_longer(cols = gear1:gear2, names_to = "gear") # gear type as a column
 
 catch_barplot <-
   ggplot(data = catch_by_gear_df, aes(x = year)) +
