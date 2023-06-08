@@ -11,7 +11,7 @@
 \RequirePackage{booktabs}  % Nicer table formatting
 \RequirePackage{textcomp}  % Prevents two warnings in gensymb
 \RequirePackage{gensymb}  % Symbols for math and text
-% \RequirePackage[running]{lineno}  % Number lines (editing)
+\RequirePackage[running]{lineno}  % Number lines (editing)
 \RequirePackage{longtable}  % Long tables (multi-page)
 \RequirePackage{amsmath}  % Math facilities
 \RequirePackage{microtype}  % Better type handling
@@ -119,23 +119,23 @@
 \renewcommand{\dblfloatpagefraction}{0.7}  % Require fuller float pages
 
 % % Line numbers (e.g., for drafts) don't like equations: this is a fix
-% \newcommand*\patchAmsMathEnvironmentForLineno[1]{%
-%   \expandafter\let\csname old#1\expandafter\endcsname\csname #1\endcsname
-%   \expandafter\let\csname oldend#1\expandafter\endcsname\csname end#1\endcsname
-%   \renewenvironment{#1}%
-%      {\linenomath\csname old#1\endcsname}%
-%      {\csname oldend#1\endcsname\endlinenomath}}%
-% \newcommand*\patchBothAmsMathEnvironmentsForLineno[1]{%
-%   \patchAmsMathEnvironmentForLineno{#1}%
-%   \patchAmsMathEnvironmentForLineno{#1*}}%
-% \AtBeginDocument{%
-% \patchBothAmsMathEnvironmentsForLineno{equation}%
-% \patchBothAmsMathEnvironmentsForLineno{align}%
-% \patchBothAmsMathEnvironmentsForLineno{flalign}%
-% \patchBothAmsMathEnvironmentsForLineno{alignat}%
-% \patchBothAmsMathEnvironmentsForLineno{gather}%
-% \patchBothAmsMathEnvironmentsForLineno{multline}%
-% }
+\newcommand*\patchAmsMathEnvironmentForLineno[1]{%
+  \expandafter\let\csname old#1\expandafter\endcsname\csname #1\endcsname
+  \expandafter\let\csname oldend#1\expandafter\endcsname\csname end#1\endcsname
+  \renewenvironment{#1}%
+     {\linenomath\csname old#1\endcsname}%
+     {\csname oldend#1\endcsname\endlinenomath}}%
+\newcommand*\patchBothAmsMathEnvironmentsForLineno[1]{%
+  \patchAmsMathEnvironmentForLineno{#1}%
+  \patchAmsMathEnvironmentForLineno{#1*}}%
+\AtBeginDocument{%
+\patchBothAmsMathEnvironmentsForLineno{equation}%
+\patchBothAmsMathEnvironmentsForLineno{align}%
+\patchBothAmsMathEnvironmentsForLineno{flalign}%
+\patchBothAmsMathEnvironmentsForLineno{alignat}%
+\patchBothAmsMathEnvironmentsForLineno{gather}%
+\patchBothAmsMathEnvironmentsForLineno{multline}%
+}
 
 % Section formatting (in titles only, not x-refs or toc)
 %\makeatletter
@@ -375,7 +375,7 @@ by
 % Fourth page: Colophon
 \vspace*{\fill}
 \begin{center}
-\copyright{} His Majesty the King in Right of Canada, \trYear{}\\
+\copyright{} His Majesty the King in Right of Canada, as represented by the Minister of the\\ Department of Fisheries and Oceans, \trYear{}\\
 Cat. No. Fs97-6/\trReportNum{}E-PDF \quad ISBN \trISBN{} \quad ISSN 1488-5379
 \end{center}
 \par
