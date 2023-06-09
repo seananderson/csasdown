@@ -21,7 +21,7 @@ rename_output_files <- function(index_fn, verbose = FALSE){
   # This will be resdoc_pdf, sr_word, etc.
   csas_render_type <- get_render_type(index_fn)
 
-  # This will be resdoc, sr, or techreport
+  # This will be resdoc, sr, techreport, or manureport
   render_type <- gsub("(\\S+)_\\S+$", "\\1", csas_render_type)
 
   # This will be pdf or word

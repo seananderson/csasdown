@@ -1,0 +1,155 @@
+# Methods
+
+To render the document in French, simply open `index.Rmd` and change this:
+
+````
+output:
+ csasdown::manureport_pdf:
+   french: false
+````
+to this:
+````
+output:
+ csasdown::manureport_pdf:
+   french: true
+````
+and render as usual. You can switch back and forth at any time to see the changes in the examples. If you develop your document with this in mind you will save yourself a lot of work when you receive the translations and it's time to publish the French version. Try it now, and once in awhile when you are developing your document.
+
+> *Note that Technical Reports are not required to be in both languages, but Science Reponses and Research Documents are.*
+
+Here is a simple figure plotted in a `knitr` code chunk. Look at the code (`02_methods.Rmd`) to see how all figure and table captions should be written to permit easy migration to French.
+
+(ref:testfig) Test figure with a caption will be numbered automatically.
+
+(ref:testfig-french) French caption would go here once you've had it translated.
+
+```{r testfig, fig.pos="H", fig.cap = ifelse(fr(), "(ref:testfig-french)", "(ref:testfig)")}
+plot(cars)
+```
+
+Here are two ways to make the same example data frame and simple `csas_table()` calls for each: 
+
+```{r testtab, echo=TRUE}
+d <- structure(list(
+  Year = c("2018", "2019", "2020"), 
+  `Value 1` = c(1.12, 2.32, 3.67), 
+  `Value 2` = c(31.9, 2.8, 112.2)), 
+  row.names = c(NA, -3L), class = "data.frame")
+  names(d) <- c(en2fr("Year"),
+                 paste0(en2fr("Value"), 1),
+                 paste0(en2fr("Value"), 2))
+csasdown::csas_table(d,
+  align = c("c", "r", "r"),
+  caption = ifelse(fr(),
+                   "French goes here",
+                   "Test table (data is d) with a caption will be numbered automatically."))
+```
+
+```{r testtab2, echo=TRUE}
+d1 <- tribble(
+  ~Year, ~`Value 1`, ~`Value 2`,
+   2018,       1.12,       31.9,
+   2019,       2.32,        2.8,
+   2020,       3.67,      112.2)
+names(d1) <- c(en2fr("Year"),
+               paste0(en2fr("Value"), 1),
+               paste0(en2fr("Value"), 2))
+csasdown::csas_table(d1,
+  align = c("c", "r", "r"),
+  caption = ifelse(fr(),
+                   "French goes here",
+                   "Test table (data is d1) with a caption will be numbered automatically."))
+```
+
+Notice the difference in how the English and French captions are generated for tables compared to the way they are generated for figures.
+
+To reference the tables and figures, just place code like this for tables: `\@ref(tab:testtab)` inline in text (`testtab` is the knitr code chunk name) and like this for figures: `\@ref(fig:testfig)`. Note the difference in the tag preceeding the colon in those code snippets, `tab` for table references and `fig` for figure references (See Table \@ref(tab:ref-tab) for all types). Here are the table references so far in this document: Table \@ref(tab:testtab) and Table \@ref(tab:testtab2), and the figure reference: Figure \@ref(fig:testfig). The numbers are clickable.
+
+Next we show a more complicated table with grouped rows and text wrapping. The code becomes more difficult when you want to make non-trivial tables, so it is recommended to think about how to keep tables as simple as possible to avoid this kind of code if you're not comfortable with it. 
+
+The code below works like this:
+
+1. `read_csv(file.path("data", "multirow.csv"))` - reads data in from the data file
+2. `mutate_all(function(x){gsub("\\\\n", "\n", x)})` -  changes `\\n` to `\n` in all columns. Even though the data file contains only `\n`, the `readr::read_csv()` function changes these to `\\n`. The extra backslashes are required to escape the two, so four are needed
+3. `mutate_all(kableExtra::linebreak)` -  replaces `\n`'s in all columns with a special LaTeX command that causes newlines to be created
+4. `mutate_all(function(x){gsub("%", "\\\\%", x)})` - replaces percent signs with an escaped version in all columns, as they are special characters in LaTeX
+5. `mutate_all(function(x){gsub("emph\\{", "\\\\emph\\{", x)})` - replaces `emph{` with an escaped version in all columns so that LaTeX can run it as its own command `emph{}` (italicization)
+6. Remove all NA's from the grouping column, replacing them with empty strings so `NA` doesn't appear in the output table
+7. `csas_table()` command - makes the table from the input data
+8. The 5 `kableExtra::row_spec(XX, hline_after = TRUE)` commands - insert a horizontal line across the whole table after each group.
+9. The lines with `kableExtra::row_spec(1, extra_latex_after = "\\cmidrule(l){2-2}") |>` commands - insert a horizontal line across the second column only (`{2-2}` signifies the column range)
+10. The 2 `kableExtra::column_spec(XX, width = "XXem")` commands - change the width of the column to a set value. This has the effect of wrapping the text so it doesn't run off the page
+
+Understanding how this table works will take you a long way in LaTex table generation. For example you could make any text bold that you want by using `\textbf{}` instead of `\emph{}`. To do that, you would just change the `emph` in the data file (`multirow.csv`) to `textbf` and add a the following new line into the code below, right before or after the line that deals with `emph`:
+
+`mutate_all(function(x){gsub("textbf\\{", "\\\\textbf\\{", x)}) |>`
+
+```{r multi-row-table, echo=TRUE}
+read_csv(file.path("data", "multirow.csv")) |> 
+  mutate_all(function(x){gsub("\\\\n", "\n", x)}) |> 
+  mutate_all(kableExtra::linebreak) |>
+  mutate_all(function(x){gsub("%", "\\\\%", x)}) |> 
+  mutate_all(function(x){gsub("emph\\{", "\\\\emph\\{", x)}) |> 
+  mutate(`Overarching goal` = ifelse(is.na(`Overarching goal`),
+                                     "",
+                                     `Overarching goal`)) |> 
+  csas_table(format = "latex",
+             escape = FALSE,
+             font_size = 11,
+             bold_header = FALSE,
+             caption = ifelse(fr(),
+                              "French goes here",
+                              "Goals and performance metrics")) |>
+  kableExtra::row_spec(1, extra_latex_after = "\\cmidrule(l){2-2}") |> 
+  kableExtra::row_spec(2, extra_latex_after = "\\cmidrule(l){2-2}") |> 
+  kableExtra::row_spec(3, extra_latex_after = "\\cmidrule(l){2-2}") |> 
+  kableExtra::row_spec(4, hline_after = TRUE) |> 
+  kableExtra::row_spec(5, extra_latex_after = "\\cmidrule(l){2-2}") |> 
+  kableExtra::row_spec(6, extra_latex_after = "\\cmidrule(l){2-2}") |> 
+  kableExtra::row_spec(7, extra_latex_after = "\\cmidrule(l){2-2}") |> 
+  kableExtra::row_spec(8, extra_latex_after = "\\cmidrule(l){2-2}") |> 
+  kableExtra::row_spec(9, extra_latex_after = "\\cmidrule(l){2-2}") |> 
+  kableExtra::row_spec(10, hline_after = TRUE) |> 
+  kableExtra::row_spec(11, extra_latex_after = "\\cmidrule(l){2-2}") |> 
+  kableExtra::row_spec(12, extra_latex_after = "\\cmidrule(l){2-2}") |> 
+  kableExtra::row_spec(13, extra_latex_after = "\\cmidrule(l){2-2}") |> 
+  kableExtra::row_spec(14, extra_latex_after = "\\cmidrule(l){2-2}") |> 
+  kableExtra::row_spec(15, hline_after = TRUE) |> 
+  kableExtra::row_spec(16, hline_after = TRUE) |> 
+  kableExtra::row_spec(17, extra_latex_after = "\\cmidrule(l){2-2}") |> 
+  kableExtra::row_spec(18, extra_latex_after = "\\cmidrule(l){2-2}") |> 
+  kableExtra::row_spec(19, hline_after = TRUE) |> 
+  kableExtra::column_spec(1, width = "15em") |>
+  kableExtra::column_spec(2, width = "30em")
+
+```
+
+While building complex tables you must take an iterative approach once you've made the basic table and want to add detailed elements: add one element; test; fix errors; fix logic/design issues; repeat. In the construction of Table \@ref(tab:multi-row-table), one line of code at a time was added with the results checked and made sure to be correct before adding the next line of code.
+
+On the following pages we have an example of a long and wide table which is in landscape mode. This is accomplished by setting `landscape = TRUE` in the `csas_table()` call. You can change the font size if the table it still too large and overlaps the header and footer lines.
+
+\clearpage
+
+<!-- clearpage ends the page, and also dumps out all floats.
+Floats are things like tables and figures. -->
+\begin{landscapepage}
+```{r widelong, results = "asis"}
+yrs <- 1:45
+ages <- 1:15
+widelong <- matrix(round(rnorm(length(yrs) * length(ages), 20), 4),
+  nr = length(yrs),
+  nc = length(ages),
+  dimnames = list(year = yrs, age = ages))
+widelong_df <- data.frame(cbind(yrs, widelong))
+
+csasdown::csas_table(widelong_df,
+  col.names = c("Year", as.character(ages)),
+  caption = "A long and wide table",
+  format = "latex",
+  bold_header = FALSE,
+  font_size = 8)
+```
+\end{landscapepage}
+\clearpage
+
+It is often useful to group certain rows of a table that share the same information. This can be achieved using the `kableExtra::collapse_rows` and `kableExtra::group_rows` and `kableExtra::pack_rows`.

@@ -18,8 +18,8 @@ get_render_type(
 }
 \value{
 A character string representing the render type. One of
-\code{resdoc_pdf}, \code{resdoc_word}, \code{sr_pdf}, \code{sr_word}, \code{techreport_pdf} or
-\code{techreport_word}
+\code{resdoc_pdf}, \code{resdoc_word}, \code{sr_pdf}, \code{sr_word}, \code{techreport_pdf},
+\code{techreport_word}, \code{manureport_pdf},  or \code{manureport_word}
 }
 \description{
 Get the the type of document to render by extracting from the YAML tags in

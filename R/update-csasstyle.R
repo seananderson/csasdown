@@ -16,7 +16,7 @@
 #' e.g. 2 = every second line, 3 = every 3rd line, etc.
 #' @param which_sty Name of the style file to modify
 #' @param lot_lof Logical. If `TRUE`, include list of tables and list of
-#' figures in the document. Implemented only for 'resdoc' and 'techreport'
+#' figures in the document. Implemented only for 'resdoc', 'manureport' and 'techreport'
 #' @param draft_watermark Logical. If `TRUE`, show a DRAFT watermark on all
 #' pages of the output document
 #'
@@ -81,7 +81,7 @@ update_csasstyle <- function(copy = TRUE,
       }
     }
     if (lot_lof) {
-      if (grepl("res-doc", which_sty) | grepl("tech-report", which_sty)) {
+      if (grepl("res-doc", which_sty) | grepl("tech-report", which_sty) | grepl("manu-report", which_sty)) {
         pagenumbering_loc <- grep("pagenumbering\\{arabic", csas_style)
         beg_of_file <- csas_style[seq(1, (pagenumbering_loc - 1))]
         end_of_file <- csas_style[seq(pagenumbering_loc, length(csas_style))]
@@ -91,8 +91,8 @@ update_csasstyle <- function(copy = TRUE,
         csas_style <- c(beg_of_file, lot, cp, lof, cp, end_of_file)
         writeLines(csas_style, file.path("csas-style", which_sty))
       } else { # nocov start
-        alert(csas_color("lot_lof"), " is only implemented for Res Docs and ",
-              "TechReports.")
+        alert(csas_color("lot_lof"), " is only implemented for Res Docs, ",
+              "ManuReports and TechReports.")
       } # nocov end
     }
     if(draft_watermark){

@@ -1,0 +1,9 @@
+book_filename: "manureport"
+rmd_files: ["index.Rmd",
+            "01_introduction.Rmd",
+            "02_methods.Rmd",
+            "03_results.Rmd",
+            "04_discussion.Rmd",
+            "05_appendix.Rmd",
+            "06_bibliography.Rmd"]
+delete_merged_file: true

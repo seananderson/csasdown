@@ -3,7 +3,7 @@
 #' Create a draft of an R Markdown CSAS document
 #'
 #' @param type The type of document to draft. Must be one of `resdoc`,
-#' `resdoc-b`, `sr`, or `techreport`
+#' `resdoc-b`, `sr`, `techreport`, or `manureport`
 #' @param directory The directory to place the draft document files.
 #' Is the current directory by default
 #' @param fn Bookdown starting file, `index.Rmd` by default
@@ -28,9 +28,10 @@
 #' csasdown::draft("resdoc-b")
 #' csasdown::draft("sr")
 #' csasdown::draft("techreport")
+#' csasdown::draft("manureport")
 #' }
 #' @export
-draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport"),
+draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport"),
                   directory = getwd(),
                   fn = "index.Rmd",
                   edit = FALSE,
@@ -42,10 +43,11 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport"),
   # nocov start
   if(!grepl("\\/rmarkdown\\/templates", type)){
     # This is necessary so this function also works with unit testing
-    if(!type %in% c("resdoc", "resdoc-b", "sr", "techreport")){
+    if(!type %in% c("resdoc", "resdoc-b", "sr", "techreport", "manureport")){
       alert(csas_color("type"), " should be one of ",
             csas_color("resdoc"), ", ", csas_color("resdoc-b"), ", ",
-            csas_color("sr"), ", or ", csas_color("techreport"),
+            csas_color("sr"),
+            csas_color("techreport"), ", or ", csas_color("manureport"),
             call. = FALSE)
     }
     package <- "csasdown"

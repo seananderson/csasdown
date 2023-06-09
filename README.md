@@ -50,13 +50,20 @@ You can do the same for a Technical Report:
 csasdown::draft("techreport")
 ```
 
+a Manuscript Report:
+
+```r
+csasdown::draft("manureport")
+```
+
+
 or for a Science Response:
 
 ```r
 csasdown::draft("sr")
 ```
 
-Note that the `techreport` example contains a lot of information on getting started with R Markdown and should be the first one you render if you are new to `csasdown`. The `resdoc` example contains other examples.
+Note that the `techreport` and `manureport` examples contain a lot of information on getting started with R Markdown and should be the first one you render if you are new to `csasdown`. The `resdoc` example contains other examples.
 
 The `resdoc-b` contains examples and guidance on setting up chunks to hold both English and French Rmarkdown, and explanations of the features introduced in version 0.1.0 (see the [NEWS](https://github.com/pbs-assess/csasdown/blob/main/NEWS.md) file).
 
@@ -111,7 +118,7 @@ output:
    french: false
 ```
 
-To render other types of *csasdown* documents, replace `resdoc_pdf` and `resdoc_word` with `sr_pdf`, `sr_word`, `techreport_pdf`, or `techreport_word`.
+To render other types of *csasdown* documents, replace `resdoc_pdf` and `resdoc_word` with `sr_pdf`, `sr_word`, `manureport_pdf`, `manureport_word`, `techreport_pdf`, or `techreport_word`.
 
 ***
 **Rendering using the console**

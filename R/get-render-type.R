@@ -12,8 +12,8 @@
 #' @param verbose Logical. If `TRUE`, print messages
 #'
 #' @return A character string representing the render type. One of
-#' `resdoc_pdf`, `resdoc_word`, `sr_pdf`, `sr_word`, `techreport_pdf` or
-#' `techreport_word`
+#' `resdoc_pdf`, `resdoc_word`, `sr_pdf`, `sr_word`, `techreport_pdf`,
+#' `techreport_word`, `manureport_pdf`,  or `manureport_word`
 get_render_type <- function(fn = get_index_filename(
              system.file("rmarkdown",
                          "templates",

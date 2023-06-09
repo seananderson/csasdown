@@ -6,7 +6,7 @@
 commands for a csasdown type}
 \usage{
 create_tempdir_for_latex(
-  type = c("resdoc", "sr", "techreport"),
+  type = c("resdoc", "sr", "techreport", "manureport"),
   where = c("r", "b"),
   tmp_dir = NULL,
   root_dir = here()

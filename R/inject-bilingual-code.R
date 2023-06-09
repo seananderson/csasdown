@@ -121,7 +121,7 @@ inject_bilingual_code <- function(fn = get_index_filename(
     }
   }
 
-  if(doc_type == "techreport"){
+  if((doc_type == "techreport") | (doc_type == "manureport")){
     yaml_code <- c(
       '---',
       'title: `r ifelse(fr(), meta$french_title, meta$title)`',

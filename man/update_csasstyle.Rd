@@ -25,7 +25,7 @@ the current directory}
 e.g. 2 = every second line, 3 = every 3rd line, etc.}
 
 \item{lot_lof}{Logical. If \code{TRUE}, include list of tables and list of
-figures in the document. Implemented only for 'resdoc' and 'techreport'}
+figures in the document. Implemented only for 'resdoc', 'manureport' and 'techreport'}
 
 \item{draft_watermark}{Logical. If \code{TRUE}, show a DRAFT watermark on all
 pages of the output document}
