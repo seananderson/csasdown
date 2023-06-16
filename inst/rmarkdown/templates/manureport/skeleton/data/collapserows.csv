@@ -1,0 +1,19 @@
+spec,FAO_E_COMMON_NAME,FAO_F_COMMON_NAME,nrecords,type,AphiaID,url,kingdom,phylum,class,order,family,scientificname
+241,Atlantic hagfish,Myxine du nord,804,LI,101170,http://www.marinespecies.org/aphia.php?p=taxdetails&id=101170,Animalia,Chordata,Myxini,Myxiniformes,Myxinidae,Myxine glutinosa
+240,Sea lamprey,Lamproie marine,16,LR,101174,http://www.marinespecies.org/aphia.php?p=taxdetails&id=101174,Animalia,Chordata,Petromyzonti,Petromyzontiformes,Petromyzontidae,Petromyzon marinus
+10,Atlantic cod,Morue franche,5451,LF,126436,http://www.marinespecies.org/aphia.php?p=taxdetails&id=126436,Animalia,Chordata,Actinopterygii,Gadiformes,Gadidae,Gadus morhua
+11,Haddock,Aiglefin,5827,LF,126437,http://www.marinespecies.org/aphia.php?p=taxdetails&id=126437,Animalia,Chordata,Actinopterygii,Gadiformes,Gadidae,Melanogrammus aeglefinus
+12,White hake,Merluche blanche,3524,LF,126504,http://www.marinespecies.org/aphia.php?p=taxdetails&id=126504,Animalia,Chordata,Actinopterygii,Gadiformes,Phycidae,Urophycis tenuis
+13,Red hake,Merluche écureuil,2195,LF,126503,http://www.marinespecies.org/aphia.php?p=taxdetails&id=126503,Animalia,Chordata,Actinopterygii,Gadiformes,Phycidae,Urophycis chuss
+14,Silver hake,Merlu argenté,4936,LF,158962,http://www.marinespecies.org/aphia.php?p=taxdetails&id=158962,Animalia,Chordata,Actinopterygii,Gadiformes,Merlucciidae,Merluccius bilinearis
+15,Cusk,Brosme,688,LI,126447,http://www.marinespecies.org/aphia.php?p=taxdetails&id=126447,Animalia,Chordata,Actinopterygii,Gadiformes,Lotidae,Brosme brosme
+16,Pollock,Goberge,2787,LF,126441,http://www.marinespecies.org/aphia.php?p=taxdetails&id=126441,Animalia,Chordata,Actinopterygii,Gadiformes,Gadidae,Pollachius virens
+17,Atlantic tomcod,Poulamon atlantique,44,LR,158928,http://www.marinespecies.org/aphia.php?p=taxdetails&id=158928,Animalia,Chordata,Actinopterygii,Gadiformes,Gadidae,Microgadus tomcod
+19,Offshore silver hake,Merlu argenté du large,161,LR,158748,http://www.marinespecies.org/aphia.php?p=taxdetails&id=158748,Animalia,Chordata,Actinopterygii,Gadiformes,Merlucciidae,Merluccius albidus
+23,Atlantic redfishes,Sébastes de l'Atlantique,4152,LF,126175,http://www.marinespecies.org/aphia.php?p=taxdetails&id=126175,Animalia,Chordata,Actinopterygii,Scorpaeniformes,Sebastidae,Sebastes
+30,Atlantic halibut,Flétan de l'Atlantique,1634,LF,127138,http://www.marinespecies.org/aphia.php?p=taxdetails&id=127138,Animalia,Chordata,Actinopterygii,Pleuronectiformes,Pleuronectidae,Hippoglossus hippoglossus
+31,Greenland halibut,Flétan noir,736,LI,127144,http://www.marinespecies.org/aphia.php?p=taxdetails&id=127144,Animalia,Chordata,Actinopterygii,Pleuronectiformes,Pleuronectidae,Reinhardtius hippoglossoides
+40,American plaice,Plie canadienne,6023,LF,127137,http://www.marinespecies.org/aphia.php?p=taxdetails&id=127137,Animalia,Chordata,Actinopterygii,Pleuronectiformes,Pleuronectidae,Hippoglossoides platessoides
+41,Witch flounder,Plie grise,4301,LF,127136,http://www.marinespecies.org/aphia.php?p=taxdetails&id=127136,Animalia,Chordata,Actinopterygii,Pleuronectiformes,Pleuronectidae,Glyptocephalus cynoglossus
+42,Yellowtail flounder,Limande à queue jaune,3233,LF,158879,http://www.marinespecies.org/aphia.php?p=taxdetails&id=158879,Animalia,Chordata,Actinopterygii,Pleuronectiformes,Pleuronectidae,Limanda ferruginea
+43,Winter flounder,Limande-plie rouge,1632,LF,158885,http://www.marinespecies.org/aphia.php?p=taxdetails&id=158885,Animalia,Chordata,Actinopterygii,Pleuronectiformes,Pleuronectidae,Pseudopleuronectes americanus

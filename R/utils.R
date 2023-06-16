@@ -370,6 +370,28 @@ is_windows <- function() {
   identical(.Platform$OS.type, "windows")
 }
 
+#' Add a titlepage to a Manu report docx file
+#'
+#' Must hand edit the first two pages of your file afterwards to have your desired title and authors.
+#'
+#' @param titlepage Filename
+#' @param doc Filename
+#'
+#' @return A merged .docx
+#' @export
+add_manureport_docx_titlepage <- function(titlepage = ifelse(fr(),
+                                                             "templates/manu-report-cover-fra.docx",
+                                                             "templates/manu-report-cover-eng.docx"),
+                                          doc = "_book/manureport.docx") {
+  title_doc <- read_docx(titlepage)
+  x <- body_add_docx(title_doc, doc, pos = "before")
+  print(x, target = doc)
+}
+
+is_windows <- function() {
+  identical(.Platform$OS.type, "windows")
+}
+
 #' Redefinition of [cat()] with separator set to empty string
 #'
 #' @keywords internal

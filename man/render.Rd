@@ -47,7 +47,7 @@ Nothing
 }
 \description{
 Render a csasdown document with bilingual features. Renders a csasdown
-document (autodetects resdoc, sr, techreport) using the
+document (autodetects resdoc, sr, techreport, manureport) using the
 \code{\link[bookdown:render_book]{bookdown::render_book()}} method but includes a pre-processing step to
 do several things (simplified):
 \enumerate{

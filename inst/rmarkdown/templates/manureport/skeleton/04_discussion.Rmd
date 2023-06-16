@@ -1,0 +1,100 @@
+# Discussion
+
+To highlight the power of `csasdown` for French compilation we use the companion translation package [rosettafish](https://github.com/pbs-assess/rosettafish) along with some non-classified herring data. Render the document in French to see how every aspect of the document can be controlled in both languages.
+
+```{r herring, results='asis', echo=TRUE}
+d <- readr::read_csv(file.path("data", "herring.csv"))
+
+firstup <- function(x){
+  substr(x, 1, 1) <- toupper(substr(x, 1, 1))
+  x
+}
+
+firstlower <- function(x){
+  substr(x, 1, 1) <- toupper(substr(x, 1, 1))
+  x
+}
+
+input_data_table <- function(tab,
+                             cap = "",
+                             ...){
+  # Source column
+  tab$Source <- en2fr(tab$Source, allow_missing = TRUE)
+  tmp <- tab$Source
+  nonbracs <- stringr::str_extract(tmp, "[(\\w+ ) ]+(?= +\\()")
+  bracs <- stringr::str_extract(tmp, "(?<=\\()\\w+(?=\\))")
+  if(!all(is.na(bracs) == is.na(nonbracs))){
+    alert("The match of bracketed items in the Source ",
+          "column of the Input data table was incorrect.")
+  }
+  tmp[!is.na(bracs)] <- paste0(en2fr(firstup(nonbracs[!is.na(nonbracs)])),
+                               " (",
+                               firstlower(en2fr(firstup(bracs[!is.na(bracs)]))), ")")
+  tab$Source <- tmp
+  
+  # Data column
+  tmp <- strsplit(tab$Data, ": *")
+  tmp <- lapply(tmp, function(x){
+    j <- firstup(x)
+    j <- en2fr(j, allow_missing = TRUE)
+    if(length(j) > 1){
+      j <- c(j[1], tolower(j[-1]))
+      j <- paste(j, collapse = ": ")
+    }
+    j
+  })
+  tab$Data <- unlist(tmp)
+  
+  # Years column
+  if(fr()){
+    tmp <- tab$Years
+    tmp <- strsplit(tab$Years, " *to *")
+    tmp <- lapply(tmp, function(x){
+      paste0("De ", x[1], " \U00E0 ", x[2])
+    })
+    tab$Years <- unlist(tmp)
+  }
+  
+  names(tab) <- en2fr(names(tab))
+  csas_table(tab,
+             format = "latex",
+             bold_header = FALSE,
+             caption = cap,
+             ...)
+}
+input_data_table(d)
+```
+
+The code above appears quite complex at first, but essentially the data file is read in, and each column is translated with some rules, and finally the column names are translated. The `rosettafish` package has an English-French dictionary for DFO nationwide that you can contribute to by going to the GitHub repository for  [rosettafish](https://github.com/pbs-assess/rosettafish) and reading the README which tells you how.
+
+When you choose how you want to present your table, you may (should) choose a simpler data format. This particular one has words which may or may not be inside parentheses in the `Source` column, and words which may be separated by colons in the `Data` column. Those are all parsed out in the function which makes the code complex. The `Years` column is also complex because it contains the word "to", e.g. `1972 to 2019` which when translated to French becomes `De 1972 à 2019` which is difficult to write code for. If you chose to have two columns for the year range instead (`Start year` and `End year`) and two columns to represent where the data came from (`Data type` and `Data`) this function would be much simpler. The next code chunk does exactly this.
+
+
+```{r herring-simple, results='asis', echo=TRUE}
+d <- readr::read_csv(file.path("data", "herring-simple.csv"))
+input_data_table <- function(tab,
+                             cap = "",
+                             ...){
+  # Source column
+  tab$Source <- en2fr(tab$Source, allow_missing = TRUE)
+  tab$`Data type` <- en2fr(tab$`Data type`, allow_missing = TRUE)
+  tab$Data <- en2fr(tab$Data, allow_missing = TRUE)
+  tab$Data[is.na(tab$Data)] <- "--"
+  names(tab) <- en2fr(names(tab))
+
+  csas_table(tab,
+             format = "latex",
+             bold_header = FALSE,
+             caption = cap,
+             font_size = 10,
+             ...)
+}
+input_data_table(d)
+```
+Clearly, this code is much simpler. The `font_size` argument had to be added to the `csas_table()` call to make the table fit on the page, as there are now two extra columns.
+
+The first time this code was run for the French version though, an error was issued:
+
+> *Error: The following terms are not in the translation database: Data type, Start year, End year*
+
+This means that `rosettafish` has no idea what the French translation is for these column names. At this point, we would either change the names of the columns in the data file and code to something `rosettafish` knows about, or add the translation of our terms into `rosettafish`. That is what we have done, so this should compile for you with a correct translation. In your workflow, once you have added your translation and re-installed the `rosettafish` package, your terms will be recognized and translated. A great online translator for this is [DeepTL](https://www.deepl.com/en/home).

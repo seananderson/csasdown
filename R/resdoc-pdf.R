@@ -29,7 +29,7 @@
 #' @param line_nums_mod Numerical. Which modulo line numbers to label,
 #' e.g. 2 = every second line, 3 = every 3rd line, etc.
 #' @param lot_lof Logical. If `TRUE`, include list of tables and list of
-#' figures in the document. Implemented only for 'resdoc' and 'techreport'
+#' figures in the document. Implemented only for 'resdoc', 'techreport' and 'manureport'
 #' @param draft_watermark Logical. If `TRUE`, show a DRAFT watermark on all
 #' pages of the output document
 #' @param french French?

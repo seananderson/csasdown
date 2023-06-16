@@ -2,7 +2,7 @@
 #'
 #' @description
 #' Render a csasdown document with bilingual features. Renders a csasdown
-#' document (autodetects resdoc, sr, techreport) using the
+#' document (autodetects resdoc, sr, techreport, manureport) using the
 #' [bookdown::render_book()] method but includes a pre-processing step to
 #' do several things (simplified):
 #' 1. Create temporary files for `_bookdown.yml`, and the files listed
@@ -98,7 +98,9 @@ render <- function(yaml_fn = "_bookdown.yml",
     csas_render_type <- "Science Response"
   }else if(csas_render_type == "techreport"){
     csas_render_type <- "Technical Report"
-  }else{
+  } else if(csas_render_type == "manureport"){
+    csas_render_type <- "Manuscript Report"
+  } else{
     csas_render_type <- "CSAS Document" # nocov
   }
   cat("\n")
