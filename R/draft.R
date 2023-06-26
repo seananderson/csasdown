@@ -56,7 +56,7 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport
     package <- NULL
   }
   # nocov end
-  type <- match.arg(type)
+  # type <- match.arg(type)
 
   if(!dir.exists(directory)){
     bail("The directory ", fn_color(directory), " does not exist so ",
