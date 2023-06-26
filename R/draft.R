@@ -40,6 +40,7 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport
                   testing_affirm_ovr = FALSE,
                   ...) {
 
+
   # nocov start
   if(!grepl("\\/rmarkdown\\/templates", type)){
     # This is necessary so this function also works with unit testing
@@ -55,11 +56,15 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport
     package <- NULL
   }
   # nocov end
+  type <- match.arg(type)
 
   if(!dir.exists(directory)){
     bail("The directory ", fn_color(directory), " does not exist so ",
          "the csasdown project cannot be created there")
   }
+  wd <- getwd()
+  on.exit(setwd(wd))
+  setwd(directory)
 
   if(verbose){
     notify("Drafting a new ", csas_color(type), " project ...")
@@ -70,7 +75,7 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport
   all_files <- dir()
   # Keep RStudio project files during deletion and don't include them
   # in the check to see if the directory is empty
-  fns <- all_files[-grep("^.*(RProj|Rproj|rproj)$", all_files)]
+  fns <- all_files[!grepl("^.*(RProj|Rproj|rproj)$", all_files)]
 
   # `dirs` is directories ONLY, no files
   dirs <- list.dirs()
@@ -101,6 +106,7 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport
       }
       # nocov end
     }
+
     if(tolower(affirm_delete) == "y" || tolower(affirm_delete) == "yes"){
       unlink(fns, recursive = TRUE, force = TRUE)
       check_notify("Deleted all non-.Rproj files and directories in directory ",
@@ -125,7 +131,7 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport
   if (file.exists("_here")) {
     file.rename("_here", ".here")
   }
-  create_rstudio_project_file(directory)
+  create_rstudio_project_file()
 
   if(verbose){
     # `dirs` is directories ONLY, no files

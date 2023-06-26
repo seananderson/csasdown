@@ -41,4 +41,17 @@ test_that("draft() works", {
                                  testing_affirm = TRUE),
                  "Deleted")
 
+  dir.create("test-folder")
+  setwd("test-folder")
+  unlink("make-report-here", recursive = TRUE, force = TRUE)
+  file.create("do-not-delete.txt")
+  dir.create("make-report-here", showWarnings = FALSE)
+  csasdown::draft(type = "resdoc", directory = "make-report-here", verbose = TRUE)
+  expect_true(file.exists("make-report-here/_bookdown.yml"))
+  expect_true(file.exists("make-report-here/make-report-here.Rproj"))
+  expect_true(file.exists("do-not-delete.txt"))
+  unlink("make-report-here", recursive = TRUE, force = TRUE)
+  unlink("do-not-delete.txt", recursive = TRUE, force = TRUE)
+  setwd("..")
+  unlink("test-folder", recursive = TRUE, force = TRUE)
 })
