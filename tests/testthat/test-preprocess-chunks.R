@@ -13,7 +13,7 @@ test_that("csasdown:::preprocess_chunks() works", {
   file.copy(file.path(rmd_dir, "double-chunk-cat-single-quotes.Rmd"),
             file.path(testing_path, "double-chunk-cat-single-quotes.Rmd"))
   setwd(testing_path)
-  csasdown::draft("resdoc", testing_affirm_ovr = TRUE)
+  expect_error(csasdown::draft("resdoc", testing = TRUE, testing_affirm_ovr = FALSE))
 
   # ---------------------------------------------------------------------------
   expect_invisible(csasdown:::preprocess_chunks(NULL))
