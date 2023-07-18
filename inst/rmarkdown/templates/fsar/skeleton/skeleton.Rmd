@@ -16,7 +16,11 @@ output:
  csasdown::fsar_word
 link-citations: false
 bibliography: bib/refs.bib
+# End of options to set
 title: ""
+knit: (function(input, ...) {
+       csasdown::render_sar()
+      })
 ---
 
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE, results='hide', warning=FALSE}

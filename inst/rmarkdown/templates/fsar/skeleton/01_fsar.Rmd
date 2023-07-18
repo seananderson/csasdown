@@ -58,85 +58,19 @@ To examine different options for a 4-panel template, let's first simulate a data
 3 - fishing - fishing and natural mortality
 4 - other (currently showing recruitment)
 
-```{r trends-template}
+```{r templates-2, fig.asp = 0.7, out.width="5in", fig.cap="This is a figure caption."}
 ## simulated outputs from an assessment
-##
 ## this simulated dataset will have all possible types of values for the proposed 4-panel template
-
 ## a starting point could be ICES SAG
 ## https://www.ices.dk/data/assessment-tools/Pages/stock-assessment-graphs.aspx
 
-## name of the 4 panels
-categories <- c("Catch", "SSB", "Fishing", "Recruitment")
-years <- 1950:2022
-
-set.seed(1234)
-ts1 <- 500 + (arima.sim(list(order = c(1, 0, 0), ar = 0.9), n = length(years)) * 100)
-ts1.2 <- rep(400, length(years))
-
-ts2 <- 2000 + (arima.sim(list(order = c(1, 0, 0), ar = 0.9), n = length(years)) * 400)
-ts2.2 <- rep(1500, length(years))
-
-
-sim.df <-
-  rbind(
-    data.frame(
-      panel.category = rep(categories[1], length(years) * 2),
-      year = rep(years, 2),
-      ts.name = rep(c("Catch-MT", "TAC-MT"), each = length(years)),
-      ts.value = c(ts1, ts1.2)
-    ),
-    data.frame(
-      panel.category = rep(categories[2], length(years) * 5),
-      year = rep(years, 5),
-      ts.name = rep(c("SSB-MT", "SSBlow-MT", "SSBhigh-MT", "SSBlrp-MT", "SSBusr-MT"), each = length(years)),
-      ts.value = c(ts2, ts2 + 500, ts2 - 500, ts2.2, ts2.2 * 2)
-    ),
-    data.frame(
-      panel.category = rep(categories[3], length(years) * 5),
-      year = rep(years, 5),
-      ts.name = rep(c("F-1/yr", "Flow-1/yr", "Fhigh-1/yr", "Flim-1/yr", "M-1/yr"), each = length(years)),
-      ts.value = c(ts1 / 500, (ts1 + 100) / 500, (ts1 - 100) / 500, ts1.2 / 400, rep(0.2, length(years)))
-    ),
-    data.frame(
-      panel.category = rep(categories[4], length(years) * 3),
-      year = rep(years, 3),
-      ts.name = rep(c("R-E06", "Rlow-E06", "Rhigh-E06"), each = length(years)),
-      ts.value = c(ts1 / 1E-6, (ts1 / 1E-6) + 2E8, (ts1 / 1E-6) - 2E8) / 1E6
-    )
-  )
-
-sim.df$panel.category <- factor(sim.df$panel.category, levels = c("Catch", "SSB", "Fishing", "Recruitment"), ordered = TRUE)
-```
-
-Testing a four-panel template using basic ggplot with `theme_csas()`:
-
-```{r templates-1}
-library(ggplot2)
-g <- ggplot(data = sim.df, aes(x = year, y = ts.value)) +
-  facet_wrap(~panel.category, scales = "free", nrow = 2, strip.position = "top") +
-  geom_line(data = sim.df[sim.df$ts.name == "Catch-MT", ]) +
-  geom_line(data = sim.df[sim.df$ts.name == "SSB-MT", ]) +
-  geom_line(data = sim.df[sim.df$ts.name == "F-1/yr", ]) +
-  geom_line(data = sim.df[sim.df$ts.name == "R-E06", ]) +
-  labs(x = "Year", y = "Value")
-g + theme_csas()
-```
-
-An alternative version using cowplot:
-
-```{r templates-2}
-# Use wide format for ggplot
-df <- tidyr::pivot_wider(sim.df,
-  id_cols = year,
-  names_from = ts.name, values_from = ts.value
-)
+df <- sim_fsar_data()
 
 # Catch
 g1 <- ggplot(data = df, aes(x = year)) +
   geom_line(aes(y = `Catch-MT`)) +
   geom_line(aes(y = `TAC-MT`), linetype = "dashed", colour = "grey45") +
-  ylim(c(0, NA)) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.02)), limits = c(0, NA)) +
   labs(x = "Year", y = "Catch (t)") +
   theme_csas()
 
@@ -146,6 +80,7 @@ g2 <- ggplot(data = df, aes(x = year)) +
   geom_ribbon(aes(ymin = `SSBlow-MT`, ymax = `SSBhigh-MT`), alpha = 0.3) +
   geom_line(aes(y = `SSBlrp-MT`), linetype = "dashed", colour = "red") +
   geom_line(aes(y = `SSBusr-MT`), linetype = "dashed", colour = "grey45") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.02)), limits = c(0, NA)) +
   labs(x = "Year", y = "SSB (t)") +
   theme_csas()
 
@@ -154,6 +89,7 @@ g3 <- ggplot(data = df, aes(x = year)) +
   geom_line(aes(y = `F-1/yr`)) +
   geom_ribbon(aes(ymin = `Flow-1/yr`, ymax = `Fhigh-1/yr`), alpha = 0.3) +
   geom_line(aes(y = `Flim-1/yr`), linetype = "dashed", colour = "grey45") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.02)), limits = c(0, NA)) +
   labs(x = "Year", y = "Fishing mortality (yr<sup>-1</sup>)") +
   theme_csas() +
   theme(axis.title.y = ggtext::element_markdown())
@@ -161,12 +97,15 @@ g3 <- ggplot(data = df, aes(x = year)) +
 g4 <- ggplot(data = df, aes(x = year)) +
   geom_line(aes(y = `R-E06`)) +
   geom_ribbon(aes(ymin = `Rlow-E06`, ymax = `Rhigh-E06`), alpha = 0.3) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.02)), limits = c(0, NA)) +
   labs(x = "Year", y = "Recruitment (10<sup>6</sup>)") +
   theme_csas() +
   theme(axis.title.y = ggtext::element_markdown())
 
-cowplot::plot_grid(g1, g2, g3, g4, ncol = 2, labels = "auto")
+cowplot::plot_grid(g1, g2, g3, g4, ncol = 2, labels = "AUTO", align = "hv")
+```
 
+```{r catch2gears, fig.asp=0.5, out.width="4in", fig.cap="This is a figure caption."}
 # Option for plotting catch by gear as a stacked bar chart
 # Sample data
 catch_by_gear_df <-
@@ -175,42 +114,20 @@ catch_by_gear_df <-
   tidyr::pivot_longer(cols = gear1:gear2, names_to = "gear") # gear type as a column
 
 catch_barplot <-
-  ggplot(data = catch_by_gear_df, aes(x = year)) +
-  geom_bar(aes(y = `Catch-MT`, fill = gear), stat = "identity") +
-  scale_fill_brewer(type = "qual", palette = "Dark2") +
-  scale_y_continuous(expand = c(0, NA)) +
-  labs(x = "Year", y = "Catch (t)") +
+  ggplot(catch_by_gear_df, aes(x = year)) +
+  geom_bar(aes(y = `Catch-MT`, fill = gear), stat = "identity", colour = "grey90", lwd = 0.1) +
+  scale_fill_brewer(palette = "Set2") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.02))) +
+  scale_x_continuous(expand = expansion(mult = c(0, 0))) +
+  labs(x = "Year", y = "Catch (t)", fill = "Gear") +
   theme_csas()
 catch_barplot
 ```
 
-Yet another take to see if `geom_ribbon()` could work for showing uncertainty estimates:
-
-```{r templates-3}
-panel1.df <- tidyr::pivot_wider(sim.df[sim.df$panel.category == "SSB", ], names_from = "ts.name", values_from = "ts.value")
-names(panel1.df) <- c("panel.category", "year", "SSB", "SSBlow", "SSBhigh", "SSBlrp", "SSBusr")
-
-g <- ggplot(data = panel1.df, aes(x = year, y = SSB, ymin = SSBlow, ymax = SSBhigh)) +
-  theme_csas()
-
-g1 <- g +
-  geom_line() +
-  geom_ribbon(alpha = 0.5) +
-  geom_line(aes(y = SSBlrp)) +
-  labs(x = "Year", y = "SSB-MT") +
-  theme(
-    legend.position = c(0.1, 0.9),
-    legend.background = element_rect(fill = "white", color = "black"),
-    legend.title = element_blank()
-  )
-
-g1
-```
-
 And in base R, in French and English:
 
-```{r}
-in.df <- sim.df
+```{r base1, fig.cap="This is a figure caption."}
+in.df <- sim_fsar_data("long")
 
 fourpanel.fig.fct <- function(language = "EN") {
   mm <- matrix(c(rep(0, 5), 0, 1, 0, 2, 0, rep(0, 5), 0, 3, 0, 4, 0, rep(0, 5)), nc = 5, byrow = TRUE)
@@ -364,53 +281,11 @@ fourpanel.fig.fct <- function(language = "EN") {
 
 ## English template
 fourpanel.fig.fct("EN")
+```
+
+```{r base2, fig.cap="This is a figure caption."}
 ## French template
 fourpanel.fig.fct("FR")
-```
-
-Following Michelle's suggestion, coming from another template, suggesting that "Confidence/credible intervals should be presented graphically with shading that includes fading edges at more extreme probabilities in order to better characterize improbably but high consequence events".
-
-```{r}
-# https://mattwilkens.com/2014/08/20/visualizing-uncertainty-with-probability-clouds/
-library(ggplot2)
-
-se_limit <- 0.95 # Largest standard error level to show; valid range 0 to 1
-se_regions <- 100 # Number of regions in uncertainty cloud. 100 is a lot;
-#   a little slow, but produces very smooth cloud.
-se_alpha_max <- 0.8 # How dark to make region at center of uncertainty cloud.
-#   0.5 = 50% grey.
-line_type <- 0 # A ggplot2 linetype for fit line; 0 = none, 1 = solid
-
-data <- data.frame(x = seq(1:70), y = 1000 + ((arima.sim(list(order = c(1, 0, 0), ar = 0.9), n = length(1:70))) * 200))
-
-p <- ggplot(data = data, aes(x, y))
-p <- p + theme_csas()
-for (i in 1:se_regions) { # This loop generates the uncertainty density shading
-  p <- p + geom_smooth(method = "lm", linetype = line_type, fill = "black", level = i * se_limit / se_regions, alpha = se_alpha_max / (se_regions))
-}
-p #
-```
-
-Using the denstrip package:
-```{r}
-# library(denstrip)
-# x <- 1:10
-# nx <- length(x)
-# est <- seq(0, 1, length = nx)
-# lcl <- seq(-1, 0, length = nx)
-# ucl <- seq(1, 2, length = nx)
-# se <- (est - lcl) / qnorm(0.975)
-# y <- seq(-3, 3, length = 100)
-# z <- matrix(nrow = nx, ncol = length(y))
-# for (i in 1:nx) {
-#   z[i, ] <- dnorm(y, est[i], se[i])
-# }
-#
-# plot(x, type = "n", ylim = c(-1.5, 2.5))
-# densregion.normal(x, est, se, ny = 50, colmax = grey(0.3))
-# lines(x, est)
-# lines(x, lcl, lty = 2)
-# lines(x, ucl, lty = 2)
 ```
 
 #### History of (Landings/Harvest/Effort), TAC (& Catch Advice) {-}

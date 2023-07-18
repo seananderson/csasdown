@@ -67,6 +67,7 @@ Imports:
     rmarkdown,
     stringr,
     tibble,
+    tidyr,
     tinytex (>= 0.39),
     utils
 Suggests:
