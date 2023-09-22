@@ -274,8 +274,8 @@ fix_envs <- function(x,
   # Implement "Approved pre-publication" version (science response)
   if (prepub) {
     # Text to add
-    addText <- ifelse(fr(), " -- PR\u00C9-PUBLICATION APPROUV\u00C9E}",
-                      " -- APPROVED PRE-PUBLICATION}"
+    addText <- ifelse(fr(), " -- \\hl{\\,Ne\\:pas\\:distribuer\\,}}",
+                      " -- \\hl{\\,Not\\:for\\:further\\:distribution\\,}}"
     )
     # 1. Modify header first page (report number)
     rn_loc_1 <- grep(pattern = "\\% Report number", x = x) + 1
