@@ -29,7 +29,7 @@
 \RequirePackage[labelsep=period,font=small]{caption}  % Dots in captions
 \RequirePackage{lmodern}  % Nicer (c) symbol
 \RequirePackage{calc}  % Text length calculations
-\RequirePackage[authoryear]{natbib}  % Citations
+% \RequirePackage[authoryear]{natbib}  % Citations
 \RequirePackage{hyperref}  % Better cross references
 \RequirePackage{letltxmacro}  % Enable/disable footnotes
 \RequirePackage{pdfpages}  % Include PDF documents
@@ -168,7 +168,7 @@
 % Update definitions
 \renewcommand{\headrulewidth}{0pt}  % No header line
 \setlength{\headheight}{14.5pt}
-\bibpunct{(}{)}{;}{a}{}{,}  % Punctuation for citations
+% \bibpunct{(}{)}{;}{a}{}{,}  % Punctuation for citations
 \fancyhead{}  % No header
 \sloppy  % No text in margins (line length)
 %\setlength\parindent{1em}  % Paragraph indent
@@ -417,14 +417,30 @@ Correct citation for this publication:
 
 }% End of frontmatter
 
-\newenvironment{CSLReferences}[3] % #1 hanging-ident, #2 entry spacing
- {% don't indent paragraphs
-  \setlength{\parindent}{0pt}
-  % turn on hanging indent if param 1 is 1
-  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
-  % set entry spacing
-  \ifnum #2 > 0
-  \setlength{\parskip}{#2\baselineskip}
-  \fi
- }%
- {}
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+% avoid brackets around text for \cite:
+\makeatletter
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacing}
+\setlength{\cslentryspacing}{0em}
+\usepackage{enumitem}
+\newlist{CSLReferences}{itemize}{1}
+\setlist[CSLReferences]{label={},
+  leftmargin=\cslhangindent,
+  itemindent=-1\cslhangindent,
+  parsep=\parskip,
+  itemsep=\cslentryspacing}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
