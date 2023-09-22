@@ -52,7 +52,7 @@ type:
 # ------------
 # End of options to set
 knit: (function(input, ...) {
-       csasdown::render('_bookdown.yml')
+       bookdown::render_book("index.Rmd")
       })
 site: bookdown::bookdown_site
 link-citations: true

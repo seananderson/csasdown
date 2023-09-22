@@ -5,7 +5,7 @@
 \usepackage{tabularx}
 
 %% ------------------------------------------------------------------------------
-\usepackage{natbib}
+% \usepackage{natbib}
 %% add PDF metadata
 \AtBeginDocument{%
   \hypersetup{%
@@ -251,9 +251,9 @@
 \renewcommand{\@seccntformat}[1]{\csname the#1\endcsname.\quad}
 
 %% Changes the name of the bibliography.
-\renewcommand{\bibname}{Sources de renseignements}
+% \renewcommand{\bibname}{Sources de renseignements}
 %% To make REFERENCES a section
-\renewcommand{\bibsection}{\section{\bibname}}
+% \renewcommand{\bibsection}{\section{\bibname}}
 
 %% Makes figures stick to the top of the page. i.e. if there is a single figure
 %%  on a page, it will be placed in the center. This forces it to stick
@@ -417,7 +417,7 @@
 \setlist[enumerate,2]{leftmargin=15pt}
 
 %% Hanging indent of the bibliography items.
-\setlength{\bibhang}{0.25in}
+% \setlength{\bibhang}{0.25in}
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
@@ -651,7 +651,7 @@ Secr.\ can.\ des avis sci.\ du MPO. R\'{e}p.\ des Sci.\
 DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.
 #1.}}
 
-\newenvironment{CSLReferences}[2]{}{}
+% \newenvironment{CSLReferences}[2]{}{}
 
 % Footnote spacing
 \setlength{\footnotesep}{1.2pc} % Between footnotes
@@ -659,3 +659,31 @@ DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.
 
 % Prevent widow and orphan lines (especially in the list of references)
 \usepackage[all]{nowidow}
+
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+% avoid brackets around text for \cite:
+\makeatletter
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacing}
+\setlength{\cslentryspacing}{0em}
+\usepackage{enumitem}
+\newlist{CSLReferences}{itemize}{1}
+\setlist[CSLReferences]{label={},
+  leftmargin=\cslhangindent,
+  itemindent=-1\cslhangindent,
+  parsep=\parskip,
+  itemsep=\cslentryspacing}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
