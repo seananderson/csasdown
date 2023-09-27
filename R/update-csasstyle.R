@@ -32,16 +32,16 @@ update_csasstyle <- function(copy = TRUE,
   fn <- system.file("csas-style", package = "csasdown")
   if(!copy && line_nums){
     bail("You have set ", csas_color("copy"), " to ", csas_color("FALSE"),
-         "and ", csas_color("line_nums"), " to ", csas_color("TRUE"),
+         " and ", csas_color("line_nums"), " to ", csas_color("TRUE"),
          " in the ", fn_color("index.Rmd"), " YAML header. The permanent ",
          "style file cannot be modified as needed to include line numbering. ",
          "Either set ", csas_color("copy"), " to ", csas_color("TRUE"),
-         "or ", csas_color("line_nums"), " to ", csas_color("FALSE"),
+         " or ", csas_color("line_nums"), " to ", csas_color("FALSE"),
          " to build.")
   }
   if(!copy && lot_lof){
     bail("You have set ", csas_color("copy"), " to ", csas_color("FALSE"),
-         "and ", csas_color("lot_lof"), " to ", csas_color("TRUE"),
+         " and ", csas_color("lot_lof"), " to ", csas_color("TRUE"),
          " in the ", fn_color("index.Rmd"), " YAML header. The permanent ",
          "style file cannot be modified as needed to include the lists of ",
          "tables and figures. Either set ",
@@ -51,7 +51,7 @@ update_csasstyle <- function(copy = TRUE,
   }
   if(!copy && draft_watermark){
     bail("You have set ", csas_color("copy"), " to ", csas_color("FALSE"),
-         "and ", csas_color("draft_watermark"), " to ", csas_color("TRUE"),
+         " and ", csas_color("draft_watermark"), " to ", csas_color("TRUE"),
          " in the ", fn_color("index.Rmd"), " YAML header. The permanent ",
          "style file cannot be modified as needed to include the DRAFT ",
          "watermark. Either set ",
