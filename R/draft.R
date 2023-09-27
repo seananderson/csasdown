@@ -45,7 +45,7 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport
   if(!grepl("\\/rmarkdown\\/templates", type)){
     # This is necessary so this function also works with unit testing
     if(!type %in% c("resdoc", "resdoc-b", "sr", "techreport", "manureport")){
-      alert(csas_color("type"), " should be one of ",
+      alert(csas_color("type"), " must be one of ",
             csas_color("resdoc"), ", ", csas_color("resdoc-b"), ", ",
             csas_color("sr"), ", ",
             csas_color("techreport"), ", or ", csas_color("manureport"))
