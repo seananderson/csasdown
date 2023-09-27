@@ -47,9 +47,8 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport
     if(!type %in% c("resdoc", "resdoc-b", "sr", "techreport", "manureport")){
       alert(csas_color("type"), " should be one of ",
             csas_color("resdoc"), ", ", csas_color("resdoc-b"), ", ",
-            csas_color("sr"),
-            csas_color("techreport"), ", or ", csas_color("manureport"),
-            call. = FALSE)
+            csas_color("sr"), ", ",
+            csas_color("techreport"), ", or ", csas_color("manureport"))
     }
     package <- "csasdown"
   }else{
