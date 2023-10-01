@@ -191,6 +191,11 @@ render <- function(yaml_fn = "_bookdown.yml",
     }
   }
 
+  if (render_type == "resdoc_word") {
+    notify("Adding title page to the ", csas_color(csas_render_type))
+    add_resdoc_word_titlepage(index_fn)
+  }
+
   # Rename the output files to include 'english' or 'french' so that
   # rendering different language versions does not overwrite the other
   # language version.
