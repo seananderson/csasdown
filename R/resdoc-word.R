@@ -26,12 +26,12 @@ resdoc_word <- function(...) {
 
 
 
-#' Add title page to Res Doc word file
+#' Add frontmatter to Res Doc word file
 #'
 #' Add title page and table of contents to a Res Doc Word document.
 #'
 #' @keywords internal
-#' @param fn The name of the YAML file, typically 'index.Rmd' for bookdown
+#' @param index_fn The name of the YAML file, typically 'index.Rmd' for bookdown
 #'
 #' @return A merged .docx
 add_resdoc_word_frontmatter <- function(index_fn, verbose = FALSE) {
@@ -63,23 +63,25 @@ add_resdoc_word_frontmatter <- function(index_fn, verbose = FALSE) {
   ## Drop title from resdoc.docx
   content <- officer::read_docx("_book/resdoc.docx") |>
     officer::cursor_begin() |>
-    officer::body_remove()
+    officer::body_remove() |>
+    officer::cursor_reach(keyword = "INTRODUCTION") |>
+    officer::cursor_backward() |>
+    officer::body_add_break()
 
   print(content, target = "TEMP-content.docx")
 
   doc <- officer::read_docx("TEMP-frontmatter.docx") |>
-    officer::body_add_break() |>
     officer::body_add_docx("TEMP-content.docx") |>
     officer::cursor_reach(keyword = "TABLE OF CONTENTS") |>
-    officer::body_add_toc()
-    # officer::cursor_reach(keyword = "ABSTRACT") |>
-    # officer::cursor_forward() |>
-    # officer::body_remove() # bring abstract in "TEMP-content.docx" forward
+    officer::body_add_toc() |>
+    officer::cursor_reach(keyword = "ABSTRACT") |>
+    officer::cursor_forward() |>
+    officer::body_remove() # drop return
 
   print(doc, target = "_book/resdoc.docx")
 
-  # unlink("TEMP-frontmatter.docx")
-  # unlink("TEMP-content.docx")
+  unlink("TEMP-frontmatter.docx")
+  unlink("TEMP-content.docx")
 
   invisible()
 

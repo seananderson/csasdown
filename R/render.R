@@ -217,7 +217,7 @@ render <- function(yaml_fn = "_bookdown.yml",
 
   check_notify("Render completed")
   if (render_type == "resdoc_word") {
-    notify("Frontmatter was added to your ", csas_color(csas_render_type), "using the officer package, which does not parse markdown formatting. YAML inputs such as your title and abstract may therefore need to be manually edited.")
+    notify("Frontmatter was added to your ", csas_color(csas_render_type), "using the officer package, which does not parse markdown formatting. YAML inputs such as your title and addresses may therefore need to be manually edited.")
   }
   invisible()
 }
