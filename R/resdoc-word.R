@@ -34,44 +34,53 @@ resdoc_word <- function(...) {
 #' @param fn The name of the YAML file, typically 'index.Rmd' for bookdown
 #'
 #' @return A merged .docx
-add_resdoc_word_titlepage <- function(index_fn) {
+add_resdoc_word_frontmatter <- function(index_fn, verbose = FALSE) {
+
+  if (verbose) notify("Adding frontmatter to the ", csas_color("Research Document"), "using the officer package...")
 
   x <- rmarkdown::yaml_front_matter(index_fn)
 
-  file <- "resdoc-titlepage.docx"
-  doc <- officer::read_docx(system.file("csas-docx", file, package = "csasdown"))
-
-  # d <- officer::headers_replace_text_at_bkm(doc, "report_year", x$report_year)
-  # d <- officer::headers_replace_text_at_bkm(doc, "report_number", x$report_number)
-  # d <- officer::headers_replace_text_at_bkm(doc, "region_name", x$region)
-
-  ## Note: bookmarks (bkm) were manually added to the "resdoc-titlepage.docx" file
-  doc <- doc |>
+  ## Note: bookmarks (bkm) were manually added to the "resdoc-frontmatter.docx" file
+  ## Also needed to copy and paste character strings like "french_title", otherwise
+  ## officer may not detect that string if manually typed (b/c Word operates in chunks)
+  file <- "resdoc-frontmatter.docx"
+  front <- officer::read_docx(system.file("csas-docx", file, package = "csasdown")) |>
     officer::headers_replace_text_at_bkm("region", x$region) |>
     officer::headers_replace_text_at_bkm("year", as.character(x$year)) |>
-    officer::headers_replace_text_at_bkm("number", as.character(x$report_number)) |>
-    officer::body_replace_all_text("TITLE", x$title) |>
-    officer::body_replace_all_text("AUTHOR", x$author) |>
-    officer::body_replace_all_text("ADDRESS", x$address) |>
-    officer::body_replace_all_text("ALIST", x$author_list) |>
-    officer::body_replace_all_text("YEAR", as.character(x$year)) |>
-    officer::body_replace_all_text("NUMBER", as.character(x$report_number)) |>
-    officer::body_end_block_section(officer::block_section(officer::prop_section(type = "nextPage"))) |>
+    officer::headers_replace_text_at_bkm("report_number", as.character(x$report_number)) |>
+    officer::footers_replace_text_at_bkm("date", paste(x$month, x$year)) |>
+    officer::body_replace_all_text("^title$", x$title) |>
+    officer::body_replace_all_text("^french_title$", x$french_title) |>
+    officer::body_replace_all_text("^author$", x$author) |>
+    officer::body_replace_all_text("^address$", x$address) |>
+    officer::body_replace_all_text("^author_list$", x$author_list) |>
+    officer::body_replace_all_text("^year$", as.character(x$year)) |>
+    officer::body_replace_all_text("^report_number$", as.character(x$report_number)) # |>
+    # officer::body_replace_all_text("^abstract$", x$abstract)
 
-  print(doc, target = "TEMP-titlepage.docx")
+  print(front, target = "TEMP-frontmatter.docx")
 
-  doc <- officer::read_docx("TEMP-titlepage.docx") |>
-    officer::body_end_block_section(officer::block_section(officer::prop_section(type = "nextPage"))) |>
-    officer::body_add_docx("_book/resdoc.docx")
+  ## Drop title from resdoc.docx
+  content <- officer::read_docx("_book/resdoc.docx") |>
+    officer::cursor_begin() |>
+    officer::body_remove()
+
+  print(content, target = "TEMP-content.docx")
+
+  doc <- officer::read_docx("TEMP-frontmatter.docx") |>
+    officer::body_add_break() |>
+    officer::body_add_docx("TEMP-content.docx") |>
+    officer::cursor_reach(keyword = "TABLE OF CONTENTS") |>
+    officer::body_add_toc()
+    # officer::cursor_reach(keyword = "ABSTRACT") |>
+    # officer::cursor_forward() |>
+    # officer::body_remove() # bring abstract in "TEMP-content.docx" forward
 
   print(doc, target = "_book/resdoc.docx")
 
-  unlink("TEMP-titlepage.docx")
+  # unlink("TEMP-frontmatter.docx")
+  # unlink("TEMP-content.docx")
 
   invisible()
 
 }
-
-# add_resdoc_word_frontmatter <- function(index_fn) {
-#
-# }

@@ -192,8 +192,7 @@ render <- function(yaml_fn = "_bookdown.yml",
   }
 
   if (render_type == "resdoc_word") {
-    notify("Adding title page to the ", csas_color(csas_render_type))
-    add_resdoc_word_titlepage(index_fn)
+    add_resdoc_word_frontmatter(index_fn, verbose)
   }
 
   # Rename the output files to include 'english' or 'french' so that
@@ -217,5 +216,8 @@ render <- function(yaml_fn = "_bookdown.yml",
   }
 
   check_notify("Render completed")
+  if (render_type == "resdoc_word") {
+    notify("Frontmatter was added to your ", csas_color(csas_render_type), "using the officer package, which does not parse markdown formatting. YAML inputs such as your title and abstract may therefore need to be manually edited.")
+  }
   invisible()
 }
