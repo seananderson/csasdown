@@ -64,7 +64,7 @@ add_resdoc_word_frontmatter <- function(index_fn, verbose = FALSE) {
   content <- officer::read_docx("_book/resdoc.docx") |>
     officer::cursor_begin() |>
     officer::body_remove() |>
-    officer::cursor_reach(keyword = "INTRODUCTION") |>
+    officer::cursor_reach(keyword = "INTRODUCTION|Introduction") |> # Search for both all caps and title case in case some users deviate from the template
     officer::cursor_backward() |>
     officer::body_add_break()
 
