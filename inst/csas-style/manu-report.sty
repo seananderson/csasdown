@@ -381,3 +381,23 @@ Correct citation for this publication:
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 % END-PANDOC-3.1.8
 
+% % START-PANDOC-BEFORE-3.1.7
+% \newenvironment{CSLReferences}[3] % #1 hanging-ident, #2 entry spacing
+%  {% don't indent paragraphs
+%   \setlength{\parindent}{0pt}
+%   % turn on hanging indent if param 1 is 1
+%   \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+%   % set entry spacing
+%   \ifnum #2 > 0
+%   \setlength{\parskip}{#2\baselineskip}
+%   \fi
+%  }%
+%  {}
+% %Copied from https://github.com/rstudio/rmarkdown/issues/1649
+% \newlength{\cslhangindent}
+% \setlength{\cslhangindent}{1.5em}
+% \newenvironment{cslreferences}%
+%   {$if(csl-hanging-indent)$\setlength{\parindent}{0pt}%
+%   \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces$endif$}%
+%   {\par}
+% % END-PANDOC-BEFORE-3.1.7

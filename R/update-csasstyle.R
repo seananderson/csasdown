@@ -17,6 +17,7 @@
 #' @param which_sty Name of the style file to modify
 #' @param lot_lof Logical. If `TRUE`, include list of tables and list of
 #' figures in the document. Implemented only for 'resdoc', 'manureport' and 'techreport'
+#' @param pandoc_version Pandoc version.
 #' @param draft_watermark Logical. If `TRUE`, show a DRAFT watermark on all
 #' pages of the output document
 #'
@@ -26,8 +27,13 @@ update_csasstyle <- function(copy = TRUE,
                              line_nums = TRUE,
                              line_nums_mod = 1,
                              lot_lof = FALSE,
+                             pandoc_version = rmarkdown::pandoc_version(),
                              draft_watermark = FALSE,
                              which_sty = "res-doc.sty") {
+
+  if (pandoc_version == '3.1.7') {
+    bail("csasdown does not work with pandoc 3.1.7. Either update pandoc or revert to an older version.")
+  }
 
   fn <- system.file("csas-style", package = "csasdown")
   if(!copy && line_nums){
@@ -105,6 +111,20 @@ update_csasstyle <- function(copy = TRUE,
       }else{
         csas_style <- c(beg_of_file, draft_watermark_include, end_of_file)
       }
+      writeLines(csas_style, file.path("csas-style", which_sty))
+    }
+
+    if (pandoc_version < '3.1.7') {
+      # default is for pandoc > 3.1.8
+      # 3.1.7 has already been checked, requires its own template, and errors
+      pandoc_3.1.8_start <- grep("^% START-PANDOC-3.1.8", csas_style)
+      pandoc_3.1.8_end <- grep("^% END-PANDOC-3.1.8", csas_style)
+      csas_style[seq(pandoc_3.1.8_start, pandoc_3.1.8_end)] <-
+        paste("%", csas_style[seq(pandoc_3.1.8_start, pandoc_3.1.8_end)])
+      pandoc_pre_3.1.7_start <- grep("^% % START-PANDOC-BEFORE-3.1.7", csas_style)
+      pandoc_pre_3.1.7_end <- grep("^% % END-PANDOC-BEFORE-3.1.7" , csas_style)
+      csas_style[seq(pandoc_pre_3.1.7_start, pandoc_pre_3.1.7_end)] <-
+        gsub("^% ", "", csas_style[seq(pandoc_pre_3.1.7_start, pandoc_pre_3.1.7_end)])
       writeLines(csas_style, file.path("csas-style", which_sty))
     }
   }
