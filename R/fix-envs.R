@@ -116,6 +116,7 @@ fix_envs <- function(x,
   }
 
   for (i in seq(1, appendix_line)) {
+    x[i] <- gsub("\\\\subsubsection\\{", "\\\\paragraph\\{", x[i])
     x[i] <- gsub("\\\\subsection\\{", "\\\\subsubsection\\{", x[i])
     x[i] <- gsub("\\\\section\\{", "\\\\subsection\\{", x[i])
     x[i] <- gsub("\\\\chapter\\{", "\\\\section\\{", x[i])
