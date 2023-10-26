@@ -117,6 +117,7 @@ update_csasstyle <- function(copy = TRUE,
     if (pandoc_version < '3.1.7') {
       # default is for pandoc > 3.1.8
       # 3.1.7 has already been checked, requires its own template, and errors
+      csas_style <- readLines(file.path("csas-style", which_sty))
       pandoc_3.1.8_start <- grep("^% START-PANDOC-3.1.8", csas_style)
       pandoc_3.1.8_end <- grep("^% END-PANDOC-3.1.8", csas_style)
       csas_style[seq(pandoc_3.1.8_start, pandoc_3.1.8_end)] <-
