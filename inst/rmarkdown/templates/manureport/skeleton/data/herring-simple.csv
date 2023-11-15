@@ -1,0 +1,13 @@
+Source, Data type, Data, Start year, End year
+Roe gillnet fishery, Catch, , 1972,2019
+Roe seine fishery, Catch, ,1972,2019
+Other fisheries, Catch, ,1951,2019
+Test fishery, Biological, number-at-age, 1975,2019
+Test fishery, Biological, weight-at-age, 1975,2019
+Roe seine fishery, Biological, number-at-age, 1972,2019
+Roe seine fishery, Biological, weight-at-age, 1972,2019
+Roe gillnet fishery, Biological, number-at-age, 1972,2019
+Other fisheries, Biological, number-at-age, 1951,2019
+Other fisheries, Biological, weight-at-age, 1951,2019
+Surface survey, Abundance, spawn index, 1951,1987
+Dive survey, Abundance, spawn index, 1988,2019

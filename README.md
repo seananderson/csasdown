@@ -27,7 +27,7 @@ To compile PDF documents using R, you need to have Pandoc, LaTeX, and several re
 
 ```r
 install.packages("remotes")
-remotes::install_github("pbs-assess/csasdown")
+remotes::install_github("pbs-assess/csasdown", dependencies = TRUE)
 ```
 
 3. Create a new project in a new directory to hold your document project and all the files that csasdown creates. If you're using RStudio: click File -> New Project -> New Directory -> New Project, then type the name of the project in the **Directory name** box. Check the box **Open in new session**. If you are going to use GitHub version control (or if you are not sure), check the box **Create a git repository**. Click **Create Project**. A new RStudio project will open up, and will have its working directory set to the new document project's directory.
@@ -50,12 +50,20 @@ You can do the same for a Technical Report:
 csasdown::draft("techreport")
 ```
 
+a Manuscript Report:
+
+```r
+csasdown::draft("manureport")
+```
+
+
 or for a Science Response:
 
 ```r
 csasdown::draft("sr")
 ```
 
+<<<<<<< HEAD
 or a Fisheries Science Advisory Report (FSAR):
 
 ```r
@@ -63,6 +71,9 @@ csasdown::draft("fsar")
 ```
 
 Note that the `techreport` example contains a lot of information on getting started with R Markdown and should be the first one you render if you are new to `csasdown`. The `resdoc` example contains other examples.
+=======
+Note that the `techreport` and `manureport` examples contain a lot of information on getting started with R Markdown and should be the first one you render if you are new to `csasdown`. The `resdoc` example contains other examples.
+>>>>>>> 5fca72471dcb59199d5022642e2fd08cd3a452a7
 
 The `resdoc-b` contains examples and guidance on setting up chunks to hold both English and French Rmarkdown, and explanations of the features introduced in version 0.1.0 (see the [NEWS](https://github.com/pbs-assess/csasdown/blob/main/NEWS.md) file).
 
@@ -117,7 +128,7 @@ output:
    french: false
 ```
 
-To render other types of *csasdown* documents, replace `resdoc_pdf` and `resdoc_word` with `sr_pdf`, `sr_word`, `techreport_pdf`, or `techreport_word`.
+To render other types of *csasdown* documents, replace `resdoc_pdf` and `resdoc_word` with `sr_pdf`, `sr_word`, `manureport_pdf`, `manureport_word`, `techreport_pdf`, or `techreport_word`.
 
 ***
 **Rendering using the console**

@@ -27,7 +27,7 @@
 #' tinytex::latexmk("resdoc.tex")
 #' setwd(root_dir)
 #' }
-create_tempdir_for_latex <- function(type = c("resdoc", "sr", "techreport"),
+create_tempdir_for_latex <- function(type = c("resdoc", "sr", "techreport", "manureport"),
                                      where = c("r", "b"),
                                      tmp_dir = NULL,
                                      root_dir = here()) {
@@ -35,7 +35,8 @@ create_tempdir_for_latex <- function(type = c("resdoc", "sr", "techreport"),
   tryCatch({type <- match.arg(type)
   }, error = function(e){
     bail(csas_color("type"), " must be one of ",
-         csas_color("resdoc"), ", ", csas_color("sr"), ", or ",
+         csas_color("resdoc"), ", ", csas_color("sr"),
+         csas_color("manureport"), ", ", ", or ",
          csas_color("techreport"), ".\n",
          "You tried: ", csas_color(type))
   })

@@ -87,15 +87,15 @@ $header-includes$
 %Defines cslreferences environment
 %Required by pandoc 2.8
 %Copied from https://github.com/rstudio/rmarkdown/issues/1649
-$if(csl-refs)$
-  \newlength{\cslhangindent}
-  \setlength{\cslhangindent}{1.5em}
-  \newenvironment{cslreferences}{
-  $if(csl-hanging-indent)$
-    \everypar{\setlength{\hangindent}{\cslhangindent}}
-  $endif$}%
- {\par}
-$endif$
+% $if(csl-refs)$
+%   \newlength{\cslhangindent}
+%   \setlength{\cslhangindent}{1.5em}
+%   \newenvironment{cslreferences}{
+%   $if(csl-hanging-indent)$
+%     \everypar{\setlength{\hangindent}{\cslhangindent}}
+%   $endif$}%
+%  {\par}
+% $endif$
 
 \DeclareGraphicsExtensions{.png,.pdf}
 

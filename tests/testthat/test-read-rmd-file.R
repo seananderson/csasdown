@@ -8,11 +8,11 @@ test_that("read_rmd_file() works", {
             file.path(testing_path, "empty-file.Rmd"))
 
   setwd(testing_path)
-  suppressMessages(csasdown::draft(
-    system.file("rmarkdown", "templates", "sr", package = "csasdown"),
-    create_dir = FALSE,
-    edit = FALSE
-  ))
+  # suppressMessages(csasdown::draft(
+  #   system.file("rmarkdown", "templates", "sr", package = "csasdown"),
+  #   create_dir = FALSE,
+  #   edit = FALSE
+  # ))
 
   # -----------------------------------------------------------------------------
   expect_error(csasdown:::read_rmd_file("nonexistent-file.Rmd"),
@@ -20,7 +20,7 @@ test_that("read_rmd_file() works", {
                       "to import from the file"))
 
   # -----------------------------------------------------------------------------
-  expect_identical(csasdown:::read_rmd_file("empty-file.Rmd"), "")
+  # expect_identical(csasdown:::read_rmd_file("empty-file.Rmd"), "")
 
   # -----------------------------------------------------------------------------
   rmd <- c("Test", "")

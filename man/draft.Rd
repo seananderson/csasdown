@@ -5,7 +5,11 @@
 \title{Create a new CSAS document based on a template}
 \usage{
 draft(
+<<<<<<< HEAD
   type = c("resdoc", "resdoc-b", "sr", "techreport", "fsar"),
+=======
+  type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport"),
+>>>>>>> 5fca72471dcb59199d5022642e2fd08cd3a452a7
   directory = getwd(),
   fn = "index.Rmd",
   edit = FALSE,
@@ -17,7 +21,7 @@ draft(
 }
 \arguments{
 \item{type}{The type of document to draft. Must be one of \code{resdoc},
-\code{resdoc-b}, \code{sr}, or \code{techreport}}
+\code{resdoc-b}, \code{sr}, \code{techreport}, or \code{manureport}}
 
 \item{directory}{The directory to place the draft document files.
 Is the current directory by default}
@@ -52,6 +56,7 @@ csasdown::draft("resdoc")
 csasdown::draft("resdoc-b")
 csasdown::draft("sr")
 csasdown::draft("techreport")
+csasdown::draft("manureport")
 }
 }
 \seealso{

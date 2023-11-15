@@ -3,7 +3,7 @@
 #' Create a draft of an R Markdown CSAS document
 #'
 #' @param type The type of document to draft. Must be one of `resdoc`,
-#' `resdoc-b`, `sr`, or `techreport`
+#' `resdoc-b`, `sr`, `techreport`, or `manureport`
 #' @param directory The directory to place the draft document files.
 #' Is the current directory by default
 #' @param fn Bookdown starting file, `index.Rmd` by default
@@ -28,9 +28,14 @@
 #' csasdown::draft("resdoc-b")
 #' csasdown::draft("sr")
 #' csasdown::draft("techreport")
+#' csasdown::draft("manureport")
 #' }
 #' @export
+<<<<<<< HEAD
 draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "fsar"),
+=======
+draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport"),
+>>>>>>> 5fca72471dcb59199d5022642e2fd08cd3a452a7
                   directory = getwd(),
                   fn = "index.Rmd",
                   edit = FALSE,
@@ -39,25 +44,35 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "fsar"),
                   testing_affirm_ovr = FALSE,
                   ...) {
 
+
   # nocov start
   if(!grepl("\\/rmarkdown\\/templates", type)){
     # This is necessary so this function also works with unit testing
+<<<<<<< HEAD
     if(!type %in% c("resdoc", "resdoc-b", "sr", "techreport", "fsar")){
       alert(csas_color("type"), " should be one of ",
+=======
+    if(!type %in% c("resdoc", "resdoc-b", "sr", "techreport", "manureport")){
+      alert(csas_color("type"), " must be one of ",
+>>>>>>> 5fca72471dcb59199d5022642e2fd08cd3a452a7
             csas_color("resdoc"), ", ", csas_color("resdoc-b"), ", ",
-            csas_color("sr"), ", or ", csas_color("techreport"),
-            call. = FALSE)
+            csas_color("sr"), ", ",
+            csas_color("techreport"), ", or ", csas_color("manureport"))
     }
     package <- "csasdown"
   }else{
     package <- NULL
   }
   # nocov end
+  # type <- match.arg(type)
 
   if(!dir.exists(directory)){
     bail("The directory ", fn_color(directory), " does not exist so ",
          "the csasdown project cannot be created there")
   }
+  wd <- getwd()
+  on.exit(setwd(wd))
+  setwd(directory)
 
   if(verbose){
     notify("Drafting a new ", csas_color(type), " project ...")
@@ -68,7 +83,7 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "fsar"),
   all_files <- dir()
   # Keep RStudio project files during deletion and don't include them
   # in the check to see if the directory is empty
-  fns <- all_files[-grep("^.*(RProj|Rproj|rproj)$", all_files)]
+  fns <- all_files[!grepl("^.*(RProj|Rproj|rproj)$", all_files)]
 
   # `dirs` is directories ONLY, no files
   dirs <- list.dirs()
@@ -99,6 +114,7 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "fsar"),
       }
       # nocov end
     }
+
     if(tolower(affirm_delete) == "y" || tolower(affirm_delete) == "yes"){
       unlink(fns, recursive = TRUE, force = TRUE)
       check_notify("Deleted all non-.Rproj files and directories in directory ",
@@ -123,7 +139,7 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "fsar"),
   if (file.exists("_here")) {
     file.rename("_here", ".here")
   }
-  create_rstudio_project_file(directory)
+  create_rstudio_project_file()
 
   if(verbose){
     # `dirs` is directories ONLY, no files

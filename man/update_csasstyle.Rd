@@ -10,6 +10,7 @@ update_csasstyle(
   line_nums = TRUE,
   line_nums_mod = 1,
   lot_lof = FALSE,
+  pandoc_version = rmarkdown::pandoc_version(),
   draft_watermark = FALSE,
   which_sty = "res-doc.sty"
 )
@@ -25,7 +26,9 @@ the current directory}
 e.g. 2 = every second line, 3 = every 3rd line, etc.}
 
 \item{lot_lof}{Logical. If \code{TRUE}, include list of tables and list of
-figures in the document. Implemented only for 'resdoc' and 'techreport'}
+figures in the document. Implemented only for 'resdoc', 'manureport' and 'techreport'}
+
+\item{pandoc_version}{Pandoc version.}
 
 \item{draft_watermark}{Logical. If \code{TRUE}, show a DRAFT watermark on all
 pages of the output document}

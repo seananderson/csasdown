@@ -1,0 +1,16 @@
+<!-- If you want to references to appear somewhere before the end, add: -->
+<!-- <div id="refs"></div> -->
+<!-- where you want it to appear -->
+
+<!-- You shouldn't need to edit this file -->
+
+\clearpage
+
+# References
+
+<!-- The following sets the appropriate indentation for the references -->
+\noindent
+\vspace{-2em}
+\setlength{\parindent}{-0.2in}
+\setlength{\leftskip}{0.2in}
+\setlength{\parskip}{8pt}
