@@ -5,11 +5,7 @@
 \title{Create a new CSAS document based on a template}
 \usage{
 draft(
-<<<<<<< HEAD
-  type = c("resdoc", "resdoc-b", "sr", "techreport", "fsar"),
-=======
-  type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport"),
->>>>>>> 5fca72471dcb59199d5022642e2fd08cd3a452a7
+  type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport", "fsar"),
   directory = getwd(),
   fn = "index.Rmd",
   edit = FALSE,

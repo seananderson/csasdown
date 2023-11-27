@@ -44,13 +44,10 @@ check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
     type <- "sr"
   }else if(type %in% c("techreport", "techreport_pdf", "techreport_word")){
     type <- "techreport"
-<<<<<<< HEAD
-  } else if(type %in% c("fsar_word")) {
+  }else if(type %in% c("fsar_word")) {
     type <- "fsar"
-=======
   }else if(type %in% c("manureport", "manureport_pdf", "manureport_word")){
     type <- "manureport"
->>>>>>> 5fca72471dcb59199d5022642e2fd08cd3a452a7
   }
 
   x_skeleton <- names(yaml_front_matter(

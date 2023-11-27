@@ -31,11 +31,7 @@
 #' csasdown::draft("manureport")
 #' }
 #' @export
-<<<<<<< HEAD
-draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "fsar"),
-=======
-draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport"),
->>>>>>> 5fca72471dcb59199d5022642e2fd08cd3a452a7
+draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport", "fsar"),
                   directory = getwd(),
                   fn = "index.Rmd",
                   edit = FALSE,
@@ -48,13 +44,8 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport
   # nocov start
   if(!grepl("\\/rmarkdown\\/templates", type)){
     # This is necessary so this function also works with unit testing
-<<<<<<< HEAD
-    if(!type %in% c("resdoc", "resdoc-b", "sr", "techreport", "fsar")){
-      alert(csas_color("type"), " should be one of ",
-=======
-    if(!type %in% c("resdoc", "resdoc-b", "sr", "techreport", "manureport")){
+    if(!type %in% c("resdoc", "resdoc-b", "sr", "techreport", "manureport", "fsar")){
       alert(csas_color("type"), " must be one of ",
->>>>>>> 5fca72471dcb59199d5022642e2fd08cd3a452a7
             csas_color("resdoc"), ", ", csas_color("resdoc-b"), ", ",
             csas_color("sr"), ", ",
             csas_color("techreport"), ", or ", csas_color("manureport"))
