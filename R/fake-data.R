@@ -21,7 +21,7 @@ sim_fsar_data <- function(format = c("wide", "long")) {
   ts2.2 <- rep(1500, length(years))
 
   ## simulated F
-  ts3 <- abs(scale(arima.sim(list(order = c(1, 0, 0), ar = 0.9), n = length(years))))
+  ts3 <- (ts1 / ts2) + rnorm(length(ts1),0,0.1)# abs(scale(arima.sim(list(order = c(1, 0, 0), ar = 0.9), n = length(years))))
   ts3.2 <- rep(0.4, length(years))
 
   ## simulated R

@@ -96,6 +96,7 @@ fsar_plot_base <- function(in.df, language = c("English","French")) {
   ## TAC
   lines(ts.value ~ year, data = tl.df[which(tl.df$ts.name == "TAC-MT"), ], type = "l", lty = 2)
 
+  legend("topright","(A)", bty = "n", cex=1.25)
   legend("topleft",
          legend.text,
          lty = c(1, 2),
@@ -103,6 +104,7 @@ fsar_plot_base <- function(in.df, language = c("English","French")) {
          pch = c(-1, -1),
          box.lwd = 0.5
   )
+
 
   axis(side = 1, padj = -0.5)
   axis(side = 2, las = 1, hadj = 0.9)
@@ -118,11 +120,11 @@ fsar_plot_base <- function(in.df, language = c("English","French")) {
 
   if (language == "English") {
     y.lab <- "Biomass"
-    legend.text <- c("SSB-MT", "95% confidence", "LRP-MT", "USR-MT")
+    legend.text <- c("SSB-MT", "95% confidence", "USR-MT", "LRP-MT")
   }
   if (language == "French") {
     y.lab <- "Biomasse"
-    legend.text <- c("BSR-tonne", "confidence de 95%", "NRL-tonne", "NRS-tonne")
+    legend.text <- c("BSR-tonne", "confidence de 95%", "NRS-tonne", "NRL-tonne")
   }
 
   plot(ts.value ~ year, data = tr.df, type = "n", axes = FALSE, xlab = "", ylab = "", ylim = yl)
@@ -135,6 +137,7 @@ fsar_plot_base <- function(in.df, language = c("English","French")) {
   lines(ts.value ~ year, data = tr.df[which(tr.df$ts.name == "SSBlrp-MT"), ], type = "l", lty = 3, lwd = 2, col = "red")
   lines(ts.value ~ year, data = tr.df[which(tr.df$ts.name == "SSBusr-MT"), ], type = "l", lty = 3, lwd = 2, col = "forestgreen")
 
+  legend("topright","(B)", bty = "n", cex=1.25)
   legend("topleft",
          legend.text,
          lty = c(1, 2, 3, 3),
@@ -156,13 +159,12 @@ fsar_plot_base <- function(in.df, language = c("English","French")) {
 
   if (language == "English") {
     y.lab <- "Mortality"
-    legend.text <- c("F-1/yr", "95% confidence", "Flim-1/yr")
+    legend.text <- c("F-1/yr", "95% confidence", "RR-1/yr", "M-1/yr")
   }
   if (language == "French") {
     y.lab <- "Mortalité"
-    legend.text <- c("F-1/yr", "confidence de 95%", "Flim-1/yr")
+    legend.text <- c("F-1/yr", "confidence de 95%", "RP-1/yr", "M-1/yr")
   }
-
 
   idx <- which(in.df$panel.category == "Fishing" & in.df$ts.name == "F-1/yr")
   plot(ts.value ~ year, data = bl.df[which(bl.df$ts.name == "F-1/yr"), ], type = "l", lwd = 2, axes = FALSE, xlab = "", ylab = "", ylim = yl)
@@ -170,16 +172,22 @@ fsar_plot_base <- function(in.df, language = c("English","French")) {
   lines(ts.value ~ year, data = bl.df[which(bl.df$ts.name == "Fhigh-1/yr"), ], type = "l", lty = 2)
   lines(ts.value ~ year, data = bl.df[which(bl.df$ts.name == "Flim-1/yr"), ], lty = 3, lwd = 2, col = "red")
 
+  lines(ts.value ~ year, data = bl.df[which(bl.df$ts.name == "M-1/yr"), ], lty = 1, lwd = 2, col = grey(0.5))
+
+  ## natural mortality
+
+  legend("topright","(C)", bty = "n", cex=1.25)
   legend("topleft",
          legend.text,
-         lty = c(1, 2, 3),
-         lwd = c(2, 1, 2),
-         col = c("black", "black", "red"),
+         lty = c(1, 2, 3, 1),
+         lwd = c(2, 1, 2, 2),
+         col = c("black", "black", "red", grey(0.5)),
          box.lwd = 0.5
   )
 
   axis(side = 1, padj = -0.5)
   axis(side = 2, las = 1, hadj = 0.9)
+  # axis(side = 4, las = 1, hadj = 0.9)
   mtext(side = 1, x.lab, line = 2, cex = 0.75)
   mtext(side = 2, y.lab, line = 3, cex = 0.75)
 
@@ -203,6 +211,7 @@ fsar_plot_base <- function(in.df, language = c("English","French")) {
   lines(ts.value ~ year, data = br.df[which(br.df$ts.name == "Rlow-E06"), ], type = "l", lty = 2)
   lines(ts.value ~ year, data = br.df[which(br.df$ts.name == "Rhigh-E06"), ], type = "l", lty = 2)
 
+  legend("topright","(D)", bty = "n", cex=1.25)
   legend("topleft",
          legend.text,
          lty = c(1, 2),

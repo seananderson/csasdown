@@ -1,124 +1,140 @@
-## SUMMARY {-}
+## SCIENCE ADVICE {-}
 
-### Fish stock name {-}
+### Status {-}
+-	[Mandatory bullet(s)] 
 
-Text here
+### Trends {-}
+-	[Mandatory bullet(s)] 
 
-### Science Advice {-}
+### Environmental and Climate Change Considerations {-}
+-	[Mandatory bullet(s)] 
 
-Text here
+### Stock Advice {-}
+-	[Mandatory bullet(s)] 
+
+### Other Management Questions [if applicable, otherwise do not include] {-}
+-	[Other bullets if applicable]
 
 ## BASIS FOR ASSESSMENT {-}
 
-### Year assessment approach was approved {-}
+### Assessment Details {-}
+[Mandatory]
 
-### Assessment Type {-}
+#### Year Assessment Approach was Approved {-}
+[Mandatory; year and reference]
 
-### Most Recent Assessment Date {-}
+#### Assessment Type {-}
+[Mandatory; select one of the following: Full Assessment, Interim Year Update, or Harvest Decision Rule (HDR) Update. See the Guidance Document for definitions.] 
 
-1.	Last Full Assessment: date and reference
-2.	Last Interim Year Update: date and reference
+#### Most Recent Assessment Date {-}
+1.	Last Full Assessment: [date and reference]
+2.	Last Interim Year Update: [date and reference]
 
-### Assessment Approach {-}
+#### Assessment Approach {-}
+1.	Broad category: [Select one of the following: Data-poor (e.g., catch-MSY, very limited data, etc.), index-based (trends in empirical indices only), single stock assessment model, model ensemble, MSE (full or MSE-lite), Wild Salmon Policy Integrated Assessment, multiple approaches, other (specify)]
+2.	Specific category: [Select one or as many as apply: No data, Index-based (fishery-dependent indices only), Index-based (including fishery-dependent and fishery-independent indices), Delay difference, Biomass dynamics, Virtual population analysis, Statistical catch-at-length, Statistical catch-at-age, State-Space, Sequential Population Analysis, Surplus Production, Stock-Recruitment Relationship, Potential Biological Removal, Other (please explain)]
+
+[Optional short summary of stock assessment methodology. Maximum length 100 words.]
 
 ### Stock Structure Assumption {-}
-
-Briefly summarize the current assumptions regarding the stock structure and distribution of the stock being reported. Where the assessed stock distribution differs from the stock defined for management (i.e. there are mismatches between the biological unit and the assessment unit and/or the management unit), an explanation must be provided of how the assessed stock relates to the managed stock. Where there are LRPs for multiple sub-units, indicate, by name, the sub-units that have LRPs and those that do not (where possible). 
+[Mandatory. Maximum length 150 words.]
 
 ### Reference Points {-}
+[Mandatory. A table may be used in lieu of bullets for this section. Refer to the Guidance Document for further instructions.]
 
-Include the description of reference point, current value (numbers or formulas), and reference. This section is mandatory. Include N/A if reference point/target has not been developed, with a brief explanation of why there is no reference point. If a USR hasn’t been accepted, and the resource manager asks to provide advice with respect to a proposed USR(s) that hasn’t been fully accepted, please make a note and incorporate requested USR(s). 
+- Limit Reference Point (LRP): 
+- Upper Stock Reference (USR):
+- Removal Reference (RR): 
+- Target (TRP): 
 
-1.	Limit Reference Point (LRP): 
-2.	Upper Stock Reference (USR):
-3.	Removal Reference (RR): 
-4.	Target (TRP): (if developed)
+#### Other Stock Reference Points {-}
+[If applicable (otherwise, do not include). A table may be used in lieu of bullets for this section.] 
 
-#### Harvest Decision Rule {-}
+#### Hatchery Reference Points {-}
+[If applicable (otherwise, do not include). A table may be used in lieu of bullets for this section.] 
 
-If applicable
+#### Habitat or Ecosystem Reference Points {-}
+[If applicable (otherwise, do not include). A table may be used in lieu of bullets for this section.] 
 
-Include text and/or figure to describe the harvest decision rule(s) for the fishery if applicable.
+### Harvest Decision Rule {-}
+[Optional (otherwise, do not include). Maximum length 100 words.]
 
-#### Data {-}
+### Enhancement Plan {-}
+[Optional (otherwise, do not include). Maximum length 100 words.]
 
-### ECOLOGICAL AND CLIMATE CHANGE CONSIDERATIONS {-}
+### Habitat Restoration Plan {-}
+[Optional (otherwise, do not include). Maximum length 100 words.]
 
-Describe the environmental and climate change considerations affecting the fish stock. Focus on tactical 1-3 year advice and any long-term strategic considerations for the stock if available. Focus on more recent changes and how they represents a change from the overall ecosystem context. i.e. this is driving changes in mortality. Use plain language, and talk about the consequences/ impacts on the stock. Incorporate implications of trends in ecological and/or climate change drivers on the future state of the stock to help with development of tactical and strategic goals.  
+### Data {-}
+[Mandatory. Maximum length 300 words.] 
 
+Data changes: [Optional (otherwise, do not include).]
 
-### ASSESSMENT {-}
+## ASSESSMENT {-}
+[Mandatory panel of images comes first – example shown. Refer to the Guidance Document for options and further instructions.]
 
-#### Historical and Recent Stock Trajectory and Trends  {-}
+(ref:caption) (A) Catch and Total Allowable Catch, (B) Spawning Stock Biomass (SSB) in relation to the Limit Reference Point (LRP; X) and (proposed) Upper Stock Reference (USR; X), (C) Fishing Mortality (F; X), Removal Reference (RR) and Natural Mortality (M), (D) Recruitment (numbers).
 
-To examine different options for a 4-panel template, let's first simulate a dataset that contains time-series in 4 different categories:
-
-1 - catch - catch, landings, TAC
-2 - stock - SSB and associated reference points
-3 - fishing - fishing and natural mortality
-4 - other (currently showing recruitment)
-
-
-```{r templates-2, fig.cap="This is a figure caption."}
-## simulated outputs from an assessment
-## this simulated dataset will have all possible types of values for the proposed 4-panel template
-## a starting point could be ICES SAG
-## https://www.ices.dk/data/assessment-tools/Pages/stock-assessment-graphs.aspx
-
-df <- sim_fsar_data()
-fsar_plot_ggplot(df, "English")
-```
-
-
-And in base R, in French and English:
-
-```{r base1, fig.cap="This is a figure caption."}
+```{r base1, fig.cap="(ref:caption)"}
 in.df <- sim_fsar_data("long")
 
 ## English template
 fsar_plot_base(in.df, "English")
 ```
 
+[Optional. Add an additional optional panel of 4 indicators if relevant to developing advice.] 
+[Optional. If the FSAR or FSRR is being used to provide advice for more than one stock, the mandatory panel can be repeated for each stock.]
 
-#### History of (Landings/Harvest/Effort), TAC (& Catch Advice) {-}
+### Historical and Recent Stock Trajectory and Trends {-}
+[Mandatory. Maximum text length one page. Must be first section in Assessment section.]
 
-Table of landings/harvest or effort if applicable, total allowable catch (TAC) and (optional) catch advice, over the recent historical period. Identify whether landings are based on fishing year or calendar year and the units of landings, TAC and catch advice. This section is mandatory, include N/A if not available or applicable with text description indicating why the information is not available.
+[Report trends in relevant indicator(s), one per paragraph, in the following format:]
 
-#### Projections or Simulations {-}
+#### [Indicator 1] [specify name, e.g., Abundance]: {-}
+[Provide values and trends for the stock (as applicable).]
 
-This section is used to report the available information on likely future trends in biomass. Indicate the projected outcome under the current, or range of, catch levels (provide the short or long-term projections if available, or a qualitative statement based on past experience/expert judgement, etc.). 
-Include: years of projection, the probability of tested and current catch causing biomass to remain below, or to decline below the reference points (probability of being below the LRP and below the USR) and probability of increasing above the Removal Reference. Include probability of stock growth next year if the stock is in the Critical Zone. Include ‘risk tables’ if possible. This section is mandatory, include N/A if projections are not available. 
+#### Unknown {-}
+[Optional. Indicate what indicators are not available for the stock (as applicable); otherwise, do not include.]
 
-#### Harvest Decision Rule Update (if applicable) {-}
+### History of [Management; Landings/Harvest/Effort, TAC \& Catch Advice] {-}
+[Mandatory. Title can vary. Maximum text length one page.] 
 
-Any figures or text necessary to incorporate related to updating a Harvest Decision Rule, that haven’t already been included.
+#### History of Hatchery and Supplementation {-}
+[If applicable (otherwise, do not include).]
 
-#### Evaluation of Exceptional Circumstances/Assessment Triggers (if applicable) {-}
+#### History of Freshwater Habitat Impacts {-}
+[If applicable (otherwise, do not include).]
 
-Evaluation of any exceptional circumstances to push for a re-evaluation of a management procedures in an MSE context, or triggers that would prompt an assessment earlier than the pre-agreed assessment cycle (as per SAR 2016/020). 
+### Projections [optional titles: Simulations, Future Scenarios] {-}
+[Mandatory. Title can vary. Tables or figures can be used as necessary to support decision-making.]
 
-### INDIGENOUS CONTRIBUTIONS {-}
+### Environmental and Climate Change Considerations {-}
+[Mandatory. Maximum 300 words. May be moved earlier in the Assessment section.]
 
-### BYCATCH (OPTIONAL SECTION)  {-}
+### Harvest Decision Rule Outputs {-}
+[If applicable (otherwise, do not include).] 
 
-Estimates of bycatch of non-target species. Target species caught in other fisheries should be summarized in the landings portion of the assessment. 
+### Evaluation of Exceptional Circumstances/Assessment Triggers {-}
+[If applicable (otherwise, do not include).] 
 
-### OTHER MANAGEMENT QUESTIONS (OPTIONAL SECTION) {-}
+## BYCATCH {-}
+[Optional (otherwise, do not include).] 
 
-It is preferable that other management questions be addressed in a seperate meeting, with a regular SAR document. However, if there is a management question that must be addressed during the full assessment, a brief summary of the evaluation can be placed here if it is relevant for decision making, and bullets added to the science advice section. Examples of science advice that has been given in a full assessment meeting:
+## PROCEDURE FOR INTERIM YEAR UPDATES {-}
+[Optional (otherwise, do not include).] 
 
-Examples
-- Science advice to set minimum legal size for the fishery; evaluation of size at sexual maturity
-- Proposal of an Upper Reference Point – if it’s possible to do this in a separate process with a SAR that’s preferable
-- Proposal of an LRP – if it’s possible to do this in a separate process with a SAR that’s preferable
+## OTHER MANAGEMENT QUESTIONS {-}
+[Optional (otherwise, do not include).] 
 
-### SOURCES OF UNCERTAINTY {-}
+## SOURCES OF UNCERTAINTY {-}
+[Mandatory. Maximum length 500 words.]
 
-### LIST OF MEETING PARTICIPANTS {-}
+### Research Recommendations {-}
+[Optional (otherwise, do not include).] 
 
-```{r}
-particpants.df <- read.csv(here::here("data", "participants.csv"))
-csas_table(particpants.df)
-```
+## LIST OF MEETING PARTICIPANTS {-}
+[Mandatory. The list is to include the name of each participant and their affiliation.]
 
-### SOURCES OF INFORMATION {-}
+## SOURCES OF INFORMATION {-}
+[Mandatory.]
+[The following paragraph is optional for the Context and MANDATORY for the Sources of Information.]

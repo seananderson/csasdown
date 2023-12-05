@@ -128,16 +128,17 @@ render_sar <- function(...) {
   doc <- officer::read_docx(system.file("csas-docx", file, package = "csasdown"))
 
 
+  d <- officer::headers_replace_text_at_bkm(doc, "region_name", x$region)
   d <- officer::headers_replace_text_at_bkm(doc, "report_year", x$report_year)
   d <- officer::headers_replace_text_at_bkm(doc, "report_number", x$report_number)
-  d <- officer::headers_replace_text_at_bkm(doc, "region_name", x$region)
 
-  doc <- officer::body_replace_all_text(doc, tolower("<<FISH STOCK NAME>>"), x$report_title)
+  doc <- officer::body_replace_text_at_bkm(doc, "report_title", x$report_title)
+  # doc <- officer::body_replace_all_text(doc, tolower("<<PUBLICATION TITLE>>"), x$report_title)
 
-  doc <- officer::body_replace_all_text(doc, "<<context paragraph>>", x$context)
+  doc <- officer::body_replace_text_at_bkm(doc, "context_paragraph", x$context)
 
   date_title <- paste0(x$meeting_date, " '", x$report_title, "'")
-  doc <- officer::body_replace_all_text(doc, "<<meeting date and title>>", date_title)
+  doc <- officer::body_replace_text_at_bkm(doc, "meeting_date_and_title", date_title)
 
   release_date <- paste(x$release_month, x$report_year)
   d <- officer::footers_replace_text_at_bkm(doc, "release_date", release_date)
