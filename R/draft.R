@@ -9,6 +9,8 @@
 #' @param fn Bookdown starting file, `index.Rmd` by default
 #' @param edit Logical. If `TRUE`, edit the template file immediately
 #' (See `edit` in [rmarkdown::draft()])
+#' @param create_rstudio_file Logical. Create RStudio project file? Set to
+#' `FALSE` if in a subdirectory or a folder that already has an RStudio file.
 #' @param verbose Logical. If `TRUE`, print messages
 #' @param testing Logical. If `TRUE`, the question about overwriting
 #' files which already exist will skipped to ensure unit tests work
@@ -35,6 +37,7 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport
                   directory = getwd(),
                   fn = "index.Rmd",
                   edit = FALSE,
+                  create_rstudio_file = TRUE,
                   verbose = TRUE,
                   testing = FALSE,
                   testing_affirm_ovr = FALSE,
@@ -127,10 +130,10 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport
   if (file.exists("_gitignore")) {
     file.rename("_gitignore", ".gitignore")
   }
-  if (file.exists("_here")) {
-    file.rename("_here", ".here")
-  }
-  create_rstudio_project_file()
+  # if (file.exists("_here")) {
+  #   file.rename("_here", ".here")
+  # }
+  if (create_rstudio_file) create_rstudio_project_file()
 
   if(verbose){
     # `dirs` is directories ONLY, no files

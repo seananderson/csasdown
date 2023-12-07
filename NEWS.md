@@ -4,7 +4,10 @@
 
 * The Science Response template now uses `french_title` instead of `title_other`
   for consistency with other formats and should be built with 
-  `csasdown::render()`
+  `csasdown::render()`. #241
+
+* Add option `create_rstudio_file` in `draft()` to avoid creating an RStudio 
+  project file. Stop creating a `.here` file. #243
 
 # csasdown 0.1.0
 
