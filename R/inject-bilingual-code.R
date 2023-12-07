@@ -128,7 +128,14 @@ inject_bilingual_code <- function(fn = get_index_filename(
       'region: `r ifelse(fr(), meta$french_region, meta$region)`',
       'csl: `r csl`',
       '---')
-  }else{
+  } else if (doc_type == "sr") { # no title language flipping
+    yaml_code <- c(
+      '---',
+      'month: `r ifelse(fr(), meta$french_month, meta$month)`',
+      'region: `r ifelse(fr(), meta$french_region, meta$region)`',
+      'csl: `r csl`',
+      '---')
+  } else {
     yaml_code <- c(
       '---',
       'title: `r ifelse(fr(), meta$french_title, meta$title)`',
