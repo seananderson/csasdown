@@ -1,5 +1,12 @@
 # csasdown
 
+# csasdown 0.1.3
+
+* Add `on.exit()` to `csasdown::render()` to avoid leaving behind `tmp-` files
+  if an R error is encountered.
+  
+* Fix `csasdown::render()` render environment.
+
 # csasdown 0.1.2
 
 * The Science Response template now uses `french_title` instead of `title_other`
