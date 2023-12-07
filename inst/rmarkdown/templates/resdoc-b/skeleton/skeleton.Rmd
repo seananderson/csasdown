@@ -75,9 +75,7 @@ output:
    highlight: tango
 # ------------
 # End of options to set
-knit: (function(input, ...) {
-       csasdown::render('_bookdown.yml')
-      })
+knit: csasdown::render
 link-citations: true
 bibliography: bib/refs.bib
 # Any extra LaTeX code for the header:

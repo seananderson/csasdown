@@ -62,9 +62,7 @@ type:
   manureport
 # ------------
 # End of options to set
-knit: (function(input, ...) {
-       csasdown::render('_bookdown.yml')
-      })
+knit: csasdown::render
 site: bookdown::bookdown_site
 link-citations: true
 bibliography: bib/refs.bib
