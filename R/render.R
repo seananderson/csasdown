@@ -167,6 +167,7 @@ render <- function(yaml_fn = "_bookdown.yml",
       suppressWarnings(
         render_book(index_fn,
                     config_file = tmp_yaml_fn,
+                    envir = parent.frame(n = 2L),
                     ...)
       )
     )
@@ -174,6 +175,7 @@ render <- function(yaml_fn = "_bookdown.yml",
     suppressMessages(
       render_book(index_fn,
                   config_file = tmp_yaml_fn,
+                  envir = parent.frame(n = 2L),
                   ...)
     )
   }
