@@ -74,9 +74,7 @@ output:
    highlight: tango
 # ------------
 # End of options to set
-knit: (function(input, ...) {
-       bookdown::render_book("index.Rmd")
-      })
+knit: (function(input, ...) csasdown::render())
 link-citations: true
 bibliography: bib/refs.bib
 # Any extra LaTeX code for the header:

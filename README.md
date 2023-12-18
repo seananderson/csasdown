@@ -30,7 +30,7 @@ install.packages("remotes")
 remotes::install_github("pbs-assess/csasdown", dependencies = TRUE)
 ```
 
-3. Create a new project in a new directory to hold your document project and all the files that csasdown creates. If you're using RStudio: click File -> New Project -> New Directory -> New Project, then type the name of the project in the **Directory name** box. Check the box **Open in new session**. If you are going to use GitHub version control (or if you are not sure), check the box **Create a git repository**. Click **Create Project**. A new RStudio project will open up, and will have its working directory set to the new document project's directory.
+3. If you already have a folder (or subfolder) you'd like your report to be kept in, `setwd()` to your folder in R and continue on. Add the argument `create_rstudio_file = FALSE` to the below `draft()` calls (or manually delete the RStudio project file that gets auto created). If you are starting a new project and want all the files to be in the root folder, create that new folder, `setwd()` to that folder in R, and then continue the steps below.
 
 4. Run this line in your R console to create a new Research Document from the built-in template in whatever your working directory is:
 
@@ -38,7 +38,7 @@ remotes::install_github("pbs-assess/csasdown", dependencies = TRUE)
 csasdown::draft("resdoc")
 ```
 
-or for an advanced Research Document with bilingual features (in development):
+or for an advanced Research Document with bilingual features (in development, you likely want to use the main `"resdoc"` above for now):
 
 ```r
 csasdown::draft("resdoc-b")
@@ -55,7 +55,6 @@ a Manuscript Report:
 ```r
 csasdown::draft("manureport")
 ```
-
 
 or for a Science Response:
 
@@ -77,13 +76,13 @@ Note that the `techreport` and `manureport` examples contain a lot of informatio
 
 The `resdoc-b` contains examples and guidance on setting up chunks to hold both English and French Rmarkdown, and explanations of the features introduced in version 0.1.0 (see the [NEWS](https://github.com/pbs-assess/csasdown/blob/main/NEWS.md) file).
 
-5. Render the document right away to make sure everything works by opening the file **index.Rmd** and clicking the **knit** button in RStudio. Once completed, a preview pane showing the PDF document will appear. The location of the PDF is in the **_book** directory. See the *Rendering* section below for more information.
+5. Render the document right away to make sure everything works by opening the file **index.Rmd** and clicking the **knit** button in RStudio. Once completed, a preview pane showing the PDF document will appear. The location of the PDF is in the **_book** directory. See the *Rendering* section below for more information. You can also render on the command line by `setwd()` to the folder that contains `index.Rmd` and `_bookdown.yml` and running `csasdown::render()`. See the *Rendering* section below.
 
 6. Read the output PDF carefully and compare with what is written in the .Rmd files. This will help you understand more quickly how the document is put together and how you might want to structure your document.
 
 7. *(Optional but recommended)* Create a blank repository on GitHub, commit your changes, and push to GitHub. New to Git? Start with <https://happygitwithr.com/>.
 
-8. Need to make an English *and* French version? csasdown has support for both. Also see csasdown's sibling package [rosettafish](https://github.com/pbs-assess/rosettafish).
+8. Need to make an English *and* French version? csasdown has support for both. Also see csasdown's sibling package [rosettafish](https://github.com/pbs-assess/rosettafish), which can help with translating text in figures.
 
 ## Publications prepared using csasdown
 
@@ -109,7 +108,6 @@ A message will appear telling you which language and document type is being rend
 
 Every time you add something new, you should render the document to make sure you didn't break the build. It is much easier to find the problem when only one small known change was made since the last time it was rendered. 
 
-
 To change the output formats between PDF and Word find the following chunk of code in `index.Rmd` and change it to either `pdf` or `word`.
 
 Like this:
@@ -128,18 +126,17 @@ output:
    french: false
 ```
 
-To render other types of *csasdown* documents, replace `resdoc_pdf` and `resdoc_word` with `sr_pdf`, `sr_word`, `manureport_pdf`, `manureport_word`, `techreport_pdf`, or `techreport_word`.
-
 ***
 **Rendering using the console**
 
 You can also render from the console if you're not using RStudio or to allow debugging of your code.
 
-To do this, you must have your working directory (see `getwd()`) be the one with the `index.Rmd` file and `_bookdown.yml` files in it.  Then run:
+To do this, you must have your working directory (see `getwd()`) be the one with the `index.Rmd` file and `_bookdown.yml` files in it. Use `setwd()`. Then run:
 
 ```r
 csasdown::render()
 ```
+
 or, for a detailed explanation of each step in the rendering process:
 
 ```r
