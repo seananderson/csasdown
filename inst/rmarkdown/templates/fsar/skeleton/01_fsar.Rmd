@@ -37,6 +37,8 @@
 [Optional short summary of stock assessment methodology. Maximum length 100 words.]
 
 ### Stock Structure Assumption {-}
+Stock overview information: [reference to a Research Document or other publication, and/or footnote to the working paper]
+
 [Mandatory. Maximum length 150 words.]
 
 ### Reference Points {-}

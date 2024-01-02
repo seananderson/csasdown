@@ -124,13 +124,14 @@ render_sar <- function(...) {
 
   x <- rmarkdown::yaml_front_matter("index.Rmd")
 
+  ## first page
   file <- "fsar-first-page.docx"
   doc <- officer::read_docx(system.file("csas-docx", file, package = "csasdown"))
 
 
-  d <- officer::headers_replace_text_at_bkm(doc, "region_name", x$region)
-  d <- officer::headers_replace_text_at_bkm(doc, "report_year", x$report_year)
-  d <- officer::headers_replace_text_at_bkm(doc, "report_number", x$report_number)
+  doc <- officer::headers_replace_text_at_bkm(doc, "region_name", x$region)
+  doc <- officer::headers_replace_text_at_bkm(doc, "report_year", x$report_year)
+  doc <- officer::headers_replace_text_at_bkm(doc, "report_number", x$report_number)
 
   doc <- officer::body_replace_text_at_bkm(doc, "report_title", x$report_title)
   # doc <- officer::body_replace_all_text(doc, tolower("<<PUBLICATION TITLE>>"), x$report_title)
@@ -141,19 +142,29 @@ render_sar <- function(...) {
   doc <- officer::body_replace_text_at_bkm(doc, "meeting_date_and_title", date_title)
 
   release_date <- paste(x$release_month, x$report_year)
-  d <- officer::footers_replace_text_at_bkm(doc, "release_date", release_date)
+  doc <- officer::footers_replace_text_at_bkm(doc, "release_date", release_date)
 
   print(doc, target = "TEMP-first-page.docx")
 
+
+  ## main body of document
+  #file <- "fsar.docx"
+  #doc <- officer::read_docx(system.file("_book", file, package = "csasdown"))
+
+
+  ## last page
   file <- "fsar-last-page.docx"
   doc <- officer::read_docx(system.file("csas-docx", file, package = "csasdown"))
 
   date_title <- paste0(x$meeting_date, " '", x$report_title, "'")
+  doc <- officer::headers_replace_text_at_bkm(doc, "region_name_header", x$region)
+  ## why doesn't this work?
+
   doc <- officer::body_replace_text_at_bkm(doc, "meeting_date_and_title", date_title)
 
   doc <- officer::body_replace_text_at_bkm(doc, "csa_address", x$csa_address)
   doc <- officer::body_replace_text_at_bkm(doc, "email", x$email)
-  doc <- officer::body_replace_text_at_bkm(doc, "region", x$region)
+  doc <- officer::body_replace_text_at_bkm(doc, "region_name", x$region)
   doc <- officer::body_replace_text_at_bkm(doc, "phone", x$phone)
   doc <- officer::body_replace_text_at_bkm(doc, "copyright_year", x$report_year)
 
