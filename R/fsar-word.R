@@ -127,7 +127,6 @@ render_sar <- function(...) {
   file <- "fsar-first-page.docx"
   doc <- officer::read_docx(system.file("csas-docx", file, package = "csasdown"))
 
-
   doc <- officer::headers_replace_text_at_bkm(doc, "region_name", x$region)
   doc <- officer::headers_replace_text_at_bkm(doc, "report_year", x$report_year)
   doc <- officer::headers_replace_text_at_bkm(doc, "report_number", x$report_number)
@@ -145,19 +144,12 @@ render_sar <- function(...) {
 
   print(doc, target = "TEMP-first-page.docx")
 
-
-  ## main body of document
-  #file <- "fsar.docx"
-  #doc <- officer::read_docx(system.file("_book", file, package = "csasdown"))
-
-
   ## last page
   file <- "fsar-last-page.docx"
   doc <- officer::read_docx(system.file("csas-docx", file, package = "csasdown"))
 
   date_title <- paste0(x$meeting_date, " '", x$report_title, "'")
   doc <- officer::headers_replace_text_at_bkm(doc, "region_name_header", x$region)
-  ## why doesn't this work?
 
   doc <- officer::body_replace_text_at_bkm(doc, "meeting_date_and_title", date_title)
 
@@ -172,19 +164,27 @@ render_sar <- function(...) {
   doc <- officer::body_replace_text_at_bkm(doc, "report_year_eng2", x$report_year)
   doc <- officer::body_replace_text_at_bkm(doc, "report_number_eng", x$report_number)
 
-
   doc <- officer::body_replace_text_at_bkm(doc, "report_year_french", x$report_year)
   doc <- officer::body_replace_text_at_bkm(doc, "report_year_french2", x$report_year)
   doc <- officer::body_replace_text_at_bkm(doc, "report_number_french", x$report_number)
   doc <- officer::body_replace_text_at_bkm(doc, "report_title_other_lang", x$report_title_french)
 
   doc <- officer::body_replace_text_at_bkm(doc, "inuktitut_citation", x$inuktitut_citation)
-
   print(doc, target = "TEMP-last-page.docx")
+
+  ## add header to body that was produced by R Markdown rendering
+  ## but, gets clobbered later! so use headers_replace_all_text() approach
+  # officer::read_docx("_book/fsar.docx") |>
+  #   officer::headers_replace_text_at_bkm("region_header", x$region) |>
+  #   print(target = "_book/fsar.docx")
 
   d <- officer::read_docx("TEMP-first-page.docx")
   d <- officer::body_add_docx(d, "_book/fsar.docx")
   d <- officer::body_add_docx(d, "TEMP-last-page.docx")
+
+  suppressWarnings({ # will warn it can't find it, but it can!
+    d <- officer::headers_replace_all_text(d, "Name of Region", x$region, fixed = TRUE)
+  })
 
   print(d, target = "_book/fsar.docx")
 
