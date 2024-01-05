@@ -128,6 +128,8 @@ render_sar <- function(...) {
   doc <- officer::read_docx(system.file("csas-docx", file, package = "csasdown"))
 
   doc <- officer::headers_replace_text_at_bkm(doc, "region_name", x$region)
+  doc <- officer::headers_replace_text_at_bkm(doc, "region_name_rest", x$region) # non-first page
+  doc <- officer::headers_replace_text_at_bkm(doc, "report_name_rest", x$report_title) # non-first page
   doc <- officer::headers_replace_text_at_bkm(doc, "report_year", x$report_year)
   doc <- officer::headers_replace_text_at_bkm(doc, "report_number", x$report_number)
 
@@ -172,19 +174,9 @@ render_sar <- function(...) {
   doc <- officer::body_replace_text_at_bkm(doc, "inuktitut_citation", x$inuktitut_citation)
   print(doc, target = "TEMP-last-page.docx")
 
-  ## add header to body that was produced by R Markdown rendering
-  ## but, gets clobbered later! so use headers_replace_all_text() approach
-  # officer::read_docx("_book/fsar.docx") |>
-  #   officer::headers_replace_text_at_bkm("region_header", x$region) |>
-  #   print(target = "_book/fsar.docx")
-
   d <- officer::read_docx("TEMP-first-page.docx")
   d <- officer::body_add_docx(d, "_book/fsar.docx")
   d <- officer::body_add_docx(d, "TEMP-last-page.docx")
-
-  suppressWarnings({ # will warn it can't find it, but it can!
-    d <- officer::headers_replace_all_text(d, "Name of Region", x$region, fixed = TRUE)
-  })
 
   print(d, target = "_book/fsar.docx")
 
