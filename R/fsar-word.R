@@ -178,6 +178,9 @@ render_sar <- function(...) {
   d <- officer::body_add_docx(d, "_book/fsar.docx")
   d <- officer::body_add_docx(d, "TEMP-last-page.docx")
 
+  # d <- officer::change_styles(d,
+  #   list("List Bullet" = "MyBullet"))
+
   print(d, target = "_book/fsar.docx")
 
   unlink("TEMP-first-page.docx")

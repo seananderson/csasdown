@@ -1,19 +1,38 @@
 ## SCIENCE ADVICE {-}
 
 ### Status {-}
--	[Mandatory bullet(s)] 
+
+::: {custom-style="fsar-bullet"}
+Mandatory bullet 1
+:::
+
+::: {custom-style="fsar-bullet"}
+Mandatory bullet 2 if needed (example)
+:::
 
 ### Trends {-}
--	[Mandatory bullet(s)] 
+
+::: {custom-style="fsar-bullet"}
+[Mandatory bullet(s)] 
+:::
 
 ### Environmental and Climate Change Considerations {-}
--	[Mandatory bullet(s)] 
+
+::: {custom-style="fsar-bullet"}
+[Mandatory bullet(s)]
+:::
 
 ### Stock Advice {-}
--	[Mandatory bullet(s)] 
+
+::: {custom-style="fsar-bullet"}
+[Mandatory bullet(s)] 
+:::
 
 ### Other Management Questions [if applicable, otherwise do not include] {-}
--	[Other bullets if applicable]
+
+::: {custom-style="fsar-bullet"}
+[Other bullets if applicable]
+:::
 
 ## BASIS FOR ASSESSMENT {-}
 
