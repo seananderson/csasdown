@@ -18,7 +18,6 @@ fsar_word <- function(...) {
     )
   )
   base$knitr$opts_chunk$comment <- NA
-  base$knitr$opts_chunk$fig.align <- "center"
   base
 }
 
