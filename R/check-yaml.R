@@ -57,7 +57,7 @@ check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
   ))
   x_index <- names(yaml_front_matter("index.Rmd"))
   .diff <- setdiff(x_skeleton, x_index)
-  .diff <- .diff[-tag_exceptions]
+  .diff <- .diff[!.diff %in% tag_exceptions]
   if (length(.diff) > 0L) {
     bail("Your ", fn_color("index.Rmd"), " file is missing the YAML ",
          "tag(s):\n\n", tag_color(paste(.diff, collapse = "\n")))
