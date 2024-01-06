@@ -208,6 +208,10 @@ csas_table <- function(x,
 
   # Insert `Continued on next page ...` and
   # `... Continued from previous page` for latex
+  if(!is.logical(show_continued_text)){
+    stop("The `show_continued_text` value is non-logical. If setting in ",
+         "YAML, use `true` or `false`.")
+  }
   if(format == "latex" && show_continued_text){
 
     k_lines <- strsplit(k, "\n")[[1]]
