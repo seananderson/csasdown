@@ -17,6 +17,7 @@ csas_table(
   col_names_align = "c",
   escape = FALSE,
   hold_position = TRUE,
+  show_continued_text = rmarkdown::metadata$show_continued_text \%||\% TRUE,
   extra_header = NULL,
   ex_bold = FALSE,
   ex_italic = FALSE,
@@ -59,10 +60,19 @@ csas_table(
 
 \item{escape}{As defined by \code{\link[kableExtra:kable_styling]{kableExtra::kable_styling()}}.}
 
-\item{hold_position}{force the table placement to be where the code is called
-(don't let latex position the table where it wants)}
+\item{hold_position}{force the table placement to be where the code is
+called (don't let latex position the table where it wants)}
 
-\item{extra_header}{character vector of extra headers to be placed above the headers}
+\item{show_continued_text}{Logical. If \code{TRUE}, show the
+'Continued on next page ...' and '... Continued from previous page'.
+If this function is called from within an RMarkdown build, this will
+be set to the value of the YAML option of the same name unless a call
+to this function within that build supplies this argument as the
+opposite of the YAML-set value
+if \code{format} = "latex"}
+
+\item{extra_header}{character vector of extra headers to be placed above
+the headers}
 
 \item{ex_bold}{See \code{bold} in kableExtra:::pdfTable_add_header_above()}
 
@@ -90,15 +100,18 @@ csas_table(
 
 \item{ex_line_sep}{See \code{line_sep} in kableExtra:::pdfTable_add_header_above()}
 
-\item{cols_no_format}{A vector of names of numeric columns to not apply \code{big.mark}
-and \code{decimal.mark} to. The function will attempt to detect year columns by default
-and not apply formatting to those, but this argument, if present, will be added to those}
+\item{cols_no_format}{A vector of names of numeric columns to not
+apply \code{big.mark} and \code{decimal.mark} to. The function will attempt to
+detect year columns by default and not apply formatting to those, but
+this argument, if present, will be added to those}
 
-\item{cols_to_format}{A vector of the names of columns to format in case they are left
-unformatted by the year detection algorithm. As long as the columns are numeric,
-(\code{is.numeric() == TRUE}), formatting will be applied to these columns}
+\item{cols_to_format}{A vector of the names of columns to format in case
+they are left unformatted by the year detection algorithm. As long as the
+columns are numeric, (\code{is.numeric() == TRUE}), formatting will be applied
+to these columns}
 
-\item{...}{Other arguments passed to \code{\link[knitr:kable]{knitr::kable()}} and kableExtra:::pdfTable_add_header_above()}
+\item{...}{Other arguments passed to \code{\link[knitr:kable]{knitr::kable()}} and
+kableExtra:::pdfTable_add_header_above()}
 }
 \description{
 This is a custom wrapper for \code{\link[knitr:kable]{knitr::kable()}} with some arguments set so that

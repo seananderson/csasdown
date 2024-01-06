@@ -14,10 +14,19 @@
 #' @param col_names Names for the columns to show on table.
 #' @param col_names_align As defined in [kableExtra::linebreak()].
 #' @param escape As defined by [kableExtra::kable_styling()].
-#' @param hold_position force the table placement to be where the code is called
-#' (don't let latex position the table where it wants)
-#' @param extra_header character vector of extra headers to be placed above the headers
-#' @param ... Other arguments passed to [knitr::kable()] and kableExtra:::pdfTable_add_header_above()
+#' @param hold_position force the table placement to be where the code is
+#' called (don't let latex position the table where it wants)
+#' @param show_continued_text Logical. If `TRUE`, show the
+#' 'Continued on next page ...' and '... Continued from previous page'.
+#' If this function is called from within an RMarkdown build, this will
+#' be set to the value of the YAML option of the same name unless a call
+#' to this function within that build supplies this argument as the
+#' opposite of the YAML-set value
+#' if `format` = "latex"
+#' @param extra_header character vector of extra headers to be placed above
+#' the headers
+#' @param ... Other arguments passed to [knitr::kable()] and
+#' kableExtra:::pdfTable_add_header_above()
 #' @param ex_bold See `bold` in kableExtra:::pdfTable_add_header_above()
 #' @param ex_italic See `italic` in kableExtra:::pdfTable_add_header_above()
 #' @param ex_monospace See `monospace` in kableExtra:::pdfTable_add_header_above()
@@ -31,16 +40,19 @@
 #' @param ex_escape See `escape` in kableExtra:::pdfTable_add_header_above()
 #' @param ex_line See `line` in kableExtra:::pdfTable_add_header_above()
 #' @param ex_line_sep See `line_sep` in kableExtra:::pdfTable_add_header_above()
-#' @param cols_no_format A vector of names of numeric columns to not apply `big.mark`
-#' and `decimal.mark` to. The function will attempt to detect year columns by default
-#' and not apply formatting to those, but this argument, if present, will be added to those
-#' @param cols_to_format A vector of the names of columns to format in case they are left
-#' unformatted by the year detection algorithm. As long as the columns are numeric,
-#' (`is.numeric() == TRUE`), formatting will be applied to these columns
+#' @param cols_no_format A vector of names of numeric columns to not
+#' apply `big.mark` and `decimal.mark` to. The function will attempt to
+#' detect year columns by default and not apply formatting to those, but
+#' this argument, if present, will be added to those
+#' @param cols_to_format A vector of the names of columns to format in case
+#' they are left unformatted by the year detection algorithm. As long as the
+#' columns are numeric, (`is.numeric() == TRUE`), formatting will be applied
+#' to these columns
 #'
 #' @importFrom knitr kable
 #' @importFrom kableExtra row_spec kable_styling landscape linebreak
 #' @importFrom purrr map map2 map_chr map_lgl map_df
+#' @importFrom rlang `%||%`
 #' @examples
 #' csasdown::csas_table(head(iris))
 #' @export
@@ -56,6 +68,8 @@ csas_table <- function(x,
                        col_names_align = "c",
                        escape = FALSE,
                        hold_position = TRUE,
+                       show_continued_text =
+                         rmarkdown::metadata$show_continued_text %||% TRUE,
                        extra_header = NULL,
                        ex_bold = FALSE,
                        ex_italic = FALSE,
@@ -191,8 +205,10 @@ csas_table <- function(x,
       ex_line_sep
     )
   }
-  # Insert "Continued on last page for latex
-  if(format == "latex"){
+
+  # Insert `Continued on next page ...` and
+  # `... Continued from previous page` for latex
+  if(format == "latex" && show_continued_text){
 
     k_lines <- strsplit(k, "\n")[[1]]
 

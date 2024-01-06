@@ -63,6 +63,7 @@ Imports:
     knitr,
     officer,
     purrr,
+    rlang,
     rmarkdown,
     stringr,
     tibble,
