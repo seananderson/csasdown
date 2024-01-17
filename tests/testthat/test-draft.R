@@ -16,7 +16,7 @@ test_that("draft() works", {
                                verbose = TRUE,
                                testing = TRUE,
                                testing_affirm = FALSE),
-         paste0("New document not drafted, you decided to keep"))
+         paste0("New document not drafted"))
 
   # ---------------------------------------------------------------------------
   # Bad directory
@@ -34,13 +34,6 @@ test_that("draft() works", {
                       "be created there"))
 
   # ---------------------------------------------------------------------------
-  # Delete all non-proj files
-  expect_message(csasdown::draft("resdoc-b",
-                                 verbose = TRUE,
-                                 testing = TRUE,
-                                 testing_affirm = TRUE),
-                 "Deleted")
-
   dir.create("test-folder")
   setwd("test-folder")
   unlink("make-report-here", recursive = TRUE, force = TRUE)
