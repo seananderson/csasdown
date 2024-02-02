@@ -1,5 +1,5 @@
 ---
-report_title: "Publication Title"
+report_title: "[Publication Title]"
 report_year: "2024"
 release_month: "January"
 report_number: "XXX"
@@ -11,7 +11,8 @@ csa_address: "CSA Address goes here"
 report_title_french: "Fish stock name"
 inuktitut_citation: "Inuktitut citation here"
 context: |
-  Here is the context text. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  [Mandatory. Less than 150 words]
+  Here is the context text. 
 output:
  csasdown::fsar_word
 link-citations: false
