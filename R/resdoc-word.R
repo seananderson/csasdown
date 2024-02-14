@@ -5,7 +5,12 @@
 #' to specify the creation of a Microsoft Word version of the Research
 #' Document or Science Response.
 #'
-#' @param ... Other arguments to [bookdown::word_document2()]
+#' @details
+#' Functions with the suffix 2 utilize the officedown package for its additional
+#' flexibility for Word documents. However, its behaviour may not be consistent
+#' with bookdown.
+#'
+#' @param ... Other arguments to [bookdown::word_document2()] or, in the case of `resdoc_word2`, [officedown::rdocx_document()]
 #' @import bookdown
 #' @rdname csas_docx
 #' @return A Word Document in the `.docx` format based on the CSAS Res Doc
@@ -13,10 +18,32 @@
 #' @export
 resdoc_word <- function(...) {
   file <- if (fr()) "RES2021-fra-content.docx" else "RES2021-eng-content.docx"
-  base <- word_document2(...,
-                         reference_docx = system.file("csas-docx",
-                                                      file,
-                                                      package = "csasdown"))
+  base <- bookdown::word_document2(...,
+                                   reference_docx = system.file("csas-docx",
+                                                                file,
+                                                                package = "csasdown"))
+
+  # Mostly copied from knitr::render_sweave
+  base$knitr$opts_chunk$comment <- NA
+  base$knitr$opts_chunk$fig.align <- "center"
+  base
+}
+
+#' @rdname csas_docx
+#' @export
+resdoc_word2 <- function(...) {
+  if (!requireNamespace("officedown", quietly = TRUE)) {
+    stop(
+      "Package \"officedown\" must be installed to use this function.",
+      call. = FALSE
+    )
+  }
+  file <- if (fr()) "RES2021-fra-content.docx" else "RES2021-eng-content.docx"
+  base <- officedown::rdocx_document(...,
+                                     base_format = "bookdown::word_document2",
+                                     reference_docx = system.file("csas-docx",
+                                                                  file,
+                                                                  package = "csasdown"))
 
   # Mostly copied from knitr::render_sweave
   base$knitr$opts_chunk$comment <- NA
@@ -32,9 +59,10 @@ resdoc_word <- function(...) {
 #'
 #' @keywords internal
 #' @param index_fn The name of the YAML file, typically 'index.Rmd' for bookdown
+#' @param yaml_fn The Bookdown YAML file name. '_bookdown.yml' by default
 #'
 #' @return A merged .docx
-add_resdoc_word_frontmatter <- function(index_fn, verbose = FALSE) {
+add_resdoc_word_frontmatter <- function(index_fn, yaml_fn = "_bookdown.yml", verbose = FALSE) {
 
   if (verbose) notify("Adding frontmatter to the ", csas_color("Research Document"), "using the officer package...")
 
@@ -61,7 +89,8 @@ add_resdoc_word_frontmatter <- function(index_fn, verbose = FALSE) {
   print(front, target = "TEMP-frontmatter.docx")
 
   ## Drop title from resdoc.docx
-  content <- officer::read_docx("_book/resdoc.docx") |>
+  book_filename <- paste0("_book/", get_book_filename(yaml_fn), ".docx")
+  content <- officer::read_docx(book_filename) |>
     officer::cursor_begin() |>
     officer::body_remove() |>
     officer::cursor_reach(keyword = "INTRODUCTION|Introduction") |> # Search for both all caps and title case in case some users deviate from the template
@@ -78,7 +107,7 @@ add_resdoc_word_frontmatter <- function(index_fn, verbose = FALSE) {
     officer::cursor_forward() |>
     officer::body_remove() # drop return
 
-  print(doc, target = "_book/resdoc.docx")
+  print(doc, target = book_filename)
 
   unlink("TEMP-frontmatter.docx")
   unlink("TEMP-content.docx")

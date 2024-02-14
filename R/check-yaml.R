@@ -11,7 +11,7 @@
 #'
 #' @importFrom rmarkdown yaml_front_matter
 #' @export
-check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
+check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word", "resdoc_word2",
                                 "sr", "sr_pdf", "sr_word",
                                 "techreport", "techreport_pdf",
                                 "techreport_word", "fsar_word"),
@@ -21,10 +21,10 @@ check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
   }, error = function(e){
     bail(csas_color("type"), " must be one of ",
          csas_color("resdoc"), ", ", csas_color("resdoc_pdf"), ", ",
-         csas_color("resdoc_word"), ", ", csas_color("sr"), ", ",
-         csas_color("sr_pdf"), ", ", csas_color("sr_word"), ", ",
-         csas_color("techreport"), ", ", csas_color("techreport_pdf"),
-         ", ", csas_color("techreport_pdf"),
+         csas_color("resdoc_word"), ", ", csas_color("resdoc_word2"), ", ",
+         csas_color("sr"), ", ", csas_color("sr_pdf"), ", ",
+         csas_color("sr_word"), ", ", csas_color("techreport"), ", ",
+         csas_color("techreport_pdf"), ", ", csas_color("techreport_pdf"),
          ", or ", csas_color("techreport_word"), ".\n",
          "You tried: ", csas_color(type))
   })
@@ -34,7 +34,7 @@ check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
            csas_color(type), " ...")
   }
 
-  if(type %in% c("resdoc", "resdoc_pdf", "resdoc_word")){
+  if(type %in% c("resdoc", "resdoc_pdf", "resdoc_word", "resdoc_word2")){
     type <- "resdoc"
   }else if(type %in% c("sr", "sr_pdf", "sr_word")){
     type <- "sr"

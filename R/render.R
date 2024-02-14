@@ -191,8 +191,13 @@ render <- function(yaml_fn = "_bookdown.yml",
     }
   }
 
-  if (render_type == "resdoc_word") {
-    add_resdoc_word_frontmatter(index_fn, verbose)
+  if (render_type == "resdoc_word2") {
+    ## officedown outputs to the root, not the _book folder like bookdown
+    book_filename <- paste0(get_book_filename(yaml_fn), ".docx")
+    file.rename(book_filename, file.path("_book", book_filename))
+  }
+  if (render_type == "resdoc_word" | render_type == "resdoc_word2") {
+    add_resdoc_word_frontmatter(index_fn, yaml_fn = yaml_fn, verbose)
   }
 
   # Rename the output files to include 'english' or 'french' so that
@@ -216,7 +221,7 @@ render <- function(yaml_fn = "_bookdown.yml",
   }
 
   check_notify("Render completed")
-  if (render_type == "resdoc_word") {
+  if (render_type == "resdoc_word" | render_type == "resdoc_word2") {
     notify("Frontmatter was added to your ", csas_color(csas_render_type), "using the officer package, which does not parse markdown formatting. YAML inputs such as your title and addresses may therefore need to be manually edited.")
   }
   invisible()
