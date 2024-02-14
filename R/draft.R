@@ -3,12 +3,14 @@
 #' Create a draft of an R Markdown CSAS document
 #'
 #' @param type The type of document to draft. Must be one of `resdoc`,
-#' `resdoc-b`, `sr`, or `techreport`
+#' `resdoc-b`, `sr`, `techreport`, or `manureport`
 #' @param directory The directory to place the draft document files.
 #' Is the current directory by default
 #' @param fn Bookdown starting file, `index.Rmd` by default
 #' @param edit Logical. If `TRUE`, edit the template file immediately
 #' (See `edit` in [rmarkdown::draft()])
+#' @param create_rstudio_file Logical. Create RStudio project file? Set to
+#' `FALSE` if in a subdirectory or a folder that already has an RStudio file.
 #' @param verbose Logical. If `TRUE`, print messages
 #' @param testing Logical. If `TRUE`, the question about overwriting
 #' files which already exist will skipped to ensure unit tests work
@@ -28,36 +30,43 @@
 #' csasdown::draft("resdoc-b")
 #' csasdown::draft("sr")
 #' csasdown::draft("techreport")
+#' csasdown::draft("manureport")
 #' }
 #' @export
-draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "fsar"),
+draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport", "fsar"),
                   directory = getwd(),
                   fn = "index.Rmd",
                   edit = FALSE,
+                  create_rstudio_file = TRUE,
                   verbose = TRUE,
                   testing = FALSE,
                   testing_affirm_ovr = FALSE,
                   ...) {
 
+
   # nocov start
   if(!grepl("\\/rmarkdown\\/templates", type)){
     # This is necessary so this function also works with unit testing
-    if(!type %in% c("resdoc", "resdoc-b", "sr", "techreport", "fsar")){
-      alert(csas_color("type"), " should be one of ",
+    if(!type %in% c("resdoc", "resdoc-b", "sr", "techreport", "manureport", "fsar")){
+      alert(csas_color("type"), " must be one of ",
             csas_color("resdoc"), ", ", csas_color("resdoc-b"), ", ",
-            csas_color("sr"), ", or ", csas_color("techreport"),
-            call. = FALSE)
+            csas_color("sr"), ", ",
+            csas_color("techreport"), ", or ", csas_color("manureport"))
     }
     package <- "csasdown"
   }else{
     package <- NULL
   }
   # nocov end
+  # type <- match.arg(type)
 
   if(!dir.exists(directory)){
     bail("The directory ", fn_color(directory), " does not exist so ",
          "the csasdown project cannot be created there")
   }
+  wd <- getwd()
+  on.exit(setwd(wd))
+  setwd(directory)
 
   if(verbose){
     notify("Drafting a new ", csas_color(type), " project ...")
@@ -68,7 +77,7 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "fsar"),
   all_files <- dir()
   # Keep RStudio project files during deletion and don't include them
   # in the check to see if the directory is empty
-  fns <- all_files[-grep("^.*(RProj|Rproj|rproj)$", all_files)]
+  fns <- all_files[!grepl("^.*(RProj|Rproj|rproj)$", all_files)]
 
   # `dirs` is directories ONLY, no files
   dirs <- list.dirs()
@@ -79,34 +88,10 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "fsar"),
 
   if(length(fns) || length(dirs)){
     # There is at least one file or directory present
-    if(testing){
-      affirm_delete <- ifelse(testing_affirm_ovr, "y", "n")
-    }else{
-      # nocov start
-      repeat{
-        affirm_delete <- readline(
-          question("This action will delete the contents ",
-                   "of the directory ", fn_color(directory), "\n\n",
-                   "Are you sure you want to do this (y/n)?"))
-        if(tolower(affirm_delete) != "n" &&
-           tolower(affirm_delete) != "no" &&
-           tolower(affirm_delete) != "y" &&
-           tolower(affirm_delete) != "yes"){
-          question("Please answer yes or no.")
-        }else{
-          break
-        }
-      }
-      # nocov end
-    }
-    if(tolower(affirm_delete) == "y" || tolower(affirm_delete) == "yes"){
-      unlink(fns, recursive = TRUE, force = TRUE)
-      check_notify("Deleted all non-.Rproj files and directories in directory ",
-                   fn_color(directory), "\n")
-    }else{
-      bail("New document not drafted, you decided to keep the files ",
-           "and/or directories in the directory ", fn_color(directory))
-    }
+    bail("New document not drafted because there are existing files ",
+         "and/or directories in the directory ", fn_color(directory), ".",
+         "Please delete these files and/or directories manually or set ",
+         "your working directory to a new folder.")
   }
 
   rmarkdown::draft(fn,
@@ -120,10 +105,10 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "fsar"),
   if (file.exists("_gitignore")) {
     file.rename("_gitignore", ".gitignore")
   }
-  if (file.exists("_here")) {
-    file.rename("_here", ".here")
-  }
-  create_rstudio_project_file(directory)
+  # if (file.exists("_here")) {
+  #   file.rename("_here", ".here")
+  # }
+  if (create_rstudio_file) create_rstudio_project_file()
 
   if(verbose){
     # `dirs` is directories ONLY, no files

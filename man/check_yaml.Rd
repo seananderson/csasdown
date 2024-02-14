@@ -6,12 +6,17 @@
 \usage{
 check_yaml(
   type = c("resdoc", "resdoc_pdf", "resdoc_word", "resdoc_word2", "sr", "sr_pdf",
-    "sr_word", "techreport", "techreport_pdf", "techreport_word", "fsar_word"),
+    "sr_word", "manureport", "manureport_pdf", "manureport_word", "techreport",
+    "techreport_pdf", "techreport_word", "fsar_word"),
+  tag_exceptions = c("show_continued_text"),
   verbose = FALSE
 )
 }
 \arguments{
 \item{type}{Type of document}
+
+\item{tag_exceptions}{A vector of YAML tag names that if missing, will not
+cause an error}
 
 \item{verbose}{Logical. If \code{TRUE}, print messages}
 }

@@ -1,5 +1,21 @@
 # csasdown
 
+# csasdown 0.1.3
+
+* Add `on.exit()` to `csasdown::render()` to avoid leaving behind `tmp-` files
+  if an R error is encountered.
+  
+* Fix `csasdown::render()` render environment.
+
+# csasdown 0.1.2
+
+* The Science Response template now uses `french_title` instead of `title_other`
+  for consistency with other formats and should be built with 
+  `csasdown::render()`. #241
+
+* Add option `create_rstudio_file` in `draft()` to avoid creating an RStudio 
+  project file. Stop creating a `.here` file. #243
+
 # csasdown 0.1.0
 
 * All messages, warnings, and errors now appear in color if your console supports ANSI color escapes. RStudio does support this and all testing for this feature was done in RStudio 2022.02.3 Build 492.

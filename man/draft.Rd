@@ -5,10 +5,11 @@
 \title{Create a new CSAS document based on a template}
 \usage{
 draft(
-  type = c("resdoc", "resdoc-b", "sr", "techreport", "fsar"),
+  type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport", "fsar"),
   directory = getwd(),
   fn = "index.Rmd",
   edit = FALSE,
+  create_rstudio_file = TRUE,
   verbose = TRUE,
   testing = FALSE,
   testing_affirm_ovr = FALSE,
@@ -17,7 +18,7 @@ draft(
 }
 \arguments{
 \item{type}{The type of document to draft. Must be one of \code{resdoc},
-\code{resdoc-b}, \code{sr}, or \code{techreport}}
+\code{resdoc-b}, \code{sr}, \code{techreport}, or \code{manureport}}
 
 \item{directory}{The directory to place the draft document files.
 Is the current directory by default}
@@ -26,6 +27,9 @@ Is the current directory by default}
 
 \item{edit}{Logical. If \code{TRUE}, edit the template file immediately
 (See \code{edit} in \code{\link[rmarkdown:draft]{rmarkdown::draft()}})}
+
+\item{create_rstudio_file}{Logical. Create RStudio project file? Set to
+\code{FALSE} if in a subdirectory or a folder that already has an RStudio file.}
 
 \item{verbose}{Logical. If \code{TRUE}, print messages}
 
@@ -52,6 +56,7 @@ csasdown::draft("resdoc")
 csasdown::draft("resdoc-b")
 csasdown::draft("sr")
 csasdown::draft("techreport")
+csasdown::draft("manureport")
 }
 }
 \seealso{

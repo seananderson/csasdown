@@ -1,0 +1,409 @@
+%% add PDF metadata
+\AtBeginDocument{%
+  \hypersetup{%
+    pdftitle={\trTitle{}},%
+    pdfauthor={\trAuthsLong{}},%
+  }%
+}
+%%%%% Load packages %%%%%
+\RequirePackage{fancyhdr}  % Make nice headers
+\RequirePackage{graphicx}  % Import figures
+\RequirePackage{booktabs}  % Nicer table formatting
+\RequirePackage{textcomp}  % Prevents two warnings in gensymb
+\RequirePackage{gensymb}  % Symbols for math and text
+% \RequirePackage[running]{lineno}  % Number lines (editing)
+\RequirePackage{longtable}  % Long tables (multi-page)
+\RequirePackage{amsmath}  % Math facilities
+\RequirePackage{microtype}  % Better type handling
+\RequirePackage{url}  % Format website addresses
+\RequirePackage{setspace}  % Extra space between lines (editing)
+\RequirePackage{lastpage}  % Count total number of pages
+\RequirePackage[nottoc, notbib]{tocbibind}  % Add index to TOC
+\RequirePackage{hanging}  % Hanging paragraphs (i.e., citations)
+\RequirePackage{placeins}  % Better float placement
+\RequirePackage{flafter}  % Floats after cross-references
+\RequirePackage{sectsty}  % Change section formatting
+\RequirePackage[french]{babel}  % Typographics and hyphenation
+% https://tex.stackexchange.com/a/325436
+\frenchbsetup{SmallCapsFigTabCaptions=false}
+\RequirePackage{titlecaps}  %  Case options for title
+\RequirePackage{textcase}  % More case options for title
+\RequirePackage[labelsep=period,font=small]{caption}  % Dots in captions
+\RequirePackage{lmodern}  % Nicer (c) symbol
+\RequirePackage{calc}  % Text length calculations
+% \RequirePackage[authoryear]{natbib}  % Citations
+\RequirePackage{hyperref}  % Better cross references
+\RequirePackage{letltxmacro}  % Enable/disable footnotes
+\RequirePackage{pdfpages}  % Include PDF documents
+\RequirePackage[T1]{fontenc}  % Allow french characters (Resume)
+\RequirePackage{doi}  % DOI hyperlinks in references
+% \RequirePackage{tikz}  % >% Flow diagram
+\RequirePackage[title, toc]{appendix}  % More appendix options
+\RequirePackage{subcaption}  % Panels within a figure
+\RequirePackage{pdfcomment} % For pdftooltip
+\usepackage{chngcntr} % https://tex.stackexchange.com/questions/85776/change-figure-numbering-for-appendix
+
+% Included so that the kableExtra::linebreak function can be used
+\RequirePackage{makecell}
+
+\RequirePackage{pdfpages}
+
+\RequirePackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{tabularx}
+
+% Underlines
+\usepackage[normalem]{ulem}
+% hack into hyperref (from https://tex.stackexchange.com/q/208808)
+\makeatletter
+\newcommand*{\link}{\begingroup\@makeother\#\@mylink}
+\newcommand*{\@mylink}[2]{\href{#1}{\uline{#2}}\endgroup}
+\makeatother
+
+%% ------------------------------------------------------------------------------
+%% To add headers and footers to landscape pages
+\usepackage{everypage}
+
+%% Make a landscape page properly, with the page numbers and bars rotated to
+%%  be along the long side for ease of reading in a PDF viewer.
+\newenvironment{landscapepage}[1]{
+  \newgeometry{hmargin=1in,vmargin=1in}
+\pagestyle{empty} % to clear portrait header and footer from page
+  \begin{landscape}
+    \centering
+    #1
+}{
+  \end{landscape}
+  \restoregeometry
+  \clearpage
+}
+
+\makeatother
+%% Creates a header and footer on the long page sides on landscape pages
+\AddEverypageHook{\ifdim\textwidth=\textheight
+  \fancyhf{}\fancyfoot{}
+\begin{textblock}{0.05}(0.9,0.5)
+{\rotatebox{90}{\sffamily\selectfont\normalsize\thepage}}\end{textblock}
+\fi}
+
+%% For landscape pages in CSAS documents
+\usepackage{pdflscape} % rotates landscape pages
+\usepackage[absolute]{textpos}
+\setlength{\TPHorizModule}
+  {8.5in}
+\setlength{\TPVertModule}
+  {11in}
+%% ------------------------------------------------------------------------------
+
+% Hyper links
+\hypersetup{colorlinks,
+            plainpages=true,
+            linkcolor=black,
+            citecolor=black,
+            urlcolor=blue }
+
+%%%%% Parameters %%%%%
+% General layout parameters for all pages:
+\renewcommand{\topfraction}{0.9}  % Max fraction of floats at top
+\renewcommand{\bottomfraction}{0.8}  % Max fraction of floats at bottom
+
+% Parameters for text pages (not float pages):
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}  % 2 may work better
+\setcounter{dbltopnumber}{2}  % for 2-column pages
+\renewcommand{\dbltopfraction}{0.9}  % Fit big float above 2-col. text
+\renewcommand{\textfraction}{0.07}  % Allow minimal text w. figs
+
+% Parameters for float pages (not text pages):
+\renewcommand{\floatpagefraction}{0.85}  % Require fuller float pages
+\renewcommand{\dblfloatpagefraction}{0.7}  % Require fuller float pages
+
+% % Line numbers (e.g., for drafts) don't like equations: this is a fix
+% \newcommand*\patchAmsMathEnvironmentForLineno[1]{%
+%   \expandafter\let\csname old#1\expandafter\endcsname\csname #1\endcsname
+%   \expandafter\let\csname oldend#1\expandafter\endcsname\csname end#1\endcsname
+%   \renewenvironment{#1}%
+%      {\linenomath\csname old#1\endcsname}%
+%      {\csname oldend#1\endcsname\endlinenomath}}%
+% \newcommand*\patchBothAmsMathEnvironmentsForLineno[1]{%
+%   \patchAmsMathEnvironmentForLineno{#1}%
+%   \patchAmsMathEnvironmentForLineno{#1*}}%
+% \AtBeginDocument{%
+% \patchBothAmsMathEnvironmentsForLineno{equation}%
+% \patchBothAmsMathEnvironmentsForLineno{align}%
+% \patchBothAmsMathEnvironmentsForLineno{flalign}%
+% \patchBothAmsMathEnvironmentsForLineno{alignat}%
+% \patchBothAmsMathEnvironmentsForLineno{gather}%
+% \patchBothAmsMathEnvironmentsForLineno{multline}%
+% }
+
+% Section formatting (in titles only, not x-refs or toc)
+%\makeatletter
+%\def\@seccntformat#1{\@ifundefined{#1@cntformat}%
+%   {\csname the#1\endcsname}%  default
+%   {\csname #1@cntformat\endcsname}}%  enable individual control
+%\newcommand{\section@cntformat}{\thesection.0.\ \ }% Trailing zero and dot
+%\newcommand{\subsection@cntformat}{\thesubsection.\ \ }% Trailing dot
+%\newcommand{\subsubsection@cntformat}{\thesubsubsection.\ \ }% Trailing dot
+%\makeatother
+
+% -----------------------------------------------------------------
+% https://tex.stackexchange.com/questions/444054/how-to-end-appendix
+\makeatletter
+\newcounter{savesection}
+\newcounter{apdxsection}
+\renewcommand\appendix{\par
+  \setcounter{savesection}{\value{section}}%
+  \setcounter{section}{\value{apdxsection}}%
+  \setcounter{subsection}{0}%
+  \gdef\thesection{\@Alph\c@section}}
+\newcommand\unappendix{\par
+  \setcounter{apdxsection}{\value{section}}%
+  \setcounter{section}{\value{savesection}}%
+  \setcounter{subsection}{0}%
+  \gdef\thesection{\@arabic\c@section}}
+\makeatother
+% -----------------------------------------------------------------
+
+% Update definitions
+\renewcommand{\headrulewidth}{0pt}  % No header line
+\setlength{\headheight}{14.5pt}
+% \bibpunct{(}{)}{;}{a}{}{,}  % Punctuation for citations
+\fancyhead{}  % No header
+\sloppy  % No text in margins (line length)
+%\setlength\parindent{1em}  % Paragraph indent
+\sectionfont{\small\centering\noindent}  % Section formatting
+\subsectionfont{\small\raggedright\noindent}  % Subsection formatting
+\subsubsectionfont{\small\raggedright\noindent}  % Subsubsection formatting
+
+% Yes, ugly, but that's the rules (Or is it? Might not be required)
+\RequirePackage[document]{ragged2e}
+\RequirePackage{microtype}
+% Default is 50 (lots of hyphenation); bigger values penalize hyphenation more; make it huge to completely avoid them;
+\hyphenpenalty=10000 % https://tex.stackexchange.com/questions/291685/minimize-hyphenations-with-ragged2e
+\RaggedRight
+%\raggedright  % Ragged right
+%\raggedbottom  % Ragged bottom
+\setlength\parindent{0pt}  % No indent paragraphs
+\parskip 2ex  % Increase white space between paragraphs
+%\captionsetup{justification=raggedright, singlelinecheck=off}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+
+% Even uglier, but that's the rules (Or is it? Might not be required)
+%\RequirePackage{helvet}  % Font for text
+%\renewcommand{\familydefault}{\sfdefault}
+
+% % Flow diagram options
+% \usetikzlibrary{shapes, arrows.meta, shapes.geometric, positioning, backgrounds}
+% \tikzstyle{terminal} = [draw, rectangle, text width=9.5em, rounded corners]
+% \tikzstyle{decision} = [draw, diamond, text width=9.5em]
+% \tikzstyle{process} = [draw, rectangle, text width=9.5em]
+% \tikzstyle{inout} = [draw, trapezium, text width=9.25em, trapezium left angle=85, trapezium right angle=95]
+% \tikzstyle{line} = [draw, -{Latex[length=2mm, width=1.5mm]}, thick]
+
+% Ensure auto-generated sections are uppercase
+\addto\captionsenglish{\renewcommand{\contentsname}{TABLE DES MATIÈRES}}
+\addto\captionsenglish{\renewcommand{\refname}{RÉFÉRENCES CITÉES}}
+\addto\captionsenglish{\renewcommand{\indexname}{INDEX}}
+\addto\captionsenglish{\renewcommand{\appendixname}{ANNEXE}}
+
+\renewcommand\appendixtocname{ANNEXES}
+\renewcommand\appendixpagename{ANNEXES}
+
+% Arguments for frames around figures (fbox)
+\setlength{\fboxsep}{0pt}  % Distance between frame and content
+\setlength{\fboxrule}{1pt}  % Thickness of the line
+
+% Add 'appendix' to \autoref labels (this doesn't seem to work)
+\newcommand*{\Appendixautorefname}{appendix}
+
+% Words that stay lowercase (for title case)
+\Addlcwords{a and as but etc for if in is of on the to with pallasii}
+
+% Better treatment of input (no extra trailing space)
+\newcommand{\inputsp}[1]{\input{#1}\unskip}
+
+% Math symbols
+\newcommand{\mli}[1]{\mathit{#1}}  % Multi-letter identifier (i.e., multi-character variable
+\newcommand{\mean}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}  % Bar (mean)
+\newcommand{\est}[1]{\widehat{#1}}  % Hat/circumflex (estimate)
+\newcommand{\til}[1]{\widetilde{#1}}  % Tilde (special)
+
+% Allow wide tables to spill into both margins equally: \centerfloat
+\makeatletter
+\newcommand*{\centerfloat}{%
+  \parindent \z@
+  \leftskip \z@ \@plus 1fil \@minus \textwidth
+  \rightskip\leftskip
+  \parfillskip \z@skip}
+\makeatother
+
+% Footnote fun
+\LetLtxMacro\Oldfootnote\footnote
+
+% Enable footnotes
+\newcommand{\EnableFootNotes}{%
+  \LetLtxMacro\footnote\Oldfootnote%
+}
+
+% Disable footnotes (on the cover page)
+\newcommand{\DisableFootNotes}{%
+  \renewcommand{\footnote}[2][]{\relax}
+}
+
+% New definition: Citation
+\newcommand{\trCitation}{
+\begin{hangparas}{1em}{1}
+\trAuthsBack{} \trYear{}. \trTitle{}. Rapp. manu. can. sci. halieut. aquat. \trReportNum{}: \pageref{TRlastRoman}{}\,+\,\pageref{LastPage}{}\,p.
+\end{hangparas}}
+
+%%%%% Frontmatter %%%%%
+\def\frontmatter{%
+
+% Sections in capitals
+\renewcommand\listfigurename{LISTE DE FIGURES}
+\renewcommand\listtablename{LISTE DE TABLEAUX}
+
+% Footnote symbols in front matter
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+
+% Prevent issues with the first two unnumbered pages
+\hypersetup{pageanchor=false}
+
+% % First page: cover
+\includepdf[pages=-]{manu-report-cover-french.pdf}
+
+% % Second page: Manuscript report
+\includepdf[pages=-]{\locRepo/pages/AquatManuCouvInt.pdf}
+
+% Start page numbering/anchoring
+\hypersetup{pageanchor=true}
+
+% Third page: Inside cover
+\small
+\pagenumbering{roman}
+\thispagestyle{empty}
+\noindent
+\begin{center}
+Rapport manuscript canadien des sciences\\
+halieutiques et aquatiques \trReportNum{}
+\vfill
+\trYear{}
+\vfill
+\textnormal{\MakeTextUppercase{\trTitle{}}}
+\vfill
+par
+\vfill
+\trAuthsLong{}
+\vfill
+\trAddy{}
+\end{center}
+\clearpage
+
+% Fourth page: Colophon
+\vspace*{\fill}
+\begin{center}
+\copyright{} Sa Majest\'{e} la Roi du chef du Canada, repr\'{e}sent\'{e} par le ministre\\ du minist\`{e}re des P\^{e}ches et des Oc\'{e}ans, \trYear{}\\
+N° de cat. Fs97-4/\trReportNum{}F-PDF \quad ISBN \trISBN{} \quad ISSN 1488-5468
+\end{center}
+\par
+\bigskip
+\noindent
+On doit citer la publication comme suit:
+\bigskip
+\par
+\trCitation{}
+\clearpage
+
+% Add TOC to pdf bookmarks (clickable pdf)
+\pdfbookmark[1]{\contentsname}{toc}
+
+% Table of contents page
+% \tableofcontents\clearpage
+
+\renewcommand{\contentsname}{\bf TABLE DES MATI\`ERES}
+\tableofcontents\clearpage
+
+
+% Lists of figures and tables (optional)
+% \listoffigures \listoftables \clearpage
+
+% Abstract page(s)
+\section*{R\'{E}SUM\'{E}}\addcontentsline{toc}{section}{R\'{E}SUM\'{E}}
+\trCitation{}
+\bigskip
+\trResume{}
+\clearpage
+\section*{ABSTRACT}\addcontentsline{toc}{section}{ABSTRACT}
+\trCitation{}
+\bigskip
+\trAbstract{}
+\label{TRlastRoman}
+\clearpage
+
+% Settings for the main document
+\pagenumbering{arabic}  % Regular page numbers
+\pagestyle{plain}  % No page number on first page of main document, use 'empty'
+\renewcommand*{\thefootnote}{\arabic{footnote}}  % Back to numeric footnotes
+\setcounter{footnote}{0}  % And start at 1
+
+}% End of frontmatter
+
+% START-PANDOC-3.1.8
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+% END-PANDOC-3.1.8
+
+% % START-PANDOC-BEFORE-3.1.7
+% \newenvironment{CSLReferences}[3] % #1 hanging-ident, #2 entry spacing
+%  {% don't indent paragraphs
+%   \setlength{\parindent}{0pt}
+%   % turn on hanging indent if param 1 is 1
+%   \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+%   % set entry spacing
+%   \ifnum #2 > 0
+%   \setlength{\parskip}{#2\baselineskip}
+%   \fi
+%  }%
+%  {}
+% %Copied from https://github.com/rstudio/rmarkdown/issues/1649
+% \newlength{\cslhangindent}
+% \setlength{\cslhangindent}{1.5em}
+% \newenvironment{cslreferences}%
+%   {$if(csl-hanging-indent)$\setlength{\parindent}{0pt}%
+%   \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces$endif$}%
+%   {\par}
+% % END-PANDOC-BEFORE-3.1.7

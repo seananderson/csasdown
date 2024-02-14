@@ -1,17 +1,18 @@
 ---
-report_title: "Fish stock name"
-report_year: "2022"
+report_title: "[Publication Title]"
+report_year: "2024"
 release_month: "January"
-report_number: "044"
-meeting_date: "January 25, 2022"
-region: "Pacific Region"
+report_number: "XXX"
+meeting_date: "January 25, 2024"
+region: "Region Name"
 phone: "(555) 555-5555"
 email: "email@csa-email.com"
 csa_address: "CSA Address goes here"
 report_title_french: "Fish stock name"
 inuktitut_citation: "Inuktitut citation here"
 context: |
-  Here is the context text. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  [Mandatory. Less than 150 words]
+  Here is the context text. 
 output:
  csasdown::fsar_word
 link-citations: false

@@ -12,11 +12,11 @@ $header-includes$
 
 %%%% Commands for title page etc %%%%%
 
-% Title
+% English title
 \newcommand{\rdTitle}{$title$}
 
-% English title
-\newcommand{\rdTitleFr}{$title_other$}
+% French title
+\newcommand{\rdTitleFr}{$french_title$}
 
 % Make the PDF bookmark title uppercase
 \ExplSyntaxOn
@@ -87,15 +87,15 @@ $header-includes$
 %Defines cslreferences environment
 %Required by pandoc 2.8
 %Copied from https://github.com/rstudio/rmarkdown/issues/1649
-$if(csl-refs)$
-  \newlength{\cslhangindent}
-  \setlength{\cslhangindent}{1.5em}
-  \newenvironment{cslreferences}{
-  $if(csl-hanging-indent)$
-    \everypar{\setlength{\hangindent}{\cslhangindent}}
-  $endif$}%
- {\par}
-$endif$
+% $if(csl-refs)$
+%   \newlength{\cslhangindent}
+%   \setlength{\cslhangindent}{1.5em}
+%   \newenvironment{cslreferences}{
+%   $if(csl-hanging-indent)$
+%     \everypar{\setlength{\hangindent}{\cslhangindent}}
+%   $endif$}%
+%  {\par}
+% $endif$
 
 \DeclareGraphicsExtensions{.png,.pdf}
 

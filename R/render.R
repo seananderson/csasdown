@@ -2,7 +2,7 @@
 #'
 #' @description
 #' Render a csasdown document with bilingual features. Renders a csasdown
-#' document (autodetects resdoc, sr, techreport) using the
+#' document (autodetects resdoc, sr, techreport, manureport) using the
 #' [bookdown::render_book()] method but includes a pre-processing step to
 #' do several things (simplified):
 #' 1. Create temporary files for `_bookdown.yml`, and the files listed
@@ -73,6 +73,7 @@ render <- function(yaml_fn = "_bookdown.yml",
   tmp_yaml_rmd_fns <- create_tmp_yaml_rmd_files(yaml_fn, verbose)
   tmp_yaml_fn <- tmp_yaml_rmd_fns[[1]]
   tmp_rmd_fns <- tmp_yaml_rmd_fns[[2]]
+  on.exit(unlink(unlist(tmp_yaml_rmd_fns), force = TRUE))
 
   index_fn <- get_index_filename(tmp_yaml_fn, verbose)
   set_render_type(index_fn, "asis")
@@ -98,7 +99,9 @@ render <- function(yaml_fn = "_bookdown.yml",
     csas_render_type <- "Science Response"
   }else if(csas_render_type == "techreport"){
     csas_render_type <- "Technical Report"
-  }else{
+  } else if(csas_render_type == "manureport"){
+    csas_render_type <- "Manuscript Report"
+  } else{
     csas_render_type <- "CSAS Document" # nocov
   }
   cat("\n")
@@ -165,6 +168,7 @@ render <- function(yaml_fn = "_bookdown.yml",
       suppressWarnings(
         render_book(index_fn,
                     config_file = tmp_yaml_fn,
+                    envir = parent.frame(n = 2L),
                     ...)
       )
     )
@@ -172,6 +176,7 @@ render <- function(yaml_fn = "_bookdown.yml",
     suppressMessages(
       render_book(index_fn,
                   config_file = tmp_yaml_fn,
+                  envir = parent.frame(n = 2L),
                   ...)
     )
   }
