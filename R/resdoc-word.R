@@ -60,57 +60,91 @@ resdoc_word2 <- function(...) {
 #' @keywords internal
 #' @param index_fn The name of the YAML file, typically 'index.Rmd' for bookdown
 #' @param yaml_fn The Bookdown YAML file name. '_bookdown.yml' by default
+#' @param keep_files If `TRUE`, keep the temporary files created by
+#'                   post processing (`tmp-*.md` and `tmp-*.docx`)
 #'
 #' @return A merged .docx
-add_resdoc_word_frontmatter <- function(index_fn, yaml_fn = "_bookdown.yml", verbose = FALSE) {
+add_resdoc_word_frontmatter <- function(index_fn, yaml_fn = "_bookdown.yml", verbose = FALSE, keep_files = FALSE) {
 
-  if (verbose) notify("Adding frontmatter to the ", csas_color("Research Document"), "using the officer package...")
+  if (verbose) notify("Adding frontmatter to the ", csas_color("Research Document"), " using the officer package...")
 
   x <- rmarkdown::yaml_front_matter(index_fn)
 
-  ## Note: bookmarks (bkm) were manually added to the "resdoc-frontmatter.docx" file
-  ## Also needed to copy and paste character strings like "french_title", otherwise
-  ## officer may not detect that string if manually typed (b/c Word operates in chunks)
-  file <- "resdoc-frontmatter.docx"
-  front <- officer::read_docx(system.file("csas-docx", file, package = "csasdown")) |>
+  ## This reference docx only includes styles; headers and footers were removed since
+  ## they are included in the frontmatter docx.
+  reference_fn <- system.file("csas-docx", "resdoc-blank-content.docx", package = "csasdown")
+
+  ## Extract yaml front matter and construct md files, then use pandoc_convert to
+  ## export content to word. The officer package is latter used to add said content
+  ## to one frontmatter document. Applying this approach rather than using officer
+  ## text replacement since it is not set-up to interpret markdown syntax.
+
+  md <- c('::: {custom-style="Cover: Document title"}', x$title, ':::',
+          '::: {custom-style="Cover: Author"}', x$author, ':::',
+          '::: {custom-style="Cover: Address"}', x$address, ':::')
+  writeLines(md, "tmp-titlepage.md")
+  rmarkdown::pandoc_convert("tmp-titlepage.md", to = "docx",
+                            output = "tmp-titlepage.docx",
+                            options = paste0("--reference-doc=", reference_fn))
+
+  md <- c("\n**Correct citation for this publication:**\n",
+          '::: {custom-style="citation"}',
+          paste0(x$author_list, ". ", x$year, ". ", x$title, ". DFO Can. Sci. Advis. Sec. Res. Doc.", x$year, "/", x$report_number, ". iv + xx p."),
+          ':::',
+          "\n**Aussi disponible en français:**\n",
+          '::: {custom-style="citation"}',
+          paste0(x$author_list, ". ", x$year, ". ", x$french_title, ". Secr. can. de consult. sci. du MPO. Doc. de rech.", x$year, "/", x$report_number, ". iv + xx p."),
+          ':::')
+  writeLines(md, "tmp-citation.md")
+  rmarkdown::pandoc_convert("tmp-citation.md", to = "docx",
+                            output = "tmp-citation.docx",
+                            options = paste0("--reference-doc=", reference_fn))
+
+  writeLines(x$abstract, "tmp-abstract.md")
+  rmarkdown::pandoc_convert("tmp-abstract.md", to = "docx",
+                            output = "tmp-abstract.docx",
+                            options = paste0("--reference-doc=", reference_fn))
+
+  ## Drop returns left from empty title and abstract entries
+  book_filename <- paste0("_book/", get_book_filename(yaml_fn), ".docx")
+  # book_filename <- "_book/resdoc.docx"
+  content <- officer::read_docx(book_filename) |>
+    officer::cursor_begin() |>
+    officer::body_remove() |>
+    officer::body_remove()
+  print(content, target = "tmp-content.docx")
+
+  frontmatter <- officer::read_docx(system.file("csas-docx", "resdoc-frontmatter.docx", package = "csasdown")) |>
     officer::headers_replace_text_at_bkm("region", x$region) |>
     officer::headers_replace_text_at_bkm("year", as.character(x$year)) |>
     officer::headers_replace_text_at_bkm("report_number", as.character(x$report_number)) |>
     officer::footers_replace_text_at_bkm("date", paste(x$month, x$year)) |>
-    officer::body_replace_all_text("^title$", x$title) |>
-    officer::body_replace_all_text("^french_title$", x$french_title) |>
-    officer::body_replace_all_text("^author$", x$author) |>
-    officer::body_replace_all_text("^address$", x$address) |>
-    officer::body_replace_all_text("^author_list$", x$author_list) |>
-    officer::body_replace_all_text("^year$", as.character(x$year)) |>
-    officer::body_replace_all_text("^report_number$", as.character(x$report_number)) # |>
-    # officer::body_replace_all_text("^abstract$", x$abstract)
-
-  print(front, target = "TEMP-frontmatter.docx")
-
-  ## Drop title from resdoc.docx
-  book_filename <- paste0("_book/", get_book_filename(yaml_fn), ".docx")
-  content <- officer::read_docx(book_filename) |>
     officer::cursor_begin() |>
-    officer::body_remove() |>
-    officer::cursor_reach(keyword = "INTRODUCTION|Introduction") |> # Search for both all caps and title case in case some users deviate from the template
-    officer::cursor_backward() |>
-    officer::body_add_break()
-
-  print(content, target = "TEMP-content.docx")
-
-  doc <- officer::read_docx("TEMP-frontmatter.docx") |>
-    officer::body_add_docx("TEMP-content.docx") |>
+    officer::body_add_docx("tmp-titlepage.docx", pos = "before") |>
     officer::cursor_reach(keyword = "TABLE OF CONTENTS") |>
-    officer::body_add_toc() |>
+    officer::cursor_backward() |>
+    officer::body_add_docx("tmp-citation.docx", pos = "before") |>
     officer::cursor_reach(keyword = "ABSTRACT") |>
-    officer::cursor_forward() |>
-    officer::body_remove() # drop return
+    officer::body_add_docx("tmp-abstract.docx", pos = "after") |>
+    officer::cursor_end() |>
+    officer::body_remove() |>
+    officer::body_add_break()
+  print(frontmatter, target = "tmp-frontmatter.docx")
 
+  doc <- officer::read_docx("tmp-frontmatter.docx") |>
+    officer::body_add_docx("tmp-content.docx") |>
+    officer::cursor_reach(keyword = "TABLE OF CONTENTS") |>
+    officer::body_add_toc()
+
+  # print(doc, target = "tmp-doc.docx")
   print(doc, target = book_filename)
 
-  unlink("TEMP-frontmatter.docx")
-  unlink("TEMP-content.docx")
+  if (!keep_files) {
+    unlink(c("tmp-titlepage.md", "tmp-titlepage.docx",
+             "tmp-citation.md", "tmp-citation.docx",
+             "tmp-abstract.md", "tmp-abstract.docx",
+             "tmp-frontmatter.docx", "tmp-content.docx"))
+  }
 
   invisible()
 
