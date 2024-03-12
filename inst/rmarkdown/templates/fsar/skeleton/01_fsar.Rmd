@@ -1,13 +1,10 @@
 ## SCIENCE ADVICE {-}
+[Mandatory. Maximum length 500 words. Include summary bullets of the following factors affecting the stock that are relevant for decision-making. Please refer to the Guidance Document for standardized language and examples, and what to avoid in this section.] 
 
 ### Status {-}
 
 ::: {custom-style="fsar-bullet"}
-Mandatory bullet 1
-:::
-
-::: {custom-style="fsar-bullet"}
-Mandatory bullet 2 if needed (example)
+[Mandatory bullet(s)]
 :::
 
 ### Trends {-}
@@ -16,7 +13,7 @@ Mandatory bullet 2 if needed (example)
 [Mandatory bullet(s)] 
 :::
 
-### Environmental and Climate Change Considerations {-}
+### Ecosystem and Climate Change Considerations {-}
 
 ::: {custom-style="fsar-bullet"}
 [Mandatory bullet(s)]
@@ -53,7 +50,7 @@ Mandatory bullet 2 if needed (example)
 1.	Broad category: [Select one of the following: Data-poor (e.g., catch-MSY, very limited data, etc.), index-based (trends in empirical indices only), single stock assessment model, model ensemble, MSE (full or MSE-lite), Wild Salmon Policy Integrated Assessment, multiple approaches, other (specify)]
 2.	Specific category: [Select one or as many as apply: No data, Index-based (fishery-dependent indices only), Index-based (including fishery-dependent and fishery-independent indices), Delay difference, Biomass dynamics, Virtual population analysis, Statistical catch-at-length, Statistical catch-at-age, State-Space, Sequential Population Analysis, Surplus Production, Stock-Recruitment Relationship, Potential Biological Removal, Other (please explain)]
 
-[Optional short summary of stock assessment methodology. Maximum length 100 words.]
+[Optional short summary of stock assessment methodology. Include the method of considering ecosystem variables. Include a reference to a Research Document or other publication, and/or footnote to the working paper. Maximum length 100 words.]
 
 ### Stock Structure Assumption {-}
 Stock overview information: [reference to a Research Document or other publication, and/or footnote to the working paper]
@@ -129,7 +126,7 @@ fsar_plot_base(in.df, "English")
 ### Projections [optional titles: Simulations, Future Scenarios] {-}
 [Mandatory. Title can vary. Tables or figures can be used as necessary to support decision-making.]
 
-### Environmental and Climate Change Considerations {-}
+### Ecosystem and Climate Change Considerations {-}
 [Mandatory. Maximum 300 words. May be moved earlier in the Assessment section.]
 
 ### Harvest Decision Rule Outputs {-}
@@ -158,4 +155,9 @@ fsar_plot_base(in.df, "English")
 
 ## SOURCES OF INFORMATION {-}
 [Mandatory.]
-[The following paragraph is optional for the Context and MANDATORY for the Sources of Information.]
+
+[References should only be included to understand the advice, and should not be included to give credit to the work as they are done in the Research Document. References to the unpublished working paper should be integrated as footnotes through this document.]
+
+[References must be formatted according to the Guide for the Production of Fisheries and Oceans Canada Reports.]
+
+[References listed in the References Cited section should be publicly available when the report is posted on the website. The only exception is for books or articles that have been accepted for publication (page proof stage or where there is an acceptance letter). These can be listed followed by the notation “in press”. All others should be included in the text as unpublished data or working papers.]
