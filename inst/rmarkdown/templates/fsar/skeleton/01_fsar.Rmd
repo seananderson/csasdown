@@ -156,6 +156,3 @@ fsar_plot_base(in.df, "English")
 ## LIST OF MEETING PARTICIPANTS {-}
 [Mandatory. The list is to include the name of each participant and their affiliation.]
 
-## SOURCES OF INFORMATION {-}
-[Mandatory.]
-[The following paragraph is optional for the Context and MANDATORY for the Sources of Information.]
