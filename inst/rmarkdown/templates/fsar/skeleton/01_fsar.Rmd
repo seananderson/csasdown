@@ -2,35 +2,35 @@
 
 ### Status {-}
 
-::: {custom-style="fsar-bullet"}
+::: {custom-style="List Bullet"}
 Mandatory bullet 1
 :::
 
-::: {custom-style="fsar-bullet"}
+::: {custom-style="List Bullet"}
 Mandatory bullet 2 if needed (example)
 :::
 
 ### Trends {-}
 
-::: {custom-style="fsar-bullet"}
+::: {custom-style="List Bullet"}
 [Mandatory bullet(s)] 
 :::
 
 ### Environmental and Climate Change Considerations {-}
 
-::: {custom-style="fsar-bullet"}
+::: {custom-style="List Bullet"}
 [Mandatory bullet(s)]
 :::
 
 ### Stock Advice {-}
 
-::: {custom-style="fsar-bullet"}
+::: {custom-style="List Bullet"}
 [Mandatory bullet(s)] 
 :::
 
 ### Other Management Questions [if applicable, otherwise do not include] {-}
 
-::: {custom-style="fsar-bullet"}
+::: {custom-style="List Bullet"}
 [Other bullets if applicable]
 :::
 
