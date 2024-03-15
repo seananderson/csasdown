@@ -156,8 +156,8 @@ render_sar <- function(...) {
   #   )
   # } else {
     # suppressMessages(
-      render_book("index.Rmd",
-        config_file = "_bookdown.yml",
+      render_book("tmp-index.Rmd",
+        config_file = "tmp_bookdown.yml",
         ...
       )
     # )
