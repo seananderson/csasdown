@@ -1,5 +1,10 @@
 # csasdown
 
+# csasdown 0.1.4
+
+* Add *optional* `show_continued_text` logical YAML argument to enable or
+  disable "Continued..." text on long tables that span multiple pages.
+
 # csasdown 0.1.3
 
 * Add `on.exit()` to `csasdown::render()` to avoid leaving behind `tmp-` files
