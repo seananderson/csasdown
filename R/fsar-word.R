@@ -34,13 +34,14 @@ fsar_word2 <- function(...) {
   ## 1) bookmarks were added to headers and footers for officer replacement below
   ## 2) a border was added to the context style and the table was removed
   ## 3) ordered (ol style) and unordered list (ul style) styles manually added to template
+  ## 4) created a Table Caption style since Caption - Table was not being applied. May be a bug (https://github.com/davidgohel/officedown/issues/112).
   file <- "fsar-template.docx"
   base <- officedown::rdocx_document(...,
                                      base_format = "bookdown::word_document2",
                                      tables = list(
                                        style = "Compact", layout = "autofit", width = 1,
                                        caption = list(
-                                         style = "Table - Caption", pre = "Table ", sep = ". "),
+                                         style = "Table Caption", pre = "Table ", sep = ". "),
                                        conditional = list(
                                          first_row = TRUE, first_column = FALSE, last_row = FALSE,
                                          last_column = FALSE, no_hband = FALSE, no_vband = TRUE
