@@ -12,10 +12,10 @@ fsar_word <- function(...) {
   # file <- if (fr()) "RES2021-fra-content.docx" else "RES2021-eng-content.docx"
   file <- "fsar-template.docx"
   base <- word_document2(...,
-    reference_docx = system.file("csas-docx",
-      file,
-      package = "csasdown"
-    )
+                         reference_docx = system.file("csas-docx",
+                                                      file,
+                                                      package = "csasdown"
+                         )
   )
   base$knitr$opts_chunk$comment <- NA
   base
@@ -151,7 +151,7 @@ render_sar <- function(...) {
   )
 
   # if (verbose) {
-    notify("Knitting Rmd files and running Pandoc to build the document ...")
+  notify("Knitting Rmd files and running Pandoc to build the document ...")
   # }
 
   # if (suppress_warnings) {
@@ -164,36 +164,42 @@ render_sar <- function(...) {
   #     )
   #   )
   # } else {
-    # suppressMessages(
-      render_book("tmp-index.Rmd",
-        config_file = "tmp_bookdown.yml",
-        ...
-      )
-    # )
+  # suppressMessages(
+  render_book("tmp-index.Rmd",
+              config_file = "tmp_bookdown.yml",
+              ...
+  )
+  # )
   # }
   # if (verbose) {
-    # fn <- file.path(
-    #   "_book",
-    #   paste0(
-    #     gsub("^(\\S+)_\\S+$", "\\1", render_type),
-    #     ".",
-    #     ifelse(doc_format == "pdf", "pdf", "docx")
-    #   )
-    # )
-    fn <- "_book/fsar.docx"
-    if (file.exists(fn)) {
-      check_notify(
-        "Knitting and Pandoc completed, document built ",
-        "successfully\n"
-      )
-    } else {
-      # nocov start
-      bail(
-        "The Knitting and Pandoc procedure did not produce ",
-        fn_color(fn)
-      )
-      # nocov end
-    }
+  # fn <- file.path(
+  #   "_book",
+  #   paste0(
+  #     gsub("^(\\S+)_\\S+$", "\\1", render_type),
+  #     ".",
+  #     ifelse(doc_format == "pdf", "pdf", "docx")
+  #   )
+  # )
+
+  ## officedown outputs to the root, not the _book folder like bookdown
+  if (file.exists("fsar.docx")) {
+    file.rename("fsar.docx", file.path("_book", "fsar.docx"))
+  }
+
+  fn <- "_book/fsar.docx"
+  if (file.exists(fn)) {
+    check_notify(
+      "Knitting and Pandoc completed, document built ",
+      "successfully\n"
+    )
+  } else {
+    # nocov start
+    bail(
+      "The Knitting and Pandoc procedure did not produce ",
+      fn_color(fn)
+    )
+    # nocov end
+  }
   # }
 
   # Rename the output files to include 'english' or 'french' so that
