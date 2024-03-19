@@ -2,37 +2,24 @@
 
 ### Status {-}
 
-::: {custom-style="List Bullet"}
-Mandatory bullet 1
-:::
-
-::: {custom-style="List Bullet"}
-Mandatory bullet 2 if needed (example)
-:::
+- [Mandatory bullet(s)] 
 
 ### Trends {-}
 
-::: {custom-style="List Bullet"}
-[Mandatory bullet(s)] 
-:::
+- [Mandatory bullet(s)] 
 
 ### Environmental and Climate Change Considerations {-}
 
-::: {custom-style="List Bullet"}
-[Mandatory bullet(s)]
-:::
+- [Mandatory bullet(s)]
 
 ### Stock Advice {-}
 
-::: {custom-style="List Bullet"}
-[Mandatory bullet(s)] 
-:::
+- [Mandatory bullet(s)] 
 
 ### Other Management Questions [if applicable, otherwise do not include] {-}
 
-::: {custom-style="List Bullet"}
-[Other bullets if applicable]
-:::
+- [Other bullets if applicable]
+
 
 ## BASIS FOR ASSESSMENT {-}
 

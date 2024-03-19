@@ -19,7 +19,7 @@ context: |
   [Mandatory. Less than 150 words]
   Here is the context text. 
 output:
- csasdown::fsar_word
+ csasdown::fsar_word2
 link-citations: false
 bibliography: bib/refs.bib
 # End of options to set

@@ -30,6 +30,10 @@ fsar_word2 <- function(...) {
       call. = FALSE
     )
   }
+  ## Several modifications were made to the fsar template
+  ## 1) bookmarks were added to headers and footers for officer replacement below
+  ## 2) a border was added to the context style and the table was removed
+  ## 3) ordered (ol style) and unordered list (ul style) styles manually added to template
   file <- "fsar-template.docx"
   base <- officedown::rdocx_document(...,
                                      base_format = "bookdown::word_document2",
@@ -49,6 +53,10 @@ fsar_word2 <- function(...) {
                                          style = "Caption - Figure",
                                          pre = "Figure ", sep = ". "
                                        )
+                                     ),
+                                     lists = list(
+                                       ol.style = "ol style",
+                                       ul.style = "ul style"
                                      ),
                                      reference_docx = system.file("csas-docx",
                                                                   file,
