@@ -43,9 +43,6 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v1
 
       - uses: r-lib/actions/setup-tinytex@v2
-       env:
-          # install full prebuilt version
-          TINYTEX_INSTALLER: TinyTeX
 
       - name: Query dependencies
         run: |
@@ -74,6 +71,8 @@ jobs:
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
+          tinytex::tlmgr_install('babel-french')
+          tinytex::tlmgr_install('babel-english')
         shell: Rscript {0}
 
       - name: Check
