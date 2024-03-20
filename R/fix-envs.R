@@ -138,14 +138,16 @@ fix_envs <- function(x,
   }
   x <- inject_refstepcounters(x)
 
-  # Need to remove hypertarget for references to appendices to work:
-  # rs_line <- grep("\\\\refstepcounter", x)
-  # FIXME: make more robust
-  rs_line <- grep("\\\\hypertarget\\{app:", x)
-  x[rs_line + 0] <- gsub("hypertarget", "label", x[rs_line + 0])
-  x[rs_line + 0] <- gsub("\\{%", "", x[rs_line + 0])
-  x[rs_line + 1] <- gsub("\\}$", "", x[rs_line + 1])
-  x[rs_line + 1] <- gsub("\\}.*\\}$", "}", x[rs_line + 1])
+  if (pandoc_before_3.1.8()) {
+    # Need to remove hypertarget for references to appendices to work:
+    # rs_line <- grep("\\\\refstepcounter", x)
+    # FIXME: make more robust
+    rs_line <- grep("\\\\hypertarget\\{app:", x)
+    x[rs_line + 0] <- gsub("hypertarget", "label", x[rs_line + 0])
+    x[rs_line + 0] <- gsub("\\{%", "", x[rs_line + 0])
+    x[rs_line + 1] <- gsub("\\}$", "", x[rs_line + 1])
+    x[rs_line + 1] <- gsub("\\}.*\\}$", "}", x[rs_line + 1])
+  }
 
   x <- gsub("^.*\\\\tightlist$", "", x)
 
@@ -204,7 +206,11 @@ fix_envs <- function(x,
 
   # Move the bibliography to before the appendices:
   if (length(references_insertion_line) > 0) {
-    references_begin <- grep("^\\\\hypertarget\\{refs\\}\\{\\}$", x)
+    if (pandoc_before_3.1.8()) {
+      references_begin <- grep("^\\\\hypertarget\\{refs\\}\\{\\}$", x)
+    } else {
+      references_begin <- grep("^\\\\phantomsection\\\\label\\{refs\\}$", x)
+    }
     if (length(references_begin) > 0) {
       references_end <- length(x) - 1
       x <- c(
@@ -412,3 +418,5 @@ region_info <- tibble::tribble(
   "Pacific Region", "R\u00E9gion du Pacifique", "DFO.PacificCSA-CASPacifique.MPO@dfo-mpo.gc.ca", "3190 Hammond Bay Rd.\\\\\\\\Nanaimo, BC\\\\enspace V9T 6N7", "3190, chemin Hammond Bay\\\\\\\\Nanaimo (C.-B.) V9T 6N7",
   "Quebec Region", "R\u00E9gion du Qu\u00E9bec", "bras@dfo-mpo.gc.ca", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli, QC\\\\enspace G5H 3Z4", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli (QC) G5H 3Z4"
 )
+
+pandoc_before_3.1.8 <- function() rmarkdown::pandoc_version() < '3.1.8'
