@@ -371,9 +371,13 @@ fix_envs <- function(x,
   # ! You can't use `\vadjust' in vertical mode.
   #    \leavevmode\vadjust
   # pre{\hypertarget{ref-edwards2013}{}}%
-  x <- gsub("\\\\vadjust pre", "", x)
-
+  if (pandoc_before_3.1.8()) {
+    x <- gsub("\\\\vadjust pre", "", x)
+  }
   # Enable reference linking to subsections of appendices
+  # if (!pandoc_before_3.1.8()) {
+  #   stop("csasdown currently only works with pandoc < 3.1.7. Please revert to an older pandoc version.", call. = FALSE)
+  # }
   x <- add_appendix_subsection_refs(x)
 
   if(!include_section_nums){
