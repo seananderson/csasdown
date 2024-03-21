@@ -16,15 +16,29 @@ add_appendix_subsection_refs <- function(x){
   # Need a new counter for each appendix
   star_chap_inds <- grep("^\\\\starredchapter\\{", x)
   # If there are Appendices (Resdoc and SR only, the techreport has a totally different TEX structure)
+
   if(length(star_chap_inds)){
     counters <- paste0("app_counter_", seq_along(star_chap_inds))
-    pre_starred_x <- x[1:(star_chap_inds[1] - 3)]
+
+    if(pandoc_curr_ver_is_before()){
+      pre_starred_x <- x[1:(star_chap_inds[1] - 3)]
+    }else{
+      pre_starred_x <- x[1:(star_chap_inds[1] - 2)]
+    }
     appendix_chunks <- list()
     for(i in seq_along(star_chap_inds)){
-      if(i == length(star_chap_inds)){
-        appendix_chunks[[i]] <- x[(star_chap_inds[i] - 2):length(x)]
+      if(pandoc_curr_ver_is_before()){
+        if(i == length(star_chap_inds)){
+          appendix_chunks[[i]] <- x[(star_chap_inds[i] - 2):length(x)]
+        }else{
+          appendix_chunks[[i]] <- x[(star_chap_inds[i] - 2):(star_chap_inds[i + 1] - 3)]
+        }
       }else{
-        appendix_chunks[[i]] <- x[(star_chap_inds[i] - 2):(star_chap_inds[i + 1] - 3)]
+        if(i == length(star_chap_inds)){
+          appendix_chunks[[i]] <- x[(star_chap_inds[i] - 1):length(x)]
+        }else{
+          appendix_chunks[[i]] <- x[(star_chap_inds[i] - 1):(star_chap_inds[i + 1] - 2)]
+        }
       }
     }
     # At this point the TEX file is broken into several chunks, `pre_starred_x` which
@@ -44,13 +58,22 @@ add_appendix_subsection_refs <- function(x){
         sec_chunks <- list()
         sec_header <- list()
         for(i in seq_along(app_chunk_inds)){
-          if(i == length(app_chunk_inds)){
-            sec_chunks[[i]] <- app_chunk[(app_chunk_inds[i] - 1):length(app_chunk)]
+          if(pandoc_curr_ver_is_before()){
+            if(i == length(app_chunk_inds)){
+              sec_chunks[[i]] <- app_chunk[(app_chunk_inds[i] - 1):length(app_chunk)]
+            }else{
+              sec_chunks[[i]] <- app_chunk[(app_chunk_inds[i] - 1):(app_chunk_inds[i + 1] - 2)]
+            }
           }else{
-            sec_chunks[[i]] <- app_chunk[(app_chunk_inds[i] - 1):(app_chunk_inds[i + 1] - 2)]
+            if(i == length(app_chunk_inds)){
+              sec_chunks[[i]] <- app_chunk[(app_chunk_inds[i]):length(app_chunk)]
+            }else{
+              sec_chunks[[i]] <- app_chunk[(app_chunk_inds[i]):(app_chunk_inds[i + 1] - 1)]
+            }
           }
           # Check for a label and allow missing label
-          if(!length(grep("^\\\\hypertarget\\{", sec_chunks[[i]][1]))){
+          if(pandoc_curr_ver_is_before() &&
+             !length(grep("^\\\\hypertarget\\{", sec_chunks[[i]][1]))){
             # An auto-generated label was not added (using manually-added label) so switching the
             # label and appsection is necessary
             tmp_label <- sec_chunks[[i]][1]
