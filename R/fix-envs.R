@@ -138,7 +138,7 @@ fix_envs <- function(x,
   }
   x <- inject_refstepcounters(x)
 
-  if (pandoc_before_3.1.8()) {
+  if (pandoc_curr_ver_is_before()) {
     # Need to remove hypertarget for references to appendices to work:
     # rs_line <- grep("\\\\refstepcounter", x)
     # FIXME: make more robust
@@ -206,7 +206,7 @@ fix_envs <- function(x,
 
   # Move the bibliography to before the appendices:
   if (length(references_insertion_line) > 0) {
-    if (pandoc_before_3.1.8()) {
+    if (pandoc_curr_ver_is_before()) {
       references_begin <- grep("^\\\\hypertarget\\{refs\\}\\{\\}$", x)
     } else {
       references_begin <- grep("^\\\\phantomsection\\\\label\\{refs\\}$", x)
@@ -371,11 +371,11 @@ fix_envs <- function(x,
   # ! You can't use `\vadjust' in vertical mode.
   #    \leavevmode\vadjust
   # pre{\hypertarget{ref-edwards2013}{}}%
-  if (pandoc_before_3.1.8()) {
+  if (pandoc_curr_ver_is_before()) {
     x <- gsub("\\\\vadjust pre", "", x)
   }
   # Enable reference linking to subsections of appendices
-  # if (!pandoc_before_3.1.8()) {
+  # if (!pandoc_curr_ver_is_before()) {
   #   stop("csasdown currently only works with pandoc < 3.1.7. Please revert to an older pandoc version.", call. = FALSE)
   # }
   x <- add_appendix_subsection_refs(x)
@@ -423,4 +423,49 @@ region_info <- tibble::tribble(
   "Quebec Region", "R\u00E9gion du Qu\u00E9bec", "bras@dfo-mpo.gc.ca", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli, QC\\\\enspace G5H 3Z4", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli (QC) G5H 3Z4"
 )
 
-pandoc_before_3.1.8 <- function() rmarkdown::pandoc_version() < '3.1.8'
+#' Checks whether or not the current version of Pandoc installed is below a
+#' given version
+#'
+#' @param ver The version to compare the current version against. If `NULL`,
+#' an error is thrown
+#'
+#' @return If the current version of Pandoc is prior to this dotted string
+#' version, `TRUE`. If not `FALSE` is returned.
+#' @export
+pandoc_curr_ver_is_before <- function(ver = "3.1.8"){
+
+  if(is.null(ver)){
+    stop("Must supply a version string to compare (`ver`)")
+  }
+  ver_curr <- as.character(rmarkdown::pandoc_version())
+  ver_curr_vec <- strsplit(ver_curr, "\\.")[[1]] |> as.numeric()
+  ver_curr_len <- length(ver_curr_vec)
+
+  ver_vec <- strsplit(ver, "\\.")[[1]] |> as.numeric()
+  ver_vec_len <- length(ver_vec)
+  # Add NAs to the end of the comparison version if the current pandoc
+  # version has more dotted numbers than the comparison version
+  length(ver_vec) <- length(ver_curr_vec)
+  # Change the NAs to zeros if there are any
+  # For example if ver originally was 3.1.8 and pandoc version (ver_curr) was
+  # 3.1.12.1 then ver will be 3.1.8.0 to match in length the pandoc version
+  # after this next call
+  ver_vec[is.na(ver_vec)] <- 0
+
+  # Compare each chunk of the dotted version number. Can return `TRUE` before
+  # finishing all the compares if the current version chunk's value is less than
+  # the comparison chunk's value or `FALSE` if the comparison chunk's value is
+  # less than the current version chunk's value
+  for(i in seq_along(ver_vec)){
+    if(ver_curr_vec[i] != ver_vec[i]){
+      if(ver_curr_vec[i] < ver_vec[i]){
+        return(TRUE)
+      }
+      if(ver_vec[i] < ver_curr_vec[i]){
+        return(FALSE)
+      }
+    }
+  }
+
+  FALSE
+}
