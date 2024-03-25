@@ -8,7 +8,7 @@
 
 - [Mandatory bullet(s)] 
 
-### Environmental and Climate Change Considerations {-}
+### Ecosystem and Climate Change Considerations {-}
 
 - [Mandatory bullet(s)]
 
@@ -116,7 +116,7 @@ fsar_plot_base(in.df, "English")
 ### Projections [optional titles: Simulations, Future Scenarios] {-}
 [Mandatory. Title can vary. Tables or figures can be used as necessary to support decision-making.]
 
-### Environmental and Climate Change Considerations {-}
+### Ecosystem and Climate Change Considerations {-}
 [Mandatory. Maximum 300 words. May be moved earlier in the Assessment section.]
 
 ### Harvest Decision Rule Outputs {-}
