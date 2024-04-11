@@ -138,14 +138,16 @@ fix_envs <- function(x,
   }
   x <- inject_refstepcounters(x)
 
-  # Need to remove hypertarget for references to appendices to work:
-  # rs_line <- grep("\\\\refstepcounter", x)
-  # FIXME: make more robust
-  rs_line <- grep("\\\\hypertarget\\{app:", x)
-  x[rs_line + 0] <- gsub("hypertarget", "label", x[rs_line + 0])
-  x[rs_line + 0] <- gsub("\\{%", "", x[rs_line + 0])
-  x[rs_line + 1] <- gsub("\\}$", "", x[rs_line + 1])
-  x[rs_line + 1] <- gsub("\\}.*\\}$", "}", x[rs_line + 1])
+  if (pandoc_curr_ver_is_before()) {
+    # Need to remove hypertarget for references to appendices to work:
+    # rs_line <- grep("\\\\refstepcounter", x)
+    # FIXME: make more robust
+    rs_line <- grep("\\\\hypertarget\\{app:", x)
+    x[rs_line + 0] <- gsub("hypertarget", "label", x[rs_line + 0])
+    x[rs_line + 0] <- gsub("\\{%", "", x[rs_line + 0])
+    x[rs_line + 1] <- gsub("\\}$", "", x[rs_line + 1])
+    x[rs_line + 1] <- gsub("\\}.*\\}$", "}", x[rs_line + 1])
+  }
 
   x <- gsub("^.*\\\\tightlist$", "", x)
 
@@ -204,7 +206,11 @@ fix_envs <- function(x,
 
   # Move the bibliography to before the appendices:
   if (length(references_insertion_line) > 0) {
-    references_begin <- grep("^\\\\hypertarget\\{refs\\}\\{\\}$", x)
+    if (pandoc_curr_ver_is_before()) {
+      references_begin <- grep("^\\\\hypertarget\\{refs\\}\\{\\}$", x)
+    } else {
+      references_begin <- grep("^\\\\phantomsection\\\\label\\{refs\\}$", x)
+    }
     if (length(references_begin) > 0) {
       references_end <- length(x) - 1
       x <- c(
@@ -365,9 +371,13 @@ fix_envs <- function(x,
   # ! You can't use `\vadjust' in vertical mode.
   #    \leavevmode\vadjust
   # pre{\hypertarget{ref-edwards2013}{}}%
-  x <- gsub("\\\\vadjust pre", "", x)
-
+  if (pandoc_curr_ver_is_before()) {
+    x <- gsub("\\\\vadjust pre", "", x)
+  }
   # Enable reference linking to subsections of appendices
+  # if (!pandoc_curr_ver_is_before()) {
+  #   stop("csasdown currently only works with pandoc < 3.1.7. Please revert to an older pandoc version.", call. = FALSE)
+  # }
   x <- add_appendix_subsection_refs(x)
 
   if(!include_section_nums){
@@ -412,3 +422,4 @@ region_info <- tibble::tribble(
   "Pacific Region", "R\u00E9gion du Pacifique", "DFO.PacificCSA-CASPacifique.MPO@dfo-mpo.gc.ca", "3190 Hammond Bay Rd.\\\\\\\\Nanaimo, BC\\\\enspace V9T 6N7", "3190, chemin Hammond Bay\\\\\\\\Nanaimo (C.-B.) V9T 6N7",
   "Quebec Region", "R\u00E9gion du Qu\u00E9bec", "bras@dfo-mpo.gc.ca", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli, QC\\\\enspace G5H 3Z4", "850 route de la Mer, P.O. Box 1000\\\\\\\\Mont-Joli (QC) G5H 3Z4"
 )
+
