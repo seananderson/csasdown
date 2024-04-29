@@ -213,7 +213,7 @@ render <- function(yaml_fn = "_bookdown.yml",
     unlink(tmp_yaml_fn)
     unlink(index_fn)
     unlink("*.log")
-    unlink("*.upa")
+    unlink("*.up*")
   }
 
   check_notify("Render completed")
