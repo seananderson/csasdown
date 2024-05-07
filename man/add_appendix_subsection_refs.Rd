@@ -16,6 +16,9 @@ each line
 \description{
 A post-processor to modify the appendix subsection LaTeX code
 after the document has been knit. The modifications ensure correct
-referencing of the appendices throughout the document
+referencing of the appendices throughout the document. References are
+injected into the LaTeX code in \code{x}. The LaTeX macros injected prior to
+each appendix/section/subsection/subsubsection are 'newcounter' and
+'refstepcounter'`.
 }
 \keyword{internal}
