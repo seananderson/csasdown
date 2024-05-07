@@ -3,7 +3,10 @@
 #' @description
 #' A post-processor to modify the appendix subsection LaTeX code
 #' after the document has been knit. The modifications ensure correct
-#' referencing of the appendices throughout the document
+#' referencing of the appendices throughout the document. References are
+#' injected into the LaTeX code in `x`. The LaTeX macros injected prior to
+#' each appendix/section/subsection/subsubsection are 'newcounter' and
+#' 'refstepcounter'`.
 #'
 #' @keywords internal
 #'
@@ -13,174 +16,180 @@
 #' each line
 add_appendix_subsection_refs <- function(x){
 
-  # Need a new counter for each appendix
-  star_chap_inds <- grep("^\\\\starredchapter\\{", x)
-  # If there are Appendices (Resdoc and SR only, the techreport has a totally different TEX structure)
+  # `app_pat` matches the title lines of each included appendix
+  # These are lines starting with 1 hash symbol in rmarkdown
+  # and after the \\Appendices line. Example line:
+  # # THE FIRST APPENDIX {#app:a}
+  app_pat <- "^\\\\starredchapter\\{"
+  # `app_section_pat`matches each level 1 section in each appendix.
+  # These are lines starting with 2 hash symbols in rmarkdown
+  # and after the \\Appendices line. Example line:
+  # ## a-1 {#app:a-1}
+  app_section_pat <- "^\\\\appsection\\{"
+  # `app_subsection_pat`matches each level 2 subsection in each section.
+  # subsection. These are lines starting with 3 hash symbols in rmarkdown
+  # and after the \\Appendices line. Example line:
+  # ### a-1-1 {#app:a-1-1}
+  app_subsection_pat <- "^\\\\subsection\\{"
+  # `app_subsubsection_pat`matches each level 3 sub-subsection in each
+  # subsection. These are lines starting with 4 hash symbols in rmarkdown
+  # and after the \\Appendices line. Example line:
+  # #### a-1-1-1 {#app:a-1-1-1}
+  app_subsubsection_pat <- "^\\\\subsubsection\\{"
 
-  if(length(star_chap_inds)){
-    counters <- paste0("app_counter_", seq_along(star_chap_inds))
+  app_start_ind <- grep("^\\\\Appendices", x)
 
-    if(pandoc_curr_ver_is_before("3.1.8")){
-      pre_starred_x <- x[1:(star_chap_inds[1] - 3)]
-    }else{
-      pre_starred_x <- x[1:(star_chap_inds[1] - 2)]
-    }
-    appendix_chunks <- list()
-    for(i in seq_along(star_chap_inds)){
-      if(pandoc_curr_ver_is_before("3.1.8")){
-        if(i == length(star_chap_inds)){
-          appendix_chunks[[i]] <- x[(star_chap_inds[i] - 2):length(x)]
-        }else{
-          appendix_chunks[[i]] <- x[(star_chap_inds[i] - 2):(star_chap_inds[i + 1] - 3)]
-        }
-      }else{
-        if(i == length(star_chap_inds)){
-          appendix_chunks[[i]] <- x[(star_chap_inds[i] - 1):length(x)]
-        }else{
-          appendix_chunks[[i]] <- x[(star_chap_inds[i] - 1):(star_chap_inds[i + 1] - 2)]
-        }
-      }
-    }
-    # At this point the TEX file is broken into several chunks, `pre_starred_x` which
-    # is everything before the appendices, and N chunks in the list `appendix_chunks`,
-    # one element for each appendix
-
-    # Apply mods to the appendix chunks
-    for(h in seq_along(appendix_chunks)){
-      appsection_inds <- grep("^\\\\appsection\\{", appendix_chunks[[h]])
-      if(length(appsection_inds)){
-        # Strip appendix header away and call function on the rest
-        app_chunk <- appendix_chunks[[h]]
-        app_header <- app_chunk[1:(appsection_inds[1] - 2)]
-        app_chunk <- app_chunk[(appsection_inds[1] - 1):length(app_chunk)]
-        app_chunk_inds <- grep("^\\\\appsection\\{", app_chunk)
-        # Now, break each into section chunks
-        sec_chunks <- list()
-        sec_header <- list()
-        for(i in seq_along(app_chunk_inds)){
-          if(pandoc_curr_ver_is_before("3.1.8")){
-            if(i == length(app_chunk_inds)){
-              sec_chunks[[i]] <- app_chunk[(app_chunk_inds[i] - 1):length(app_chunk)]
-            }else{
-              sec_chunks[[i]] <- app_chunk[(app_chunk_inds[i] - 1):(app_chunk_inds[i + 1] - 2)]
-            }
-          }else{
-            if(i == length(app_chunk_inds)){
-              sec_chunks[[i]] <- app_chunk[(app_chunk_inds[i]):length(app_chunk)]
-            }else{
-              sec_chunks[[i]] <- app_chunk[(app_chunk_inds[i]):(app_chunk_inds[i + 1] - 1)]
-            }
-          }
-          # Check for a label and allow missing label
-          if(pandoc_curr_ver_is_before("3.1.8") &&
-             !length(grep("^\\\\hypertarget\\{", sec_chunks[[i]][1]))){
-            # An auto-generated label was not added (using manually-added label) so switching the
-            # label and appsection is necessary
-            tmp_label <- sec_chunks[[i]][1]
-            tmp_section <- sec_chunks[[i]][2]
-            sec_chunks[[i]][1] <- tmp_section
-            sec_chunks[[i]][2] <- tmp_label
-          }
-
-          # Iterate through each section chunk and create a list for the subsection chunks
-          subsection_inds <- grep("^\\\\subsection\\{", sec_chunks[[i]])
-          if(length(subsection_inds)){
-            sec_chunk <- sec_chunks[[i]]
-            sec_header[[i]] <- sec_chunk[1:(subsection_inds[1] - 2)]
-            sec_chunk <- sec_chunk[(subsection_inds[1] - 1):length(sec_chunk)]
-            sec_chunk_inds <- grep("^\\\\subsection\\{", sec_chunk)
-            subsec_chunks <- list()
-            subsec_header <- list()
-            for(j in seq_along(sec_chunk_inds)){
-              if(j == length(sec_chunk_inds)){
-                subsec_chunks[[j]] <- sec_chunk[(sec_chunk_inds[j] - 1):length(sec_chunk)]
-              }else{
-                subsec_chunks[[j]] <- sec_chunk[(sec_chunk_inds[j] - 1):(sec_chunk_inds[j + 1] - 2)]
-              }
-              if(!length(grep("^\\\\hypertarget\\{", subsec_chunks[[j]][1]))){
-                # An auto-generated label was not added (using manually-added label) so switching the
-                # label and subsection is necessary
-                tmp_label <- subsec_chunks[[j]][1]
-                tmp_subsection <- subsec_chunks[[j]][2]
-                subsec_chunks[[j]][1] <- tmp_subsection
-                subsec_chunks[[j]][2] <- tmp_label
-              }
-              # Iterate through each section chunk and create a list for the subsection chunks
-              subsubsection_inds <- grep("^\\\\subsubsection\\{", subsec_chunks[[j]])
-              if(length(subsubsection_inds)){
-                subsec_chunk <- subsec_chunks[[j]]
-                subsec_header[[j]] <- subsec_chunk[1:(subsubsection_inds[1] - 2)]
-                subsec_chunk <- subsec_chunk[(subsubsection_inds[1] - 1):length(subsec_chunk)]
-                subsec_chunk_inds <- grep("^\\\\subsubsection\\{", subsec_chunk)
-                subsubsec_chunks <- list()
-                for(k in seq_along(subsec_chunk_inds)){
-                  if(k == length(subsec_chunk_inds)){
-                    subsubsec_chunks[[k]] <- subsec_chunk[(subsec_chunk_inds[k] - 1):length(subsec_chunk)]
-                  }else{
-                    subsubsec_chunks[[k]] <- subsec_chunk[(subsec_chunk_inds[k] - 1):(subsec_chunk_inds[k + 1] - 2)]
-                  }
-                  if(!length(grep("^\\\\hypertarget\\{", subsubsec_chunks[[k]][1]))){
-                    # An auto-generated label was not added (using manually-added label) so switching the
-                    # label and subsection is necessary
-                    tmp_sublabel <- subsubsec_chunks[[k]][1]
-                    tmp_subsubsection <- subsubsec_chunks[[k]][2]
-                    subsubsec_chunks[[k]][1] <- tmp_subsubsection
-                    subsubsec_chunks[[k]][2] <- tmp_sublabel
-                  }
-                }
-                subsubsec_chunks <- unlist(subsubsec_chunks)
-                counter_lines <- c(paste0("\\newcounter{appendix_",
-                                          h,
-                                          "_appsection_",
-                                          i,
-                                          "_subsection_",
-                                          j,
-                                          "_counter}"),
-                                   paste0("\\refstepcounter{appendix_",
-                                          h,
-                                          "_appsection_",
-                                          i,
-                                          "_subsection_",
-                                          j,
-                                          "_counter}"))
-                subsubsec_chunks <- c(counter_lines, subsubsec_chunks)
-                names(subsubsec_chunks) <- NULL
-                subsec_chunks[[j]] <- c(subsec_header[[j]], subsubsec_chunks)
-              }
-            }
-            subsec_chunks <- unlist(subsec_chunks)
-            counter_lines <- c(paste0("\\newcounter{appendix_",
-                                      h,
-                                      "_appsection_",
-                                      i,
-                                      "_counter}"),
-                               paste0("\\refstepcounter{appendix_",
-                                      h,
-                                      "_appsection_",
-                                      i,
-                                      "_counter}"))
-            subsec_chunks <- c(counter_lines, subsec_chunks)
-            names(subsec_chunks) <- NULL
-            sec_chunks[[i]] <- c(sec_header[[i]], subsec_chunks)
-          }
-        }
-        sec_chunks <- unlist(sec_chunks)
-        sec_header <- NULL
-        counter_lines <- c(paste0("\\newcounter{appendix_",
-                                  h,
-                                  "_counter}"),
-                           paste0("\\refstepcounter{appendix_",
-                                  h,
-                                  "_counter}"))
-        sec_chunks <- c(counter_lines, sec_chunks)
-        names(sec_chunks) <- NULL
-        appendix_chunks[[h]] <- c(app_header, sec_chunks)
-      }
-    }
-    appendix_chunks <- unlist(appendix_chunks)
-    names(appendix_chunks) <- NULL
-    x <- c(pre_starred_x, appendix_chunks)
-
+  if(!length(app_start_ind)){
+    message("'\\Appendices' text not found in the LaTeX code")
+    return(x)
   }
+  if(length(app_start_ind) > 1){
+    warning("'\\Appendices' text found more than once in the LaTeX code. ",
+            "Appendix/appendices referenced not added. Links to appendix ",
+            "sections will fail")
+    return(x)
+  }
+  main_doc_end_ind <- app_start_ind - 1
+
+  # `app_inds` is a vector of all the locations of the appendix title lines
+  # in the entire LaTeX code (`x`)
+  app_inds <- grep(app_pat, x)
+  if(!length(app_inds)){
+    warning("No appendices found in '\\Appendices' section while attempting ",
+            "to fix appendix subsection references")
+    return(x)
+  }
+
+  # `main_doc_code` includes everything from the beginning of the file
+  # up to but not including the line that is \\Appendices
+  main_doc_code <- x[1:main_doc_end_ind]
+  # `app_pre_code` includes everything from the line that is \\Appendices
+  # up to but not including the first appendix title line
+  app_pre_code <- x[app_start_ind:(app_inds[1] - 1)]
+
+  # `app_code` includes everything from the line the first appendix title line
+  #  to the end of the LaTeX code
+  ap_code <- x[app_inds[1]:length(x)]
+
+  # Get indices for appendix titles again since the vector is now shorter,
+  # so we can reference `ap_code` instead of `x`, which makes it much easier
+  # to follow while debugging since `ap_code` consists of ONLY appendices. Also\
+  # make counters for each appendix for referencing tags later
+  app_inds <- grep(app_pat, ap_code)
+  counters <- paste0("app_counter_", seq_along(app_inds))
+
+  # Local function `split_at()`
+  # Split the vector `x` into a list of chunks based on the vector of
+  # indices given (`pos`). Edge cases are covered, e.g. if pos is `NA` or
+  # `NULL`then the whole vector will be returned as a single element list.
+  # If any of `pos` is out of range of the vector's dimensions, they will
+  # be ignored.
+  split_at <- \(x, pos){
+    unname(split(x, cumsum(seq_along(x) %in% pos)))
+  }
+
+  # `apps` is a list of vectors of code lines for each appendix,
+  # including the appendix title line (starredchapter line) for each
+  apps <- split_at(ap_code, app_inds)
+
+  # Parse each appendix for sections
+  apps <- imap(apps, \(app, app_ind){
+
+    sec_inds <- grep(app_section_pat, app)
+    if(!length(sec_inds)){
+      return(app)
+    }
+
+    # `sec_pre_code` includes everything from the title line of the appendix
+    # up to but not including the first section title line
+    sec_pre_code <- app[1:(sec_inds[1] - 1)]
+    sec_code <- app[sec_inds[1]:length(app)]
+    # Need to do the matching again because we stripped the title and header
+    # code off (`sec_pre_code`)
+    sec_inds <- grep(app_section_pat, sec_code)
+    sections <- split_at(sec_code, sec_inds)
+
+    sections <- imap(sections, \(sec, sec_ind){
+
+      subsec_inds <- grep(app_subsection_pat, sec)
+      if(!length(subsec_inds)){
+        return(sec)
+      }
+
+      # `subsec_pre_code` includes everything from the title line of the
+      # section up to but not including the first subsection title line
+      subsec_pre_code <- sec[1:(subsec_inds[1] - 1)]
+      subsec_code <- sec[subsec_inds[1]:length(sec)]
+      # Need to do the matching again because we stripped the title and header
+      # code off (`subsec_pre_code`)
+      subsec_inds <- grep(app_subsection_pat, subsec_code)
+      subsections <- split_at(subsec_code, subsec_inds)
+
+      subsections <- imap(subsections, \(subsec, subsec_ind){
+
+        subsubsec_inds <- grep(app_subsubsection_pat, subsec)
+        if(!length(subsubsec_inds)){
+          return(subsec)
+        }
+
+        # `subsubsec_pre_code` includes everything from the title line of
+        # the subsection up to but not including the first subsubsubsection
+        # title line
+        subsubsec_pre_code <- subsec[1:(subsubsec_inds[1] - 1)]
+        subsubsec_code <- subsec[subsubsec_inds[1]:length(subsec)]
+        # Need to do the matching again because we stripped the title and header
+        # code off (`subsubsec_pre_code`)
+        subsubsec_inds <- grep(app_subsubsection_pat, subsubsec_code)
+        subsubsections <- split_at(subsubsec_code, subsubsec_inds)
+
+        subsubsections <- imap(subsubsections, \(subsubsec, subsubsec_ind){
+          # Add referencing so the appendix subsubsections can be referenced
+          # in the document with a link
+          ref_string <- paste0("appendix_", app_ind,
+                               "_appsection_", sec_ind,
+                               "_subsection_", subsec_ind,
+                               "_subsubsection_", subsubsec_ind,
+                               "_counter")
+          counter_lines <- c(paste0("\\newcounter{", ref_string, "}"),
+                             paste0("\\refstepcounter{",ref_string,"}"))
+          subsubsec <- c(counter_lines, subsubsec)
+          subsubsec
+        })
+        # Add referencing so the appendix subsections can be referenced in the
+        # document with a link
+        ref_string <- paste0("appendix_", app_ind,
+                             "_appsection_", sec_ind,
+                             "_subsection_", subsec_ind,
+                             "_counter")
+        counter_lines <- c(paste0("\\newcounter{", ref_string, "}"),
+                           paste0("\\refstepcounter{",ref_string,"}"))
+        subsec <- c(counter_lines, subsec_pre_code, subsubsections)
+        subsec
+      })
+      # Add referencing so the appendix sections can be referenced in the
+      # document with a link
+      ref_string <- paste0("appendix_", app_ind,
+                           "_appsection_", sec_ind,
+                           "_counter")
+      counter_lines <- c(paste0("\\newcounter{", ref_string, "}"),
+                         paste0("\\refstepcounter{",ref_string,"}"))
+      sec <- c(counter_lines, sec_pre_code, subsections)
+      sec
+    })
+    # Add referencing so the appendix can be referenced in the document
+    # with a link
+    ref_string <- paste0("appendix_", app_ind,
+                         "_counter")
+    counter_lines <- c(paste0("\\newcounter{", ref_string, "}"),
+                       paste0("\\refstepcounter{",ref_string,"}"))
+    app <- c(counter_lines, app)
+    app
+  })
+
+  # Glue all the parts back together
+  x <- c(main_doc_code,
+         app_pre_code,
+         unlist(apps))
+
   x
 }
