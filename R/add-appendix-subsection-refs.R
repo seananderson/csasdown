@@ -73,8 +73,8 @@ add_appendix_subsection_refs <- function(x){
 
   # Get indices for appendix titles again since the vector is now shorter,
   # so we can reference `ap_code` instead of `x`, which makes it much easier
-  # to follow while debugging since `ap_code` consists of ONLY appendices. Also\
-  # make counters for each appendix for referencing tags later
+  # to follow while debugging since `ap_code` consists of ONLY appendices.
+  # Also make counters for each appendix for referencing tags later
   app_inds <- grep(app_pat, ap_code)
   counters <- paste0("app_counter_", seq_along(app_inds))
 
@@ -137,8 +137,8 @@ add_appendix_subsection_refs <- function(x){
         # title line
         subsubsec_pre_code <- subsec[1:(subsubsec_inds[1] - 1)]
         subsubsec_code <- subsec[subsubsec_inds[1]:length(subsec)]
-        # Need to do the matching again because we stripped the title and header
-        # code off (`subsubsec_pre_code`)
+        # Need to do the matching again because we stripped the title and
+        # header code off (`subsubsec_pre_code`)
         subsubsec_inds <- grep(app_subsubsection_pat, subsubsec_code)
         subsubsections <- split_at(subsubsec_code, subsubsec_inds)
 
