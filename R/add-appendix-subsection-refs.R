@@ -179,13 +179,12 @@ add_appendix_subsection_refs <- function(x){
 
     # Add referencing so the appendix can be referenced in the document
     # with a link
-
-    counter_lines <- "\refstepcounter{chapter}"
-    if(app_ind == 1){
-      counter_lines <- c("\renewcommand{\thechapter}{A}",
-                         counter_lines)
-    }
+    counter_lines <- c(paste0("\\renewcommand{\\thechapter}{",
+                              toupper(LETTERS[app_ind]),
+                              "}"),
+                       "\\refstepcounter{chapter}")
     app <- c(counter_lines, app)
+
     app
   })
 
