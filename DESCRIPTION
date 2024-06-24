@@ -55,9 +55,11 @@ Depends:
 Imports:
     bookdown,
     cli,
+    cowplot,
     crayon,
     dplyr,
     ggplot2,
+    ggtext,
     glue,
     here,
     kableExtra,

@@ -19,5 +19,4 @@ Generate 4-panel figure using simulated fisheries data in ggplot
 }
 \examples{
 fsar_plot_ggplot(sim_fsar_data(format="wide"))
-
 }
