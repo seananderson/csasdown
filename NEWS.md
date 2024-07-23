@@ -1,5 +1,9 @@
 # csasdown
 
+# csasdown 0.1.6
+
+* Switch back from UKenglish to english for Babel in resdoc English .sty
+
 # csasdown 0.1.5
 
 * Updates for compatibility with pandoc >= 3.1.8. #255 #253
