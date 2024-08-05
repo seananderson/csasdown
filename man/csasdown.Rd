@@ -2,7 +2,6 @@
 % Please edit documentation in R/csasdown.R
 \docType{_PACKAGE}
 \name{csasdown}
-\alias{csasdown-package}
 \alias{csasdown}
 \title{csasdown: A package for creating CSAS Research Document with R Markdown/bookdown}
 \description{
@@ -10,27 +9,4 @@ Uses the 'bookdown' R package to generate CSAS (Canadian Science Advisory
 Secretariat) Research Documents, Science Responses, and Technical Reports in
 PDF or Word format. The package is based on Chester Ismay's thesisdown
 package and Ben Marwick's huskydown package.
-}
-\author{
-\strong{Maintainer}: Sean C. Anderson \email{sean.anderson@dfo-mpo.gc.ca}
-
-Authors:
-\itemize{
-  \item Chris Grandin
-  \item Andrew M. Edwards
-  \item Matthew H. Grinnell
-  \item Daniel Ricard
-  \item Rowan Haigh (Contributions to TeX .sty files)
-}
-
-Other contributors:
-\itemize{
-  \item Meghan Burton (Landscape pages and tables) [contributor]
-  \item Paul M. Regular [contributor]
-  \item Chester Ismay (Development of thesisdown) [contributor]
-  \item Nick Solomon (Development of thesisdown) [contributor]
-  \item Ben Marwick (Development of huskydown) [contributor]
-  \item His Majesty the King in Right of Canada, as represented by the Minister of the Department of Fisheries and Oceans [copyright holder]
-}
-
 }
