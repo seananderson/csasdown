@@ -23,16 +23,23 @@ To compile PDF documents using R, you need to have Pandoc, LaTeX, and several re
 
 1. You will need to install LaTeX if you do not have it already. Read [this Wiki page](https://github.com/pbs-assess/csasdown/wiki/Latex-Installation-for-csasdown) for a detailed description of this procedure. Most likely you will want to use the R package tinytex.
 
-2. Install the csasdown package:
+2. If using tinytex, some tinytex versions [will require you to install these packages manually](https://github.com/pbs-assess/csasdown/issues/257):
+
+```r
+tinytex::tlmgr_install('babel-french')
+tinytex::tlmgr_install('babel-english')
+```
+
+3. Install the csasdown package:
 
 ```r
 install.packages("remotes")
 remotes::install_github("pbs-assess/csasdown", dependencies = TRUE)
 ```
 
-3. If you already have a folder (or subfolder) you'd like your report to be kept in, `setwd()` to your folder in R and continue on. Add the argument `create_rstudio_file = FALSE` to the below `draft()` calls (or manually delete the RStudio project file that gets auto created). If you are starting a new project and want all the files to be in the root folder, create that new folder, `setwd()` to that folder in R, and then continue the steps below.
+4. If you already have a folder (or subfolder) you'd like your report to be kept in, `setwd()` to your folder in R and continue on. Add the argument `create_rstudio_file = FALSE` to the below `draft()` calls (or manually delete the RStudio project file that gets auto created). If you are starting a new project and want all the files to be in the root folder, create that new folder, `setwd()` to that folder in R, and then continue the steps below.
 
-4. Run this line in your R console to create a new Research Document from the built-in template in whatever your working directory is:
+5. Run this line in your R console to create a new Research Document from the built-in template in whatever your working directory is:
 
 ```r
 csasdown::draft("resdoc")
@@ -76,13 +83,13 @@ Note that the `techreport` and `manureport` examples contain a lot of informatio
 
 The `resdoc-b` contains examples and guidance on setting up chunks to hold both English and French Rmarkdown, and explanations of the features introduced in version 0.1.0 (see the [NEWS](https://github.com/pbs-assess/csasdown/blob/main/NEWS.md) file).
 
-5. Render the document right away to make sure everything works by opening the file **index.Rmd** and clicking the **knit** button in RStudio. Once completed, a preview pane showing the PDF document will appear. The location of the PDF is in the **_book** directory. See the *Rendering* section below for more information. You can also render on the command line by `setwd()` to the folder that contains `index.Rmd` and `_bookdown.yml` and running `csasdown::render()`. See the *Rendering* section below.
+6. Render the document right away to make sure everything works by opening the file **index.Rmd** and clicking the **knit** button in RStudio. Once completed, a preview pane showing the PDF document will appear. The location of the PDF is in the **_book** directory. See the *Rendering* section below for more information. You can also render on the command line by `setwd()` to the folder that contains `index.Rmd` and `_bookdown.yml` and running `csasdown::render()`. See the *Rendering* section below.
 
-6. Read the output PDF carefully and compare with what is written in the .Rmd files. This will help you understand more quickly how the document is put together and how you might want to structure your document.
+7. Read the output PDF carefully and compare with what is written in the .Rmd files. This will help you understand more quickly how the document is put together and how you might want to structure your document.
 
-7. *(Optional but recommended)* Create a blank repository on GitHub, commit your changes, and push to GitHub. New to Git? Start with <https://happygitwithr.com/>.
+8. *(Optional but recommended)* Create a blank repository on GitHub, commit your changes, and push to GitHub. New to Git? Start with <https://happygitwithr.com/>.
 
-8. Need to make an English *and* French version? csasdown has support for both. Also see csasdown's sibling package [rosettafish](https://github.com/pbs-assess/rosettafish), which can help with translating text in figures.
+9. Need to make an English *and* French version? csasdown has support for both. Also see csasdown's sibling package [rosettafish](https://github.com/pbs-assess/rosettafish), which can help with translating text in figures.
 
 ## Publications prepared using csasdown
 

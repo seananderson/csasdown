@@ -97,6 +97,13 @@ add_appendix_subsection_refs <- function(x){
 
     sec_inds <- grep(app_section_pat, app)
     if(!length(sec_inds)){
+      # Add referencing so the appendix can be referenced in the document
+      # with a link
+      counter_lines <- c(paste0("\\renewcommand{\\thechapter}{",
+                                toupper(LETTERS[app_ind]),
+                                "}"),
+                         "\\refstepcounter{chapter}")
+      app <- c(counter_lines, app)
       return(app)
     }
 
@@ -176,13 +183,15 @@ add_appendix_subsection_refs <- function(x){
       sec <- c(counter_lines, sec_pre_code, subsections)
       sec
     })
+
     # Add referencing so the appendix can be referenced in the document
     # with a link
-    ref_string <- paste0("appendix_", app_ind,
-                         "_counter")
-    counter_lines <- c(paste0("\\newcounter{", ref_string, "}"),
-                       paste0("\\refstepcounter{",ref_string,"}"))
+    counter_lines <- c(paste0("\\renewcommand{\\thechapter}{",
+                              toupper(LETTERS[app_ind]),
+                              "}"),
+                       "\\refstepcounter{chapter}")
     app <- c(counter_lines, app)
+
     app
   })
 

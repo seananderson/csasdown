@@ -136,7 +136,6 @@ fix_envs <- function(x,
       )
     }
   }
-  x <- inject_refstepcounters(x)
 
   if (pandoc_curr_ver_is_before()) {
     # Need to remove hypertarget for references to appendices to work:
