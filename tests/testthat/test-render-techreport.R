@@ -20,7 +20,7 @@ expect_message(csasdown::check_yaml(type = "techreport", verbose = TRUE),
 test_that("csasdown::render generates the PDF of the techreport", {
   csasdown::set_french(val = FALSE)
   csasdown:::set_render_type(doc_type = "pdf")
-  csasdown::render()
+  csasdown::render(suppress_warnings = TRUE)
   expect_true(file.exists(file.path(testing_path, "_book",
                                     "techreport-english.pdf")))
 })
@@ -30,7 +30,7 @@ test_that("csasdown::render generates the PDF of the techreport", {
 test_that("csasdown::render generates the .docx of the techreport", {
   csasdown::set_french(val = FALSE)
   csasdown:::set_render_type(doc_type = "word")
-  csasdown::render()
+  csasdown::render(suppress_warnings = TRUE)
   expect_true(file.exists(file.path(testing_path, "_book",
                                     "techreport-english.docx")))
 })
@@ -102,7 +102,7 @@ test_that("csasdown::render detects cover page missing", {
   ind <- grep("line_nums_mod:", rmd)
   rmd[ind] <- "   line_nums_mod: 1"
   writeLines(rmd, "index.Rmd")
-  csasdown::render()
+  csasdown::render(suppress_warnings = TRUE)
   expect_true(file.exists(file.path(testing_path, "_book",
                                     "techreport-english.pdf")))
   expect_true(file.exists(file.path(testing_path,

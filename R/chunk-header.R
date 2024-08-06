@@ -81,11 +81,19 @@ chunk_header_contains <- function(header, option){
 #' "needs_trans = TRUE" then the text in `option` will be added with a
 #' preceeding comma and space, at the end of the list of options that is
 #' already present:
-#' ```{r example, eval = !fr()}`
+#'
+#' ```
+#' eval = !fr()
+#' ```
+#'
 #' would become
-#' ```{r example, eval = !fr(), needs_trans = TRUE}`
+#'
+#' ```
+#' eval = !fr(), needs_trans = TRUE
+#' ```
+#'
 #' If `header` is not matched by the regular expression used by knitr for
-#' beginning chunks [knitr::all_patterns$md$chunk.begin] then a
+#' beginning chunks `knitr::all_patterns$md$chunk.begin` then a
 #' warning will be issued and `header` will be returned.
 #' If `option` already exists in `header` and `ovr` is `TRUE`, it will be
 #' overwritten with the new `option` value
