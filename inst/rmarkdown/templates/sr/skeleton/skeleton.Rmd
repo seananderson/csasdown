@@ -1,7 +1,7 @@
 ---
 title: |
   "Insert title here; title must be exactly as it appears on the cover page, but in title case (*Latin species name*)"
-title_other: |
+french_title: |
   "Insérez le titre ici ; le titre doit être exactement comme il apparaît sur la page de couverture, mais en majuscule (*Nom latin de l'espèce*)."
 title_short: "Short title"
 year: 2022
@@ -21,6 +21,13 @@ region: Pacific Region
 french_region: Région du Pacifique
 isbn: "ISBN-Here"
 cat_no: "Cat-Number-Here"
+# `show_continued_text` is a logical which, if `true`, places
+# "Continued on the next page..." and "...Continued from the previous page" or
+# the french equivalents (if `french` = `true`) on all long tables created
+# with `csas_table()` that cross page boundaries. If `false`, these will
+# both be absent from all tables. If it is missing or any other value than
+# `false`, it will be assumed to be `true`
+show_continued_text: true
 output:
  csasdown::sr_pdf:
    french: false
@@ -51,9 +58,7 @@ type:
   sr
 # ------------
 # End of options to set
-knit: (function(input, ...) {
-       bookdown::render_book("index.Rmd")
-      })
+knit: (function(input, ...) csasdown::render())
 site: bookdown::bookdown_site
 link-citations: true
 bibliography: bib/refs.bib

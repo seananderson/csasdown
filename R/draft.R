@@ -9,6 +9,8 @@
 #' @param fn Bookdown starting file, `index.Rmd` by default
 #' @param edit Logical. If `TRUE`, edit the template file immediately
 #' (See `edit` in [rmarkdown::draft()])
+#' @param create_rstudio_file Logical. Create RStudio project file? Set to
+#' `FALSE` if in a subdirectory or a folder that already has an RStudio file.
 #' @param verbose Logical. If `TRUE`, print messages
 #' @param testing Logical. If `TRUE`, the question about overwriting
 #' files which already exist will skipped to ensure unit tests work
@@ -35,6 +37,7 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport
                   directory = getwd(),
                   fn = "index.Rmd",
                   edit = FALSE,
+                  create_rstudio_file = TRUE,
                   verbose = TRUE,
                   testing = FALSE,
                   testing_affirm_ovr = FALSE,
@@ -85,35 +88,10 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport
 
   if(length(fns) || length(dirs)){
     # There is at least one file or directory present
-    if(testing){
-      affirm_delete <- ifelse(testing_affirm_ovr, "y", "n")
-    }else{
-      # nocov start
-      repeat{
-        affirm_delete <- readline(
-          question("This action will delete the contents ",
-                   "of the directory ", fn_color(directory), "\n\n",
-                   "Are you sure you want to do this (y/n)?"))
-        if(tolower(affirm_delete) != "n" &&
-           tolower(affirm_delete) != "no" &&
-           tolower(affirm_delete) != "y" &&
-           tolower(affirm_delete) != "yes"){
-          question("Please answer yes or no.")
-        }else{
-          break
-        }
-      }
-      # nocov end
-    }
-
-    if(tolower(affirm_delete) == "y" || tolower(affirm_delete) == "yes"){
-      unlink(fns, recursive = TRUE, force = TRUE)
-      check_notify("Deleted all non-.Rproj files and directories in directory ",
-                   fn_color(directory), "\n")
-    }else{
-      bail("New document not drafted, you decided to keep the files ",
-           "and/or directories in the directory ", fn_color(directory))
-    }
+    bail("New document not drafted because there are existing files ",
+         "and/or directories in the directory ", fn_color(directory), ".",
+         "Please delete these files and/or directories manually or set ",
+         "your working directory to a new folder.")
   }
 
   rmarkdown::draft(fn,
@@ -127,10 +105,10 @@ draft <- function(type = c("resdoc", "resdoc-b", "sr", "techreport", "manureport
   if (file.exists("_gitignore")) {
     file.rename("_gitignore", ".gitignore")
   }
-  if (file.exists("_here")) {
-    file.rename("_here", ".here")
-  }
-  create_rstudio_project_file()
+  # if (file.exists("_here")) {
+  #   file.rename("_here", ".here")
+  # }
+  if (create_rstudio_file) create_rstudio_project_file()
 
   if(verbose){
     # `dirs` is directories ONLY, no files

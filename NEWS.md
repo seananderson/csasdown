@@ -1,12 +1,43 @@
 # csasdown
 
+# csasdown 0.1.6
+
+* Switch back from UKenglish to english for Babel in resdoc English .sty
+
+# csasdown 0.1.5
+
+* Updates for compatibility with pandoc >= 3.1.8. #255 #253
+
+* Fix bug with extra . in French sections. #254
+
+# csasdown 0.1.4
+
+* Add *optional* `show_continued_text` logical YAML argument to enable or
+  disable "Continued..." text on long tables that span multiple pages.
+
+# csasdown 0.1.3
+
+* Add `on.exit()` to `csasdown::render()` to avoid leaving behind `tmp-` files
+  if an R error is encountered.
+  
+* Fix `csasdown::render()` render environment.
+
+# csasdown 0.1.2
+
+* The Science Response template now uses `french_title` instead of `title_other`
+  for consistency with other formats and should be built with 
+  `csasdown::render()`. #241
+
+* Add option `create_rstudio_file` in `draft()` to avoid creating an RStudio 
+  project file. Stop creating a `.here` file. #243
+
 # csasdown 0.1.0
 
 * All messages, warnings, and errors now appear in color if your console supports ANSI color escapes. RStudio does support this and all testing for this feature was done in RStudio 2022.02.3 Build 492.
 
 * `verbose` was added to many functions. If you run `render(verbose = TRUE)` you will see a detailed listing of the steps taken during rendering, including line numbers of important items.
 
-* A new function `csasdown::render()` will auto-detect your document type (*resdoc*, *resdoc-b*, *sr*, *techreport*) and render accordingly. We recommend using this over `bookdown::render_book()`. The 'Knit' button in RStudio should properly choose `csasdown::render()`.
+* A new function `csasdown::render()` will auto-detect your document type (*4resdoc*, *resdoc-b*, *sr*, *techreport*) and render accordingly. We recommend using this over `bookdown::render_book()`. The 'Knit' button in RStudio should properly choose `csasdown::render()`.
 
 * New YAML options are required for this render method; an error will be produced when you run `render()` explaining which ones you are missing. These new YAML options are new French options and are required to render the document. Even if you don't plan on using French, you must enter them with some (any) default text. They are:
    - `french_month`

@@ -9,6 +9,7 @@ draft(
   directory = getwd(),
   fn = "index.Rmd",
   edit = FALSE,
+  create_rstudio_file = TRUE,
   verbose = TRUE,
   testing = FALSE,
   testing_affirm_ovr = FALSE,
@@ -26,6 +27,9 @@ Is the current directory by default}
 
 \item{edit}{Logical. If \code{TRUE}, edit the template file immediately
 (See \code{edit} in \code{\link[rmarkdown:draft]{rmarkdown::draft()}})}
+
+\item{create_rstudio_file}{Logical. Create RStudio project file? Set to
+\code{FALSE} if in a subdirectory or a folder that already has an RStudio file.}
 
 \item{verbose}{Logical. If \code{TRUE}, print messages}
 

@@ -73,6 +73,7 @@ render <- function(yaml_fn = "_bookdown.yml",
   tmp_yaml_rmd_fns <- create_tmp_yaml_rmd_files(yaml_fn, verbose)
   tmp_yaml_fn <- tmp_yaml_rmd_fns[[1]]
   tmp_rmd_fns <- tmp_yaml_rmd_fns[[2]]
+  on.exit(unlink(unlist(tmp_yaml_rmd_fns), force = TRUE))
 
   index_fn <- get_index_filename(tmp_yaml_fn, verbose)
   set_render_type(index_fn, "asis")
@@ -82,13 +83,14 @@ render <- function(yaml_fn = "_bookdown.yml",
   pdf_or_word <- `if`(doc_format == "pdf", "PDF", "Word")
 
   # Make sure all YAML entries are present in `index.Rmd`
-  check_yaml(render_type, verbose)
+  check_yaml(render_type, verbose = verbose)
 
   # Find out what language is set to and set the option 'french' here
   # so that it works on the first compilation in a workspace
   # It sets `options(french)` to the value in the file
   set_language_option(index_fn, verbose)
 
+  set_citations(index_fn, verbose)
 
   # Set up the console Render message
   csas_render_type <- gsub("(.*)_\\S+$", "\\1", render_type)
@@ -167,6 +169,7 @@ render <- function(yaml_fn = "_bookdown.yml",
       suppressWarnings(
         render_book(index_fn,
                     config_file = tmp_yaml_fn,
+                    envir = parent.frame(n = 2L),
                     ...)
       )
     )
@@ -174,6 +177,7 @@ render <- function(yaml_fn = "_bookdown.yml",
     suppressMessages(
       render_book(index_fn,
                   config_file = tmp_yaml_fn,
+                  envir = parent.frame(n = 2L),
                   ...)
     )
   }
@@ -210,7 +214,7 @@ render <- function(yaml_fn = "_bookdown.yml",
     unlink(tmp_yaml_fn)
     unlink(index_fn)
     unlink("*.log")
-    unlink("*.upa")
+    unlink("*.up*")
   }
 
   check_notify("Render completed")

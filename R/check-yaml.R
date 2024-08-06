@@ -7,6 +7,8 @@
 #' am error message telling you what doesn't match if needed.
 #'
 #' @param type Type of document
+#' @param tag_exceptions A vector of YAML tag names that if missing, will not
+#' cause an error
 #' @param verbose Logical. If `TRUE`, print messages
 #'
 #' @importFrom rmarkdown yaml_front_matter
@@ -17,6 +19,7 @@ check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
                                 "manureport_word",
                                 "techreport", "techreport_pdf",
                                 "techreport_word"),
+                       tag_exceptions = c("show_continued_text"),
                        verbose = FALSE) {
 
   tryCatch({type <- match.arg(type)
@@ -54,6 +57,7 @@ check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
   ))
   x_index <- names(yaml_front_matter("index.Rmd"))
   .diff <- setdiff(x_skeleton, x_index)
+  .diff <- .diff[!.diff %in% tag_exceptions]
   if (length(.diff) > 0L) {
     bail("Your ", fn_color("index.Rmd"), " file is missing the YAML ",
          "tag(s):\n\n", tag_color(paste(.diff, collapse = "\n")))
