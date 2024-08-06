@@ -313,7 +313,7 @@ inject_refstepcounters <- function(x) {
 # nocov start
 #' Add a Res Doc titlepage to a docx file
 #'
-#' Add a Res Doc titlepage. Must hand edit `templates/RES2021-eng-titlepage.docx`
+#' Add a Res Doc titlepage. Must hand edit `templates/RES2024-eng-titlepage.docx`
 #' to have your desired title and authors etc.
 #'
 #' @param titlepage Filename
@@ -322,7 +322,7 @@ inject_refstepcounters <- function(x) {
 #' @return A merged .docx
 #' @importFrom officer read_docx body_add_docx cursor_reach body_add_toc
 #' @export
-add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2021-eng-titlepage.docx",
+add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2024-eng-titlepage.docx",
                                       resdoc = "_book/resdoc-english.docx") {
   title_doc <- read_docx(titlepage)
   x <- body_add_docx(title_doc, resdoc, pos = "before")
@@ -332,15 +332,15 @@ add_resdoc_docx_titlepage <- function(titlepage = "templates/RES2021-eng-titlepa
 #' Add front matter to Res Doc docx file
 #'
 #' Add title page and table of contents to a Res Doc. Must hand edit
-#' `templates/RES2021-eng-frontmatter.docx`to have your desired title and authors etc.
+#' `templates/RES2024-eng-frontmatter.docx`to have your desired title and authors etc.
 #'
 #' @param frontmatter  Path to title page file included with resdoc template
 #' @param resdoc       Path to content generated using resdoc_word
 #'
 #' @return A merged .docx
 #' @export
-add_resdoc_docx_frontmatter <- function(frontmatter = "templates/RES2021-eng-frontmatter.docx",
-                                        resdoc = "_book/resdoc.docx") {
+add_resdoc_docx_frontmatter <- function(frontmatter = "templates/RES2024-eng-frontmatter.docx",
+                                        resdoc = "_book/resdoc-english.docx") {
   frontmatter_doc <- read_docx(frontmatter)
   x <- body_add_docx(frontmatter_doc, resdoc, pos = "before")
   x <- cursor_reach(x, keyword = "TABLE OF CONTENTS")
