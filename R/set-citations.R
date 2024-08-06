@@ -5,7 +5,6 @@
 #' must have a YAML option called 'french' set to either 'true' or 'false'
 #' @param verbose Logical. If `TRUE`, print messages
 #'
-#' @return
 #' @export
 set_citations <- function(fn = get_index_filename(
   system.file("rmarkdown",
@@ -32,7 +31,7 @@ set_citations <- function(fn = get_index_filename(
 
   if(fr()){
     if(!length(ca_ind)){
-      warning("You are missing the `citation_english:` tag in your YAML file:\n",
+      message("You are missing the `citation_english:` tag in your YAML file:\n",
               fn, ". This citation is required when you build in French as it ",
               "is set to the other language citation on page 2 of ",
               "the document")
@@ -40,7 +39,7 @@ set_citations <- function(fn = get_index_filename(
     }
   }else{
     if(!length(cf_ind)){
-      warning("You are missing the `citation_french:` tag in your YAML file:\n",
+      message("You are missing the `citation_french:` tag in your YAML file:\n",
               fn, ". This citation is required when you build in English as it ",
               "is set to the other language citation on page 2 of ",
               "the document")
