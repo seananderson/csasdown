@@ -2,6 +2,7 @@
 % Please edit documentation in R/csasdown.R
 \docType{package}
 \name{csasdown}
+\alias{csasdown-package}
 \alias{csasdown}
 \title{csasdown: A package for creating CSAS Research Document with R Markdown/bookdown}
 \description{
@@ -10,8 +11,6 @@ Secretariat) Research Documents, Science Responses, and Technical Reports in
 PDF or Word format. The package is based on Chester Ismay's thesisdown
 package and Ben Marwick's huskydown package.
 }
-<<<<<<< HEAD
-=======
 \author{
 \strong{Maintainer}: Sean C. Anderson \email{sean.anderson@dfo-mpo.gc.ca}
 
@@ -36,4 +35,3 @@ Other contributors:
 
 }
 \keyword{internal}
->>>>>>> 2ac4f4e186dbc056c81a20b9cef5ed8a86a187cd

@@ -5,10 +5,6 @@
 #' must have a YAML option called 'french' set to either 'true' or 'false'
 #' @param verbose Logical. If `TRUE`, print messages
 #'
-<<<<<<< HEAD
-#' @return
-=======
->>>>>>> 2ac4f4e186dbc056c81a20b9cef5ed8a86a187cd
 #' @export
 set_citations <- function(fn = get_index_filename(
   system.file("rmarkdown",
@@ -35,11 +31,7 @@ set_citations <- function(fn = get_index_filename(
 
   if(fr()){
     if(!length(ca_ind)){
-<<<<<<< HEAD
-      warning("You are missing the `citation_english:` tag in your YAML file:\n",
-=======
       message("You are missing the `citation_english:` tag in your YAML file:\n",
->>>>>>> 2ac4f4e186dbc056c81a20b9cef5ed8a86a187cd
               fn, ". This citation is required when you build in French as it ",
               "is set to the other language citation on page 2 of ",
               "the document")
@@ -47,11 +39,7 @@ set_citations <- function(fn = get_index_filename(
     }
   }else{
     if(!length(cf_ind)){
-<<<<<<< HEAD
-      warning("You are missing the `citation_french:` tag in your YAML file:\n",
-=======
       message("You are missing the `citation_french:` tag in your YAML file:\n",
->>>>>>> 2ac4f4e186dbc056c81a20b9cef5ed8a86a187cd
               fn, ". This citation is required when you build in English as it ",
               "is set to the other language citation on page 2 of ",
               "the document")
@@ -76,8 +64,8 @@ set_citations <- function(fn = get_index_filename(
     prev <- rmd[1:end_citations_ind]
     last <- rmd[(end_citations_ind + 1):length(rmd)]
     rmd <- c(prev,
-                  cother,
-                  last)
+             cother,
+             last)
   }
 
   writeLines(rmd, fn)
