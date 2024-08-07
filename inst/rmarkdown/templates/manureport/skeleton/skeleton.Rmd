@@ -37,6 +37,7 @@ french_abstract: |
 # both be absent from all tables. If it is missing or any other value than
 # `false`, it will be assumed to be `true`
 show_continued_text: true
+citation_french: ""
 output:
  csasdown::manureport_pdf:
    french: false

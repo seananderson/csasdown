@@ -19,7 +19,7 @@ test_that("fix_envs() works", {
   en_region_ind <- grep("^\\s*region:", rmd)
   rmd[en_region_ind] <- paste0("region: ", fr_region)
   writeLines(rmd, "index.Rmd")
-  csasdown::render()
+  csasdown::render(suppress_warnings = TRUE)
   expect_true(file.exists("_book/sr-english.pdf"))
   expect_true(file.exists("_book/sr-english.tex"))
   tex <- readLines("_book/sr-english.tex")
@@ -46,7 +46,7 @@ test_that("fix_envs() works", {
   rmd_after <- rmd[(french_abs_ind - 1):length(rmd)]
   rmd <- c(rmd_prev, "abstract:", rmd_after)
   writeLines(rmd, "index.Rmd")
-  csasdown::render()
+  csasdown::render(suppress_warnings = TRUE)
   expect_true(file.exists("_book/resdoc-english.pdf"))
   expect_true(file.exists("_book/resdoc-english.tex"))
 
@@ -72,7 +72,7 @@ test_that("fix_envs() works", {
   prepub_ind <- grep("prepub", rmd)
   rmd[prepub_ind] <- "   prepub: true"
   writeLines(rmd, "index.Rmd")
-  csasdown::render()
+  csasdown::render(suppress_warnings = TRUE)
   expect_true(file.exists("_book/sr-english.pdf"))
   expect_true(file.exists("_book/sr-english.tex"))
 
@@ -115,7 +115,7 @@ test_that("fix_envs() works", {
   ind <- grep("include_section_nums:", rmd)
   rmd[ind] <- "   include_section_nums: false"
   writeLines(rmd, "index.Rmd")
-  csasdown::render()
+  csasdown::render(suppress_warnings = TRUE)
   expect_true(file.exists("_book/resdoc-english.pdf"))
   expect_true(file.exists("_book/resdoc-english.tex"))
 

@@ -8,7 +8,7 @@
 #'
 #' @examples
 #' fsar_plot_ggplot(sim_fsar_data(format="wide"))
-#'
+#' @importFrom ggplot2 ggplot geom_line aes scale_y_continuous labs geom_ribbon
 fsar_plot_ggplot <- function(df, language = c("English","French")) {
 
   language <- match.arg(language)

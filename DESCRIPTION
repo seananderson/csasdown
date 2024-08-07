@@ -55,9 +55,11 @@ Depends:
 Imports:
     bookdown,
     cli,
+    cowplot,
     crayon,
     dplyr,
     ggplot2,
+    ggtext,
     glue,
     here,
     kableExtra,
@@ -83,7 +85,7 @@ ByteCompile: true
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 SystemRequirements: pandoc (>= 1.18) - http://pandoc.org
 Config/testthat/parallel: true
 Config/testthat/edition: 2
