@@ -25,7 +25,20 @@ Here is an example of how the option is added. If \code{option} is
 "needs_trans = TRUE" then the text in \code{option} will be added with a
 preceeding comma and space, at the end of the list of options that is
 already present:
-\verb{\{r example, eval = !fr()\}` would become }{r example, eval = !fr(), needs_trans = TRUE}\code{If}header\verb{is not matched by the regular expression used by knitr for beginning chunks [knitr::all_patterns$md$chunk.begin] then a warning will be issued and}header\verb{will be returned. If}option\verb{already exists in}header\code{and}ovr\code{is}TRUE\verb{, it will be overwritten with the new }option` value
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{eval = !fr()
+}\if{html}{\out{</div>}}
+
+would become
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{eval = !fr(), needs_trans = TRUE
+}\if{html}{\out{</div>}}
+
+If \code{header} is not matched by the regular expression used by knitr for
+beginning chunks \code{knitr::all_patterns$md$chunk.begin} then a
+warning will be issued and \code{header} will be returned.
+If \code{option} already exists in \code{header} and \code{ovr} is \code{TRUE}, it will be
+overwritten with the new \code{option} value
 }
 \seealso{
 Other knitr-chunk-header: 
