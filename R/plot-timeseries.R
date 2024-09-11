@@ -124,7 +124,7 @@ fsar_plot_base <- function(in.df, language = c("English","French")) {
   }
   if (language == "French") {
     y.lab <- "Biomasse"
-    legend.text <- c("BSR-tonne", "confidence de 95%", "NRS-tonne", "NRL-tonne")
+    legend.text <- c("BSR-tonne", "confiance à 95%", "NRS-tonne", "NRL-tonne")
   }
 
   plot(ts.value ~ year, data = tr.df, type = "n", axes = FALSE, xlab = "", ylab = "", ylim = yl)
@@ -163,7 +163,7 @@ fsar_plot_base <- function(in.df, language = c("English","French")) {
   }
   if (language == "French") {
     y.lab <- "Mortalité"
-    legend.text <- c("F-1/yr", "confidence de 95%", "RP-1/yr", "M-1/yr")
+    legend.text <- c("F-1/yr", "confiance à 95%", "RP-1/yr", "M-1/yr")
   }
 
   idx <- which(in.df$panel.category == "Fishing" & in.df$ts.name == "F-1/yr")
@@ -205,7 +205,7 @@ fsar_plot_base <- function(in.df, language = c("English","French")) {
   }
   if (language == "French") {
     y.lab <- "Recrutement"
-    legend.text <- c("R-E06", "confidence de 95%")
+    legend.text <- c("R-E06", "confiance à 95%")
   }
   plot(ts.value ~ year, data = br.df[which(br.df$ts.name == "R-E06"), ], type = "l", lwd = 2, axes = FALSE, xlab = "", ylab = "", ylim = yl)
   lines(ts.value ~ year, data = br.df[which(br.df$ts.name == "Rlow-E06"), ], type = "l", lty = 2)
