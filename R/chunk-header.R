@@ -151,16 +151,16 @@ chunk_header_add <- function(header = NULL, option = NULL, ovr = FALSE){
 
 #' Remove an option and its value from a knitr chunk header
 #'
-#' @details
-#' Here is an example of how the option is added. If `option` is
-#' "needs_trans" then the text in `option` will be removed along with
-#' preceeding comma and space, up to the next comma or closing `}`
-#' ```{r example, eval = !fr(), needs_trans = TRUE}`
-#' with call: `chunk_header_remove(header, "needs_trans")`
-#' ```{r example, eval = !fr()}`
-#' If `header` is not matched by the regular expression used by knitr for
-#' beginning chunks [knitr::all_patterns$md$chunk.begin] then a
-#' warning will be issued and `header` will be returned.
+# @details
+# Here is an example of how the option is added. If `option` is
+# "needs_trans" then the text in `option` will be removed along with
+# preceeding comma and space, up to the next comma or closing `}`
+# ```{r example, eval = !fr(), needs_trans = TRUE}`
+# with call: `chunk_header_remove(header, "needs_trans")`
+# ```{r example, eval = !fr()}`
+# If `header` is not matched by the regular expression used by knitr for
+# beginning chunks [knitr::all_patterns$md$chunk.begin] then a
+# warning will be issued and `header` will be returned.
 #'
 #' @keywords internal
 #'

@@ -55,11 +55,9 @@ Depends:
 Imports:
     bookdown,
     cli,
-    cowplot,
     crayon,
     dplyr,
     ggplot2,
-    ggtext,
     glue,
     here,
     kableExtra,
@@ -70,15 +68,17 @@ Imports:
     rmarkdown,
     stringr,
     tibble,
-    tidyr,
     tinytex (>= 0.39),
     utils
 Suggests:
     covr,
+    cowplot,
+    ggtext,
     magick,
     readr,
     rosettafish,
-    testthat
+    testthat,
+    tidyr
 Remotes:
     pbs-assess/rosettafish
 ByteCompile: true
