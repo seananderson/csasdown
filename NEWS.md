@@ -1,5 +1,9 @@
 # csasdown
 
+# csasdown 0.1.7
+
+* Merge in in-progress fsar template.
+
 # csasdown 0.1.6
 
 * Switch back from UKenglish to english for Babel in resdoc English .sty
