@@ -1,5 +1,5 @@
 #' Generate 4-panel figure using simulated fisheries data in ggplot
-
+#'
 #' @param timeseries the timeseries to plot
 #' @param language French or English
 #'
@@ -9,6 +9,7 @@
 #' @examples
 #' fsar_plot_ggplot(sim_fsar_data(format="wide"))
 #' @importFrom ggplot2 ggplot geom_line aes scale_y_continuous labs geom_ribbon
+#'   expansion
 fsar_plot_ggplot <- function(df, language = c("English","French")) {
 
   language <- match.arg(language)
@@ -55,7 +56,7 @@ fsar_plot_ggplot <- function(df, language = c("English","French")) {
 
 
 #' Generate 4-panel figure using simulated fisheries data in base R
-
+#'
 #' @param timeseries the timeseries to plot
 #' @param language French or English
 #'
@@ -65,10 +66,12 @@ fsar_plot_ggplot <- function(df, language = c("English","French")) {
 #' @examples
 #' fsar_plot_base(sim_fsar_data(format="long"))
 #'
+#' @importFrom grDevices grey
+#' @importFrom graphics axis box layout legend lines mtext par
+#' @importFrom stats arima.sim rnorm
 fsar_plot_base <- function(in.df, language = c("English","French")) {
 
   language <- match.arg(language)
-
 
   mm <- matrix(c(rep(0, 5), 0, 1, 0, 2, 0, rep(0, 5), 0, 3, 0, 4, 0, rep(0, 5)), nc = 5, byrow = TRUE)
   ll <- layout(mm, widths = c(0.06, 0.43, 0.06, 0.43, 0.02), heights = c(c(0.02, 0.45, 0.04, 0.45, 0.04))) # layout.show(ll)

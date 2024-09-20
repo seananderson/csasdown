@@ -94,6 +94,7 @@ Data changes: [Optional (otherwise, do not include).]
 (ref:caption) (A) Catch and Total Allowable Catch, (B) Spawning Stock Biomass (SSB) in relation to the Limit Reference Point (LRP; X) and (proposed) Upper Stock Reference (USR; X), (C) Fishing Mortality (F; X), Removal Reference (RR) and Natural Mortality (M), (D) Recruitment (numbers).
 
 ```{r base1, fig.cap="(ref:caption)"}
+source("plot-timeseries.R")
 in.df <- sim_fsar_data("long")
 
 ## English template
