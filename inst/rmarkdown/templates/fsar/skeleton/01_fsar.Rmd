@@ -1,0 +1,165 @@
+## SCIENCE ADVICE {-}
+[Mandatory. Maximum length 500 words. Include summary bullets of the following factors affecting the stock that are relevant for decision-making. Please refer to the Guidance Document for standardized language and examples, and what to avoid in this section.] 
+
+### Status {-}
+
+::: {custom-style="fsar-bullet"}
+[Mandatory bullet(s)]
+:::
+
+### Trends {-}
+
+::: {custom-style="fsar-bullet"}
+[Mandatory bullet(s)] 
+:::
+
+### Ecosystem and Climate Change Considerations {-}
+
+::: {custom-style="fsar-bullet"}
+[Mandatory bullet(s)]
+:::
+
+### Stock Advice {-}
+
+::: {custom-style="fsar-bullet"}
+[Mandatory bullet(s)] 
+:::
+
+### Other Management Questions [if applicable, otherwise do not include] {-}
+
+::: {custom-style="fsar-bullet"}
+[Other bullets if applicable]
+:::
+
+## BASIS FOR ASSESSMENT {-}
+
+### Assessment Details {-}
+[Mandatory]
+
+#### Year Assessment Approach was Approved {-}
+[Mandatory; year and reference]
+
+#### Assessment Type {-}
+[Mandatory; select one of the following: Full Assessment, Interim Year Update, or Harvest Decision Rule (HDR) Update. See the Guidance Document for definitions.] 
+
+#### Most Recent Assessment Date {-}
+1.	Last Full Assessment: [date and reference]
+2.	Last Interim Year Update: [date and reference]
+
+#### Assessment Approach {-}
+1.	Broad category: [Select one of the following: Data-poor (e.g., catch-MSY, very limited data, etc.), index-based (trends in empirical indices only), single stock assessment model, model ensemble, MSE (full or MSE-lite), Wild Salmon Policy Integrated Assessment, multiple approaches, other (specify)]
+2.	Specific category: [Select one or as many as apply: No data, Index-based (fishery-dependent indices only), Index-based (including fishery-dependent and fishery-independent indices), Delay difference, Biomass dynamics, Virtual population analysis, Statistical catch-at-length, Statistical catch-at-age, State-Space, Sequential Population Analysis, Surplus Production, Stock-Recruitment Relationship, Potential Biological Removal, Other (please explain)]
+
+[Optional short summary of stock assessment methodology. Include the method of considering ecosystem variables. Include a reference to a Research Document or other publication, and/or footnote to the working paper. Maximum length 100 words.]
+
+### Stock Structure Assumption {-}
+Stock overview information: [reference to a Research Document or other publication, and/or footnote to the working paper]
+
+[Mandatory. Maximum length 150 words.]
+
+### Reference Points {-}
+[Mandatory. A table may be used in lieu of bullets for this section. Refer to the Guidance Document for further instructions.]
+
+- Limit Reference Point (LRP): 
+- Upper Stock Reference (USR):
+- Removal Reference (RR): 
+- Target (TRP): 
+
+#### Other Stock Reference Points {-}
+[If applicable (otherwise, do not include). A table may be used in lieu of bullets for this section.] 
+
+#### Hatchery Reference Points {-}
+[If applicable (otherwise, do not include). A table may be used in lieu of bullets for this section.] 
+
+#### Habitat or Ecosystem Reference Points {-}
+[If applicable (otherwise, do not include). A table may be used in lieu of bullets for this section.] 
+
+### Harvest Decision Rule {-}
+[Optional (otherwise, do not include). Maximum length 100 words.]
+
+### Enhancement Plan {-}
+[Optional (otherwise, do not include). Maximum length 100 words.]
+
+### Habitat Restoration Plan {-}
+[Optional (otherwise, do not include). Maximum length 100 words.]
+
+### Data {-}
+[Mandatory. Maximum length 300 words.] 
+
+Data changes: [Optional (otherwise, do not include).]
+
+## ASSESSMENT {-}
+[Mandatory panel of images comes first – example shown. Refer to the Guidance Document for options and further instructions.]
+
+(ref:caption) (A) Catch and Total Allowable Catch, (B) Spawning Stock Biomass (SSB) in relation to the Limit Reference Point (LRP; X) and (proposed) Upper Stock Reference (USR; X), (C) Fishing Mortality (F; X), Removal Reference (RR) and Natural Mortality (M), (D) Recruitment (numbers).
+
+```{r base1, fig.cap="(ref:caption)"}
+source("fake-data.R")
+source("plot-timeseries.R")
+in.df <- sim_fsar_data("long")
+
+## English template
+fsar_plot_base(in.df, "English")
+```
+
+[Optional. Add an additional optional panel of 4 indicators if relevant to developing advice.] 
+[Optional. If the FSAR or FSRR is being used to provide advice for more than one stock, the mandatory panel can be repeated for each stock.]
+
+### Historical and Recent Stock Trajectory and Trends {-}
+[Mandatory. Maximum text length one page. Must be first section in Assessment section.]
+
+[Report trends in relevant indicator(s), one per paragraph, in the following format:]
+
+#### [Indicator 1] [specify name, e.g., Abundance]: {-}
+[Provide values and trends for the stock (as applicable).]
+
+#### Unknown {-}
+[Optional. Indicate what indicators are not available for the stock (as applicable); otherwise, do not include.]
+
+### History of [Management; Landings/Harvest/Effort, TAC \& Catch Advice] {-}
+[Mandatory. Title can vary. Maximum text length one page.] 
+
+#### History of Hatchery and Supplementation {-}
+[If applicable (otherwise, do not include).]
+
+#### History of Freshwater Habitat Impacts {-}
+[If applicable (otherwise, do not include).]
+
+### Projections [optional titles: Simulations, Future Scenarios] {-}
+[Mandatory. Title can vary. Tables or figures can be used as necessary to support decision-making.]
+
+### Ecosystem and Climate Change Considerations {-}
+[Mandatory. Maximum 300 words. May be moved earlier in the Assessment section.]
+
+### Harvest Decision Rule Outputs {-}
+[If applicable (otherwise, do not include).] 
+
+### Evaluation of Exceptional Circumstances/Assessment Triggers {-}
+[If applicable (otherwise, do not include).] 
+
+## BYCATCH {-}
+[Optional (otherwise, do not include).] 
+
+## PROCEDURE FOR INTERIM YEAR UPDATES {-}
+[Optional (otherwise, do not include).] 
+
+## OTHER MANAGEMENT QUESTIONS {-}
+[Optional (otherwise, do not include).] 
+
+## SOURCES OF UNCERTAINTY {-}
+[Mandatory. Maximum length 500 words.]
+
+### Research Recommendations {-}
+[Optional (otherwise, do not include).] 
+
+## LIST OF MEETING PARTICIPANTS {-}
+[Mandatory. The list is to include the name of each participant and their affiliation.]
+
+## SOURCES OF INFORMATION {-}
+[Mandatory.]
+
+[References should only be included to understand the advice, and should not be included to give credit to the work as they are done in the Research Document. References to the unpublished working paper should be integrated as footnotes through this document.]
+
+[References must be formatted according to the Guide for the Production of Fisheries and Oceans Canada Reports.]
+
+[References listed in the References Cited section should be publicly available when the report is posted on the website. The only exception is for books or articles that have been accepted for publication (page proof stage or where there is an acceptance letter). These can be listed followed by the notation “in press”. All others should be included in the text as unpublished data or working papers.]

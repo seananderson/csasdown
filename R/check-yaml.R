@@ -18,7 +18,7 @@ check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
                                 "manureport", "manureport_pdf",
                                 "manureport_word",
                                 "techreport", "techreport_pdf",
-                                "techreport_word"),
+                                "techreport_word", "fsar_word"),
                        tag_exceptions = c("show_continued_text"),
                        verbose = FALSE) {
 
@@ -31,6 +31,7 @@ check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
          csas_color("manureport"), ", ", csas_color("manureport_pdf"),
          csas_color("manureport_word"), ", ",
          csas_color("techreport"), ", ", csas_color("techreport_pdf"),
+         ", ", csas_color("techreport_pdf"),
          ", or ", csas_color("techreport_word"), ".\n",
          "You tried: ", csas_color(type))
   })
@@ -46,6 +47,8 @@ check_yaml <- function(type = c("resdoc", "resdoc_pdf", "resdoc_word",
     type <- "sr"
   }else if(type %in% c("techreport", "techreport_pdf", "techreport_word")){
     type <- "techreport"
+  }else if(type %in% c("fsar_word")) {
+    type <- "fsar"
   }else if(type %in% c("manureport", "manureport_pdf", "manureport_word")){
     type <- "manureport"
   }
