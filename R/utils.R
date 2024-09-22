@@ -408,7 +408,7 @@ cat <- function(...,
                 labels = NULL,
                 append = FALSE){
 
-  base::cat(...,
+  base::cat(unlist(list(...)),
             file = file,
             sep = "",
             fill = fill,
