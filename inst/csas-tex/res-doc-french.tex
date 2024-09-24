@@ -39,8 +39,10 @@ $header-includes$
 % Title
 \newcommand{\rdTitle}{$title$}
 
-\newcommand{\rdISBN}{$isbn_french$}
-\newcommand{\rdCatNo}{$cat_no_french$}
+% Use isbn_french and cat_no_french if they exist, if they don't use isbn and cat_no
+% This preserves backwards compatibility for those without the french tags
+\newcommand{\rdISBN}{\ifx&$isbn_french$& $isbn$ \else $isbn_french$ \fi}
+\newcommand{\rdCatNo}{\ifx&$cat_no_french$& $cat_no$ \else $cat_no_french$ \fi}
 
 % Author names separated by commas and ', and' for the last author in the format 'M.H. Grinnell' (use \textsuperscript{n} for addresses)
 \newcommand{\rdAuth}{$author$}

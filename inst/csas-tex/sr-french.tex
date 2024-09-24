@@ -58,8 +58,10 @@ $header-includes$
 % Region
 \newcommand{\rdRegion}{$region$}
 
-\newcommand{\rdISBN}{$isbn$}
-\newcommand{\rdCatNo}{$cat_no$}
+% Use isbn_french and cat_no_french if they exist, if they don't use isbn and cat_no
+% This preserves backwards compatibility for those without the french tags
+\newcommand{\rdISBN}{\ifx&$isbn_french$& $isbn$ \else $isbn_french$ \fi}
+\newcommand{\rdCatNo}{\ifx&$cat_no_french$& $cat_no$ \else $cat_no_french$ \fi}
 
 %%%% End of title page commands %%%%%
 
