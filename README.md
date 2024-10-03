@@ -69,7 +69,6 @@ or for a Science Response:
 csasdown::draft("sr")
 ```
 
-<<<<<<< HEAD
 or a Fisheries Science Advisory Report (FSAR):
 
 ```r
