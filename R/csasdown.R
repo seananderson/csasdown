@@ -5,11 +5,11 @@
 #' PDF or Word format. The package is based on Chester Ismay's thesisdown
 #' package and Ben Marwick's huskydown package.
 #'
-#' @docType _PACKAGE
 #' @name csasdown
+#' @keywords internal
+"_PACKAGE"
 NULL
 
-# hack because I can't suppress this package data warning!?
 if(getRversion() >= "2.15.1")
   utils::globalVariables(c("region_info", ".x", ".y",
                            "fn", "num_lines", "post_num",

@@ -8,6 +8,6 @@ test_that("FSAR builds", {
     create_dir = FALSE,
     edit = FALSE
   ))
-  render_sar()
+  csasdown::render_sar()
   expect_true(file.exists("_book/fsar.docx"))
 })

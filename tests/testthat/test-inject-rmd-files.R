@@ -37,7 +37,7 @@ test_that("inject_rmd_files() works", {
                  "on line(s) 4, 6")
   expect_error(expect_message(
     csasdown:::inject_rmd_files("injected-into-2.Rmd"),
-    mess, fixed = TRUE),
+    mess),
     paste0("Triple- or Quadruple-backtick code chunks are not allowed in ",
            "external RMD files which have been injected using"))
 

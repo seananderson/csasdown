@@ -1,5 +1,5 @@
 #' Generate 4-panel figure using simulated fisheries data in ggplot
-
+#'
 #' @param timeseries the timeseries to plot
 #' @param language French or English
 #'
@@ -8,7 +8,8 @@
 #'
 #' @examples
 #' fsar_plot_ggplot(sim_fsar_data(format="wide"))
-#'
+#' @importFrom ggplot2 ggplot geom_line aes scale_y_continuous labs geom_ribbon
+#'   expansion
 fsar_plot_ggplot <- function(df, language = c("English","French")) {
 
   language <- match.arg(language)
@@ -55,7 +56,7 @@ fsar_plot_ggplot <- function(df, language = c("English","French")) {
 
 
 #' Generate 4-panel figure using simulated fisheries data in base R
-
+#'
 #' @param timeseries the timeseries to plot
 #' @param language French or English
 #'
@@ -65,10 +66,12 @@ fsar_plot_ggplot <- function(df, language = c("English","French")) {
 #' @examples
 #' fsar_plot_base(sim_fsar_data(format="long"))
 #'
+#' @importFrom grDevices grey
+#' @importFrom graphics axis box layout legend lines mtext par
+#' @importFrom stats arima.sim rnorm
 fsar_plot_base <- function(in.df, language = c("English","French")) {
 
   language <- match.arg(language)
-
 
   mm <- matrix(c(rep(0, 5), 0, 1, 0, 2, 0, rep(0, 5), 0, 3, 0, 4, 0, rep(0, 5)), nc = 5, byrow = TRUE)
   ll <- layout(mm, widths = c(0.06, 0.43, 0.06, 0.43, 0.02), heights = c(c(0.02, 0.45, 0.04, 0.45, 0.04))) # layout.show(ll)
@@ -124,7 +127,7 @@ fsar_plot_base <- function(in.df, language = c("English","French")) {
   }
   if (language == "French") {
     y.lab <- "Biomasse"
-    legend.text <- c("BSR-tonne", "confidence de 95%", "NRS-tonne", "NRL-tonne")
+    legend.text <- c("BSR-tonne", "confiance à 95%", "NRS-tonne", "NRL-tonne")
   }
 
   plot(ts.value ~ year, data = tr.df, type = "n", axes = FALSE, xlab = "", ylab = "", ylim = yl)
@@ -163,7 +166,7 @@ fsar_plot_base <- function(in.df, language = c("English","French")) {
   }
   if (language == "French") {
     y.lab <- "Mortalité"
-    legend.text <- c("F-1/yr", "confidence de 95%", "RP-1/yr", "M-1/yr")
+    legend.text <- c("F-1/yr", "confiance à 95%", "RP-1/yr", "M-1/yr")
   }
 
   idx <- which(in.df$panel.category == "Fishing" & in.df$ts.name == "F-1/yr")
@@ -205,7 +208,7 @@ fsar_plot_base <- function(in.df, language = c("English","French")) {
   }
   if (language == "French") {
     y.lab <- "Recrutement"
-    legend.text <- c("R-E06", "confidence de 95%")
+    legend.text <- c("R-E06", "confiance à 95%")
   }
   plot(ts.value ~ year, data = br.df[which(br.df$ts.name == "R-E06"), ], type = "l", lwd = 2, axes = FALSE, xlab = "", ylab = "", ylim = yl)
   lines(ts.value ~ year, data = br.df[which(br.df$ts.name == "Rlow-E06"), ], type = "l", lty = 2)
