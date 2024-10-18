@@ -27,8 +27,8 @@ preprocess_chunks <- function(fns,
   map(fns, ~{
     fn <- .x
     if(!file.exists(.x)){
-      bail("The file ", fn_color(.x), " does not exist. Check the YAML file entry ",
-           "in file ", fn_color(yaml_fn))
+      bail("The file ", fn_color(.x), " does not exist. Check the YAML ",
+           "file entry in file ", fn_color(yaml_fn))
     }
     rmd <- readLines(.x)
 
@@ -47,7 +47,8 @@ preprocess_chunks <- function(fns,
         notify(csas_color(rmd[.x]))
       })
     }
-    nt_inds <- chunk_head_inds[grep("needs_trans\ *=\ *TRUE", rmd[chunk_head_inds])]
+    nt_inds <- chunk_head_inds[grep("needs_trans\ *=\ *TRUE",
+                                    rmd[chunk_head_inds])]
     nt_chunks <- NULL
     if(length(nt_inds)){
       if(!all((nt_inds + 1) %in% cat_inds)){
@@ -92,6 +93,14 @@ preprocess_chunks <- function(fns,
           text_chunk <- parse_cat_text(rmd[.x:length(rmd)])
         }else{
           text_chunk <- parse_cat_text(rmd[.x:(nt_inds[.y + 1] - 1)])
+        }
+        if(any(grepl("[^ -~]", text_chunk))){
+          bail("You have set ", message_color("`needs_trans = TRUE` "),
+               "on a chunk with UTF-8 text (likely French text). You most ",
+               "likely forgot to set ",
+               message_color("`needs_trans = FALSE` "), " in the header ",
+               "after pasting the translated French into the chunk:\n",
+               message_color(rmd[.x - 1]))
         }
         chunk_end_inds <<- c(chunk_end_inds, .x + length(text_chunk) - 1)
         # Convert any single backslashes to double. All the extra ones are needed here

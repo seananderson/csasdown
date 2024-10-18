@@ -43,11 +43,11 @@ catize <- function(str){
   # ..$ inline.code: chr "`r[ #]([^`]+)\\s*`" line here:
   # https://rdrr.io/cran/knitr/man/knit_patterns.html
   #pattern <- "`r[ #][^`]+\\s*`"
-  # Added lookahead and lookbehind to make sure the r incline code chunk is
+  # Added lookahead and lookbehind to make sure the r inline code chunk is
   # not surrounded by double backticks. If it is, it is meant to be verbatim
   # in the output document instead of evaluated as code
   pattern <- "(?<!`` )`r[ #][^`]+\\s*`(?! ``.*$)"
-  #pattern <- all_patterns$md$inline.code
+  #knitr::all_patterns$tex$inline.code
   txt <- str_split(str, pattern)[[1]]
   code <- str_extract_all(str, pattern)[[1]]
   if(!length(code)){
