@@ -408,6 +408,16 @@ fix_envs <- function(x,
     x <- c(pre_theme, theme_latex, post_theme)
   }
 
+  # Patch weird error that occurred in October 2024 for SOLV-CODE user on GitHub
+  # The midrule latex command added by kableExtra::row_spec() was added as
+  # midrule\\ which has two backslashes when it shouldn't have.
+  # See https://github.com/pbs-assess/csasdown/issues/266
+  # Since there is never any other occasion when midrule will be followed by
+  # backslashes, we just remove them here without understanding why they were
+  # added. This should not affect other parts of the build as it is a simple
+  # regular expression replace
+  x <- gsub("midrule\\\\", "midrule", x)
+
   x
 }
 
