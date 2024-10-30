@@ -416,7 +416,7 @@ fix_envs <- function(x,
   # backslashes, we just remove them here without understanding why they were
   # added. This should not affect other parts of the build as it is a simple
   # regular expression replace
-  x <- gsub("midrule\\\\", "midrule", x)
+  x <- gsub("midrule\\\\ +", "midrule", x)
 
   x
 }
