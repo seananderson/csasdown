@@ -75,6 +75,7 @@ Suggests:
     cowplot,
     ggtext,
     magick,
+    pandoc,
     readr,
     rosettafish,
     testthat,
