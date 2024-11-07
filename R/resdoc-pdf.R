@@ -62,8 +62,6 @@ resdoc_pdf <- function(toc = TRUE,
               "zenburn", "kate", "monochrome",
               "breezedark", "haddock")
 
-  fr <- function() if (french) TRUE else FALSE
-
   if(is.null(highlight)){
     highlight = "monochrome" # nocov
   }

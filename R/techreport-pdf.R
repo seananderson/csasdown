@@ -21,20 +21,23 @@ techreport_pdf <- function(latex_engine = "pdflatex",
     highlight = "monochrome" # nocov
   }
 
-  fr <- function() if (french) TRUE else FALSE
-
   if((!highlight %in% themes) && !file.exists(here(highlight))){
     bail("in YAML, ", tag_color("csasdown:techreport_pdf: highlight"),
          "must be one of ",
          csas_color(paste(themes, collapse = ", ")),
          "\nor a filename for a custom latex theme file.",
-         "\nSee pandoc documentation, ", csas_color("--highlight-style argument."))
+         "\nSee pandoc documentation, ",
+         csas_color("--highlight-style argument."))
   }
 
   if (fr()) {
-    file <- system.file("csas-tex", "tech-report-french.tex", package = "csasdown") # nocov
+    file <- system.file("csas-tex",
+                        "tech-report-french.tex",
+                        package = "csasdown") # nocov
   } else {
-    file <- system.file("csas-tex", "tech-report.tex", package = "csasdown")
+    file <- system.file("csas-tex",
+                        "tech-report.tex",
+                        package = "csasdown")
   }
 
   base <- pdf_book(
