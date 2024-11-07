@@ -107,19 +107,19 @@ update_csasstyle <- function(copy = TRUE,
     writeLines(csas_style, file.path("csas-style", which_sty))
   }
 
-  if(pandoc_version < "3.1.7"){
-    # default is for pandoc > 3.1.8
-    # 3.1.7 has already been checked, requires its own template, and errors
-    csas_style <- readLines(fn_sty)
-    pandoc_3.1.8_start <- grep("^% START-PANDOC-3.1.8", csas_style)
-    pandoc_3.1.8_end <- grep("^% END-PANDOC-3.1.8", csas_style)
-    csas_style[seq(pandoc_3.1.8_start, pandoc_3.1.8_end)] <-
-      paste("%", csas_style[seq(pandoc_3.1.8_start, pandoc_3.1.8_end)])
-    pandoc_pre_3.1.7_start <- grep("^% % START-PANDOC-BEFORE-3.1.7", csas_style)
-    pandoc_pre_3.1.7_end <- grep("^% % END-PANDOC-BEFORE-3.1.7" , csas_style)
-    csas_style[seq(pandoc_pre_3.1.7_start, pandoc_pre_3.1.7_end)] <-
-      gsub("^% ", "", csas_style[seq(pandoc_pre_3.1.7_start, pandoc_pre_3.1.7_end)])
-    writeLines(csas_style, fn_sty)
-  }
+  # if(pandoc_version < "3.1.7"){
+  #   # default is for pandoc > 3.1.8
+  #   # 3.1.7 has already been checked, requires its own template, and errors
+  #   csas_style <- readLines(fn_sty)
+  #   pandoc_3.1.8_start <- grep("^% START-PANDOC-3.1.8", csas_style)
+  #   pandoc_3.1.8_end <- grep("^% END-PANDOC-3.1.8", csas_style)
+  #   csas_style[seq(pandoc_3.1.8_start, pandoc_3.1.8_end)] <-
+  #     paste("%", csas_style[seq(pandoc_3.1.8_start, pandoc_3.1.8_end)])
+  #   pandoc_pre_3.1.7_start <- grep("^% % START-PANDOC-BEFORE-3.1.7", csas_style)
+  #   pandoc_pre_3.1.7_end <- grep("^% % END-PANDOC-BEFORE-3.1.7" , csas_style)
+  #   csas_style[seq(pandoc_pre_3.1.7_start, pandoc_pre_3.1.7_end)] <-
+  #     gsub("^% ", "", csas_style[seq(pandoc_pre_3.1.7_start, pandoc_pre_3.1.7_end)])
+  #   writeLines(csas_style, fn_sty)
+  # }
 
 }
