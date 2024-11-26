@@ -283,17 +283,34 @@ year_cols <- function(df, year_range = 1800:4000){
   col_is_year
 }
 
-#' Return value of the 'french' option in the current environment
+#' Return value of the `french` Option in the current environment
 #'
 #' @description
 #' Used to retrieve `TRUE` or `FALSE` for whether
 #' or not to render the document in French
 #'
-#' @return The french option value. If the french option is `NULL`,
+#' @return The `french` option value. If the `french` option is `NULL`,
 #' `FALSE` will be returned
 #' @export
 fr <- function(){
+
   getOption("french", default = FALSE)
+}
+
+#' Translate from English to French
+#'
+#' @details
+#' If `fr()` returns `TRUE`, the translation will happen,
+#' If `fr()` returns `FALSE`, no translation will happen
+#'
+#' @param x A character vector to translate
+#' @param ... Arguments to pass to [rosettafish::en2fr()]
+#'
+#' @return The possibly translated character vector
+#' @export
+tr <- function(x, ...){
+
+  en2fr(x, translate = fr(), ...)
 }
 
 # nocov start
@@ -408,7 +425,7 @@ cat <- function(...,
                 labels = NULL,
                 append = FALSE){
 
-  base::cat(...,
+  base::cat(unlist(list(...)),
             file = file,
             sep = "",
             fill = fill,

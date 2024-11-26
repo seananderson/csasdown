@@ -1,0 +1,163 @@
+## AVIS SCIENTIFIQUE {-}
+[Obligatoire. Longueur maximale : 500 mots. Inclure des résumés à puces des facteurs suivants affectant le stock et pertinents pour la prise de décision. Veuillez vous référer au document d'orientation pour le langage normalisé et les exemples, et ce qu'il faut éviter dans cette section].
+
+### État {-}
+
+::: {custom-style="fsar-bullet"}
+[Puce(s) obligatoire(s)]
+:::
+
+### Tendances {-}
+
+::: {custom-style="fsar-bullet"}
+[Puce(s) obligatoire(s)]
+:::
+
+### Considérations relatives à l’écosystème et au changement climatique {-}
+
+::: {custom-style="fsar-bullet"}
+[Puce(s) obligatoire(s)]
+:::
+
+### Avis sur le stock [les stocks] {-}
+
+::: {custom-style="fsar-bullet"}
+[Puce(s) obligatoire(s)] 
+:::
+
+### Autres questions de gestion [le cas échéant, sinon ne pas inclure] {-}
+
+::: {custom-style="fsar-bullet"}
+[Autres puces, le cas échéant]
+:::
+
+## BASE D'ÉVALUATION {-}
+
+### Détails de l'évaluation {-}
+[Obligatoire]
+
+#### L’année où l'approche d'évaluation a été approuvée {-}
+[Obligatoire ; année et référence]
+
+#### Type d'évaluation {-}
+[Obligatoire ; choisir l'une des options suivantes : Évaluation complète, mise à jour de l'année intermédiaire ou mise à jour de la règle de décision de récolte (RDR). Voir le document d'orientation pour les définitions]
+
+#### Date de l'évaluation précédente {-}
+1.	Dernière évaluation complète: [date et référence]
+2.	Dernière mise à jour de l'année intermédiaire: [date et référence]
+
+#### Approche de l'évaluation {-}
+1.	Grande catégorie: [Sélectionnez l'une des catégories suivantes : Données insuffisantes (par exemple, RMS des captures, données très limitées, etc.), basé sur des indices (tendances des indices empiriques uniquement), modèle unique d'évaluation des stocks, ensemble de modèles, EMS (complète ou EMS allégée), évaluation intégrée dans le cadre de la Politique pour le saumon sauvage, approches multiples, autre (préciser)]
+2.	Catégorie spécifique: [Sélectionnez une ou plusieurs catégories : Pas de données, basé sur un indice (indices dépendant de la pêche uniquement), basé sur un indice (y compris les indices dépendant de la pêche et indépendants de la pêche), différence de délai, dynamique de la biomasse, analyse de la population virtuelle, capture statistique par longueur, capture statistique par âge, état-espace, analyse séquentielle de la population, production excédentaire, relation stock-recrutement, prélèvement biologique potentiel, autre (veuillez expliquer)]
+
+[Bref résumé facultatif de la méthodologie d'évaluation des stocks. Inclure la méthode de prise en compte des variables écosystémiques. Inclure une référence à un document de recherche ou à une autre publication, et/ou une note de bas de page au document de travail. Longueur maximale : 100 mots. ]
+
+### Hypothèse de la structure du stock {-}
+Informations générales sur le stock :  [Inclure une référence à un document de recherche ou à une autre publication, et/ou une note de bas de page au document de travail.]
+
+[Obligatoire. 150 mots maximum]
+
+### Points de référence {-}
+[Obligatoire. Un tableau peut être utilisé à la place des puces pour cette section. Se référer au document d'orientation pour plus d'instructions]
+
+- Point de référence limite (PRL): 
+- Référence du stock supérieur (USR):
+- Référence de renvoi (RR): 
+- Cible (TRP): 
+
+#### Autres points de référence des stocks {-}
+[Le cas échéant (sinon, ne pas inclure). Un tableau peut être utilisé à la place des puces pour cette section] 
+
+#### Points de référence pour les écloseries {-}
+[Le cas échéant (sinon, ne pas inclure). Un tableau peut être utilisé à la place des puces pour cette section] 
+
+#### Points de référence pour l'habitat ou l'écosystème {-}
+[Le cas échéant (sinon, ne pas inclure). Un tableau peut être utilisé à la place des puces pour cette section] 
+
+### Règle de décision de récolte {-}
+[Facultatif (sinon, ne pas inclure) ; longueur maximale : 100 mots.]
+
+### Plan d'amélioration {-}
+[Facultatif (sinon, ne pas inclure) ; longueur maximale : 100 mots.]
+
+### Plan de restauration de l'habitat {-}
+[Facultatif (sinon, ne pas inclure) ; longueur maximale : 100 mots.]
+
+### Données {-}
+[Obligatoire. Longueur maximale de 300 mots.] 
+
+Modifications des données : [Facultatif (sinon, ne pas inclure).]
+
+## ÉVALUATION {-}
+[Le panneau d'images obligatoire vient en premier - exemple illustré. Se référer au document d'orientation pour les options et les instructions supplémentaires]
+
+(ref:caption) (A) Captures et le total admissible des captures, (B) biomasse du stock reproducteur (SSB) par rapport au point de référence limite (LRP ; X) et (proposé) à la référence supérieure du stock (USR ; X), (C) mortalité par pêche (F ; X) à gauche par rapport à la référence de prélèvement (RR) et mortalité naturelle (M), (D) recrutement (nombres).
+
+```{r base1, fig.cap="(ref:caption)"}
+in.df <- sim_fsar_data("long")
+
+## French template
+fsar_plot_base(in.df, "French")
+```
+
+[Facultatif. Ajouter un groupe facultatif supplémentaire de 4 indicateurs si cela est pertinent pour l'élaboration des conseils] 
+[Facultatif. Si le FSAR ou le FSRR est utilisé pour fournir des avis pour plus d'un stock, le panneau obligatoire peut être répété pour chaque stock]
+
+### Trajectoire et tendances historiques et récentes des stocks {-}
+[Obligatoire. Texte d'une page maximum. Doit être la première section de la section "Évaluation"]
+
+[Rendre compte de l'évolution des indicateurs pertinents, un par paragraphe, dans le format suivant :]
+
+#### [Indicateur 1] [préciser le nom, par exemple Abondance]: {-}
+[Indiquer les valeurs et les tendances de l'action (le cas échéant).]
+
+#### Inconnu {-}
+[Facultatif. Indiquer les indicateurs qui ne sont pas disponibles pour l'action (le cas échéant) ; sinon, ne pas inclure.]
+
+### Historique de la [gestion ; débarquements/récolte/effort, TAC et avis de capture] {-}
+[Obligatoire. Le titre peut varier. Le texte ne doit pas dépasser une page.] 
+
+#### Histoire de l'écloserie et de la supplémentation {-}
+[Le cas échéant (sinon, ne pas inclure).]
+
+#### Historique des impacts sur les habitats d'eau douce {-}
+[Le cas échéant (sinon, ne pas inclure).]
+
+### Projections [titres facultatifs : Simulations, Scénarios futurs] {-}
+[Obligatoire. Le titre peut varier. Des tableaux ou des figures peuvent être utilisés si nécessaire pour étayer la prise de décision.]
+
+### Considérations relatives à l’écosystème et au changement climatique {-}
+[Obligatoire. Maximum 300 mots. Peut être déplacé plus tôt dans la section "Évaluation".]
+
+### Résultats de la règle de décision pour la récolte {-}
+[Le cas échéant (sinon, ne pas inclure).] 
+
+### Évaluation des circonstances exceptionnelles/déclencheurs d'évaluation {-}
+[Le cas échéant (sinon, ne pas inclure).] 
+
+## PRISES ACCIDENTELLES {-}
+[Facultatif (sinon, ne pas inclure).]
+
+## PROCÉDURE DE MISE À JOUR DE L'ANNÉE INTERMÉDIAIRE {-}
+[Facultatif (sinon, ne pas inclure).]
+
+## AUTRES QUESTIONS DE GESTION {-}
+[Facultatif (sinon, ne pas inclure).] 
+
+## LES SOURCES D'INCERTITUDE {-}
+[Obligatoire, longueur maximale de 500 mots.]
+
+### Recommandations de recherche {-}
+[Facultatif (sinon, ne pas inclure).] 
+
+## LISTE DES PARTICIPANTS À LA RÉUNION {-}
+[Obligatoire. La liste doit inclure le nom de chaque participant et son affiliation.]
+
+## SOURCES D'INFORMATION {-}
+[Obligatoire.]
+
+[Les références ne doivent être incluses que pour comprendre les conseils, et non pour donner du crédit au travail, comme c'est le cas dans le document de recherche. Les références au document de travail non publié doivent être intégrées sous forme de notes de bas de page dans ce document.]
+
+[Les références doivent être présentées conformément au Guide de production des rapports de Pêches et Océans Canada.]
+
+[Les références énumérées dans la section "Références citées" doivent être accessibles au public lorsque le rapport est publié sur le site web. La seule exception concerne les livres ou les articles qui ont été acceptés pour publication (au stade de l'épreuve de page ou lorsqu'il y a une lettre d'acceptation). Ils peuvent être listés et suivis de la mention "sous presse". Tous les autres doivent être inclus dans le texte en tant que données non publiées ou documents de travail].

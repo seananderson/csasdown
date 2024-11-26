@@ -1,6 +1,6 @@
 Package: csasdown
 Title: Reproducible CSAS Reports with Bookdown
-Version: 0.1.6
+Version: 0.1.7
 Authors@R: 
     c(person(given = c("Sean", "C."),
              family = "Anderson",
@@ -57,6 +57,7 @@ Imports:
     cli,
     crayon,
     dplyr,
+    ggplot2,
     glue,
     here,
     kableExtra,
@@ -71,11 +72,14 @@ Imports:
     utils
 Suggests:
     covr,
-    ggplot2,
+    cowplot,
+    ggtext,
     magick,
+    pandoc,
     readr,
     rosettafish,
-    testthat
+    testthat,
+    tidyr
 Remotes:
     pbs-assess/rosettafish
 ByteCompile: true

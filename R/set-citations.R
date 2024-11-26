@@ -64,8 +64,8 @@ set_citations <- function(fn = get_index_filename(
     prev <- rmd[1:end_citations_ind]
     last <- rmd[(end_citations_ind + 1):length(rmd)]
     rmd <- c(prev,
-                  cother,
-                  last)
+             cother,
+             last)
   }
 
   writeLines(rmd, fn)

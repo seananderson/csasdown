@@ -69,6 +69,12 @@ or for a Science Response:
 csasdown::draft("sr")
 ```
 
+or a Fisheries Science Advisory Report (FSAR):
+
+```r
+csasdown::draft("fsar")
+```
+
 Note that the `techreport` and `manureport` examples contain a lot of information on getting started with R Markdown and should be the first one you render if you are new to `csasdown`. The `resdoc` example contains other examples.
 
 The `resdoc-b` contains examples and guidance on setting up chunks to hold both English and French Rmarkdown, and explanations of the features introduced in version 0.1.0 (see the [NEWS](https://github.com/pbs-assess/csasdown/blob/main/NEWS.md) file).

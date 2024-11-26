@@ -27,7 +27,10 @@
 #' tinytex::latexmk("resdoc.tex")
 #' setwd(root_dir)
 #' }
-create_tempdir_for_latex <- function(type = c("resdoc", "sr", "techreport", "manureport"),
+create_tempdir_for_latex <- function(type = c("resdoc",
+                                              "sr",
+                                              "techreport",
+                                              "manureport"),
                                      where = c("r", "b"),
                                      tmp_dir = NULL,
                                      root_dir = here()) {

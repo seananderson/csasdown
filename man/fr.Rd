@@ -2,12 +2,12 @@
 % Please edit documentation in R/utils.R
 \name{fr}
 \alias{fr}
-\title{Return value of the 'french' option in the current environment}
+\title{Return value of the \code{french} Option in the current environment}
 \usage{
 fr()
 }
 \value{
-The french option value. If the french option is \code{NULL},
+The \code{french} option value. If the \code{french} option is \code{NULL},
 \code{FALSE} will be returned
 }
 \description{
