@@ -22,6 +22,7 @@ output:
  csasdown::fsar_word2
 link-citations: false
 bibliography: bib/refs.bib
+csl: csl/csas.csl
 # End of options to set
 title: ""
 knit: (function(input, ...) {
