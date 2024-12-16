@@ -129,7 +129,8 @@ render_sar <- function(...) {
 
   doc <- officer::headers_replace_text_at_bkm(doc, "region_name", x$region)
   doc <- officer::headers_replace_text_at_bkm(doc, "region_name_rest", x$region) # non-first page
-  doc <- officer::headers_replace_text_at_bkm(doc, "report_name_rest", x$report_title) # non-first page
+  doc <- officer::headers_replace_text_at_bkm(doc, "report_name_rest", x$report_title_short) # non-first page
+
   doc <- officer::headers_replace_text_at_bkm(doc, "report_year", x$report_year)
   doc <- officer::headers_replace_text_at_bkm(doc, "report_number", x$report_number)
 
