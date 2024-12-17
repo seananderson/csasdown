@@ -37,7 +37,7 @@ test_that("update_csasstyle() works", {
     # if (!installed_3_1_2){
     # pandoc::pandoc_install("3.1.2")
     # }
-    pandoc::pandoc_activate("3.1.2")
+    # pandoc::pandoc_activate("3.1.2")
     rmd <- readLines("index.Rmd")
     ind <- grep("lot_lof:", rmd)
     rmd[ind] <- "   lot_lof: true"
