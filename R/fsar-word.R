@@ -159,7 +159,6 @@ render_sar <- function(...) {
   doc <- officer::body_replace_text_at_bkm(doc, "csa_address", x$csa_address)
   doc <- officer::body_replace_text_at_bkm(doc, "email", x$email)
   doc <- officer::body_replace_text_at_bkm(doc, "region_name", x$region)
-  doc <- officer::body_replace_text_at_bkm(doc, "phone", x$phone)
   doc <- officer::body_replace_text_at_bkm(doc, "copyright_year", x$report_year)
 
   doc <- officer::body_replace_text_at_bkm(doc, "report_title_eng", x$report_title)

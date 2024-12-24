@@ -1,6 +1,6 @@
 #' Generate 4-panel figure using simulated fisheries data in ggplot
 #'
-#' @param timeseries the timeseries to plot
+#' @param timeseries the timeseries to plot, an example simulated data can be generated using the script fake-data.R
 #' @param language French or English
 #'
 #' @return A graphics device with the four-panel of figures
